@@ -30,3 +30,14 @@
 *.exe
 *.out
 *.app
+
+# folders
+build/
+bin/
+
+# IDE related
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
