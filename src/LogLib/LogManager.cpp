@@ -1,4 +1,10 @@
+#include "LogManager.h"
 #include "Logger.h"
+#include <fstream>
+
+Logger LogManager::loggerToBeUsed;
+bool LogManager::pathHasBeenSet;
+std::ofstream LogManager::file;
 
 void LogManager::setStaticLogger(Logger logger){
     loggerToBeUsed = logger;
@@ -25,17 +31,6 @@ void LogManager::logDebug(std::string message){
 };
 
 void LogManager::writeLogFile(std::string message){
-    file << message.c_str;
+    file << message;
 };
 
-void ErrorLogger::logError(std::string message){
-    LogManager::writeLogFile(message);
-};
-
-void InfoLogger::logInfo(std::string message){
-    LogManager::writeLogFile(message);
-};
-
-void DebugLogger::logDebug(std::string message){
-    LogManager::writeLogFile(message);
-};
