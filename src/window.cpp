@@ -1,14 +1,42 @@
 #include "window.h"
-#include <iostream>
 
+SDL_Renderer *Window::_renderer = nullptr;
+
+//CONSTRUCTOR & DESTRUCTOR
 Window::Window(const std::string &title, int width, int height) :
 _title(title), _width(width), _height(height)
-{}
-
-Window::~Window(){
-    SDL_DestroyWindow(_window);
+{
+    _closed = !init();
 }
 
+Window::~Window(){
+    SDL_DestroyRenderer(_renderer);
+    SDL_DestroyWindow(_window);
+    SDL_Quit();
+}
+
+//PUBLIC
+bool Window::isClosed(){return _closed;}
+
+void Window::pollEvents(SDL_Event &event){ //HARDCODEADO
+        switch (event.type)
+        {
+        case SDL_QUIT:
+            _closed = true;
+            break;
+        
+        default:
+            break;
+        }
+}
+
+void Window::display(){
+    SDL_RenderPresent(_renderer); 
+    SDL_SetRenderDrawColor(_renderer,0,200,0,255); //HARDCODEADO
+    SDL_RenderClear(_renderer); //display del sdl2
+}
+
+//PRIVATE
 bool Window::init(){
     if (SDL_Init(SDL_INIT_VIDEO) != 0){
         raiseException(); //failed to initialize SDL.\n
@@ -27,26 +55,11 @@ bool Window::init(){
         raiseException(); //failed to create window.\n
         return 0;
     }
+
+    _renderer = SDL_CreateRenderer(_window, -1,SDL_RENDERER_ACCELERATED);
+
     return true;
-}
-
-
-void Window::poolEvents(){
-    SDL_Event event;
-
-    if (SDL_PollEvent(&event)){
-        switch (event.type)
-        {
-        case SDL_QUIT:
-            _closed = true;
-            break;
-        
-        default:
-            break;
-        }
-    }
 }
 
 void Window::raiseException(){}
 
-bool Window::isClosed(){return _closed;}
