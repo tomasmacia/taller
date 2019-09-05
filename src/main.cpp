@@ -23,6 +23,5 @@ int main(int argc, char** argv) {
         square.display();
         window.display();
     }
-
     return 0; 
 } 
