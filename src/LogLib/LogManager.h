@@ -11,7 +11,7 @@
 */
 class LogManager{
     private:
-        static Logger loggerToBeUsed;
+        static Logger *loggerToBeUsed;
         static bool pathHasBeenSet;
         static std::ofstream file;
 
@@ -21,7 +21,7 @@ class LogManager{
         * Sets the logger to be used through the rest of the execution
         * Can be changed in runtime
         */
-        void static setStaticLogger(Logger logger);
+        void static setStaticLogger(Logger* logger);
 
         /**
          * Sets the name of the file to be written with the log information
