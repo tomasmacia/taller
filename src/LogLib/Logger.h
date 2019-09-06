@@ -16,17 +16,17 @@ class Logger{
     /**
     * Logs the recieved message as an Error. This type of logs gets printed in all loggers
     */
-    void logError(std::string message);
+    virtual void logError(std::string message);
 
     /**
      * Logs the recieved message as Info. This type of logs gets printed in loggers INFO and DEBUG
      */
-    void logInfo(std::string message);
+    virtual void logInfo(std::string message);
 
     /**
      * Logs the recieved message as a Debug message. This type of logs gets printed in DEBUG logger only
      */
-    void logDebug(std::string message);
+    virtual void logDebug(std::string message);
 };
 
 #endif /*LOGGER_H_*/
