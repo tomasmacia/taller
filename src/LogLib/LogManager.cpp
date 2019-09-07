@@ -1,6 +1,7 @@
 #include "LogManager.h"
 #include "Logger.h"
 #include <fstream>
+#include <ctime>
 
 Logger* LogManager::loggerToBeUsed;
 bool LogManager::pathHasBeenSet;
@@ -31,6 +32,7 @@ void LogManager::logDebug(std::string message){
 };
 
 void LogManager::writeLogFile(std::string message){
-    file << message;
+    time_t now = std::time(0);
+    file << std::ctime(&now) + message + '\n';
 };
 
