@@ -1,25 +1,26 @@
-# CMake version
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.14)
+project(game)
 
-# project name
-project(taller)
+set(CMAKE_CXX_STANDARD 14)
 
-# flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
+include_directories(lib)
+include_directories(src/parser)
 
-# includes
-include_directories(./include ./src)
-
-# binary output
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
-# SDL
-find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS})
-
-set(SOURCE_FILES src/main.cpp)
-
-add_executable(game ${SOURCE_FILES})
-
-target_link_libraries(game ${SDL2_LIBRARY})
+add_executable(game
+        src/parser/tinyxml2.cpp
+        src/parser/tinyxml2.h
+        src/parser/xmlparser.cpp
+        src/parser/xmlparser.h
+        src/parser/config/config.h
+        src/parser/config/bindings.h
+        src/parser/config/gameplay.h
+        src/parser/config/character.h
+        src/parser/config/level.h
+        src/parser/config/weapons.h
+        src/parser/config/utilities.h
+        src/parser/config/npc.h
+        src/parser/config/barrels.h
+        src/parser/config/boxes.h
+        src/main.cpp)
