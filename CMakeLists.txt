@@ -28,7 +28,12 @@ src/LogLib/InfoLogger.cpp
 src/LogLib/DebugLogger.h
 src/LogLib/DebugLogger.cpp
 src/LogLib/LogManager.h
-src/LogLib/LogManager.cpp)
+src/LogLib/LogManager.cpp
+src/window.cpp
+src/window.h
+src/square.h
+src/square.cpp
+)
 
 add_executable(game ${SOURCE_FILES})
 
