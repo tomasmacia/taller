@@ -18,8 +18,17 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
-set(SOURCE_FILES
-src/main.cpp
+set(SOURCE_FILES src/main.cpp
+src/LogLib/Logger.h
+src/LogLib/Logger.cpp
+src/LogLib/ErrorLogger.h
+src/LogLib/ErrorLogger.cpp
+src/LogLib/InfoLogger.h
+src/LogLib/InfoLogger.cpp
+src/LogLib/DebugLogger.h
+src/LogLib/DebugLogger.cpp
+src/LogLib/LogManager.h
+src/LogLib/LogManager.cpp
 src/window.cpp
 src/window.h
 src/square.h
