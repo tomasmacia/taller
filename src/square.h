@@ -12,6 +12,6 @@ private:
 public:
     Square(int side, int x, int y, int r, int g, int b, int a);
 
-    void display();
+    void display(class Window* window);
     void move(bool movLft,bool movRgth, bool movUp, bool movDwn);
 };

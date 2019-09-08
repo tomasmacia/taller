@@ -23,25 +23,21 @@ bool Events::keyboard_event()
                 case(SDL_SCANCODE_LCTRL):
                     std::cerr << "Left Control.\n";
                     return false;
-                /*No me reconoce espacio*/
-                case(SDL_SCANCODE_BACKSPACE):
-                    std::cerr << "Espacio.\n";
-                    return false;
                 case SDL_SCANCODE_LEFT:
                     _avatar->move(true,false,false,false);
-                    std::cerr << "Left.\n";
+        //            std::cerr << "Left.\n";
                     return false;
                 case SDL_SCANCODE_RIGHT:
                     _avatar->move(false,true,false,false);
-                    std::cerr << "Right.\n";
+          //          std::cerr << "Right.\n";
                     return false;
                 case SDL_SCANCODE_UP:
                     _avatar->move(false,false,true,false);
-                    std::cerr << "UP.\n";
+            //        std::cerr << "UP.\n";
                     return false;
                 case SDL_SCANCODE_DOWN:
                     _avatar->move(false,false,false,true);
-                    std::cerr << "DOWN.\n";
+              //      std::cerr << "DOWN.\n";
                     return false;;
                 }
                              

@@ -18,26 +18,28 @@ void Game::initialize ()
     }
     std::cerr << "SDL.\n";
 
-   _gwindow= new Window("Final Figth",640,480);
+   _gwindow= new Window("Final Figth",1366,200);
 }
 
 void Game::runLoop()
 {
     //Creo Cuadrado
-    Square square(100, 400, 300, 200, 0, 200, 255);
+    Square square(100, 0, 80, 200, 0, 200, 255);
     //Creo evento
     Events event(&square);
+    _gwindow->loadFondo("Sprites/FF_Stage4_floor.png");
     //loop hasta que se aprete ESC o click en (X)
     while (!event.keyboard_event())
     {
       //  std::cerr << "Loop.\n";
       //actualizo posicion de cuadrado y refresco la ventana
-        (&square)->display();
-        _gwindow->loadMedia();
-    //    (_gwindow)->display();}
-    this->~Game();
+       // (&square)->display(_gwindow);
+        _gwindow->loadFondo("Sprites/FF_Stage4_floor.png");
+       (&square)->display(_gwindow);
     }
+    this->~Game(); 
 }
+
     
 
 
