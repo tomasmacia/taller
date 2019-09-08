@@ -19,6 +19,8 @@ public:
 private:
     static constexpr const char* const DEFAULT_CONFIG_PATH = "configs/default.xml";
 
+    XMLError loadFile(XMLDocument *document, string pathToConfig);
+
     Config mapXMLDocumentToConfig(XMLDocument *doc);
 
     string getLoggerLevel(XMLElement *config);

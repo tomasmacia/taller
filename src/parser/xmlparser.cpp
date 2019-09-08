@@ -9,12 +9,34 @@ using namespace tinyxml2;
 
 
 Config XMLParser::parse(string pathToConfig) {
-    cout << pathToConfig << " is the path to the config file." << "\n";
+    cout << pathToConfig << " is the path to the config file." << endl;
     XMLDocument doc;
-    vector<char> chars(pathToConfig.c_str(), pathToConfig.c_str() + pathToConfig.size() + 1);
-    doc.LoadFile(&chars[0]);
+    loadFile(&doc, pathToConfig);
 
     return mapXMLDocumentToConfig(&doc);
+}
+
+XMLError XMLParser::loadFile(XMLDocument *doc, string pathToConfig) {
+    vector<char> chars(pathToConfig.c_str(), pathToConfig.c_str() + pathToConfig.size() + 1);
+    XMLError eResult = doc->LoadFile(&chars[0]);
+
+    if (eResult != XML_SUCCESS) {
+        XMLError defaultResult = doc->LoadFile(DEFAULT_CONFIG_PATH);
+
+        if (defaultResult != XML_SUCCESS) { // TODO what should we do here?
+            cerr << "Default config file located in " << DEFAULT_CONFIG_PATH << " could not be loaded" << endl;
+            return defaultResult;
+        }
+
+        if (pathToConfig.empty()) {
+            cout << "Default config file not specified, using default config located in " << DEFAULT_CONFIG_PATH << endl;
+        } else {
+            cout << "Config file specified located in " << pathToConfig <<
+            " could not be loaded. Using default config located in " << DEFAULT_CONFIG_PATH << endl;
+        }
+    }
+
+    return eResult;
 }
 
 Config XMLParser::mapXMLDocumentToConfig(XMLDocument *doc) {
