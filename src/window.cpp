@@ -49,3 +49,24 @@ bool Window::init(){
 
 void Window::raiseException(){}
 
+
+void Window::loadMedia()
+{
+	//Obtengo surface asociada a la ventana
+	SDL_Surface* gScreenSurface = SDL_GetWindowSurface(_window);
+	//Cargo imagen.bmp en una nueva Surface
+	SDL_Surface* fondo = IMG_Load("FF_Stage4_floor.png" );
+	if( fondo == NULL )
+	{
+		std::cerr <<  "No pudo cargar imagen.\n";
+        std::cerr << "SDL Error: "<< SDL_GetError()<< ".\n";
+	}
+	SDL_SetColorKey(fondo, SDL_TRUE,
+	SDL_MapRGB(fondo->format, 0, 0, 0));
+	//Aplico imagen
+	SDL_BlitSurface( fondo, NULL, gScreenSurface, NULL );
+    SDL_FreeSurface(fondo);
+			
+	//Update de surface
+	SDL_UpdateWindowSurface( _window );
+}

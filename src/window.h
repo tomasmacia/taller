@@ -1,4 +1,5 @@
 #include <string>
+#include "iostream"
 #include <SDL2/SDL.h> 
 
 
@@ -20,6 +21,7 @@ public:
     Window(const std::string &title, int width,int height);
     ~Window();
     void display();
+    void loadMedia();
 
 private:
     bool init();
