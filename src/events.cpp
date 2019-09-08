@@ -1,7 +1,8 @@
 #include "events.h"
 #include <iostream>
+#include "square.h"
 
-bool Events::quit()
+bool Events::keyboard_event()
 {   
     if (SDL_PollEvent(&_event)) 
     {
@@ -25,9 +26,22 @@ bool Events::quit()
                 case(SDL_SCANCODE_BACKSPACE):
                     std::cerr << "Espacio.\n";
                     return false;
-            }                 
-        default:
-            return false;
+                case SDL_SCANCODE_LEFT:
+                    _avatar->move(true,false,false,false);
+                    return false;
+                case SDL_SCANCODE_RIGHT:
+                    _avatar->move(false,true,false,false);
+                    return false;
+                case SDL_SCANCODE_UP:
+                    _avatar->move(false,false,true,false);
+                    return false;
+                case SDL_SCANCODE_DOWN:
+                    _avatar->move(false,false,false,true);
+                    return false;;
+                }
+                             
+            default:
+                return false;
         }
     }
     return false;

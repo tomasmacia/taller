@@ -1,6 +1,8 @@
 #include <game.h>
 #include <SDL2/SDL.h>
 #include "window.h"
+#include "square.h"
+#include "events.h"
 
 Game::Game()
 {
@@ -21,14 +23,16 @@ void Game::initialize ()
 
 void Game::runLoop()
 {
-    _gwindow->loadMedia();
-    while (!_gwindow->isClosed())
+    
+    Square square(100, 400, 300, 200, 0, 200, 255);
+    Events event(&square);
+    while (!event.keyboard_event())
     {
       //  std::cerr << "Loop.\n";
-        _gwindow->Keyboard();
+        square.display();
+        _gwindow->display();
     }
     this->~Game();
-    
 }
 
 Game::~Game()

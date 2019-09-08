@@ -33,7 +33,10 @@ src/window.cpp
 src/window.h
 src/square.h
 src/square.cpp
-)
+src/events.h 
+src/events.cpp 
+src/game.h 
+src/game.cpp)
 
 add_executable(game ${SOURCE_FILES})
 

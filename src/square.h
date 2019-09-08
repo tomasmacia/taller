@@ -13,5 +13,5 @@ public:
     Square(int side, int x, int y, int r, int g, int b, int a);
 
     void display();
-    void pollEvents(SDL_Event &event);
+    void move(bool movLft,bool movRgth, bool movUp, bool movDwn);
 };

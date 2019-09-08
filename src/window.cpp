@@ -1,4 +1,6 @@
 #include "window.h"
+#include "events.h"
+
 
 SDL_Renderer *Window::_renderer = nullptr;
 
@@ -6,7 +8,7 @@ SDL_Renderer *Window::_renderer = nullptr;
 Window::Window(const std::string &title, int width, int height) :
 _title(title), _width(width), _height(height)
 {
-    _closed = !init();
+    !init();
 }
 
 Window::~Window(){
@@ -16,19 +18,7 @@ Window::~Window(){
 }
 
 //PUBLIC
-bool Window::isClosed(){return _closed;}
 
-void Window::pollEvents(SDL_Event &event){ //HARDCODEADO
-        switch (event.type)
-        {
-        case SDL_QUIT:
-            _closed = true;
-            break;
-        
-        default:
-            break;
-        }
-}
 
 void Window::display(){
     SDL_RenderPresent(_renderer); 
@@ -38,11 +28,6 @@ void Window::display(){
 
 //PRIVATE
 bool Window::init(){
-    if (SDL_Init(SDL_INIT_VIDEO) != 0){
-        raiseException(); //failed to initialize SDL.\n
-        return 0;
-    }
-
     _window = SDL_CreateWindow(
         _title.c_str(),
         SDL_WINDOWPOS_CENTERED,
@@ -60,6 +45,7 @@ bool Window::init(){
 
     return true;
 }
+
 
 void Window::raiseException(){}
 

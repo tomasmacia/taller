@@ -3,6 +3,7 @@
 
 
 
+
 class Window{
 
 public:
@@ -12,17 +13,12 @@ private:
     std::string _title;
     int _width;
     int _height;
-
-    bool _closed = false;
     
     SDL_Window *_window = nullptr;
 
 public:
     Window(const std::string &title, int width,int height);
     ~Window();
-
-    bool isClosed();
-    void pollEvents(SDL_Event &event);
     void display();
 
 private:
