@@ -2,6 +2,7 @@
 #include <iostream>
 #include "square.h"
 
+
 bool Events::keyboard_event()
 {   
     if (SDL_PollEvent(&_event)) 
@@ -28,15 +29,19 @@ bool Events::keyboard_event()
                     return false;
                 case SDL_SCANCODE_LEFT:
                     _avatar->move(true,false,false,false);
+                    std::cerr << "Left.\n";
                     return false;
                 case SDL_SCANCODE_RIGHT:
                     _avatar->move(false,true,false,false);
+                    std::cerr << "Right.\n";
                     return false;
                 case SDL_SCANCODE_UP:
                     _avatar->move(false,false,true,false);
+                    std::cerr << "UP.\n";
                     return false;
                 case SDL_SCANCODE_DOWN:
                     _avatar->move(false,false,false,true);
+                    std::cerr << "DOWN.\n";
                     return false;;
                 }
                              

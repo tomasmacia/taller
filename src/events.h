@@ -7,9 +7,7 @@ public:
     //Events(){};
     Events(class Square* avatar):
         _avatar(avatar)
-    {
-
-    };
+    {};
     bool keyboard_event();
 
 private:

@@ -18,7 +18,7 @@ void Square::display(){
     SDL_RenderFillRect(Window::_renderer,&_rectangle);
 }
 
-void Square::move(bool movLft,bool movRgth, bool movUp, bool movDwn){ //HARDCODEADO
+void Square::move(bool movLft,bool movRgth, bool movUp, bool movDwn){ 
         int default_mov = 10;
         if(movLft){
             _x -=default_mov;
@@ -32,7 +32,6 @@ void Square::move(bool movLft,bool movRgth, bool movUp, bool movDwn){ //HARDCODE
         if(movDwn){
             _y +=default_mov; 
         }
-    //    this->display();   
     }
 
 //PRIVATE

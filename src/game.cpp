@@ -1,8 +1,8 @@
 #include <game.h>
 #include <SDL2/SDL.h>
-#include "window.h"
 #include "square.h"
 #include "events.h"
+
 
 Game::Game()
 {
@@ -18,19 +18,22 @@ void Game::initialize ()
     }
     std::cerr << "SDL.\n";
 
-    _gwindow= new Window("Final Figth",640,480);
+   _gwindow= new Window("Final Figth",640,480);
 }
 
 void Game::runLoop()
 {
-    
+    //Creo Cuadrado
     Square square(100, 400, 300, 200, 0, 200, 255);
+    //Creo evento
     Events event(&square);
+    //loop hasta que se aprete ESC o click en (X)
     while (!event.keyboard_event())
     {
       //  std::cerr << "Loop.\n";
-        square.display();
-        _gwindow->display();
+      //actualizo posicion de cuadrado y refresco la ventana
+        (&square)->display();
+        (_gwindow)->display();
     }
     this->~Game();
 }
@@ -38,7 +41,7 @@ void Game::runLoop()
 Game::~Game()
 {
     /*Quito ventana y cierro SDL*/
-    _gwindow->~Window();
+    (_gwindow)->~Window();
     SDL_Quit();
 
 }
