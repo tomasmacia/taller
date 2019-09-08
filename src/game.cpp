@@ -33,7 +33,7 @@ void Game::runLoop()
     {
       //  std::cerr << "Loop.\n";
       //actualizo posicion de cuadrado y refresco la ventana
-       // (&square)->display(_gwindow);
+        (&square)->display(_gwindow);
         _gwindow->loadFondo("Sprites/FF_Stage4_floor.png");
        (&square)->display(_gwindow);
     }

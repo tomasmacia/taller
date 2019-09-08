@@ -108,5 +108,5 @@ void Window::loadFondo(const std::string &image_path)
     //SDL_FreeSurface(fondo);
 			
 	//Update de surface
-	SDL_UpdateWindowSurface( _window );
+//	SDL_UpdateWindowSurface( _window );
 }

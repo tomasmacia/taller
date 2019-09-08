@@ -21,18 +21,22 @@ void Square::display(Window* window)
 }
 
 void Square::move(bool movLft,bool movRgth, bool movUp, bool movDwn){ 
-        int default_mov = 3;
-        if(movLft){
+        int default_mov = 6;
+        if(movLft ){
             _x -=default_mov;
+            while(_x<0){_x++;}
         }
-        if(movRgth){
+        if(movRgth ){
             _x +=default_mov;
-        }  
-        if(movUp){
+            while(_x>1322){_x--;}
+        }    
+        if(movUp ){
             _y -=default_mov;
+            while(_y<0){_y++;}
         }   
         if(movDwn){
-            _y +=default_mov; 
+            _y +=default_mov;
+            while(_y>100){_y--;}
         }
     }
 
