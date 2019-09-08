@@ -33,10 +33,11 @@ void Game::runLoop()
       //  std::cerr << "Loop.\n";
       //actualizo posicion de cuadrado y refresco la ventana
         (&square)->display();
-        (_gwindow)->display();
-    }
+        (_gwindow)->display();}
     this->~Game();
-}
+    }
+    
+
 
 Game::~Game()
 {
