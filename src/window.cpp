@@ -1,5 +1,6 @@
 #include "window.h"
 #include "events.h"
+#include <SDL2/SDL_image.h>
 
 
 SDL_Renderer *Window::_renderer = nullptr;
@@ -52,6 +53,13 @@ void Window::raiseException(){}
 
 void Window::loadMedia()
 {
+
+    // Trabajar con SDL_image para cargar imagenes no .bmp   
+ if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG)
+    {
+        std::cerr << "Fallo SDL_Image.\n";
+    }
+    std::cerr << "SDL_Image.\n";
 	//Obtengo surface asociada a la ventana
 	SDL_Surface* gScreenSurface = SDL_GetWindowSurface(_window);
 	//Cargo imagen.bmp en una nueva Surface
