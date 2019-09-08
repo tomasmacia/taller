@@ -21,6 +21,11 @@ private:
 
     XMLError loadFile(XMLDocument *document, string pathToConfig);
 
+    static XMLElement* getXMLElementSafe(XMLElement *element, vector<string> names);
+
+    template <typename T>
+    static T getSafeValueFromElement(XMLElement *element, vector<string> names, T (*func)(const char*), string section);
+
     Config mapXMLDocumentToConfig(XMLDocument *doc);
 
     string getLoggerLevel(XMLElement *config);
@@ -44,13 +49,15 @@ private:
     Utility getGameplayUtility(XMLElement *utility);
 
     template <typename T>
-    vector<T> mapSettingToVector(XMLElement *genericElement, string childNameType, T (*function)(XMLElement*, string));
+    vector<T> mapSettingToVector(XMLElement *genericElement, string childNameType, T (*function)(XMLElement*, string), string section);
 
     static Character mapCharacter(XMLElement *characters, string currentChildName);
 
     static Level mapLevel(XMLElement *levels, string currentChildName);
 
     static NPC mapNPC(XMLElement *npcs, string currentChildName);
+
+    static string charArrayToString(const char *c);
 };
 
 #endif //GAME_XMLPARSER_H

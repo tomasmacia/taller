@@ -13,7 +13,17 @@ Config XMLParser::parse(string pathToConfig) {
     XMLDocument doc;
     loadFile(&doc, pathToConfig);
 
-    return mapXMLDocumentToConfig(&doc);
+    Config config;
+
+    try {
+        config = mapXMLDocumentToConfig(&doc);
+    } catch(string& msg) { // TODO: load specific modules if fail
+        XMLDocument docDefault;
+        loadFile(&docDefault, DEFAULT_CONFIG_PATH);
+        config = mapXMLDocumentToConfig(&docDefault);
+    }
+
+    return config;
 }
 
 XMLError XMLParser::loadFile(XMLDocument *doc, string pathToConfig) {
@@ -52,21 +62,22 @@ Config XMLParser::mapXMLDocumentToConfig(XMLDocument *doc) {
 }
 
 string XMLParser::getLoggerLevel(XMLElement *config) {
-    return string(config->FirstChildElement("logger")->FirstChildElement("level")->GetText());
+    return getSafeValueFromElement(config, {"logger", "level"}, charArrayToString, "logger");string(config->FirstChildElement("logger")->FirstChildElement("level")->GetText());
 }
 
 Bindings XMLParser::getBindings(XMLElement *config) {
-    XMLElement *bindingsElement = config->FirstChildElement("bindings");
+    XMLElement *bindingsElement = getXMLElementSafe(config, {"bindings"});
+    string section = "bindings";
     Bindings bindings;
 
-    bindings.UP = string(bindingsElement->FirstChildElement("up")->GetText());
-    bindings.DOWN = string(bindingsElement->FirstChildElement("down")->GetText());
-    bindings.LEFT = string(bindingsElement->FirstChildElement("left")->GetText());
-    bindings.RIGHT = string(bindingsElement->FirstChildElement("right")->GetText());
+    bindings.UP = getSafeValueFromElement(bindingsElement, {"up"}, charArrayToString, section);
+    bindings.DOWN = getSafeValueFromElement(bindingsElement, {"down"}, charArrayToString, section);
+    bindings.LEFT = getSafeValueFromElement(bindingsElement, {"left"}, charArrayToString, section);
+    bindings.RIGHT = getSafeValueFromElement(bindingsElement, {"right"}, charArrayToString, section);
 
-    bindings.JUMP = string(bindingsElement->FirstChildElement("jump")->GetText());
-    bindings.ATTACK = string(bindingsElement->FirstChildElement("attack")->GetText());
-    bindings.CROUCH = string(bindingsElement->FirstChildElement("crouch")->GetText());
+    bindings.JUMP = getSafeValueFromElement(bindingsElement, {"jump"}, charArrayToString, section);
+    bindings.ATTACK = getSafeValueFromElement(bindingsElement, {"attack"}, charArrayToString, section);
+    bindings.CROUCH = getSafeValueFromElement(bindingsElement, {"crouch"}, charArrayToString, section);
 
     return bindings;
 }
@@ -85,26 +96,29 @@ Gameplay XMLParser::getGameplaySettings(XMLElement *config) {
 }
 
 vector<Level> XMLParser::getGameplayLevels(XMLElement *gameplay) {
-    XMLElement *levelsElement = gameplay->FirstChildElement("levels");
+    string section = "levels";
+    XMLElement *levelsElement = getXMLElementSafe(gameplay, {section});
 
-    return mapSettingToVector(levelsElement, "level", XMLParser::mapLevel);
+    return mapSettingToVector(levelsElement, "level", XMLParser::mapLevel, section);
 }
 
 vector<Character> XMLParser::getGameplayCharacters(XMLElement *gameplay) {
-    XMLElement *charactersElement = gameplay->FirstChildElement("characters");
+    string section = "characters";
+    XMLElement *charactersElement = getXMLElementSafe(gameplay, {section});
 
-    return mapSettingToVector(charactersElement, "character", XMLParser::mapCharacter);
+    return mapSettingToVector(charactersElement, "character", XMLParser::mapCharacter, section);
 }
 
 vector<NPC> XMLParser::getGameplayNPCS(XMLElement *gameplay) {
-    XMLElement *npcsElement = gameplay->FirstChildElement("npcs");
+    string section = "npcs";
+    XMLElement *npcsElement = getXMLElementSafe(gameplay, {section});
 
-    return mapSettingToVector(npcsElement, "npc", XMLParser::mapNPC);
+    return mapSettingToVector(npcsElement, "npc", XMLParser::mapNPC, section);
 }
 
 Character XMLParser::mapCharacter(XMLElement *characters, const string currentChildName) {
     Character character;
-    character.name = string(characters->FirstChildElement(currentChildName.c_str())->FirstChildElement("name")->GetText());
+    character.name = getSafeValueFromElement(characters, {currentChildName.c_str(), "name"}, charArrayToString, "characters");
 
     return character;
 }
@@ -117,14 +131,14 @@ Level XMLParser::mapLevel(XMLElement *levels, const string currentChildName) {
 
 NPC XMLParser::mapNPC(XMLElement *npcs, const string currentChildName) {
     NPC npc;
-    npc.difficulty = string(npcs->FirstChildElement(currentChildName.c_str())->FirstChildElement("difficulty")->GetText());
+    npc.difficulty = getSafeValueFromElement(npcs, {currentChildName.c_str(), "difficulty"}, charArrayToString, "npcs");
 
     return npc;
 }
 
 template <typename T>
-vector<T> XMLParser::mapSettingToVector(XMLElement *genericElement, const string childNameType, T (*function)(XMLElement*, string)) {
-    int amount = genericElement->FirstChildElement("amount")->IntText();
+vector<T> XMLParser::mapSettingToVector(XMLElement *genericElement, const string childNameType, T (*function)(XMLElement*, string), string section) {
+    int amount = getSafeValueFromElement(genericElement, {"amount"}, atoi, section);
 
     vector<T> vectorOfT;
 
@@ -139,9 +153,9 @@ vector<T> XMLParser::mapSettingToVector(XMLElement *genericElement, const string
 }
 
 Weapons XMLParser::getGameplayWeapons(XMLElement *gameplay) {
-    XMLElement *weaponsElement = gameplay->FirstChildElement("weapons");
-    XMLElement *knifeElement = weaponsElement->FirstChildElement("knife");
-    XMLElement *tubeElement = weaponsElement->FirstChildElement("tube");
+    XMLElement *weaponsElement = getXMLElementSafe(gameplay, {"weapons"});
+    XMLElement *knifeElement = getXMLElementSafe(weaponsElement, {"knife"});
+    XMLElement *tubeElement = getXMLElementSafe(weaponsElement, {"tube"});
     Weapons weapons;
 
     weapons.knife = getGameplayWeapon(knifeElement);
@@ -152,16 +166,16 @@ Weapons XMLParser::getGameplayWeapons(XMLElement *gameplay) {
 
 Weapon XMLParser::getGameplayWeapon(XMLElement *weaponElement) {
     Weapon weapon;
-    weapon.amount = weaponElement->FirstChildElement("amount")->IntText();
-    weapon.damage = weaponElement->FirstChildElement("damage")->IntText();
+    weapon.amount = getSafeValueFromElement(weaponElement, {"amount"}, atoi, "weapons");
+    weapon.damage = getSafeValueFromElement(weaponElement, {"damage"}, atoi, "weapons");
 
     return weapon;
 }
 
 Utilities XMLParser::getGameplayUtilites(XMLElement *gameplay) {
-    XMLElement *utilitiesElement = gameplay->FirstChildElement("utilities");
-    XMLElement *barrelsElement = utilitiesElement->FirstChildElement("barrel");
-    XMLElement *boxesElement = utilitiesElement->FirstChildElement("box");
+    XMLElement *utilitiesElement = getXMLElementSafe(gameplay, {"utilities"});
+    XMLElement *barrelsElement = getXMLElementSafe(utilitiesElement, {"barrel"});
+    XMLElement *boxesElement = getXMLElementSafe(utilitiesElement, {"box"});
 
     Utilities utilities;
 
@@ -173,10 +187,50 @@ Utilities XMLParser::getGameplayUtilites(XMLElement *gameplay) {
 
 Utility XMLParser::getGameplayUtility(XMLElement *utilityElement) {
     Utility utility;
-    utility.amount = utilityElement->FirstChildElement("amount")->IntText();
-    utility.knivesDropProb = utilityElement->FirstChildElement("contains")->FirstChildElement("knives")->DoubleText();
-    utility.tubesDropProb = utilityElement->FirstChildElement("contains")->FirstChildElement("tubes")->DoubleText();
+    utility.amount = getSafeValueFromElement(utilityElement, {"amount"}, atoi, "utilities");
+    utility.knivesDropProb = getSafeValueFromElement(utilityElement, {"contains", "knives"}, atof, "utilities");
+    utility.tubesDropProb = getSafeValueFromElement(utilityElement, {"contains", "tubes"}, atof, "utilities");
 
     return utility;
+}
+
+
+string XMLParser::charArrayToString(const char* c) {
+    return string(c);
+}
+
+XMLElement* XMLParser::getXMLElementSafe(XMLElement *element, vector<string> names) {
+    if (element == nullptr) {
+        return nullptr;
+    }
+
+    XMLElement *currentElement = element;
+
+    for (auto name : names) {
+        XMLElement *nextElement = currentElement->FirstChildElement(name.c_str());
+        if (nextElement == nullptr) {
+            return nullptr;
+        }
+
+        currentElement = nextElement;
+    }
+
+    return currentElement;
+}
+
+
+template <typename T>
+T XMLParser::getSafeValueFromElement(XMLElement *element, vector<string> names, T (*func)(const char*), string section) {
+    XMLElement *iterateElement = getXMLElementSafe(element, names);
+
+    const char* stringValue = "";
+
+    if (iterateElement != nullptr) {
+        stringValue = iterateElement->GetText();
+    } else {
+        throw "Section " + section + " could not be parsed";
+    }
+
+    return func(stringValue);
 }
 
