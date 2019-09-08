@@ -22,7 +22,7 @@ void Square::display(Window* window)
 
 void Square::move(bool movLft,bool movRgth, bool movUp, bool movDwn){ 
         int default_mov = 6;
-        if(movLft ){
+        if(movLft ){//Limites de movimiento harcodeados en relacion a imagen y pantalla
             _x -=default_mov;
             while(_x<0){_x++;}
         }

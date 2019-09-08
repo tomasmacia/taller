@@ -23,15 +23,14 @@ void Game::initialize ()
 
 void Game::runLoop()
 {
-    //Creo Cuadrado
-    Square square(100, 0, 80, 200, 0, 200, 255);
+    //Creo Cuadrado/personaje
+    Square square(1, 0, 80, 200, 0, 200, 255);
     //Creo evento
     Events event(&square);
     _gwindow->loadFondo("Sprites/FF_Stage4_floor.png");
     //loop hasta que se aprete ESC o click en (X)
     while (!event.keyboard_event())
     {
-      //  std::cerr << "Loop.\n";
       //actualizo posicion de cuadrado y refresco la ventana
         (&square)->display(_gwindow);
         _gwindow->loadFondo("Sprites/FF_Stage4_floor.png");
