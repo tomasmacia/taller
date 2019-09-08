@@ -20,9 +20,6 @@ bool Events::keyboard_event()
                 case(SDL_SCANCODE_ESCAPE): 
                     std::cerr << "Escape.\n";
                     return  true;
-                case(SDL_SCANCODE_LCTRL):
-                    std::cerr << "Left Control.\n";
-                    return false;
                 case SDL_SCANCODE_LEFT:
                     _avatar->move(true,false,false,false);
         //            std::cerr << "Left.\n";

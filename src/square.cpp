@@ -21,7 +21,7 @@ void Square::display(Window* window)
 }
 
 void Square::move(bool movLft,bool movRgth, bool movUp, bool movDwn){ 
-        int default_mov = 5;
+        int default_mov = 3;
         if(movLft){
             _x -=default_mov;
         }
