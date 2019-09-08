@@ -5,13 +5,12 @@
 #ifndef GAME_UTILITIES_H
 #define GAME_UTILITIES_H
 
-#include "barrels.h"
-#include "boxes.h"
+#include "utility.h"
 
 class Utilities {
 public:
-    Barrels barrels;
-    Boxes boxes;
+    Utility barrel;
+    Utility box;
 
 };
 

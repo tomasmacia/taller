@@ -34,29 +34,30 @@
             </npc1>
         </npcs>
         <weapons>
-            <knives>
+            <knife>
                 <amount>3</amount>
                 <damage>25</damage>
-            </knives>
-            <tubes>
+            </knife>
+            <tube>
                 <amount>5</amount>
                 <damage>15</damage>
-            </tubes>
+            </tube>
         </weapons>
         <utilities>
-            <barrels>
+            <barrel>
                 <amount>1</amount>
                 <contains>
                     <knives>0.5</knives>
                     <tubes>0.5</tubes>
                 </contains>
-            </barrels>
-            <boxes>
+            </barrel>
+            <box>
                 <amount>1</amount>
                 <contains>
+                    <knives>0</knives>
                     <tubes>1</tubes>
                 </contains>
-            </boxes>
+            </box>
         </utilities>
     </gameplay>
 </config>

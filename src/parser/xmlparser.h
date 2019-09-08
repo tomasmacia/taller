@@ -35,7 +35,11 @@ private:
 
     Weapons getGameplayWeapons(XMLElement *gameplay);
 
+    Weapon getGameplayWeapon(XMLElement *weaponElement);
+
     Utilities getGameplayUtilites(XMLElement *gameplay);
+
+    Utility getGameplayUtility(XMLElement *utility);
 
     template <typename T>
     vector<T> mapSettingToVector(XMLElement *genericElement, string childNameType, T (*function)(XMLElement*, string));

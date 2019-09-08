@@ -56,8 +56,8 @@ Gameplay XMLParser::getGameplaySettings(XMLElement *config) {
     gameplay.levels = getGameplayLevels(gameplayElement);
     gameplay.characters = getGameplayCharacters(gameplayElement);
     gameplay.npcs = getGameplayNPCS(gameplayElement);
-//    gameplay.weapons = getGameplayWeapons(gameplayElement);
-//    gameplay.utilities = getGameplayUtilites(gameplayElement);
+    gameplay.weapons = getGameplayWeapons(gameplayElement);
+    gameplay.utilities = getGameplayUtilites(gameplayElement);
 
     return gameplay;
 }
@@ -89,7 +89,6 @@ Character XMLParser::mapCharacter(XMLElement *characters, const string currentCh
 
 Level XMLParser::mapLevel(XMLElement *levels, const string currentChildName) {
     Level level;
-    // character.name = string(levels->FirstChildElement(currentChildName.c_str())->FirstChildElement("leve")->GetText());
 
     return level;
 }
@@ -118,10 +117,44 @@ vector<T> XMLParser::mapSettingToVector(XMLElement *genericElement, const string
 }
 
 Weapons XMLParser::getGameplayWeapons(XMLElement *gameplay) {
+    XMLElement *weaponsElement = gameplay->FirstChildElement("weapons");
+    XMLElement *knifeElement = weaponsElement->FirstChildElement("knife");
+    XMLElement *tubeElement = weaponsElement->FirstChildElement("tube");
+    Weapons weapons;
 
+    weapons.knife = getGameplayWeapon(knifeElement);
+    weapons.tube = getGameplayWeapon(tubeElement);
+
+    return weapons;
+}
+
+Weapon XMLParser::getGameplayWeapon(XMLElement *weaponElement) {
+    Weapon weapon;
+    weapon.amount = weaponElement->FirstChildElement("amount")->IntText();
+    weapon.damage = weaponElement->FirstChildElement("damage")->IntText();
+
+    return weapon;
 }
 
 Utilities XMLParser::getGameplayUtilites(XMLElement *gameplay) {
+    XMLElement *utilitiesElement = gameplay->FirstChildElement("utilities");
+    XMLElement *barrelsElement = utilitiesElement->FirstChildElement("barrel");
+    XMLElement *boxesElement = utilitiesElement->FirstChildElement("box");
 
+    Utilities utilities;
+
+    utilities.barrel = getGameplayUtility(barrelsElement);
+    utilities.box = getGameplayUtility(boxesElement);
+
+    return utilities;
+}
+
+Utility XMLParser::getGameplayUtility(XMLElement *utilityElement) {
+    Utility utility;
+    utility.amount = utilityElement->FirstChildElement("amount")->IntText();
+    utility.knivesDropProb = utilityElement->FirstChildElement("contains")->FirstChildElement("knives")->DoubleText();
+    utility.tubesDropProb = utilityElement->FirstChildElement("contains")->FirstChildElement("tubes")->DoubleText();
+
+    return utility;
 }
 

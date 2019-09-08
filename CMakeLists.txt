@@ -21,6 +21,5 @@ add_executable(game
         src/parser/config/weapons.h
         src/parser/config/utilities.h
         src/parser/config/npc.h
-        src/parser/config/barrels.h
-        src/parser/config/boxes.h
-        src/main.cpp)
+        src/parser/config/utility.h
+        src/main.cpp src/parser/config/weapon.h)
