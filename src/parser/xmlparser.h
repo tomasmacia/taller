@@ -32,7 +32,7 @@ private:
 
     Bindings getBindings(XMLElement *config);
 
-    Gameplay getGameplaySettings(XMLElement *config);
+    Gameplay getGameplaySettings(XMLElement *config, XMLElement *defaultConfig);
 
     vector<Level> getGameplayLevels(XMLElement *gameplay);
 
@@ -44,7 +44,7 @@ private:
 
     Weapon getGameplayWeapon(XMLElement *weaponElement);
 
-    Utilities getGameplayUtilites(XMLElement *gameplay);
+    Utilities getGameplayUtilities(XMLElement *gameplay);
 
     Utility getGameplayUtility(XMLElement *utility);
 
@@ -64,6 +64,16 @@ private:
     Bindings wrapperBindingsModule(XMLElement *config, XMLElement *defaultConfig);
 
     Gameplay wrapperGameplayModule(XMLElement *config, XMLElement *defaultConfig);
+
+    vector<Level> wrapperGameplayLevelsModule(XMLElement *gameplay, XMLElement *defaultGameplay);
+
+    vector<Character> wrapperGameplayCharactersModule(XMLElement *gameplay, XMLElement *defaultGameplay);
+
+    vector<NPC> wrapperGameplayNPCSModule(XMLElement *gameplay, XMLElement *defaultGameplay);
+
+    Weapons wrapperGameplayWeaponsModule(XMLElement *gameplay, XMLElement *defaultGameplay);
+
+    Utilities wrapperGameplayUtilitiesModule(XMLElement *gameplay, XMLElement *defaultGameplay);
 };
 
 #endif //GAME_XMLPARSER_H

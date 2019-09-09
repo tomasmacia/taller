@@ -13,16 +13,15 @@ Config XMLParser::parse(string pathToConfig) {
     XMLDocument doc;
     loadFile(&doc, pathToConfig);
 
+    XMLDocument docDefault;
+    loadFile(&docDefault, DEFAULT_CONFIG_PATH);
+
     Config config;
 
-    try { // TODO: rearrange this mess
-        // do not load default config first, optimistic first try
-        config = mapXMLDocumentToConfig(&doc, nullptr);
-    } catch(string& msg) {
-        cerr << "Using default config" << endl;
-        XMLDocument docDefault;
-        loadFile(&docDefault, DEFAULT_CONFIG_PATH);
+    try {
         config = mapXMLDocumentToConfig(&doc, &docDefault);
+    } catch(string& msg) {
+        cerr << "There was an error loading default config" << endl;
     }
 
     return config;
@@ -126,28 +125,41 @@ Bindings XMLParser::getBindings(XMLElement *config) {
 }
 
 Gameplay XMLParser::wrapperGameplayModule(XMLElement *config, XMLElement *defaultConfig) {
-    Gameplay gameplay;
-    try {
-        gameplay = getGameplaySettings(config);
-    } catch (string& msg) {
-        cerr << msg << endl;
-        gameplay = getGameplaySettings(defaultConfig);
-    }
+    Gameplay gameplay = getGameplaySettings(config, defaultConfig);
+//    try {
+//        gameplay = getGameplaySettings(config);
+//    } catch (string& msg) {
+//        cerr << msg << endl;
+//        gameplay = getGameplaySettings(defaultConfig);
+//    }
 
     return gameplay;
 }
 
-Gameplay XMLParser::getGameplaySettings(XMLElement *config) {
+Gameplay XMLParser::getGameplaySettings(XMLElement *config, XMLElement *defaultConfig) {
     XMLElement *gameplayElement = getXMLElementSafe(config, {"gameplay"});
+    XMLElement *gameplayDefaultElement = getXMLElementSafe(defaultConfig, {"gameplay"});
     Gameplay gameplay;
 
-    gameplay.levels = getGameplayLevels(gameplayElement);
-    gameplay.characters = getGameplayCharacters(gameplayElement);
-    gameplay.npcs = getGameplayNPCS(gameplayElement);
-    gameplay.weapons = getGameplayWeapons(gameplayElement);
-    gameplay.utilities = getGameplayUtilites(gameplayElement);
+    gameplay.levels = wrapperGameplayLevelsModule(gameplayElement, gameplayDefaultElement);
+    gameplay.characters = wrapperGameplayCharactersModule(gameplayElement, gameplayDefaultElement);
+    gameplay.npcs = wrapperGameplayNPCSModule(gameplayElement, gameplayDefaultElement);
+    gameplay.weapons = wrapperGameplayWeaponsModule(gameplayElement, gameplayDefaultElement);
+    gameplay.utilities = wrapperGameplayUtilitiesModule(gameplayElement, gameplayDefaultElement);
 
     return gameplay;
+}
+
+vector<Level> XMLParser::wrapperGameplayLevelsModule(XMLElement *gameplay, XMLElement *defaultGameplay) {
+    vector<Level> levels;
+    try {
+        levels = getGameplayLevels(gameplay);
+    } catch (string& msg) {
+        cerr << msg << endl;
+        levels = getGameplayLevels(defaultGameplay);
+    }
+
+    return levels;
 }
 
 vector<Level> XMLParser::getGameplayLevels(XMLElement *gameplay) {
@@ -157,11 +169,35 @@ vector<Level> XMLParser::getGameplayLevels(XMLElement *gameplay) {
     return mapSettingToVector(levelsElement, "level", XMLParser::mapLevel, section);
 }
 
+vector<Character> XMLParser::wrapperGameplayCharactersModule(XMLElement *gameplay, XMLElement *defaultGameplay) {
+    vector<Character> characters;
+    try {
+        characters = getGameplayCharacters(gameplay);
+    } catch (string& msg) {
+        cerr << msg << endl;
+        characters = getGameplayCharacters(defaultGameplay);
+    }
+
+    return characters;
+}
+
 vector<Character> XMLParser::getGameplayCharacters(XMLElement *gameplay) {
     string section = "characters";
     XMLElement *charactersElement = getXMLElementSafe(gameplay, {section});
 
     return mapSettingToVector(charactersElement, "character", XMLParser::mapCharacter, section);
+}
+
+vector<NPC> XMLParser::wrapperGameplayNPCSModule(XMLElement *gameplay, XMLElement *defaultGameplay) {
+    vector<NPC> npcs;
+    try {
+        npcs = getGameplayNPCS(gameplay);
+    } catch (string& msg) {
+        cerr << msg << endl;
+        npcs = getGameplayNPCS(defaultGameplay);
+    }
+
+    return npcs;
 }
 
 vector<NPC> XMLParser::getGameplayNPCS(XMLElement *gameplay) {
@@ -207,6 +243,18 @@ vector<T> XMLParser::mapSettingToVector(XMLElement *genericElement, const string
     return vectorOfT;
 }
 
+Weapons XMLParser::wrapperGameplayWeaponsModule(XMLElement *gameplay, XMLElement *defaultGameplay) {
+    Weapons weapons;
+    try {
+        weapons = getGameplayWeapons(gameplay);
+    } catch (string& msg) {
+        cerr << msg << endl;
+        weapons = getGameplayWeapons(defaultGameplay);
+    }
+
+    return weapons;
+}
+
 Weapons XMLParser::getGameplayWeapons(XMLElement *gameplay) {
     XMLElement *weaponsElement = getXMLElementSafe(gameplay, {"weapons"});
     XMLElement *knifeElement = getXMLElementSafe(weaponsElement, {"knife"});
@@ -219,6 +267,18 @@ Weapons XMLParser::getGameplayWeapons(XMLElement *gameplay) {
     return weapons;
 }
 
+Utilities XMLParser::wrapperGameplayUtilitiesModule(XMLElement *gameplay, XMLElement *defaultGameplay) {
+    Utilities utilities;
+    try {
+        utilities = getGameplayUtilities(gameplay);
+    } catch (string& msg) {
+        cerr << msg << endl;
+        utilities = getGameplayUtilities(defaultGameplay);
+    }
+
+    return utilities;
+}
+
 Weapon XMLParser::getGameplayWeapon(XMLElement *weaponElement) {
     Weapon weapon;
     weapon.amount = getSafeValueFromElement(weaponElement, {"amount"}, atoi, "weapons");
@@ -227,7 +287,7 @@ Weapon XMLParser::getGameplayWeapon(XMLElement *weaponElement) {
     return weapon;
 }
 
-Utilities XMLParser::getGameplayUtilites(XMLElement *gameplay) {
+Utilities XMLParser::getGameplayUtilities(XMLElement *gameplay) {
     XMLElement *utilitiesElement = getXMLElementSafe(gameplay, {"utilities"});
     XMLElement *barrelsElement = getXMLElementSafe(utilitiesElement, {"barrel"});
     XMLElement *boxesElement = getXMLElementSafe(utilitiesElement, {"box"});
@@ -283,7 +343,7 @@ T XMLParser::getSafeValueFromElement(XMLElement *element, vector<string> names, 
     if (iterateElement != nullptr) {
         stringValue = iterateElement->GetText();
     } else {
-        throw "Section " + section + " could not be parsed";
+        throw "Section " + section + " could not be parsed. Using default config file";
     }
 
     return func(stringValue);
