@@ -14,29 +14,34 @@ _w(w), _h(h), _window(window){
 ImageManager::~ImageManager(){
     SDL_FreeSurface(personaje);//porque no los libero al cargarlos
     SDL_FreeSurface(fondo);
+    SDL_FreeSurface(fondo1);
     IMG_Quit();
 };
 
 void ImageManager::fullLoad(const std::string &back_image_path,const std::string &ground_image_path,const std::string &pj_image_path,SDL_Rect pj_pos){
+    //Cargo lo que debo
     loadFondo(back_image_path);
     loadFondo1(ground_image_path);
     loadpj(pj_image_path,pj_pos);
+    //Refresco ventana
+    SDL_UpdateWindowSurface(_window);
 
 };
 
 
 void ImageManager::loadpj(const std::string &image_path,SDL_Rect r)
-{   
-    
-    if(personaje != nullptr) {
+{   //Personaje nunca entra al if.
+
+
+   /*if(personaje != nullptr) {
         SDL_Surface* gScreenSurface = SDL_GetWindowSurface(_window);
         std::cerr << "surface ok"  ;
         SDL_BlitScaled(personaje,NULL, gScreenSurface,&r);
         SDL_FreeSurface(gScreenSurface);
-	    SDL_UpdateWindowSurface( _window ); 
+	 //   SDL_UpdateWindowSurface( _window ); 
     }
     else {
-
+*/
         //Obtengo surface asociada a la ventana
         SDL_Surface* gScreenSurface = SDL_GetWindowSurface(_window);
         //Cargo imagen.png en una nueva Surface
@@ -52,11 +57,10 @@ void ImageManager::loadpj(const std::string &image_path,SDL_Rect r)
         //aplico protagonista
         SDL_BlitScaled(personaje,NULL, gScreenSurface,&r);
         SDL_FreeSurface(gScreenSurface);
-        //Misma idea que con fondo cargado una vez y no libero. 
+        //Misma idea que con fondo cargado una vez y no libero. --> No entra
         // Ver luego con  personaje en movimiento (Sprite)
         //Update de surface
-        SDL_UpdateWindowSurface( _window );
-    }
+    
 }
 
 void ImageManager::loadFondo(const std::string &image_path)
@@ -85,13 +89,9 @@ void ImageManager::loadFondo(const std::string &image_path)
         //Aplico imagen
         SDL_FreeSurface(gScreenSurface);
     }
-    //No aplico freesurface, para ser mas rapido como el fondo que es el mismo, lo cargo
+    //No aplico freesurface a la img cargada, para ser mas rapido como el fondo que es el mismo, lo cargo
     //una vez y lo aplico cada vez que el pj se mueva. Gasta mas memoria. 
-    //SDL_FreeSurface(fondo);	
-	//Update de surface
-    //SDL_UpdateWindowSurface( _window );
 }
-
 
 void ImageManager::loadFondo1(const std::string &image_path)
 { 
@@ -115,16 +115,13 @@ void ImageManager::loadFondo1(const std::string &image_path)
             std::cerr << "SDL Error: "<< SDL_GetError()<< ".\n";
     	}
         dest.w= (fondo1->clip_rect.w)*(_h/fondo1->clip_rect.h);
-        //Transparencia en el contorno negro de cody
+        //Transparencia en el contorno celeste del suelo
         SDL_SetColorKey(fondo1, SDL_TRUE,
         SDL_MapRGB(fondo1->format, 0, 162, 232));
         //Aplico imagen
         SDL_BlitScaled(fondo1,NULL, gScreenSurface,&dest);
         SDL_FreeSurface(gScreenSurface);
     }
-    //No aplico freesurface, para ser mas rapido como el fondo que es el mismo, lo cargo
+    //No aplico freesurface a la imagen cargada, para ser mas rapido como el fondo que es el mismo, lo cargo
     //una vez y lo aplico cada vez que el pj se mueva. Gasta mas memoria. 
-    //SDL_FreeSurface(fondo);	
-	//Update de surface
-    //SDL_UpdateWindowSurface( _window );
 }
