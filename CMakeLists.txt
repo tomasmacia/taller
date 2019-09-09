@@ -24,8 +24,8 @@ include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 set(SOURCE_FILES src/main.cpp 
 src/window.cpp
 src/window.h
-src/square.h
-src/square.cpp
+src/cody.h
+src/cody.cpp
 src/events.h 
 src/events.cpp 
 src/game.h 

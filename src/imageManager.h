@@ -14,7 +14,7 @@ public:
 
 private:
     SDL_Window* _window = nullptr;
-    //Surface para fondo y pj , idea temporal.
+    //Surface para fondos y pj , idea temporal.
     SDL_Surface* fondo = nullptr;
     SDL_Surface* fondo1 = nullptr;
     SDL_Surface* personaje = nullptr;

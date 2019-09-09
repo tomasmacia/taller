@@ -5,12 +5,12 @@ class Events{
 public:
 
     //Events(){};
-    Events(class Square* avatar):
+    Events(class Cody* avatar):
         _avatar(avatar)
     {};
     bool keyboard_event();
 
 private:
-    class Square* _avatar = nullptr;
+    class Cody* _avatar = nullptr;
     SDL_Event _event;
 };

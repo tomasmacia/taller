@@ -1,16 +1,16 @@
 #include <game.h>
 #include <SDL2/SDL.h>
-#include "square.h"
+#include "cody.h"
 #include "events.h"
 
 
-Game::Game()
+Game::Game(int width, int heigth)
 {
-    initialize();
-    runLoop();
+    initialize(width, heigth);
+    runLoop(width, heigth);
 }
 
-void Game::initialize () 
+void Game::initialize (int width, int heigth) 
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
@@ -18,28 +18,25 @@ void Game::initialize ()
     }
     std::cerr << "SDL.\n";
 
-   _gwindow= new Window("Final Figth",277,198);
+   _gwindow= new Window("Final Figth",width,heigth);
 }
 
-void Game::runLoop()
+void Game::runLoop(int width, int heigth)
 {
     //Creo Cuadrado/personaje
-    Square square(1, 0, 80);
+    Cody cody(0,width,heigth); //->Nose si el game deberia crear al pj.
     //Creo evento y paso pj para avisarle que debe moverse(si se debe hacer)
-    Events event(&square);
-    _gwindow->frame_load(square.getPosition());
+    Events event(&cody);
+    _gwindow->frame_load(cody.getPosition());
     //loop hasta que se aprete ESC o click en (X)
     while (!event.keyboard_event())
     {
       //actualizo posicion de cuadrado y refresco la ventana
-        _gwindow->frame_load(square.getPosition());
+        _gwindow->frame_load(cody.getPosition());
     }
-    //Destruyo y limpio lo usado. Salgo del juego.
+    //Destruyo y limpio lo usado. Salgo del juego.s
     this->~Game(); 
 }
-
-    
-
 
 Game::~Game()
 {

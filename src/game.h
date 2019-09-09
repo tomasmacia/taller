@@ -5,12 +5,12 @@ class Game
 {
 public:
 /*Constructor*/
-	Game();
+	Game(int width, int heigth);
     
 private:
     class Window* _gwindow;
-    void initialize();
-    void runLoop();
+    void initialize(int width, int heigth);
+    void runLoop(int width, int heigth);
 /*Destructor*/
     ~Game();
 };

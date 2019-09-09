@@ -19,7 +19,6 @@ public:
     Window(const std::string &title, int width,int height);
     ~Window();
     void display();
-    void loadFondo(const std::string &rute);
     void loadpj(const std::string &rute, SDL_Rect r);
     void frame_load(SDL_Rect position);
 private:

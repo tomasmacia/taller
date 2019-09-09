@@ -21,13 +21,17 @@ void ImageManager::fullLoad(const std::string &back_image_path,const std::string
     loadFondo(back_image_path);
     loadFondo1(ground_image_path);
     loadpj(pj_image_path,pj_pos);
+
 };
 
 
 void ImageManager::loadpj(const std::string &image_path,SDL_Rect r)
-{   if(personaje != nullptr) {
+{   
+    
+    if(personaje != nullptr) {
         SDL_Surface* gScreenSurface = SDL_GetWindowSurface(_window);
-        SDL_BlitSurface( personaje, NULL, gScreenSurface, NULL );
+        std::cerr << "surface ok"  ;
+        SDL_BlitScaled(personaje,NULL, gScreenSurface,&r);
         SDL_FreeSurface(gScreenSurface);
 	    SDL_UpdateWindowSurface( _window ); 
     }
@@ -42,28 +46,30 @@ void ImageManager::loadpj(const std::string &image_path,SDL_Rect r)
             std::cerr <<  "No pudo cargar imagen.\n";
             std::cerr << "SDL Error: "<< SDL_GetError()<< ".\n";
         }
-
         //Transparencia en el contorno negro de cody
         SDL_SetColorKey(personaje, SDL_TRUE,
         SDL_MapRGB(personaje->format, 0, 0, 0));
         //aplico protagonista
-        SDL_BlitSurface( personaje, NULL, gScreenSurface, &r );
+        SDL_BlitScaled(personaje,NULL, gScreenSurface,&r);
         SDL_FreeSurface(gScreenSurface);
-        //Misma idea que con fondo cargao una vez y no libero. 
+        //Misma idea que con fondo cargado una vez y no libero. 
         // Ver luego con  personaje en movimiento (Sprite)
-        //SDL_FreeSurface(personaje);
-                
         //Update de surface
         SDL_UpdateWindowSurface( _window );
     }
 }
 
 void ImageManager::loadFondo(const std::string &image_path)
-{   if(fondo != nullptr) {
+{  
+    SDL_Rect dest;
+    dest.x =0;
+    dest.y= 0;
+    dest.h= _h;   
+    if(fondo != nullptr) {
+        dest.w= (fondo->clip_rect.w)*(_h/fondo->clip_rect.h);
         SDL_Surface* gScreenSurface = SDL_GetWindowSurface(_window);
-        SDL_BlitSurface( fondo, NULL, gScreenSurface, NULL );
+        SDL_BlitScaled(fondo,NULL, gScreenSurface,&(dest));
         SDL_FreeSurface(gScreenSurface);
-	//    SDL_UpdateWindowSurface( _window ); 
     }
     else {
         //Obtengo surface asociada a la ventana
@@ -74,8 +80,9 @@ void ImageManager::loadFondo(const std::string &image_path)
 		    std::cerr <<  "No pudo cargar imagen.\n";
             std::cerr << "SDL Error: "<< SDL_GetError()<< ".\n";
     	} 
+        dest.w= (fondo->clip_rect.w)*(_h/fondo->clip_rect.h);
+        SDL_BlitScaled(fondo,NULL, gScreenSurface,&(dest));
         //Aplico imagen
-        SDL_BlitSurface( fondo, NULL, gScreenSurface, NULL );
         SDL_FreeSurface(gScreenSurface);
     }
     //No aplico freesurface, para ser mas rapido como el fondo que es el mismo, lo cargo
@@ -87,11 +94,16 @@ void ImageManager::loadFondo(const std::string &image_path)
 
 
 void ImageManager::loadFondo1(const std::string &image_path)
-{   if(fondo1 != nullptr) {
+{ 
+    SDL_Rect dest;
+    dest.x =0;
+    dest.y= 0;
+    dest.h= _h;      
+    if(fondo1 != nullptr) {
+        dest.w= (fondo1->clip_rect.w)*(_h/fondo1->clip_rect.h);
         SDL_Surface* gScreenSurface = SDL_GetWindowSurface(_window);
-        SDL_BlitSurface( fondo1, NULL, gScreenSurface, NULL );
-        SDL_FreeSurface(gScreenSurface);
-	//    SDL_UpdateWindowSurface( _window ); 
+        SDL_BlitScaled(fondo1,NULL, gScreenSurface,&dest);
+        SDL_FreeSurface(gScreenSurface); 
     }
     else {
         //Obtengo surface asociada a la ventana
@@ -102,11 +114,12 @@ void ImageManager::loadFondo1(const std::string &image_path)
 		    std::cerr <<  "No pudo cargar imagen.\n";
             std::cerr << "SDL Error: "<< SDL_GetError()<< ".\n";
     	}
+        dest.w= (fondo1->clip_rect.w)*(_h/fondo1->clip_rect.h);
         //Transparencia en el contorno negro de cody
         SDL_SetColorKey(fondo1, SDL_TRUE,
         SDL_MapRGB(fondo1->format, 0, 162, 232));
         //Aplico imagen
-        SDL_BlitSurface( fondo1, NULL, gScreenSurface, NULL );
+        SDL_BlitScaled(fondo1,NULL, gScreenSurface,&dest);
         SDL_FreeSurface(gScreenSurface);
     }
     //No aplico freesurface, para ser mas rapido como el fondo que es el mismo, lo cargo

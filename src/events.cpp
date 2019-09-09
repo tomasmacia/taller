@@ -1,6 +1,6 @@
 #include "events.h"
 #include <iostream>
-#include "square.h"
+#include "cody.h"
 
 
 bool Events::keyboard_event()
