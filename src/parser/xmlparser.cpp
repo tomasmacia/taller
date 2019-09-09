@@ -53,8 +53,8 @@ XMLError XMLParser::loadFile(XMLDocument *doc, string pathToConfig) {
 Config XMLParser::mapXMLDocumentToConfig(XMLDocument *doc, XMLDocument *docDefault) {
     XMLElement *configElement = nullptr;
     XMLElement *defaultConfigElement = nullptr;
-    if (doc == nullptr && docDefault == nullptr) { // only first invocation
-        throw "Error reading XML"; // to be catched in XMLParser::parse try-catch
+    if (doc == nullptr && docDefault == nullptr) {
+        throw string("Error reading XML"); // to be catched in XMLParser::parse try-catch
     }
 
     if (doc != nullptr) {
@@ -66,7 +66,8 @@ Config XMLParser::mapXMLDocumentToConfig(XMLDocument *doc, XMLDocument *docDefau
     }
 
     if (configElement == nullptr) {
-        throw "Error reading config element in XML";
+        cerr << "Error reading config from XML. Using default config" << endl;
+        configElement = defaultConfigElement; // do not try to create modules later from null, use default directly
     }
 
     Config config;
@@ -343,7 +344,7 @@ T XMLParser::getSafeValueFromElement(XMLElement *element, vector<string> names, 
     if (iterateElement != nullptr) {
         stringValue = iterateElement->GetText();
     } else {
-        throw "Section " + section + " could not be parsed. Using default config file";
+        throw string("Section " + section + " could not be parsed. Using default config file for this module");
     }
 
     return func(stringValue);
