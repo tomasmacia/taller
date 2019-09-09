@@ -26,7 +26,7 @@ private:
     template <typename T>
     static T getSafeValueFromElement(XMLElement *element, vector<string> names, T (*func)(const char*), string section);
 
-    Config mapXMLDocumentToConfig(XMLDocument *doc);
+    Config mapXMLDocumentToConfig(XMLDocument *doc, XMLDocument *docDefault);
 
     string getLoggerLevel(XMLElement *config);
 
@@ -58,6 +58,12 @@ private:
     static NPC mapNPC(XMLElement *npcs, string currentChildName);
 
     static string charArrayToString(const char *c);
+
+    string wrapperLoggerModule(XMLElement *config, XMLElement *defaultConfig);
+
+    Bindings wrapperBindingsModule(XMLElement *config, XMLElement *defaultConfig);
+
+    Gameplay wrapperGameplayModule(XMLElement *config, XMLElement *defaultConfig);
 };
 
 #endif //GAME_XMLPARSER_H

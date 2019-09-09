@@ -15,12 +15,14 @@ Config XMLParser::parse(string pathToConfig) {
 
     Config config;
 
-    try {
-        config = mapXMLDocumentToConfig(&doc);
-    } catch(string& msg) { // TODO: load specific modules if fail
+    try { // TODO: rearrange this mess
+        // do not load default config first, optimistic first try
+        config = mapXMLDocumentToConfig(&doc, nullptr);
+    } catch(string& msg) {
+        cerr << "Using default config" << endl;
         XMLDocument docDefault;
         loadFile(&docDefault, DEFAULT_CONFIG_PATH);
-        config = mapXMLDocumentToConfig(&docDefault);
+        config = mapXMLDocumentToConfig(&doc, &docDefault);
     }
 
     return config;
@@ -49,20 +51,61 @@ XMLError XMLParser::loadFile(XMLDocument *doc, string pathToConfig) {
     return eResult;
 }
 
-Config XMLParser::mapXMLDocumentToConfig(XMLDocument *doc) {
-    Config config;
-    XMLElement *configElement = doc->FirstChildElement("config");
+Config XMLParser::mapXMLDocumentToConfig(XMLDocument *doc, XMLDocument *docDefault) {
+    XMLElement *configElement = nullptr;
+    XMLElement *defaultConfigElement = nullptr;
+    if (doc == nullptr && docDefault == nullptr) { // only first invocation
+        throw "Error reading XML"; // to be catched in XMLParser::parse try-catch
+    }
 
-    config.loggerLevel = getLoggerLevel(configElement);
-    config.bindings = getBindings(configElement);
-    config.gameplay = getGameplaySettings(configElement);
+    if (doc != nullptr) {
+        configElement = doc->FirstChildElement("config");
+    }
+
+    if (docDefault != nullptr) {
+        defaultConfigElement = docDefault->FirstChildElement("config");
+    }
+
+    if (configElement == nullptr) {
+        throw "Error reading config element in XML";
+    }
+
+    Config config;
+
+    config.loggerLevel = wrapperLoggerModule(configElement, defaultConfigElement);
+    config.bindings = wrapperBindingsModule(configElement, defaultConfigElement);
+    config.gameplay = wrapperGameplayModule(configElement, defaultConfigElement);
 
 
     return config;
 }
 
+string XMLParser::wrapperLoggerModule(XMLElement *config, XMLElement *defaultConfig) {
+    string loggerLevel;
+    try {
+        loggerLevel = getLoggerLevel(config);
+    } catch(string& msg) {
+        cerr << msg << endl;
+        loggerLevel = getLoggerLevel(defaultConfig);
+    }
+
+    return loggerLevel;
+}
+
 string XMLParser::getLoggerLevel(XMLElement *config) {
-    return getSafeValueFromElement(config, {"logger", "level"}, charArrayToString, "logger");string(config->FirstChildElement("logger")->FirstChildElement("level")->GetText());
+    return getSafeValueFromElement(config, {"logger", "level"}, charArrayToString, "logger");
+}
+
+Bindings XMLParser::wrapperBindingsModule(XMLElement *config, XMLElement *defaultConfig) {
+    Bindings bindings;
+    try {
+        bindings = getBindings(config);
+    } catch (string& msg) {
+        cerr << msg << endl;
+        bindings = getBindings(defaultConfig);
+    }
+
+    return bindings;
 }
 
 Bindings XMLParser::getBindings(XMLElement *config) {
@@ -82,8 +125,20 @@ Bindings XMLParser::getBindings(XMLElement *config) {
     return bindings;
 }
 
+Gameplay XMLParser::wrapperGameplayModule(XMLElement *config, XMLElement *defaultConfig) {
+    Gameplay gameplay;
+    try {
+        gameplay = getGameplaySettings(config);
+    } catch (string& msg) {
+        cerr << msg << endl;
+        gameplay = getGameplaySettings(defaultConfig);
+    }
+
+    return gameplay;
+}
+
 Gameplay XMLParser::getGameplaySettings(XMLElement *config) {
-    XMLElement *gameplayElement = config->FirstChildElement("gameplay");
+    XMLElement *gameplayElement = getXMLElementSafe(config, {"gameplay"});
     Gameplay gameplay;
 
     gameplay.levels = getGameplayLevels(gameplayElement);
