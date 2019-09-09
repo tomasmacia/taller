@@ -22,16 +22,6 @@ include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 
 
 set(SOURCE_FILES src/main.cpp 
-src/LogLib/Logger.h
-src/LogLib/Logger.cpp
-src/LogLib/ErrorLogger.h
-src/LogLib/ErrorLogger.cpp
-src/LogLib/InfoLogger.h
-src/LogLib/InfoLogger.cpp
-src/LogLib/DebugLogger.h
-src/LogLib/DebugLogger.cpp
-src/LogLib/LogManager.h
-src/LogLib/LogManager.cpp
 src/window.cpp
 src/window.h
 src/square.h
@@ -39,7 +29,9 @@ src/square.cpp
 src/events.h 
 src/events.cpp 
 src/game.h 
-src/game.cpp)
+src/game.cpp 
+src/imageManager.h 
+src/imageManager.cpp)
 
 add_executable(game ${SOURCE_FILES})
 

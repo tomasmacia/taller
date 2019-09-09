@@ -18,24 +18,23 @@ void Game::initialize ()
     }
     std::cerr << "SDL.\n";
 
-   _gwindow= new Window("Final Figth",1366,200);
+   _gwindow= new Window("Final Figth",277,198);
 }
 
 void Game::runLoop()
 {
     //Creo Cuadrado/personaje
-    Square square(1, 0, 80, 200, 0, 200, 255);
-    //Creo evento
+    Square square(1, 0, 80);
+    //Creo evento y paso pj para avisarle que debe moverse(si se debe hacer)
     Events event(&square);
-    _gwindow->loadFondo("Sprites/FF_Stage4_floor.png");
+    _gwindow->frame_load(square.getPosition());
     //loop hasta que se aprete ESC o click en (X)
     while (!event.keyboard_event())
     {
       //actualizo posicion de cuadrado y refresco la ventana
-        (&square)->display(_gwindow);
-        _gwindow->loadFondo("Sprites/FF_Stage4_floor.png");
-       (&square)->display(_gwindow);
+        _gwindow->frame_load(square.getPosition());
     }
+    //Destruyo y limpio lo usado. Salgo del juego.
     this->~Game(); 
 }
 
