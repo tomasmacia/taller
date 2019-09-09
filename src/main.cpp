@@ -1,6 +1,7 @@
 using namespace std; 
 
 #include <iostream> 
+#include <string>
 #include "window.h"
 #include "square.h"
 
@@ -15,8 +16,9 @@ void pollEvents(Window &window,Square &square){ //HARDCODEADO
   
 int main(int argc, char** argv) { 
 
+    std::string image_path = "duck.jpg";
     Window window("titulo",800,600);
-    Square square(100, 400, 300, 200, 0, 200, 255);
+    Square square(100, 400, 300,image_path);
 
     while (!window.isClosed()){
         pollEvents(window, square);

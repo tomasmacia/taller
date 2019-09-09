@@ -14,18 +14,19 @@ include_directories(./include ./src)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
+
 # SDL
 find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS})
+find_package(SDL2_image REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 
-set(SOURCE_FILES
-src/main.cpp
+
+set(SOURCE_FILES src/main.cpp 
 src/window.cpp
 src/window.h
 src/square.h
-src/square.cpp
-)
+src/square.cpp)
 
 add_executable(game ${SOURCE_FILES})
 
-target_link_libraries(game ${SDL2_LIBRARY})
+target_link_libraries(game ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARIES})

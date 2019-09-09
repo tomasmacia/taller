@@ -12,6 +12,7 @@ _title(title), _width(width), _height(height)
 Window::~Window(){
     SDL_DestroyRenderer(_renderer);
     SDL_DestroyWindow(_window);
+    IMG_Quit();
     SDL_Quit();
 }
 
@@ -39,8 +40,12 @@ void Window::display(){
 //PRIVATE
 bool Window::init(){
     if (SDL_Init(SDL_INIT_VIDEO) != 0){
-        raiseException(); //failed to initialize SDL.\n
+        raiseException("failed to initialize SDL");
         return 0;
+    }
+
+    if (IMG_Init(IMG_INIT_JPG) != IMG_INIT_JPG){
+        raiseException("failed to initialize SDL_image");
     }
 
     _window = SDL_CreateWindow(
@@ -52,7 +57,7 @@ bool Window::init(){
     );
 
     if (_window == nullptr){
-        raiseException(); //failed to create window.\n
+        raiseException("failed to create window");
         return 0;
     }
 
@@ -61,5 +66,5 @@ bool Window::init(){
     return true;
 }
 
-void Window::raiseException(){}
+void Window::raiseException(std::string mesage){}
 

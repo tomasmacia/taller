@@ -1,5 +1,6 @@
 #include <string>
 #include <SDL2/SDL.h> 
+#include <SDL2/SDL_image.h>
 
 
 
@@ -27,5 +28,5 @@ public:
 
 private:
     bool init();
-    void raiseException();
+    void raiseException(std::string mesage);
 };
