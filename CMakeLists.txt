@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(game)
 
-set(CMAKE_CXX_STANDARD 14)
+# flags
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
 include_directories(include)
 include_directories(src/parser)
@@ -49,7 +50,7 @@ set(SOURCE_FILES
 
         #main
         src/main.cpp
-)
+        )
 
 
 # create executable
