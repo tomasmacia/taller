@@ -52,7 +52,7 @@ bool Window::init(){
 
 void Window::frame_load(SDL_Rect position){
     //Cargo las imagenes a usar y actualizo window.    
-    _imagemanager->fullLoad("Sprites/FF_Stage41.png","Sprites/FF_Stage4_floor.png","Sprites/cody.png",position);
+    _imagemanager->fullLoad("Sprites/FF_Stage4_back.png","Sprites/FF_Stage4_floor.png","Sprites/cody.png",position);
     SDL_UpdateWindowSurface(_window);
 
 };

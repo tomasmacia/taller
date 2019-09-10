@@ -20,6 +20,8 @@ private:
     SDL_Surface* personaje = nullptr;
     int _w;
     int _h;
+    int cont = 0;
+    int cont2 = 0;
    //Estos 3 metodos hacen basicamente lo mismo, buscar forma
     //de hacerlo en un metodo.
     void loadpj(const std::string &image_path,SDL_Rect r);
