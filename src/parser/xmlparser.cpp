@@ -74,6 +74,7 @@ Config XMLParser::mapXMLDocumentToConfig(XMLDocument *doc, XMLDocument *docDefau
 
     config.loggerLevel = wrapperLoggerModule(configElement, defaultConfigElement);
     config.bindings = wrapperBindingsModule(configElement, defaultConfigElement);
+    config.screenResolution = wrapperScreenResolutionModule(configElement, defaultConfigElement);
     config.gameplay = wrapperGameplayModule(configElement, defaultConfigElement);
 
 
@@ -123,6 +124,28 @@ Bindings XMLParser::getBindings(XMLElement *config) {
     bindings.CROUCH = getSafeValueFromElement(bindingsElement, {"crouch"}, charArrayToString, section);
 
     return bindings;
+}
+
+ScreenResolution XMLParser::wrapperScreenResolutionModule(XMLElement *config, XMLElement *defaultConfig) {
+    ScreenResolution screenResolution;
+    try {
+        screenResolution = getScreenResolution(config);
+    } catch (string& msg) {
+        screenResolution = getScreenResolution(defaultConfig);
+    }
+
+    return screenResolution;
+}
+
+ScreenResolution XMLParser::getScreenResolution(XMLElement *config) {
+    string section = "screen";
+    XMLElement *screenResolutionElement = getXMLElementSafe(config, {section});
+    ScreenResolution screenResolution;
+
+    screenResolution.width = getSafeValueFromElement(screenResolutionElement, {"width"}, atoi, section);
+    screenResolution.height = getSafeValueFromElement(screenResolutionElement, {"height"}, atoi, section);
+
+    return screenResolution;
 }
 
 Gameplay XMLParser::wrapperGameplayModule(XMLElement *config, XMLElement *defaultConfig) {

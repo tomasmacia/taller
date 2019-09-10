@@ -11,6 +11,10 @@
         <attack>X</attack>
         <crouch>C</crouch>
     </bindings>
+    <screen>
+        <width>800</width>
+        <height>600</height>
+    </screen>
     <gameplay>
         <levels>
             <amount>1</amount>

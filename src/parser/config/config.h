@@ -8,6 +8,7 @@
 #include <string>
 #include "config/bindings.h"
 #include "config/gameplay.h"
+#include "config/screenresolution.h"
 
 using namespace std;
 
@@ -15,6 +16,7 @@ class Config {
 public:
     string loggerLevel;
     Bindings bindings;
+    ScreenResolution screenResolution;
     Gameplay gameplay;
 };
 

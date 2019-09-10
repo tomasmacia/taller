@@ -50,7 +50,7 @@ set(SOURCE_FILES
 
         #main
         src/main.cpp
-        )
+        src/parser/config/screenresolution.h)
 
 
 # create executable

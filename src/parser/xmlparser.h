@@ -32,6 +32,10 @@ private:
 
     Bindings getBindings(XMLElement *config);
 
+    ScreenResolution wrapperScreenResolutionModule(XMLElement *config, XMLElement *defaultConfig);
+
+    ScreenResolution getScreenResolution(XMLElement *config);
+
     Gameplay getGameplaySettings(XMLElement *config, XMLElement *defaultConfig);
 
     vector<Level> getGameplayLevels(XMLElement *gameplay);
