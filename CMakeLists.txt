@@ -9,7 +9,13 @@ link_directories(lib)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
-add_executable(game
+# SDL
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
+
+# source files
+set(SOURCE_FILES
+        # parser module
         src/parser/xmlparser.cpp
         src/parser/xmlparser.h
         src/parser/config/config.h
@@ -21,6 +27,33 @@ add_executable(game
         src/parser/config/utilities.h
         src/parser/config/npc.h
         src/parser/config/utility.h
-        src/main.cpp src/parser/config/weapon.h)
+        src/parser/config/weapon.h
 
-target_link_libraries(game tinyxml2)
+        # logger module
+        src/LogLib/Logger.h
+        src/LogLib/Logger.cpp
+        src/LogLib/ErrorLogger.h
+        src/LogLib/ErrorLogger.cpp
+        src/LogLib/InfoLogger.h
+        src/LogLib/InfoLogger.cpp
+        src/LogLib/DebugLogger.h
+        src/LogLib/DebugLogger.cpp
+        src/LogLib/LogManager.h
+        src/LogLib/LogManager.cpp
+
+        # window
+        src/window.cpp
+        src/window.h
+        src/square.cpp
+        src/square.h
+
+        #main
+        src/main.cpp
+)
+
+
+# create executable
+add_executable(game ${SOURCE_FILES})
+
+# link libraries
+target_link_libraries(game ${SDL2_LIBRARY} tinyxml2)

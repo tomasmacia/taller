@@ -1,9 +1,21 @@
 #include <iostream>
 #include <string>
 #include "parser/xmlparser.h"
-using namespace std; 
+#include "window.h"
+#include "square.h"
 
-int main(int argc, char** argv) {
+using namespace std;
+
+void pollEvents(Window &window,Square &square){ //HARDCODEADO
+    SDL_Event event;
+
+    if (SDL_PollEvent(&event)){
+        square.pollEvents(event);
+        window.pollEvents(event);
+    }
+}
+  
+int main(int argc, const char** argv) {
     string pathToFile;
 
     if (argc >= 3 && (string(argv[1]) == "-c" || string(argv[1]) == "--config")){
@@ -17,6 +29,15 @@ int main(int argc, char** argv) {
     Config config = parser.parse(pathToFile);
     cout << "There are " << config.gameplay.levels.size() << " levels in the game" << endl;
     cout << "Logger level set in " << config.loggerLevel << endl;
-  
+
+    Window window("titulo",800,600);
+    Square square(100, 400, 300, 200, 0, 200, 255);
+
+    while (!window.isClosed()){
+        pollEvents(window, square);
+        square.display();
+        window.display();
+    }
+
     return 0; 
 } 
