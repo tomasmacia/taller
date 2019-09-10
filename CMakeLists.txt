@@ -1,16 +1,15 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.10)
 project(game)
 
 set(CMAKE_CXX_STANDARD 14)
 
-include_directories(lib)
+include_directories(include)
 include_directories(src/parser)
+link_directories(lib)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 add_executable(game
-        src/parser/tinyxml2.cpp
-        src/parser/tinyxml2.h
         src/parser/xmlparser.cpp
         src/parser/xmlparser.h
         src/parser/config/config.h
@@ -23,3 +22,5 @@ add_executable(game
         src/parser/config/npc.h
         src/parser/config/utility.h
         src/main.cpp src/parser/config/weapon.h)
+
+target_link_libraries(game tinyxml2)
