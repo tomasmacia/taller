@@ -1,9 +1,12 @@
 #include <string>
 #include <SDL2/SDL.h> 
+#include "Displayable.h"
+#include "Updateable.h"
 
+#ifndef WINDOW_H_
+#define WINDOW_H_
 
-
-class Window{
+class Window : public Displayable, public Updateable{
 
 public:
     static SDL_Renderer *_renderer;
@@ -22,10 +25,13 @@ public:
     ~Window();
 
     bool isClosed();
-    void pollEvents(SDL_Event &event);
+    void update();
+    // void pollEvents(SDL_Event &event);
     void display();
 
 private:
     bool init();
     void raiseException();
 };
+
+#endif

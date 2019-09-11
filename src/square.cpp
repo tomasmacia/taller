@@ -1,5 +1,4 @@
 #include "square.h"
-#include "window.h"
 
 //CONSTRUCTOR & DESTRUCTOR
 Square::Square(int side, int x, int y, int r, int g, int b, int a):
@@ -18,23 +17,30 @@ void Square::display(){
     SDL_RenderFillRect(Window::_renderer,&_rectangle);
 }
 
-void Square::pollEvents(SDL_Event &event){ //HARDCODEADO
-    if (event.type == SDL_KEYDOWN){
-        switch (event.key.keysym.sym){
-        case SDLK_LEFT:
-            _x -= 10;
-            break;
-        case SDLK_RIGHT:
-            _x += 10;
-            break;
-        case SDLK_UP:
-            _y -= 10;
-            break;
-        case SDLK_DOWN:
-            _y += 10;
-            break;
-        }
-    }
+// void Square::pollEvents(SDL_Event &event){ //HARDCODEADO
+//     if (event.type == SDL_KEYDOWN){
+//         switch (event.key.keysym.sym){
+//         case SDLK_LEFT:
+//             _x -= 10;
+//             break;
+//         case SDLK_RIGHT:
+//             _x += 10;
+//             break;
+//         case SDLK_UP:
+//             _y -= 10;
+//             break;
+//         case SDLK_DOWN:
+//             _y += 10;
+//             break;
+//         }
+//     }
+// }
+
+void Square::update(){
+    if (Controller::leftIsPressed()){ _x -= 10;};
+    if (Controller::upIsPressed()){ _y -= 10;};
+    if (Controller::downIsPressed()){ _y += 10;};
+    if (Controller::rightIsPressed()){ _x += 10;};
 }
 
 //PRIVATE

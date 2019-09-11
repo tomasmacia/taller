@@ -1,6 +1,11 @@
 #include <SDL2/SDL.h>
+#include "window.h"
+#include "Game.h"
 
-class Square{
+#ifndef SQUARE_H_
+#define SQUARE_H_
+
+class Square : public Displayable, public Updateable{
 
 private:
     int _side;
@@ -13,5 +18,9 @@ public:
     Square(int side, int x, int y, int r, int g, int b, int a);
 
     void display();
-    void pollEvents(SDL_Event &event);
+    void update();
+
+    // void pollEvents(SDL_Event &event);
 };
+
+#endif
