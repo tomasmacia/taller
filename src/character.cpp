@@ -18,24 +18,28 @@ Character::Character(const std::string &image_path,  int w, int h):
         std::cerr << "SDL Error: "<< SDL_GetError()<< ".\n";
     	} 
         SDL_SetColorKey(_image, SDL_TRUE,
-        SDL_MapRGB(_image->format, 0, 0, 0));
+        SDL_MapRGB(_image->format, 0,0,0));
 };
 
 bool Character::move(bool movLft,bool movRgth, bool movUp, bool movDwn){ 
         int default_mov = 6;
+        if (cont >20){cont = 0;};//--> cada 20 eventos un ciclo de movimiento
+        cont++;
+        std::cerr << cont<< std::endl;
         if(movLft ){
         //Limites de movimiento harcodeados en relacion a imagen y pantalla
             _x -=default_mov;
             while(_x<0){_x++;} 
         }
         if(movRgth ){
+            sprite_walk();
             while(_x>(_w_window/2)-(_w/2)){
                 _x--;
-                _pos->x= _x;
-                _pos->y= _y;
+                _pos->x= _x;//(width ventana/2) - (width de la imagen/2) Normalmente llega  ala mitad de la imagen y
+                _pos->y= _y;// deberia empezar a moverse el fondo-->Para Futuro
                 return true;
-                } //(width ventana/2) - (width de la imagen/2) Normalmente llega  ala mitad de la imagen y
-            _x +=default_mov;                                        // deberia empieza a moverse el fondo-->Para Futuro
+                } 
+            _x +=default_mov;          
         }    
         if(movUp ){         
             _y -=default_mov;
@@ -50,13 +54,50 @@ bool Character::move(bool movLft,bool movRgth, bool movUp, bool movDwn){
         return false;
 };
 
-    void Character::updateImage(SDL_Window* window){
+void Character::updateImage(SDL_Window* window){
+    SDL_Surface* gScreenSurface = SDL_GetWindowSurface(window);
+    SDL_BlitScaled(_image,NULL, gScreenSurface,_pos);
+    SDL_FreeSurface(gScreenSurface);
+    };
 
-        SDL_Surface* gScreenSurface = SDL_GetWindowSurface(window);
-        SDL_BlitScaled(_image,NULL, gScreenSurface,_pos);
-        SDL_FreeSurface(gScreenSurface);
-        };
-
-
+void Character::sprite_walk(){
+    if (cont==0){
+        _image = IMG_Load("Sprites/cody1.png");
+        SDL_SetColorKey(_image, SDL_TRUE,
+        SDL_MapRGB(_image->format, 0,0,0));
+        std::cerr << "1"<< std::endl;
+    }
+    else if (cont==4){
+        _image = IMG_Load("Sprites/cody2.png");
+        SDL_SetColorKey(_image, SDL_TRUE,
+        SDL_MapRGB(_image->format, 0,0,0));
+        std::cerr << "2"<< std::endl;
+    }
+    else if (cont==8){
+        _image = IMG_Load("Sprites/cody3.png");
+        SDL_SetColorKey(_image, SDL_TRUE,
+        SDL_MapRGB(_image->format, 0,0,0));
+        std::cerr << "3"<< std::endl;
+    }
+    else if (cont==12){
+        _image = IMG_Load("Sprites/cody4.png");
+        SDL_SetColorKey(_image, SDL_TRUE,
+        SDL_MapRGB(_image->format, 0,0,0));
+        std::cerr << "4"<< std::endl;
+    }
+    else if (cont==16){
+        _image = IMG_Load("Sprites/cody5.png");
+        SDL_SetColorKey(_image, SDL_TRUE,
+        SDL_MapRGB(_image->format, 0,0,0));
+        std::cerr << "5"<< std::endl;
+    }
+    else if (cont==20){
+        _image = IMG_Load("Sprites/cody6.png");
+        SDL_SetColorKey(_image, SDL_TRUE,
+        SDL_MapRGB(_image->format, 0,0,0));
+        std::cerr << "6"<< std::endl;
+        cont=0;
+    }
+}
 
 

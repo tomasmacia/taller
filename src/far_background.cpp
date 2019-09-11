@@ -9,7 +9,7 @@ Far_background::Far_background( const std::string &image_path, int h,int w):
     _pos->y= 0;
     _pos->h= _h;
     _w=_h*(_image->clip_rect.w)/(_image->clip_rect.h);
-std::cerr << _h << " - " << _w<< std::endl;
+    //std::cerr << _h << " - " << _w<< std::endl;
      //Transparencia en el contorno celeste del suelo
         SDL_SetColorKey(_image, SDL_TRUE,
         SDL_MapRGB(_image->format, 0, 162, 232));
@@ -54,17 +54,17 @@ void Far_background::updateImage(SDL_Window* window){
 void Far_background::cargo1(){
     _image = IMG_Load("Sprites/FF_Stage4_back1.png");
     _w=_h*(_image->clip_rect.w)/(_image->clip_rect.h);
-    std::cerr << _h << " - " << _w<< std::endl;
+ //   std::cerr << _h << " - " << _w<< std::endl;
 }
 
 void Far_background::cargo2(){
     _image = IMG_Load("Sprites/FF_Stage4_back2.png");
     _w=_h*(_image->clip_rect.w)/(_image->clip_rect.h);
-    std::cerr << _h << " - " << _w<< std::endl;
+   // std::cerr << _h << " - " << _w<< std::endl;
 }
 
 void Far_background::cargo3(){
     _image = IMG_Load("Sprites/FF_Stage4_back3.png");
     _w=_h*(_image->clip_rect.w)/(_image->clip_rect.h);
-    std::cerr << _h << " - " << _w<< std::endl;
+    //std::cerr << _h << " - " << _w<< std::endl;
 }

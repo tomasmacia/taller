@@ -9,8 +9,9 @@ public:
     bool move(bool movLft,bool movRgth, bool movUp, bool movDwn);
     const SDL_Rect getPosition();
     void updateImage(SDL_Window* window);
+    void sprite_walk();
 private:
-    int  _x,_y,_w,_h,_w_window,_h_window;
+    int  _x,_y,_w,_h,_w_window,_h_window, cont=0;
     SDL_Surface* _image; 
     SDL_Rect* _pos = new SDL_Rect; 
 };

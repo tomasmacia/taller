@@ -57,7 +57,7 @@ void Game::allCreator(int width, int heigth){
 
     //cosas del lvl 1
     back = new Far_background("Sprites/FF_Stage4_back.png",heigth,width);
-    floor = new Background("Sprites/FF_Stage4_floor1a.png",heigth,width);   
+    floor = new Background("Sprites/FF_Stage4_floor.png",heigth,width);   
     character = new Character("Sprites/cody.png",width,heigth);
 };
 

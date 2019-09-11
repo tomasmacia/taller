@@ -29,7 +29,7 @@ bool Events::keyboard_event()
                     {
                         _game->move_all();
                     };
-           //         std::cerr << "Right.\n";
+           //       solo me interesa la derecha
                     return false;
                 case SDL_SCANCODE_UP:
                     _cody->move(false,false,true,false);
