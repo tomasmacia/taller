@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.0)
 project(game)
 
 # flags
@@ -27,6 +27,7 @@ set(SOURCE_FILES
         src/parser/config/weapons.h
         src/parser/config/utilities.h
         src/parser/config/npc.h
+        src/parser/config/screenresolution.h
         src/parser/config/utility.h
         src/parser/config/weapon.h
 
@@ -50,7 +51,7 @@ set(SOURCE_FILES
 
         #main
         src/main.cpp
-        src/parser/config/screenresolution.h)
+        )
 
 
 # create executable
