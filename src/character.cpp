@@ -23,7 +23,7 @@ Character::Character(const std::string &image_path,  int w, int h):
 
 bool Character::move(bool movLft,bool movRgth, bool movUp, bool movDwn){ 
         int default_mov = 6;
-        if (cont >20){cont = 0;};//--> cada 20 eventos un ciclo de movimiento
+        if (cont >20){cont = -1;};//--> cada 20 eventos un ciclo de movimiento
         cont++;
         std::cerr << cont<< std::endl;
         if(movLft ){
@@ -65,38 +65,38 @@ void Character::sprite_walk(){
         _image = IMG_Load("Sprites/cody1.png");
         SDL_SetColorKey(_image, SDL_TRUE,
         SDL_MapRGB(_image->format, 0,0,0));
-        std::cerr << "1"<< std::endl;
+        std::cerr << "1 paso"<< std::endl;
     }
     else if (cont==4){
         _image = IMG_Load("Sprites/cody2.png");
         SDL_SetColorKey(_image, SDL_TRUE,
         SDL_MapRGB(_image->format, 0,0,0));
-        std::cerr << "2"<< std::endl;
+        std::cerr << "2 paso"<< std::endl;
     }
     else if (cont==8){
         _image = IMG_Load("Sprites/cody3.png");
         SDL_SetColorKey(_image, SDL_TRUE,
         SDL_MapRGB(_image->format, 0,0,0));
-        std::cerr << "3"<< std::endl;
+        std::cerr << "3 paso"<< std::endl;
     }
     else if (cont==12){
         _image = IMG_Load("Sprites/cody4.png");
         SDL_SetColorKey(_image, SDL_TRUE,
         SDL_MapRGB(_image->format, 0,0,0));
-        std::cerr << "4"<< std::endl;
+        std::cerr << "4 paso"<< std::endl;
     }
     else if (cont==16){
         _image = IMG_Load("Sprites/cody5.png");
         SDL_SetColorKey(_image, SDL_TRUE,
         SDL_MapRGB(_image->format, 0,0,0));
-        std::cerr << "5"<< std::endl;
+        std::cerr << "5 paso"<< std::endl;
     }
     else if (cont==20){
         _image = IMG_Load("Sprites/cody6.png");
         SDL_SetColorKey(_image, SDL_TRUE,
         SDL_MapRGB(_image->format, 0,0,0));
-        std::cerr << "6"<< std::endl;
-        cont=0;
+        std::cerr << "6 paso"<< std::endl;
+        cont=-4;
     }
 }
 

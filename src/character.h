@@ -11,7 +11,7 @@ public:
     void updateImage(SDL_Window* window);
     void sprite_walk();
 private:
-    int  _x,_y,_w,_h,_w_window,_h_window, cont=0;
+    int  _x,_y,_w,_h,_w_window,_h_window, cont=-1;
     SDL_Surface* _image; 
     SDL_Rect* _pos = new SDL_Rect; 
 };
