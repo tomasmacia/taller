@@ -27,9 +27,9 @@ void Game::initialize (int width, int heigth)
 
 void Game::runLoop(int width, int heigth)
 {
+    //loop hasta que se aprete ESC o click en (X)
     allCreator(width,heigth);
     Events event(this, character);
-    //loop hasta que se aprete ESC o click en (X)
     while (!event.keyboard_event())
     {
         back->updateImage(_gwindow->_window);
@@ -43,9 +43,8 @@ void Game::runLoop(int width, int heigth)
 
 Game::~Game()
 {
-    /*Quito ventana y cierro SDL*/
-   // floor->~Background();
     delete(floor);
+    delete(back);
     SDL_FreeSurface(_image);
     delete(character);
     (_gwindow)->~Window();
@@ -58,8 +57,8 @@ void Game::allCreator(int width, int heigth){
 
     //cosas del lvl 1
     back = new Far_background("Sprites/FF_Stage4_back.png",heigth,width);
-    floor = new Background("Sprites/FF_Stage4_floor.png",heigth);   
-    character = new Character(0,width,heigth);
+    floor = new Background("Sprites/FF_Stage4_floor1a.png",heigth,width);   
+    character = new Character("Sprites/cody.png",width,heigth);
 };
 
 void Game::move_all(){

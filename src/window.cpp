@@ -22,8 +22,6 @@ Window::~Window(){
 
 //PRIVATE
 bool Window::init(){
-
-
     // Trabajar con SDL_image para cargar imagenes no .bmp   
     if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG)
     {

@@ -2,28 +2,76 @@
 #include "iostream"
 #include <SDL2/SDL_image.h>
 
-Background::Background( const std::string &image_path, int h):
-    _h(h),_x(0) {
+Background::Background( const std::string &image_path, int h,int w):
+    _h(h),_x(0), _w_window(w) {
     _image =IMG_Load(image_path.c_str());
-    _w=(_image->clip_rect.w)*(_h/_image->clip_rect.h);
+    _w=h*((_image->clip_rect.w)/(_image->clip_rect.h));
     _pos->x=0;
     _pos->y= 0;
     _pos->h= h;
+    std::cerr << _h << " - " << _w<< std::endl;
      //Transparencia en el contorno celeste del suelo
-        SDL_SetColorKey(_image, SDL_TRUE,
-        SDL_MapRGB(_image->format, 0, 162, 232));
+    SDL_SetColorKey(_image, SDL_TRUE,
+    SDL_MapRGB(_image->format, 0, 162, 232));
 }
 
 void Background::move(){
-    _x = _x- 14;
-    std::cerr <<"pos: "<< _pos->x <<"  "<<"guardado: "<<_x<<std::endl;
-    
+    int t =  _x +_w ;
+    int d =(1002*_w/_image->clip_rect.w);
+    std::cerr << _x +_w << " - " << (1002*_w/_image->clip_rect.w)<< std::endl;
+    if (t<d){
+        if (cont == 0)
+        {
+            cargo1();
+            cont =1;
+            _x = 0;
+        }
+        else if (cont == 1)
+        {
+            cargo2();
+            cont = 2;
+            _x = 0;
+        }
+        else if(cont == 2)
+        {
+            cargo3();
+            cont =-1;
+            _x=0;
+        }
+    }
+    if (t> _w_window ){//-->Cortar al final del background
+        _x = _x-7;};    
 }
 
 void Background::updateImage(SDL_Window* window){
     _pos->x=_x;
-    _pos->w=_w;
+    _pos->w=_w; 
     SDL_Surface* ScreenSurface = SDL_GetWindowSurface(window);
     SDL_BlitScaled(_image,NULL, ScreenSurface,_pos);
     SDL_FreeSurface(ScreenSurface);
+}
+
+
+void Background::cargo1(){
+    _image = IMG_Load("Sprites/FF_Stage4_floor1b.png");
+    _w=_h*(_image->clip_rect.w)/(_image->clip_rect.h);
+        SDL_SetColorKey(_image, SDL_TRUE,
+    SDL_MapRGB(_image->format, 0, 162, 232));
+    std::cerr << _h << " - " << _w<< std::endl;
+}
+
+void Background::cargo2(){
+    _image = IMG_Load("Sprites/FF_Stage4_floor1c.png");
+    _w=_h*(_image->clip_rect.w)/(_image->clip_rect.h);
+        SDL_SetColorKey(_image, SDL_TRUE,
+    SDL_MapRGB(_image->format, 0, 162, 232));
+    std::cerr << _h << " - " << _w<< std::endl;
+}
+
+void Background::cargo3(){
+    _image = IMG_Load("Sprites/FF_Stage4_floor1d.png");
+    _w=_h*(_image->clip_rect.w)/(_image->clip_rect.h);
+        SDL_SetColorKey(_image, SDL_TRUE,
+    SDL_MapRGB(_image->format, 0, 162, 232));
+    std::cerr << _h << " - " << _w<< std::endl;
 }

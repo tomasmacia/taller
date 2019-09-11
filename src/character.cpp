@@ -1,9 +1,8 @@
 #include "character.h"
-#include "iostream"
 #include <SDL2/SDL_image.h>
 
-Character::Character( int x, int w, int h):
-    _x(x), /*--> posicion x inicial*/
+Character::Character(const std::string &image_path,  int w, int h):
+    _x(w*0.4), /*--> posicion x inicial*/
     _w(h*.3),/*--> width que debe tener*/
     _h(h/2),/*-->heigth que debe tener*/
     _y(h/2.475), /*--> posicion y inicial*/
@@ -13,7 +12,7 @@ Character::Character( int x, int w, int h):
     _pos->y = _y;
     _pos->h = _h;
     _pos->w = _w;
-    _image = IMG_Load("Sprites/cody.png");
+    _image = IMG_Load(image_path.c_str());
     if( _image == NULL )	{
 	    std::cerr <<  "No pudo cargar imagen.\n";
         std::cerr << "SDL Error: "<< SDL_GetError()<< ".\n";
@@ -23,10 +22,9 @@ Character::Character( int x, int w, int h):
 };
 
 bool Character::move(bool movLft,bool movRgth, bool movUp, bool movDwn){ 
-        int default_mov = 7;
+        int default_mov = 6;
         if(movLft ){
         //Limites de movimiento harcodeados en relacion a imagen y pantalla
-        // Buscar Fix
             _x -=default_mov;
             while(_x<0){_x++;} 
         }

@@ -25,10 +25,11 @@ bool Events::keyboard_event()
                     std::cerr << "Left.\n";
                     return false;
                 case SDL_SCANCODE_RIGHT:
-                    if (_cody->move(false,true,false,false)){
+                    if (_cody->move(false,true,false,false))
+                    {
                         _game->move_all();
                     };
-                    std::cerr << "Right.\n";
+           //         std::cerr << "Right.\n";
                     return false;
                 case SDL_SCANCODE_UP:
                     _cody->move(false,false,true,false);

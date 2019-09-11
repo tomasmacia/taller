@@ -1,7 +1,6 @@
 #ifndef GAME_H_
 #define GAME_H_
 
-
 #include "window.h"
 #include "background.h"
 #include "far_background.h"
@@ -10,11 +9,15 @@ class Game
 {
 public:
 /*Constructor*/
-	Game(int width, int heigth);
+
     class Character* character;
     Far_background* back;
     Background* floor;
+
+
+	Game(int width, int heigth);
     void move_all();
+
 private:
 SDL_Surface* _image;
     class Window* _gwindow;
