@@ -1,16 +1,25 @@
+
+#ifndef EVENTS_H_
+#define EVENTS_H_
+
+
 #include <SDL2/SDL.h>
+#include "game.h"
+
 
 class Events{
 
 public:
 
     //Events(){};
-    Events(class Cody* avatar):
-        _avatar(avatar)
-    {};
+    Events(Game* game, class Character* cody):
+        _game(game),_cody(cody){};
     bool keyboard_event();
 
 private:
-    class Cody* _avatar = nullptr;
+    Game* _game;
+    class Character* _cody;
     SDL_Event _event;
 };
+
+#endif

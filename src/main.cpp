@@ -5,7 +5,7 @@ using namespace std;
   
 int main(int argc, char** argv) { 
 
-    Game* game = new Game(800,600);
+    Game* game = new Game(640,480);
     return 0;
 
 } 

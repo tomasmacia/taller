@@ -1,8 +1,8 @@
 #include "window.h"
 #include "iostream"
+#include <SDL2/SDL_image.h>
 
 
-SDL_Renderer *Window::_renderer = nullptr;
 
 //CONSTRUCTOR & DESTRUCTOR
 Window::Window(const std::string &title, int width, int height) :
@@ -12,8 +12,7 @@ _title(title), _width(width), _height(height)
 }
 
 Window::~Window(){
-    _imagemanager->~ImageManager();
-    SDL_DestroyRenderer(_renderer);
+    IMG_Quit();
     SDL_DestroyWindow(_window);
     SDL_Quit();
 }
@@ -21,14 +20,15 @@ Window::~Window(){
 //PUBLIC
 
 
-void Window::display(){
-    SDL_RenderPresent(_renderer); 
-    SDL_SetRenderDrawColor(_renderer,0,200,0,255); //HARDCODEADO
-    SDL_RenderClear(_renderer); //display del sdl2
-}
-
 //PRIVATE
 bool Window::init(){
+
+
+    // Trabajar con SDL_image para cargar imagenes no .bmp   
+    if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG)
+    {
+        std::cerr << "Fallo SDL_Image.\n";
+    }
 
    // std::cerr << "SDL_Image.\n";
     _window = SDL_CreateWindow(
@@ -43,16 +43,14 @@ bool Window::init(){
         raiseException(); //failed to create window.\n
         return 0;
     }
-    _renderer = SDL_CreateRenderer(_window, -1,SDL_RENDERER_ACCELERATED);
-    _imagemanager = new ImageManager(_width,_height,_window);
+    //_imagemanager = new ImageManager(_width,_height,_window);
 
     return true;
 };
 
-
-void Window::frame_load(SDL_Rect position){
+void Window::updateWindow(){
     //Cargo las imagenes a usar y actualizo window.    
-    _imagemanager->fullLoad("Sprites/FF_Stage4_back.png","Sprites/FF_Stage4_floor.png","Sprites/cody.png",position);
+   // _imagemanager->fullLoad("Sprites/FF_Stage4_back.png","Sprites/FF_Stage4_floor.png","Sprites/cody.png",position);
     SDL_UpdateWindowSurface(_window);
 
 };

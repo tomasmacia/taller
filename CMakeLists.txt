@@ -24,14 +24,16 @@ include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 set(SOURCE_FILES src/main.cpp 
 src/window.cpp
 src/window.h
-src/cody.h
-src/cody.cpp
 src/events.h 
 src/events.cpp 
 src/game.h 
 src/game.cpp 
-src/imageManager.h 
-src/imageManager.cpp)
+src/character.h 
+src/character.cpp 
+src/background.h 
+src/background.cpp 
+src/far_background 
+src/far_background.cpp)
 
 add_executable(game ${SOURCE_FILES})
 

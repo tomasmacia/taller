@@ -1,14 +1,17 @@
 #include <game.h>
 #include <SDL2/SDL.h>
-#include "cody.h"
+#include <SDL2/SDL_image.h>
 #include "events.h"
+#include "far_background.h"
+#include "character.h"
+#include "background.h"
 
 
 Game::Game(int width, int heigth)
 {
     initialize(width, heigth);
     runLoop(width, heigth);
-}
+};
 
 void Game::initialize (int width, int heigth) 
 {
@@ -19,30 +22,48 @@ void Game::initialize (int width, int heigth)
     std::cerr << "SDL.\n";
 
    _gwindow= new Window("Final Figth",width,heigth);
-}
+ //  _image = IMG_Load("Sprites/FF_Stage4_floor.png");
+};
 
 void Game::runLoop(int width, int heigth)
 {
-    //Creo Cuadrado/personaje
-    Cody cody(0,width,heigth); //->Nose si el game deberia crear al pj.
-    //Creo evento y paso pj para avisarle que debe moverse(si se debe hacer)
-    Events event(&cody);
-    _gwindow->frame_load(cody.getPosition());
+    allCreator(width,heigth);
+    Events event(this, character);
     //loop hasta que se aprete ESC o click en (X)
     while (!event.keyboard_event())
     {
-      //actualizo posicion de cuadrado y refresco la ventana
-        _gwindow->frame_load(cody.getPosition());
+        back->updateImage(_gwindow->_window);
+        floor->updateImage(_gwindow->_window);
+        character->updateImage(_gwindow->_window);
+        _gwindow->updateWindow();
     }
-    //Destruyo y limpio lo usado. Salgo del juego.s
+    //Destruyo y limpio lo usado. Salgo del juego.
     this->~Game(); 
-}
+};
 
 Game::~Game()
 {
     /*Quito ventana y cierro SDL*/
+   // floor->~Background();
+    delete(floor);
+    SDL_FreeSurface(_image);
+    delete(character);
     (_gwindow)->~Window();
+    delete(_gwindow);
     SDL_Quit();
 
+};
+
+void Game::allCreator(int width, int heigth){
+
+    //cosas del lvl 1
+    back = new Far_background("Sprites/FF_Stage4_back.png",heigth,width);
+    floor = new Background("Sprites/FF_Stage4_floor.png",heigth);   
+    character = new Character(0,width,heigth);
+};
+
+void Game::move_all(){
+    back->move();
+    floor->move();
 }
 
