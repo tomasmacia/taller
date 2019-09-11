@@ -1,40 +1,61 @@
-# CMake version
 cmake_minimum_required(VERSION 3.0)
-
-# project name
-project(taller)
+project(game)
 
 # flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
-# includes
-include_directories(./include ./src)
+include_directories(include)
+include_directories(src/parser)
+link_directories(lib)
 
-# binary output
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 # SDL
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
-set(SOURCE_FILES src/main.cpp
-src/LogLib/Logger.h
-src/LogLib/Logger.cpp
-src/LogLib/ErrorLogger.h
-src/LogLib/ErrorLogger.cpp
-src/LogLib/InfoLogger.h
-src/LogLib/InfoLogger.cpp
-src/LogLib/DebugLogger.h
-src/LogLib/DebugLogger.cpp
-src/LogLib/LogManager.h
-src/LogLib/LogManager.cpp
-src/window.cpp
-src/window.h
-src/square.h
-src/square.cpp
-)
+# source files
+set(SOURCE_FILES
+        # parser module
+        src/parser/xmlparser.cpp
+        src/parser/xmlparser.h
+        src/parser/config/config.h
+        src/parser/config/bindings.h
+        src/parser/config/gameplay.h
+        src/parser/config/character.h
+        src/parser/config/level.h
+        src/parser/config/weapons.h
+        src/parser/config/utilities.h
+        src/parser/config/npc.h
+        src/parser/config/screenresolution.h
+        src/parser/config/utility.h
+        src/parser/config/weapon.h
 
+        # logger module
+        src/LogLib/Logger.h
+        src/LogLib/Logger.cpp
+        src/LogLib/ErrorLogger.h
+        src/LogLib/ErrorLogger.cpp
+        src/LogLib/InfoLogger.h
+        src/LogLib/InfoLogger.cpp
+        src/LogLib/DebugLogger.h
+        src/LogLib/DebugLogger.cpp
+        src/LogLib/LogManager.h
+        src/LogLib/LogManager.cpp
+
+        # window
+        src/window.cpp
+        src/window.h
+        src/square.cpp
+        src/square.h
+
+        #main
+        src/main.cpp
+        )
+
+
+# create executable
 add_executable(game ${SOURCE_FILES})
 
-target_link_libraries(game ${SDL2_LIBRARY})
+# link libraries
+target_link_libraries(game ${SDL2_LIBRARY} tinyxml2)
