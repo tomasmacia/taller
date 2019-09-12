@@ -41,7 +41,7 @@ void Background::move(){
         }
     }*/
     if (t> _w_window ){//-->Cortar al final del background
-        _x = _x-7;};    
+        _x = _x-7;};    //cant de pixeles movida
 }
 
 void Background::updateImage(SDL_Window* window){
