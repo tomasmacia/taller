@@ -8,31 +8,35 @@ Character::Character(const std::string &image_path,  int w, int h):
     _y(h/2.475), /*--> posicion y inicial*/
     _h_window( h), /*-->width de window*/
     _w_window( w)/*-->heigth de window*/{
-    _pos->x = _x;
-    _pos->y = _y;
-    _pos->h = _h;
-    _pos->w = _w;
+    _pos->x = _x;//
+    _pos->y = _y;//---->Parametros con los que hago un resize a 
+    _pos->h = _h;//---->la imagen. EN el BlitScale le paso un Rect
+    _pos->w = _w;//----->que tenga el tamaño que deseo
     _image = IMG_Load(image_path.c_str());
     if( _image == NULL )	{
 	    std::cerr <<  "No pudo cargar imagen.\n";
         std::cerr << "SDL Error: "<< SDL_GetError()<< ".\n";
-    	} 
+    	}
+        //Transparencia al contorno negro de cody
         SDL_SetColorKey(_image, SDL_TRUE,
         SDL_MapRGB(_image->format, 0,0,0));
 };
 
-bool Character::move(bool movLft,bool movRgth, bool movUp, bool movDwn){ 
-        int default_mov = 6;
-        if (cont >20){cont = -1;};//--> cada 20 eventos un ciclo de movimiento
-        cont++;
-        std::cerr << cont<< std::endl;
-        if(movLft ){
-        //Limites de movimiento harcodeados en relacion a imagen y pantalla
+bool Character::move(int option){ //0 =left ; 1 = rigth , 2 = up, 3 = down
+    int default_mov = 6;            // 4 = jump
+    cont++;
+    if (spriteToload==cant_img_sprite-1)
+        {spriteToload=0;}
+    if(option == 0 ){
+            state=0;
+     //       sprite();
+            //Limites de movimiento harcodeados en relacion a imagen y pantalla
             _x -=default_mov;
             while(_x<0){_x++;} 
         }
-        if(movRgth ){
-            sprite_walk();
+        if(option == 1 ){
+            state = 1;
+            sprite();
             while(_x>(_w_window/2)-(_w/2)){
                 _x--;
                 _pos->x= _x;//(width ventana/2) - (width de la imagen/2) Normalmente llega  ala mitad de la imagen y
@@ -41,13 +45,20 @@ bool Character::move(bool movLft,bool movRgth, bool movUp, bool movDwn){
                 } 
             _x +=default_mov;          
         }    
-        if(movUp ){         
+        if(option == 2 ){
+            state = 1;
+            sprite();        
             _y -=default_mov;
            while(_y<(_h_window/3)){_y++;}//Normalmente (heigth/3)
         }   
-        if(movDwn){
+        if(option == 3){
+            state = 1;
+            sprite();
             _y +=default_mov;
             while(_y>(_h_window/2)){_y--;} //(heigth/2)
+        }
+        if (option == 4){
+            state = 4;
         }
         _pos->x= _x;
         _pos->y= _y;
@@ -55,49 +66,71 @@ bool Character::move(bool movLft,bool movRgth, bool movUp, bool movDwn){
 };
 
 void Character::updateImage(SDL_Window* window){
+    if (cont >= change & state == state_previous)
+    //si la contador de cambio de sprites es mayor 
+    //al cambio seteado o si estoy apretando el
+    //mismo boton
+    {
+        spriteToload++;//cambio de imagen sprite
+        cont=0;//contador reseteado
+    }
+    
+    rect->x = _image->clip_rect.w/cant_img_sprite * spriteToload;
+    rect->y=0;
+    rect->w=_image->clip_rect.w/cant_img_sprite;
+    rect->h=_image->clip_rect.h;
     SDL_Surface* gScreenSurface = SDL_GetWindowSurface(window);
-    SDL_BlitScaled(_image,NULL, gScreenSurface,_pos);
+    SDL_BlitScaled(_image,rect, gScreenSurface,_pos);
     SDL_FreeSurface(gScreenSurface);
     };
 
-void Character::sprite_walk(){
-    if (cont==0){
-        _image = IMG_Load("Sprites/cody1.png");
-        SDL_SetColorKey(_image, SDL_TRUE,
-        SDL_MapRGB(_image->format, 0,0,0));
-        std::cerr << "1 paso"<< std::endl;
+void Character::sprite(){
+    if (state ==1){ ///si quiero caminar
+        if(state_previous!=1){ //si no estaba caminando, cargo los sprites
+            std::cerr << "right\n";//si ya estaba caminando no los cargo
+            cant_img_sprite = 6;
+            cont = 0;
+            _image = IMG_Load("Sprites/codyall.png");
+            SDL_SetColorKey(_image, SDL_TRUE,
+            SDL_MapRGB(_image->format, 88,184,248));
+            state_previous=1;
+        }
+
+        
     }
+ //       std::cerr << "1 paso"<< std::endl;
+/*    }
     else if (cont==4){
         _image = IMG_Load("Sprites/cody2.png");
         SDL_SetColorKey(_image, SDL_TRUE,
         SDL_MapRGB(_image->format, 0,0,0));
-        std::cerr << "2 paso"<< std::endl;
+   //     std::cerr << "2 paso"<< std::endl;
     }
     else if (cont==8){
         _image = IMG_Load("Sprites/cody3.png");
         SDL_SetColorKey(_image, SDL_TRUE,
         SDL_MapRGB(_image->format, 0,0,0));
-        std::cerr << "3 paso"<< std::endl;
+    //    std::cerr << "3 paso"<< std::endl;
     }
     else if (cont==12){
         _image = IMG_Load("Sprites/cody4.png");
         SDL_SetColorKey(_image, SDL_TRUE,
         SDL_MapRGB(_image->format, 0,0,0));
-        std::cerr << "4 paso"<< std::endl;
+    //    std::cerr << "4 paso"<< std::endl;
     }
     else if (cont==16){
         _image = IMG_Load("Sprites/cody5.png");
         SDL_SetColorKey(_image, SDL_TRUE,
         SDL_MapRGB(_image->format, 0,0,0));
-        std::cerr << "5 paso"<< std::endl;
+     //   std::cerr << "5 paso"<< std::endl;
     }
     else if (cont==20){
         _image = IMG_Load("Sprites/cody6.png");
         SDL_SetColorKey(_image, SDL_TRUE,
         SDL_MapRGB(_image->format, 0,0,0));
-        std::cerr << "6 paso"<< std::endl;
+    //    std::cerr << "6 paso"<< std::endl;
         cont=-4;
-    }
+    }*/
 }
 
 

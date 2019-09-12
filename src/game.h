@@ -9,24 +9,22 @@ class Game
 {
 public:
 /*Constructor*/
-
+    Game(int width, int heigth);
+ /*Destructor*/
+    ~Game();   
     class Character* character;
     Far_background* back;
     Background* floor;
-
-
-	Game(int width, int heigth);
     void move_all();
 
 private:
-SDL_Surface* _image;
+    SDL_Surface* _image;
     class Window* _gwindow;
     void initialize(int width, int heigth);
     void runLoop(int width, int heigth);
     void allCreator(int width, int heigth);
-    
-/*Destructor*/
-    ~Game();
+    void fpsChanged(int fps);
+
 };
 
 #endif

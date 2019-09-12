@@ -7,7 +7,6 @@
 class Window{
     
 private:
- //   ImageManager* _imagemanager;
     std::string _title;
     int _width;
     int _height;
@@ -15,10 +14,10 @@ private:
 
 public:
     Window(const std::string &title, int width,int height);
-    ~Window();
-    void loadpj(const std::string &rute, SDL_Rect r);
-    void updateWindow();    
+    ~Window();    void updateWindow();    
     SDL_Window *_window = nullptr;
+    SDL_Renderer* renderer = nullptr;
+
 private:
     bool init();
     void raiseException();

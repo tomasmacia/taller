@@ -21,23 +21,27 @@ bool Events::keyboard_event()
                     std::cerr << "Escape.\n";
                     return  true;
                 case SDL_SCANCODE_LEFT:
-                    _cody->move(true,false,false,false);
-                    std::cerr << "Left.\n";
+                    _cody->move(0);
+      //              std::cerr << "Left.\n";
                     return false;
                 case SDL_SCANCODE_RIGHT:
-                    if (_cody->move(false,true,false,false))
+                    if (_cody->move(1))
                     {
                         _game->move_all();
                     };
            //       solo me interesa la derecha
                     return false;
                 case SDL_SCANCODE_UP:
-                    _cody->move(false,false,true,false);
-                    std::cerr << "UP.\n";
+                    _cody->move(2);
+        //            std::cerr << "UP.\n";
                     return false;
                 case SDL_SCANCODE_DOWN:
-                    _cody->move(false,false,false,true);
-                    std::cerr << "DOWN.\n";
+                    _cody->move(3);
+        //            std::cerr << "DOWN.\n";
+                    return false;
+                case SDL_SCANCODE_LCTRL:
+                    _cody->move(4);
+                    std::cerr <<"JUMP\n";
                     return false;
             }                   
             default:
