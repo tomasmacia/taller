@@ -9,9 +9,6 @@ Background::Background( const std::string &image_path, int h,int w):
     _pos->x=0;
     _pos->y= 0;
     _pos->h= h;
-//    std::cerr << _image->clip_rect.w << " - " << _image->clip_rect.h<< std::endl;
-    int a= 600*(6765/195);
-    std::cerr << a << std::endl;
      //Transparencia en el contorno celeste del suelo
     SDL_SetColorKey(_image, SDL_TRUE,
     SDL_MapRGB(_image->format, 0, 162, 232));

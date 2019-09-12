@@ -91,6 +91,7 @@ void Character::sprite(){
             cant_img_sprite = 6;
             cont = 0;
             _image = IMG_Load("Sprites/codyall.png");
+            //transparencia la contorno celeste
             SDL_SetColorKey(_image, SDL_TRUE,
             SDL_MapRGB(_image->format, 88,184,248));
             state_previous=1;
