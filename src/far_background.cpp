@@ -17,7 +17,7 @@ Far_background::Far_background( const std::string &image_path, int h,int w):
 
 void Far_background::move(){
     if (_x +_w > _w_window ){//-->Cortar al final del background
-        _x = _x - 1;
+        _x = _x - 1.4;
         }
     else
     {

@@ -11,6 +11,7 @@ public:
     void updateImage(SDL_Window* window);
 private:
     int _w, _h,_w_window,cont=5; 
+    int final;
     float _x;
     SDL_Surface* _image; 
     SDL_Rect* _pos = new SDL_Rect; 

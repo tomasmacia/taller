@@ -45,6 +45,7 @@ bool Events::keyboard_event()
                     return false;
                 case SDL_SCANCODE_X:
                     _cody->move(5);
+        //            std::cer << "PUNCH\n";
                     return false;
             }                   
             default:

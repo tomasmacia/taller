@@ -19,13 +19,13 @@ void Background::move(){
     //  cosas para cambiar 
     //de background, si la imagen es muy
     // grande, el largo width es gigante(20000+ pixel)
-    // por lo que la reescala es tardia.
+    // diria que la reescala es le toma tiempo.
     // Idea de cortar el mapa en pedazos y 
     // cargarlos en el momento justo, asi la reescala
     //es menor (20000 vs 8000 o 6000)
 
     if (t> _w_window ){//-->Cortar al final del background
-        _x = _x-7;}    //cant de pixeles movida
+        _x = _x-10;}    //cant de pixeles movida
     else
     {
         if (cont == 5)
