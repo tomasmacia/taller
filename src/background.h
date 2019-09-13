@@ -10,13 +10,11 @@ public:
     void move();
     void updateImage(SDL_Window* window);
 private:
-    int _w, _h,_w_window,cont=6; 
+    int _w, _h,_w_window,cont=5; 
     float _x;
     SDL_Surface* _image; 
     SDL_Rect* _pos = new SDL_Rect; 
-    void cargo1();//
-    void cargo2();//-->Estos son para probar cambio de escenario
-    void cargo3();//  de atras en un lvl 
+    void nextBackground(const std::string &image_path);//
 };
 
 #endif

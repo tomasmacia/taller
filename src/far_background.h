@@ -12,11 +12,11 @@ public:
     void move();
     void updateImage(SDL_Window* window);
 private:
-    int _w, _h,_w_window,cont; //-->cont es temporal
+    int _w, _h,_w_window,cont = 5; //-->cont es temporal
     float _x; //--> posicionde la imagen
     SDL_Surface* _image; 
     SDL_Rect* _pos = new SDL_Rect;
-    void cargo1();//
+    void nextBackground(const std::string &image_path);//
     void cargo2();//-->Estos son para probar cambio de escenario
     void cargo3();//  de atras en un lvl
 };
