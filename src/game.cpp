@@ -5,7 +5,6 @@
 #include "far_background.h"
 #include "character.h"
 #include "background.h"
-#define FPS_INTERVAL 1.0//
 
 
 Game::Game(int width, int heigth)

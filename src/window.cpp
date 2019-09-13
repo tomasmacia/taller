@@ -17,8 +17,6 @@ Window::~Window(){
     SDL_Quit();
 }
 
-//PUBLIC
-
 
 //PRIVATE
 bool Window::init(){
@@ -48,9 +46,7 @@ bool Window::init(){
 
 void Window::updateWindow(){
     //Cargo las imagenes a usar y actualizo window.    
-   // _imagemanager->fullLoad("Sprites/FF_Stage4_back.png","Sprites/FF_Stage4_floor.png","Sprites/cody.png",position);
     SDL_UpdateWindowSurface(_window);
-
 };
 
 void Window::raiseException(){}

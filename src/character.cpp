@@ -107,10 +107,10 @@ void Character::updateImage(SDL_Window* window){
                 spriteToload=0;
             }
         }
-    }/* Lo de a tira de imagenes es asi, yo se la cantidad que hay(cant_img_sprite)
+    }/* Lo de la tira de imagenes es asi, yo se la cantidad que hay(cant_img_sprite)
     y se cuanto mide de ancho la imagen(_image->clip_rect.w). Con Rect elijo 
-    que parte de la imagen agarro, lo alto (linea 190) es la mismo para todas los recortes,
-     al igual que la posicion y(=0) y lo ancho (linea 189).
+    que parte de la imagen agarro, lo alto (linea 191) es la mismo para todas los recortes,
+     al igual que la posicion y(=0) y lo ancho (linea 190).
     Pero la posicion x cambia. Contando en que imagen del total me encuentro (spriteToload)
     cada vez que aprieto una tecla que realize algo, calcula donde debe cortar, corta y
     hace un resize (y lo coloca donde debe estar).
