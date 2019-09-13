@@ -22,18 +22,22 @@ Character::Character(const std::string &image_path,  int w, int h):
         SDL_MapRGB(_image->format, 0,0,0));
 };
 
-bool Character::move(int option){ //0 =left ; 1 = rigth , 2 = up, 3 = down
-    int default_mov = 6;            // 4 = jump
-    cont++;
-    if (spriteToload==cant_img_sprite-1)
-        {spriteToload=0;}
-    if(option == 0 ){
-            state=0;
-     //       sprite();
-            //Limites de movimiento harcodeados en relacion a imagen y pantalla
-            _x -=default_mov;
-            while(_x<0){_x++;} 
-        }
+bool Character::move(int option){ 
+    //0 =left ; 1 = rigth , 2 = up, 3 = down
+    // 4 = accion(vease como cosa que necesita un trigger y se completa sola) 
+    // -1 = quieto
+    while (state != 4){
+        int default_mov = 6;           
+        cont++;
+        if (spriteToload==cant_img_sprite-1)
+            {spriteToload=0;}
+        if(option == 0 ){
+                state=0;
+        //       sprite();
+                //Limites de movimiento harcodeados en relacion a imagen y pantalla
+                _x -=default_mov;
+                while(_x<0){_x++;} 
+            }
         if(option == 1 ){
             state = 1;
             sprite();
@@ -49,7 +53,7 @@ bool Character::move(int option){ //0 =left ; 1 = rigth , 2 = up, 3 = down
             state = 1;
             sprite();        
             _y -=default_mov;
-           while(_y<(_h_window/3)){_y++;}//Normalmente (heigth/3)
+            while(_y<(_h_window/3)){_y++;}//Normalmente (heigth/3)
         }   
         if(option == 3){
             state = 1;
@@ -58,23 +62,40 @@ bool Character::move(int option){ //0 =left ; 1 = rigth , 2 = up, 3 = down
             while(_y>(_h_window/2)){_y--;} //(heigth/2)
         }
         if (option == 4){
-            state = 4;
+            state = -1;
         }
         _pos->x= _x;
         _pos->y= _y;
         return false;
+        }
+    return false;
 };
 
 void Character::updateImage(SDL_Window* window){
     if (cont >= change & state == state_previous)
-    //si la contador de cambio de sprites es mayor 
+    //si el contador de cambio de sprites es mayor 
     //al cambio seteado o si estoy apretando el
     //mismo boton
     {
         spriteToload++;//cambio de imagen sprite
         cont=0;//contador reseteado
     }
-    
+    if (state == 4){
+    //si quiero realizar una accion
+        cont++;
+        //aumento el contador de acciones
+        if(cont == 50){
+        //si el contador es igual al numero que creo q es
+        //vuelvo el contador a 0 y cambio de sprite en
+        //la secuencia
+            cont = 0;
+            spriteToload++;
+            if (spriteToload ==cant_img_sprite-1){
+                //si llegue al final de la secuencia, mi estado es "quieto"
+                state = -1;
+            }
+        }
+    }
     rect->x = _image->clip_rect.w/cant_img_sprite * spriteToload;
     rect->y=0;
     rect->w=_image->clip_rect.w/cant_img_sprite;
