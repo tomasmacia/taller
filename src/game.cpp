@@ -46,7 +46,7 @@ Game::~Game()
 {
     delete(floor);
     delete(back);
-    SDL_FreeSurface(_image);
+    character->~Character();
     delete(character);
     (_gwindow)->~Window();
     delete(_gwindow);

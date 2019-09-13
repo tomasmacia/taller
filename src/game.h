@@ -18,7 +18,6 @@ public:
     void move_all();
 
 private:
-    SDL_Surface* _image;
     class Window* _gwindow;
     void initialize(int width, int heigth);
     void runLoop(int width, int heigth);

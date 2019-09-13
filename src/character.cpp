@@ -142,6 +142,7 @@ void Character::sprite(){
             std::cerr << "left\n";//si ya estaba caminando no los cargo
             cant_img_sprite = 6;
             cont = 0;
+            SDL_FreeSurface(_image);
             _image = IMG_Load("Sprites/codyLeft.png");
             //transparencia la contorno celeste
             SDL_SetColorKey(_image, SDL_TRUE,
@@ -154,6 +155,7 @@ void Character::sprite(){
             std::cerr << "right\n";
             cant_img_sprite = 6;
             cont = 0;
+            SDL_FreeSurface(_image);
             _image = IMG_Load("Sprites/codyRgth.png");
             //transparencia la contorno celeste
             SDL_SetColorKey(_image, SDL_TRUE,
@@ -166,6 +168,7 @@ void Character::sprite(){
             cant_img_sprite = 12;
             cont = 0;
             spriteToload = 0;
+            SDL_FreeSurface(_image);
             _image = IMG_Load("Sprites/cody_jump.png");
             //transparencia la contorno celeste
             SDL_SetColorKey(_image, SDL_TRUE,
@@ -178,6 +181,7 @@ void Character::sprite(){
             cant_img_sprite = 3;
             cont = 0;
             spriteToload=0;
+            SDL_FreeSurface(_image);
             if(!(_image = IMG_Load("Sprites/cody_punch.png"))){
                 std::cerr <<"ok"<<std::endl;
             }
@@ -199,3 +203,8 @@ void Character::sprite(){
 }
 
 
+Character::~Character(){
+    SDL_FreeSurface(_image);
+    delete(rect);
+    delete(_pos);
+}

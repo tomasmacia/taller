@@ -65,6 +65,7 @@ void Far_background::updateImage(SDL_Window* window){
 }
 
 void Far_background::nextBackground(const std::string &image_path){
+    SDL_FreeSurface(_image);
     _image = IMG_Load(image_path.c_str());
     _w=_h*(_image->clip_rect.w)/(_image->clip_rect.h);
     SDL_SetColorKey(_image, SDL_TRUE,

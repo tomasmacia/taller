@@ -7,6 +7,7 @@
 class Character {
 public:
     Character(const std::string &image_path, int w, int h);
+    ~Character();
     bool move(int option);
     void updateImage(SDL_Window* window);
     void sprite();
