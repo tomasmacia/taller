@@ -13,7 +13,6 @@ _title(title), _width(width), _height(height)
 
 Window::~Window(){
     IMG_Quit();
-    SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(_window);
     SDL_Quit();
 }
@@ -37,9 +36,6 @@ bool Window::init(){
         _width, _height,
         0
     );
-    //Create renderer for window
-    renderer = SDL_CreateRenderer( _window, -1, SDL_RENDERER_ACCELERATED );
-    SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
 
 
     if (_window == nullptr){

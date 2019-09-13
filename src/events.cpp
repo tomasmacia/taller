@@ -41,7 +41,10 @@ bool Events::keyboard_event()
                     return false;
                 case SDL_SCANCODE_LCTRL:
                     _cody->move(4);
-                    std::cerr <<"JUMP\n";
+       //             std::cerr <<"JUMP\n";
+                    return false;
+                case SDL_SCANCODE_X:
+                    _cody->move(5);
                     return false;
             }                   
             default:

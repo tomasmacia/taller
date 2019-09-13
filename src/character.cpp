@@ -2,38 +2,43 @@
 #include <SDL2/SDL_image.h>
 
 Character::Character(const std::string &image_path,  int w, int h):
-    _x(w*0.4), /*--> posicion x inicial*/
+    _x(w*.4 ), /*--> posicion x inicial*/
     _w(h*.3),/*--> width que debe tener*/
-    _h(h/2),/*-->heigth que debe tener*/
-    _y(h/2.475), /*--> posicion y inicial*/
+    _h(h*.66),/*-->heigth que debe tener*/
+    _y(h*0.3), /*--> posicion y inicial*/
     _h_window( h), /*-->width de window*/
     _w_window( w)/*-->heigth de window*/{
     _pos->x = _x;//
     _pos->y = _y;//---->Parametros con los que hago un resize a 
     _pos->h = _h;//---->la imagen. EN el BlitScale le paso un Rect
     _pos->w = _w;//----->que tenga el tamaño que deseo
+
     _image = IMG_Load(image_path.c_str());
     if( _image == NULL )	{
 	    std::cerr <<  "No pudo cargar imagen.\n";
         std::cerr << "SDL Error: "<< SDL_GetError()<< ".\n";
     	}
-        //Transparencia al contorno negro de cody
-        SDL_SetColorKey(_image, SDL_TRUE,
-        SDL_MapRGB(_image->format, 0,0,0));
+    //Transparencia al contorno celeste de cody
+    SDL_SetColorKey(_image, SDL_TRUE,
+    SDL_MapRGB(_image->format, 88,184,248));
+    //Ancho y alto del personaje al iniciar es la misma (solo es esa imagen)
+    rect->w=_image->clip_rect.w;
+    rect->h=_image->clip_rect.h;
 };
 
 bool Character::move(int option){ 
-    //0 =left ; 1 = rigth , 2 = up, 3 = down
-    // 4 = accion(vease como cosa que necesita un trigger y se completa sola) 
+    //0 =left ; 1 = rigth , 2 = up, 3 = down, 4 = jump, 5 = punch
+    // 8 = accion (vease como cosa que necesita un trigger y se completa sola) 
     // -1 = quieto
-    while (state != 4){
+    //Si realizo una accion espera a que se complete (creeria que es para evitar saltos dobles)
+    while (state != 8){
         int default_mov = 6;           
         cont++;
         if (spriteToload==cant_img_sprite-1)
             {spriteToload=0;}
         if(option == 0 ){
                 state=0;
-        //       sprite();
+               sprite();
                 //Limites de movimiento harcodeados en relacion a imagen y pantalla
                 _x -=default_mov;
                 while(_x<0){_x++;} 
@@ -53,16 +58,21 @@ bool Character::move(int option){
             state = 1;
             sprite();        
             _y -=default_mov;
-            while(_y<(_h_window/3)){_y++;}//Normalmente (heigth/3)
+            while(_y<(_h_window/5)){_y++;}//Normalmente (heigth/5)
         }   
         if(option == 3){
             state = 1;
             sprite();
             _y +=default_mov;
-            while(_y>(_h_window/2)){_y--;} //(heigth/2)
+            while(_y>(_h_window/3)){_y--;} //(heigth/3)
         }
         if (option == 4){
-            state = -1;
+            state = 4;
+            sprite();
+        }
+        if (option == 5){
+            state = 5;
+            sprite();
         }
         _pos->x= _x;
         _pos->y= _y;
@@ -80,79 +90,112 @@ void Character::updateImage(SDL_Window* window){
         spriteToload++;//cambio de imagen sprite
         cont=0;//contador reseteado
     }
-    if (state == 4){
+    if (state == 8){
     //si quiero realizar una accion
         cont++;
         //aumento el contador de acciones
-        if(cont == 50){
-        //si el contador es igual al numero que creo q es
+        if(cont == loop){
+        //si el contador es igual al numero que creo es
         //vuelvo el contador a 0 y cambio de sprite en
         //la secuencia
             cont = 0;
             spriteToload++;
             if (spriteToload ==cant_img_sprite-1){
-                //si llegue al final de la secuencia, mi estado es "quieto"
+                //si llegue al final de la secuencia, mi estado y estado previo es "quieto"
+                state_previous= -1;
                 state = -1;
+                spriteToload=0;
             }
         }
-    }
+    }/* Lo de a tira de imagenes es asi, yo se la cantidad que hay(cant_img_sprite)
+    y se cuanto mide de ancho la imagen(_image->clip_rect.w). Con Rect elijo 
+    que parte de la imagen agarro, lo alto (linea 190) es la mismo para todas los recortes,
+     al igual que la posicion y(=0) y lo ancho (linea 189).
+    Pero la posicion x cambia. Contando en que imagen del total me encuentro (spriteToload)
+    cada vez que aprieto una tecla que realize algo, calcula donde debe cortar, corta y
+    hace un resize (y lo coloca donde debe estar).
+
+    Dato: Las imagenes deben tener una separacion uniforme para realizar un corte "lindo"
+    
+    x=0        x=wide/cant  x=2*wide/cant   .........etc
+            
+    .........................................................................    
+    .           .           .           .           .           .           .
+    .           .           .           .           .           .           .
+    .           .           .           .           .           .           .
+    .           .           .           .           .           .           .
+    .           .           .           .           .           .           .
+    .           .           .           .           .           .           .
+    .           .           .           .           .           .           .
+    .........................................................................
+    */
     rect->x = _image->clip_rect.w/cant_img_sprite * spriteToload;
     rect->y=0;
-    rect->w=_image->clip_rect.w/cant_img_sprite;
-    rect->h=_image->clip_rect.h;
     SDL_Surface* gScreenSurface = SDL_GetWindowSurface(window);
     SDL_BlitScaled(_image,rect, gScreenSurface,_pos);
     SDL_FreeSurface(gScreenSurface);
     };
 
 void Character::sprite(){
-    if (state ==1){ ///si quiero caminar
-        if(state_previous!=1){ //si no estaba caminando, cargo los sprites
-            std::cerr << "right\n";//si ya estaba caminando no los cargo
+    if (state == 0){ ///si quiero caminar
+        if(state_previous != 0){ //si no estaba caminando, cargo los sprites y aviso que ya estoy caminado
+            std::cerr << "left\n";//si ya estaba caminando no los cargo
             cant_img_sprite = 6;
             cont = 0;
-            _image = IMG_Load("Sprites/codyall.png");
+            _image = IMG_Load("Sprites/codyLeft.png");
+            //transparencia la contorno celeste
+            SDL_SetColorKey(_image, SDL_TRUE,
+            SDL_MapRGB(_image->format, 88,184,248));
+            state_previous=0;
+        }
+    }
+    if (state == 1){ 
+        if(state_previous!=1){ 
+            std::cerr << "right\n";
+            cant_img_sprite = 6;
+            cont = 0;
+            _image = IMG_Load("Sprites/codyRgth.png");
             //transparencia la contorno celeste
             SDL_SetColorKey(_image, SDL_TRUE,
             SDL_MapRGB(_image->format, 88,184,248));
             state_previous=1;
         }
+    }
+    if (state == 4){
+            std::cerr << "jump\n";
+            cant_img_sprite = 12;
+            cont = 0;
+            spriteToload = 0;
+            _image = IMG_Load("Sprites/cody_jump.png");
+            //transparencia la contorno celeste
+            SDL_SetColorKey(_image, SDL_TRUE,
+            SDL_MapRGB(_image->format, 88,184,248));
+            //Cambio el estado a accion para que se complete
+            state=8;    
+    }
+    if (state == 5){
+            std::cerr << "punch\n";
+            cant_img_sprite = 3;
+            cont = 0;
+            spriteToload=0;
+            if(!(_image = IMG_Load("Sprites/cody_punch.png"))){
+                std::cerr <<"ok"<<std::endl;
+            }
+            //transparencia la contorno celeste
+            SDL_SetColorKey(_image, SDL_TRUE,
+            SDL_MapRGB(_image->format, 88,184,248));
+            //Cambio el estado a accion para que se complete
+            state=8;    
+    }
+    rect->w=_image->clip_rect.w/cant_img_sprite;
+    rect->h=_image->clip_rect.h;
+    /* La tira de imagenes punch tiene un ancho promedio de 74, las demas
+    (tanto caminar, saltar) tienen un ancho de 56. Por lo que tengo que
+    recalcular el ancho o sino al dar golpes el personaje se "aplana" */
+    _pos->w =_h*(rect->w)/_image->clip_rect.h;
 
-        
-    }
- //       std::cerr << "1 paso"<< std::endl;
-/*    }
-    else if (cont==4){
-        _image = IMG_Load("Sprites/cody2.png");
-        SDL_SetColorKey(_image, SDL_TRUE,
-        SDL_MapRGB(_image->format, 0,0,0));
-   //     std::cerr << "2 paso"<< std::endl;
-    }
-    else if (cont==8){
-        _image = IMG_Load("Sprites/cody3.png");
-        SDL_SetColorKey(_image, SDL_TRUE,
-        SDL_MapRGB(_image->format, 0,0,0));
-    //    std::cerr << "3 paso"<< std::endl;
-    }
-    else if (cont==12){
-        _image = IMG_Load("Sprites/cody4.png");
-        SDL_SetColorKey(_image, SDL_TRUE,
-        SDL_MapRGB(_image->format, 0,0,0));
-    //    std::cerr << "4 paso"<< std::endl;
-    }
-    else if (cont==16){
-        _image = IMG_Load("Sprites/cody5.png");
-        SDL_SetColorKey(_image, SDL_TRUE,
-        SDL_MapRGB(_image->format, 0,0,0));
-     //   std::cerr << "5 paso"<< std::endl;
-    }
-    else if (cont==20){
-        _image = IMG_Load("Sprites/cody6.png");
-        SDL_SetColorKey(_image, SDL_TRUE,
-        SDL_MapRGB(_image->format, 0,0,0));
-    //    std::cerr << "6 paso"<< std::endl;
-        cont=-4;
-    }*/
+
+
 }
 
 

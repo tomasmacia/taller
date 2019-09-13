@@ -36,9 +36,9 @@ void Game::runLoop(int width, int heigth)
         floor->updateImage(_gwindow->_window);
         character->updateImage(_gwindow->_window);
         _gwindow->updateWindow();
-    /*   current = 1000/(-fps_last+SDL_GetTicks());// No 
+        current = 1000/(-fps_last+SDL_GetTicks());// No 
         fps_last =SDL_GetTicks();//                   Son
-        fpsChanged(current);*///                      Importantes
+        fpsChanged(current);///                      Importantes
     }
     this->~Game(); 
 };
@@ -72,6 +72,6 @@ void Game::move_all(){
 void Game::fpsChanged(int fps){
 
     char szFps[128];
-    sprintf(szFps,"%s: %d FPS","Final",fps);
+    sprintf(szFps,"%s: %d FPS","Final Figth",fps);
     SDL_SetWindowTitle(_gwindow->_window, szFps);
 }

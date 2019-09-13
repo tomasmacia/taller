@@ -10,7 +10,7 @@ public:
     void move();
     void updateImage(SDL_Window* window);
 private:
-    int _w, _h,_w_window,cont; 
+    int _w, _h,_w_window,cont=6; 
     float _x;
     SDL_Surface* _image; 
     SDL_Rect* _pos = new SDL_Rect; 
