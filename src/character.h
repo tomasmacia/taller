@@ -6,7 +6,7 @@
 
 class Character {
 public:
-    Character(const std::string &image_path, int w, int h);
+    Character(const std::string &image_path, int w, int h,SDL_Renderer* render);
     ~Character();
     bool move(int option);
     void updateImage(SDL_Window* window);
@@ -19,7 +19,9 @@ private:
     int spriteToload = 0;//en que imagen de la tira estoy
     int loop = 3;//cantidad de loop que deben suceder para que una accion pase a la
                     //siguiente imagen del sprite
-    SDL_Surface* _image; 
+    SDL_Surface* _image; //superficie a cargar la imagen
+    SDL_Texture* _texture; //textura de la imagen
+    SDL_Renderer* _render = nullptr; //puntero al render
     SDL_Rect* _pos = new SDL_Rect;//rect para colocar en lugar correcto del window
     SDL_Rect* rect = new SDL_Rect; //rect para elegir imagen exacta de tira de sprite
     int state = -1 , state_previous = -1;//estado actual y previo del pj(acciones)

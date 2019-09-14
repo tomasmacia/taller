@@ -8,17 +8,19 @@
 class Far_background {
 public:
     
-    Far_background(const std::string &image_path, int h,int w);
+    Far_background(const std::string &image_path, int h,int w, SDL_Renderer* render);
+    ~Far_background();
     void move();
     void updateImage(SDL_Window* window);
 private:
     int _w, _h,_w_window,cont = 5; //-->cont es temporal
     float _x; //--> posicionde la imagen
     SDL_Surface* _image; 
+    SDL_Texture* _texture;
     SDL_Rect* _pos = new SDL_Rect;
+    SDL_Rect* _rect = new SDL_Rect;
+    SDL_Renderer* _render = nullptr;
     void nextBackground(const std::string &image_path);//
-    void cargo2();//-->Estos son para probar cambio de escenario
-    void cargo3();//  de atras en un lvl
 };
 
 #endif

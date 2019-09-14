@@ -13,6 +13,7 @@ _title(title), _width(width), _height(height)
 
 Window::~Window(){
     IMG_Quit();
+    SDL_DestroyRenderer(render);
     SDL_DestroyWindow(_window);
     SDL_Quit();
 }
@@ -40,13 +41,22 @@ bool Window::init(){
         raiseException(); //failed to create window.\n
         return 0;
     }
+    render = SDL_CreateRenderer( _window, -1, SDL_RENDERER_PRESENTVSYNC);
 
     return true;
 };
 
 void Window::updateWindow(){
     //Cargo las imagenes a usar y actualizo window.    
-    SDL_UpdateWindowSurface(_window);
+    //Clear screen
+    //SDL_RenderClear( render );
+
+    //Render texture to screen
+    //SDL_RenderCopy( render, gTexture, NULL, NULL );
+
+     //Update screen
+    SDL_RenderPresent( render );
+ //   SDL_UpdateWindowSurface(_window);
 };
 
 void Window::raiseException(){}

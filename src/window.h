@@ -16,7 +16,7 @@ public:
     Window(const std::string &title, int width,int height);
     ~Window();    void updateWindow();    
     SDL_Window *_window = nullptr;
-    SDL_Renderer* renderer = nullptr;
+    SDL_Renderer* render = nullptr;
 
 private:
     bool init();

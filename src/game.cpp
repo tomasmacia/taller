@@ -31,20 +31,25 @@ void Game::runLoop(int width, int heigth)
     Events event(this, character);
     while (!event.keyboard_event())
     {
+        SDL_RenderClear( _gwindow->render );
         back->updateImage(_gwindow->_window);
         floor->updateImage(_gwindow->_window);
         character->updateImage(_gwindow->_window);
+        
         _gwindow->updateWindow();
         current = 1000/(-fps_last+SDL_GetTicks());// No 
         fps_last =SDL_GetTicks();//                   Son
-        fpsChanged(current);///                      Importantes
+        fpsChanged(current);///                      Importantes*/
+ //  SDL_Delay(50);
     }
     this->~Game(); 
 };
 
 Game::~Game()
 {
+    floor->~Background();
     delete(floor);
+    back->~Far_background();
     delete(back);
     character->~Character();
     delete(character);
@@ -57,15 +62,15 @@ Game::~Game()
 void Game::allCreator(int width, int heigth){
 
     //cosas del lvl 1
-    back = new Far_background("Sprites/FF_Stage4_back1.png",heigth,width);
-    floor = new Background("Sprites/FF_Stage4_floor1.png",heigth,width);   
-    character = new Character("Sprites/cody.png",width,heigth);
+    back = new Far_background("Sprites/FF_Stage4_back1.png",heigth,width,_gwindow->render);
+    floor = new Background("Sprites/FF_Stage4_floor1.png",heigth,width,_gwindow->render);   
+    character = new Character("Sprites/cody.png",width,heigth,_gwindow->render);
 };
 
 void Game::move_all(){
 //Actualiza posicion de todo menos de cody, en orden.
-    back->move();
-    floor->move();
+   back->move();
+   floor->move();
 }
 // Copiado del de SDLTest, para ver fps(creo)
 void Game::fpsChanged(int fps){

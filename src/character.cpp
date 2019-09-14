@@ -1,7 +1,8 @@
 #include "character.h"
 #include <SDL2/SDL_image.h>
 
-Character::Character(const std::string &image_path,  int w, int h):
+Character::Character(const std::string &image_path,  int w, int h, SDL_Renderer* render):
+    _render(render),
     _x(w*.4 ), /*--> posicion x inicial*/
     _w(h*.3),/*--> width que debe tener*/
     _h(h*.66),/*-->heigth que debe tener*/
@@ -131,9 +132,9 @@ void Character::updateImage(SDL_Window* window){
     */
     rect->x = _image->clip_rect.w/cant_img_sprite * spriteToload;
     rect->y=0;
-    SDL_Surface* gScreenSurface = SDL_GetWindowSurface(window);
-    SDL_BlitScaled(_image,rect, gScreenSurface,_pos);
-    SDL_FreeSurface(gScreenSurface);
+    _texture = SDL_CreateTextureFromSurface( _render, _image );
+    SDL_RenderCopy( _render, _texture, rect, _pos );
+    SDL_DestroyTexture(_texture);
     };
 
 void Character::sprite(){
@@ -197,14 +198,8 @@ void Character::sprite(){
     (tanto caminar, saltar) tienen un ancho de 56. Por lo que tengo que
     recalcular el ancho o sino al dar golpes el personaje se "aplana" */
     _pos->w =_h*(rect->w)/_image->clip_rect.h;
-
-
-
 }
 
-
 Character::~Character(){
-    SDL_FreeSurface(_image);
-    delete(rect);
-    delete(_pos);
+    SDL_DestroyTexture(_texture);
 }
