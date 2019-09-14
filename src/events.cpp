@@ -29,7 +29,7 @@ bool Events::keyboard_event()
                     if (_cody->move(1))
                     {
                         _game->move_all();
-                    };
+                    }
            //       solo me interesa la derecha
                     return false;
                 case SDL_SCANCODE_UP:
@@ -55,4 +55,26 @@ bool Events::keyboard_event()
         return false;
     }
     return false;
+}
+
+
+
+void Events::second_event(){
+    SDL_Event _2ndevent;
+     if (SDL_PollEvent(&_2ndevent)) 
+    {
+        switch (_event.type)
+        {
+            case SDL_KEYDOWN:
+            switch (_2ndevent.key.keysym.scancode)
+            {
+                case SDL_SCANCODE_LCTRL:
+                  //  _cody->move(4);
+                    std::cerr << "test"<< std::endl;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }

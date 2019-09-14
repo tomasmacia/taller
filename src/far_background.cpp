@@ -23,7 +23,7 @@ void Far_background::move(){
     
     int t =  _image->clip_rect.w - _rect->x ;
     if (t > _rect->w ){//-->Cortar al final del background
-        _x = _x + 0.3/*1.4*/;
+        _x = _x + 0.5/*1.25*/;
         }
     else
     {

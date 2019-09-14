@@ -29,8 +29,8 @@ void Game::runLoop(int width, int heigth)
     //loop hasta que se aprete ESC o click en (X)
     allCreator(width,heigth);
     Events event(this, character);
-    while (!event.keyboard_event())
-    {
+    while (isRunning)
+    {   isRunning = !(event.keyboard_event());
         SDL_RenderClear( _gwindow->render );
         back->updateImage(_gwindow->_window);
         floor->updateImage(_gwindow->_window);

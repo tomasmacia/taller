@@ -26,7 +26,7 @@ Background::Background( const std::string &image_path, int h,int w, SDL_Renderer
 void Background::move(){
     int t = /*_x+_w*/ _image->clip_rect.w - _rect->x ;
     if (t> _rect->w/*_w_window */){//-->Cortar al final del background el movimiento
-        _x = _x+2.46/*10*/;}    //cant de pixeles movida
+        _x = _x+4/*10*/;}    //cant de pixeles movida
 
     // Idea de cortar el mapa en pedazos y 
     // cargarlos en el momento justo.
@@ -40,7 +40,7 @@ void Background::move(){
     {
         if (cont == 5)
         {
-            nextBackground("Sprites/FF_Stage4_floor2.png");
+            nextBackground("Sprites/FF_Stage4_floor21.png");
             cont --;
             _x = 0;
         }

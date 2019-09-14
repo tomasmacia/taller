@@ -23,6 +23,7 @@ private:
     void runLoop(int width, int heigth);
     void allCreator(int width, int heigth);
     void fpsChanged(int fps);
+    bool isRunning = true;
 
 };
 

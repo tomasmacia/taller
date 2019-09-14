@@ -3,7 +3,7 @@
 
 Character::Character(const std::string &image_path,  int w, int h, SDL_Renderer* render):
     _render(render),
-    _x(w*.4 ), /*--> posicion x inicial*/
+    _x(w*.3 ), /*--> posicion x inicial*/
     _w(h*.3),/*--> width que debe tener*/
     _h(h*.66),/*-->heigth que debe tener*/
     _y(h*0.3), /*--> posicion y inicial*/
@@ -30,55 +30,58 @@ Character::Character(const std::string &image_path,  int w, int h, SDL_Renderer*
 bool Character::move(int option){ 
     //0 =left ; 1 = rigth , 2 = up, 3 = down, 4 = jump, 5 = punch
     // 8 = accion (vease como cosa que necesita un trigger y se completa sola) 
-    // -1 = quieto
+    // -1 = quieto ; 
     //Si realizo una accion espera a que se complete (creeria que es para evitar saltos dobles)
-    while (state != 8){
-        int default_mov = 6;           
+    while (state !=8)
+    {         
         cont++;
         if (spriteToload==cant_img_sprite-1)
             {spriteToload=0;}
         if(option == 0 ){
-                state=0;
-               sprite();
-                //Limites de movimiento harcodeados en relacion a imagen y pantalla
-                _x -=default_mov;
-                while(_x<0){_x++;} 
-            }
+            state=0;
+            //Limites de movimiento harcodeados en relacion a imagen y pantalla
+            _x -=default_mov;
+            while(_x<0){_x++;} 
+        }
         if(option == 1 ){
             state = 1;
-            sprite();
             while(_x>(_w_window/2)-(_w/2)){
-                _x--;
-                _pos->x= _x;//(width ventana/2) - (width de la imagen/2) Normalmente llega  ala mitad de la imagen y
-                _pos->y= _y;// deberia empezar a moverse el fondo-->Para Futuro
-                return true;
+                _x--;           //(width ventana/2) - (width de la imagen/2) Normalmente llega  
+                return true;     //ala mitad de la imagen y deberia empezar a moverse el fondo.
                 } 
             _x +=default_mov;          
         }    
-        if(option == 2 ){
+        if(option == 2  ){
             state = 1;
-            sprite();        
             _y -=default_mov;
             while(_y<(_h_window/5)){_y++;}//Normalmente (heigth/5)
         }   
         if(option == 3){
             state = 1;
-            sprite();
             _y +=default_mov;
             while(_y>(_h_window/3)){_y--;} //(heigth/3)
         }
         if (option == 4){
             state = 4;
-            sprite();
         }
         if (option == 5){
             state = 5;
-            sprite();
         }
         _pos->x= _x;
         _pos->y= _y;
+        sprite();
+        std::cerr << state << " - "<< state_previous<< std::endl;
         return false;
-        }
+    }
+        if (state_previous == 1 ) {
+            while(_x>(_w_window/2)-(_w/2)){
+                _x--;
+                return true;
+            } 
+            _x +=default_mov;   
+            _pos->x = _x;       
+        }    
+        
     return false;
 };
 
@@ -91,7 +94,7 @@ void Character::updateImage(SDL_Window* window){
         spriteToload++;//cambio de imagen sprite
         cont=0;//contador reseteado
     }
-    if (state == 8){
+    if (state >= 8 ){
     //si quiero realizar una accion
         cont++;
         //aumento el contador de acciones
@@ -106,6 +109,8 @@ void Character::updateImage(SDL_Window* window){
                 state_previous= -1;
                 state = -1;
                 spriteToload=0;
+              /*  _image = IMG_Load("Sprites/cody.png");
+                cant_img_sprite = 1;*/
             }
         }
     }/* Lo de la tira de imagenes es asi, yo se la cantidad que hay(cant_img_sprite)
@@ -135,6 +140,7 @@ void Character::updateImage(SDL_Window* window){
     _texture = SDL_CreateTextureFromSurface( _render, _image );
     SDL_RenderCopy( _render, _texture, rect, _pos );
     SDL_DestroyTexture(_texture);
+    
     };
 
 void Character::sprite(){
@@ -155,7 +161,7 @@ void Character::sprite(){
         if(state_previous!=1){ 
             std::cerr << "right\n";
             cant_img_sprite = 6;
-            cont = 0;
+            cont = 2;
             SDL_FreeSurface(_image);
             _image = IMG_Load("Sprites/codyRgth.png");
             //transparencia la contorno celeste
@@ -166,16 +172,16 @@ void Character::sprite(){
     }
     if (state == 4){
             std::cerr << "jump\n";
-            cant_img_sprite = 12;
+            cant_img_sprite = 13;
             cont = 0;
             spriteToload = 0;
             SDL_FreeSurface(_image);
-            _image = IMG_Load("Sprites/cody_jump.png");
+            _image = IMG_Load("Sprites/cody_jump1.png");
             //transparencia la contorno celeste
             SDL_SetColorKey(_image, SDL_TRUE,
             SDL_MapRGB(_image->format, 88,184,248));
             //Cambio el estado a accion para que se complete
-            state=8;    
+            state=8;                
     }
     if (state == 5){
             std::cerr << "punch\n";

@@ -13,10 +13,13 @@ public:
         _game(game),_cody(cody){};
     bool keyboard_event();
 
+
 private:
     Game* _game;
     class Character* _cody;
     SDL_Event _event;
+    Uint32 _time;    
+    void second_event();
 };
 
 #endif
