@@ -4,31 +4,25 @@
 
 Far_background::Far_background( const std::string &image_path, int h,int w, SDL_Renderer* render):
     _h(h*.8125),_x(0),_w_window(w),_render(render) {
-    _image =IMG_Load(image_path.c_str());
-       
+    _image =IMG_Load(image_path.c_str());  
     _pos->x=0;
     _pos->y= 0;
     _pos->h= _h;
     _pos->w=_w_window; 
-    _w= 240;//h*(_image->clip_rect.w)/(_image->clip_rect.h);
-     std::cerr << _w << std::endl;
+    _w= (_w_window*(_image->clip_rect.h))/_h;
     _rect->h = _image->clip_rect.h;
     _rect->w = _w;
     _rect->x = 0;
     _rect->y = 0;
-    //std::cerr << _h << " - " << _w<< std::endl;
      //Transparencia en el contorno celeste del suelo
         SDL_SetColorKey(_image, SDL_TRUE,
-        SDL_MapRGB(_image->format, 0, 162, 232));
-    
-    
+        SDL_MapRGB(_image->format, 0, 162, 232));  
 }
 
 void Far_background::move(){
     
-    int t = /*_x+_w*/ _image->clip_rect.w - _rect->x ;
-    std::cerr << t << std::endl; 
-    if (t > _rect->w/*_w_window*/ ){//-->Cortar al final del background
+    int t =  _image->clip_rect.w - _rect->x ;
+    if (t > _rect->w ){//-->Cortar al final del background
         _x = _x + 0.3/*1.4*/;
         }
     else
@@ -68,12 +62,6 @@ void Far_background::move(){
 }
 
 void Far_background::updateImage(SDL_Window* window){
-   // _pos->x=_x;
-    //_pos->w=_w; 
-   // std::cerr << _h << " - " << _w<< std::endl;
-   /* std::cerr <<" h_dst: "<< _pos->h << " - w_dst: " << _pos->w<<" - x: "<<_pos->x << " - y: " << _pos->y<<" - "<< std::endl;
-    std::cerr <<" h_or: "<< _rect->h << " - w_or: " << _rect->w<<" - x: "<<_rect->x << " - y: " << _rect->y<<" - "<< std::endl;
-   */
     _texture = SDL_CreateTextureFromSurface( _render, _image ); 
     SDL_RenderCopy( _render, _texture, _rect, _pos );
     SDL_DestroyTexture(_texture);
@@ -84,7 +72,6 @@ void Far_background::nextBackground(const std::string &image_path){
     _image = IMG_Load(image_path.c_str());
     SDL_SetColorKey(_image, SDL_TRUE,
     SDL_MapRGB(_image->format, 0, 162, 232));
-
 }
 
 Far_background::~Far_background(){

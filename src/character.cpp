@@ -114,7 +114,7 @@ void Character::updateImage(SDL_Window* window){
      al igual que la posicion y(=0) y lo ancho (linea 190).
     Pero la posicion x cambia. Contando en que imagen del total me encuentro (spriteToload)
     cada vez que aprieto una tecla que realize algo, calcula donde debe cortar, corta y
-    hace un resize (y lo coloca donde debe estar).
+    hace un resize(el render) y lo coloca donde debe estar.
 
     Dato: Las imagenes deben tener una separacion uniforme para realizar un corte "lindo"
     

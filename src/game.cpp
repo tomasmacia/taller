@@ -40,7 +40,6 @@ void Game::runLoop(int width, int heigth)
         current = 1000/(-fps_last+SDL_GetTicks());// No 
         fps_last =SDL_GetTicks();//                   Son
         fpsChanged(current);///                      Importantes*/
- //  SDL_Delay(50);
     }
     this->~Game(); 
 };
@@ -56,7 +55,6 @@ Game::~Game()
     (_gwindow)->~Window();
     delete(_gwindow);
     SDL_Quit();
-
 };
 
 void Game::allCreator(int width, int heigth){

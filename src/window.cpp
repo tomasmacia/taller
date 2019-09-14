@@ -42,21 +42,12 @@ bool Window::init(){
         return 0;
     }
     render = SDL_CreateRenderer( _window, -1, SDL_RENDERER_PRESENTVSYNC);
-
     return true;
 };
 
 void Window::updateWindow(){
-    //Cargo las imagenes a usar y actualizo window.    
-    //Clear screen
-    //SDL_RenderClear( render );
-
-    //Render texture to screen
-    //SDL_RenderCopy( render, gTexture, NULL, NULL );
-
-     //Update screen
+    //Actualizo window. 
     SDL_RenderPresent( render );
- //   SDL_UpdateWindowSurface(_window);
 };
 
 void Window::raiseException(){}
