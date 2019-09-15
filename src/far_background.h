@@ -1,7 +1,5 @@
 #ifndef FAR_BACKGROUND_H_
 #define FAR_BACKGROUND_H_
-
-
 #include "string"
 #include <SDL2/SDL.h>
 
@@ -11,7 +9,7 @@ public:
     Far_background(const std::string &image_path, int h,int w, SDL_Renderer* render);
     ~Far_background();
     void move();
-    void updateImage(SDL_Window* window);
+    void updateImage();
 private:
     int _w, _h,_w_window,cont = 5; //-->cont es temporal
     float _x; //--> posicionde la imagen

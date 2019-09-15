@@ -9,16 +9,18 @@ public:
     Character(const std::string &image_path, int w, int h,SDL_Renderer* render);
     ~Character();
     bool move(int option);
-    void updateImage(SDL_Window* window);
-    void sprite();
+    void updateImage();
+    
 private:
+    void sprite();
+    void load_image_default(); // luego de una accion cargo sprite default
     int  _x,_y,_w,_h,_w_window,_h_window;
     int default_mov = 10;   
     int  cont=1;// contador para cambiar de imagen;
     const int change = 3;// constante para cambiar de imagen
     int cant_img_sprite=1;//imagenes en una tira de sprite
     int spriteToload = 0;//en que imagen de la tira estoy
-    int loop = 3;//cantidad de loop que deben suceder para que una accion pase a la
+    int loop = 5;//cantidad de loop que deben suceder para que una accion pase a la
                     //siguiente imagen del sprite
     SDL_Surface* _image; //superficie a cargar la imagen
     SDL_Texture* _texture; //textura de la imagen

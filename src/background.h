@@ -9,7 +9,7 @@ public:
     Background(const std::string &image_path, int h, int w, SDL_Renderer* render);
     ~Background();
     void move();
-    void updateImage(SDL_Window* window);
+    void updateImage();
 private:
     int _w, _h,_w_window,cont=5; 
     int final;

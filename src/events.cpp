@@ -48,10 +48,15 @@ bool Events::keyboard_event()
                     _cody->move(5);
         //            std::cer << "PUNCH\n";
                     return false;
+                case SDL_SCANCODE_Z:
+                    _cody->move(6);
+        //            std::cer << "GET DOWN\n";
+                    return false;
             }                   
             default:
                 return false;
-        }    
+        }  
+  
         return false;
     }
     return false;

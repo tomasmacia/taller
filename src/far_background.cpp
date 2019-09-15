@@ -61,7 +61,7 @@ void Far_background::move(){
     _rect->x= _x;
 }
 
-void Far_background::updateImage(SDL_Window* window){
+void Far_background::updateImage(){
     _texture = SDL_CreateTextureFromSurface( _render, _image ); 
     SDL_RenderCopy( _render, _texture, _rect, _pos );
     SDL_DestroyTexture(_texture);

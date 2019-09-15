@@ -32,9 +32,9 @@ void Game::runLoop(int width, int heigth)
     while (isRunning)
     {   isRunning = !(event.keyboard_event());
         SDL_RenderClear( _gwindow->render );
-        back->updateImage(_gwindow->_window);
-        floor->updateImage(_gwindow->_window);
-        character->updateImage(_gwindow->_window);
+        back->updateImage();
+        floor->updateImage();
+        character->updateImage();
         
         _gwindow->updateWindow();
         current = 1000/(-fps_last+SDL_GetTicks());// No 

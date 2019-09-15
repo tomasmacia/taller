@@ -40,7 +40,7 @@ void Background::move(){
     {
         if (cont == 5)
         {
-            nextBackground("Sprites/FF_Stage4_floor21.png");
+            nextBackground("Sprites/FF_Stage4_floor2.png");
             cont --;
             _x = 0;
         }
@@ -72,7 +72,7 @@ void Background::move(){
     _rect->x= _x;
 }
 
-void Background::updateImage(SDL_Window* window){
+void Background::updateImage(){
     _texture = SDL_CreateTextureFromSurface( _render, _image ); 
     SDL_RenderCopy( _render, _texture, _rect, _pos );
     SDL_DestroyTexture(_texture);
