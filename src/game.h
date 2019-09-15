@@ -4,6 +4,7 @@
 #include "window.h"
 #include "background.h"
 #include "far_background.h"
+#include "object.h"
 
 class Game
 {
@@ -15,6 +16,7 @@ public:
     class Character* character;
     Far_background* back;
     Background* floor;
+    Object* barril;
     void move_all();
     void pj_in_final();
 

@@ -2,9 +2,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "events.h"
-#include "far_background.h"
 #include "character.h"
-#include "background.h"
 
 
 Game::Game(int width, int heigth)
@@ -26,7 +24,7 @@ void Game::runLoop(int width, int heigth)
 {
     Uint32 fps_last = SDL_GetTicks();
     Uint32 current;
-    /*Coloco pantalla en rojo y espero 3 sec
+    /*Coloco pantalla en rojo y espero 1 sec
     SDL_SetRenderDrawColor(_gwindow->render, 255, 0, 0, 255);
     SDL_Rect rectangle;
     rectangle.x = 0;
@@ -35,7 +33,7 @@ void Game::runLoop(int width, int heigth)
     rectangle.h = heigth;
     SDL_RenderFillRect(_gwindow->render, &rectangle);
     _gwindow->updateWindow();
-    SDL_Delay(3000);*/
+    SDL_Delay(1000);*/
 
     allCreator(width,heigth);
     Events event(this, character);
@@ -45,8 +43,11 @@ void Game::runLoop(int width, int heigth)
         SDL_RenderClear( _gwindow->render );
         back->updateImage();
         floor->updateImage();
+        //barril ->updateImage();
         character->updateImage();  
         _gwindow->updateWindow();
+
+        
         current = 1000/(-fps_last+SDL_GetTicks());// No 
         fps_last =SDL_GetTicks();//                   Son
         fpsChanged(current);///                      Importantes*/
@@ -73,12 +74,15 @@ void Game::allCreator(int width, int heigth){
     back = new Far_background("Sprites/FF_Stage4_back1.png",heigth,width,_gwindow->render);
     floor = new Background("Sprites/FF_Stage4_floor1.png",heigth,width,_gwindow->render, this);   
     character = new Character("Sprites/cody.png",width,heigth,_gwindow->render);
+    //barril= new Object("Sprites/barril.png",width,heigth,_gwindow->render);
 };
 
 void Game::move_all(){
 //Actualiza posicion de todo menos de cody, en orden.
    back->move();
    floor->move();
+ //  barril->move();
+
 }
 // Copiado del de SDLTest, para ver fps(creo)
 void Game::fpsChanged(int fps){

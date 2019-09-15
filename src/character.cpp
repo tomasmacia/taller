@@ -70,7 +70,8 @@ bool Character::move(int option){
         return false;
     }
 
-    /* Este if es para poder moverse si se realizo un salto */
+    /* Este if es para poder moverse si se realizo un salto. Por ahora
+       solo hacia la derecha. */
     if (state_previous == 1 ) {
         while(_x>_v_limit ){
             _x--;
