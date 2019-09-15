@@ -53,12 +53,24 @@ bool Character::move(int option){
             _x +=default_mov;          
         }    
         if(option == 2  ){
+            /*Si camino a la derecha y subo, subo mirando a la derecha. Idem izquierda*/
+            option = state_previous * state_previous;
+         /*   if (state_previous ==-1 or 1)  ----> Como son 0 , -1 o 1 y el negativo me complica
+                {option = 1;}               ----->  el cuadrado de si mismo es el movimiento
+            if (state_previous == 0)        -----> que el debe seguir.
+                {option = 0;}*/
             _y -=default_mov;
-            while(_y<(_h_window/5)){_y++;}//Normalmente (heigth/5)
+            while(_y<(_h_window/5)){_y++;}//Normalmente (heigth/5) --> limite superior
         }   
         if(option == 3){
+            /*Si camino a la izquierda y subo, subo mirando a la derecha. Idem izquierda*/
+            option = state_previous * state_previous;        
+    /*        if (state_previous ==-1 or 1)
+                {option = 1;}
+            if (state_previous == 0)
+                {option = 0;}*/
             _y +=default_mov;
-            while(_y>(_h_window/3)){_y--;} //(heigth/3)
+            while(_y>(_h_window/3)){_y--;} //(heigth/3) --> Limite inferior
         }
         //actualizo estados
         state_previous=state;
@@ -140,6 +152,9 @@ void Character::updateImage(){
 }
 
 void Character::sprite(){ 
+
+
+
     if (state == 0){ ///si quiero caminar
         if(state_previous != 0){ //si no estaba caminando, cargo los sprites y aviso que ya estoy caminado
             std::cerr << "left\n";//si ya estaba caminando no los cargo
@@ -151,6 +166,7 @@ void Character::sprite(){
             SDL_SetColorKey(_image, SDL_TRUE,
             SDL_MapRGB(_image->format, 88,184,248));
             state_previous=0;
+            size();
         }
     }
     if (state == 1){ 
@@ -164,6 +180,7 @@ void Character::sprite(){
             SDL_SetColorKey(_image, SDL_TRUE,
             SDL_MapRGB(_image->format, 88,184,248));
             state_previous=1;
+            size();
         }
     }
     if (state == 4){
@@ -177,7 +194,8 @@ void Character::sprite(){
             SDL_SetColorKey(_image, SDL_TRUE,
             SDL_MapRGB(_image->format, 88,184,248));
             //Cambio el estado a accion para que se complete
-            state=8;                
+            state=8;
+            size();                
     }
     if (state == 5){
             std::cerr << "punch\n";
@@ -192,7 +210,8 @@ void Character::sprite(){
             SDL_SetColorKey(_image, SDL_TRUE,
             SDL_MapRGB(_image->format, 88,184,248));
             //Cambio el estado a accion para que se complete
-            state=8;    
+            state=8;
+            size();    
     }
     if (state == 6){
             std::cerr << "get down\n";
@@ -207,27 +226,9 @@ void Character::sprite(){
             SDL_SetColorKey(_image, SDL_TRUE,
             SDL_MapRGB(_image->format, 88,184,248));
             //Cambio el estado a accion para que se complete
-            state=8;    
+            state=8;
+            size();    
     }
-
-    rect->w=_image->clip_rect.w/cant_img_sprite;
-    rect->h=_image->clip_rect.h;
-    /* La tira de imagenes punch tiene un ancho promedio de 74, las demas
-    (tanto caminar, saltar) tienen un ancho de 56. Por lo que tengo que
-    recalcular el ancho o sino al dar golpes el personaje se "aplana" */
-    _pos->w =_h*(rect->w)/_image->clip_rect.h;   
-
-
-    /* If para seguir logica de movimiento, si estaba caminado a la derecha y subo (bajo)
-   subire (bajare) mirando a la derecha. Idem izquierda. */
-    if (state == 2 & state_previous == 1){
-        state = 1;
-        sprite();
-    }
-    if (state == 3 & state_previous == 0){
-        state = 0;
-        sprite();
-    }  
 }
 
 Character::~Character(){
@@ -254,4 +255,14 @@ void Character::change_limits(){
     /* El limite de movimiento de cody ya no es la mitad de pantalla
     sino que es el final de la pantalla */
     _v_limit = (_w_window)- _w;
+}
+
+void Character::size(){
+
+    rect->w=_image->clip_rect.w/cant_img_sprite;
+    rect->h=_image->clip_rect.h;
+    /* La tira de imagenes punch tiene un ancho promedio de 74, las demas
+    (tanto caminar, saltar) tienen un ancho de 56. Por lo que tengo que
+    recalcular el ancho o sino al dar golpes el personaje se "aplana" */
+    _pos->w =_h*(rect->w)/_image->clip_rect.h;   
 }

@@ -13,6 +13,8 @@ public:
     void change_limits();
     
 private:
+    
+    void size();
     void sprite();
     void load_image_default(); // luego de una accion cargo sprite default
     int  _x,_y,_w,_h,_w_window,_h_window;
