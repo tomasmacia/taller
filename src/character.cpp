@@ -54,21 +54,21 @@ bool Character::move(int option){
         }    
         if(option == 2  ){
             /*Si camino a la derecha y subo, subo mirando a la derecha. Idem izquierda*/
-            option = state_previous * state_previous;
-         /*   if (state_previous ==-1 or 1)  ----> Como son 0 , -1 o 1 y el negativo me complica
-                {option = 1;}               ----->  el cuadrado de si mismo es el movimiento
-            if (state_previous == 0)        -----> que el debe seguir.
-                {option = 0;}*/
+         //   option = state_previous * state_previous;
+            if (state_previous ==-1 or 1) 
+                {option = 1;}             
+            if (state_previous == 0)      
+                {option = 0;}
             _y -=default_mov;
             while(_y<(_h_window/5)){_y++;}//Normalmente (heigth/5) --> limite superior
         }   
         if(option == 3){
             /*Si camino a la izquierda y subo, subo mirando a la derecha. Idem izquierda*/
-            option = state_previous * state_previous;        
-    /*        if (state_previous ==-1 or 1)
+          //  option = state_previous * state_previous;        
+            if (state_previous ==-1 or 1)
                 {option = 1;}
             if (state_previous == 0)
-                {option = 0;}*/
+                {option = 0;}
             _y +=default_mov;
             while(_y>(_h_window/3)){_y--;} //(heigth/3) --> Limite inferior
         }
@@ -115,8 +115,8 @@ void Character::updateImage(){
             cont = 0;
             spriteToload++;
             if (spriteToload ==cant_img_sprite-1){
-                //si llegue al final de la secuencia, mi estado y estado previo es "quieto"
-                // al cargar la imagen defaullt lo hago.
+                //si llegue al final de la secuencia, mi estado es quieto
+                // y estado previo es "accion," al cargar la imagen defaullt lo hago.
                 load_image_default();
 
             }
@@ -152,8 +152,6 @@ void Character::updateImage(){
 }
 
 void Character::sprite(){ 
-
-
 
     if (state == 0){ ///si quiero caminar
         if(state_previous != 0){ //si no estaba caminando, cargo los sprites y aviso que ya estoy caminado
@@ -203,9 +201,7 @@ void Character::sprite(){
             cont = 0;
             spriteToload=0;
             SDL_FreeSurface(_image);
-            if(!(_image = IMG_Load("Sprites/cody_punch.png"))){
-                std::cerr <<"ok"<<std::endl;
-            }
+            _image = IMG_Load("Sprites/cody_punch.png");
             //transparencia la contorno celeste
             SDL_SetColorKey(_image, SDL_TRUE,
             SDL_MapRGB(_image->format, 88,184,248));
@@ -219,9 +215,7 @@ void Character::sprite(){
             cont = 0;
             spriteToload=0;
             SDL_FreeSurface(_image);
-            if(!(_image = IMG_Load("Sprites/cody agacharse.png"))){
-                std::cerr <<"ok"<<std::endl;
-            }
+            _image = IMG_Load("Sprites/cody agacharse.png");
             //transparencia la contorno celeste
             SDL_SetColorKey(_image, SDL_TRUE,
             SDL_MapRGB(_image->format, 88,184,248));
@@ -229,6 +223,7 @@ void Character::sprite(){
             state=8;
             size();    
     }
+    std::cerr << state << " - " << state_previous<< std::endl;
 }
 
 Character::~Character(){
