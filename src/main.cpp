@@ -14,8 +14,9 @@
   
 int main(int argc, char** argv) { 
 
-    Window window("titulo",800,600);
-    Square square(100, 400, 300, 200, 0, 200, 255);
+    std::cout <<"aca esta la consola";
+    Window* window = new Window("titulo",800,600);
+    Square* square = new Square(100, 400, 300, 200, 0, 200, 255);
 
     // while (!window.isClosed()){
     //     pollEvents(window, square);

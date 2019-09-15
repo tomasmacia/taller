@@ -1,28 +1,41 @@
 #include "Game.h"
 #include <iterator>
 #include <SDL2/SDL.h> 
+#include "window.h"
+#include <iostream>
+#include <unistd.h>
 
 bool end = false;
 
 void Game::setup(){};
 
-void Game::addDisplayable(Displayable newdisp){
-    this->Game::displayables.push_front(newdisp);
+Game::Game(){
+    std::vector<Displayable*> d;
+    std::vector<Updateable*> u;
+    this->displayables =  d;
+    this->updateables =  u;
 };
 
-void Game::addUpdateable(Updateable newupd){
-    this->Game::updateables.push_front(newupd);
+void Game::addDisplayable(Displayable* newdisp){
+    this->displayables.push_back(newdisp);
+};
+
+void Game::addUpdateable(Updateable* newupd){
+    this->updateables.push_back(newupd);
 };
 
 void Game::start(){
+
     while(!this->endCondition()){
+        
         Game::readInput();
-        for (auto & i : Game::updateables) {
-        i.update();
+        for (int i = 0; i < this->updateables.size(); i++){
+        this->updateables.at(i)->update();
         };
-        for (auto & i : Game::displayables) {
-        i.display();
+        for (int i = 0; i < this->displayables.size(); i++){
+        this->displayables.at(i)->display();
         };
+        usleep(16);
     }
 };
 

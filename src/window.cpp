@@ -1,4 +1,5 @@
 #include "window.h"
+#include<iostream>
 
 SDL_Renderer *Window::_renderer = nullptr;
 

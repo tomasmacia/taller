@@ -1,4 +1,5 @@
 #include "square.h"
+#include <iostream>
 
 //CONSTRUCTOR & DESTRUCTOR
 Square::Square(int side, int x, int y, int r, int g, int b, int a):
@@ -37,10 +38,10 @@ void Square::display(){
 // }
 
 void Square::update(){
-    if (Controller::leftIsPressed()){ _x -= 10;};
-    if (Controller::upIsPressed()){ _y -= 10;};
-    if (Controller::downIsPressed()){ _y += 10;};
-    if (Controller::rightIsPressed()){ _x += 10;};
+    if (Controller::leftIsPressed()){ _x -= 1;};
+    if (Controller::upIsPressed()){ _y -= 1;};
+    if (Controller::downIsPressed()){ _y += 1;};
+    if (Controller::rightIsPressed()){ _x += 1;};
 }
 
 //PRIVATE
