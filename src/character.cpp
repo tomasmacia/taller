@@ -3,15 +3,17 @@
 
 Character::Character(const std::string &image_path,  int w, int h, SDL_Renderer* render):
     _render(render),
-    _x(w*.3 ), /*--> posicion x inicial*/
-    _w(h*.3),/*--> width que debe tener*/
+    _x(w*.3 ), /*--> posicion x inicial*/ /*----> .3 y .66 son ctes que se  q sirven */
+    _w(h*.3),/*--> width que debe tener*/ /*----> por lo que podria agregarse al .h */
     _h(h*.66),/*-->heigth que debe tener*/
-    _y(h*0.3), /*--> posicion y inicial*/
+    _y(h*.3), /*--> posicion y inicial*/
     _h_window( h), /*-->width de window*/
     _w_window( w)/*-->heigth de window*/{
+    _v_limit = (_w_window/2)-(_w/2);  //Normalmente llega  ala mitad de la pantalla
+                                     //y deberia empezar a moverse el fondo.
     _pos->x = _x;//
     _pos->y = _y;//---->Parametros y posicion donde va a estar 
-    _pos->h = _h;//---->la imagen.
+    _pos->h = _h;//---->la imagen de cody.
     _pos->w = _w;//-----> 
 
     _image = IMG_Load(image_path.c_str());
@@ -32,20 +34,21 @@ bool Character::move(int option){
     // 8 = accion (vease como cosa que necesita un trigger y se completa sola) 
     // -1 = quieto ; 
     //Si realizo una accion espera a que se complete (creeria que es para evitar saltos dobles)
+    
+    //Limites de movimiento harcodeados en relacion a imagen y pantalla
     while (state !=8)
     {         
         cont++;
         if (spriteToload==cant_img_sprite-1)
             {spriteToload=0;} 
         if(option == 0 ){
-            //Limites de movimiento harcodeados en relacion a imagen y pantalla
             _x -=default_mov;
             while(_x<0){_x++;} 
         }
         if(option == 1 ){
-            while(_x>(_w_window/2)-(_w/2)){
-                _x--;           //(width ventana/2) - (width de la imagen/2) Normalmente llega  
-                return true;     //ala mitad de la imagen y deberia empezar a moverse el fondo.
+             while(_x>_v_limit ){
+                _x--;           
+                return true;     
                 } 
             _x +=default_mov;          
         }    
@@ -66,8 +69,10 @@ bool Character::move(int option){
         sprite();
         return false;
     }
+
+    /* Este if es para poder moverse si se realizo un salto */
     if (state_previous == 1 ) {
-        while(_x>(_w_window/2)-(_w/2)){
+        while(_x>_v_limit ){
             _x--;
             return true;
         } 
@@ -242,4 +247,10 @@ void Character::load_image_default(){
     _pos->w =_h*56/125;
     cont = 3;
     
+}
+
+void Character::change_limits(){
+    /* El limite de movimiento de cody ya no es la mitad de pantalla
+    sino que es el final de la pantalla */
+    _v_limit = (_w_window)- _w;
 }

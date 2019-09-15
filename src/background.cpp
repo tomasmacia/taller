@@ -1,9 +1,11 @@
 #include "background.h"
 #include "iostream"
 #include <SDL2/SDL_image.h>
+#include"game.h"
 
-Background::Background( const std::string &image_path, int h,int w, SDL_Renderer* render):
-    _h(h),_x(0), _w_window(w),_render(render) {
+
+Background::Background( const std::string &image_path, int h,int w, SDL_Renderer* render, Game* owner):
+    _h(h),_x(0), _w_window(w),_render(render),_owner(owner) {
     _image =IMG_Load(image_path.c_str());
     _w=(w*(_image->clip_rect.h))/h;
     _pos->x=0;           // _pos me indica en que parte de la ventana quiero colocar la imagen   
@@ -67,7 +69,12 @@ void Background::move(){
             nextBackground("Sprites/FF_Stage4_floor6.png");
             cont --;
             _x = 0;
-        } 
+        }
+        /* Aviso que se llego al final */
+        else if (cont == 0)
+        {
+            _owner->pj_in_final();
+        }
     }
     _rect->x= _x;
 }

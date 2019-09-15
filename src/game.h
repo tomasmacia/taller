@@ -16,6 +16,7 @@ public:
     Far_background* back;
     Background* floor;
     void move_all();
+    void pj_in_final();
 
 private:
     class Window* _gwindow;

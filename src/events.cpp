@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #include "character.h"
 /* Funcionales son los movimientos (no laterales)
-con las flechas, saltar con LCTRL y golpear con X */
+con las flechas, saltar con LCTRL, golpear con X y agacharse con Z*/
 bool Events::keyboard_event()
 {   
     if (SDL_PollEvent(&_event)) 

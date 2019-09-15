@@ -26,16 +26,26 @@ void Game::runLoop(int width, int heigth)
 {
     Uint32 fps_last = SDL_GetTicks();
     Uint32 current;
-    //loop hasta que se aprete ESC o click en (X)
+    /*Coloco pantalla en rojo y espero 3 sec
+    SDL_SetRenderDrawColor(_gwindow->render, 255, 0, 0, 255);
+    SDL_Rect rectangle;
+    rectangle.x = 0;
+    rectangle.y = 0;
+    rectangle.w = width;
+    rectangle.h = heigth;
+    SDL_RenderFillRect(_gwindow->render, &rectangle);
+    _gwindow->updateWindow();
+    SDL_Delay(3000);*/
+
     allCreator(width,heigth);
     Events event(this, character);
+    //loop hasta que se aprete ESC o click en (X)
     while (isRunning)
     {   isRunning = !(event.keyboard_event());
         SDL_RenderClear( _gwindow->render );
         back->updateImage();
         floor->updateImage();
-        character->updateImage();
-        
+        character->updateImage();  
         _gwindow->updateWindow();
         current = 1000/(-fps_last+SDL_GetTicks());// No 
         fps_last =SDL_GetTicks();//                   Son
@@ -61,7 +71,7 @@ void Game::allCreator(int width, int heigth){
 
     //cosas del lvl 1
     back = new Far_background("Sprites/FF_Stage4_back1.png",heigth,width,_gwindow->render);
-    floor = new Background("Sprites/FF_Stage4_floor1.png",heigth,width,_gwindow->render);   
+    floor = new Background("Sprites/FF_Stage4_floor1.png",heigth,width,_gwindow->render, this);   
     character = new Character("Sprites/cody.png",width,heigth,_gwindow->render);
 };
 
@@ -76,4 +86,10 @@ void Game::fpsChanged(int fps){
     char szFps[128];
     sprintf(szFps,"%s: %d FPS","Final Figth",fps);
     SDL_SetWindowTitle(_gwindow->_window, szFps);
+}
+
+void Game::pj_in_final(){
+    /* Si llegue al final de pantalla, el jugador es libre de moverse
+    por toda la pantalla. Le modifico el limite vertical. */
+    character->change_limits();
 }
