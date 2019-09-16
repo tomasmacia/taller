@@ -162,7 +162,7 @@ void Character::sprite(){
     if (state == 0){ ///si quiero caminar
         if(state_previous != 0){ //si no estaba caminando, cargo los sprites y aviso que ya estoy caminado
             std::cerr << "left\n";//si ya estaba caminando no los cargo
-            cant_img_sprite = 6;
+            cant_img_sprite = 9;
             cont = 1;
             SDL_FreeSurface(_image);
             _image = IMG_Load("Sprites/codyLeft.png");
@@ -176,7 +176,7 @@ void Character::sprite(){
     if (state == 1){ 
         if(state_previous!=1){ 
             std::cerr << "right\n";
-            cant_img_sprite = 6;
+            cant_img_sprite = 9;
             cont = 1;
             SDL_FreeSurface(_image);
             _image = IMG_Load("Sprites/codyRgth.png");

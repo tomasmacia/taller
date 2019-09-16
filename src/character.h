@@ -21,7 +21,7 @@ private:
     int _v_limit; //limite vertical de movimiento
     int default_mov = 10;   
     int  cont=1;// contador para cambiar de imagen;
-    const int change = 2;// constante para cambiar de imagen
+    const int change = 3;// constante para cambiar de imagen
     int cant_img_sprite = 1;//imagenes en una tira de sprite (default 1)
     int spriteToload = 0;//en que imagen de la tira estoy
     int loop = 5;//cantidad de loop que deben suceder para que una accion pase a la
