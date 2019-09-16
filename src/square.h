@@ -11,14 +11,14 @@ private:
     
     SDL_Rect _rectangle;
     SDL_Texture* _texture = nullptr;
+    SDL_Renderer* _renderer = nullptr;
 
 public:
-    Square(int side, int x, int y, int r, int g, int b, int a);
-    Square(int side, int x, int y, std::string &image_path);
+    Square(SDL_Renderer* renderer, int side, int x, int y, int r, int g, int b, int a);
+    Square(SDL_Renderer* renderer, int side, int x, int y, std::string &image_path);
     ~Square();
 
     void display();
-    void pollEvents(SDL_Event &event);
 
 private:
     void raiseException(std::string mesage);
