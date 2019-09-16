@@ -21,7 +21,12 @@ find_package(SDL2_image REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 
 
-set(SOURCE_FILES src/main.cpp)
+set(SOURCE_FILES src/main.cpp
+src/window.cpp
+src/window.h
+src/square.cpp
+src/square.h
+)
 
 add_executable(game ${SOURCE_FILES})
 
