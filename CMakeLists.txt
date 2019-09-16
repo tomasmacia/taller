@@ -26,6 +26,7 @@ src/window.cpp
 src/window.h
 src/square.cpp
 src/square.h
+
 )
 
 add_executable(game ${SOURCE_FILES})
