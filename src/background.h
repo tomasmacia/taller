@@ -16,7 +16,7 @@ private:
     int _w, _h,_w_window,cont=5; 
     float _x;
   class Game* _owner = nullptr;
-    SDL_Surface* _image; 
+    SDL_Surface* _image = NULL; 
     SDL_Texture* _texture;
     SDL_Rect* _pos = new SDL_Rect; 
     SDL_Rect* _rect = new SDL_Rect;

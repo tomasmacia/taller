@@ -36,6 +36,7 @@ bool Character::move(int option){
     //Si realizo una accion espera a que se complete (creeria que es para evitar saltos dobles)
     
     //Limites de movimiento harcodeados en relacion a imagen y pantalla
+    std::cerr << state << " - " << state_previous<<" - "<<option<< std::endl;
     while (state !=8)
     {         
         cont++;
@@ -43,7 +44,7 @@ bool Character::move(int option){
             {spriteToload=0;} 
         if(option == 0 ){
             _x -=default_mov;
-            while(_x<0){_x++;} 
+            while(_x<0){_x++;} //----> Limite izquierdo (X = 0)
         }
         if(option == 1 ){
              while(_x>_v_limit ){
@@ -53,8 +54,7 @@ bool Character::move(int option){
             _x +=default_mov;          
         }    
         if(option == 2  ){
-            /*Si camino a la derecha y subo, subo mirando a la derecha. Idem izquierda*/
-         //   option = state_previous * state_previous;
+            /*Si camino a la derecha y subo, subo mirando a la derecha. Idem izquierda */
             if (state_previous ==-1 or 1) 
                 {option = 1;}             
             if (state_previous == 0)      
@@ -63,8 +63,7 @@ bool Character::move(int option){
             while(_y<(_h_window/5)){_y++;}//Normalmente (heigth/5) --> limite superior
         }   
         if(option == 3){
-            /*Si camino a la izquierda y subo, subo mirando a la derecha. Idem izquierda*/
-          //  option = state_previous * state_previous;        
+            /*Si camino a la izquierda y subo, subo mirando a la derecha. Idem izquierda*/      
             if (state_previous ==-1 or 1)
                 {option = 1;}
             if (state_previous == 0)
@@ -77,28 +76,35 @@ bool Character::move(int option){
         state = option;
         _pos->x= _x;
         _pos->y= _y;
-        //cambio sprites
-        sprite();
+        //¿verifico sprites cuando actualizo imagen(todas la veces en el loop)
+        // o cuando se mueve cody ?
+       // sprite();
         return false;
     }
 
-    /* Este if es para poder moverse si se realizo un salto. Por ahora
-       solo hacia la derecha. */
-    if (state_previous == 1 ) {
+    /* Estos if son para poder moverse si se realizo un salto. Por ahora
+       el salto es solo mirando a la derecha (se mueve en ambos sentidos). */
+    if (state_previous == 1  ) {
         while(_x>_v_limit ){
             _x--;
             return true;
         } 
-        _x +=default_mov;   
-        _pos->x = _x;       
+        _x +=default_mov;         
     }
+    if (state_previous == 0  ) {
+            _x -=default_mov;
+            while(_x<0){_x++;}         
+    }  
+    _pos->x= _x;
+    //_pos->y= _y;
     return false;
 };
 
 void Character::updateImage(){
-    if (cont >= change & state == state_previous)
+    sprite();
+    if (cont >= change and state == state_previous)
     //si el contador de cambio de sprites es mayor 
-    //al cambio seteado o si estoy apretando el
+    //al cambio seteado y si estoy apretando el
     //mismo boton
     {
         spriteToload++;//cambio de imagen sprite
@@ -223,7 +229,7 @@ void Character::sprite(){
             state=8;
             size();    
     }
-    std::cerr << state << " - " << state_previous<< std::endl;
+  //  std::cerr << state << " - " << state_previous<< std::endl;
 }
 
 Character::~Character(){

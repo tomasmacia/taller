@@ -4,6 +4,7 @@
 #include"game.h"
 
 
+
 Background::Background( const std::string &image_path, int h,int w, SDL_Renderer* render, Game* owner):
     _h(h),_x(0), _w_window(w),_render(render),_owner(owner) {
     _image =IMG_Load(image_path.c_str());
