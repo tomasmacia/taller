@@ -20,12 +20,10 @@ public:
     class Character* character;
     Far_background* back;
     Background* floor;
-    Object* barril;
     void move_all();
     void pj_in_final();
 
 private:
-    Object *b1,*b2,*b3,*b4,*b5;
     class Window* _gwindow;
     void initialize(int width, int heigth);
     void runLoop(int width, int heigth);

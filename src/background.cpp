@@ -2,8 +2,6 @@
 #include "iostream"
 #include <SDL2/SDL_image.h>
 #include"game.h"
-#include <SDL2/SDL2_rotozoom.h>
-
 
 
 Background::Background( vector <string> g, int h,int w, SDL_Renderer* render, Game* owner):
@@ -37,6 +35,9 @@ void Background::move(){
     // cargarlos en el momento justo.
     // Si se opta por cargar la imagen de fondo entera, en el game 
     // se pone el path de esa imagen y se quita estos elses
+
+    //IMAGEN A PEDAZOS PARECE SER MAS EFICIENTE
+
     // Con far_backgrund es distinto, las imagenes de fondo eran 4
     // (1 de noche y 3 de amanecer). Yo lo agrande a 6 para que 
     // tenga misma cantidad de opciones que el background.

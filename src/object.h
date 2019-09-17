@@ -11,7 +11,7 @@ public:
     ~Object();
     void move();
     void updateImage();
-    bool moverse = true;
+    bool moverse = true; //bool para aber si debe moverse el objeto
 private:
     
     int _y;
