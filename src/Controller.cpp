@@ -7,7 +7,10 @@ bool Controller::left = false;
 bool Controller::right = false;
 
 void Controller::reset(){
-    Controller::up,Controller::down,Controller::left,Controller::right = false;
+    Controller::up = false;
+    Controller::down = false;
+    Controller::left = false;
+    Controller::right = false;
 };
 
 void Controller::pressUp(){

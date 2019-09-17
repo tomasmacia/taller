@@ -1,4 +1,3 @@
-#include <iostream> 
 #include "window.h"
 #include "square.h"
 #include "Game.h"
@@ -14,7 +13,6 @@
   
 int main(int argc, char** argv) { 
 
-    std::cout <<"aca esta la consola";
     Window* window = new Window("titulo",800,600);
     Square* square = new Square(100, 400, 300, 200, 0, 200, 255);
 

@@ -41,13 +41,13 @@ void Game::start(){
 
 void Game::readInput(){
     Controller::reset();
-    SDL_Event e;
-    while(SDL_PollEvent (&e ) != 0){
-        if (e.type == SDL_QUIT){
+    SDL_Event* e = new SDL_Event;
+    while(SDL_PollEvent (e) != 0){
+        if (e->type == SDL_QUIT){
             this->end = true;
         };
-        if(e.type == SDL_KEYDOWN){
-            switch(e.key.keysym.sym){
+        if(e->type == SDL_KEYDOWN){
+            switch(e->key.keysym.sym){
                 case SDLK_UP:
                     Controller::pressUp();
                     break;
