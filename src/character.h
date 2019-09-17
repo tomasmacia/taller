@@ -3,6 +3,8 @@
 #include "iostream"
 #include <SDL2/SDL.h>
 #include "string.h"
+#include <vector>
+using namespace std;
 
 class Character {
 public:
@@ -13,7 +15,10 @@ public:
     void change_limits();
     
 private:
-    
+    vector<string> path_img;
+    void _charge_vector();
+    void actions_sprites(int n, int img_);
+    void moves_sprites(int n, int img_);
     void size();
     void sprite();
     void load_image_default(); // luego de una accion cargo sprite default

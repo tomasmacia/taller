@@ -27,10 +27,11 @@ Character::Character(const std::string &image_path,  int w, int h, SDL_Renderer*
     //Ancho y alto del personaje al iniciar es la misma (solo es 1 imagen por default)
     rect->w=_image->clip_rect.w;
     rect->h=_image->clip_rect.h;
+    _charge_vector();
 };
 
 bool Character::move(int option){ 
-    //0 =left ; 1 = rigth , 2 = up, 3 = down, 4 = jump, 5 = punch
+    //0 =left ; 1 = rigth , 5 = up, 6 = down, 2 = jump, 3 = punch, 4 = agacharse
     // 8 = accion (vease como cosa que necesita un trigger y se completa sola) 
     // -1 = quieto ; 
     //Si realizo una accion espera a que se complete (creeria que es para evitar saltos dobles)
@@ -53,7 +54,7 @@ bool Character::move(int option){
                 } 
             _x +=default_mov;          
         }    
-        if(option == 2  ){
+        if(option == 5  ){
             /*Si camino a la derecha y subo, subo mirando a la derecha. Idem izquierda */
             if (state_previous ==-1 or 1) 
                 {option = 1;}             
@@ -62,8 +63,8 @@ bool Character::move(int option){
             _y -=default_mov;
             while(_y<(_h_window/5)){_y++;}//Normalmente (heigth/5) --> limite superior
         }   
-        if(option == 3){
-            /*Si camino a la izquierda y subo, subo mirando a la derecha. Idem izquierda*/      
+        if(option == 6){
+            /*Si camino a la izquierda y bajo, bajo mirando a la derecha. Idem izquierda*/      
             if (state_previous ==-1 or 1)
                 {option = 1;}
             if (state_previous == 0)
@@ -157,78 +158,17 @@ void Character::updateImage(){
 }
 
 void Character::sprite(){ 
-
-    if (state == 0){ ///si quiero caminar
-        if(state_previous != 0){ //si no estaba caminando, cargo los sprites y aviso que ya estoy caminado
-            std::cerr << "left\n";//si ya estaba caminando no los cargo
-            cant_img_sprite = 9;
-            cont = 1;
-            SDL_FreeSurface(_image);
-            _image = IMG_Load("Sprites/codyLeft.png");
-            //transparencia la contorno celeste
-            SDL_SetColorKey(_image, SDL_TRUE,
-            SDL_MapRGB(_image->format, 88,184,248));
-            state_previous=0;
-            size();
-        }
-    }
-    if (state == 1){ 
-        if(state_previous!=1){ 
-            std::cerr << "right\n";
-            cant_img_sprite = 9;
-            cont = 1;
-            SDL_FreeSurface(_image);
-            _image = IMG_Load("Sprites/codyRgth.png");
-            //transparencia la contorno celeste
-            SDL_SetColorKey(_image, SDL_TRUE,
-            SDL_MapRGB(_image->format, 88,184,248));
-            state_previous=1;
-            size();
-        }
-    }
-    if (state == 4){
-            std::cerr << "jump\n";
-            cant_img_sprite = 13;
-            cont = 0;
-            spriteToload = 0;
-            SDL_FreeSurface(_image);
-            _image = IMG_Load("Sprites/cody_jump.png");
-            //transparencia la contorno celeste
-            SDL_SetColorKey(_image, SDL_TRUE,
-            SDL_MapRGB(_image->format, 88,184,248));
-            //Cambio el estado a accion para que se complete
-            state=8;
-            size();                
-    }
-    if (state == 5){
-            std::cerr << "punch\n";
-            cant_img_sprite = 3;
-            cont = 0;
-            spriteToload=0;
-            SDL_FreeSurface(_image);
-            _image = IMG_Load("Sprites/cody_punch.png");
-            //transparencia la contorno celeste
-            SDL_SetColorKey(_image, SDL_TRUE,
-            SDL_MapRGB(_image->format, 88,184,248));
-            //Cambio el estado a accion para que se complete
-            state=8;
-            size();    
-    }
-    if (state == 6){
-            std::cerr << "get down\n";
-            cant_img_sprite = 4;
-            cont = 0;
-            spriteToload=0;
-            SDL_FreeSurface(_image);
-            _image = IMG_Load("Sprites/cody agacharse.png");
-            //transparencia la contorno celeste
-            SDL_SetColorKey(_image, SDL_TRUE,
-            SDL_MapRGB(_image->format, 88,184,248));
-            //Cambio el estado a accion para que se complete
-            state=8;
-            size();    
-    }
-  //  std::cerr << state << " - " << state_previous<< std::endl;
+    //Left
+    moves_sprites(0,9);
+    //Rigth
+    moves_sprites(1,9);
+    //Jump
+    actions_sprites(2,13);
+    //Punch
+    actions_sprites(3,3);
+    //Agacharse
+    actions_sprites(4,4);
+ 
 }
 
 Character::~Character(){
@@ -258,11 +198,57 @@ void Character::change_limits(){
 }
 
 void Character::size(){
-
+    /* Recalculo width, heigth de rect(donde lo saco) y width de pos(donde debe ir) 
+    al cargar nueva tira de sprites */
     rect->w=_image->clip_rect.w/cant_img_sprite;
     rect->h=_image->clip_rect.h;
     /* La tira de imagenes punch tiene un ancho promedio de 74, las demas
     (tanto caminar, saltar) tienen un ancho de 56. Por lo que tengo que
     recalcular el ancho o sino al dar golpes el personaje se "aplana" */
     _pos->w =_h*(rect->w)/_image->clip_rect.h;   
+}
+
+void Character::actions_sprites(int n,int img_){
+    /* Cargo sprites de acciones */
+    if (state == n){
+            cant_img_sprite = img_;
+            cont = 0;
+            spriteToload = 0;
+            SDL_FreeSurface(_image);
+            _image = IMG_Load(path_img[n].c_str());
+            //transparencia la contorno celeste
+            SDL_SetColorKey(_image, SDL_TRUE,
+            SDL_MapRGB(_image->format, 88,184,248));
+            //Cambio el estado a accion para que se complete
+            state=8;
+            size();      
+    }
+}
+void Character::moves_sprites(int n, int img_){
+    /* cargo sprites de movimientos */
+    if (state == n){ 
+        if(state_previous!=n){ 
+            cant_img_sprite = img_;
+            cont = 1;
+            SDL_FreeSurface(_image);
+            _image = IMG_Load(path_img[n].c_str());
+            //transparencia la contorno celeste
+            SDL_SetColorKey(_image, SDL_TRUE,
+            SDL_MapRGB(_image->format, 88,184,248));
+            state_previous=n;
+            size();
+        }
+    }
+}
+
+void Character::_charge_vector(){
+    /* Cargo vector de sprites del personaje*/
+    /* Las posiciones de las imagenes son las mismas que el codigo de 
+    sus acciones/movimientos. */
+    path_img.push_back("Sprites/codyLeft.png");
+    path_img.push_back("Sprites/codyRgth.png");
+    path_img.push_back("Sprites/cody_jump.png");
+    path_img.push_back("Sprites/cody_punch.png");
+    path_img.push_back("Sprites/cody_agacharse.png");
+
 }

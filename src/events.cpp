@@ -33,23 +33,23 @@ bool Events::keyboard_event()
            //       solo me interesa la derecha
                     return false;
                 case SDL_SCANCODE_UP:
-                    _cody->move(2);
+                    _cody->move(5);
         //            std::cerr << "UP.\n";
                     return false;
                 case SDL_SCANCODE_DOWN:
-                    _cody->move(3);
+                    _cody->move(6);
         //            std::cerr << "DOWN.\n";
                     return false;
                 case SDL_SCANCODE_LCTRL:
-                    _cody->move(4);
+                    _cody->move(2);
        //             std::cerr <<"JUMP\n";
                     return false;
                 case SDL_SCANCODE_X:
-                    _cody->move(5);
+                    _cody->move(3);
         //            std::cer << "PUNCH\n";
                     return false;
                 case SDL_SCANCODE_Z:
-                    _cody->move(6);
+                    _cody->move(4);
         //            std::cer << "GET DOWN\n";
                     return false;
             }                   

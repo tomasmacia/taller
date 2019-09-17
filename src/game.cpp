@@ -6,8 +6,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-
-
 Game::Game(int width, int heigth)
 {
     initialize(width, heigth);
@@ -68,9 +66,12 @@ void Game::runLoop(int width, int heigth)
 
 Game::~Game()
 {
+    g1.clear();
+    g2.clear();
     //borro barriles
     for (int i = 0; i < barriles.size();i++){
             barriles[i]->~Object();
+            delete(barriles[i]);
         }
    // floor->~Background();
     delete(floor);
