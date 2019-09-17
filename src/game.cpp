@@ -77,7 +77,7 @@ Game::~Game()
     delete(floor);
   //  back->~Far_background();
     delete(back);
-    character->~Character();
+ //   character->~Character();
     delete(character);
     (_gwindow)->~Window();
     delete(_gwindow);
@@ -134,11 +134,11 @@ void Game::level1(){
     g2.push_back("Sprites/FF_Stage4_back4.png");
     g2.push_back("Sprites/FF_Stage4_back5.png");
     g2.push_back("Sprites/FF_Stage4_back6.png");
-    /* Creo 10 Barriles  -->*/
+    /* Creo 20 Barriles  -->*/
     int pos_x, pos_y;
     srand(time(NULL));
     /* posiciones del barril aleatoria en el rango del suelo */
-    for (int  i = 0; i < 10; i++)
+    for (int  i = 0; i < 20; i++)
     {
         pos_x =rand()%20001;
         pos_y = 245 +rand() % (351 - 245);

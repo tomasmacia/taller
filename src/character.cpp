@@ -173,6 +173,7 @@ void Character::sprite(){
 
 Character::~Character(){
     SDL_DestroyTexture(_texture);
+    path_img.clear();
 }
 
 void Character::load_image_default(){

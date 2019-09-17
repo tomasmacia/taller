@@ -27,36 +27,12 @@ void Far_background::move(){
         }
     else
     {
-        if (cont == 5)
+        if (cont != 6)
         {
-            nextBackground(path1[1].c_str());
-            cont --;
+            nextBackground(path1[cont].c_str());
+            cont ++;
             _x = 0;
         }
-        else if (cont == 4)
-        {
-            nextBackground(path1[2].c_str());
-            cont --;
-            _x = 0;
-        }
-        else if(cont == 3)
-        {
-            nextBackground(path1[3].c_str());
-            cont --;
-            _x = 0;
-        }
-        else if (cont == 2)
-        {
-            nextBackground(path1[4].c_str());            
-            cont--;
-            _x = 0;
-        }
-        else if (cont == 1)
-        {
-            nextBackground(path1[5].c_str());
-            cont --;
-            _x = 0;
-        } 
     }
     _rect->x= _x;
 }

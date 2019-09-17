@@ -3,7 +3,7 @@
 #include <SDL2/SDL_image.h>
 #include"game.h"
 
-
+/* Recibe vector con  string de imagenes de fondo, render , alto y ancho de resoucion y al juego */
 Background::Background( vector <string> g, int h,int w, SDL_Renderer* render, Game* owner):
     _h(h),_x(0), _w_window(w),_render(render),_owner(owner),g1(g) {
     _image =IMG_Load(g1[0].c_str());
@@ -44,38 +44,13 @@ void Background::move(){
     
     else
     {
-        if (cont == 5)
-        {
-            nextBackground(g1[1].c_str());
-            cont --;
-            _x = 0;
-        }
-        else if (cont == 4)
-        {
-            nextBackground(g1[2].c_str());
-            cont --;
-            _x = 0;
-        }
-        else if(cont == 3)
-        {
-            nextBackground(g1[3].c_str());
-            cont --;
-            _x=0;
-        }
-        else if (cont == 2)
-        {
-            nextBackground(g1[4].c_str());            
-            cont--;
-            _x = 0;
-        }
-        else if (cont == 1)
-        {
-            nextBackground(g1[5].c_str());
-            cont --;
-            _x = 0;
+        if (cont != 6){
+        nextBackground(g1[cont].c_str());
+        cont ++;
+        _x = 0;
         }
         /* Aviso que se llego al final */
-        else if (cont == 0)
+        else 
         {
             _owner->pj_in_final();
         }

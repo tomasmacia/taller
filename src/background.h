@@ -16,7 +16,7 @@ public:
 
 private:
     vector<string> g1;
-    int _w, _h,_w_window,cont=5; 
+    int _w, _h,_w_window,cont=1; //contador de cambio de imagen
     float _x;
     float mov_fondo = 4 ;
   class Game* _owner = nullptr;

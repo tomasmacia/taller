@@ -16,7 +16,7 @@ public:
 private:
     vector<string> path1;
     float mov_fondo = 0.5;
-    int _w, _h,_w_window,cont = 5; //-->cont es temporal
+    int _w, _h,_w_window,cont = 1; //-->cont cambio de imagenes
     float _x; //--> posicionde la imagen
     SDL_Surface* _image; 
     SDL_Texture* _texture;
