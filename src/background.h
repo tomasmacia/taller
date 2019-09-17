@@ -1,20 +1,24 @@
 #ifndef BACKGROUND_H_
 #define BACKGROUND_H_
-
 #include "iostream"
 #include <SDL2/SDL.h>
+#include<vector>
+using namespace std;
 
 
 class Background {
 public:
     
-    Background(const std::string &image_path, int h, int w, SDL_Renderer* render,class Game* owner);
+    Background(vector<string> g, int h, int w, SDL_Renderer* render,class Game* owner);
     ~Background();
     void move();
     void updateImage();
+
 private:
+    vector<string> g1;
     int _w, _h,_w_window,cont=5; 
     float _x;
+    float mov_fondo = 4 ;
   class Game* _owner = nullptr;
     SDL_Surface* _image = NULL; 
     SDL_Texture* _texture;

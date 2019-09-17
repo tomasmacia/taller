@@ -19,7 +19,7 @@ private:
     void load_image_default(); // luego de una accion cargo sprite default
     int  _x,_y,_w,_h,_w_window,_h_window;
     int _v_limit; //limite vertical de movimiento
-    int default_mov = 10;   
+    int default_mov = 8;   
     int  cont=1;// contador para cambiar de imagen;
     const int change = 3;// constante para cambiar de imagen
     int cant_img_sprite = 1;//imagenes en una tira de sprite (default 1)

@@ -5,6 +5,10 @@
 #include "background.h"
 #include "far_background.h"
 #include "object.h"
+#include <cstdlib>
+#include <vector>
+#include <iostream>
+#include "object.h"
 
 class Game
 {
@@ -21,12 +25,17 @@ public:
     void pj_in_final();
 
 private:
+    Object *b1,*b2,*b3,*b4,*b5;
     class Window* _gwindow;
     void initialize(int width, int heigth);
     void runLoop(int width, int heigth);
     void allCreator(int width, int heigth);
     void fpsChanged(int fps);
     bool isRunning = true;
+    std::vector <string> g1;
+    std::vector <string> g2;
+    std::vector <Object*> barriles;
+    void level1();
 
 };
 

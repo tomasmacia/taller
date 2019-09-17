@@ -2,15 +2,20 @@
 #define FAR_BACKGROUND_H_
 #include "string"
 #include <SDL2/SDL.h>
+#include <vector>
+using namespace std;
 
 class Far_background {
 public:
     
-    Far_background(const std::string &image_path, int h,int w, SDL_Renderer* render);
+    Far_background(vector<string> path, int h,int w, SDL_Renderer* render);
     ~Far_background();
     void move();
     void updateImage();
+
 private:
+    vector<string> path1;
+    float mov_fondo = 0.5;
     int _w, _h,_w_window,cont = 5; //-->cont es temporal
     float _x; //--> posicionde la imagen
     SDL_Surface* _image; 

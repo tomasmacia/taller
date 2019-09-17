@@ -36,7 +36,7 @@ bool Character::move(int option){
     //Si realizo una accion espera a que se complete (creeria que es para evitar saltos dobles)
     
     //Limites de movimiento harcodeados en relacion a imagen y pantalla
-    std::cerr << state << " - " << state_previous<<" - "<<option<< std::endl;
+  //  std::cerr << state << " - " << state_previous<<" - "<<option<< std::endl;
     while (state !=8)
     {         
         cont++;
@@ -96,7 +96,6 @@ bool Character::move(int option){
             while(_x<0){_x++;}         
     }  
     _pos->x= _x;
-    //_pos->y= _y;
     return false;
 };
 

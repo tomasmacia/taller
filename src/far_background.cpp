@@ -2,9 +2,9 @@
 #include "iostream"
 #include <SDL2/SDL_image.h>
 
-Far_background::Far_background( const std::string &image_path, int h,int w, SDL_Renderer* render):
-    _h(h*.8125),_x(0),_w_window(w),_render(render) {
-    _image =IMG_Load(image_path.c_str());  
+Far_background::Far_background( vector <string> path, int h,int w, SDL_Renderer* render):
+    _h(h*.8125),_x(0),_w_window(w),_render(render), path1(path) {
+    _image =IMG_Load(path1[0].c_str());  
     _pos->x=0;
     _pos->y= 0;
     _pos->h= _h;
@@ -23,37 +23,37 @@ void Far_background::move(){
     
     int t =  _image->clip_rect.w - _rect->x ;
     if (t > _rect->w ){//-->Cortar al final del background
-        _x = _x + 0.5/*1.25*/;
+        _x = _x + mov_fondo/*1.25*/;
         }
     else
     {
         if (cont == 5)
         {
-            nextBackground("Sprites/FF_Stage4_back2.png");
+            nextBackground(path1[1].c_str());
             cont --;
             _x = 0;
         }
         else if (cont == 4)
         {
-            nextBackground("Sprites/FF_Stage4_back3.png");
+            nextBackground(path1[2].c_str());
             cont --;
             _x = 0;
         }
         else if(cont == 3)
         {
-            nextBackground("Sprites/FF_Stage4_back4.png");
+            nextBackground(path1[3].c_str());
             cont --;
             _x = 0;
         }
         else if (cont == 2)
         {
-            nextBackground("Sprites/FF_Stage4_back5.png");            
+            nextBackground(path1[4].c_str());            
             cont--;
             _x = 0;
         }
         else if (cont == 1)
         {
-            nextBackground("Sprites/FF_Stage4_back6.png");
+            nextBackground(path1[5].c_str());
             cont --;
             _x = 0;
         } 
