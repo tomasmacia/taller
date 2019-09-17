@@ -1,4 +1,5 @@
 #include "window.h"
+#include<iostream>
 
 SDL_Renderer *Window::_renderer = nullptr;
 
@@ -16,25 +17,13 @@ Window::~Window(){
 }
 
 //PUBLIC
-bool Window::isClosed(){return _closed;}
-
-void Window::pollEvents(SDL_Event &event){ //HARDCODEADO
-        switch (event.type)
-        {
-        case SDL_QUIT:
-            _closed = true;
-            break;
-        
-        default:
-            break;
-        }
-}
-
 void Window::display(){
     SDL_RenderPresent(_renderer); 
     SDL_SetRenderDrawColor(_renderer,0,200,0,255); //HARDCODEADO
     SDL_RenderClear(_renderer); //display del sdl2
 }
+
+void Window::update(){};
 
 //PRIVATE
 bool Window::init(){

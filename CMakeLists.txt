@@ -49,12 +49,21 @@ set(SOURCE_FILES
         src/square.cpp
         src/square.h
 
+        # game
+        src/Controller.cpp
+        src/Controller.h
+        src/Displayable.h
+        src/Game.cpp
+        src/Game.h
+        src/Updateable.h
+        src/Displayable.cpp
+        src/Updateable.cpp
+
         #main
         src/main.cpp
         )
 
 
-# create executable
 add_executable(game ${SOURCE_FILES})
 
 # link libraries
