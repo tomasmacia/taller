@@ -61,7 +61,7 @@ void Game::runLoop(int width, int heigth)
         fps_last =SDL_GetTicks();//                   Son
         fpsChanged(current);///                      Importantes*/
     }
-    this->~Game(); 
+ //   this->~Game(); 
 };
 
 Game::~Game()
