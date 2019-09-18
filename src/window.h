@@ -1,7 +1,7 @@
 #include <string>
 #include <SDL2/SDL.h> 
-#include "Displayable.h"
-#include "Updateable.h"
+#include "game/Displayable.h"
+#include "game/Updateable.h"
 
 #ifndef WINDOW_H_
 #define WINDOW_H_

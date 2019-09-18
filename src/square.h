@@ -1,6 +1,6 @@
 #include <SDL2/SDL.h>
 #include "window.h"
-#include "Game.h"
+#include "game/Game.h"
 
 #ifndef SQUARE_H_
 #define SQUARE_H_

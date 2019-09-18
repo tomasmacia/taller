@@ -57,14 +57,14 @@ set(SOURCE_FILES
         src/square.h
 
         # game
-        src/Controller.cpp
-        src/Controller.h
-        src/Displayable.h
-        src/Game.cpp
-        src/Game.h
-        src/Updateable.h
-        src/Displayable.cpp
-        src/Updateable.cpp
+        src/game/Controller.cpp
+        src/game/Controller.h
+        src/game/Displayable.h
+        src/game/Game.cpp
+        src/game/Game.h
+        src/game/Updateable.h
+        src/game/Displayable.cpp
+        src/game/Updateable.cpp
 
         #main
         src/main.cpp
