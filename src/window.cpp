@@ -1,61 +1,32 @@
 #include <iostream>
 #include "window.h"
+#include "iostream"
+#include <SDL2/SDL_image.h>
 
 //CONSTRUCTOR & DESTRUCTOR
 Window::Window(const std::string title, int width, int height) :
 _title(title), _width(width), _height(height)
 {
-    _closed = !init();
+    init();
 }
 
 Window::~Window(){
-    //Free loaded image
-    //SDL_DestroyTexture( gTexture );
-    //_texture = NULL;
-
-    //Destroy window
-    SDL_DestroyRenderer( _renderer );
-    SDL_DestroyWindow( _window );
-    _window = NULL;
-    _renderer = NULL;
-
-    //Quit SDL subsystems
     IMG_Quit();
+    SDL_DestroyRenderer(render);
+    SDL_DestroyWindow(_window);
     SDL_Quit();
 }
 
-//PUBLIC
-bool Window::isClosed(){return _closed;}
-
-void Window::display(){
-    SDL_SetRenderDrawColor( _renderer, 255, 255, 255, 255 );
-    SDL_RenderClear(_renderer);
-}
-
-void Window::showAll(){
-    SDL_RenderPresent(_renderer);
-}
-
-SDL_Renderer* Window::getRenderer(){
-    return _renderer;
-}
-
-void Window::close(){
-    _closed = true;
-}
 
 //PRIVATE
 bool Window::init(){
-    if (SDL_Init(SDL_INIT_VIDEO) != 0){
-        raiseException("failed to initialize SDL");
-        return false;
+    // Trabajar con SDL_image para cargar imagenes no .bmp   
+    if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG)
+    {
+        std::cerr << "Fallo SDL_Image.\n";
     }
 
-    if (IMG_Init(IMG_INIT_JPG) != IMG_INIT_JPG){
-        raiseException("failed to initialize SDL_image");
-        return false;
-    }
-
+   // std::cerr << "SDL_Image.\n";
     _window = SDL_CreateWindow(
         _title.c_str(),
         SDL_WINDOWPOS_CENTERED,
@@ -64,23 +35,18 @@ bool Window::init(){
         SDL_WINDOW_SHOWN
     );
 
+
     if (_window == nullptr){
         raiseException("failed to create window");
         return false;
     }
-
-    _renderer = SDL_CreateRenderer(_window, -1,SDL_RENDERER_ACCELERATED);
-
-    //Get window surface
-    SDL_Surface* screenSurface = SDL_GetWindowSurface(_window );
-    
-    //Update the surface
-    SDL_UpdateWindowSurface( _window );
-
+    render = SDL_CreateRenderer( _window, -1, SDL_RENDERER_PRESENTVSYNC);
     return true;
-}
+};
 
-void Window::raiseException(std::string mesage){
-    std::cout << mesage << "\n";
-}
+void Window::updateWindow(){
+    //Actualizo window. 
+    SDL_RenderPresent( render );
+};
 
+void Window::raiseException(){}
