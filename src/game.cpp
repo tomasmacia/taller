@@ -91,7 +91,7 @@ void Game::allCreator(int width, int heigth){
 //creo cosas del lvl 1
     level1();
     back = new Far_background(g2,heigth,width,_gwindow->render, 0.5);
-    middle = new Far_background(gmiddle,heigth,width,_gwindow->render, 3.3);
+    middle = new Far_background(gmiddle,heigth,width,_gwindow->render, 2);
     floor = new Background(g1,heigth,width,_gwindow->render, this);   
     character = new Character("Sprites/cody.png",width,heigth,_gwindow->render);
 };
@@ -144,17 +144,17 @@ void Game::level1(){
     g2.push_back("Sprites/FF_Stage4_back6.png");
     /* Middle Background */
     gmiddle.push_back("Sprites/barcos0.png");
+    gmiddle.push_back("Sprites/barcos1.png");
     gmiddle.push_back("Sprites/barcos0.png");
+    gmiddle.push_back("Sprites/barcos1.png");
     gmiddle.push_back("Sprites/barcos0.png");
-    gmiddle.push_back("Sprites/barcos0.png");
-    gmiddle.push_back("Sprites/barcos0.png");
-    gmiddle.push_back("Sprites/barcos0.png");
+    gmiddle.push_back("Sprites/barcos1.png");
 
-    /* Creo 20 Barriles  -->*/
+    /* Creo 15 Barriles  -->*/
     int pos_x, pos_y;
     srand(time(NULL));
     /* posiciones del barril aleatoria en el rango del suelo */
-    for (int  i = 0; i < 20; i++)
+    for (int  i = 0; i < 15; i++)
     {
         pos_x =rand()%20001;
         pos_y = 245 +rand() % (351 - 245);

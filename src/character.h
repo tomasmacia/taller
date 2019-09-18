@@ -29,7 +29,7 @@ private:
     const int change = 3;// constante para cambiar de imagen
     int cant_img_sprite = 1;//imagenes en una tira de sprite (default 1)
     int spriteToload = 0;//en que imagen de la tira estoy
-    int loop = 5;//cantidad de loop que deben suceder para que una accion pase a la
+    int loop = 4;//cantidad de loop que deben suceder para que una accion pase a la
                     //siguiente imagen del sprite
     SDL_Surface* _image; //superficie a cargar la imagen
     SDL_Texture* _texture; //textura de la imagen
