@@ -58,4 +58,5 @@ set(SOURCE_FILES
 add_executable(game ${SOURCE_FILES})
 
 # link libraries
-target_link_libraries(game ${SDL2_LIBRARY} tinyxml2)
+target_link_libraries(game tinyxml2)
+target_link_libraries(game ${SDL2_LIBRARIES})
