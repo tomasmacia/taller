@@ -1,10 +1,11 @@
-#include <iostream>
 #include "window.h"
 #include "iostream"
 #include <SDL2/SDL_image.h>
 
+
+
 //CONSTRUCTOR & DESTRUCTOR
-Window::Window(const std::string title, int width, int height) :
+Window::Window(const std::string &title, int width, int height) :
 _title(title), _width(width), _height(height)
 {
     init();
@@ -32,13 +33,13 @@ bool Window::init(){
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
         _width, _height,
-        SDL_WINDOW_SHOWN
+        0
     );
 
 
     if (_window == nullptr){
-        raiseException("failed to create window");
-        return false;
+        raiseException(); //failed to create window.\n
+        return 0;
     }
     render = SDL_CreateRenderer( _window, -1, SDL_RENDERER_PRESENTVSYNC);
     return true;

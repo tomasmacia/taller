@@ -36,7 +36,7 @@ void Game::runLoop(int width, int heigth)
     _gwindow->updateWindow();
     SDL_Delay(1000);*/
 
- allCreator(width,heigth);
+    allCreator(width,heigth);
     Events event(this, character);
     //loop hasta que se aprete ESC o click en (X)
     while (isRunning)
