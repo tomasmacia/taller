@@ -8,6 +8,13 @@ include_directories(include)
 include_directories(src/parser)
 link_directories(lib)
 
+set(XMLPARSER tinyxml2)
+
+IF(APPLE)
+    set(XMLPARSER tinyxml2-tomi)
+ENDIF(APPLE)
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 # SDL
@@ -67,4 +74,4 @@ set(SOURCE_FILES
 add_executable(game ${SOURCE_FILES})
 
 # link libraries
-target_link_libraries(game ${SDL2_LIBRARY} tinyxml2)
+target_link_libraries(game ${SDL2_LIBRARY} ${XMLPARSER})
