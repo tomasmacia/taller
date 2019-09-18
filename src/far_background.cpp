@@ -2,8 +2,8 @@
 #include "iostream"
 #include <SDL2/SDL_image.h>
 
-Far_background::Far_background( vector <string> path, int h,int w, SDL_Renderer* render):
-    _h(h*.8125),_x(0),_w_window(w),_render(render), path1(path) {
+Far_background::Far_background( vector <string> path, int h,int w, SDL_Renderer* render, float mov_fondo):
+    _h(h*.8125),_x(0),_w_window(w),_render(render), path1(path),mov_fondo(mov_fondo) {
     _image =IMG_Load(path1[0].c_str());  
     _pos->x=0;
     _pos->y= 0;

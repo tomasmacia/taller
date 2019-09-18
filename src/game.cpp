@@ -47,6 +47,7 @@ void Game::runLoop(int width, int heigth)
         
         /* Actualizo la imagen */
         back->updateImage();
+        middle->updateImage();
         floor->updateImage();
        for (int i = 0; i < barriles.size();i++){
             barriles[i]->updateImage();
@@ -66,6 +67,7 @@ void Game::runLoop(int width, int heigth)
 
 Game::~Game()
 {
+    //limpio vectores de escenario
     g1.clear();
     g2.clear();
     //borro barriles
@@ -76,6 +78,7 @@ Game::~Game()
    // floor->~Background();
     delete(floor);
   //  back->~Far_background();
+    delete(middle);
     delete(back);
  //   character->~Character();
     delete(character);
@@ -87,7 +90,8 @@ Game::~Game()
 void Game::allCreator(int width, int heigth){
 //creo cosas del lvl 1
     level1();
-    back = new Far_background(g2,heigth,width,_gwindow->render);
+    back = new Far_background(g2,heigth,width,_gwindow->render, 0.5);
+    middle = new Far_background(gmiddle,heigth,width,_gwindow->render, 3.3);
     floor = new Background(g1,heigth,width,_gwindow->render, this);   
     character = new Character("Sprites/cody.png",width,heigth,_gwindow->render);
 };
@@ -95,7 +99,11 @@ void Game::allCreator(int width, int heigth){
 void Game::move_all(){
 //Actualiza posicion de todo menos de cody, en orden.
    back->move();
+   
+   middle->move();
+   
    floor->move();
+   
   for (int i = 0; i < barriles.size();i++){
        barriles[i]->move();
    }
@@ -134,6 +142,14 @@ void Game::level1(){
     g2.push_back("Sprites/FF_Stage4_back4.png");
     g2.push_back("Sprites/FF_Stage4_back5.png");
     g2.push_back("Sprites/FF_Stage4_back6.png");
+    /* Middle Background */
+    gmiddle.push_back("Sprites/barcos0.png");
+    gmiddle.push_back("Sprites/barcos0.png");
+    gmiddle.push_back("Sprites/barcos0.png");
+    gmiddle.push_back("Sprites/barcos0.png");
+    gmiddle.push_back("Sprites/barcos0.png");
+    gmiddle.push_back("Sprites/barcos0.png");
+
     /* Creo 20 Barriles  -->*/
     int pos_x, pos_y;
     srand(time(NULL));

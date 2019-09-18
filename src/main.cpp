@@ -6,6 +6,6 @@ using namespace std;
   
 int main(int argc, char** argv) { 
 
-   Game* game = new Game(800,600);
+   Game (800,600);
     return 0;
 } 

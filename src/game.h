@@ -18,7 +18,7 @@ public:
  /*Destructor*/
     ~Game();   
     class Character* character;
-    Far_background* back;
+    Far_background* back, *middle;
     Background* floor;
     void move_all();
     void pj_in_final();
@@ -31,6 +31,7 @@ private:
     void fpsChanged(int fps);
     bool isRunning = true;
     std::vector <string> g1;
+    std::vector <string> gmiddle;
     std::vector <string> g2;
     std::vector <Object*> barriles;
     void level1();
