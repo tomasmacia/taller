@@ -7,5 +7,9 @@ using namespace std;
 int main(int argc, char** argv) { 
 
    Game* game = new Game(800,600);
+
+   while (!game->isClosed()){
+       game->runLoop();
+   }
     return 0;
 } 

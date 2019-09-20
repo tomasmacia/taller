@@ -1,49 +1,38 @@
-#include <game.h>
+#include <stdlib.h>
+#include <time.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "events.h"
 #include "character.h"
-#include <stdlib.h>
-#include <time.h>
+#include "game.h"
+#include "window.h"
+
 
 Game::Game(int width, int heigth)
 {
+    _width = width;
+    _height = heigth;
     initialize(width, heigth);
-    runLoop(width, heigth);
-};
+}
 
 void Game::initialize (int width, int heigth) 
 {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0)
-    {
-        std::cerr << "Fallo SDL .\n";
-    }
    _gwindow= new Window("Final Figth",width,heigth);
-};
+}
 
-void Game::runLoop(int width, int heigth)
+void Game::runLoop()
 {
     Uint32 fps_last = SDL_GetTicks();
     Uint32 current;
- /*Coloco pantalla en rojo y espero 1 sec
-    SDL_SetRenderDrawColor(_gwindow->render, 255, 0, 0, 255);
-    SDL_Rect rectangle;
-    rectangle.x = 0;
-    rectangle.y = 0;
-    rectangle.w = width;
-    rectangle.h = heigth;
-    SDL_RenderFillRect(_gwindow->render, &rectangle);
-    _gwindow->updateWindow();
-    SDL_Delay(1000);*/
 
-    allCreator(width,heigth);
+    allCreator(_width,_height);
     Events event(this, character);
     //loop hasta que se aprete ESC o click en (X)
     while (isRunning)
             /* Veo qu se esta apretando */
     {   isRunning = !(event.keyboard_event());
         /* Limpio la pantalla */    
-        SDL_RenderClear( _gwindow->render );
+        SDL_RenderClear( _gwindow->getRenderer());
         
         /* Actualizo la imagen */
         back->updateImage();
@@ -55,14 +44,18 @@ void Game::runLoop(int width, int heigth)
         character->updateImage();
 
         /* Refresco la pantalla con nueva posicion */  
-        _gwindow->updateWindow();
+        _gwindow->showAll();
 
         current = 1000/(-fps_last+SDL_GetTicks());// No 
         fps_last =SDL_GetTicks();//                   Son
         fpsChanged(current);///                      Importantes*/
     }
  //   this->~Game(); 
-};
+}
+
+bool Game::isClosed(){
+    return !isRunning;
+}
 
 Game::~Game()
 {
@@ -82,15 +75,15 @@ Game::~Game()
     (_gwindow)->~Window();
     delete(_gwindow);
     SDL_Quit();
-};
+}
 
 void Game::allCreator(int width, int heigth){
 //creo cosas del lvl 1
     level1();
-    back = new Far_background(g2,heigth,width,_gwindow->render);
-    floor = new Background(g1,heigth,width,_gwindow->render, this);   
-    character = new Character("Sprites/cody.png",width,heigth,_gwindow->render);
-};
+    back = new Far_background(g2,heigth,width,_gwindow->getRenderer());
+    floor = new Background(g1,heigth,width,_gwindow->getRenderer(), this);   
+    character = new Character("Sprites/cody.png",width,heigth,_gwindow->getRenderer());
+}
 
 void Game::move_all(){
 //Actualiza posicion de todo menos de cody, en orden.
@@ -105,7 +98,8 @@ void Game::fpsChanged(int fps){
 
     char szFps[128];
     sprintf(szFps,"%s: %d FPS","Final Figth",fps);
-    SDL_SetWindowTitle(_gwindow->_window, szFps);
+
+    SDL_SetWindowTitle(_gwindow->getWindow(), szFps);
 }
 
 void Game::pj_in_final(){
@@ -142,6 +136,6 @@ void Game::level1(){
     {
         pos_x =rand()%20001;
         pos_y = 245 +rand() % (351 - 245);
-        barriles.push_back(new Object("Sprites/barril.png",pos_x,pos_y,_gwindow->render));
+        barriles.push_back(new Object("Sprites/barril.png",pos_x,pos_y,_gwindow->getRenderer()));
     }
 }
