@@ -30,17 +30,17 @@ private:
 
 public:
 /*Constructor*/
-    Game(int width, int heigth);
+    Game(int width, int heigth);                //refactorizado
  /*Destructor*/
     ~Game();
 
     void move_all();
     void pj_in_final();
-    bool isClosed();
+    bool isClosed();                            //agregado
     void runLoop();
 
 private:
-    void initialize(int width, int heigth);
+    void initialize();                          //refactorizado
     void allCreator(int width, int heigth);
     void fpsChanged(int fps);
     void level1();

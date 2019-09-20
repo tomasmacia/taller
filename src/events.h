@@ -19,6 +19,7 @@ private:
     class Character* _cody;
     SDL_Event _event;
     Uint32 _time;    
+    
     void second_event();
 };
 

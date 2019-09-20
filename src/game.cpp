@@ -1,5 +1,5 @@
-#include <stdlib.h>
 #include <time.h>
+#include <stdlib.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "events.h"
@@ -12,12 +12,12 @@ Game::Game(int width, int heigth)
 {
     _width = width;
     _height = heigth;
-    initialize(width, heigth);
+    initialize();
 }
 
-void Game::initialize (int width, int heigth) 
+void Game::initialize() 
 {
-   _gwindow= new Window("Final Figth",width,heigth);
+   _gwindow= new Window("Final Figth",_width,_height);
 }
 
 void Game::runLoop()
@@ -135,7 +135,7 @@ void Game::level1(){
     for (int  i = 0; i < 20; i++)
     {
         pos_x =rand()%20001;
-        pos_y = 245 +rand() % (351 - 245);
+        pos_y = 245 + rand() % (351 - 245);
         barriles.push_back(new Object("Sprites/barril.png",pos_x,pos_y,_gwindow->getRenderer()));
     }
 }
