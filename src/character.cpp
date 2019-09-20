@@ -34,17 +34,6 @@ bool Character::move(int option,int p){
     //Limites de movimiento harcodeados en relacion a imagen y pantalla
     
     if (state==8){option = 8;}
-    
-  /*  if ((option ==1 and p==1)){jump_large= true;}
-    if (jump_large){_x +=2;_pos->x =_x; 
-         while(_x>_v_limit ){
-            _x--; 
-            _pos->x =_x;          
-            return true;     
-            } 
-        
-           }   */ 
-        // {jump_large = true;}
        
     state = option; 
     while(option ==0){
@@ -120,7 +109,6 @@ void Character::updateImage(){
                 // y estado previo es "accion," al cargar la imagen defaullt lo hago.
                 SDL_FreeSurface(_image);
                 load_image_default();
-                jump_large= false;
             }
         }
     }/* Lo de la tira de imagenes es asi, yo se la cantidad que hay(cant_img_sprite)
