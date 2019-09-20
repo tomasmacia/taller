@@ -21,8 +21,6 @@ Object::Object(const std::string &image_path, int x,int y, SDL_Renderer* render)
 void Object::move(){
     if(moverse){
         _pos->x = _pos->x - mov_fondo;
-        std::cerr << "----------------"<<std::endl;
-        std::cerr <<"POSICIO X DE BARRIL: "<< _pos->x << std::endl;
     }
 }
 
@@ -30,10 +28,9 @@ void Object::updateImage(){
     _texture = SDL_CreateTextureFromSurface( _render, _image ); 
     SDL_RenderCopy( _render, _texture, _rect, _pos );
     SDL_DestroyTexture(_texture);
-    
 }
-
 
 Object::~Object(){
     SDL_DestroyTexture(_texture);
+    
 }

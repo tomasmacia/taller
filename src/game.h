@@ -34,15 +34,15 @@ public:
  /*Destructor*/
     ~Game();
 
+    void runLoop();
     void move_all();
     void pj_in_final();
     bool isClosed();                            //agregado
-    void runLoop();
 
 private:
     void initialize();                          //refactorizado
-    void allCreator(int width, int heigth);
-    void fpsChanged(int fps);
-    void level1();
+    void allCreator(int width, int heigth);     //revisado (esta bastante bien)    
+    void level1();                              //revisado (esta bastante bien)
+    void fpsChanged(int fps);                   //revisado (esta bastante bien)
 };
 #endif

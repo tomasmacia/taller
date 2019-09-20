@@ -7,7 +7,7 @@
 #include "game.h"
 #include "window.h"
 
-
+//CONSTRUCTOR & DESTRUCTOR
 Game::Game(int width, int heigth)
 {
     _width = width;
@@ -15,17 +15,11 @@ Game::Game(int width, int heigth)
     initialize();
 }
 
-void Game::initialize() 
-{
-   _gwindow= new Window("Final Figth",_width,_height);
-}
-
 void Game::runLoop()
 {
     Uint32 fps_last = SDL_GetTicks();
     Uint32 current;
 
-    allCreator(_width,_height);
     Events event(this, character);
     //loop hasta que se aprete ESC o click en (X)
     while (isRunning)
@@ -77,14 +71,7 @@ Game::~Game()
     SDL_Quit();
 }
 
-void Game::allCreator(int width, int heigth){
-//creo cosas del lvl 1
-    level1();
-    back = new Far_background(g2,heigth,width,_gwindow->getRenderer());
-    floor = new Background(g1,heigth,width,_gwindow->getRenderer(), this);   
-    character = new Character("Sprites/cody.png",width,heigth,_gwindow->getRenderer());
-}
-
+//PUBLIC
 void Game::move_all(){
 //Actualiza posicion de todo menos de cody, en orden.
    back->move();
@@ -92,14 +79,6 @@ void Game::move_all(){
   for (int i = 0; i < barriles.size();i++){
        barriles[i]->move();
    }
-}
-// Copiado del de SDLTest, para ver fps(creo)
-void Game::fpsChanged(int fps){
-
-    char szFps[128];
-    sprintf(szFps,"%s: %d FPS","Final Figth",fps);
-
-    SDL_SetWindowTitle(_gwindow->getWindow(), szFps);
 }
 
 void Game::pj_in_final(){
@@ -111,6 +90,21 @@ void Game::pj_in_final(){
     for (int i = 0; i < barriles.size();i++){
         barriles[i]->moverse=false;
     }
+}
+
+//PRIVATE
+void Game::initialize() 
+{
+   _gwindow= new Window("Final Figth",_width,_height);
+   allCreator(_width,_height);
+}
+
+void Game::allCreator(int width, int heigth){
+//creo cosas del lvl 1
+    level1();
+    back = new Far_background(g2,heigth,width,_gwindow->getRenderer());
+    floor = new Background(g1,heigth,width,_gwindow->getRenderer(), this);   
+    character = new Character("Sprites/cody.png",width,heigth,_gwindow->getRenderer());
 }
 
 void Game::level1(){
@@ -138,4 +132,13 @@ void Game::level1(){
         pos_y = 245 + rand() % (351 - 245);
         barriles.push_back(new Object("Sprites/barril.png",pos_x,pos_y,_gwindow->getRenderer()));
     }
+}
+
+// Copiado del de SDLTest, para ver fps(creo)
+void Game::fpsChanged(int fps){
+
+    char szFps[128];
+    sprintf(szFps,"%s: %d FPS","Final Figth",fps);
+
+    SDL_SetWindowTitle(_gwindow->getWindow(), szFps);
 }

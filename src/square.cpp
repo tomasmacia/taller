@@ -51,11 +51,11 @@ void Square::display(){
     }
 }
 
-void Square::setX(int x){
+void Square::setX(float x){
     _rectangle.x = x;
 }
 
-void Square::setY(int y){
+void Square::setY(float y){
     _rectangle.y = y;
 }
 
