@@ -25,75 +25,98 @@ void Game::runLoop(int width, int heigth)
 {
     Uint32 fps_last = SDL_GetTicks();
     Uint32 current;
- /*Coloco pantalla en rojo y espero 1 sec
-    SDL_SetRenderDrawColor(_gwindow->render, 255, 0, 0, 255);
-    SDL_Rect rectangle;
-    rectangle.x = 0;
-    rectangle.y = 0;
-    rectangle.w = width;
-    rectangle.h = heigth;
-    SDL_RenderFillRect(_gwindow->render, &rectangle);
-    _gwindow->updateWindow();
-    SDL_Delay(1000);*/
+    level1(10,15,10,width,heigth);
 
- allCreator(width,heigth);
     Events event(this, character);
     //loop hasta que se aprete ESC o click en (X)
-    while (isRunning)
             /* Veo qu se esta apretando */
-    {   isRunning = !(event.keyboard_event());
-        /* Limpio la pantalla */    
-        SDL_RenderClear( _gwindow->render );
-        
-        /* Actualizo la imagen */
-        back->updateImage();
-        middle->updateImage();
-        floor->updateImage();
-       for (int i = 0; i < barriles.size();i++){
-            barriles[i]->updateImage();
+       while(isRunning){
+            isRunning=!(event.keyboard_event());
+        //    event.second_event();
+        // event.second_event();
+            /* Limpio la pantalla */    
+            SDL_RenderClear( _gwindow->render );
+            
+            /* Actualizo la imagen */
+            back->updateImage();
+            middle->updateImage();
+            floor->updateImage();
+
+            /* Barriles con pos y menor a pj*/
+            for (int i = 0; i < barriles.size();i++){
+                if(character->GetPosY() >= barriles[i]->GetPosY()){
+                    barriles[i]->updateImage();
+            }
+            }
+            /* cody se actualiza a lo ultimo */
+            character->updateImage();
+
+            /* Barriles con pos y mayor a pj */
+            for (int i = 0; i < barriles.size();i++){
+                if(character->GetPosY() < barriles[i]->GetPosY()){
+                    barriles[i]->updateImage();
+            }
+            /* Estoy recorriendo 2 veces el mismo vector para poner 
+            cosas que estan detras de cody detras, ¿es necesario? */
+            }
+
+            /* Refresco la pantalla con nueva posicion */
+
+            _gwindow->updateWindow();
+            
+
+            current = 1000/(-fps_last+SDL_GetTicks());// No 
+            fps_last =SDL_GetTicks();//                   Son
+            fpsChanged(current);///                      Importantes*/
         }
-        /* cody se actualiza a lo ultimo */
-        character->updateImage();
-
-        /* Refresco la pantalla con nueva posicion */  
-        _gwindow->updateWindow();
-
-        current = 1000/(-fps_last+SDL_GetTicks());// No 
-        fps_last =SDL_GetTicks();//                   Son
-        fpsChanged(current);///                      Importantes*/
-    }
- //   this->~Game(); 
-};
+            
+    this->~Game(); 
+}
 
 Game::~Game()
 {
     //limpio vectores de escenario
     g1.clear();
     g2.clear();
-    //borro barriles
-    for (int i = 0; i < barriles.size();i++){
-            barriles[i]->~Object();
-            delete(barriles[i]);
-        }
-   // floor->~Background();
-    delete(floor);
-  //  back->~Far_background();
-    delete(middle);
-    delete(back);
- //   character->~Character();
-    delete(character);
+    floor->~Background();
+  //  delete(floor);
+    back->~Far_background();
+   // delete(middle);
+   middle->~Far_background();
+   // delete(back);
+    character->~Character();
+ //   delete(character);
     (_gwindow)->~Window();
     delete(_gwindow);
     SDL_Quit();
 };
 
-void Game::allCreator(int width, int heigth){
+void Game::reboot(int width, int heigth){
 //creo cosas del lvl 1
-    level1();
-    back = new Far_background(g2,heigth,width,_gwindow->render, 0.5);
-    middle = new Far_background(gmiddle,heigth,width,_gwindow->render, 2);
-    floor = new Background(g1,heigth,width,_gwindow->render, this);   
-    character = new Character("Sprites/cody.png",width,heigth,_gwindow->render);
+    SDL_SetRenderDrawColor(_gwindow->render, 0, 0, 0, 255);
+    SDL_Rect rectangle;
+    rectangle.x = 0;
+    rectangle.y = 0;
+    rectangle.w = 800;
+    rectangle.h = 600;
+    SDL_RenderClear( _gwindow->render );
+    SDL_RenderFillRect(_gwindow->render, &rectangle);
+    _gwindow->updateWindow();
+    SDL_RenderClear( _gwindow->render );
+    SDL_Delay(1000);
+    g1.clear();
+    g2.clear();
+    floor->~Background();
+
+    back->~Far_background();
+
+   middle->~Far_background();
+
+    character->~Character();
+
+    level1(10,15,13,800,600);
+    SDL_Delay(1000);    
+
 };
 
 void Game::move_all(){
@@ -127,7 +150,8 @@ void Game::pj_in_final(){
     }
 }
 
-void Game::level1(){
+void Game::level1(int enemy, int objetos, int armas,int width,int heigth){
+
     /* Background */
     g1.push_back("Sprites/FF_Stage4_floor1.png");
     g1.push_back("Sprites/FF_Stage4_floor2.png");
@@ -136,7 +160,7 @@ void Game::level1(){
     g1.push_back("Sprites/FF_Stage4_floor5.png");
     g1.push_back("Sprites/FF_Stage4_floor6.png");
     /* Far Background */
-    g2.push_back("Sprites/FF_Stage4_back1.png");
+    g2.push_back("Sprites/FF_Stage4_back12.png");
     g2.push_back("Sprites/FF_Stage4_back2.png");
     g2.push_back("Sprites/FF_Stage4_back3.png");
     g2.push_back("Sprites/FF_Stage4_back4.png");
@@ -154,10 +178,14 @@ void Game::level1(){
     int pos_x, pos_y;
     srand(time(NULL));
     /* posiciones del barril aleatoria en el rango del suelo */
-    for (int  i = 0; i < 15; i++)
+    for (int  i = 0; i < objetos; i++)
     {
         pos_x =rand()%20001;
-        pos_y = 245 +rand() % (351 - 245);
-        barriles.push_back(new Object("Sprites/barril.png",pos_x,pos_y,_gwindow->render));
+        pos_y = 120 +rand() % (201 - 120);
+        barriles.push_back(new Object("Sprites/barril.png",pos_x, pos_y,_gwindow->render,width,heigth));
     }
+            back = new Far_background(g2,heigth,width,_gwindow->render, 0.375);
+    middle = new Far_background(gmiddle,heigth,width,_gwindow->render, 1.5);
+    floor = new Background(g1,heigth,width,_gwindow->render, this,3);   
+    character = new Character(width,heigth,_gwindow->render);
 }

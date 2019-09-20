@@ -14,7 +14,8 @@ private:
 
 public:
     Window(const std::string &title, int width,int height);
-    ~Window();    void updateWindow();    
+    ~Window();    
+    void updateWindow();    
     SDL_Window *_window = nullptr;
     SDL_Renderer* render = nullptr;
 

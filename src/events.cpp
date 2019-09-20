@@ -6,6 +6,9 @@
 con las flechas, saltar con LCTRL, golpear con X y agacharse con Z*/
 bool Events::keyboard_event()
 {   
+
+
+    second_event();
     if (SDL_PollEvent(&_event)) 
     {
         switch (_event.type)
@@ -22,41 +25,62 @@ bool Events::keyboard_event()
                     std::cerr << "Escape.\n";
                     return  true;
                 case SDL_SCANCODE_LEFT:
-                    _cody->move(0);
-      //              std::cerr << "Left.\n";
+                   left =true;
+                 _cody->setFlip(SDL_FLIP_HORIZONTAL);
                     return false;
                 case SDL_SCANCODE_RIGHT:
-                    if (_cody->move(1))
-                    {
-                        _game->move_all();
-                    }
+                    rigth = true;
+                    _cody->setFlip(SDL_FLIP_NONE);
            //       solo me interesa la derecha
                     return false;
                 case SDL_SCANCODE_UP:
-                    _cody->move(5);
-        //            std::cerr << "UP.\n";
+                    up = true;
                     return false;
                 case SDL_SCANCODE_DOWN:
-                    _cody->move(6);
-        //            std::cerr << "DOWN.\n";
+                    down = true;
                     return false;
                 case SDL_SCANCODE_LCTRL:
-                    _cody->move(2);
-       //             std::cerr <<"JUMP\n";
+                    int t;
+                    if (rigth){t= 1;}
+                    if (left){t = 0;}
+                    if (_cody->move(1,t))
+                    {
+                        _game->move_all();
+                    }
                     return false;
                 case SDL_SCANCODE_X:
-                    _cody->move(3);
-        //            std::cer << "PUNCH\n";
+                    hit =true;
                     return false;
                 case SDL_SCANCODE_Z:
-                    _cody->move(4);
-        //            std::cer << "GET DOWN\n";
+                   _cody->move(3,-1);
+                    return false;
+                default:
                     return false;
             }                   
+        case SDL_KEYUP:
+            switch (_event.key.keysym.scancode)
+            {
+                case SDL_SCANCODE_LEFT:
+                   left =false;
+                    return false;
+                case SDL_SCANCODE_RIGHT:
+                    rigth = false;
+                    return false;
+                case SDL_SCANCODE_UP:
+                    up = false;
+                    return false;
+                case SDL_SCANCODE_DOWN:
+                    down = false;
+                    return false;
+                case SDL_SCANCODE_X:
+                    hit =false;
+                    return false;
+                case SDL_SCANCODE_LCTRL:
+                    return false;
             default:
                 return false;
+            }
         }  
-  
         return false;
     }
     return false;
@@ -65,21 +89,23 @@ bool Events::keyboard_event()
 
 
 void Events::second_event(){
-    SDL_Event _2ndevent;
-     if (SDL_PollEvent(&_2ndevent)) 
-    {
-        switch (_event.type)
+ 
+  //  if(jump){
+    //    _cody->move(1,1);
+    //}
+    if(hit){
+        rigth=left=false;
+        _cody->move(2,-1);
+      //  rigth=r;
+       // left=l;
+        }
+    if (up){_cody->move(0,8);}
+    if (rigth) {                    
+        if (_cody->move(0,6))
         {
-            case SDL_KEYDOWN:
-            switch (_2ndevent.key.keysym.scancode)
-            {
-                case SDL_SCANCODE_LCTRL:
-                  //  _cody->move(4);
-                    std::cerr << "test"<< std::endl;
-                    break;
-                default:
-                    break;
-            }
+            _game->move_all();
         }
     }
+    if (left){_cody->move(0,4);}
+    if(down){_cody->move(0,2);}
 }

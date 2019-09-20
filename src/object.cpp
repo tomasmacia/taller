@@ -2,13 +2,18 @@
 #include "iostream"
 #include <SDL2/SDL_image.h>
 
-Object::Object(const std::string &image_path, int x,int y, SDL_Renderer* render):
-    _x(x), _y(y),_render(render) {
-    _image =IMG_Load(image_path.c_str());  
+Object::Object(const std::string &image_path, int x,int y, SDL_Renderer* render, int wide,int heigth):
+    _x(x), _y(y),_render(render),_wide(wide) {
+    if ((_image = IMG_Load(image_path.c_str()))==NULL){
+        std::cerr <<  "No pudo cargar imagen.\n";
+        std::cerr << "Se carga imagen por default\n";
+        _image = SDL_CreateRGBSurface(0, 56, 125, 32, 0, 0, 0, 0);
+        SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 0, 0, 255));
+            } 
     _pos->x= x;
-    _pos->y= y;//350 a 245 --> posiciones que aparentan estar en el suelo
-    _pos->h= _image->clip_rect.h*2.8;
-    _pos->w= _image->clip_rect.w*2.8; 
+    _pos->y= y;//2000 a 120 --> posiciones que aparentan estar en el suelo
+    _pos->h=(heigth) *0.66;// _image->clip_rect.h*2.8;
+    _pos->w= (heigth) * .3; // _image->clip_rect.w*2.8; 
     _rect->h = _image->clip_rect.h;
     _rect->w = _image->clip_rect.w;
     _rect->x = 0;
@@ -21,19 +26,24 @@ Object::Object(const std::string &image_path, int x,int y, SDL_Renderer* render)
 void Object::move(){
     if(moverse){
         _pos->x = _pos->x - mov_fondo;
-    //    std::cerr << "----------------"<<std::endl;
-     //   std::cerr <<"POSICIO X DE BARRIL: "<< _pos->x << std::endl;
     }
 }
 
 void Object::updateImage(){
-    _texture = SDL_CreateTextureFromSurface( _render, _image ); 
-    SDL_RenderCopy( _render, _texture, _rect, _pos );
-    SDL_DestroyTexture(_texture);
+    //Solo se renderiza lo qeu esta cerca de la pantalla
+    if (_pos->x>-200 &_pos->x < _wide/*wide windows*/){
+        _texture = SDL_CreateTextureFromSurface( _render, _image ); 
+        SDL_RenderCopy( _render, _texture, _rect, _pos );
+        SDL_DestroyTexture(_texture);
+    }
     
 }
 
 
 Object::~Object(){
     SDL_DestroyTexture(_texture);
+}
+
+int Object::GetPosY(){
+    return _y;
 }

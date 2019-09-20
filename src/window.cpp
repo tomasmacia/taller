@@ -15,7 +15,6 @@ Window::~Window(){
     IMG_Quit();
     SDL_DestroyRenderer(render);
     SDL_DestroyWindow(_window);
-    SDL_Quit();
 }
 
 
@@ -36,14 +35,9 @@ bool Window::init(){
         0
     );
 
-
-    if (_window == nullptr){
-        raiseException(); //failed to create window.\n
-        return 0;
-    }
     render = SDL_CreateRenderer( _window, -1, SDL_RENDERER_PRESENTVSYNC);
     return true;
-};
+}
 
 void Window::updateWindow(){
     //Actualizo window. 
