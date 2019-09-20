@@ -1,31 +1,64 @@
 #ifndef BACKGROUND_H_
 #define BACKGROUND_H_
-#include "iostream"
 #include <SDL2/SDL.h>
-#include<vector>
+#include <vector>
+#include <iostream>
+#include "entity.h"
 using namespace std;
 
-
 class Background {
+
+private:
+
+  Entity* _entity;              //es el background como un todo
+  Entity* _nearBackground;
+  //Entity* _middleBackground;          //IMPLEMENTAR
+  Entity* _farBackground;
+
+  float NEAR_BACKGROUND_WIDTH;
+  float NEAR_BACKGROUND_HEIGHT;
+  float STARTING_NEAR_BACKGROUND_X;
+  float STARTING_NEAR_BACKGROUND_Y;
+  float NEAR_BACKGROUND_SPEED;
+
+  //float MIDDLE_BACKGROUND_WIDTH;      //IMPLEMENTAR       
+  //float MIDDLE_BACKGROUND_HEIGHT;     //IMPLEMENTAR
+  //float STARTING_MIDDLE_BACKGROUND_X;          //IMPLEMENTAR
+  //float STARTING_MIDDLE_BACKGROUND_Y;          //IMPLEMENTAR
+  //float MIDDLE_BACKGROUND_SPEED;          //IMPLEMENTAR
+
+  float FAR_BACKGROUND_WIDTH;
+  float FAR_BACKGROUND_HEIGHT;
+  float STARTING_FAR_BACKGROUND_X;
+  float STARTING_FAR_BACKGROUND_Y;
+  float FAR_BACKGROUND_SPEED;
+
+  float WHOLE_BACKBROUND_WIDTH;
+  float WHOLE_BACKBROUND_HEIGHT;
+  float STARTING_WHOLE_BACKGROUND_X = STARTING_FAR_BACKGROUND_X;
+  float STARTING_WHOLE_BACKGROUND_Y = STARTING_FAR_BACKGROUND_Y;
+  float WHOLE_BACKGROUND_SPEED = FAR_BACKGROUND_SPEED;
+
+  vector<Entity>* _entitiesOnBackground;
+  SDL_Renderer* _renderer;
+
 public:
     
-    Background(vector<string> g, int h, int w, SDL_Renderer* render,class Game* owner);
+    Background(SDL_Renderer* renderer,vector<Entity>* entitiesOnBackground,
+             float width, float height);
     ~Background();
+
     void move();
     void updateImage();
 
 private:
-    vector<string> g1;
-    int _w, _h,_w_window,cont=1; //contador de cambio de imagen
-    float _x;
-    float mov_fondo = 4 ;
-  class Game* _owner = nullptr;
-    SDL_Surface* _image = NULL; 
-    SDL_Texture* _texture;
-    SDL_Rect* _pos = new SDL_Rect; 
-    SDL_Rect* _rect = new SDL_Rect;
-    SDL_Renderer* _render = nullptr;
-    void nextBackground(const std::string &image_path);//
+
+    void nextBackground(const std::string &image_path);
+
+    void createNearBackground();
+    //void createMiddleBackground();    //IMPLEMENTAR
+    void createFarBackground();
+
 };
 
 #endif

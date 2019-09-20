@@ -24,18 +24,26 @@ include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 set(SOURCE_FILES src/main.cpp 
 src/window.cpp
 src/window.h
-src/events.h 
 src/events.cpp 
+src/events.h  
+src/game.cpp
 src/game.h 
-src/game.cpp 
-src/character.h 
 src/character.cpp 
-src/background.h 
+src/character.h 
 src/background.cpp 
-src/far_background 
-src/far_background.cpp 
+src/background.h 
+src/object.cpp
 src/object.h 
-src/object.cpp)
+src/appearance.cpp
+src/appearance.h
+src/position.cpp
+src/position.h
+src/entity.cpp
+src/entity.h
+src/sprite_parser.cpp
+src/sprite_parser.h
+
+)
 
 add_executable(game ${SOURCE_FILES})
 

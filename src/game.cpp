@@ -29,8 +29,7 @@ void Game::runLoop()
         SDL_RenderClear( _gwindow->getRenderer());
         
         /* Actualizo la imagen */
-        back->updateImage();
-        floor->updateImage();
+        _background->updateImage();
        for (int i = 0; i < barriles.size();i++){
             barriles[i]->updateImage();
         }
@@ -47,10 +46,6 @@ void Game::runLoop()
  //   this->~Game(); 
 }
 
-bool Game::isClosed(){
-    return !isRunning;
-}
-
 Game::~Game()
 {
     g1.clear();
@@ -61,9 +56,7 @@ Game::~Game()
             delete(barriles[i]);
         }
    // floor->~Background();
-    delete(floor);
-  //  back->~Far_background();
-    delete(back);
+    delete(_background);
  //   character->~Character();
     delete(character);
     (_gwindow)->~Window();
@@ -74,11 +67,14 @@ Game::~Game()
 //PUBLIC
 void Game::move_all(){
 //Actualiza posicion de todo menos de cody, en orden.
-   back->move();
-   floor->move();
+   _background->move();
   for (int i = 0; i < barriles.size();i++){
        barriles[i]->move();
    }
+}
+
+bool Game::isClosed(){
+    return !isRunning;
 }
 
 void Game::pj_in_final(){
@@ -95,33 +91,20 @@ void Game::pj_in_final(){
 //PRIVATE
 void Game::initialize() 
 {
-   _gwindow= new Window("Final Figth",_width,_height);
+   _gwindow = new Window("Final Figth",_width,_height);
+   _renderer = _gwindow->getRenderer();
    allCreator(_width,_height);
 }
 
 void Game::allCreator(int width, int heigth){
 //creo cosas del lvl 1
-    level1();
-    back = new Far_background(g2,heigth,width,_gwindow->getRenderer());
-    floor = new Background(g1,heigth,width,_gwindow->getRenderer(), this);   
+    _entities = intializeEntities();
+    //back = new Far_background(g2,heigth,width,_gwindow->getRenderer());
+    _background = new Background(_renderer,_entities, _width,_height);   
     character = new Character("Sprites/cody.png",width,heigth,_gwindow->getRenderer());
 }
 
-void Game::level1(){
-    /* Background */
-    g1.push_back("Sprites/FF_Stage4_floor1.png");
-    g1.push_back("Sprites/FF_Stage4_floor2.png");
-    g1.push_back("Sprites/FF_Stage4_floor3.png");
-    g1.push_back("Sprites/FF_Stage4_floor4.png");
-    g1.push_back("Sprites/FF_Stage4_floor5.png");
-    g1.push_back("Sprites/FF_Stage4_floor6.png");
-    /* Far Background */
-    g2.push_back("Sprites/FF_Stage4_back1.png");
-    g2.push_back("Sprites/FF_Stage4_back2.png");
-    g2.push_back("Sprites/FF_Stage4_back3.png");
-    g2.push_back("Sprites/FF_Stage4_back4.png");
-    g2.push_back("Sprites/FF_Stage4_back5.png");
-    g2.push_back("Sprites/FF_Stage4_back6.png");
+vector<Entity>* Game::intializeEntities(){
     /* Creo 20 Barriles  -->*/
     int pos_x, pos_y;
     srand(time(NULL));

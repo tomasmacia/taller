@@ -4,23 +4,27 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "entity.h"
-#include "sprite_parser.h"
-#include "square.h"
+#include "appearance.h"
 
 //CONSTRUCTOR & DESTRUCTOR
-Entity::Entity(SDL_Renderer* renderer, float side, float x, float y, int r, int g, int b, int a){
-    _square = new Square(renderer,side,x,y,r,g,b,a);
-    _position = new Position(x,y,_square);
+Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y, int r, int g, int b, int a){
+    _appearance = new Appearance(renderer,width,height,x,y,r,g,b,a);
+    _position = new Position(x,y,_appearance);
 }
 
-Entity::Entity(SDL_Renderer* renderer, float side, float x, float y, std::vector <std::string>& spritePaths){
+Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y, std::vector <std::string>& spritePaths){
     _spriteParser = new SpriteParser(spritePaths);
-    _square = new Square(renderer,side,x,y,_spriteParser->next());
-    _position = new Position(x,y,_square);
+    _appearance = new Appearance(renderer,width,height,x,y,_spriteParser->next());
+    _position = new Position(x,y,_appearance);
+}
+
+Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y){
+    _appearance = new Appearance(renderer,width,height,x,y,255,255,255,255);
+    _position = new Position(x,y,_appearance);
 }
 
 Entity::~Entity(){
-    _square->~Square();
+    _appearance->~Appearance();
 }
 
 //PUBLIC
@@ -52,12 +56,24 @@ void Entity::move()
     _position->changeYBy(_velocity_y);
 }
 
+void Entity::applyHorizontalLeftShift(){
+    _position->changeXBy(-SPEED_CONSTANT);
+}
+
+void Entity::applyHorizontalRighShift(){
+    _position->changeXBy(SPEED_CONSTANT);
+}
+
+void Entity::setSpeed(float speed){
+    SPEED_CONSTANT = speed;
+}
+
 void Entity::update(){
     move();
 }
 
 void Entity::display(){
-    _square->display();
+    _appearance->display();
 }
 
 //PRIVATE

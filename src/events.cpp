@@ -2,6 +2,10 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "character.h"
+
+Events::Events(Game* game, Character* cody):
+    _game(game),_cody(cody){};
+
 /* Funcionales son los movimientos (no laterales)
 con las flechas, saltar con LCTRL, golpear con X y agacharse con Z*/
 bool Events::keyboard_event()
@@ -61,8 +65,6 @@ bool Events::keyboard_event()
     }
     return false;
 }
-
-
 
 void Events::second_event(){
     SDL_Event _2ndevent;

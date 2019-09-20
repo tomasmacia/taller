@@ -1,19 +1,19 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "square.h"
+#include "appearance.h"
 
 //CONSTRUCTOR & DESTRUCTOR
-Square::Square(SDL_Renderer* renderer, float side, float x, float y, int r, int g, int b, int a):
+Appearance::Appearance(SDL_Renderer* renderer, float width, float height, float x, float y, int r, int g, int b, int a):
 _renderer(renderer), _r(r), _g(g), _b(b), _a(a){
-    _rectangle = {x, y, side, side};
+    _rectangle = {x, y, width, height};
     _texture = nullptr;
 }
 
-Square::Square(SDL_Renderer* renderer, float side, float x, float y, std::string &image_path):
+Appearance::Appearance(SDL_Renderer* renderer, float width, float height, float x, float y, std::string &image_path):
 _renderer(renderer){
 
-    _rectangle = {x, y, side, side};
+    _rectangle = {x, y, width, height};
 
     auto surface = IMG_Load(image_path.c_str());
     if (!surface){
@@ -27,20 +27,20 @@ _renderer(renderer){
     SDL_FreeSurface(surface);
 }
 
-Square::Square(SDL_Renderer* renderer, float side, float x, float y, SDL_Texture* texture){
+Appearance::Appearance(SDL_Renderer* renderer, float width, float height, float x, float y, SDL_Texture* texture){
 
-    _rectangle = {x, y, side, side};
+    _rectangle = {x, y, width, height};
     _texture = texture;
 }
 
-Square::~Square(){
+Appearance::~Appearance(){
     SDL_DestroyTexture(_texture);
     _texture = nullptr;
     _renderer = nullptr;
 }
 
 //PUBLIC
-void Square::display(){
+void Appearance::display(){
 
     if (_texture){//CON IMAGEN
         SDL_RenderCopy( _renderer, _texture, NULL,&_rectangle );
@@ -51,16 +51,16 @@ void Square::display(){
     }
 }
 
-void Square::setX(float x){
+void Appearance::setX(float x){
     _rectangle.x = x;
 }
 
-void Square::setY(float y){
+void Appearance::setY(float y){
     _rectangle.y = y;
 }
 
 //PRIVATE
 
-void Square::raiseException(std::string mesage){
+void Appearance::raiseException(std::string mesage){
     std::cout<<mesage + "\n";
 }

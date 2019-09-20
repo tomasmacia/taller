@@ -8,7 +8,7 @@ class SpriteParser{
 
 private:
 
-    std::vector <std::string>& _spritePaths;
+    std::vector <std::string> _spritePaths;
 
 public:
     SpriteParser(std::vector <std::string>& spritePaths);

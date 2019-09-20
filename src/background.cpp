@@ -1,77 +1,70 @@
-#include "background.h"
-#include "iostream"
+#include <iostream>
 #include <SDL2/SDL_image.h>
-#include"game.h"
+#include "background.h"
 
-/* Recibe vector con  string de imagenes de fondo, render , alto y ancho de resoucion y al juego */
-Background::Background( vector <string> g, int h,int w, SDL_Renderer* render, Game* owner):
-    _h(h),_x(0), _w_window(w),_render(render),_owner(owner),g1(g) {
-    _image =IMG_Load(g1[0].c_str());
-    _w=(w*(_image->clip_rect.h))/h;
-    _pos->x=0;           // _pos me indica en que parte de la ventana quiero colocar la imagen   
-    _pos->y= 0;          //  (cortada via eleccion de rect). En este caso quiero colocarla en 
-    _pos->h= h;          //  pantalla completa, por los que largo y ancho son los mismos
-    _pos->w=_w_window;   //  que los de la ventana.
-    _rect->h = _image->clip_rect.h;//   Este rect me indica que parte de la imagen 
-    _rect->w = _w;                  //   quiero cortar. X e Y siempre son 0,0. al ppio.
-    _rect->x = _x;                   //  El largo, es uno calulado(relacion entre largo y alto mostrado)
-    _rect->y = 0;                   //  Y lo alto es directamente la misma que la imagen.
-                                    
-                                    // Lo mismo se aplica al far_background (tanto rect como pos)
+//CONSTRUCTOR & DESTRUCTOR
+Background::Background(SDL_Renderer* renderer,vector<Entity>* entitiesOnBackground,
+                    float width, float height){
 
-     //Transparencia en el contorno celeste del suelo
-    SDL_SetColorKey(_image, SDL_TRUE,
-    SDL_MapRGB(_image->format, 0, 162, 232));
-    
+    _entitiesOnBackground = entitiesOnBackground;
+    _renderer = renderer;
 
+    float WHOLE_BACKBROUND_WIDTH = width;
+    float WHOLE_BACKBROUND_HEIGHT = height;
+    _entity = new Entity(renderer, WHOLE_BACKBROUND_WIDTH, WHOLE_BACKBROUND_HEIGHT, 
+                                STARTING_WHOLE_BACKGROUND_X, STARTING_WHOLE_BACKGROUND_Y);
+
+    createNearBackground();
+    //createMiddleBackground();
+    createFarBackground();
 }
 
-void Background::move(){
-    int t = _image->clip_rect.w - _rect->x ;
-    if (t> _rect->w){//-->Cortar al final del background el movimiento
-        _x = _x+mov_fondo;}    //cant de pixeles movida
-
-    // Idea de cortar el mapa en pedazos y 
-    // cargarlos en el momento justo.
-    // Si se opta por cargar la imagen de fondo entera, en el game 
-    // se pone el path de esa imagen y se quita estos elses
-
-    //IMAGEN A PEDAZOS PARECE SER MAS EFICIENTE
-
-    // Con far_backgrund es distinto, las imagenes de fondo eran 4
-    // (1 de noche y 3 de amanecer). Yo lo agrande a 6 para que 
-    // tenga misma cantidad de opciones que el background.
-    
-    else
-    {
-        if (cont != 6){
-        nextBackground(g1[cont].c_str());
-        cont ++;
-        _x = 0;
-        }
-        /* Aviso que se llego al final */
-        else 
-        {
-            _owner->pj_in_final();
-        }
-    }
-    _rect->x= _x;
+Background::~Background(){              //DOES NOT HANDLES THE ENTITIES ON HIM
+    delete(_entity);
+    delete(_nearBackground);
+    //delete(_middleBackground);
+    delete(_farBackground);
 }
 
-void Background::updateImage(){
-    _texture = SDL_CreateTextureFromSurface( _render, _image ); 
-    SDL_RenderCopy( _render, _texture, _rect, _pos );
-    SDL_DestroyTexture(_texture);
+//PUBLIC
+void Background::move(){                //PARALAX IMPLEMENTATION
+    _entity->applyHorizontalLeftShift();
+    _nearBackground->applyHorizontalLeftShift();
+    //_middleBackground->applyHorizontalLeftShift();
+    _farBackground->applyHorizontalLeftShift();
 }
 
-void Background::nextBackground(const std::string &image_path){
-    SDL_FreeSurface(_image);
-    _image = IMG_Load(image_path.c_str());
-    SDL_SetColorKey(_image, SDL_TRUE,
-    SDL_MapRGB(_image->format, 0, 162, 232));
+void Background::updateImage(){}
 
+//PRIVATE
+void Background::createNearBackground(){
+    std::vector <std::string> nearBackgroundSpritePaths;
+
+    nearBackgroundSpritePaths.push_back("Sprites/FF_Stage4_floor1.png");
+    nearBackgroundSpritePaths.push_back("Sprites/FF_Stage4_floor2.png");
+    nearBackgroundSpritePaths.push_back("Sprites/FF_Stage4_floor3.png");
+    nearBackgroundSpritePaths.push_back("Sprites/FF_Stage4_floor4.png");
+    nearBackgroundSpritePaths.push_back("Sprites/FF_Stage4_floor5.png");
+    nearBackgroundSpritePaths.push_back("Sprites/FF_Stage4_floor6.png");
+
+    _nearBackground = new Entity(_renderer, NEAR_BACKGROUND_WIDTH, NEAR_BACKGROUND_HEIGHT,
+                                 STARTING_NEAR_BACKGROUND_X, STARTING_NEAR_BACKGROUND_Y,
+                                 nearBackgroundSpritePaths);
+    _nearBackground->setSpeed(NEAR_BACKGROUND_SPEED);                       
 }
 
-Background::~Background(){
-    SDL_DestroyTexture(_texture);
+void Background::createFarBackground(){
+    std::vector <std::string> farBackgroundSpritePaths;
+
+    farBackgroundSpritePaths.push_back("Sprites/FF_Stage4_back1.png");
+    farBackgroundSpritePaths.push_back("Sprites/FF_Stage4_back2.png");
+    farBackgroundSpritePaths.push_back("Sprites/FF_Stage4_back3.png");
+    farBackgroundSpritePaths.push_back("Sprites/FF_Stage4_back4.png");
+    farBackgroundSpritePaths.push_back("Sprites/FF_Stage4_back5.png");
+    farBackgroundSpritePaths.push_back("Sprites/FF_Stage4_back6.png");
+
+    _farBackground = new Entity(_renderer, FAR_BACKGROUND_WIDTH, FAR_BACKGROUND_HEIGHT,
+                         STARTING_WHOLE_BACKGROUND_X, STARTING_WHOLE_BACKGROUND_Y,
+                         farBackgroundSpritePaths);
+    _farBackground->setSpeed(FAR_BACKGROUND_SPEED);
 }

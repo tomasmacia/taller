@@ -7,8 +7,6 @@
 #include "object.h"
 #include "window.h"
 #include "background.h"
-#include "far_background.h"
-#include "object.h"
 
 class Game
 {
@@ -19,14 +17,15 @@ private:
     int _height;
 
     class Character* character;
-    Far_background* back;
-    Background* floor;
+    Background* _background;
+    vector<Entity>* _entities;  //NOT THE BACKGROUND NOR THE MAIN CHARACTER
 
     std::vector <string> g1;
     std::vector <string> g2;
     std::vector <Object*> barriles;
 
-    class Window* _gwindow;
+    Window* _gwindow;
+    SDL_Renderer* _renderer;
 
 public:
 /*Constructor*/
@@ -37,12 +36,13 @@ public:
     void runLoop();
     void move_all();
     void pj_in_final();
+
     bool isClosed();                            //agregado
 
 private:
     void initialize();                          //refactorizado
     void allCreator(int width, int heigth);     //revisado (esta bastante bien)    
-    void level1();                              //revisado (esta bastante bien)
+    vector<Entity>* intializeEntities();        //refactorizado
     void fpsChanged(int fps);                   //revisado (esta bastante bien)
 };
 #endif

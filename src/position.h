@@ -1,17 +1,17 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "square.h"
+#include "appearance.h"
 
 class Position{
 
 private:
     float _x;
     float _y;
-    Square* _square;
+    Appearance* _appearance;
 
 public:
-    Position(float x,float y,Square* square);
+    Position(float x,float y,Appearance* appearance);
     ~Position();
 
     void changeXBy(float amount);
