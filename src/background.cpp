@@ -9,7 +9,7 @@ Background::Background( vector <string> g, int h,int w, SDL_Renderer* render, Ga
    if (lvl_parallax==2 or 3){
        _h = _h*0.8125;
    }
-    nextBackground(g1[0].c_str());
+    nextBackground(g1[cont].c_str());
     _w=(w*(_image->clip_rect.h))/_h;
     _pos->x=0;           // _pos me indica en que parte de la ventana quiero colocar la imagen   
     _pos->y= 0;          //  (cortada via eleccion de rect). En este caso quiero colocarla en 
