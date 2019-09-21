@@ -57,22 +57,20 @@ public:
     Background(SDL_Renderer* renderer, float width, float height);
     ~Background();
 
-    float getWidthScaleFactorScreenToNear();
-    void setGameObjects(vector<Barrel*>* entitiesOnBackground);
 
     void applyHorizontalLeftShift();
     void applyHorizontalRighShift();
     void setSpeed(float speed);
 
+    void setGameObjects(vector<Barrel*>* entitiesOnBackground);
+    float getWidth();
+
     void updateImage();
 
 private:
-
-    void nextBackground(const std::string &image_path);
-
-    void createBackgroundEntity(float width, float height);
-    void createNearBackground();
+    void createNearBackground(float width, float height);
     //void createMiddleBackground();            //IMPLEMENTAR
     void createFarBackground();
+    void createBackgroundEntity();
 };
 #endif

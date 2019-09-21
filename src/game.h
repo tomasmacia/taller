@@ -8,6 +8,7 @@
 #include "background.h"
 #include "barrel.h"
 #include "character.h"
+#include "event_handler.h"
 
 class Game
 {
@@ -33,28 +34,29 @@ private:
     //PERSEPCTIVE
     float MIN_SCALE_FACTOR = 0.35;   
 
-    class Character* character;
-    Background* _background;
-    std::vector <Barrel*> _entities;  //ONLY GAME OBJECTS
+    Character* character = nullptr;
+    Background* _background  = nullptr;
+    std::vector <Barrel*> _entities; //ONLY GAME OBJECTS
     
-    Window* _window;
+    EventHandler* _eventHandler = nullptr;
+    Window* _window = nullptr;
     SDL_Renderer* _renderer;
 
 public:
 /*Constructor*/
-    Game(int width, int heigth);                //refactorizado
+    Game(int width, int heigth);
  /*Destructor*/
     ~Game();
 
-    void runLoop();
-    void move_all();
-    void handleEvents();
-    //void pj_in_final();
+    void handleInput();
+    void update();
+    void displaya();
 
-    bool isClosed();                            //agregado
+    bool isClosed();
+    void move_all();
 
 private:   
-    void intializeGameObjects();                //refactorizado
-    void fpsChanged(int fps);                   //revisado (esta bastante bien)
+    void intializeGameObjects();
+    void fpsChanged(int fps);
 };
 #endif

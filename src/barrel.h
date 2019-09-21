@@ -11,8 +11,9 @@ private:
 
    Entity* _entity;
 
-   float DEFAULT_WIDTH = 450;
-   float DEFAULT_HEIGHT = 600;
+   float MAX_WIDTH = 450;
+   float MAX_HEIGHT = 600;
+   
    const std::string IMAGE_PATH = "Sprites/barril.png";
     int R_TRANSAPRENT = 88;
     int G_TRANSAPRENT = 184;
@@ -27,6 +28,8 @@ public:
     void applyHorizontalLeftShift();
     void applyHorizontalRighShift();
     void setSpeed(float speed);
+
+    float getY();
     
     void updateImage();
 };

@@ -9,6 +9,7 @@
 class Appearance{
 
 private:
+    //DEFAULT COLOR WHEN NO IMAGEN LOADED *MAGENTA*
     int _r = 255;
     int _g = 0;
     int _b = 255;

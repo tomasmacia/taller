@@ -15,6 +15,7 @@ private:
 
 public:
     SpriteParser(std::vector <Sprite*>* sprites);
+    ~SpriteParser();
 
     Sprite* next();
 

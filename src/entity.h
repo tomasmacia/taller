@@ -47,6 +47,8 @@ public: //se que parecen muchos constructores pero es la solucion mas simple. Da
     void applyHorizontalRighShift();
     void setSpeed(float speed);
 
+    float getY();
+
     void updateImage();
 
 private:

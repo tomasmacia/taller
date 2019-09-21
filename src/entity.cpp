@@ -122,6 +122,10 @@ void Entity::setSpeed(float speed){
     SPEED_CONSTANT = speed;
 }
 
+float Entity::getY(){
+    return _position->getY();
+}
+
 void Entity::updateImage(){
     if (_spriteParser && animationRunning){
         _appearance->loadImage(_spriteParser->next());

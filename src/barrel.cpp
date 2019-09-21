@@ -6,7 +6,7 @@
 Barrel::Barrel(SDL_Renderer* renderer, float x, float y, float minScaleFactor, float maxY, float minY){
    _renderer = renderer;
    Sprite* sprite = new Sprite(IMAGE_PATH,R_TRANSAPRENT,G_TRANSAPRENT,B_TRANSAPRENT);
-   _entity = new Entity(_renderer, DEFAULT_WIDTH, DEFAULT_HEIGHT, x, y, sprite, minScaleFactor, maxY, minY);
+   _entity = new Entity(_renderer, MAX_WIDTH, MAX_HEIGHT, x, y, sprite, minScaleFactor, maxY, minY);
 
 
 }
@@ -26,6 +26,10 @@ void Barrel::applyHorizontalRighShift(){
 
 void Barrel::setSpeed(float speed){
     _entity->setSpeed(speed);
+}
+
+float Barrel::getY(){
+    return _entity->getY();
 }
 
 void Barrel::updateImage(){

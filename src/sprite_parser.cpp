@@ -13,6 +13,14 @@ SpriteParser::SpriteParser(std::vector <Sprite*>* sprites){
     _currentSpriteNumber = 0;
 }
 
+SpriteParser::~SpriteParser(){
+    if (_sprites){
+        for (int  i = 0; i < _sprites->size(); i++){
+            delete(_sprites->at(i));
+        }
+    }
+}
+
 //PUBLIC
 Sprite* SpriteParser::next(){
     _currentSpriteNumber++;
