@@ -25,7 +25,7 @@ void Game::runLoop(int width, int heigth)
 {
     Uint32 fps_last = SDL_GetTicks();
     Uint32 current;
-    level1(10,15,10,width,heigth);
+    level1(2,15,10,width,heigth);
 
     Events event(this, character);
     //loop hasta que se aprete ESC o click en (X)
@@ -46,6 +46,12 @@ void Game::runLoop(int width, int heigth)
                     barriles[i]->updateImage();
             }
             }
+            /* Enemigos con pos y menor a pj */
+            for (int i = 0; i < enemigos.size();i++){
+                if(character->GetPosY() >= enemigos[i]->GetPosY()){
+                    enemigos[i]->updateImage();
+            }
+            }
             /* cody se actualiza a lo ultimo */
             character->updateImage();
             _enemy->updateImage();
@@ -54,6 +60,12 @@ void Game::runLoop(int width, int heigth)
             for (int i = 0; i < barriles.size();i++){
                 if(character->GetPosY() < barriles[i]->GetPosY()){
                     barriles[i]->updateImage();
+            }
+            /* Enemigos con pos y mayor a pj */
+            for (int i = 0; i < enemigos.size();i++){
+                if(character->GetPosY() >= enemigos[i]->GetPosY()){
+                    enemigos[i]->updateImage();
+            }
             }
             /* Estoy recorriendo 2 veces el mismo vector para poner 
             cosas que estan detras de cody detras, ¿es necesario? */
@@ -104,6 +116,11 @@ void Game::move_all(){
   for (int i = 0; i < barriles.size();i++){
        barriles[i]->move();
    }
+
+   for (int i = 0; i < enemigos.size(); i++){
+       enemigos[i]->move();
+   }
+
    front->move();
 }
 // Copiado del de SDLTest, para ver fps(creo)
@@ -122,6 +139,9 @@ void Game::pj_in_final(){
     //cody al final de la pantalla
     for (int i = 0; i < barriles.size();i++){
         barriles[i]->moverse=false;
+    }
+    for (int i = 0; i < enemigos.size();i++){
+        enemigos[i]->moverse=false;
     }
 }
 
@@ -165,6 +185,13 @@ void Game::level1(int enemy, int objetos, int armas,int width,int heigth){
         pos_x =rand()%20001;
         pos_y = 120 +rand() % (201 - 120);
         barriles.push_back(new Object("Sprites/barril.png",pos_x, pos_y,_gwindow->render,width,heigth));
+    }
+
+    /* posiciones de los enemigos aleatorios en el rango del suelo */
+    for (int i=0; i < enemy; i++){
+        pos_x = rand()%20001;
+        pos_y = 120 +rand() %(201 - 120);
+        enemigos.push_back(new Enemy("Sprites/enemy.png",pos_x, pos_y, _gwindow->render, width, heigth));
     }
 
     //solo existe una clase back, a los backs de fondo no les sirve pasarle game pero
