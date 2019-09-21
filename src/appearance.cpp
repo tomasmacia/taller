@@ -10,10 +10,10 @@ _r(r), _g(g), _b(b), _a(a){
     _rectangle = {x, y, width, height};
 }
 
-Appearance::Appearance(SDL_Renderer* renderer, float width, float height, float x, float y, std::string image_path){
+Appearance::Appearance(SDL_Renderer* renderer, float width, float height, float x, float y, Sprite* sprite){
     _renderer = renderer;
     _rectangle = {x, y, width, height};
-    loadImage(image_path);
+    loadImage(sprite);
 }
 
 Appearance::Appearance(SDL_Renderer* renderer, float width, float height, float x, float y, SDL_Texture* texture){
@@ -29,12 +29,18 @@ Appearance::~Appearance(){
 }
 
 //PUBLIC
-void Appearance::loadImage(std::string imagePath){
+void Appearance::loadImage(Sprite* sprite){
+
+    std::string imagePath = sprite->getImagePath();
+    int _r_transparent = sprite->getRTransparent();
+    int _g_transparent = sprite->getGTransparent();
+    int _b_transparent = sprite->getBTransparent();
+
     auto surface = IMG_Load(imagePath.c_str());
     if (!surface){
         raiseException("failed to create surface");
     }
-    SDL_SetColorKey( surface, SDL_TRUE, SDL_MapRGB( surface->format, 0, 162, 232) );
+    SDL_SetColorKey( surface, SDL_TRUE, SDL_MapRGB( surface->format, _r_transparent, _g_transparent, _b_transparent) );
 
     _texture = SDL_CreateTextureFromSurface(_renderer,surface);
     if (!_texture){

@@ -12,14 +12,14 @@ Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float
     _position = new Position(x,y,_appearance);
 }
 
-Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y, std::vector <std::string>& spritePaths){
-    _spriteParser = new SpriteParser(spritePaths);
+Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y, std::vector <Sprite*>* sprites){
+    _spriteParser = new SpriteParser(sprites);
     _appearance = new Appearance(renderer,width,height,x,y,_spriteParser->next());
     _position = new Position(x,y,_appearance);
 }
 
-Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y, std::string& spritePath){
-    _appearance = new Appearance(renderer,width,height,x,y,spritePath);
+Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y, Sprite* sprite){    
+    _appearance = new Appearance(renderer,width,height,x,y,sprite);
     _position = new Position(x,y,_appearance);
 }
 

@@ -3,19 +3,20 @@
 #include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include "sprite.h"
 
 class SpriteParser{ //ESTA IMPLEMENTADO COMO PARA QUE UNO LE CARGE UN VECTOR DE PATHS DE SPRITS YA SEPARADOS
 
 private:
 
-    std::vector <std::string> _spritePaths;
+    std::vector <Sprite*>* _sprites;
     int _totalSprites;
     int _currentSpriteNumber;
 
 public:
-    SpriteParser(std::vector <std::string>& spritePaths);
+    SpriteParser(std::vector <Sprite*>* sprites);
 
-    std::string next();
+    Sprite* next();
 
 private:
     void raiseException(std::string mesage);

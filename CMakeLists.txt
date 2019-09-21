@@ -44,6 +44,8 @@ src/sprite_parser.cpp
 src/sprite_parser.h
 src/game_object.cpp
 src/game_object.h
+src/sprite.cpp
+src/sprite.h
 
 )
 

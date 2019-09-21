@@ -5,7 +5,8 @@
 //CONSTRUCTOR & DESTRUCTOR
 Barrel::Barrel(SDL_Renderer* renderer, float x, float y){
    _renderer = renderer;
-   _entity = new Entity(_renderer, WIDTH, HEIGHT, x, y);
+   Sprite* sprite = new Sprite(IMAGE_PATH,R_TRANSAPRENT,G_TRANSAPRENT,B_TRANSAPRENT);
+   _entity = new Entity(_renderer, WIDTH, HEIGHT, x, y, sprite);
 }
 
 Barrel::~Barrel(){

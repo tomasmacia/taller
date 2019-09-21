@@ -74,6 +74,7 @@ void Background::createNearBackground(){
     STARTING_NEAR_BACKGROUND_X = STARTING_WHOLE_BACKGROUND_X;
     STARTING_NEAR_BACKGROUND_Y = STARTING_WHOLE_BACKGROUND_Y;
 
+    /*
     std::vector <std::string> nearBackgroundSpritePaths;
 
     nearBackgroundSpritePaths.push_back("Sprites/FF_Stage4_floor1.png");
@@ -82,10 +83,13 @@ void Background::createNearBackground(){
     nearBackgroundSpritePaths.push_back("Sprites/FF_Stage4_floor4.png");
     nearBackgroundSpritePaths.push_back("Sprites/FF_Stage4_floor5.png");
     nearBackgroundSpritePaths.push_back("Sprites/FF_Stage4_floor6.png");
+    */
+    Sprite* nearBackgroundSprite = new Sprite("Sprites/FF_Stage4_floor.png",
+                                                        0,162,232);
 
     _nearBackground = new Entity(_renderer, NEAR_BACKGROUND_WIDTH, NEAR_BACKGROUND_HEIGHT,
                                  STARTING_NEAR_BACKGROUND_X, STARTING_NEAR_BACKGROUND_Y,
-                                 nearBackgroundSpritePaths);
+                                 nearBackgroundSprite);
     _nearBackground->setSpeed(NEAR_BACKGROUND_SPEED);                       
 }
 
@@ -95,7 +99,7 @@ void Background::createFarBackground(){
     FAR_BACKGROUND_HEIGHT = WHOLE_BACKGROUND_HEIGHT;
     STARTING_FAR_BACKGROUND_X = STARTING_WHOLE_BACKGROUND_X;
     STARTING_FAR_BACKGROUND_Y = STARTING_WHOLE_BACKGROUND_Y;
-
+    /*
     std::vector <std::string> farBackgroundSpritePaths;
 
     farBackgroundSpritePaths.push_back("Sprites/FF_Stage4_back1.png");
@@ -104,9 +108,11 @@ void Background::createFarBackground(){
     farBackgroundSpritePaths.push_back("Sprites/FF_Stage4_back4.png");
     farBackgroundSpritePaths.push_back("Sprites/FF_Stage4_back5.png");
     farBackgroundSpritePaths.push_back("Sprites/FF_Stage4_back6.png");
-
+    */
+    Sprite* farBackgroundSprite = new Sprite("Sprites/FF_Stage4_back.png",
+                                                        255,255,255);
     _farBackground = new Entity(_renderer, FAR_BACKGROUND_WIDTH, FAR_BACKGROUND_HEIGHT,
                          STARTING_FAR_BACKGROUND_X, STARTING_FAR_BACKGROUND_Y,
-                         farBackgroundSpritePaths);
+                         farBackgroundSprite);
     _farBackground->setSpeed(FAR_BACKGROUND_SPEED);
 }

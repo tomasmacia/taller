@@ -23,8 +23,8 @@ private:
 
 public:
     Entity(SDL_Renderer* renderer, float width, float height, float x, float y, int r, int g, int b, int a);
-    Entity(SDL_Renderer* renderer, float width, float height, float x, float y, std::vector <std::string>& spritePaths);
-    Entity(SDL_Renderer* renderer, float width, float height, float x, float y, std::string& spritePath);
+    Entity(SDL_Renderer* renderer, float width, float height, float x, float y, std::vector <Sprite*>* sprites);
+    Entity(SDL_Renderer* renderer, float width, float height, float x, float y, Sprite* sprite);
     Entity(SDL_Renderer* renderer, float width, float height, float x, float y);
     ~Entity();
 
