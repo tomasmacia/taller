@@ -15,6 +15,8 @@ private:
     float _velocity_x = 0;
     float _velocity_y = 0;
 
+    bool animationRunning = false;
+
     SpriteParser* _spriteParser = nullptr;
     Position* _position = nullptr;
     Appearance* _appearance = nullptr; //esta fuertemente ligada a la posicion

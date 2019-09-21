@@ -12,7 +12,14 @@ Game::Game(int width, int heigth)
 {
     _width = width;
     _height = heigth;
-    initialize();
+
+    _window = new Window(GAME_NAME,_width,_height);
+    _renderer = _window->getRenderer();
+
+    intializeGameObjects();
+    _background = new Background(_renderer,&_entities, _width,_height);   
+    character = new Character("Sprites/cody.png",width,heigth,_renderer);
+
 }
 
 void Game::runLoop()
@@ -20,14 +27,14 @@ void Game::runLoop()
     Events event(this, character);
     isRunning = !(event.keyboard_event());  
 
-    _gwindow->clear();
+    _window->clear();
     _background->updateImage();
 
     for (int i = 0; i < _entities.size();i++){
         _entities.at(i)->updateImage();
     }
     character->updateImage();
-    _gwindow->display();
+    _window->display();
 }
 
 Game::~Game(){
@@ -36,32 +43,21 @@ Game::~Game(){
         }
     delete(_background);
     delete(character);
-    delete(_gwindow);
+    delete(_window);
 }
 
 //PUBLIC
+
 void Game::move_all(){
     _background->applyHorizontalLeftShift();
 }
+
 
 bool Game::isClosed(){
     return !isRunning;
 }
 
 //PRIVATE
-void Game::initialize() 
-{
-   _gwindow = new Window("Final Figth",_width,_height);
-   _renderer = _gwindow->getRenderer();
-    allCreator(_width,_height);
-}
-
-void Game::allCreator(int width, int heigth){
-    intializeGameObjects();
-    _background = new Background(_renderer,&_entities, _width,_height);   
-    character = new Character("Sprites/cody.png",width,heigth,_renderer);
-}
-
 void Game::intializeGameObjects(){
     float pos_x, pos_y;
     srand(time(NULL));
@@ -80,7 +76,7 @@ void Game::fpsChanged(int fps){
     char szFps[128];
     sprintf(szFps,"%s: %d FPS","Final Figth",fps);
 
-    SDL_SetWindowTitle(_gwindow->getWindow(), szFps);
+    SDL_SetWindowTitle(_window->getWindow(), szFps);
 }
 
 

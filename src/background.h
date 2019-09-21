@@ -10,7 +10,7 @@ class Background {
 
 private:
 
-  Entity* _entity;              //es el background como un todo
+  Entity* _entity;              //es el background como un todo INTUYO QUE VA A SER UTIL DESPUES AUNQUE AHORA NO LO USE TANTO
   Entity* _nearBackground;
   //Entity* _middleBackground;          //IMPLEMENTAR
   Entity* _farBackground;
@@ -31,12 +31,12 @@ private:
   float FAR_BACKGROUND_HEIGHT;
   float STARTING_FAR_BACKGROUND_X;
   float STARTING_FAR_BACKGROUND_Y;
-  float FAR_BACKGROUND_SPEED = NEAR_BACKGROUND_SPEED/3;
+  float FAR_BACKGROUND_SPEED;
 
-  float WHOLE_BACKBROUND_WIDTH;
-  float WHOLE_BACKBROUND_HEIGHT;
-  float STARTING_WHOLE_BACKGROUND_X = STARTING_FAR_BACKGROUND_X;
-  float STARTING_WHOLE_BACKGROUND_Y = STARTING_FAR_BACKGROUND_Y;
+  float WHOLE_BACKGROUND_WIDTH;
+  float WHOLE_BACKGROUND_HEIGHT;
+  float STARTING_WHOLE_BACKGROUND_X;
+  float STARTING_WHOLE_BACKGROUND_Y;
   float WHOLE_BACKGROUND_SPEED = FAR_BACKGROUND_SPEED;
 
   vector<Barrel*>* _entitiesOnBackground;

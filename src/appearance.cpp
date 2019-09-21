@@ -34,6 +34,7 @@ void Appearance::loadImage(std::string imagePath){
     if (!surface){
         raiseException("failed to create surface");
     }
+    SDL_SetColorKey( surface, SDL_TRUE, SDL_MapRGB( surface->format, 0, 162, 232) );
 
     _texture = SDL_CreateTextureFromSurface(_renderer,surface);
     if (!_texture){

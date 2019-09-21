@@ -9,14 +9,18 @@ Background::Background(SDL_Renderer* renderer,vector<Barrel*>* entitiesOnBackgro
     _entitiesOnBackground = entitiesOnBackground;
     _renderer = renderer;
 
-    float WHOLE_BACKBROUND_WIDTH = width;
-    float WHOLE_BACKBROUND_HEIGHT = height;
-    _entity = new Entity(renderer, WHOLE_BACKBROUND_WIDTH, WHOLE_BACKBROUND_HEIGHT, 
+    WHOLE_BACKGROUND_WIDTH = width;
+    WHOLE_BACKGROUND_HEIGHT = height;
+    STARTING_WHOLE_BACKGROUND_X = 0;
+    STARTING_WHOLE_BACKGROUND_Y = 0;
+    _entity = new Entity(renderer, WHOLE_BACKGROUND_WIDTH, WHOLE_BACKGROUND_HEIGHT, 
                                 STARTING_WHOLE_BACKGROUND_X, STARTING_WHOLE_BACKGROUND_Y);
 
     createNearBackground();
     //createMiddleBackground();
     createFarBackground();
+
+    setSpeed(1);
 }
 
 Background::~Background(){              //DOES NOT HANDLES THE ENTITIES ON HIM
@@ -57,13 +61,19 @@ void Background::setSpeed(float speed){
 }
 
 void Background::updateImage(){
-    _nearBackground->updateImage();
-    //_middleBackground->updateImage();
     _farBackground->updateImage();
+    //_middleBackground->updateImage();
+    _nearBackground->updateImage();
 }
 
 //PRIVATE
 void Background::createNearBackground(){
+
+    NEAR_BACKGROUND_WIDTH = WHOLE_BACKGROUND_WIDTH;
+    NEAR_BACKGROUND_HEIGHT = WHOLE_BACKGROUND_HEIGHT;
+    STARTING_NEAR_BACKGROUND_X = STARTING_WHOLE_BACKGROUND_X;
+    STARTING_NEAR_BACKGROUND_Y = STARTING_WHOLE_BACKGROUND_Y;
+
     std::vector <std::string> nearBackgroundSpritePaths;
 
     nearBackgroundSpritePaths.push_back("Sprites/FF_Stage4_floor1.png");
@@ -80,6 +90,12 @@ void Background::createNearBackground(){
 }
 
 void Background::createFarBackground(){
+
+    FAR_BACKGROUND_WIDTH = WHOLE_BACKGROUND_WIDTH;
+    FAR_BACKGROUND_HEIGHT = WHOLE_BACKGROUND_HEIGHT;
+    STARTING_FAR_BACKGROUND_X = STARTING_WHOLE_BACKGROUND_X;
+    STARTING_FAR_BACKGROUND_Y = STARTING_WHOLE_BACKGROUND_Y;
+
     std::vector <std::string> farBackgroundSpritePaths;
 
     farBackgroundSpritePaths.push_back("Sprites/FF_Stage4_back1.png");
@@ -90,7 +106,7 @@ void Background::createFarBackground(){
     farBackgroundSpritePaths.push_back("Sprites/FF_Stage4_back6.png");
 
     _farBackground = new Entity(_renderer, FAR_BACKGROUND_WIDTH, FAR_BACKGROUND_HEIGHT,
-                         STARTING_WHOLE_BACKGROUND_X, STARTING_WHOLE_BACKGROUND_Y,
+                         STARTING_FAR_BACKGROUND_X, STARTING_FAR_BACKGROUND_Y,
                          farBackgroundSpritePaths);
     _farBackground->setSpeed(FAR_BACKGROUND_SPEED);
 }

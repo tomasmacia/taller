@@ -11,8 +11,8 @@ private:
 
    Entity* _entity;
 
-   float WIDTH = 40;
-   float HEIGHT = 80;
+   float WIDTH = 90;    //que sea en funcion de la y
+   float HEIGHT = 150;  //que sea en funcion de la y
    const std::string &IMAGE_PATH = "Sprites/barril.png";
 
    SDL_Renderer* _renderer;

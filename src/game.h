@@ -21,11 +21,13 @@ private:
     int METALIC_TUBE_AMOUNT;
     int KNIFE_AMOUNT;
 
+    const std::string GAME_NAME = "Final Figth";
+
     class Character* character;
     Background* _background;
     std::vector <Barrel*> _entities;  //ONLY GAME OBJECTS
     
-    Window* _gwindow;
+    Window* _window;
     SDL_Renderer* _renderer;
 
 public:
@@ -40,10 +42,8 @@ public:
 
     bool isClosed();                            //agregado
 
-private:
-    void initialize();                          //refactorizado
-    void allCreator(int width, int heigth);     //revisado (esta bastante bien)    
-    void intializeGameObjects();     //refactorizado
+private:   
+    void intializeGameObjects();                //refactorizado
     void fpsChanged(int fps);                   //revisado (esta bastante bien)
 };
 #endif

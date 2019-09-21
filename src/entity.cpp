@@ -74,7 +74,7 @@ void Entity::setSpeed(float speed){
 }
 
 void Entity::updateImage(){
-    if (_spriteParser){
+    if (_spriteParser && animationRunning){
         _appearance->loadImage(_spriteParser->next());
     }
     _appearance->updateImage();
