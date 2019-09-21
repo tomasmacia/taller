@@ -57,7 +57,7 @@ void Game::runLoop(int width, int heigth)
             /* Estoy recorriendo 2 veces el mismo vector para poner 
             cosas que estan detras de cody detras, ¿es necesario? */
             }
-
+            front->updateImage();
             /* Refresco la pantalla con nueva posicion */
 
             _gwindow->updateWindow();
@@ -101,6 +101,7 @@ void Game::move_all(){
   for (int i = 0; i < barriles.size();i++){
        barriles[i]->move();
    }
+   front->move();
 }
 // Copiado del de SDLTest, para ver fps(creo)
 void Game::fpsChanged(int fps){
@@ -145,6 +146,12 @@ void Game::level1(int enemy, int objetos, int armas,int width,int heigth){
     gmiddle.push_back("Sprites/barcos0.png");
     gmiddle.push_back("Sprites/barcos1.png");
 
+    gfront.push_back("Sprites/FF_Stage4_overlay1.png");
+    gfront.push_back("Sprites/FF_Stage4_overlay2.png");
+    gfront.push_back("Sprites/FF_Stage4_overlay3.png");
+    gfront.push_back("Sprites/FF_Stage4_overlay4.png");
+    gfront.push_back("Sprites/FF_Stage4_overlay5.png");
+    gfront.push_back("Sprites/FF_Stage4_overlay6.png");
 
     /* Creo 15 Barriles  -->*/
     int pos_x, pos_y;
@@ -164,6 +171,7 @@ void Game::level1(int enemy, int objetos, int armas,int width,int heigth){
     // y el lvl de background que es (1 es el mas cercano, 2 el del medio y 3 el lejano)
     back = new Background(g2,heigth,width,_gwindow->render, this, 0.0882,3);
     middle = new Background(gmiddle,heigth,width,_gwindow->render,this, 0.35,3);
-    floor = new Background(g1,heigth,width,_gwindow->render, this,0.7, 1);   
+    floor = new Background(g1,heigth,width,_gwindow->render, this,0.7, 1);  
+    front =  new Background(gfront,heigth,width,_gwindow->render, this,0.7, 1);
     character = new Character(this,width,heigth,_gwindow->render);
 }

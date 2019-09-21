@@ -47,10 +47,10 @@ void Background::move(){
     
     else
     {
-        if (cont != g1.size()){
+        if (cont < g1.size()){
             SDL_FreeSurface(_image);
             nextBackground(g1[cont].c_str());
-            cont ++;
+            //cont ++;
             _x = 0;
         }
         /* Aviso que se llego al final */
@@ -73,6 +73,7 @@ void Background::updateImage(){
 void Background::nextBackground(const std::string &image_path){
     /* Carga la imagen o muestra pantallas verde(backs lejanos) o roja(back del piso)
     si no las encuentra. */
+    cont++;
     if ((_image = IMG_Load(image_path.c_str()))==NULL){
         std::cerr <<  "No pudo cargar imagen.\n";
         std::cerr << "Se carga imagen por default\n";

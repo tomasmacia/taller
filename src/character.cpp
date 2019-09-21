@@ -33,9 +33,9 @@ bool Character::move(int option,int p){
     //Limites de movimiento harcodeados en relacion a imagen y pantalla
     
     if (state==8){option = 8;}
-    std::cerr << option<< "    " << p<< std::endl;
+   // std::cerr << option<< "    " << p<< std::endl;
     state = option; 
-    std::cerr << option<< std::endl;
+  //  std::cerr << option<< std::endl;
     while(option ==0){
         cont++; 
         if(p == 4 ){

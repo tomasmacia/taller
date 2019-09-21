@@ -16,7 +16,7 @@ public:
 private:
     int lvl_parallax;
     vector<string> g1;
-    int _w, _h,_w_window,cont=1; //contador de cambio de imagen
+    int _w, _h,_w_window,cont=0; //contador de cambio de imagen
     float _x;
     float mov_fondo = 3 ;
   class Game* _owner = nullptr;

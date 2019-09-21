@@ -18,7 +18,7 @@ public:
     ~Game();   
     class Character* character;
     Background* back, *middle;
-    Background* floor;
+    Background* floor, *front;
     void move_all();
     void pj_in_final();
 
@@ -32,6 +32,7 @@ private:
     std::vector <string> g1;
     std::vector <string> gmiddle;
     std::vector <string> g2;
+     std::vector <string> gfront;
     std::vector <Object*> barriles;
     void level1(int enemy, int objetos, int armas,int heigth,int width);
 
