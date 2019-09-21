@@ -4,9 +4,6 @@
 class EventHandler{
 
 private:
-    bool up=false ,rigth=false, left=false, down=false,
-         hit=false, jump=false;
-
     Character* _cody;
     Game* _game;
     SDL_Event _event;
@@ -16,4 +13,4 @@ public:
 
     void handleAllEventsInQueue();
     void execute_event();
-};
+}

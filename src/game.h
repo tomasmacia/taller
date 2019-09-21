@@ -50,9 +50,10 @@ public:
 
     void handleInput();
     void update();
-    void displaya();
+    void display();
 
     bool isClosed();
+    void close();
     void move_all();
 
 private:   

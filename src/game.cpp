@@ -58,6 +58,7 @@ void Game::update()
     for (int i = 0; i < _entities.size();i++){
         if(character->getY() < _entities[i]->getY()){
             _entities[i]->updateImage();
+        }
     }
 }
 
@@ -71,6 +72,11 @@ void Game::move_all(){
 
 bool Game::isClosed(){
     return !isRunning;
+}
+
+void Game::close(){
+    isRunning = false;
+    //avisar al logger
 }
 
 //PRIVATE

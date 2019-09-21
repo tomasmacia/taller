@@ -14,9 +14,6 @@ void EventHandler::handleAllEventsInQueue(){
         execute_event();
     }
 }
-
-/* Funcionales son los movimientos (no laterales)
-con las flechas, saltar con LCTRL, golpear con X y agacharse con Z*/
 void EventHandler::execute_event()
 {   
     execute_event();
@@ -24,47 +21,35 @@ void EventHandler::execute_event()
     {
         switch (_event.type)
         {
-    /*Click en la X*/
         case SDL_QUIT:
-            std::cerr <<"Click en X.\n";
-    /*Aprete escape*/
+            _game->close();
         case SDL_KEYDOWN:
             switch (_event.key.keysym.scancode)
             {
                 case(SDL_SCANCODE_ESCAPE): 
-                    std::cerr << "Escape.\n";
+                    _game->close();
                 case SDL_SCANCODE_LEFT:
-                   _cody->move(0,4);
-                 _cody->setFlip(SDL_FLIP_HORIZONTAL);
+                    _cody->moveLeft();
+                    break;
                 case SDL_SCANCODE_RIGHT:
-                    _cody->move(0,6);
-                    _cody->setFlip(SDL_FLIP_NONE);
-           //       solo me interesa la derecha
+                    _cody->moveRight();
+                    break;
                 case SDL_SCANCODE_UP:
-                    _cody->move(0,8);
+                    _cody->moveDeepIntoScreen();
+                    break;
                 case SDL_SCANCODE_DOWN:
-                    _cody->move(0,2);;
+                    _cody->moveCloserToScreen();
+                    break;
                 case SDL_SCANCODE_LCTRL:
-                    _cody->move(1,-1);
+                    _cody->jump();
+                    break;
                 case SDL_SCANCODE_X:
-                    _cody->move(2,-1);
+                    _cody->hit();
+                    break;
                 case SDL_SCANCODE_Z:
-                   _cody->move(3,-1);
+                    _cody->crouch();
+                    break;
             }                   
-        case SDL_KEYUP:
-            switch (_event.key.keysym.scancode)
-            {
-                case SDL_SCANCODE_LEFT:
-                   left =false;
-                case SDL_SCANCODE_RIGHT:
-                    rigth = false;
-                case SDL_SCANCODE_UP:
-                    up = false;
-                case SDL_SCANCODE_DOWN:
-                    down = false;
-                case SDL_SCANCODE_X:
-                case SDL_SCANCODE_LCTRL:
-            }
         }  
     }
 }
