@@ -20,23 +20,18 @@ Game::Game(int width, int heigth)
     _renderer = _window->getRenderer();
 
     _background = new Background(_renderer, _width,_height); 
-    character = new Character("Sprites/cody.png",width,heigth,_renderer);
+    character = new Character(this,width,heigth,_renderer);
     intializeGameObjects();
     _background->setGameObjects(&_entities);
 }
 
 void Game::runLoop()
 {
-    Events event(this, character);
-
-    /*
-    while( SDL_PollEvent( &e ) != 0 ){
-    }
-    */
-    isRunning = !(event.keyboard_event());  
-
     _window->clear();
     _background->updateImage();
+
+    Events event(this, character);
+    isRunning = !(event.keyboard_event());
 
     for (int i = 0; i < _entities.size();i++){
         _entities.at(i)->updateImage();
@@ -56,6 +51,14 @@ Game::~Game(){
 }
 
 //PUBLIC
+void Game::handleEvents(){
+    Events event(this, character);
+    /*
+    while( SDL_PollEvent( &e ) != 0 ){
+        isRunning = !(event.keyboard_event()); 
+    }
+    */
+}
 
 void Game::move_all(){
     _background->applyHorizontalLeftShift(); //mueve tambien lo que esta sobre el background

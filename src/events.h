@@ -3,25 +3,23 @@
 #define EVENTS_H_
 #include <SDL2/SDL.h>
 #include "game.h"
-#include "character.h"
 
 class Events{
 
-private:
-    Game* _game;
-    Character* _cody;
-    Uint32 _time;    
-
-    SDL_Event _event;
-
 public:
 
-    Events(Game* game, Character* cody);
-
+    //Events(){};
+    Events(Game* game, class Character* cody):
+        _game(game),_cody(cody){};
     bool keyboard_event();
 
 private:
-
-    void second_event();
+    void execute_event();
+    Uint32 t = SDL_GetTicks();
+    bool up=false ,rigth=false, left=false, down=false, hit=false, jump=false;
+    Game* _game;
+    class Character* _cody;
+    SDL_Event _event;    
 };
+
 #endif

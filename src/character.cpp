@@ -1,108 +1,80 @@
-#include "character.h"
 #include <SDL2/SDL_image.h>
+#include "character.h"
 
-Character::Character(const std::string &image_path,  int w, int h, SDL_Renderer* render):
+Character::Character(Game* _owner,int w, int h, SDL_Renderer* render):
     _render(render),
+    owner(_owner),
     _x(w*.3 ), /*--> posicion x inicial*/ /*----> .3 y .66 son ctes que se  q sirven */
     _w(h*.3),/*--> width que debe tener*/ /*----> por lo que podria agregarse al .h */
     _h(h*.66),/*-->heigth que debe tener*/
     _y(h*.3), /*--> posicion y inicial*/
     _h_window( h), /*-->width de window*/
     _w_window( w)/*-->heigth de window*/{
-    _v_limit = (_w_window/2)-(_w/2);  //Normalmente llega  ala mitad de la pantalla
-                                     //y deberia empezar a moverse el fondo.
+    _v_limit = ((_w_window)*.7)-(_w/2);  //Normalmente llega  ala mitad de la pantalla
+    _charge_vector();                               //y deberia empezar a moverse el fondo.
     _pos->x = _x;//
     _pos->y = _y;//---->Parametros y posicion donde va a estar 
     _pos->h = _h;//---->la imagen de cody.
-    _pos->w = _w;//-----> 
-
-    _image = IMG_Load(image_path.c_str());
-    if( _image == NULL )	{
-	    std::cerr <<  "No pudo cargar imagen.\n";
-        std::cerr << "SDL Error: "<< SDL_GetError()<< ".\n";
-    	}
-    //Transparencia al contorno celeste de cody
-    SDL_SetColorKey(_image, SDL_TRUE,
-    SDL_MapRGB(_image->format, 88,184,248));
+    _pos->w = _w;//----> 
+    load_image_default();
     //Ancho y alto del personaje al iniciar es la misma (solo es 1 imagen por default)
     rect->w=_image->clip_rect.w;
     rect->h=_image->clip_rect.h;
-    _charge_vector();
+    
 };
 
-bool Character::move(int option){ 
-    //0 =left ; 1 = rigth , 5 = up, 6 = down, 2 = jump, 3 = punch, 4 = agacharse
+bool Character::move(int option,int p){ 
+    // 0 = rigth , 5 = up, 6 = down, 1 = jump, 2 = punch, 3 = agacharse
     // 8 = accion (vease como cosa que necesita un trigger y se completa sola) 
     // -1 = quieto ; 
     //Si realizo una accion espera a que se complete (creeria que es para evitar saltos dobles)
-    
+   // std::cerr << state<< " * "<< state_previous<< " * "<< std::endl;
     //Limites de movimiento harcodeados en relacion a imagen y pantalla
-  //  std::cerr << state << " - " << state_previous<<" - "<<option<< std::endl;
-    while (state !=8)
-    {         
-        cont++;
-        if (spriteToload==cant_img_sprite-1)
-            {spriteToload=0;} 
-        if(option == 0 ){
+    
+    if (state==8){option = 8;}
+   // std::cerr << option<< "    " << p<< std::endl;
+    state = option; 
+  //  std::cerr << option<< std::endl;
+    while(option ==0){
+        cont++; 
+        if(p == 4 ){
+            
             _x -=default_mov;
             while(_x<0){_x++;} //----> Limite izquierdo (X = 0)
         }
-        if(option == 1 ){
-             while(_x>_v_limit ){
+        if(p == 6 ){
+            
+            while(_x>_v_limit ){
                 _x--;           
-                return true;     
-                } 
-            _x +=default_mov;          
+                owner->move_all();     
+                }
+                _x +=default_mov;          
         }    
-        if(option == 5  ){
-            /*Si camino a la derecha y subo, subo mirando a la derecha. Idem izquierda */
-            if (state_previous ==-1 or 1) 
-                {option = 1;}             
-            if (state_previous == 0)      
-                {option = 0;}
+        if(p == 8  ){
+            /*Si camino a la derecha y subo, subo mirando a la derecha. Idem izquierda */ 
             _y -=default_mov;
             while(_y<(_h_window/5)){_y++;}//Normalmente (heigth/5) --> limite superior
-        }   
-        if(option == 6){
-            /*Si camino a la izquierda y bajo, bajo mirando a la derecha. Idem izquierda*/      
-            if (state_previous ==-1 or 1)
-                {option = 1;}
-            if (state_previous == 0)
-                {option = 0;}
+        }
+        if (p == 2){
             _y +=default_mov;
             while(_y>(_h_window/3)){_y--;} //(heigth/3) --> Limite inferior
-        }
-        //actualizo estados
-        state_previous=state;
-        state = option;
-        _pos->x= _x;
-        _pos->y= _y;
-        //¿verifico sprites cuando actualizo imagen(todas la veces en el loop)
-        // o cuando se mueve cody ?
-       // sprite();
+            }
+        _pos->x =_x;
+        _pos->y= _y;  
         return false;
     }
+    return false;     
+}
 
-    /* Estos if son para poder moverse si se realizo un salto. Por ahora
-       el salto es solo mirando a la derecha (se mueve en ambos sentidos). */
-    if (state_previous == 1  ) {
-        while(_x>_v_limit ){
-            _x--;
-            return true;
-        } 
-        _x +=default_mov;         
-    }
-    if (state_previous == 0  ) {
-            _x -=default_mov;
-            while(_x<0){_x++;}         
-    }  
-    _pos->x= _x;
-    return false;
-};
 
 void Character::updateImage(){
+    
+
     sprite();
-    if (cont >= change and state == state_previous)
+  //   std::cerr << state<< " * "<< state_previous<< " * "<< std::endl;
+    if (spriteToload >= cant_img_sprite-1)
+            {spriteToload=0;} 
+    if (cont >= change )
     //si el contador de cambio de sprites es mayor 
     //al cambio seteado y si estoy apretando el
     //mismo boton
@@ -120,11 +92,11 @@ void Character::updateImage(){
         //la secuencia
             cont = 0;
             spriteToload++;
-            if (spriteToload ==cant_img_sprite-1){
+            if (spriteToload >=cant_img_sprite-1){
                 //si llegue al final de la secuencia, mi estado es quieto
                 // y estado previo es "accion," al cargar la imagen defaullt lo hago.
+                SDL_FreeSurface(_image);
                 load_image_default();
-
             }
         }
     }/* Lo de la tira de imagenes es asi, yo se la cantidad que hay(cant_img_sprite)
@@ -134,7 +106,6 @@ void Character::updateImage(){
     Pero la posicion x cambia. Contando en que imagen del total me encuentro (spriteToload)
     cada vez que aprieto una tecla que realize algo, calcula donde debe cortar, corta y
     hace un resize(el render) y lo coloca donde debe estar.
-
     Dato: Las imagenes deben tener una separacion uniforme para realizar un corte "lindo"
     
     x=0        x=wide/cant  x=2*wide/cant   .........etc
@@ -152,36 +123,42 @@ void Character::updateImage(){
     rect->x = _image->clip_rect.w/cant_img_sprite * spriteToload;
     rect->y=0;
     _texture = SDL_CreateTextureFromSurface( _render, _image );
-    SDL_RenderCopy( _render, _texture, rect, _pos );
+    SDL_RenderCopyEx( _render, _texture, rect, _pos ,0,NULL,flip);
+
+    
     SDL_DestroyTexture(_texture);
     
 }
 
 void Character::sprite(){ 
+    
     //Left
     moves_sprites(0,9);
-    //Rigth
-    moves_sprites(1,9);
     //Jump
-    actions_sprites(2,13);
+    actions_sprites(1,13);
     //Punch
-    actions_sprites(3,3);
+    actions_sprites(2,3);
     //Agacharse
-    actions_sprites(4,4);
+    actions_sprites(3,4);
  
 }
 
 Character::~Character(){
     SDL_DestroyTexture(_texture);
-    path_img.clear();
 }
 
 void Character::load_image_default(){
-    SDL_FreeSurface(_image);
-    _image = IMG_Load("Sprites/cody.png");
+    /* Carga imagenes del sprite o muestra pantalliats azules donde
+    deberia estar el pj */
+    if ((_image = IMG_Load(path_img[4].c_str()))==NULL){
+        std::cerr <<  "No pudo cargar imagen.\n";
+        std::cerr << "Se carga imagen por default\n";
+        _image = SDL_CreateRGBSurface(0, 56, 125, 32, 0, 0, 0, 0);
+        SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 255, 255, 0));
+            }
     SDL_SetColorKey(_image, SDL_TRUE,
     SDL_MapRGB(_image->format, 88,184,248));
-    state_previous= state;
+    state_previous= -1;
     state = -1;
     spriteToload=0;
     cant_img_sprite = 1;
@@ -193,8 +170,8 @@ void Character::load_image_default(){
 }
 
 void Character::change_limits(){
-    /* El limite de movimiento de cody ya no es la mitad de pantalla
-    sino que es el final de la pantalla */
+    /* El limite de movimiento de cody ya no es la tercera parte
+     de la pantalla (seteado asi) sino que es el final de la pantalla */
     _v_limit = (_w_window)- _w;
 }
 
@@ -211,12 +188,21 @@ void Character::size(){
 
 void Character::actions_sprites(int n,int img_){
     /* Cargo sprites de acciones */
+        /* Carga imagenes del sprite o muestra pantalliats azules donde
+    deberia estar el pj */
     if (state == n){
             cant_img_sprite = img_;
             cont = 0;
             spriteToload = 0;
             SDL_FreeSurface(_image);
-            _image = IMG_Load(path_img[n].c_str());
+            if ((_image = IMG_Load(path_img[n].c_str()))==NULL){
+                cant_img_sprite = 2;
+                std::cerr <<  "No pudo cargar imagen.\n";
+                std::cerr << "Se carga imagen default\n";
+                _image = SDL_CreateRGBSurface(0, 112, 125, 32, 0, 0, 0, 0);
+                SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 255, 255, 0));
+
+            }
             //transparencia la contorno celeste
             SDL_SetColorKey(_image, SDL_TRUE,
             SDL_MapRGB(_image->format, 88,184,248));
@@ -227,12 +213,20 @@ void Character::actions_sprites(int n,int img_){
 }
 void Character::moves_sprites(int n, int img_){
     /* cargo sprites de movimientos */
-    if (state == n){ 
+        /* Carga imagenes del sprite o muestra pantalliats azules donde
+    deberia estar el pj */
+    if (state == n){
         if(state_previous!=n){ 
             cant_img_sprite = img_;
             cont = 1;
             SDL_FreeSurface(_image);
-            _image = IMG_Load(path_img[n].c_str());
+            if ((_image = IMG_Load(path_img[n].c_str()))==NULL){
+                cant_img_sprite = 2;
+                std::cerr <<  "No pudo cargar imagen.\n";
+                std::cerr << "Se carga imagen por default\n";
+                _image = SDL_CreateRGBSurface(0, 112, 125, 32, 0, 0, 0, 0);
+                SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 255, 255, 0));
+            }
             //transparencia la contorno celeste
             SDL_SetColorKey(_image, SDL_TRUE,
             SDL_MapRGB(_image->format, 88,184,248));
@@ -242,14 +236,20 @@ void Character::moves_sprites(int n, int img_){
     }
 }
 
+
 void Character::_charge_vector(){
     /* Cargo vector de sprites del personaje*/
     /* Las posiciones de las imagenes son las mismas que el codigo de 
     sus acciones/movimientos. */
-    path_img.push_back("Sprites/codyLeft.png");
+
     path_img.push_back("Sprites/codyRgth.png");
     path_img.push_back("Sprites/cody_jump.png");
     path_img.push_back("Sprites/cody_punch.png");
     path_img.push_back("Sprites/cody_agacharse.png");
+    path_img.push_back("Sprites/cody.png");
 
+}
+
+int Character::GetPosY(){
+    return _y;
 }

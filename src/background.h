@@ -15,7 +15,7 @@ private:
   //Entity* _middleBackground = nullptr;         //IMPLEMENTAR
   Entity* _farBackground = nullptr;
 
-  float SPEED_PARAMETER = 30;                     //PARALLAX
+  float SPEED_PARAMETER = 10;                     //PARALLAX
   float SPEED_FACTOR_NEAR_TO_MIDDLE = 0.3;        //PARALLAX
   float SPEED_FACTOR_NEAR_TO_FAR = 0.07;          //PARALLAX
 

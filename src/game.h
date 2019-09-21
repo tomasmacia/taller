@@ -33,7 +33,7 @@ private:
     //PERSEPCTIVE
     float MIN_SCALE_FACTOR = 0.35;   
 
-    Character* character;
+    class Character* character;
     Background* _background;
     std::vector <Barrel*> _entities;  //ONLY GAME OBJECTS
     
@@ -48,6 +48,7 @@ public:
 
     void runLoop();
     void move_all();
+    void handleEvents();
     //void pj_in_final();
 
     bool isClosed();                            //agregado
