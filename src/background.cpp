@@ -68,7 +68,7 @@ void Background::nextBackground(const std::string &image_path){
         std::cerr << "Se carga imagen por default\n";
         _image = SDL_CreateRGBSurface(0, _w_window, _h, 32, 0, 0, 0, 0);
         SDL_Rect d;
-        if (lvl_parallax == 1){
+        if (lvl_parallax == 1 or lvl_parallax==4){
         
             d.y = 0;
             d.x=0;

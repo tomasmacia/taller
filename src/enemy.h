@@ -17,8 +17,10 @@ public:
 
 
 private:
+    SDL_RendererFlip flip =SDL_FLIP_NONE;
+    int cant_img_sprite = 5,spriteToload = 0, cont = 0, loop = 7, mov_default = 5;
     int _y, _wide;
-    float _x, mov_fondo = 2.2;
+    float _x, mov_fondo = 1.57;
     SDL_Surface* _image; 
     SDL_Texture* _texture;
     SDL_Rect* _pos = new SDL_Rect; 

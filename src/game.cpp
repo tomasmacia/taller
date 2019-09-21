@@ -48,13 +48,12 @@ void Game::runLoop(int width, int heigth)
             }
             /* Enemigos con pos y menor a pj */
             for (int i = 0; i < enemigos.size();i++){
-                if(character->GetPosY() >= enemigos[i]->GetPosY()){
+               // if(character->GetPosY() >= enemigos[i]->GetPosY()){
                     enemigos[i]->updateImage();
-            }
+    //        }
             }
             /* cody se actualiza a lo ultimo */
             character->updateImage();
-            _enemy->updateImage();
 
             /* Barriles con pos y mayor a pj */
             for (int i = 0; i < barriles.size();i++){
@@ -62,11 +61,11 @@ void Game::runLoop(int width, int heigth)
                     barriles[i]->updateImage();
             }
            /* Enemigos con pos y mayor a pj */
-            for (int i = 0; i < enemigos.size();i++){
+      /*      for (int i = 0; i < enemigos.size();i++){
                 if(character->GetPosY() >= enemigos[i]->GetPosY()){
                     enemigos[i]->updateImage();
             }
-            }
+            }*/
             /* Estoy recorriendo 2 veces el mismo vector para poner 
             cosas que estan detras de cody detras, ¿es necesario? */
             }
@@ -111,8 +110,6 @@ void Game::move_all(){
    
    floor->move();
 
-   _enemy->move();
-   
   for (int i = 0; i < barriles.size();i++){
        barriles[i]->move();
    }
@@ -182,7 +179,7 @@ void Game::level1(int enemy, int objetos, int armas,int width,int heigth){
     /* posiciones del barril aleatoria en el rango del suelo */
     for (int  i = 0; i < objetos; i++)
     {
-        pos_x =rand()%20001;
+        pos_x =(-1000) + rand()%(20001 - (-1000));
         pos_y = 120 +rand() % (201 - 120);
         barriles.push_back(new Object("Sprites/barril.png",pos_x, pos_y,_gwindow->render,width,heigth));
     }
@@ -191,7 +188,7 @@ void Game::level1(int enemy, int objetos, int armas,int width,int heigth){
     for (int i=0; i < enemy; i++){
         pos_x = rand()%20001;
         pos_y = 120 +rand() %(201 - 120);
-        enemigos.push_back(new Enemy("Sprites/5445.png",pos_x, pos_y, _gwindow->render, width, heigth));
+        enemigos.push_back(new Enemy("Sprites/enemy_walk.png",pos_x, pos_y, _gwindow->render, width, heigth));
     }
 
     //solo existe una clase back, a los backs de fondo no les sirve pasarle game pero
@@ -199,10 +196,9 @@ void Game::level1(int enemy, int objetos, int armas,int width,int heigth){
     // avisar que se llego al final del escenario.
     // se le pasa los parametros de la ventana, el render y la velocidad con la que se mueve
     // y el lvl de background que es (1 es el mas cercano, 2 el del medio y 3 el lejano)
-    back = new Background(g2,heigth,width,_gwindow->render, this, 0.0882,3);
-    middle = new Background(gmiddle,heigth,width,_gwindow->render,this, 0.35,3);
-    floor = new Background(g1,heigth,width,_gwindow->render, this,0.7, 1);  
-    front =  new Background(gfront,heigth,width,_gwindow->render, this,0.7, 1);
+    back = new Background(g2,heigth,width,_gwindow->render, this, 0.063,3);
+    middle = new Background(gmiddle,heigth,width,_gwindow->render,this, 0.25,3);
+    floor = new Background(g1,heigth,width,_gwindow->render, this,0.5, 1);  
+    front =  new Background(gfront,heigth,width,_gwindow->render, this,0.5, 4);
     character = new Character(this,width,heigth,_gwindow->render);
-    _enemy = new Object("Sprites/5445.png",600,200,_gwindow->render,width,heigth);
 }

@@ -43,7 +43,7 @@ bool Events::keyboard_event()
                     _cody->move(1,-1);
                     return false;
                 case SDL_SCANCODE_X:
-                    _cody->move(2,2);
+                    _cody->move(2,-1);
                     return false;
                 case SDL_SCANCODE_Z:
                    _cody->move(3,-1);
