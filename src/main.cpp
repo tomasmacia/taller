@@ -8,6 +8,7 @@ using namespace std;
 int main(int argc, char** argv) { 
 
    Game* game = new Game(800,600);
+    //std::cout <<"llegue" << "\n";
 
    int i = 1;
    while (!game->isClosed()){
@@ -15,5 +16,6 @@ int main(int argc, char** argv) {
        game->runLoop();
        //i++;
    }
+   delete(game);
     return 0;
 } 

@@ -26,6 +26,10 @@ public:
 
     void setX(float x);
     void setY(float y);
+    void setWidth(float width);
+    void setHeight(float height);
+    float getWidth();
+    float getHeigth();
 
     void loadImage(Sprite* sprite);
     void updateImage();

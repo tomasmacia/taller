@@ -16,5 +16,8 @@ public:
 
     void changeXBy(float amount);
     void changeYBy(float amount);
+
+    float getX();
+    float getY();
 private:
 };

@@ -7,23 +7,33 @@
 #include "window.h"
 #include "background.h"
 #include "barrel.h"
+#include "character.h"
 
 class Game
 {
 private:
     bool isRunning = true;
 
-    int _width;
-    int _height;
+    float _width;
+    float _height;
+    const std::string GAME_NAME = "Final Figth";
 
+    //VALID RANGE OF MOVEMENT
+    float _maxY;
+    float _minY;
+    float WALKABLE_BACKGROUND_PERCENTAGE = 0.6;
+    float OFFSET = 100;
+
+    //GAME OBJECTS AMOUNTS
     int BARREL_AMOUNT = 20;
     int BOX_AMOUNT;
     int METALIC_TUBE_AMOUNT;
     int KNIFE_AMOUNT;
 
-    const std::string GAME_NAME = "Final Figth";
+    //PERSEPCTIVE
+    float MIN_SCALE_FACTOR = 0.35;   
 
-    class Character* character;
+    Character* character;
     Background* _background;
     std::vector <Barrel*> _entities;  //ONLY GAME OBJECTS
     

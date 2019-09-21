@@ -13,13 +13,16 @@ Game::Game(int width, int heigth)
     _width = width;
     _height = heigth;
 
+    _maxY = _height;
+    _minY = _height * (1 - WALKABLE_BACKGROUND_PERCENTAGE);
+
     _window = new Window(GAME_NAME,_width,_height);
     _renderer = _window->getRenderer();
 
-    intializeGameObjects();
-    _background = new Background(_renderer,&_entities, _width,_height);   
+    _background = new Background(_renderer, _width,_height); 
     character = new Character("Sprites/cody.png",width,heigth,_renderer);
-
+    intializeGameObjects();
+    _background->setGameObjects(&_entities);
 }
 
 void Game::runLoop()
@@ -44,14 +47,14 @@ Game::~Game(){
     delete(_background);
     delete(character);
     delete(_window);
+    std::cout <<"memoria liberada" << "\n";
 }
 
 //PUBLIC
 
 void Game::move_all(){
-    _background->applyHorizontalLeftShift();
+    _background->applyHorizontalLeftShift(); //mueve tambien lo que esta sobre el background
 }
-
 
 bool Game::isClosed(){
     return !isRunning;
@@ -64,9 +67,10 @@ void Game::intializeGameObjects(){
     /* posiciones del barril aleatoria en el rango del suelo */
     for (int  i = 0; i < BARREL_AMOUNT; i++)
     {
-        pos_x =rand()%20001;
-        pos_y = 245 + rand() % (351 - 245);
-        _entities.push_back(new Barrel(_renderer,pos_x,pos_y));
+        pos_x =rand() % (int)(_width * _background->getWidthScaleFactorScreenToNear());
+        pos_y = (_minY) + rand() % (int)(_maxY -_minY - OFFSET);
+        Barrel* barrel = new Barrel(_renderer,pos_x,pos_y,MIN_SCALE_FACTOR,_maxY,_minY);
+        _entities.push_back(barrel);
     }
 }
 

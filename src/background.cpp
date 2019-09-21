@@ -3,24 +3,15 @@
 #include "background.h"
 
 //CONSTRUCTOR & DESTRUCTOR
-Background::Background(SDL_Renderer* renderer,vector<Barrel*>* entitiesOnBackground,
-                    float width, float height){
+Background::Background(SDL_Renderer* renderer, float width, float height){
 
-    _entitiesOnBackground = entitiesOnBackground;
     _renderer = renderer;
-
-    WHOLE_BACKGROUND_WIDTH = width;
-    WHOLE_BACKGROUND_HEIGHT = height;
-    STARTING_WHOLE_BACKGROUND_X = 0;
-    STARTING_WHOLE_BACKGROUND_Y = 0;
-    _entity = new Entity(renderer, WHOLE_BACKGROUND_WIDTH, WHOLE_BACKGROUND_HEIGHT, 
-                                STARTING_WHOLE_BACKGROUND_X, STARTING_WHOLE_BACKGROUND_Y);
-
+    createBackgroundEntity(width, height);
     createNearBackground();
     //createMiddleBackground();
     createFarBackground();
 
-    setSpeed(1);
+    setSpeed(SPEED_PARAMETER);
 }
 
 Background::~Background(){              //DOES NOT HANDLES THE ENTITIES ON HIM
@@ -37,9 +28,15 @@ void Background::applyHorizontalLeftShift(){                //PARALAX IMPLEMENTA
     //_middleBackground->applyHorizontalLeftShift();
     _farBackground->applyHorizontalLeftShift();
 
-    for (int  i = 0; i < _entitiesOnBackground->size(); i++){
-        _entitiesOnBackground->at(i)->applyHorizontalLeftShift();
+    if (_entitiesOnBackground){
+        for (int  i = 0; i < _entitiesOnBackground->size(); i++){
+            _entitiesOnBackground->at(i)->applyHorizontalLeftShift();
+        }
     }
+}
+
+float Background::getWidthScaleFactorScreenToNear(){
+    return WIDTH_SCALE_FACTOR_SCREEN_TO_NEAR;
 }
 
 void Background::applyHorizontalRighShift(){                //PARALAX IMPLEMENTATION
@@ -48,16 +45,29 @@ void Background::applyHorizontalRighShift(){                //PARALAX IMPLEMENTA
     //_middleBackground->applyHorizontalRighShift();
     _farBackground->applyHorizontalRighShift();
 
-    for (int  i = 0; i < _entitiesOnBackground->size(); i++){
-        _entitiesOnBackground->at(i)->applyHorizontalRighShift();
+    if (_entitiesOnBackground){
+        for (int  i = 0; i < _entitiesOnBackground->size(); i++){
+            _entitiesOnBackground->at(i)->applyHorizontalRighShift();
+        }
     }
 }
 
-void Background::setSpeed(float speed){
-    WHOLE_BACKGROUND_SPEED = speed;
-    FAR_BACKGROUND_SPEED = speed;
-    //MIDDLE_BACKGROUND_SPEED = speed * 1.5;
-    NEAR_BACKGROUND_SPEED = speed *2.5;
+void Background::setSpeed(float speed){                     //PARALAX IMPLEMENTATION
+    _nearBackgroundSpeed = speed;
+    //_middleBackgroundSpeed = speed * SPEED_FACTOR_MIDDLE_TO_NEAR;
+    _farBackgroundSpeed = speed * SPEED_FACTOR_NEAR_TO_FAR;
+    _wholeBackgroundSpeed = speed * SPEED_FACTOR_NEAR_TO_FAR;
+
+    _nearBackground->setSpeed(_nearBackgroundSpeed); 
+    //_middleBackground->setSpeed(_middleBackgroundSpeed); 
+    _farBackground->setSpeed(_farBackgroundSpeed);           //ACORDARSE DE DESCOMENTAR
+    _entity->setSpeed(_wholeBackgroundSpeed);
+
+    if (_entitiesOnBackground){
+        for (int  i = 0; i < _entitiesOnBackground->size(); i++){
+            _entitiesOnBackground->at(i)->setSpeed(_nearBackgroundSpeed);
+        }
+    }
 }
 
 void Background::updateImage(){
@@ -66,13 +76,27 @@ void Background::updateImage(){
     _nearBackground->updateImage();
 }
 
+void Background::setGameObjects(vector<Barrel*>* entitiesOnBackground){
+    _entitiesOnBackground = entitiesOnBackground;
+    setSpeed(SPEED_PARAMETER);
+}
+
 //PRIVATE
+void Background::createBackgroundEntity(float width, float height){
+    _wholeBackgroundWidth = width;
+    _wholeBackgroundHeight = height;
+    _startingWholeBackgroundX = 0;
+    _startingWholeBackgroundY = 0;
+    _entity = new Entity(_renderer, _wholeBackgroundWidth, _wholeBackgroundHeight, 
+                                _startingWholeBackgroundX, _startingWholeBackgroundY);
+}
+
 void Background::createNearBackground(){
 
-    NEAR_BACKGROUND_WIDTH = WHOLE_BACKGROUND_WIDTH;
-    NEAR_BACKGROUND_HEIGHT = WHOLE_BACKGROUND_HEIGHT;
-    STARTING_NEAR_BACKGROUND_X = STARTING_WHOLE_BACKGROUND_X;
-    STARTING_NEAR_BACKGROUND_Y = STARTING_WHOLE_BACKGROUND_Y;
+    _nearBackgroundWidth = _wholeBackgroundWidth * WIDTH_SCALE_FACTOR_SCREEN_TO_NEAR;
+    _nearBackgroundHeight = _wholeBackgroundHeight * HEIGHT_SCALE_FACTOR_SCREEN_TO_NEAR;
+    _startingNearBackgroundX = _startingWholeBackgroundX;
+    _startingNearBackgroundY = _startingWholeBackgroundY;
 
     /*
     std::vector <std::string> nearBackgroundSpritePaths;
@@ -87,18 +111,17 @@ void Background::createNearBackground(){
     Sprite* nearBackgroundSprite = new Sprite("Sprites/FF_Stage4_floor.png",
                                                         0,162,232);
 
-    _nearBackground = new Entity(_renderer, NEAR_BACKGROUND_WIDTH, NEAR_BACKGROUND_HEIGHT,
-                                 STARTING_NEAR_BACKGROUND_X, STARTING_NEAR_BACKGROUND_Y,
-                                 nearBackgroundSprite);
-    _nearBackground->setSpeed(NEAR_BACKGROUND_SPEED);                       
+    _nearBackground = new Entity(_renderer, _nearBackgroundWidth, _nearBackgroundHeight,
+                                 _startingNearBackgroundX, _startingNearBackgroundY,
+                                 nearBackgroundSprite);                      
 }
 
 void Background::createFarBackground(){
 
-    FAR_BACKGROUND_WIDTH = WHOLE_BACKGROUND_WIDTH;
-    FAR_BACKGROUND_HEIGHT = WHOLE_BACKGROUND_HEIGHT;
-    STARTING_FAR_BACKGROUND_X = STARTING_WHOLE_BACKGROUND_X;
-    STARTING_FAR_BACKGROUND_Y = STARTING_WHOLE_BACKGROUND_Y;
+    _farBackgroundWidth = _wholeBackgroundWidth * WIDTH_SCALE_FACTOR_SCREEN_TO_FAR;
+    _farBackgroundHeight = _wholeBackgroundHeight * HEIGHT_SCALE_FACTOR_SCREEN_TO_FAR;
+    _startingFarBackgroundX = _startingWholeBackgroundX;
+    _startingFarBackgroundY = _startingWholeBackgroundY;
     /*
     std::vector <std::string> farBackgroundSpritePaths;
 
@@ -111,8 +134,7 @@ void Background::createFarBackground(){
     */
     Sprite* farBackgroundSprite = new Sprite("Sprites/FF_Stage4_back.png",
                                                         255,255,255);
-    _farBackground = new Entity(_renderer, FAR_BACKGROUND_WIDTH, FAR_BACKGROUND_HEIGHT,
-                         STARTING_FAR_BACKGROUND_X, STARTING_FAR_BACKGROUND_Y,
+    _farBackground = new Entity(_renderer, _farBackgroundWidth, _farBackgroundHeight,
+                         _startingFarBackgroundX, _startingFarBackgroundY,
                          farBackgroundSprite);
-    _farBackground->setSpeed(FAR_BACKGROUND_SPEED);
 }

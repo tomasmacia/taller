@@ -42,6 +42,10 @@ void Appearance::loadImage(Sprite* sprite){
     }
     SDL_SetColorKey( surface, SDL_TRUE, SDL_MapRGB( surface->format, _r_transparent, _g_transparent, _b_transparent) );
 
+    if (_texture){
+        SDL_DestroyTexture(_texture);
+    }
+
     _texture = SDL_CreateTextureFromSurface(_renderer,surface);
     if (!_texture){
         raiseException("failed to create texture");
@@ -66,6 +70,22 @@ void Appearance::setX(float x){
 
 void Appearance::setY(float y){
     _rectangle.y = y;
+}
+
+void Appearance::setWidth(float width){
+    _rectangle.w = width;
+}
+
+void Appearance::setHeight(float height){
+    _rectangle.h = height;
+}
+
+float Appearance::getWidth(){
+    return _rectangle.w;
+}
+
+float Appearance::getHeigth(){
+    return _rectangle.h;
 }
 
 //PRIVATE

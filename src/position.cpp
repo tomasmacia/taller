@@ -21,4 +21,12 @@ void Position::changeYBy(float amount){
     _appearance->setY(_y);
 }
 
+float Position::getX(){
+    return _x;
+}
+
+float Position::getY(){
+    return _y;
+}
+
 //PRIVATE

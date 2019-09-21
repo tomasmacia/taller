@@ -11,8 +11,8 @@ private:
 
    Entity* _entity;
 
-   float WIDTH = 130;    //que sea en funcion de la y
-   float HEIGHT = 250;  //que sea en funcion de la y
+   float DEFAULT_WIDTH = 450;
+   float DEFAULT_HEIGHT = 600;
    const std::string IMAGE_PATH = "Sprites/barril.png";
     int R_TRANSAPRENT = 88;
     int G_TRANSAPRENT = 184;
@@ -21,7 +21,7 @@ private:
    SDL_Renderer* _renderer;
 
 public:    
-    Barrel(SDL_Renderer* renderer, float x, float y);
+    Barrel(SDL_Renderer* renderer, float x, float y, float minScaleFactor, float maxY, float minY);
     ~Barrel();
 
     void applyHorizontalLeftShift();
