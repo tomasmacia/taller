@@ -150,11 +150,13 @@ Character::~Character(){
 }
 
 void Character::load_image_default(){
+    /* Carga imagenes del sprite o muestra pantalliats azules donde
+    deberia estar el pj */
     if ((_image = IMG_Load(path_img[4].c_str()))==NULL){
         std::cerr <<  "No pudo cargar imagen.\n";
         std::cerr << "Se carga imagen por default\n";
         _image = SDL_CreateRGBSurface(0, 56, 125, 32, 0, 0, 0, 0);
-        SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 255, 0, 0));
+        SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 255, 255, 0));
             }
     SDL_SetColorKey(_image, SDL_TRUE,
     SDL_MapRGB(_image->format, 88,184,248));
@@ -188,6 +190,8 @@ void Character::size(){
 
 void Character::actions_sprites(int n,int img_){
     /* Cargo sprites de acciones */
+        /* Carga imagenes del sprite o muestra pantalliats azules donde
+    deberia estar el pj */
     if (state == n){
             cant_img_sprite = img_;
             cont = 0;
@@ -198,7 +202,7 @@ void Character::actions_sprites(int n,int img_){
                 std::cerr <<  "No pudo cargar imagen.\n";
                 std::cerr << "Se carga imagen default\n";
                 _image = SDL_CreateRGBSurface(0, 112, 125, 32, 0, 0, 0, 0);
-                SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 255, 0, 0));
+                SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 255, 255, 0));
 
             }
             //transparencia la contorno celeste
@@ -211,6 +215,8 @@ void Character::actions_sprites(int n,int img_){
 }
 void Character::moves_sprites(int n, int img_){
     /* cargo sprites de movimientos */
+        /* Carga imagenes del sprite o muestra pantalliats azules donde
+    deberia estar el pj */
     if (state == n){
         if(state_previous!=n){ 
             cant_img_sprite = img_;
@@ -221,7 +227,7 @@ void Character::moves_sprites(int n, int img_){
                 std::cerr <<  "No pudo cargar imagen.\n";
                 std::cerr << "Se carga imagen por default\n";
                 _image = SDL_CreateRGBSurface(0, 112, 125, 32, 0, 0, 0, 0);
-                SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 255, 0, 0));
+                SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 255, 255, 0));
             }
             //transparencia la contorno celeste
             SDL_SetColorKey(_image, SDL_TRUE,

@@ -145,6 +145,7 @@ void Game::level1(int enemy, int objetos, int armas,int width,int heigth){
     gmiddle.push_back("Sprites/barcos0.png");
     gmiddle.push_back("Sprites/barcos1.png");
 
+
     /* Creo 15 Barriles  -->*/
     int pos_x, pos_y;
     srand(time(NULL));

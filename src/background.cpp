@@ -71,6 +71,8 @@ void Background::updateImage(){
 }
 
 void Background::nextBackground(const std::string &image_path){
+    /* Carga la imagen o muestra pantallas verde(backs lejanos) o roja(back del piso)
+    si no las encuentra. */
     if ((_image = IMG_Load(image_path.c_str()))==NULL){
         std::cerr <<  "No pudo cargar imagen.\n";
         std::cerr << "Se carga imagen por default\n";
