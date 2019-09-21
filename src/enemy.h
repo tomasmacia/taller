@@ -11,7 +11,7 @@ public:
     int GetPosY();
     void updateImage();
     void move();
-
+    void SetMovment(int velocity); 
     bool moverse = true;
 
 

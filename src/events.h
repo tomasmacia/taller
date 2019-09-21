@@ -19,7 +19,8 @@ private:
     bool up=false ,rigth=false, left=false, down=false, hit=false, jump=false;
     Game* _game;
     class Character* _cody;
-    SDL_Event _event;    
+    SDL_Event _event;   
+
 };
 
 #endif

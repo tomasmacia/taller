@@ -3,7 +3,7 @@
 #include <SDL2/SDL_image.h>
 
 Enemy::Enemy(const std::string &image_path, int x, int y, SDL_Renderer* render, int wide, int heigth):
-    _x(x), _y(y),_render(render),_wide(wide) {
+    _x(x), _y(y),_render(render),_wide(wide){
     if ((_image = IMG_Load(image_path.c_str()))==NULL){
         /* Carga la imagen o carga pantallitas azules donde deberian estar los objetos */
         std::cerr <<  "No pudo cargar imagen.\n";
@@ -21,6 +21,7 @@ Enemy::Enemy(const std::string &image_path, int x, int y, SDL_Renderer* render, 
     _rect->y=0;
     //para donde camina
     if ((int)x%3 !=0){flip =SDL_FLIP_HORIZONTAL;mov_default*=(-1);}
+    if(cant_img_sprite==1){flip = SDL_FLIP_NONE;}
 
     
     
@@ -28,6 +29,10 @@ Enemy::Enemy(const std::string &image_path, int x, int y, SDL_Renderer* render, 
         SDL_SetColorKey(_image, SDL_TRUE,
         SDL_MapRGB(_image->format, 88, 184, 248));
 
+}
+
+void Enemy::SetMovment(int velocity){
+    mov_default = velocity;
 }
 
 int Enemy::GetPosY(){
@@ -38,6 +43,7 @@ void Enemy::updateImage(){
 
     _x = _x + mov_default;
     _pos->x =_x;
+
     cont++;
 
     //Solo se renderiza lo qeu esta cerca de la pantalla
@@ -58,22 +64,16 @@ void Enemy::updateImage(){
                 cont = 0;
             }
         }
-
+    
     _rect->x = _image->clip_rect.w/cant_img_sprite * spriteToload;
     _texture = SDL_CreateTextureFromSurface( _render, _image );
     SDL_RenderCopyEx( _render, _texture, _rect, _pos ,0,NULL,flip);
 
     
     SDL_DestroyTexture(_texture);
-    
+    }  
 }
-}
-  /*      _texture = SDL_CreateTextureFromSurface( _render, _image ); 
-        SDL_RenderCopy( _render, _texture, _rect, _pos );
-        SDL_DestroyTexture(_texture);
-    }
-    
-}*/
+
 
 void Enemy::move(){
     if(moverse){

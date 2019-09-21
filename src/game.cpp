@@ -39,7 +39,6 @@ void Game::runLoop(int width, int heigth)
             back->updateImage();
             middle->updateImage();
             floor->updateImage();
-
             /* Barriles con pos y menor a pj*/
             for (int i = 0; i < barriles.size();i++){
                 if(character->GetPosY() >= barriles[i]->GetPosY()){
@@ -86,6 +85,10 @@ void Game::runLoop(int width, int heigth)
 Game::~Game()
 {
     //limpio vectores de escenario
+    gmiddle.clear();
+    gfront.clear();
+    barriles.clear();
+    enemigos.clear();
     g1.clear();
     g2.clear();
     floor->~Background();
