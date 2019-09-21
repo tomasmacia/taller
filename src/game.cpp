@@ -25,7 +25,7 @@ void Game::runLoop(int width, int heigth)
 {
     Uint32 fps_last = SDL_GetTicks();
     Uint32 current;
-    level1(2,15,10,width,heigth);
+    level1(8,15,10,width,heigth);
 
     Events event(this, character);
     //loop hasta que se aprete ESC o click en (X)
@@ -61,7 +61,7 @@ void Game::runLoop(int width, int heigth)
                 if(character->GetPosY() < barriles[i]->GetPosY()){
                     barriles[i]->updateImage();
             }
-            /* Enemigos con pos y mayor a pj */
+           /* Enemigos con pos y mayor a pj */
             for (int i = 0; i < enemigos.size();i++){
                 if(character->GetPosY() >= enemigos[i]->GetPosY()){
                     enemigos[i]->updateImage();
@@ -140,9 +140,9 @@ void Game::pj_in_final(){
     for (int i = 0; i < barriles.size();i++){
         barriles[i]->moverse=false;
     }
-    for (int i = 0; i < enemigos.size();i++){
+ /*   for (int i = 0; i < enemigos.size();i++){
         enemigos[i]->moverse=false;
-    }
+    }*/
 }
 
 void Game::level1(int enemy, int objetos, int armas,int width,int heigth){
@@ -191,7 +191,7 @@ void Game::level1(int enemy, int objetos, int armas,int width,int heigth){
     for (int i=0; i < enemy; i++){
         pos_x = rand()%20001;
         pos_y = 120 +rand() %(201 - 120);
-        enemigos.push_back(new Enemy("Sprites/enemy.png",pos_x, pos_y, _gwindow->render, width, heigth));
+        enemigos.push_back(new Enemy("Sprites/5445.png",pos_x, pos_y, _gwindow->render, width, heigth));
     }
 
     //solo existe una clase back, a los backs de fondo no les sirve pasarle game pero
