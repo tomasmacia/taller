@@ -1,48 +1,32 @@
 #include "window.h"
+#include "iostream"
+#include <SDL2/SDL_image.h>
 
-SDL_Renderer *Window::_renderer = nullptr;
+
 
 //CONSTRUCTOR & DESTRUCTOR
 Window::Window(const std::string &title, int width, int height) :
 _title(title), _width(width), _height(height)
 {
-    _closed = !init();
+    init();
 }
 
 Window::~Window(){
-    SDL_DestroyRenderer(_renderer);
+    IMG_Quit();
+    SDL_DestroyRenderer(render);
     SDL_DestroyWindow(_window);
-    SDL_Quit();
 }
 
-//PUBLIC
-bool Window::isClosed(){return _closed;}
-
-void Window::pollEvents(SDL_Event &event){ //HARDCODEADO
-        switch (event.type)
-        {
-        case SDL_QUIT:
-            _closed = true;
-            break;
-        
-        default:
-            break;
-        }
-}
-
-void Window::display(){
-    SDL_RenderPresent(_renderer); 
-    SDL_SetRenderDrawColor(_renderer,0,200,0,255); //HARDCODEADO
-    SDL_RenderClear(_renderer); //display del sdl2
-}
 
 //PRIVATE
 bool Window::init(){
-    if (SDL_Init(SDL_INIT_VIDEO) != 0){
-        raiseException(); //failed to initialize SDL.\n
-        return 0;
+    // Trabajar con SDL_image para cargar imagenes no .bmp   
+    if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG)
+    {
+        std::cerr << "Fallo SDL_Image.\n";
     }
 
+   // std::cerr << "SDL_Image.\n";
     _window = SDL_CreateWindow(
         _title.c_str(),
         SDL_WINDOWPOS_CENTERED,
@@ -51,15 +35,13 @@ bool Window::init(){
         0
     );
 
-    if (_window == nullptr){
-        raiseException(); //failed to create window.\n
-        return 0;
-    }
-
-    _renderer = SDL_CreateRenderer(_window, -1,SDL_RENDERER_ACCELERATED);
-
+    render = SDL_CreateRenderer( _window, -1, SDL_RENDERER_PRESENTVSYNC);
     return true;
 }
 
-void Window::raiseException(){}
+void Window::updateWindow(){
+    //Actualizo window. 
+    SDL_RenderPresent( render );
+};
 
+void Window::raiseException(){}

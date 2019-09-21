@@ -17,9 +17,11 @@ ENDIF(APPLE)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
+
 # SDL
 find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS})
+find_package(SDL2_image REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 
 # source files
 set(SOURCE_FILES
@@ -58,11 +60,23 @@ set(SOURCE_FILES
 
         #main
         src/main.cpp
-        )
 
+        src/events.h 
+        src/events.cpp 
+        src/game.h 
+        src/game.cpp 
+        src/character.h 
+        src/character.cpp 
+        src/background.h 
+        src/background.cpp 
+        src/object.h 
+        src/object.cpp
+        src/enemy.h
+        src/enemy.cpp
+        )
 
 # create executable
 add_executable(game ${SOURCE_FILES})
 
 # link libraries
-target_link_libraries(game ${SDL2_LIBRARY} ${XMLPARSER})
+target_link_libraries(game ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARIES} ${XMLPARSER})
