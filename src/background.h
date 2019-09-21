@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #include <vector>
 #include <iostream>
-#include "entity.h"
+#include "barrel.h"
 using namespace std;
 
 class Background {
@@ -31,7 +31,7 @@ private:
   float FAR_BACKGROUND_HEIGHT;
   float STARTING_FAR_BACKGROUND_X;
   float STARTING_FAR_BACKGROUND_Y;
-  float FAR_BACKGROUND_SPEED;
+  float FAR_BACKGROUND_SPEED = NEAR_BACKGROUND_SPEED/3;
 
   float WHOLE_BACKBROUND_WIDTH;
   float WHOLE_BACKBROUND_HEIGHT;
@@ -39,16 +39,19 @@ private:
   float STARTING_WHOLE_BACKGROUND_Y = STARTING_FAR_BACKGROUND_Y;
   float WHOLE_BACKGROUND_SPEED = FAR_BACKGROUND_SPEED;
 
-  vector<Entity>* _entitiesOnBackground;
+  vector<Barrel*>* _entitiesOnBackground;
   SDL_Renderer* _renderer;
 
 public:
     
-    Background(SDL_Renderer* renderer,vector<Entity>* entitiesOnBackground,
+    Background(SDL_Renderer* renderer,vector<Barrel*>* entitiesOnBackground,
              float width, float height);
     ~Background();
 
-    void move();
+    void applyHorizontalLeftShift();
+    void applyHorizontalRighShift();
+    void setSpeed(float speed);
+
     void updateImage();
 
 private:

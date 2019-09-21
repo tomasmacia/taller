@@ -8,20 +8,19 @@
 //CONSTRUCTOR & DESTRUCTOR
 SpriteParser::SpriteParser(std::vector <std::string>& spritePaths){
     _spritePaths = spritePaths;
+    _totalSprites = _spritePaths.size();
+    _currentSpriteNumber = 0;
 }
 
-SpriteParser::~SpriteParser(){}
-
 //PUBLIC
-
-void SpriteParser::update(){}
-
-SDL_Texture* SpriteParser::next(){
-    
+std::string SpriteParser::next(){
+    _currentSpriteNumber++;
+    _currentSpriteNumber = _currentSpriteNumber % _totalSprites;    //para que vuelva a empezar
+    std::string currentImagePath = _spritePaths[_currentSpriteNumber];
+    return currentImagePath;
 }
 
 //PRIVATE
-
 void SpriteParser::raiseException(std::string mesage){
     std::cout<<mesage + "\n";
 }

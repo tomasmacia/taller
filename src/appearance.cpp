@@ -5,30 +5,19 @@
 
 //CONSTRUCTOR & DESTRUCTOR
 Appearance::Appearance(SDL_Renderer* renderer, float width, float height, float x, float y, int r, int g, int b, int a):
-_renderer(renderer), _r(r), _g(g), _b(b), _a(a){
+_r(r), _g(g), _b(b), _a(a){
+    _renderer = renderer;
     _rectangle = {x, y, width, height};
-    _texture = nullptr;
 }
 
-Appearance::Appearance(SDL_Renderer* renderer, float width, float height, float x, float y, std::string &image_path):
-_renderer(renderer){
-
+Appearance::Appearance(SDL_Renderer* renderer, float width, float height, float x, float y, std::string image_path){
+    _renderer = renderer;
     _rectangle = {x, y, width, height};
-
-    auto surface = IMG_Load(image_path.c_str());
-    if (!surface){
-        raiseException("failed to create surface");
-    }
-
-    _texture = SDL_CreateTextureFromSurface(renderer,surface);
-    if (!_texture){
-        raiseException("failed to create texture");
-    }
-    SDL_FreeSurface(surface);
+    loadImage(image_path);
 }
 
 Appearance::Appearance(SDL_Renderer* renderer, float width, float height, float x, float y, SDL_Texture* texture){
-
+    _renderer = renderer;
     _rectangle = {x, y, width, height};
     _texture = texture;
 }
@@ -40,7 +29,20 @@ Appearance::~Appearance(){
 }
 
 //PUBLIC
-void Appearance::display(){
+void Appearance::loadImage(std::string imagePath){
+    auto surface = IMG_Load(imagePath.c_str());
+    if (!surface){
+        raiseException("failed to create surface");
+    }
+
+    _texture = SDL_CreateTextureFromSurface(_renderer,surface);
+    if (!_texture){
+        raiseException("failed to create texture");
+    }
+    SDL_FreeSurface(surface);
+}
+
+void Appearance::updateImage(){
 
     if (_texture){//CON IMAGEN
         SDL_RenderCopy( _renderer, _texture, NULL,&_rectangle );

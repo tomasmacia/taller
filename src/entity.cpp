@@ -18,6 +18,11 @@ Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float
     _position = new Position(x,y,_appearance);
 }
 
+Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y, std::string& spritePath){
+    _appearance = new Appearance(renderer,width,height,x,y,spritePath);
+    _position = new Position(x,y,_appearance);
+}
+
 Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y){
     _appearance = new Appearance(renderer,width,height,x,y,255,255,255,255);
     _position = new Position(x,y,_appearance);
@@ -68,12 +73,11 @@ void Entity::setSpeed(float speed){
     SPEED_CONSTANT = speed;
 }
 
-void Entity::update(){
-    move();
-}
-
-void Entity::display(){
-    _appearance->display();
+void Entity::updateImage(){
+    if (_spriteParser){
+        _appearance->loadImage(_spriteParser->next());
+    }
+    _appearance->updateImage();
 }
 
 //PRIVATE

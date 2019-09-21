@@ -4,9 +4,9 @@
 #include <cstdlib>
 #include <vector>
 #include <iostream>
-#include "object.h"
 #include "window.h"
 #include "background.h"
+#include "barrel.h"
 
 class Game
 {
@@ -16,14 +16,15 @@ private:
     int _width;
     int _height;
 
+    int BARREL_AMOUNT = 20;
+    int BOX_AMOUNT;
+    int METALIC_TUBE_AMOUNT;
+    int KNIFE_AMOUNT;
+
     class Character* character;
     Background* _background;
-    vector<Entity>* _entities;  //NOT THE BACKGROUND NOR THE MAIN CHARACTER
-
-    std::vector <string> g1;
-    std::vector <string> g2;
-    std::vector <Object*> barriles;
-
+    std::vector <Barrel*> _entities;  //ONLY GAME OBJECTS
+    
     Window* _gwindow;
     SDL_Renderer* _renderer;
 
@@ -35,14 +36,14 @@ public:
 
     void runLoop();
     void move_all();
-    void pj_in_final();
+    //void pj_in_final();
 
     bool isClosed();                            //agregado
 
 private:
     void initialize();                          //refactorizado
     void allCreator(int width, int heigth);     //revisado (esta bastante bien)    
-    vector<Entity>* intializeEntities();        //refactorizado
+    void intializeGameObjects();     //refactorizado
     void fpsChanged(int fps);                   //revisado (esta bastante bien)
 };
 #endif

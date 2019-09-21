@@ -3,7 +3,7 @@
 #include "background.h"
 
 //CONSTRUCTOR & DESTRUCTOR
-Background::Background(SDL_Renderer* renderer,vector<Entity>* entitiesOnBackground,
+Background::Background(SDL_Renderer* renderer,vector<Barrel*>* entitiesOnBackground,
                     float width, float height){
 
     _entitiesOnBackground = entitiesOnBackground;
@@ -27,14 +27,40 @@ Background::~Background(){              //DOES NOT HANDLES THE ENTITIES ON HIM
 }
 
 //PUBLIC
-void Background::move(){                //PARALAX IMPLEMENTATION
+void Background::applyHorizontalLeftShift(){                //PARALAX IMPLEMENTATION
     _entity->applyHorizontalLeftShift();
     _nearBackground->applyHorizontalLeftShift();
     //_middleBackground->applyHorizontalLeftShift();
     _farBackground->applyHorizontalLeftShift();
+
+    for (int  i = 0; i < _entitiesOnBackground->size(); i++){
+        _entitiesOnBackground->at(i)->applyHorizontalLeftShift();
+    }
 }
 
-void Background::updateImage(){}
+void Background::applyHorizontalRighShift(){                //PARALAX IMPLEMENTATION
+    _entity->applyHorizontalRighShift();
+    _nearBackground->applyHorizontalRighShift();
+    //_middleBackground->applyHorizontalRighShift();
+    _farBackground->applyHorizontalRighShift();
+
+    for (int  i = 0; i < _entitiesOnBackground->size(); i++){
+        _entitiesOnBackground->at(i)->applyHorizontalRighShift();
+    }
+}
+
+void Background::setSpeed(float speed){
+    WHOLE_BACKGROUND_SPEED = speed;
+    FAR_BACKGROUND_SPEED = speed;
+    //MIDDLE_BACKGROUND_SPEED = speed * 1.5;
+    NEAR_BACKGROUND_SPEED = speed *2.5;
+}
+
+void Background::updateImage(){
+    _nearBackground->updateImage();
+    //_middleBackground->updateImage();
+    _farBackground->updateImage();
+}
 
 //PRIVATE
 void Background::createNearBackground(){

@@ -25,12 +25,12 @@ Window::~Window(){
 //PUBLIC
 bool Window::isClosed(){return _closed;}
 
-void Window::display(){
+void Window::clear(){
     SDL_SetRenderDrawColor( _renderer, 255, 255, 255, 255 );
     SDL_RenderClear(_renderer);
 }
 
-void Window::showAll(){
+void Window::display(){
     SDL_RenderPresent(_renderer);
 }
 
@@ -73,7 +73,6 @@ bool Window::init(){
 
     _renderer = SDL_CreateRenderer(_window, -1,SDL_RENDERER_ACCELERATED);
     
-    //Update the surface
     SDL_UpdateWindowSurface( _window );
 
     return true;

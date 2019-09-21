@@ -32,8 +32,8 @@ src/character.cpp
 src/character.h 
 src/background.cpp 
 src/background.h 
-src/object.cpp
-src/object.h 
+src/barrel.cpp
+src/barrel.h 
 src/appearance.cpp
 src/appearance.h
 src/position.cpp
@@ -42,6 +42,8 @@ src/entity.cpp
 src/entity.h
 src/sprite_parser.cpp
 src/sprite_parser.h
+src/game_object.cpp
+src/game_object.h
 
 )
 

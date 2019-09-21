@@ -15,13 +15,14 @@ private:
     float _velocity_x = 0;
     float _velocity_y = 0;
 
-    SpriteParser* _spriteParser;
-    Position* _position;
-    Appearance* _appearance; //esta fuertemente ligada a la posicion
+    SpriteParser* _spriteParser = nullptr;
+    Position* _position = nullptr;
+    Appearance* _appearance = nullptr; //esta fuertemente ligada a la posicion
 
 public:
     Entity(SDL_Renderer* renderer, float width, float height, float x, float y, int r, int g, int b, int a);
     Entity(SDL_Renderer* renderer, float width, float height, float x, float y, std::vector <std::string>& spritePaths);
+    Entity(SDL_Renderer* renderer, float width, float height, float x, float y, std::string& spritePath);
     Entity(SDL_Renderer* renderer, float width, float height, float x, float y);
     ~Entity();
 
@@ -31,8 +32,7 @@ public:
     void applyHorizontalRighShift();
     void setSpeed(float speed);
 
-    void update();
-    void display();
+    void updateImage();
 
 private:
     void raiseException(std::string mesage);

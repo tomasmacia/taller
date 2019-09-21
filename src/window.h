@@ -22,10 +22,10 @@ public:
     ~Window();
 
     bool isClosed();
-    void display();
+    void clear();
     SDL_Renderer* getRenderer();
     void close();
-    void showAll();
+    void display();
 
     SDL_Window* getWindow(); //BORRAR CUANTO ANTES
 
