@@ -33,7 +33,9 @@ src/character.cpp
 src/background.h 
 src/background.cpp 
 src/object.h 
-src/object.cpp)
+src/object.cpp
+src/enemy.h
+src/enemy.cpp)
 
 add_executable(game ${SOURCE_FILES})
 
