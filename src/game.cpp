@@ -28,6 +28,11 @@ Game::Game(int width, int heigth)
 void Game::runLoop()
 {
     Events event(this, character);
+
+    /*
+    while( SDL_PollEvent( &e ) != 0 ){
+    }
+    */
     isRunning = !(event.keyboard_event());  
 
     _window->clear();
