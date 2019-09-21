@@ -32,8 +32,6 @@ void Game::runLoop(int width, int heigth)
             /* Veo qu se esta apretando */
        while(isRunning){
             isRunning=!(event.keyboard_event());
-        //    event.second_event();
-        // event.second_event();
             /* Limpio la pantalla */    
             SDL_RenderClear( _gwindow->render );
             
@@ -80,9 +78,9 @@ Game::~Game()
     g2.clear();
     floor->~Background();
   //  delete(floor);
-    back->~Far_background();
+    back->~Background();
    // delete(middle);
-   middle->~Far_background();
+   middle->~Background();
    // delete(back);
     character->~Character();
  //   delete(character);
@@ -91,33 +89,6 @@ Game::~Game()
     SDL_Quit();
 };
 
-void Game::reboot(int width, int heigth){
-//creo cosas del lvl 1
-    SDL_SetRenderDrawColor(_gwindow->render, 0, 0, 0, 255);
-    SDL_Rect rectangle;
-    rectangle.x = 0;
-    rectangle.y = 0;
-    rectangle.w = 800;
-    rectangle.h = 600;
-    SDL_RenderClear( _gwindow->render );
-    SDL_RenderFillRect(_gwindow->render, &rectangle);
-    _gwindow->updateWindow();
-    SDL_RenderClear( _gwindow->render );
-    SDL_Delay(1000);
-    g1.clear();
-    g2.clear();
-    floor->~Background();
-
-    back->~Far_background();
-
-   middle->~Far_background();
-
-    character->~Character();
-
-    level1(10,15,13,800,600);
-    SDL_Delay(1000);    
-
-};
 
 void Game::move_all(){
 //Actualiza posicion de todo menos de cody, en orden.
@@ -160,7 +131,7 @@ void Game::level1(int enemy, int objetos, int armas,int width,int heigth){
     g1.push_back("Sprites/FF_Stage4_floor5.png");
     g1.push_back("Sprites/FF_Stage4_floor6.png");
     /* Far Background */
-    g2.push_back("Sprites/FF_Stage4_back12.png");
+    g2.push_back("Sprites/FF_Stage4_back1.png");
     g2.push_back("Sprites/FF_Stage4_back2.png");
     g2.push_back("Sprites/FF_Stage4_back3.png");
     g2.push_back("Sprites/FF_Stage4_back4.png");
@@ -184,8 +155,14 @@ void Game::level1(int enemy, int objetos, int armas,int width,int heigth){
         pos_y = 120 +rand() % (201 - 120);
         barriles.push_back(new Object("Sprites/barril.png",pos_x, pos_y,_gwindow->render,width,heigth));
     }
-            back = new Far_background(g2,heigth,width,_gwindow->render, 0.375);
-    middle = new Far_background(gmiddle,heigth,width,_gwindow->render, 1.5);
-    floor = new Background(g1,heigth,width,_gwindow->render, this,3);   
-    character = new Character(width,heigth,_gwindow->render);
+
+    //solo existe una clase back, a los backs de fondo no les sirve pasarle game pero
+    //se los paso por paja, para no hacer otro constructor. Solo el de lvl 1 usa el game para
+    // avisar que se llego al final del escenario.
+    // se le pasa los parametros de la ventana, el render y la velocidad con la que se mueve
+    // y el lvl de background que es (1 es el mas cercano, 2 el del medio y 3 el lejano)
+    back = new Background(g2,heigth,width,_gwindow->render, this, 0.0882,3);
+    middle = new Background(gmiddle,heigth,width,_gwindow->render,this, 0.35,3);
+    floor = new Background(g1,heigth,width,_gwindow->render, this,0.7, 1);   
+    character = new Character(this,width,heigth,_gwindow->render);
 }

@@ -32,8 +32,6 @@ src/character.h
 src/character.cpp 
 src/background.h 
 src/background.cpp 
-src/far_background 
-src/far_background.cpp 
 src/object.h 
 src/object.cpp)
 

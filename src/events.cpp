@@ -8,7 +8,7 @@ bool Events::keyboard_event()
 {   
 
 
-    second_event();
+    execute_event();
     if (SDL_PollEvent(&_event)) 
     {
         switch (_event.type)
@@ -40,16 +40,10 @@ bool Events::keyboard_event()
                     down = true;
                     return false;
                 case SDL_SCANCODE_LCTRL:
-                    int t;
-                    if (rigth){t= 1;}
-                    if (left){t = 0;}
-                    if (_cody->move(1,t))
-                    {
-                        _game->move_all();
-                    }
+                    _cody->move(1,-1);
                     return false;
                 case SDL_SCANCODE_X:
-                    hit =true;
+                    _cody->move(2,2);
                     return false;
                 case SDL_SCANCODE_Z:
                    _cody->move(3,-1);
@@ -73,7 +67,6 @@ bool Events::keyboard_event()
                     down = false;
                     return false;
                 case SDL_SCANCODE_X:
-                    hit =false;
                     return false;
                 case SDL_SCANCODE_LCTRL:
                     return false;
@@ -88,24 +81,11 @@ bool Events::keyboard_event()
 
 
 
-void Events::second_event(){
+void Events::execute_event(){
  
-  //  if(jump){
-    //    _cody->move(1,1);
-    //}
-    if(hit){
-        rigth=left=false;
-        _cody->move(2,-1);
-      //  rigth=r;
-       // left=l;
-        }
+  
     if (up){_cody->move(0,8);}
-    if (rigth) {                    
-        if (_cody->move(0,6))
-        {
-            _game->move_all();
-        }
-    }
+    if (rigth) {_cody->move(0,6);}
     if (left){_cody->move(0,4);}
     if(down){_cody->move(0,2);}
 }

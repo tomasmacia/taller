@@ -25,17 +25,18 @@ Object::Object(const std::string &image_path, int x,int y, SDL_Renderer* render,
 
 void Object::move(){
     if(moverse){
-        _pos->x = _pos->x - mov_fondo;
+        _x = _x - mov_fondo;
+        _pos->x = _x;
     }
 }
 
 void Object::updateImage(){
     //Solo se renderiza lo qeu esta cerca de la pantalla
-    if (_pos->x>-200 &_pos->x < _wide/*wide windows*/){
+   // if (_pos->x>-200 &_pos->x < _wide/*wide windows*/){
         _texture = SDL_CreateTextureFromSurface( _render, _image ); 
         SDL_RenderCopy( _render, _texture, _rect, _pos );
         SDL_DestroyTexture(_texture);
-    }
+  //  }
     
 }
 

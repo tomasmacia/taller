@@ -3,7 +3,6 @@
 
 #include "window.h"
 #include "background.h"
-#include "far_background.h"
 #include "object.h"
 #include <cstdlib>
 #include <vector>
@@ -18,7 +17,7 @@ public:
  /*Destructor*/
     ~Game();   
     class Character* character;
-    Far_background* back, *middle;
+    Background* back, *middle;
     Background* floor;
     void move_all();
     void pj_in_final();

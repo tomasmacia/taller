@@ -4,23 +4,23 @@
 #include <SDL2/SDL.h>
 #include "string.h"
 #include <vector>
+#include "game.h"
+
 using namespace std;
 
 class Character {
 public:
-    Character( int w, int h,SDL_Renderer* render);
+    Character(Game* _owner,int w, int h,SDL_Renderer* render);
     ~Character();
     bool move(int option,int p);
     void updateImage();
     void change_limits();
     int GetPosY();
-    void setFlip(SDL_RendererFlip _flip)
-    {
-        flip = _flip;
-    }int cont=1;
+    void setFlip(SDL_RendererFlip _flip) { flip = _flip;}
+    
         void load_image_default(); // luego de una accion cargo sprite default   
 private:
-    
+    Game* owner;
     vector<string> path_img;
     void _charge_vector();
     void actions_sprites(int n, int img_);
@@ -32,7 +32,7 @@ private:
     int  _x,_y,_w,_h,_w_window,_h_window;
     int _v_limit; //limite vertical de movimiento
     int default_mov = 5;   
-     
+    int cont=1; //para cambio de imagen sprite
     bool jump_large = false;
     const int change = 5;// constante para cambiar de imagen
     int cant_img_sprite = 1;//imagenes en una tira de sprite (default 1)

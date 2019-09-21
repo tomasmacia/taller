@@ -4,10 +4,13 @@
 #include"game.h"
 
 /* Recibe vector con  string de imagenes de fondo, render , alto y ancho de resoucion y al juego */
-Background::Background( vector <string> g, int h,int w, SDL_Renderer* render, Game* owner, int mov_fondo):
-    _h(h),_x(0), _w_window(w),_render(render),_owner(owner),g1(g), mov_fondo(mov_fondo) {
+Background::Background( vector <string> g, int h,int w, SDL_Renderer* render, Game* owner, float mov_fondo, int lvl):
+    _h(h),_x(0), _w_window(w),_render(render),_owner(owner),g1(g), mov_fondo(mov_fondo),lvl_parallax(lvl) {
+   if (lvl_parallax==2 or 3){
+       _h = _h*0.8125;
+   }
     nextBackground(g1[0].c_str());
-    _w=(w*(_image->clip_rect.h))/h;
+    _w=(w*(_image->clip_rect.h))/_h;
     _pos->x=0;           // _pos me indica en que parte de la ventana quiero colocar la imagen   
     _pos->y= 0;          //  (cortada via eleccion de rect). En este caso quiero colocarla en 
     _pos->h= h;          //  pantalla completa, por los que largo y ancho son los mismos
@@ -44,7 +47,7 @@ void Background::move(){
     
     else
     {
-        if (cont != 6){
+        if (cont != g1.size()){
             SDL_FreeSurface(_image);
             nextBackground(g1[cont].c_str());
             cont ++;
@@ -53,7 +56,9 @@ void Background::move(){
         /* Aviso que se llego al final */
         else 
         {
-            _owner->pj_in_final();
+            if (lvl_parallax == 1){
+                _owner->pj_in_final();
+            }
         }
     }
     _rect->x= _x;
@@ -71,21 +76,34 @@ void Background::nextBackground(const std::string &image_path){
         std::cerr << "Se carga imagen por default\n";
         _image = SDL_CreateRGBSurface(0, _w_window, _h, 32, 0, 0, 0, 0);
         SDL_Rect d;
-        d.y = 0;
-        d.x=0;
-        d.h=_h/2;
-        d.w=_w_window;
-        //Mitad superior transparente
-        SDL_FillRect(_image,&d , SDL_MapRGB(_image->format, 0, 162, 232));
-        d.y = _h/2;
-        d.x=0;
-        d.h=_h/2;
-        d.w=_w_window;
-        //mitad inferior roja
-        SDL_FillRect(_image,&d , SDL_MapRGB(_image->format, 255, 0, 0));
+        if (lvl_parallax == 1){
+        
+            d.y = 0;
+            d.x=0;
+            d.h=_h/2;
+            d.w=_w_window;
+            //Mitad superior transparente
+            SDL_FillRect(_image,&d , SDL_MapRGB(_image->format, 0, 162, 232));
+            d.y = _h/2;
+            d.x=0;
+            d.h=_h/2;
+            d.w=_w_window;
+            //mitad inferior roja
+            SDL_FillRect(_image,&d , SDL_MapRGB(_image->format, 255, 0, 0));
+        }
+        if (lvl_parallax == 3){
+            d.y = 0;
+            d.x=0;
+            d.h=_h;
+            d.w=_w_window;
+            //Mitad superior transparente
+            SDL_FillRect(_image,&d , SDL_MapRGB(_image->format, 0, 255, 0));
+        }
+        if (lvl_parallax == 2){
+            //Al dope el lvl 2 y 3 son basicamente iguales
+        }
         cont =6;
-            
-    };
+    }
 
     SDL_SetColorKey(_image, SDL_TRUE,
     SDL_MapRGB(_image->format, 0, 162, 232));

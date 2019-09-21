@@ -1,8 +1,10 @@
 #include "character.h"
 #include <SDL2/SDL_image.h>
+#include "game.h"
 
-Character::Character(int w, int h, SDL_Renderer* render):
+Character::Character(class Game* _owner,int w, int h, SDL_Renderer* render):
     _render(render),
+    owner(_owner),
     _x(w*.3 ), /*--> posicion x inicial*/ /*----> .3 y .66 son ctes que se  q sirven */
     _w(h*.3),/*--> width que debe tener*/ /*----> por lo que podria agregarse al .h */
     _h(h*.66),/*-->heigth que debe tener*/
@@ -16,9 +18,6 @@ Character::Character(int w, int h, SDL_Renderer* render):
     _pos->h = _h;//---->la imagen de cody.
     _pos->w = _w;//----> 
     load_image_default();
-    //Transparencia al contorno celeste de cody
-    SDL_SetColorKey(_image, SDL_TRUE,
-    SDL_MapRGB(_image->format, 88,184,248));
     //Ancho y alto del personaje al iniciar es la misma (solo es 1 imagen por default)
     rect->w=_image->clip_rect.w;
     rect->h=_image->clip_rect.h;
@@ -34,8 +33,9 @@ bool Character::move(int option,int p){
     //Limites de movimiento harcodeados en relacion a imagen y pantalla
     
     if (state==8){option = 8;}
-       
+    std::cerr << option<< "    " << p<< std::endl;
     state = option; 
+    std::cerr << option<< std::endl;
     while(option ==0){
         cont++; 
         if(p == 4 ){
@@ -44,11 +44,12 @@ bool Character::move(int option,int p){
             while(_x<0){_x++;} //----> Limite izquierdo (X = 0)
         }
         if(p == 6 ){
-             while(_x>_v_limit ){
+            
+            while(_x>_v_limit ){
                 _x--;           
-                return true;     
-                } 
-            _x +=default_mov;          
+                owner->move_all();     
+                }
+                _x +=default_mov;          
         }    
         if(p == 8  ){
             /*Si camino a la derecha y subo, subo mirando a la derecha. Idem izquierda */ 
@@ -59,31 +60,19 @@ bool Character::move(int option,int p){
             _y +=default_mov;
             while(_y>(_h_window/3)){_y--;} //(heigth/3) --> Limite inferior
             }
-        
+        _pos->x =_x;
         _pos->y= _y;  
         return false;
     }
-    if (p==1  ) {
-        while(_x>_v_limit ){
-            _x--;_pos->x =_x;
-            return true;
-        } 
-        _x +=default_mov;
-    }    
-    if (p==0){
-        _x -=default_mov;
-        while(_x<0){_x++;}         
-        }  
-    _pos->x= _x;
     return false;     
 }
 
 
 void Character::updateImage(){
-    _pos->x =_x;
+    
 
     sprite();
-     std::cerr << state<< " * "<< state_previous<< " * "<< std::endl;
+  //   std::cerr << state<< " * "<< state_previous<< " * "<< std::endl;
     if (spriteToload >= cant_img_sprite-1)
             {spriteToload=0;} 
     if (cont >= change )
@@ -181,8 +170,8 @@ void Character::load_image_default(){
 }
 
 void Character::change_limits(){
-    /* El limite de movimiento de cody ya no es la mitad de pantalla
-    sino que es el final de la pantalla */
+    /* El limite de movimiento de cody ya no es la tercera parte
+     de la pantalla (seteado asi) sino que es el final de la pantalla */
     _v_limit = (_w_window)- _w;
 }
 

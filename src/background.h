@@ -8,12 +8,13 @@ using namespace std;
 class Background {
 public:
     
-    Background(vector<string> g, int h, int w, SDL_Renderer* render,class Game* owner, int mov_fondo);
+    Background(vector<string> g, int h, int w, SDL_Renderer* render,class Game* owner, float mov_fondo, int lvl);
     ~Background();
     void move();
     void updateImage();
 
 private:
+    int lvl_parallax;
     vector<string> g1;
     int _w, _h,_w_window,cont=1; //contador de cambio de imagen
     float _x;
