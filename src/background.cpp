@@ -6,14 +6,14 @@
 /* Recibe vector con  string de imagenes de fondo, render , alto y ancho de resoucion y al juego */
 Background::Background( vector <string> g, int h,int w, SDL_Renderer* render, Game* owner, float mov_fondo, int lvl):
     _h(h),_x(0), _w_window(w),_render(render),_owner(owner),g1(g), mov_fondo(mov_fondo),lvl_parallax(lvl) {
-   if (lvl_parallax==2 or 3){
+   if (lvl_parallax==3){
        _h = _h*0.8125;
    }
     nextBackground(g1[cont].c_str());
     _w=(w*(_image->clip_rect.h))/_h;
     _pos->x=0;           // _pos me indica en que parte de la ventana quiero colocar la imagen   
     _pos->y= 0;          //  (cortada via eleccion de rect). En este caso quiero colocarla en 
-    _pos->h= h;          //  pantalla completa, por los que largo y ancho son los mismos
+    _pos->h =_h;          //  pantalla completa, por los que largo y ancho son los mismos
     _pos->w=_w_window;   //  que los de la ventana.
     _rect->h = _image->clip_rect.h;//   Este rect me indica que parte de la imagen 
     _rect->w = _w;                  //   quiero cortar. X e Y siempre son 0,0. al ppio.
@@ -33,17 +33,6 @@ void Background::move(){
     int t = _image->clip_rect.w - _rect->x ;
     if (t> _rect->w){//-->Cortar al final del background el movimiento
         _x = _x+mov_fondo;}    //cant de pixeles movida
-
-    // Idea de cortar el mapa en pedazos y 
-    // cargarlos en el momento justo.
-    // Si se opta por cargar la imagen de fondo entera, en el game 
-    // se pone el path de esa imagen y se quita estos elses
-
-    //IMAGEN A PEDAZOS PARECE SER MAS EFICIENTE
-
-    // Con far_backgrund es distinto, las imagenes de fondo eran 4
-    // (1 de noche y 3 de amanecer). Yo lo agrande a 6 para que 
-    // tenga misma cantidad de opciones que el background.
     
     else
     {

@@ -48,6 +48,7 @@ void Game::runLoop(int width, int heigth)
             }
             /* cody se actualiza a lo ultimo */
             character->updateImage();
+            _enemy->updateImage();
 
             /* Barriles con pos y mayor a pj */
             for (int i = 0; i < barriles.size();i++){
@@ -97,6 +98,8 @@ void Game::move_all(){
    middle->move();
    
    floor->move();
+
+   _enemy->move();
    
   for (int i = 0; i < barriles.size();i++){
        barriles[i]->move();
@@ -174,4 +177,5 @@ void Game::level1(int enemy, int objetos, int armas,int width,int heigth){
     floor = new Background(g1,heigth,width,_gwindow->render, this,0.7, 1);  
     front =  new Background(gfront,heigth,width,_gwindow->render, this,0.7, 1);
     character = new Character(this,width,heigth,_gwindow->render);
+    _enemy = new Object("Sprites/5445.png",600,200,_gwindow->render,width,heigth);
 }

@@ -23,6 +23,7 @@ public:
     void pj_in_final();
 
 private:
+    Object* _enemy;
     class Window* _gwindow;
     void initialize(int width, int heigth);
     void runLoop(int width, int heigth);

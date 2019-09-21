@@ -16,7 +16,7 @@ public:
 private:
     
     int _y, _wide;
-    float _x, mov_fondo = 1.8;
+    float _x, mov_fondo = 2.2;
     SDL_Surface* _image; 
     SDL_Texture* _texture;
     SDL_Rect* _pos = new SDL_Rect; 
