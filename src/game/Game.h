@@ -3,14 +3,18 @@
 #include "Displayable.h"
 #include "Controller.h"
 #include <vector>
+#include <SDL2/SDL.h>
+#include <SDL_image.h>
 #include <config/config.h>
 #include "../LogLib/LogManager.h"
+#include "GameObject.h"
 
 #ifndef GAME_H_
 #define GAME_H_
 
 class Game {
 private:
+    static Game* instance;
     Game() {
         init();
     }
@@ -20,13 +24,15 @@ private:
     }
 
     bool gameFinished;
-    std::vector<Updateable*> updateables;
-    std::vector<Displayable*> displayables;
+    bool hasNextLevel;
+    std::vector<GameObject*> gameObjects;
+    //std::vector<Updateable*> updateables;
+    //std::vector<Displayable*> displayables;
 
     // gameloop
     void readInput();
     void update();
-    void display();
+    void render();
 
     // free memory
     void destroy();
@@ -44,23 +50,31 @@ private:
     SDL_Renderer *renderer;
 
 public:
-    static Game &getInstance() {
-        static Game instance; // Guaranteed to be destroyed.
-
-        return instance;
-    }
-
-    Game(Game const&) = delete;
-    void operator=(Game const&) = delete;
+    static Game* getInstance();
 
     void start();
-    void addUpdateable(Updateable* newUpdateable);
-    void addDisplayable(Displayable* newDisplayable);
     bool isRunning();
 
+    void addGameObject(GameObject* gameObject);
+    GameObject *player = nullptr;
+
     // wrapper getters
-    LogManager& getLogManager();
-    Config& getConfig();
+    LogManager* getLogManager() {
+        return logManager;
+    }
+
+    Config* getConfig() {
+        return config;
+    }
+
+    SDL_Window* getWindow() {
+        return window;
+    }
+
+    SDL_Renderer* getRenderer() {
+        return renderer;
+    }
+
 };
 
 #endif

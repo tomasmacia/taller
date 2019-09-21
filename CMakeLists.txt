@@ -19,7 +19,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 # SDL
 find_package(SDL2 REQUIRED)
+find_package(SDL2_image REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
+include_directories(${SDL2_IMAGE_INCLUDE_DIRS})
 
 # source files
 set(SOURCE_FILES
@@ -68,10 +70,10 @@ set(SOURCE_FILES
 
         #main
         src/main.cpp
-        )
+        src/game/GameObject.h src/game/TextureManager.h src/game/TextureManager.cpp src/game/GameObject.cpp src/game/LevelBuilder.cpp src/game/LevelBuilder.h src/parser/CLIArgumentParser.cpp src/parser/CLIArgumentParser.h)
 
 
 add_executable(game ${SOURCE_FILES})
 
 # link libraries
-target_link_libraries(game ${SDL2_LIBRARY} ${XMLPARSER})
+target_link_libraries(game ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARIES} ${XMLPARSER})

@@ -5,6 +5,11 @@
 #include <chrono>
 
 #include "Game.h"
+#include "GameObject.h"
+#include "LevelBuilder.h"
+#include "../parser/CLIArgumentParser.h"
+#include "../parser/xmlparser.h"
+#include "../parser/config/config.h"
 #include "../window.h"
 #include "../LogLib/DebugLogger.h"
 #include "../LogLib/InfoLogger.h"
@@ -15,6 +20,16 @@
 
 bool endGame = false;
 
+Game* Game::instance = nullptr;
+
+Game* Game::getInstance() {
+    if (instance == nullptr) {
+        instance = new Game();
+    }
+
+    return instance;
+}
+
 void Game::init() {
     this->gameFinished = false;
     this->initConfig();
@@ -23,10 +38,11 @@ void Game::init() {
 }
 
 void Game::initConfig() {
-    string defaultLogType = "ERROR";
-    // init Config
-    // TODO hacemos que config sea singleton tambien? queda feo
-    // TODO de alguna forma necesitamos saber la ruta de la config que la tenemos en main, y a este nivel no la sabemos
+    string defaultLogType = CLIArgumentParser::getInstance()->getDefaultLoggerLevel();
+    string pathToConfigFile = CLIArgumentParser::getInstance()->getPathToConfigFileName();
+
+    XMLParser xmlParser;
+    this->config = xmlParser.parse(pathToConfigFile);
 }
 
 void Game::initLogManager() {
@@ -67,14 +83,6 @@ void Game::destroy() {
 }
 
 
-void Game::addDisplayable(Displayable* newdisp){
-    this->displayables.push_back(newdisp);
-}
-
-void Game::addUpdateable(Updateable* newupd){
-    this->updateables.push_back(newupd);
-}
-
 void Game::start(){
     using clock = std::chrono::high_resolution_clock;
     using milliseconds = std::chrono::milliseconds;
@@ -86,7 +94,12 @@ void Game::start(){
 
     auto accum_start = clock::now();
 
+    LevelBuilder levelBuilder;
+    this->hasNextLevel = true;
+
     while(this->isRunning()){
+        this->hasNextLevel = levelBuilder.loadNext();
+
         start = clock::now();
         diff = duration_cast<milliseconds>(end - start).count();
 
@@ -97,7 +110,7 @@ void Game::start(){
             accum_start = clock::now();
         }
 
-        display();
+        render();
 
         end = clock::now();
     }
@@ -132,17 +145,21 @@ void Game::readInput(){
 }
 
 void Game::update() {
-    for (auto &updateable : this->updateables) {
-        updateable->update();
+    for (auto &gameObject : this->gameObjects) {
+        gameObject->update();
     }
 }
 
-void Game::display() {
+void Game::render() {
     SDL_RenderClear(this->renderer);
-    SDL_RenderPresent(this->renderer);
-    for (auto &displayable : this->displayables) {
-        displayable->display();
+    for (auto &gameObject : this->gameObjects) {
+        gameObject->render();
     }
+    SDL_RenderPresent(this->renderer);
+}
+
+void Game::addGameObject(GameObject *gameObject) {
+    this->gameObjects.push_back(gameObject);
 }
 
 
@@ -150,10 +167,3 @@ bool Game::isRunning(){
     return !this->gameFinished;
 }
 
-LogManager &Game::getLogManager() {
-    return *logManager;
-}
-
-Config &Game::getConfig() {
-    return *config;
-}
