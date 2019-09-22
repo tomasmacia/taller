@@ -19,7 +19,7 @@ void Game::initialize (int width, int heigth)
     {
         std::cerr << "Fallo SDL .\n";
     }
-   _gwindow= new Window("Final Figth",width,heigth);
+   _gwindow= new Window("Final Fight",width,heigth);
 };
 
 void Game::UpdateAtras(vector <Enemy*> vector) {
@@ -44,7 +44,7 @@ void Game::runLoop(int width, int heigth)
 {
     Uint32 fps_last = SDL_GetTicks();
     Uint32 current;
-    level1(30,30,30,30,30,width,heigth);
+    level1(10,10,10,10,10,width,heigth);
 
     Events event(this, character);
     //loop hasta que se aprete ESC o click en (X)
@@ -159,12 +159,12 @@ void Game::pj_in_final(){
 void Game::level1(int enemy, int cajas,int barril, int tubos,int knifes,int width,int heigth){
 
     /* Background */
-    g1.push_back("resources/sprites/FF_Stage4_floor1.png");
-    g1.push_back("resources/sprites/FF_Stage4_floor2.png");
+    g1.push_back("resources/Final Fight3.png");
+  /*  g1.push_back("resources/sprites/FF_Stage4_floor2.png");
     g1.push_back("resources/sprites/FF_Stage4_floor3.png");
     g1.push_back("resources/sprites/FF_Stage4_floor4.png");
     g1.push_back("resources/sprites/FF_Stage4_floor5.png");
-    g1.push_back("resources/sprites/FF_Stage4_floor6.png");
+    g1.push_back("resources/sprites/FF_Stage4_floor6.png");*/
     /* Far Background */
     g2.push_back("resources/sprites/FF_Stage4_back1.png");
     g2.push_back("resources/sprites/FF_Stage4_back2.png");
