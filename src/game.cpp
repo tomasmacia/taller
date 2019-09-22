@@ -44,7 +44,7 @@ void Game::runLoop(int width, int heigth)
 {
     Uint32 fps_last = SDL_GetTicks();
     Uint32 current;
-    level1(50,20,20,20,20,width,heigth);
+    level1(30,30,30,30,30,width,heigth);
 
     Events event(this, character);
     //loop hasta que se aprete ESC o click en (X)
