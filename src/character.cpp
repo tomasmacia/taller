@@ -244,11 +244,11 @@ void Character::_charge_vector(){
     /* Las posiciones de las imagenes son las mismas que el codigo de 
     sus acciones/movimientos. */
 
-    path_img.push_back("Sprites/codyRgth.png");
-    path_img.push_back("Sprites/cody_jump.png");
-    path_img.push_back("Sprites/cody_punch.png");
-    path_img.push_back("Sprites/cody_agacharse.png");
-    path_img.push_back("Sprites/cody.png");
+    path_img.push_back("resources/sprites/codyRgth.png");
+    path_img.push_back("resources/sprites/cody_jump.png");
+    path_img.push_back("resources/sprites/cody_punch.png");
+    path_img.push_back("resources/sprites/cody_agacharse.png");
+    path_img.push_back("resources/sprites/cody.png");
 
 }
 

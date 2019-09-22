@@ -148,33 +148,33 @@ void Game::pj_in_final(){
 void Game::level1(int enemy, int objetos, int armas,int width,int heigth){
 
     /* Background */
-    g1.push_back("Sprites/FF_Stage4_floor1.png");
-    g1.push_back("Sprites/FF_Stage4_floor2.png");
-    g1.push_back("Sprites/FF_Stage4_floor3.png");
-    g1.push_back("Sprites/FF_Stage4_floor4.png");
-    g1.push_back("Sprites/FF_Stage4_floor5.png");
-    g1.push_back("Sprites/FF_Stage4_floor6.png");
+    g1.push_back("resources/sprites/FF_Stage4_floor1.png");
+    g1.push_back("resources/sprites/FF_Stage4_floor2.png");
+    g1.push_back("resources/sprites/FF_Stage4_floor3.png");
+    g1.push_back("resources/sprites/FF_Stage4_floor4.png");
+    g1.push_back("resources/sprites/FF_Stage4_floor5.png");
+    g1.push_back("resources/sprites/FF_Stage4_floor6.png");
     /* Far Background */
-    g2.push_back("Sprites/FF_Stage4_back1.png");
-    g2.push_back("Sprites/FF_Stage4_back2.png");
-    g2.push_back("Sprites/FF_Stage4_back3.png");
-    g2.push_back("Sprites/FF_Stage4_back4.png");
-    g2.push_back("Sprites/FF_Stage4_back5.png");
-    g2.push_back("Sprites/FF_Stage4_back6.png");
+    g2.push_back("resources/sprites/FF_Stage4_back1.png");
+    g2.push_back("resources/sprites/FF_Stage4_back2.png");
+    g2.push_back("resources/sprites/FF_Stage4_back3.png");
+    g2.push_back("resources/sprites/FF_Stage4_back4.png");
+    g2.push_back("resources/sprites/FF_Stage4_back5.png");
+    g2.push_back("resources/sprites/FF_Stage4_back6.png");
     /* Middle Background */
-    gmiddle.push_back("Sprites/barcos0.png");
-    gmiddle.push_back("Sprites/barcos1.png");
-    gmiddle.push_back("Sprites/barcos0.png");
-    gmiddle.push_back("Sprites/barcos1.png");
-    gmiddle.push_back("Sprites/barcos0.png");
-    gmiddle.push_back("Sprites/barcos1.png");
+    gmiddle.push_back("resources/sprites/barcos0.png");
+    gmiddle.push_back("resources/sprites/barcos1.png");
+    gmiddle.push_back("resources/sprites/barcos0.png");
+    gmiddle.push_back("resources/sprites/barcos1.png");
+    gmiddle.push_back("resources/sprites/barcos0.png");
+    gmiddle.push_back("resources/sprites/barcos1.png");
 
-    gfront.push_back("Sprites/FF_Stage4_overlay1.png");
-    gfront.push_back("Sprites/FF_Stage4_overlay2.png");
-    gfront.push_back("Sprites/FF_Stage4_overlay3.png");
-    gfront.push_back("Sprites/FF_Stage4_overlay4.png");
-    gfront.push_back("Sprites/FF_Stage4_overlay5.png");
-    gfront.push_back("Sprites/FF_Stage4_overlay6.png");
+    gfront.push_back("resources/sprites/FF_Stage4_overlay1.png");
+    gfront.push_back("resources/sprites/FF_Stage4_overlay2.png");
+    gfront.push_back("resources/sprites/FF_Stage4_overlay3.png");
+    gfront.push_back("resources/sprites/FF_Stage4_overlay4.png");
+    gfront.push_back("resources/sprites/FF_Stage4_overlay5.png");
+    gfront.push_back("resources/sprites/FF_Stage4_overlay6.png");
 
     /* Creo 15 Barriles  -->*/
     int pos_x, pos_y;
@@ -184,14 +184,14 @@ void Game::level1(int enemy, int objetos, int armas,int width,int heigth){
     {
         pos_x =(-1000) + rand()%(20001 - (-1000));
         pos_y = 120 +rand() % (201 - 120);
-        barriles.push_back(new Object("Sprites/barril.png",pos_x, pos_y,_gwindow->render,width,heigth));
+        barriles.push_back(new Object("resources/sprites/barril.png",pos_x, pos_y,_gwindow->render,width,heigth));
     }
 
     /* posiciones de los enemigos aleatorios en el rango del suelo */
     for (int i=0; i < enemy; i++){
         pos_x = rand()%20001;
         pos_y = 120 +rand() %(201 - 120);
-        enemigos.push_back(new Enemy("Sprites/enemy_walk.png",pos_x, pos_y, _gwindow->render, width, heigth));
+        enemigos.push_back(new Enemy("resources/sprites/enemy_walk.png",pos_x, pos_y, _gwindow->render, width, heigth));
     }
 
     //solo existe una clase back, a los backs de fondo no les sirve pasarle game pero
