@@ -21,6 +21,25 @@ void Game::initialize (int width, int heigth)
    _gwindow= new Window("Final Figth",width,heigth);
 };
 
+//
+void Game::UpdateAtras(vector <Enemy*> vector) {
+     for (int i = 0; i < vector.size();i++){
+        if(character->GetPosY() >= vector[i]->GetPosY()){
+            vector[i]->updateImage();
+        }
+    }
+}
+
+
+void Game::UpdateDelante(vector <Enemy*> vector) {
+     for (int i = 0; i < vector.size();i++){
+        if(character->GetPosY() < vector[i]->GetPosY()){
+            vector[i]->updateImage();
+        }
+    }
+}
+
+
 void Game::runLoop(int width, int heigth)
 {
     Uint32 fps_last = SDL_GetTicks();
@@ -46,11 +65,8 @@ void Game::runLoop(int width, int heigth)
             }
             }
             /* Enemigos con pos y menor a pj */
-            for (int i = 0; i < enemigos.size();i++){
-               // if(character->GetPosY() >= enemigos[i]->GetPosY()){
-                    enemigos[i]->updateImage();
-    //        }
-            }
+            UpdateAtras(enemigos);
+
             /* cody se actualiza a lo ultimo */
             character->updateImage();
 
@@ -58,16 +74,14 @@ void Game::runLoop(int width, int heigth)
             for (int i = 0; i < barriles.size();i++){
                 if(character->GetPosY() < barriles[i]->GetPosY()){
                     barriles[i]->updateImage();
+                }
             }
            /* Enemigos con pos y mayor a pj */
-      /*      for (int i = 0; i < enemigos.size();i++){
-                if(character->GetPosY() >= enemigos[i]->GetPosY()){
-                    enemigos[i]->updateImage();
-            }
-            }*/
+
+           UpdateDelante(enemigos);
             /* Estoy recorriendo 2 veces el mismo vector para poner 
             cosas que estan detras de cody detras, ¿es necesario? */
-            }
+            
             front->updateImage();
             /* Refresco la pantalla con nueva posicion */
 

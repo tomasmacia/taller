@@ -1,19 +1,17 @@
 #ifndef ENEMY_H_
 #define ENEMY_H_
-
 #include "iostream"
 #include <SDL2/SDL.h>
 
 class Enemy{
 
 public:
-    Enemy(const std::string &image_path, int x, int y, SDL_Renderer* render, int wide, int heigth);
-    int GetPosY();
+    Enemy(const std::string &image_path, int x, int y, SDL_Renderer* render, int wide, int heigth);    
     void updateImage();
     void move();
     void SetMovment(int velocity); 
     bool moverse = true;
-
+    int GetPosY();
 
 
 private:

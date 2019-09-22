@@ -24,6 +24,8 @@ public:
     void pj_in_final();
 
 private:
+    void UpdateAtras(vector<Enemy*> vector);
+    void UpdateDelante(vector<Enemy*> vector);
     Enemy* _enemy;
     class Window* _gwindow;
     void initialize(int width, int heigth);
