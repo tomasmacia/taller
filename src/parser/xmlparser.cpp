@@ -1,5 +1,6 @@
 #include "xmlparser.h"
 #include "config/config.h"
+#include "config/characterxml.h"
 #include <tinyxml2.h>
 #include <iostream>
 #include <string>
@@ -193,8 +194,8 @@ vector<Level> XMLParser::getGameplayLevels(XMLElement *gameplay) {
     return mapSettingToVector(levelsElement, "level", XMLParser::mapLevel, section);
 }
 
-vector<Character> XMLParser::wrapperGameplayCharactersModule(XMLElement *gameplay, XMLElement *defaultGameplay) {
-    vector<Character> characters;
+vector<CharacterXML> XMLParser::wrapperGameplayCharactersModule(XMLElement *gameplay, XMLElement *defaultGameplay) {
+    vector<CharacterXML> characters;
     try {
         characters = getGameplayCharacters(gameplay);
     } catch (string& msg) {
@@ -205,7 +206,7 @@ vector<Character> XMLParser::wrapperGameplayCharactersModule(XMLElement *gamepla
     return characters;
 }
 
-vector<Character> XMLParser::getGameplayCharacters(XMLElement *gameplay) {
+vector<CharacterXML> XMLParser::getGameplayCharacters(XMLElement *gameplay) {
     string section = "characters";
     XMLElement *charactersElement = getXMLElementSafe(gameplay, {section});
 
@@ -231,8 +232,8 @@ vector<NPC> XMLParser::getGameplayNPCS(XMLElement *gameplay) {
     return mapSettingToVector(npcsElement, "npc", XMLParser::mapNPC, section);
 }
 
-Character XMLParser::mapCharacter(XMLElement *characters, const string currentChildName) {
-    Character character;
+CharacterXML XMLParser::mapCharacter(XMLElement *characters, const string currentChildName) {
+    CharacterXML character;
     character.name = getSafeValueFromElement(characters, {currentChildName.c_str(), "name"}, charArrayToString, "characters");
 
     return character;

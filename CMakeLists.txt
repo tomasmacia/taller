@@ -21,7 +21,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 # SDL
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
+include_directories(${SDL2_INCLUDE_DIRS})
+include_directories(${SDL2_IMAGE_INCLUDE_DIRS})
 
 # source files
 set(SOURCE_FILES
@@ -31,7 +32,7 @@ set(SOURCE_FILES
         src/parser/config/config.h
         src/parser/config/bindings.h
         src/parser/config/gameplay.h
-        src/parser/config/character.h
+        src/parser/config/characterxml.h
         src/parser/config/level.h
         src/parser/config/weapons.h
         src/parser/config/utilities.h
@@ -55,21 +56,19 @@ set(SOURCE_FILES
         # window
         src/window.cpp
         src/window.h
-        src/square.cpp
-        src/square.h
 
         #main
         src/main.cpp
 
-        src/events.h 
-        src/events.cpp 
-        src/game.h 
-        src/game.cpp 
-        src/character.h 
-        src/character.cpp 
-        src/background.h 
-        src/background.cpp 
-        src/object.h 
+        src/events.h
+        src/events.cpp
+        src/game.h
+        src/game.cpp
+        src/character.h
+        src/character.cpp
+        src/background.h
+        src/background.cpp
+        src/object.h
         src/object.cpp
         src/enemy.h
         src/enemy.cpp
