@@ -29,6 +29,8 @@ set(SOURCE_FILES
         # parser module
         src/parser/xmlparser.cpp
         src/parser/xmlparser.h
+        src/parser/CLIArgumentParser.cpp
+        src/parser/CLIArgumentParser.h
         src/parser/config/config.h
         src/parser/config/bindings.h
         src/parser/config/gameplay.h
@@ -54,8 +56,6 @@ set(SOURCE_FILES
         src/LogLib/LogManager.cpp
 
         # window
-        src/window.cpp
-        src/window.h
 
         #main
         src/main.cpp
@@ -72,7 +72,13 @@ set(SOURCE_FILES
         src/object.cpp
         src/enemy.h
         src/enemy.cpp
-        src/parser/CLIArgumentParser.cpp src/parser/CLIArgumentParser.h)
+        src/LevelBuilder.cpp
+        src/LevelBuilder.h
+        src/GameObject.cpp
+        src/GameObject.h
+        src/TextureManager.cpp
+        src/TextureManager.h
+        )
 
 # create executable
 add_executable(game ${SOURCE_FILES})

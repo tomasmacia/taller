@@ -1,7 +1,6 @@
 #ifndef GAME_H_
 #define GAME_H_
 
-#include "window.h"
 #include "background.h"
 #include "object.h"
 #include <cstdlib>
@@ -9,6 +8,7 @@
 #include <iostream>
 #include "object.h"
 #include "enemy.h"
+#include "GameObject.h"
 #include "LogLib/LogManager.h"
 #include "parser/config/config.h"
 
@@ -32,6 +32,10 @@ public:
     Background* floor, *front;
     void move_all();
     void pj_in_final();
+
+    void addGameObject(GameObject *gameObject) {
+        gameObjects.push_back(gameObject);
+    }
 
     // wrapper getters
     LogManager* getLogManager() {
@@ -71,18 +75,22 @@ private:
 
     void reboot();
 
+    std::vector<GameObject*> gameObjects;
+
     void UpdateAtras(vector<Enemy*> vector);
     void UpdateDelante(vector<Enemy*> vector);
-    Enemy* _enemy;
-    class Window* _gwindow;
-    void fpsChanged(int fps);
+    void setWindowTitleWithFPS(int fps);
+
     bool isRunning = false;
+
     std::vector <string> g1;
     std::vector <string> gmiddle;
     std::vector <string> g2;
-     std::vector <string> gfront;
+    std::vector <string> gfront;
+
     std::vector <Object*> barriles;
     std::vector <Enemy*> enemigos;
+
     void level1(int enemy, int objetos, int armas,int heigth,int width);
 
     // wrappers

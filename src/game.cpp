@@ -15,15 +15,6 @@
 #include "LogLib/ErrorLogger.h"
 
 
-//Game* Game::instance = nullptr;
-//
-//Game* Game::getInstance() {
-//    if (instance == nullptr) {
-//        instance = new Game();
-//    }
-//
-//    return instance;
-//}
 
 void Game::init() {
     //this->isRunning= false;
@@ -107,54 +98,51 @@ void Game::start() {
     level1(8,15,10,width,height);
 
     Events event(this, character);
+
     //loop hasta que se aprete ESC o click en (X)
-            /* Veo qu se esta apretando */
-       while(isRunning){
-            isRunning=!(event.keyboard_event());
-            /* Limpio la pantalla */    
-            SDL_RenderClear(renderer);
-            
-            /* Actualizo la imagen */
-            back->updateImage();
-            middle->updateImage();
-            floor->updateImage();
-            /* Barriles con pos y menor a pj*/
-            for (int i = 0; i < barriles.size();i++){
-                if(character->GetPosY() >= barriles[i]->GetPosY()){
-                    barriles[i]->updateImage();
+    /* Veo qu se esta apretando */
+    while(isRunning) {
+        isRunning=!(event.keyboard_event());
+        /* Limpio la pantalla */
+        SDL_RenderClear(renderer);
+
+        /* Actualizo la imagen */
+        back->updateImage();
+        middle->updateImage();
+        floor->updateImage();
+        /* Barriles con pos y menor a pj*/
+        for (int i = 0; i < barriles.size();i++){
+            if(character->GetPosY() >= barriles[i]->GetPosY()){
+                barriles[i]->updateImage();
             }
-            }
-            /* Enemigos con pos y menor a pj */
-            UpdateAtras(enemigos);
-
-            /* cody se actualiza a lo ultimo */
-            character->updateImage();
-
-            /* Barriles con pos y mayor a pj */
-            for (int i = 0; i < barriles.size();i++){
-                if(character->GetPosY() < barriles[i]->GetPosY()){
-                    barriles[i]->updateImage();
-                }
-            }
-           /* Enemigos con pos y mayor a pj */
-
-           UpdateDelante(enemigos);
-            /* Estoy recorriendo 2 veces el mismo vector para poner 
-            cosas que estan detras de cody detras, ¿es necesario? */
-            
-            front->updateImage();
-            /* Refresco la pantalla con nueva posicion */
-
-            //_gwindow->updateWindow();
-           SDL_RenderPresent(renderer);
-            
-
-            current = 1000/(-fps_last+SDL_GetTicks());// No 
-            fps_last =SDL_GetTicks();//                   Son
-            fpsChanged(current);///                      Importantes*/
         }
-            
-    //this->~Game();
+        /* Enemigos con pos y menor a pj */
+        UpdateAtras(enemigos);
+
+        /* cody se actualiza a lo ultimo */
+        character->updateImage();
+
+        /* Barriles con pos y mayor a pj */
+        for (int i = 0; i < barriles.size();i++){
+            if(character->GetPosY() < barriles[i]->GetPosY()){
+                barriles[i]->updateImage();
+            }
+        }
+        /* Enemigos con pos y mayor a pj */
+
+        UpdateDelante(enemigos);
+        /* Estoy recorriendo 2 veces el mismo vector para poner
+         * cosas que estan detras de cody detras, ¿es necesario? */
+
+        front->updateImage();
+        /* Refresco la pantalla con nueva posicion */
+
+        SDL_RenderPresent(renderer);
+
+        current = 1000 / (SDL_GetTicks() - fps_last);
+        fps_last = SDL_GetTicks();
+        setWindowTitleWithFPS(current);
+    }
 }
 
 
@@ -166,21 +154,22 @@ void Game::move_all(){
    
    floor->move();
 
-  for (int i = 0; i < barriles.size();i++){
-       barriles[i]->move();
+   for (auto& barril : barriles){
+       barril->move();
    }
 
-   for (int i = 0; i < enemigos.size(); i++){
-       enemigos[i]->move();
+   for (auto& enemigo : enemigos){
+       enemigo->move();
    }
 
    front->move();
 }
-// Copiado del de SDLTest, para ver fps(creo)
-void Game::fpsChanged(int fps){
+
+
+void Game::setWindowTitleWithFPS(int fps){
 
     char szFps[128];
-    sprintf(szFps,"%s: %d FPS","Final Fight",fps);
+    sprintf(szFps, "%s: %d FPS", "Final Fight", fps);
     SDL_SetWindowTitle(window, szFps);
 }
 
@@ -190,15 +179,17 @@ void Game::pj_in_final(){
     character->change_limits();
     //le aviso a los barriles que ya no se muevan al llegar
     //cody al final de la pantalla
-    for (int i = 0; i < barriles.size();i++){
-        barriles[i]->moverse=false;
+
+    for (auto& barril : barriles){
+        barril->moverse=false;
     }
+
  /*   for (int i = 0; i < enemigos.size();i++){
         enemigos[i]->moverse=false;
     }*/
 }
 
-void Game::level1(int enemy, int objetos, int armas,int width,int heigth){
+void Game::level1(int enemy, int objetos, int armas, int width, int heigth){
 
     /* Background */
     g1.push_back("resources/sprites/FF_Stage4_floor1.png");
@@ -233,18 +224,17 @@ void Game::level1(int enemy, int objetos, int armas,int width,int heigth){
     int pos_x, pos_y;
     srand(time(NULL));
     /* posiciones del barril aleatoria en el rango del suelo */
-    for (int  i = 0; i < objetos; i++)
-    {
-        pos_x =(-1000) + rand()%(20001 - (-1000));
-        pos_y = 120 +rand() % (201 - 120);
-        barriles.push_back(new Object("resources/sprites/barril.png",pos_x, pos_y,renderer,width,heigth));
+    for (int  i = 0; i < objetos; i++) {
+        pos_x = (-1000) + rand() % (20001 - (-1000));
+        pos_y = 120 + rand() % (201 - 120);
+        barriles.push_back(new Object("resources/sprites/barril.png", pos_x, pos_y,renderer,width,heigth));
     }
 
     /* posiciones de los enemigos aleatorios en el rango del suelo */
-    for (int i=0; i < enemy; i++){
-        pos_x = rand()%20001;
-        pos_y = 120 +rand() %(201 - 120);
-        enemigos.push_back(new Enemy("resources/sprites/enemy_walk.png",pos_x, pos_y, renderer, width, heigth));
+    for (int i=0; i < enemy; i++) {
+        pos_x = rand() % 20001;
+        pos_y = 120 + rand() % (201 - 120);
+        enemigos.push_back(new Enemy("resources/sprites/enemy_walk.png", pos_x, pos_y, renderer, width, heigth));
     }
 
     //solo existe una clase back, a los backs de fondo no les sirve pasarle game pero
