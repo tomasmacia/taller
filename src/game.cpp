@@ -15,15 +15,15 @@
 #include "LogLib/ErrorLogger.h"
 
 
-Game* Game::instance = nullptr;
-
-Game* Game::getInstance() {
-    if (instance == nullptr) {
-        instance = new Game();
-    }
-
-    return instance;
-}
+//Game* Game::instance = nullptr;
+//
+//Game* Game::getInstance() {
+//    if (instance == nullptr) {
+//        instance = new Game();
+//    }
+//
+//    return instance;
+//}
 
 void Game::init() {
     //this->isRunning= false;
@@ -33,8 +33,8 @@ void Game::init() {
 }
 
 void Game::initConfig() {
-    string defaultLogType = CLIArgumentParser::getInstance()->getDefaultLoggerLevel();
-    string pathToConfigFile = CLIArgumentParser::getInstance()->getPathToConfigFileName();
+    string defaultLogType = CLIArgumentParser::getInstance().getDefaultLoggerLevel();
+    string pathToConfigFile = CLIArgumentParser::getInstance().getPathToConfigFileName();
 
     XMLParser xmlParser;
     this->config = xmlParser.parse(pathToConfigFile);

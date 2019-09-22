@@ -15,7 +15,14 @@
 class Game
 {
 public:
-    static Game* getInstance();
+    static Game& getInstance() {
+        static Game instance; // Guaranteed to be destroyed.
+                              // Instantiated on first use.
+        return instance;
+    }
+
+    Game(Game const&) = delete;
+    void operator=(Game const&) = delete;
 
     // gameloop
     void start();
@@ -44,7 +51,6 @@ public:
     }
 
 private:
-    static Game* instance;
     Game() {
         init();
     }

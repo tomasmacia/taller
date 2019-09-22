@@ -8,15 +8,6 @@
 
 using namespace std;
 
-CLIArgumentParser* CLIArgumentParser::instance = nullptr;
-
-CLIArgumentParser* CLIArgumentParser::getInstance() {
-    if (instance == nullptr) {
-        instance = new CLIArgumentParser();
-    }
-
-    return instance;
-}
 
 void CLIArgumentParser::init(int argc, const char **args) {
     this->argc = argc;

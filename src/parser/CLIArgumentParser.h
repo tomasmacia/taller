@@ -12,14 +12,21 @@ using namespace std;
 
 class CLIArgumentParser {
 public:
-    static CLIArgumentParser* getInstance();
+    static CLIArgumentParser& getInstance() {
+        static CLIArgumentParser instance; // Guaranteed to be destroyed.
+                                           // Instantiated on first use.
+        return instance;
+    }
+
     void init(int argc, const char* args[]);
 
     string getPathToConfigFileName();
     string getDefaultLoggerLevel();
 
+    CLIArgumentParser(CLIArgumentParser const&) = delete;
+    void operator=(CLIArgumentParser const&) = delete;
+
 private:
-    static CLIArgumentParser* instance;
     CLIArgumentParser() {};
     ~CLIArgumentParser() {};
 
