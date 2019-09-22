@@ -9,7 +9,7 @@ using namespace std;
 using namespace tinyxml2;
 
 
-Config XMLParser::parse(string pathToConfig) {
+Config* XMLParser::parse(string pathToConfig) {
     cout << pathToConfig << " is the path to the config file." << endl;
     XMLDocument doc;
     loadFile(&doc, pathToConfig);
@@ -17,7 +17,7 @@ Config XMLParser::parse(string pathToConfig) {
     XMLDocument docDefault;
     loadFile(&docDefault, DEFAULT_CONFIG_PATH);
 
-    Config config;
+    Config* config = nullptr;
 
     try {
         config = mapXMLDocumentToConfig(&doc, &docDefault);
@@ -51,7 +51,7 @@ XMLError XMLParser::loadFile(XMLDocument *doc, string pathToConfig) {
     return eResult;
 }
 
-Config XMLParser::mapXMLDocumentToConfig(XMLDocument *doc, XMLDocument *docDefault) {
+Config* XMLParser::mapXMLDocumentToConfig(XMLDocument *doc, XMLDocument *docDefault) {
     XMLElement *configElement = nullptr;
     XMLElement *defaultConfigElement = nullptr;
     if (doc == nullptr && docDefault == nullptr) {
@@ -71,12 +71,12 @@ Config XMLParser::mapXMLDocumentToConfig(XMLDocument *doc, XMLDocument *docDefau
         configElement = defaultConfigElement; // do not try to create modules later from null, use default directly
     }
 
-    Config config;
+    auto* config = new Config();
 
-    config.loggerLevel = wrapperLoggerModule(configElement, defaultConfigElement);
-    config.bindings = wrapperBindingsModule(configElement, defaultConfigElement);
-    config.screenResolution = wrapperScreenResolutionModule(configElement, defaultConfigElement);
-    config.gameplay = wrapperGameplayModule(configElement, defaultConfigElement);
+    config->loggerLevel = wrapperLoggerModule(configElement, defaultConfigElement);
+    config->bindings = wrapperBindingsModule(configElement, defaultConfigElement);
+    config->screenResolution = wrapperScreenResolutionModule(configElement, defaultConfigElement);
+    config->gameplay = wrapperGameplayModule(configElement, defaultConfigElement);
 
 
     return config;

@@ -15,7 +15,7 @@ using namespace tinyxml2;
 
 class XMLParser {
 public:
-    Config parse(string);
+    Config* parse(string);
 private:
     static constexpr const char* const DEFAULT_CONFIG_PATH = "configs/default.xml";
 
@@ -26,7 +26,7 @@ private:
     template <typename T>
     static T getSafeValueFromElement(XMLElement *element, vector<string> names, T (*func)(const char*), string section);
 
-    Config mapXMLDocumentToConfig(XMLDocument *doc, XMLDocument *docDefault);
+    Config* mapXMLDocumentToConfig(XMLDocument *doc, XMLDocument *docDefault);
 
     string getLoggerLevel(XMLElement *config);
 
