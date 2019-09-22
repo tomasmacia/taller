@@ -7,11 +7,15 @@
 //CONSTRUCTOR & DESTRUCTOR
 Game::Game(int width, int heigth)
 {
+    /*Los numeros magicos en este metodo no se extienen por fuera
+    de esta metodo y surgen de a ojo ver que parametros dan el
+    mejor acabado visual*/
+    
     _width = width;
     _height = heigth;
 
     _maxY = _height; //SDL mide el Y = 0 desde arriba y aumenta hacia abajo
-    _minY = _height * (1 - WALKABLE_BACKGROUND_PERCENTAGE);
+    _minY = 470;       
 
     _window = new Window(GAME_NAME,_width,_height);
     _renderer = _window->getRenderer();
@@ -89,8 +93,8 @@ void Game::intializeGameObjects(){
     for (int  i = 0; i < BARREL_AMOUNT; i++)
     {
         pos_x =rand() % (int)(_background->getWidth());
-        pos_y = (_minY) + rand() % (int)(_maxY -_minY - 100);
-        Barrel* barrel = new Barrel(_renderer,pos_x,pos_y,0.4,_maxY,_minY);
+        pos_y = (_minY) + rand() % (int)(_maxY -_minY);
+        Barrel* barrel = new Barrel(_renderer,pos_x,pos_y,0.8,_maxY,_minY,true);
         _entities.push_back(barrel);
     }
 }
@@ -100,10 +104,13 @@ void Game::initCharacter(){
     de esta metodo y surgen de a ojo ver que parametros dan el
     mejor acabado visual*/
 
-    float x = _width/2 - 80;
-    float y = _height/2 - 180;
+    float x = _width/2;
+    float y = (_maxY + _minY)/2;
+    std::cout <<"y: "<< y << "\n";
+    std::cout <<"_maxY: "<< _maxY << "\n";
+    std::cout <<"_minY: "<< _minY << "\n";
 
-    _character = new Character(_renderer, x, y, 0.8,_maxY,_minY);
+    _character = new Character(_renderer, x, y, 0.8,_maxY,_minY,false);
 }
 /*
 // Copiado del de SDLTest, para ver fps(creo)

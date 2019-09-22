@@ -21,7 +21,7 @@ private:
     const int B_TRANSAPRENT = 248;
     
 public:
-    Character(SDL_Renderer* renderer, float x, float y, float minScaleFactor, float maxY, float minY);
+    Character(SDL_Renderer* renderer, float x, float y, float minScaleFactor, float maxY, float minY, bool perspectiveSensitive);
     ~Character();
 
     void enableLeftMovement();

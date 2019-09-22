@@ -8,12 +8,20 @@
 
 class Appearance{
 
+/* Con los atributos de _SDL_x y _SDL_y parece como si duplicace estado
+    en varios lados, y es cierto, pero si no hago esto tengo que 
+    andar pidiendo estado a clases externas y es peor. El problema
+    aparece porque la libreria SDL me redondea los floats a int*/
+
 private:
     //DEFAULT COLOR WHEN NO IMAGEN LOADED *MAGENTA*
     int _r = 255;
     int _g = 0;
     int _b = 255;
     int _a = 255;
+
+    float _SDL_x;
+    float _SDL_y;
 
     SDL_Rect _rectangle;
     SDL_Texture* _texture = nullptr;
@@ -25,8 +33,8 @@ public:
     Appearance(SDL_Renderer* renderer, float width, float height, float x, float y, SDL_Texture* texture);
     ~Appearance();
 
-    void setX(float x);
-    void setY(float y);
+    void changeXBy(float amount);
+    void changeYBy(float amount);
     void setWidth(float width);
     void setHeight(float height);
     float getWidth();

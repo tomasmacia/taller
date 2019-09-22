@@ -22,7 +22,6 @@ private:
     //VALID RANGE OF MOVEMENT
     float _maxY;
     float _minY;
-    float WALKABLE_BACKGROUND_PERCENTAGE = 0.6;
 
     //GAME OBJECTS AMOUNTS
     int BARREL_AMOUNT = 20;

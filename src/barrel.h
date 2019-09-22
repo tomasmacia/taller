@@ -12,8 +12,8 @@ private:
 
     Entity* _entity;
 
-    const float MAX_WIDTH = 450;
-    const float MAX_HEIGHT = 600;
+    const float MAX_WIDTH = 185;
+    const float MAX_HEIGHT = 250;
 
     const std::string IMAGE_PATH = "Sprites/barril.png";
     const int R_TRANSAPRENT = 88;
@@ -21,7 +21,7 @@ private:
     const int B_TRANSAPRENT = 248;
 
 public:    
-    Barrel(SDL_Renderer* renderer, float x, float y, float minScaleFactor, float maxY, float minY);
+    Barrel(SDL_Renderer* renderer, float x, float y, float minScaleFactor, float maxY, float minY, bool perspectiveSensitive);
     ~Barrel();
 
     void applyHorizontalLeftShift();

@@ -7,70 +7,92 @@
 #include "appearance.h"
 
 //CONSTRUCTOR & DESTRUCTOR
-Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y, int r, int g, int b, int a){
+Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y,
+                 int r, int g, int b, int a){
 
-    _appearance = new Appearance(renderer,width,height,x,y,r,g,b,a);
-    _position = new Position(x,y,_appearance);
+    initAppearance(renderer,width,height,x,y,r,g,b,a);
+    initPosition(x,y);
 }
 
-Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y, std::vector <Sprite*>* sprites){
+Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y,
+                 std::vector <Sprite*>* sprites){
 
     _spriteParser = new SpriteParser(sprites);
-    _appearance = new Appearance(renderer,width,height,x,y,_spriteParser->next());
-    _position = new Position(x,y,_appearance);
+    initAppearance(renderer,width,height,x,y,_spriteParser->next());
+    initPosition(x,y);
 }
 
-Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y, Sprite* sprite){    
-
-    _appearance = new Appearance(renderer,width,height,x,y,sprite);
-    _position = new Position(x,y,_appearance);
+Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y,
+                 Sprite* sprite){    
+    initAppearance(renderer,width,height,x,y,sprite);
+    initPosition(x,y);
 }
 
 Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y){
 
-    _appearance = new Appearance(renderer,width,height,x,y,255,255,255,255);
-    _position = new Position(x,y,_appearance);
+    initAppearance(renderer,width,height,x,y,255,0,255,255);
+    initPosition(x,y);
 }
 
-Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y, int r, int g, int b, int a, float minScaleFactor, float maxY, float minY){
+Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y,
+                    int r, int g, int b, int a, float minScaleFactor, float maxY, float minY,
+                    bool perspectiveSensitive){
 
-    initPerspectiveParameters(width,height,minScaleFactor,maxY,minY);
-    float newWidth = applyPerspectiveTransformationTo(width,y);
-    float newHeight = applyPerspectiveTransformationTo(height,y);
+    _perspectiveSensitive = perspectiveSensitive;
+    if (_perspectiveSensitive){
+        initPerspectiveParameters(width,height,minScaleFactor,maxY,minY);
+        width = applyPerspectiveTransformationTo(width,y);
+        height = applyPerspectiveTransformationTo(height,y);
+    }
 
-    _appearance = new Appearance(renderer,newWidth,newWidth,x,y,r,g,b,a);
-    _position = new Position(x,y,_appearance);
+    initAppearance(renderer,width,height,x,y,r,g,b,a);
+    initPosition(x,y);
 }
 
-Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y, std::vector <Sprite*>* sprites, float minScaleFactor, float maxY, float minY){
+Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y,
+                 std::vector <Sprite*>* sprites, float minScaleFactor, float maxY, float minY,
+                 bool perspectiveSensitive){
 
-    initPerspectiveParameters(width,height,minScaleFactor,maxY,minY);
-    float newWidth = applyPerspectiveTransformationTo(width,y);
-    float newHeight = applyPerspectiveTransformationTo(height,y);
+    _perspectiveSensitive = perspectiveSensitive;
+    if (_perspectiveSensitive){
+        initPerspectiveParameters(width,height,minScaleFactor,maxY,minY);
+        width = applyPerspectiveTransformationTo(width,y);
+        height = applyPerspectiveTransformationTo(height,y);
+    }
 
     _spriteParser = new SpriteParser(sprites);
-    _appearance = new Appearance(renderer,newWidth,newHeight,x,y,_spriteParser->next());
-    _position = new Position(x,y,_appearance);
+    initAppearance(renderer,width,height,x,y,_spriteParser->next());
+    initPosition(x,y);
 }
 
-Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y, Sprite* sprite, float minScaleFactor, float maxY, float minY){    
+Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y,
+                 Sprite* sprite, float minScaleFactor, float maxY, float minY, 
+                 bool perspectiveSensitive){    
 
-    initPerspectiveParameters(width,height,minScaleFactor,maxY,minY);
-    float newWidth = applyPerspectiveTransformationTo(width,y);
-    float newHeight = applyPerspectiveTransformationTo(height,y);    
+    _perspectiveSensitive = perspectiveSensitive;
+    if (_perspectiveSensitive){
+        initPerspectiveParameters(width,height,minScaleFactor,maxY,minY);
+        width = applyPerspectiveTransformationTo(width,y);
+        height = applyPerspectiveTransformationTo(height,y);
+    }    
 
-    _appearance = new Appearance(renderer,newWidth,newHeight,x,y,sprite);
-    _position = new Position(x,y,_appearance);
+    initAppearance(renderer,width,height,x,y,sprite);
+    initPosition(x,y);
 }
 
-Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y, float minScaleFactor, float maxY, float minY){
+Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float y,
+                float minScaleFactor, float maxY, float minY,
+                bool perspectiveSensitive){
 
-    initPerspectiveParameters(width,height,minScaleFactor,maxY,minY);
-    float newWidth = applyPerspectiveTransformationTo(width,y);
-    float newHeight = applyPerspectiveTransformationTo(height,y);
+    _perspectiveSensitive = perspectiveSensitive;
+    if (_perspectiveSensitive){
+        initPerspectiveParameters(width,height,minScaleFactor,maxY,minY);
+        width = applyPerspectiveTransformationTo(width,y);
+        height = applyPerspectiveTransformationTo(height,y);
+    }
 
-    _appearance = new Appearance(renderer,newWidth,newHeight,x,y,255,255,255,255);
-    _position = new Position(x,y,_appearance);
+    initAppearance(renderer,width,height,x,y,255,0,255,255);
+    initPosition(x,y);
 }
 
 Entity::~Entity(){
@@ -80,47 +102,25 @@ Entity::~Entity(){
 }
 
 //PUBLIC
-void Entity::handeEvent(SDL_Event e){
-    if( e.type == SDL_KEYDOWN && e.key.repeat == 0 ){
-        switch( e.key.keysym.sym )
-        {
-            case SDLK_UP: _velocity_y -= SPEED_CONSTANT; break;
-            case SDLK_DOWN: _velocity_y += SPEED_CONSTANT; break;
-            case SDLK_LEFT: _velocity_x -= SPEED_CONSTANT; break;
-            case SDLK_RIGHT: _velocity_x += SPEED_CONSTANT; break;
-        }
-    }
-
-    else if( e.type == SDL_KEYUP && e.key.repeat == 0 ){
-        switch( e.key.keysym.sym )
-        {
-            case SDLK_UP: _velocity_y += SPEED_CONSTANT; break;
-            case SDLK_DOWN: _velocity_y -= SPEED_CONSTANT; break;
-            case SDLK_LEFT: _velocity_x += SPEED_CONSTANT; break;
-            case SDLK_RIGHT: _velocity_x -= SPEED_CONSTANT; break;
-        }
-    }
-}
-
 void Entity::move(){
     changeXBy(_velocity_x);
     changeYBy(_velocity_y);
 }
 
 void Entity::enableLeftXMotion(){
-    _velocity_x = SPEED_CONSTANT;
+    _velocity_x = -X_SPEED_CONSTANT;
 }
 
 void Entity::enableRightXMotion(){
-    _velocity_x = -SPEED_CONSTANT;
+    _velocity_x = X_SPEED_CONSTANT;
 }
 
 void Entity::enableUpYMotion(){
-    _velocity_y = SPEED_CONSTANT;
+    _velocity_y = -Y_SPEED_CONSTANT;
 }
 
 void Entity::enableDownYMotion(){
-    _velocity_y = -SPEED_CONSTANT;
+    _velocity_y = Y_SPEED_CONSTANT;
 }
 
 void Entity::disableXMotion(){
@@ -132,15 +132,15 @@ void Entity::disableYMotion(){
 }
 
 void Entity::applyHorizontalLeftShift(){
-    changeXBy(-SPEED_CONSTANT);
+    changeXBy(-X_SPEED_CONSTANT);
 }
 
 void Entity::applyHorizontalRighShift(){
-    changeXBy(SPEED_CONSTANT);
+    changeXBy(X_SPEED_CONSTANT);
 }
 
 void Entity::setSpeed(float speed){
-    SPEED_CONSTANT = speed;
+    X_SPEED_CONSTANT = speed;
 }
 
 float Entity::getY(){
@@ -170,7 +170,6 @@ void Entity::updateImage(){
 //PRIVATE
 void Entity::initPerspectiveParameters(float width, float height, float minScaleFactor, float maxY, float minY){
     
-    _perspectiveSensible = true;
     _minScaleFactor = minScaleFactor;
     _maxWidth = width;
     _maxHeight = height;
@@ -187,14 +186,6 @@ void Entity::initPerspectiveParameters(float width, float height, float minScale
     */
 }
 
-float Entity::applyPerspectiveTransformationTo(float length, float y){
-    float newLegth;
-    float c = (1 - _minScaleFactor)/(_maxY - _minY);
-    float scaleFactor = c*y + (1 - c*_maxY);
-    newLegth = length * scaleFactor;
-    return newLegth;
-}
-
 void Entity::changeXBy(float amount){
     _position->changeXBy(amount);
 }
@@ -202,7 +193,7 @@ void Entity::changeXBy(float amount){
 void Entity::changeYBy(float amount){
     _position->changeYBy(amount);
 
-    if (_perspectiveSensible && amount != 0){
+    if (_perspectiveSensitive && amount != 0){
         applyPersepective();
     }
 }
@@ -218,4 +209,38 @@ void Entity::applyPersepective(){
 
     _appearance->setWidth(newWidth);
     _appearance->setHeight(newHeight);
+}
+
+float Entity::applyPerspectiveTransformationTo(float length, float y){
+    float newLegth;
+    float c = (1 - _minScaleFactor)/(_maxY - _minY);
+    float scaleFactor = c*y + (1 - c*_maxY);
+    newLegth = length * scaleFactor;
+    return newLegth;
+}
+
+float Entity::correctXToSDLCoordinateSystem(float width, float height, float previousX){
+    return previousX - width/2;
+}
+
+float Entity::correctYToSDLCoordinateSystem(float width, float height, float previousY){
+    return previousY - height;
+}
+
+void Entity::initAppearance(SDL_Renderer* renderer, float width, float height,
+                             float x, float y,  int r, int g, int b, int a){
+    float correctedX = correctXToSDLCoordinateSystem(width,height,x);
+    float correctedY = correctYToSDLCoordinateSystem(width,height,y);
+    _appearance = new Appearance(renderer,width,height,correctedX,correctedY, r, g, b, a);
+}
+
+void Entity::initAppearance(SDL_Renderer* renderer, float width, float height,
+                             float x, float y, Sprite* sprite){
+    float correctedX = correctXToSDLCoordinateSystem(width,height,x);
+    float correctedY = correctYToSDLCoordinateSystem(width,height,y);
+    _appearance = new Appearance(renderer,width,height,correctedX,correctedY,sprite);
+}
+
+void Entity::initPosition(float x, float y){
+    _position = new Position(x,y,_appearance);
 }

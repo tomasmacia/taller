@@ -86,8 +86,8 @@ void Background::createNearBackground(float width, float height){
 
     _nearBackgroundWidth = width * WIDTH_SCALE_FACTOR_SCREEN_TO_NEAR;
     _nearBackgroundHeight = height * HEIGHT_SCALE_FACTOR_SCREEN_TO_NEAR;
-    _startingNearBackgroundX = 0;
-    _startingNearBackgroundY = 0;
+    _startingNearBackgroundX = _nearBackgroundWidth/2;
+    _startingNearBackgroundY = _nearBackgroundHeight;
 
     /*
     std::vector <std::string> nearBackgroundSpritePaths;
@@ -101,7 +101,6 @@ void Background::createNearBackground(float width, float height){
     */
     Sprite* nearBackgroundSprite = new Sprite("Sprites/FF_Stage4_floor.png",
                                                         0,162,232);
-
     _nearBackground = new Entity(_renderer, _nearBackgroundWidth, _nearBackgroundHeight,
                                  _startingNearBackgroundX, _startingNearBackgroundY,
                                  nearBackgroundSprite);                      
@@ -111,8 +110,8 @@ void Background::createFarBackground(float width, float height){
 
     _farBackgroundWidth = width * WIDTH_SCALE_FACTOR_SCREEN_TO_FAR;
     _farBackgroundHeight = height * HEIGHT_SCALE_FACTOR_SCREEN_TO_FAR;
-    _startingFarBackgroundX = 0;
-    _startingFarBackgroundY = 0;
+    _startingFarBackgroundX = _farBackgroundWidth/2;
+    _startingFarBackgroundY = _farBackgroundHeight;
     /*
     std::vector <std::string> farBackgroundSpritePaths;
 

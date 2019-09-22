@@ -6,17 +6,29 @@
 //CONSTRUCTOR & DESTRUCTOR
 Appearance::Appearance(SDL_Renderer* renderer, float width, float height, float x, float y, int r, int g, int b, int a):
 _r(r), _g(g), _b(b), _a(a){
+
+    _SDL_x = x;
+    _SDL_y = y;
+
     _renderer = renderer;
     _rectangle = {(int)x, (int)y, (int)width, (int)height};
 }
 
 Appearance::Appearance(SDL_Renderer* renderer, float width, float height, float x, float y, Sprite* sprite){
+    
+    _SDL_x = x;
+    _SDL_y = y;
+    
     _renderer = renderer;
     _rectangle = {(int)x, (int)y, (int)width, (int)height};
     loadImage(sprite);
 }
 
 Appearance::Appearance(SDL_Renderer* renderer, float width, float height, float x, float y, SDL_Texture* texture){
+    
+    _SDL_x = x;
+    _SDL_y = y;
+
     _renderer = renderer;
     _rectangle = {(int)x, (int)y, (int)width, (int)height};
     _texture = texture;
@@ -64,12 +76,14 @@ void Appearance::updateImage(){
     }
 }
 
-void Appearance::setX(float x){
-    _rectangle.x = (int)x;
+void Appearance::changeXBy(float amount){
+    _SDL_x = _SDL_x + amount;
+    _rectangle.x = _SDL_x;
 }
 
-void Appearance::setY(float y){
-    _rectangle.y = (int)y;
+void Appearance::changeYBy(float amount){
+    _SDL_y = _SDL_y + amount;
+    _rectangle.y = _SDL_y;
 }
 
 void Appearance::setWidth(float width){

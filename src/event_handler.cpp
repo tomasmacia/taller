@@ -18,6 +18,7 @@ void EventHandler::execute_event(){
     {
     case SDL_QUIT:
         _game->close();
+        break;
     case SDL_KEYDOWN:
         if(_event.key.repeat == 0 ){
             switch (_event.key.keysym.scancode)
@@ -32,7 +33,6 @@ void EventHandler::execute_event(){
                     break;
                 case SDL_SCANCODE_UP:
                     _cody->enableDeepIntoScreenMovement();
-                    std::cout <<"llegue" << "\n";
                     break;
                 case SDL_SCANCODE_DOWN:
                     _cody->enableCloserToScreenMovement();
@@ -48,6 +48,7 @@ void EventHandler::execute_event(){
                     break;
             }
         }
+        break;
     case SDL_KEYUP:
         switch (_event.key.keysym.scancode)
         {
@@ -64,6 +65,7 @@ void EventHandler::execute_event(){
             _cody->disableCloserToScreenMovement();
             break;
         }
+        break;
     } 
 }
 //PRIVATE

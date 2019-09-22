@@ -11,12 +11,12 @@ _x(x), _y(y), _appearance(appearance){}
 //PUBLIC
 void Position::changeXBy(float amount){
     _x = _x + amount;
-    _appearance->setX(_x);
+    _appearance->changeXBy(amount);
 }
 
 void Position::changeYBy(float amount){
     _y = _y + amount;
-    _appearance->setY(_y);
+    _appearance->changeYBy(amount);
 }
 
 float Position::getX(){
