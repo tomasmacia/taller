@@ -101,18 +101,14 @@ Game::~Game()
     //limpio vectores de escenario
     gmiddle.clear();
     gfront.clear();
+    g1.clear();
+    g2.clear();    
     obj_escenario.clear();
     enemigos.clear();
-    g1.clear();
-    g2.clear();
     floor->~Background();
-  //  delete(floor);
     back->~Background();
-   // delete(middle);
-   middle->~Background();
-   // delete(back);
+    middle->~Background();
     character->~Character();
- //   delete(character);
     (_gwindow)->~Window();
     delete(_gwindow);
     SDL_Quit();
