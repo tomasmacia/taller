@@ -43,8 +43,8 @@ bool Character::move(int option,int p){
     //Limites de movimiento harcodeados en relacion a imagen y pantalla
 
     //Como estoy realizando una accion seteo mi option a 8 para ignorar eventos.    
-    if (state!=8){state = option; }
-    
+    if (state==8){ option=8;}
+    state = option;
     while(option ==0){
         cont++; 
         if(p == 4 ){
