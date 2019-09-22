@@ -1,27 +1,85 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "game.h"
-#include "events.h"
-#include "character.h"
 #include <stdlib.h>
 #include <time.h>
 
-Game::Game(int width, int heigth)
-{
-    initialize(width, heigth);
-    runLoop(width, heigth);
-};
+#include "game.h"
+#include "events.h"
+#include "character.h"
+#include "parser/CLIArgumentParser.h"
+#include "parser/config/config.h"
+#include "parser/xmlparser.h"
+#include "LogLib/Logger.h"
+#include "LogLib/DebugLogger.h"
+#include "LogLib/InfoLogger.h"
+#include "LogLib/ErrorLogger.h"
 
-void Game::initialize (int width, int heigth) 
-{
-    if (SDL_Init(SDL_INIT_VIDEO) != 0)
-    {
-        std::cerr << "Fallo SDL .\n";
+
+Game* Game::instance = nullptr;
+
+Game* Game::getInstance() {
+    if (instance == nullptr) {
+        instance = new Game();
     }
-   _gwindow= new Window("Final Figth",width,heigth);
-};
 
-//
+    return instance;
+}
+
+void Game::init() {
+    //this->isRunning= false;
+    this->initConfig();
+    //this->initLogManager();
+    this->initSDL();
+}
+
+void Game::initConfig() {
+    string defaultLogType = CLIArgumentParser::getInstance()->getDefaultLoggerLevel();
+    string pathToConfigFile = CLIArgumentParser::getInstance()->getPathToConfigFileName();
+
+    XMLParser xmlParser;
+    this->config = xmlParser.parse(pathToConfigFile);
+}
+
+void Game::initLogManager() {
+    Logger *logger;
+    if (config->loggerLevel == "DEBUG") {
+        logger = new DebugLogger();
+    } else if (config->loggerLevel == "INFO") {
+        logger = new InfoLogger();
+    } else {
+        logger = new ErrorLogger();
+    }
+
+    // TODO: por que estatico? singleton o normal. Asi lo podemos agregar al singleton de Game y consumirlo desde afuera
+    LogManager::setStaticLogger(logger);
+    LogManager::setStaticLogPath("test.txt");
+
+}
+
+void Game::initSDL() {
+    if( SDL_Init(SDL_INIT_VIDEO) == 0 ) {
+        if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG) {
+            std::cerr << "Fallo SDL_Image.\n";
+        }
+
+        int windowWidth = this->config->screenResolution.width;
+        int windowHeight = this->config->screenResolution.height;
+
+        this->window = SDL_CreateWindow("Final Fight", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowWidth, windowHeight, 0);
+        this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_PRESENTVSYNC);
+    }
+
+    if (this->window == nullptr || this->renderer == nullptr) {
+        this->isRunning = false;
+        std::cerr << "SDL no pudo inicializarse" << endl;
+    } else {
+        this->isRunning = true;
+        //SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
+    }
+
+}
+
+
 void Game::UpdateAtras(vector <Enemy*> vector) {
      for (int i = 0; i < vector.size();i++){
         if(character->GetPosY() >= vector[i]->GetPosY()){
@@ -40,11 +98,13 @@ void Game::UpdateDelante(vector <Enemy*> vector) {
 }
 
 
-void Game::runLoop(int width, int heigth)
-{
+void Game::start() {
+    int width = this->config->screenResolution.width;
+    int height = this->config->screenResolution.height;
+
     Uint32 fps_last = SDL_GetTicks();
     Uint32 current;
-    level1(8,15,10,width,heigth);
+    level1(8,15,10,width,height);
 
     Events event(this, character);
     //loop hasta que se aprete ESC o click en (X)
@@ -52,7 +112,7 @@ void Game::runLoop(int width, int heigth)
        while(isRunning){
             isRunning=!(event.keyboard_event());
             /* Limpio la pantalla */    
-            SDL_RenderClear( _gwindow->render );
+            SDL_RenderClear(renderer);
             
             /* Actualizo la imagen */
             back->updateImage();
@@ -85,7 +145,8 @@ void Game::runLoop(int width, int heigth)
             front->updateImage();
             /* Refresco la pantalla con nueva posicion */
 
-            _gwindow->updateWindow();
+            //_gwindow->updateWindow();
+           SDL_RenderPresent(renderer);
             
 
             current = 1000/(-fps_last+SDL_GetTicks());// No 
@@ -93,30 +154,8 @@ void Game::runLoop(int width, int heigth)
             fpsChanged(current);///                      Importantes*/
         }
             
-    this->~Game(); 
+    //this->~Game();
 }
-
-Game::~Game()
-{
-    //limpio vectores de escenario
-    gmiddle.clear();
-    gfront.clear();
-    barriles.clear();
-    enemigos.clear();
-    g1.clear();
-    g2.clear();
-    floor->~Background();
-  //  delete(floor);
-    back->~Background();
-   // delete(middle);
-   middle->~Background();
-   // delete(back);
-    character->~Character();
- //   delete(character);
-    (_gwindow)->~Window();
-    delete(_gwindow);
-    SDL_Quit();
-};
 
 
 void Game::move_all(){
@@ -141,8 +180,8 @@ void Game::move_all(){
 void Game::fpsChanged(int fps){
 
     char szFps[128];
-    sprintf(szFps,"%s: %d FPS","Final Figth",fps);
-    SDL_SetWindowTitle(_gwindow->_window, szFps);
+    sprintf(szFps,"%s: %d FPS","Final Fight",fps);
+    SDL_SetWindowTitle(window, szFps);
 }
 
 void Game::pj_in_final(){
@@ -198,14 +237,14 @@ void Game::level1(int enemy, int objetos, int armas,int width,int heigth){
     {
         pos_x =(-1000) + rand()%(20001 - (-1000));
         pos_y = 120 +rand() % (201 - 120);
-        barriles.push_back(new Object("resources/sprites/barril.png",pos_x, pos_y,_gwindow->render,width,heigth));
+        barriles.push_back(new Object("resources/sprites/barril.png",pos_x, pos_y,renderer,width,heigth));
     }
 
     /* posiciones de los enemigos aleatorios en el rango del suelo */
     for (int i=0; i < enemy; i++){
         pos_x = rand()%20001;
         pos_y = 120 +rand() %(201 - 120);
-        enemigos.push_back(new Enemy("resources/sprites/enemy_walk.png",pos_x, pos_y, _gwindow->render, width, heigth));
+        enemigos.push_back(new Enemy("resources/sprites/enemy_walk.png",pos_x, pos_y, renderer, width, heigth));
     }
 
     //solo existe una clase back, a los backs de fondo no les sirve pasarle game pero
@@ -213,9 +252,31 @@ void Game::level1(int enemy, int objetos, int armas,int width,int heigth){
     // avisar que se llego al final del escenario.
     // se le pasa los parametros de la ventana, el render y la velocidad con la que se mueve
     // y el lvl de background que es (1 es el mas cercano, 2 el del medio y 3 el lejano)
-    back = new Background(g2,heigth,width,_gwindow->render, this, 0.063,3);
-    middle = new Background(gmiddle,heigth,width,_gwindow->render,this, 0.25,3);
-    floor = new Background(g1,heigth,width,_gwindow->render, this,0.5, 1);  
-    front =  new Background(gfront,heigth,width,_gwindow->render, this,0.5, 4);
-    character = new Character(this,width,heigth,_gwindow->render);
+    back = new Background(g2, heigth, width, renderer, this, 0.063,3);
+    middle = new Background(gmiddle, heigth, width, renderer, this, 0.25, 3);
+    floor = new Background(g1, heigth, width, renderer, this,0.5, 1);
+    front =  new Background(gfront, heigth, width, renderer, this,0.5, 4);
+    character = new Character(this, width, heigth, renderer);
+}
+
+void Game::destroy() {
+    //limpio vectores de escenario
+    gmiddle.clear();
+    gfront.clear();
+    barriles.clear();
+    enemigos.clear();
+    g1.clear();
+    g2.clear();
+    floor->~Background();
+    //  delete(floor);
+    back->~Background();
+    // delete(middle);
+    middle->~Background();
+    // delete(back);
+    character->~Character();
+    //   delete(character);
+
+    SDL_DestroyWindow(this->window);
+    SDL_DestroyRenderer(this->renderer);
+    SDL_Quit();
 }
