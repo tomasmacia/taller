@@ -15,6 +15,8 @@ class LogManager{
         static bool pathHasBeenSet;
         static std::ofstream file;
 
+        static std::string getCurrentTime();
+
     public:
 
         /**
@@ -48,7 +50,7 @@ class LogManager{
         /**
          * Forces to write the message in the log file
          */
-        void static writeLogFile(std::string message);
+        void static writeLogFile(std::string message, std::string level);
 };
 
 #endif

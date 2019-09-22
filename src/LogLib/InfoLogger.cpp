@@ -6,7 +6,7 @@ void InfoLogger::logError(std::string message){
 };
 
 void InfoLogger::logInfo(std::string message){
-    LogManager::writeLogFile(message);
+    LogManager::writeLogFile(message, "INFO");
 };
 
 void InfoLogger::logDebug(std::string message){
