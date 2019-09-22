@@ -4,11 +4,8 @@
 
 //CONSTRUCTOR & DESTRUCTOR
 Barrel::Barrel(SDL_Renderer* renderer, float x, float y, float minScaleFactor, float maxY, float minY){
-   _renderer = renderer;
    Sprite* sprite = new Sprite(IMAGE_PATH,R_TRANSAPRENT,G_TRANSAPRENT,B_TRANSAPRENT);
-   _entity = new Entity(_renderer, MAX_WIDTH, MAX_HEIGHT, x, y, sprite, minScaleFactor, maxY, minY);
-
-
+   _entity = new Entity(renderer, MAX_WIDTH, MAX_HEIGHT, x, y, sprite, minScaleFactor, maxY, minY);
 }
 
 Barrel::~Barrel(){

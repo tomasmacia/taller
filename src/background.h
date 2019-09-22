@@ -15,15 +15,15 @@ private:
   //Entity* _middleBackground = nullptr;         //IMPLEMENTAR
   Entity* _farBackground = nullptr;
 
-  float SPEED_PARAMETER = 10;                     //PARALLAX
-  float SPEED_FACTOR_NEAR_TO_MIDDLE = 0.3;        //PARALLAX
-  float SPEED_FACTOR_NEAR_TO_FAR = 0.07;          //PARALLAX
+  const float SPEED_PARAMETER = 10;                     //PARALLAX
+  const float SPEED_FACTOR_NEAR_TO_MIDDLE = 0.3;        //PARALLAX
+  const float SPEED_FACTOR_NEAR_TO_FAR = 0.07;          //PARALLAX
 
-  float WIDTH_SCALE_FACTOR_SCREEN_TO_NEAR = 23;
-  float HEIGHT_SCALE_FACTOR_SCREEN_TO_NEAR = 1;
+  const float WIDTH_SCALE_FACTOR_SCREEN_TO_NEAR = 23;
+  const float HEIGHT_SCALE_FACTOR_SCREEN_TO_NEAR = 1;
 
-  float WIDTH_SCALE_FACTOR_SCREEN_TO_FAR = 4;
-  float HEIGHT_SCALE_FACTOR_SCREEN_TO_FAR = 0.8;
+  const float WIDTH_SCALE_FACTOR_SCREEN_TO_FAR = 3;
+  const float HEIGHT_SCALE_FACTOR_SCREEN_TO_FAR = 0.7;
 
   float _nearBackgroundWidth;
   float _nearBackgroundHeight;
@@ -69,8 +69,8 @@ public:
 
 private:
     void createNearBackground(float width, float height);
-    //void createMiddleBackground();            //IMPLEMENTAR
-    void createFarBackground();
-    void createBackgroundEntity();
+    //void createMiddleBackground(float width, float height);            //IMPLEMENTAR
+    void createFarBackground(float width, float height);
+    void createBackgroundEntity(float width, float height);
 };
 #endif

@@ -1,3 +1,5 @@
+#ifndef POSITION_H
+#define POSITION_H
 #include <string>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -12,12 +14,13 @@ private:
 
 public:
     Position(float x,float y,Appearance* appearance);
-    ~Position();
 
     void changeXBy(float amount);
     void changeYBy(float amount);
 
     float getX();
     float getY();
+    
 private:
 };
+#endif

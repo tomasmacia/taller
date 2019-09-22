@@ -1,3 +1,6 @@
+#ifndef ENTITY_H
+#define ENTITY_H
+
 #include <string>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -42,20 +45,32 @@ public: //se que parecen muchos constructores pero es la solucion mas simple. Da
     ~Entity();
 
     void handeEvent(SDL_Event e);
+
     void move();
+    void enableLeftXMotion();
+    void enableRightXMotion();
+    void enableUpYMotion();
+    void enableDownYMotion();
+    void disableXMotion();
+    void disableYMotion();
+
     void applyHorizontalLeftShift();
     void applyHorizontalRighShift();
     void setSpeed(float speed);
 
     float getY();
+    float getWidth();
+    float getHeigth();
 
+    void update();
     void updateImage();
 
 private:
     void initPerspectiveParameters(float width, float height, float minScaleFactor, float maxY, float minY);
     float applyPerspectiveTransformationTo(float length, float y);
-    void raiseException(std::string mesage);
+    void applyPersepective();
     void changeXBy(float amount);
     void changeYBy(float amount);
-    void applyPersepective();
+    void raiseException(std::string mesage);
 };
+#endif

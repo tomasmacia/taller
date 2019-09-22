@@ -8,8 +8,6 @@
 Position::Position(float x,float y,Appearance* appearance) :
 _x(x), _y(y), _appearance(appearance){}
 
-Position::~Position(){}
-
 //PUBLIC
 void Position::changeXBy(float amount){
     _x = _x + amount;
@@ -28,5 +26,4 @@ float Position::getX(){
 float Position::getY(){
     return _y;
 }
-
 //PRIVATE

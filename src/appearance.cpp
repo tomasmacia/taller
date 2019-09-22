@@ -7,18 +7,18 @@
 Appearance::Appearance(SDL_Renderer* renderer, float width, float height, float x, float y, int r, int g, int b, int a):
 _r(r), _g(g), _b(b), _a(a){
     _renderer = renderer;
-    _rectangle = {x, y, width, height};
+    _rectangle = {(int)x, (int)y, (int)width, (int)height};
 }
 
 Appearance::Appearance(SDL_Renderer* renderer, float width, float height, float x, float y, Sprite* sprite){
     _renderer = renderer;
-    _rectangle = {x, y, width, height};
+    _rectangle = {(int)x, (int)y, (int)width, (int)height};
     loadImage(sprite);
 }
 
 Appearance::Appearance(SDL_Renderer* renderer, float width, float height, float x, float y, SDL_Texture* texture){
     _renderer = renderer;
-    _rectangle = {x, y, width, height};
+    _rectangle = {(int)x, (int)y, (int)width, (int)height};
     _texture = texture;
 }
 
@@ -65,19 +65,19 @@ void Appearance::updateImage(){
 }
 
 void Appearance::setX(float x){
-    _rectangle.x = x;
+    _rectangle.x = (int)x;
 }
 
 void Appearance::setY(float y){
-    _rectangle.y = y;
+    _rectangle.y = (int)y;
 }
 
 void Appearance::setWidth(float width){
-    _rectangle.w = width;
+    _rectangle.w = (int)width;
 }
 
 void Appearance::setHeight(float height){
-    _rectangle.h = height;
+    _rectangle.h = (int)height;
 }
 
 float Appearance::getWidth(){

@@ -2,9 +2,6 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "event_handler.h"
-#include "character.h"
-#include "window.h"
 #include "game.h"
 
 //CONSTRUCTOR & DESTRUCTOR
@@ -19,9 +16,9 @@ Game::Game(int width, int heigth)
     _window = new Window(GAME_NAME,_width,_height);
     _renderer = _window->getRenderer();
 
-    _background = new Background(_renderer, _width,_height); 
-    character = new Character(this,width,heigth,_renderer);
-    _eventHandler = new EventHandler(this,character);
+    _background = new Background(_renderer, _width,_height);
+    initCharacter();
+    _eventHandler = new EventHandler(this,_character);
     intializeGameObjects();
     _background->setGameObjects(&_entities);
 }
@@ -31,8 +28,9 @@ Game::~Game(){
             delete(_entities.at(i));
         }
     delete(_background);
-    delete(character);
+    delete(_character);
     delete(_window);
+    delete(_eventHandler);
     std::cout <<"memoria liberada" << "\n";
 }
 
@@ -48,15 +46,15 @@ void Game::update()
 
     /* Barriles que estan mas al fondo que cody*/
     for (int i = 0; i < _entities.size();i++){
-        if(character->getY() >= _entities[i]->getY()){
+        if(_character->getY() >= _entities[i]->getY()){
             _entities[i]->updateImage();
         }
     }
-    character->updateImage();
+    _character->update();
 
     /* Barriles que estan mas cerca de la pantalla que cody*/
     for (int i = 0; i < _entities.size();i++){
-        if(character->getY() < _entities[i]->getY()){
+        if(_character->getY() < _entities[i]->getY()){
             _entities[i]->updateImage();
         }
     }
@@ -81,18 +79,33 @@ void Game::close(){
 
 //PRIVATE
 void Game::intializeGameObjects(){
+    /*Los numeros magicos en este metodo no se extienen por fuera
+    de esta metodo y surgen de a ojo ver que parametros dan el
+    mejor acabado visual*/
+
     float pos_x, pos_y;
     srand(time(NULL));
     /* posiciones del barril aleatoria en el rango del suelo */
     for (int  i = 0; i < BARREL_AMOUNT; i++)
     {
         pos_x =rand() % (int)(_background->getWidth());
-        pos_y = (_minY) + rand() % (int)(_maxY -_minY - OFFSET);
-        Barrel* barrel = new Barrel(_renderer,pos_x,pos_y,MIN_SCALE_FACTOR,_maxY,_minY);
+        pos_y = (_minY) + rand() % (int)(_maxY -_minY - 100);
+        Barrel* barrel = new Barrel(_renderer,pos_x,pos_y,0.4,_maxY,_minY);
         _entities.push_back(barrel);
     }
 }
 
+void Game::initCharacter(){
+    /*Los numeros magicos en este metodo no se extienen por fuera
+    de esta metodo y surgen de a ojo ver que parametros dan el
+    mejor acabado visual*/
+
+    float x = _width/2 - 80;
+    float y = _height/2 - 180;
+
+    _character = new Character(_renderer, x, y, 0.8,_maxY,_minY);
+}
+/*
 // Copiado del de SDLTest, para ver fps(creo)
 void Game::fpsChanged(int fps){
 
@@ -101,8 +114,7 @@ void Game::fpsChanged(int fps){
 
     SDL_SetWindowTitle(_window->getWindow(), szFps);
 }
-
-
+*/
 /*
 void Game::pj_in_final(){
     //Si llegue al final de pantalla, el jugador es libre de moverse

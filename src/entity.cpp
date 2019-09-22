@@ -57,11 +57,7 @@ Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float
 
     initPerspectiveParameters(width,height,minScaleFactor,maxY,minY);
     float newWidth = applyPerspectiveTransformationTo(width,y);
-    float newHeight = applyPerspectiveTransformationTo(height,y);
-    /*
-    std::cout <<"w: "<< newWidth << "\n";
-    std::cout <<"h: "<< newHeight << "\n";
-    */
+    float newHeight = applyPerspectiveTransformationTo(height,y);    
 
     _appearance = new Appearance(renderer,newWidth,newHeight,x,y,sprite);
     _position = new Position(x,y,_appearance);
@@ -78,7 +74,9 @@ Entity::Entity(SDL_Renderer* renderer, float width, float height, float x, float
 }
 
 Entity::~Entity(){
-    _appearance->~Appearance();
+    delete(_spriteParser);
+    delete(_position);
+    delete(_appearance);
 }
 
 //PUBLIC
@@ -104,10 +102,33 @@ void Entity::handeEvent(SDL_Event e){
     }
 }
 
-void Entity::move()
-{
+void Entity::move(){
     changeXBy(_velocity_x);
     changeYBy(_velocity_y);
+}
+
+void Entity::enableLeftXMotion(){
+    _velocity_x = SPEED_CONSTANT;
+}
+
+void Entity::enableRightXMotion(){
+    _velocity_x = -SPEED_CONSTANT;
+}
+
+void Entity::enableUpYMotion(){
+    _velocity_y = SPEED_CONSTANT;
+}
+
+void Entity::enableDownYMotion(){
+    _velocity_y = -SPEED_CONSTANT;
+}
+
+void Entity::disableXMotion(){
+    _velocity_x = 0;
+}
+
+void Entity::disableYMotion(){
+    _velocity_y = 0;
 }
 
 void Entity::applyHorizontalLeftShift(){
@@ -124,6 +145,19 @@ void Entity::setSpeed(float speed){
 
 float Entity::getY(){
     return _position->getY();
+}
+
+float Entity::getWidth(){
+    return _appearance->getWidth();
+}
+
+float Entity::getHeigth(){
+    return _appearance->getHeigth();
+}
+
+void Entity::update(){
+    move();
+    updateImage();
 }
 
 void Entity::updateImage(){
@@ -167,8 +201,8 @@ void Entity::changeXBy(float amount){
 
 void Entity::changeYBy(float amount){
     _position->changeYBy(amount);
-    
-    if (_perspectiveSensible){
+
+    if (_perspectiveSensible && amount != 0){
         applyPersepective();
     }
 }

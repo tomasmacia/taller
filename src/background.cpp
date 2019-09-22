@@ -7,9 +7,9 @@ Background::Background(SDL_Renderer* renderer, float width, float height){
 
     _renderer = renderer;
     createNearBackground(width, height);
-    //createMiddleBackground();
-    createFarBackground();
-    createBackgroundEntity();
+    //createMiddleBackground(width, height);
+    createFarBackground(width, height);
+    createBackgroundEntity(width, height);
 
     setSpeed(SPEED_PARAMETER);
 }
@@ -107,12 +107,12 @@ void Background::createNearBackground(float width, float height){
                                  nearBackgroundSprite);                      
 }
 
-void Background::createFarBackground(){
+void Background::createFarBackground(float width, float height){
 
-    _farBackgroundWidth = _wholeBackgroundWidth * WIDTH_SCALE_FACTOR_SCREEN_TO_FAR;
-    _farBackgroundHeight = _wholeBackgroundHeight * HEIGHT_SCALE_FACTOR_SCREEN_TO_FAR;
-    _startingFarBackgroundX = _startingWholeBackgroundX;
-    _startingFarBackgroundY = _startingWholeBackgroundY;
+    _farBackgroundWidth = width * WIDTH_SCALE_FACTOR_SCREEN_TO_FAR;
+    _farBackgroundHeight = height * HEIGHT_SCALE_FACTOR_SCREEN_TO_FAR;
+    _startingFarBackgroundX = 0;
+    _startingFarBackgroundY = 0;
     /*
     std::vector <std::string> farBackgroundSpritePaths;
 
@@ -130,7 +130,7 @@ void Background::createFarBackground(){
                          farBackgroundSprite);
 }
 
-void Background::createBackgroundEntity(){
+void Background::createBackgroundEntity(float width, float height){
     _wholeBackgroundWidth = _nearBackgroundWidth;
     _wholeBackgroundHeight = _farBackgroundHeight;
     _startingWholeBackgroundX = _startingFarBackgroundX;

@@ -8,9 +8,9 @@ int main(int argc, char** argv) {
    Game* game = new Game(800,600);
 
    while (!game->isClosed()){
-        game->handleInput();
-        game->update();
-        game->display();
+      game->handleInput();
+      game->update();
+      game->display();
    }
    delete(game);
    return 0;

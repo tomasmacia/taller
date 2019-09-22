@@ -15,7 +15,6 @@ private:
     
     SDL_Window *_window = nullptr;
     SDL_Renderer* _renderer = nullptr;
-    SDL_Texture* _Texture = nullptr;
 
 public:
     Window(const std::string title, int width,int height);

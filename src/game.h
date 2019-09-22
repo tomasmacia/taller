@@ -5,10 +5,10 @@
 #include <vector>
 #include <iostream>
 #include "window.h"
+#include "event_handler.h"
 #include "background.h"
 #include "barrel.h"
 #include "character.h"
-#include "event_handler.h"
 
 class Game
 {
@@ -23,22 +23,18 @@ private:
     float _maxY;
     float _minY;
     float WALKABLE_BACKGROUND_PERCENTAGE = 0.6;
-    float OFFSET = 100;
 
     //GAME OBJECTS AMOUNTS
     int BARREL_AMOUNT = 20;
     int BOX_AMOUNT;
     int METALIC_TUBE_AMOUNT;
-    int KNIFE_AMOUNT;
+    int KNIFE_AMOUNT;  
 
-    //PERSEPCTIVE
-    float MIN_SCALE_FACTOR = 0.35;   
-
-    Character* character = nullptr;
+    Character* _character = nullptr;
     Background* _background  = nullptr;
     std::vector <Barrel*> _entities; //ONLY GAME OBJECTS
     
-    EventHandler* _eventHandler = nullptr;
+    class EventHandler* _eventHandler = nullptr;
     Window* _window = nullptr;
     SDL_Renderer* _renderer;
 
@@ -58,6 +54,7 @@ public:
 
 private:   
     void intializeGameObjects();
-    void fpsChanged(int fps);
+    void initCharacter();
+    //void fpsChanged(int fps);
 };
 #endif
