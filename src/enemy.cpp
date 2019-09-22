@@ -1,33 +1,12 @@
 #include "enemy.h"
 #include "iostream"
 #include <SDL2/SDL_image.h>
+#define zigzag = 500
 
 Enemy::Enemy(const std::string &image_path, int x, int y, SDL_Renderer* render, int wide, int heigth):
-    _x(x), _y(y),_render(render),_wide(wide){
-    if ((_image = IMG_Load(image_path.c_str()))==NULL){
-        /* Carga la imagen o carga pantallitas azules donde deberian estar los objetos */
-        std::cerr <<  "No pudo cargar imagen.\n";
-        std::cerr << "Se carga imagen por default\n";
-        _image = SDL_CreateRGBSurface(0, 56, 125, 32, 0, 0, 0, 0);
-        SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 0, 0, 255));
-            } 
-    _pos->x= x;
-    _pos->y= y;//2000 a 120 --> posiciones que aparentan estar en el suelo
-    _pos->h=(heigth) *0.66;// _image->clip_rect.h*2.8;
-    _pos->w= (heigth) * .3; // _image->clip_rect.w*2.8; 
-    _rect->w=_image->clip_rect.w/cant_img_sprite;
-    _rect->h=_image->clip_rect.h;
-    _rect->x = _image->clip_rect.w/cant_img_sprite * spriteToload;
-    _rect->y=0;
-    //para donde camina
-    if ((int)x%3 !=0){flip =SDL_FLIP_HORIZONTAL;mov_default*=(-1);}
-    if(cant_img_sprite==1){flip = SDL_FLIP_NONE;}
-
-    
-    
-     //Transparencia en el contorno celeste del suelo
-        SDL_SetColorKey(_image, SDL_TRUE,
-        SDL_MapRGB(_image->format, 88, 184, 248));
+     Object( image_path,  x,  y, render, wide,  heigth){
+    _rect->w = _image->clip_rect.w/cant_img_sprite;
+    if ((int)x%2 !=0){flip =SDL_FLIP_HORIZONTAL;mov_default*=(-1);}
 
 }
 
@@ -35,15 +14,11 @@ void Enemy::SetMovment(int velocity){
     mov_default = velocity;
 }
 
-int Enemy::GetPosY(){
-    return _y;
-}
-
 void Enemy::updateImage(){
 
     _x = _x + mov_default;
     _pos->x =_x;
-
+    circular();
     cont++;
 
     //Solo se renderiza lo qeu esta cerca de la pantalla
@@ -64,7 +39,6 @@ void Enemy::updateImage(){
                 cont = 0;
             }
         }
-    
     _rect->x = _image->clip_rect.w/cant_img_sprite * spriteToload;
     _texture = SDL_CreateTextureFromSurface( _render, _image );
     SDL_RenderCopyEx( _render, _texture, _rect, _pos ,0,NULL,flip);
@@ -75,9 +49,18 @@ void Enemy::updateImage(){
 }
 
 
-void Enemy::move(){
-    if(moverse){
-        _x = _x - mov_fondo;
-        _pos->x = _x;
+void Enemy::circular(){
+        rute = rute - abs(mov_default);
+        if (rute<0){
+            mov_default *= (-1);
+            rute = 2500;
+            if (flip == SDL_FLIP_HORIZONTAL){
+                flip = SDL_FLIP_NONE;
+            }
+            else
+            {
+                flip =SDL_FLIP_HORIZONTAL;
+            }
+            
+        }
     }
-}

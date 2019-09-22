@@ -37,10 +37,9 @@ private:
     std::vector <string> gmiddle;
     std::vector <string> g2;
      std::vector <string> gfront;
-    std::vector <Object*> barriles;
+    std::vector <Object*> obj_escenario;
     std::vector <Enemy*> enemigos;
-    void level1(int enemy, int objetos, int armas,int heigth,int width);
-
+    void level1(int enemy, int cajas,int barril, int tubos,int knifes,int width,int heigth);
 };
 
 #endif

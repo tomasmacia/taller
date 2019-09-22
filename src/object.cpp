@@ -34,6 +34,7 @@ void Object::move(){
 void Object::updateImage(){
     //Solo se renderiza lo qeu esta cerca de la pantalla
     if (_pos->x>-200 &_pos->x < _wide/*wide windows*/){
+       // std::cerr << "pos: " << _pos->y<< std::endl;
         _texture = SDL_CreateTextureFromSurface( _render, _image ); 
         SDL_RenderCopy( _render, _texture, _rect, _pos );
         SDL_DestroyTexture(_texture);
