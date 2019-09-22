@@ -1,6 +1,6 @@
-#include <game.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include "game.h"
 #include "events.h"
 #include "character.h"
 #include <stdlib.h>

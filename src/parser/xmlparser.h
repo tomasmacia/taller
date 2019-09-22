@@ -40,7 +40,7 @@ private:
 
     vector<Level> getGameplayLevels(XMLElement *gameplay);
 
-    vector<Character> getGameplayCharacters(XMLElement *gameplay);
+    vector<CharacterXML> getGameplayCharacters(XMLElement *gameplay);
 
     vector<NPC> getGameplayNPCS(XMLElement *gameplay);
 
@@ -55,7 +55,7 @@ private:
     template <typename T>
     vector<T> mapSettingToVector(XMLElement *genericElement, string childNameType, T (*function)(XMLElement*, string), string section);
 
-    static Character mapCharacter(XMLElement *characters, string currentChildName);
+    static CharacterXML mapCharacter(XMLElement *characters, string currentChildName);
 
     static Level mapLevel(XMLElement *levels, string currentChildName);
 
@@ -71,7 +71,7 @@ private:
 
     vector<Level> wrapperGameplayLevelsModule(XMLElement *gameplay, XMLElement *defaultGameplay);
 
-    vector<Character> wrapperGameplayCharactersModule(XMLElement *gameplay, XMLElement *defaultGameplay);
+    vector<CharacterXML> wrapperGameplayCharactersModule(XMLElement *gameplay, XMLElement *defaultGameplay);
 
     vector<NPC> wrapperGameplayNPCSModule(XMLElement *gameplay, XMLElement *defaultGameplay);
 

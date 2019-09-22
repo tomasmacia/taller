@@ -5,7 +5,6 @@ using namespace std;
 
 #include <string>
 #include "parser/xmlparser.h"
-#include "window.h"
 
   
 int main(int argc, const char** argv) {
@@ -25,6 +24,6 @@ int main(int argc, const char** argv) {
 
 
    Game* game = new Game (800,600);
-   
+
     return 0;
 } 
