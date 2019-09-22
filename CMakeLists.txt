@@ -72,7 +72,7 @@ set(SOURCE_FILES
         src/object.cpp
         src/enemy.h
         src/enemy.cpp
-        )
+        src/parser/CLIArgumentParser.cpp src/parser/CLIArgumentParser.h)
 
 # create executable
 add_executable(game ${SOURCE_FILES})

@@ -5,10 +5,14 @@ using namespace std;
 
 #include <string>
 #include "parser/xmlparser.h"
+#include "parser/CLIArgumentParser.h"
 
   
 int main(int argc, const char** argv) {
     string pathToFile;
+
+    CLIArgumentParser *cliArgumentParser = CLIArgumentParser::getInstance();
+    cliArgumentParser->init(argc, argv);
 
     if (argc >= 3 && (string(argv[1]) == "-c" || string(argv[1]) == "--config")){
         pathToFile = argv[2];
