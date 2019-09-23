@@ -1,5 +1,3 @@
-using namespace std; 
-
 #include "game.h"
 #include "parser/CLIArgumentParser.h"
 

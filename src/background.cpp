@@ -64,8 +64,8 @@ void Background::nextBackground(const std::string &image_path){
     si no las encuentra. */
     cont++;
     if ((_image = IMG_Load(image_path.c_str()))==NULL){
-        std::cerr <<  "No pudo cargar imagen.\n";
-        std::cerr << "Se carga imagen por default\n";
+        LogManager::logError("No se pudo cargar el sprite del fondo");
+        LogManager::logDebug("Se carga una imagen por defecto al no encontrar el sprite del fondo.");
         _image = SDL_CreateRGBSurface(0, _w_window, _h, 32, 0, 0, 0, 0);
         SDL_Rect d;
         if (lvl_parallax == 1 or lvl_parallax==4){

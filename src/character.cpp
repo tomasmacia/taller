@@ -153,8 +153,10 @@ void Character::load_image_default(){
     /* Carga imagenes del sprite o muestra pantalliats azules donde
     deberia estar el pj */
     if ((_image = IMG_Load(path_img[4].c_str()))==NULL){
-        std::cerr <<  "No pudo cargar imagen.\n";
-        std::cerr << "Se carga imagen por default\n";
+        LogManager::logError("No se pudo cargar el sprite del personaje.");
+        LogManager::logDebug("Se carga una imagen amarilla por defecto al no encontrar el sprite del personaje.");
+//        std::cerr <<  "No pudo cargar imagen.\n";
+//        std::cerr << "Se carga imagen por default\n";
         _image = SDL_CreateRGBSurface(0, 56, 125, 32, 0, 0, 0, 0);
         SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 255, 255, 0));
             }
@@ -199,8 +201,8 @@ void Character::actions_sprites(int n,int img_){
             SDL_FreeSurface(_image);
             if ((_image = IMG_Load(path_img[n].c_str()))==NULL){
                 cant_img_sprite = 2;
-                std::cerr <<  "No pudo cargar imagen.\n";
-                std::cerr << "Se carga imagen default\n";
+                LogManager::logError("No se pudo cargar el sprite del personaje.");
+                LogManager::logDebug("Se carga una imagen amarilla por defecto al no encontrar el sprite del personaje.");
                 _image = SDL_CreateRGBSurface(0, 112, 125, 32, 0, 0, 0, 0);
                 SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 255, 255, 0));
 
@@ -224,8 +226,8 @@ void Character::moves_sprites(int n, int img_){
             SDL_FreeSurface(_image);
             if ((_image = IMG_Load(path_img[n].c_str()))==NULL){
                 cant_img_sprite = 2;
-                std::cerr <<  "No pudo cargar imagen.\n";
-                std::cerr << "Se carga imagen por default\n";
+                LogManager::logError("No se pudo cargar el sprite del personaje.");
+                LogManager::logDebug("Se carga una imagen amarilla por defecto al no encontrar el sprite de movimiento del personaje.");
                 _image = SDL_CreateRGBSurface(0, 112, 125, 32, 0, 0, 0, 0);
                 SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 255, 255, 0));
             }

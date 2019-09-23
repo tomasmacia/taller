@@ -1,6 +1,6 @@
 <config>
     <logger>
-        <level>ERROR</level>
+        <level>DEBUG</level>
     </logger>
     <bindings>
         <up>UP</up>

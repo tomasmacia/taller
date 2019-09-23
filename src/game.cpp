@@ -18,39 +18,33 @@
 
 void Game::init() {
     //this->isRunning= false;
+    this->initLogManager(CLIArgumentParser::getInstance().getDefaultLoggerLevel());
     this->initConfig();
-    //this->initLogManager();
+    this->initLogManager(this->config->loggerLevel);
     this->initSDL();
 }
 
 void Game::initConfig() {
-    string defaultLogType = CLIArgumentParser::getInstance().getDefaultLoggerLevel();
     string pathToConfigFile = CLIArgumentParser::getInstance().getPathToConfigFileName();
 
     XMLParser xmlParser;
     this->config = xmlParser.parse(pathToConfigFile);
 }
 
-void Game::initLogManager() {
-    Logger *logger;
-    if (config->loggerLevel == "DEBUG") {
-        logger = new DebugLogger();
-    } else if (config->loggerLevel == "INFO") {
-        logger = new InfoLogger();
-    } else {
-        logger = new ErrorLogger();
-    }
+void Game::initLogManager(string loggerLevel) {
+    delete(this->logger);
+    this->logger = nullptr;
+    this->logger = LogManager::createLoggerFromLevel(loggerLevel);
 
-    // TODO: por que estatico? singleton o normal. Asi lo podemos agregar al singleton de Game y consumirlo desde afuera
-    LogManager::setStaticLogger(logger);
-    LogManager::setStaticLogPath("test.txt");
+    LogManager::setStaticLogger(this->logger);
+    LogManager::setStaticLogPath("config.txt");
 
 }
 
 void Game::initSDL() {
     if( SDL_Init(SDL_INIT_VIDEO) == 0 ) {
         if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG) {
-            std::cerr << "Fallo SDL_Image.\n";
+            LogManager::logError("Fallo SDL_Image");
         }
 
         int windowWidth = this->config->screenResolution.width;
@@ -62,7 +56,7 @@ void Game::initSDL() {
 
     if (this->window == nullptr || this->renderer == nullptr) {
         this->isRunning = false;
-        std::cerr << "SDL no pudo inicializarse" << endl;
+        LogManager::logError("SDL no pudo inicializarse");
     } else {
         this->isRunning = true;
         //SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
@@ -265,6 +259,8 @@ void Game::destroy() {
     // delete(back);
     character->~Character();
     //   delete(character);
+
+    delete logger;
 
     SDL_DestroyWindow(this->window);
     SDL_DestroyRenderer(this->renderer);

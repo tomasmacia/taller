@@ -16,16 +16,24 @@ void CLIArgumentParser::init(int argc, const char **args) {
 
 string CLIArgumentParser::getPathToConfigFileName() {
     string pathToConfigFile;
-    if (argc >= 3 && (string(this->argv[1]) == "-c" || string(argv[1]) == "--config")){
-        pathToConfigFile = argv[2];
-    } else {
-        cerr << "No config file specified." << endl <<
-             "USAGE: " << argv[0] << " --config path/to/config/file.xml" << endl;
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
+        if (((arg == "-c") || (arg == "--config")) && (i + 1 < argc)) {
+            pathToConfigFile = argv[i + 1];
+        }
     }
 
     return pathToConfigFile;
 }
 
 string CLIArgumentParser::getDefaultLoggerLevel() {
-    return "ERROR"; // TODO parsear mejor esto
+    string defaultLoggerLevel;
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
+        if (((arg == "-l") || (arg == "--logger")) && (i + 1 < argc)) {
+            defaultLoggerLevel = argv[i + 1];
+        }
+    }
+
+    return defaultLoggerLevel;
 }

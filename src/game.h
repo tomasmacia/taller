@@ -38,10 +38,6 @@ public:
     }
 
     // wrapper getters
-    LogManager* getLogManager() {
-        return logManager;
-    }
-
     Config* getConfig() {
         return config;
     }
@@ -66,7 +62,7 @@ private:
     // inits
     void init();
     void initConfig();
-    void initLogManager();
+    void initLogManager(string loggerLevel);
     void initSDL();
 
     // free memory
@@ -94,7 +90,7 @@ private:
     void level1(int enemy, int objetos, int armas,int heigth,int width);
 
     // wrappers
-    LogManager *logManager;
+    Logger *logger; // since its a pointer allocating memory, we need to delete it later
     Config *config;
     SDL_Window *window;
     SDL_Renderer *renderer;

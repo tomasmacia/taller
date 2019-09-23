@@ -1,5 +1,6 @@
 #include "LogManager.h"
 #include "Logger.h"
+#include "DebugLogger.h"
 #include <fstream>
 #include <ctime>
 
@@ -18,6 +19,19 @@ void LogManager::setStaticLogPath(std::string path){
         file.open(path);
         LogManager::pathHasBeenSet = true;
 };
+
+Logger* LogManager::createLoggerFromLevel(const std::string& level) {
+    Logger* logger;
+    if (level == "DEBUG") {
+        logger = new DebugLogger();
+    } else if (level == "INFO") {
+        logger = new InfoLogger();
+    } else {
+        logger = new ErrorLogger();
+    }
+
+    return logger;
+}
 
 void LogManager::logError(std::string message){
     loggerToBeUsed->logError(message);
