@@ -270,6 +270,7 @@ int Character::inFinal(){
                 owner->isRunning = false;
                 return 0;
         }
+    return 0;
 /*
         owner->level2(0,0,0,0,0,_w_window,_h_window);
         
@@ -278,4 +279,5 @@ int Character::inFinal(){
         _v_limit = ((_w_window)*.7)-(_w/2);*/
         
     }
+    return 0;
 }

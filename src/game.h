@@ -8,7 +8,7 @@
 #include <vector>
 #include <iostream>
 #include "object.h"
-#include "enemy.h"
+#include "game_component.h"
 
 class Game
 {
@@ -28,9 +28,9 @@ public:
 private:
 
 
-    void UpdateAtras(vector<Enemy*> vector);
-    void UpdateDelante(vector<Enemy*> vector);
-    Enemy* _enemy;
+    void UpdateAtras(vector<Game_Component*> vector);
+    void UpdateDelante(vector<Game_Component*> vector);
+    Game_Component* _enemy;
     class Window* _gwindow;
     void initialize(int width, int heigth);
     void runLoop(int width, int heigth);
@@ -41,8 +41,8 @@ private:
     std::vector <string> gmiddle;
     std::vector <string> g2;
      std::vector <string> gfront;
-    std::vector <Object*> obj_escenario;
-    std::vector <Enemy*> enemigos;
+    std::vector <Game_Component*> obj_escenario;
+    std::vector <Game_Component*> enemigos;
     void level1(int enemy, int cajas,int barril, int tubos,int knifes,int width,int heigth);
 ;
 

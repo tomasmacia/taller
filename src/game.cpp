@@ -22,7 +22,7 @@ void Game::initialize (int width, int heigth)
    _gwindow= new Window("Final Fight",width,heigth);
 };
 
-void Game::UpdateAtras(vector <Enemy*> vector) {
+void Game::UpdateAtras(vector <Game_Component*> vector) {
      for (int i = 0; i < vector.size();i++){
         if(character->GetPosY() >= vector[i]->GetPosY()){
             vector[i]->updateImage();
@@ -31,7 +31,7 @@ void Game::UpdateAtras(vector <Enemy*> vector) {
 }
 
 
-void Game::UpdateDelante(vector <Enemy*> vector) {
+void Game::UpdateDelante(vector <Game_Component*> vector) {
      for (int i = 0; i < vector.size();i++){
         if(character->GetPosY() < vector[i]->GetPosY()){
             vector[i]->updateImage();
@@ -44,7 +44,7 @@ void Game::runLoop(int width, int heigth)
 {
     Uint32 fps_last = SDL_GetTicks();
     Uint32 current;
-    level1(10,10,10,10,10,width,heigth);
+    level2(50,20,20,20,20,width,heigth);
 
     Events event(this, character);
     //loop hasta que se aprete ESC o click en (X)
@@ -59,29 +59,15 @@ void Game::runLoop(int width, int heigth)
      //       middle->updateImage();
             floor->updateImage();
             
-             /* Enemigos con pos y menor a pj */
-            UpdateAtras(enemigos);            
-            
-            /* obj_escenario con pos y menor a pj*/
-            for (int i = 0; i < obj_escenario.size();i++){
-                if(character->GetPosY() > obj_escenario[i]->GetPosY()){
-                    obj_escenario[i]->updateImage();
-                }
-            }
+             /* Enemigos y objetos con pos y menor a pj */
+            UpdateAtras(obj_escenario);            
 
             /* cody se actualiza donde necesite */
             character->updateImage();
-
-            /* obj_escenario con pos y mayor a pj */
-            for (int i = 0; i < obj_escenario.size();i++){
-                if(character->GetPosY() <= obj_escenario[i]->GetPosY()){
-                    obj_escenario[i]->updateImage();
-                }
-            }
            
-           /* Enemigos con pos y mayor a pj */
+           /* Enemigos y objetos con pos y mayor a pj */
 
-           UpdateDelante(enemigos);
+           UpdateDelante(obj_escenario);
             
             front->updateImage();
             /* Refresco la pantalla con nueva posicion */
@@ -196,32 +182,32 @@ void Game::level1(int enemy, int cajas,int barril, int tubos,int knifes,int widt
     {
         pos_x =rand()%(20001 );
         pos_y = 120 +rand() % (201 - 120);
-        obj_escenario.push_back(new Object("resources/sprites/barril.png",pos_x, pos_y,_gwindow->render,width,heigth));
+        obj_escenario.push_back(new Game_Component("resources/sprites/barril.png",pos_x, pos_y,_gwindow->render,width,heigth,false,1));
     }
     /* posiciones del cajas aleatoria en el rango del suelo */
     for (int  i = 0; i < cajas; i++)
     {
         pos_x =rand()%(20001);
         pos_y = 120 +rand() % (201 - 120);
-        obj_escenario.push_back(new Object("resources/sprites/caja.png",pos_x, pos_y,_gwindow->render,width,heigth));
+        obj_escenario.push_back(new Game_Component("resources/sprites/caja.png",pos_x, pos_y,_gwindow->render,width,heigth,false,1));
     }
     /* posiciones del tubos aleatoria en el rango del suelo */
     for (int  i = 0; i < tubos; i++)
     {
         pos_x =rand()%(20001);
         pos_y = 120 +rand() % (201 - 120);
-        obj_escenario.push_back(new Object("resources/sprites/tube.png",pos_x, pos_y,_gwindow->render,width,heigth));
+        obj_escenario.push_back(new Game_Component("resources/sprites/tube.png",pos_x, pos_y,_gwindow->render,width,heigth,false,1));
     }
     /* posiciones del cuchillos aleatoria en el rango del suelo */
     for (int  i = 0; i < knifes; i++)
     {
         pos_x =rand()%(20001);
         pos_y = 120 +rand() % (201 - 120);
-        obj_escenario.push_back(new Object("resources/sprites/knife1.png",pos_x, pos_y,_gwindow->render,width,heigth));
+        obj_escenario.push_back(new Game_Component("resources/sprites/knife1.png",pos_x, pos_y,_gwindow->render,width,heigth,false,1));
     }
 
     /*  Sort por pos Y de objetos*/
-    sort(obj_escenario.begin(), obj_escenario.end(),[](Object* i1, Object* i2){return (i1->GetPosY() < i2->GetPosY());});
+    //sort(obj_escenario.begin(), obj_escenario.end(),[](Object* i1, Object* i2){return (i1->GetPosY() < i2->GetPosY());});
 
    
     /* posiciones de los enemigos aleatorios en el rango del suelo */
@@ -229,10 +215,10 @@ void Game::level1(int enemy, int cajas,int barril, int tubos,int knifes,int widt
     {
         pos_x = -1000 + rand()%(20001 + 1000);
         pos_y = 120 +rand() %(201 - 120);
-        enemigos.push_back(new Enemy("resources/sprites/enemy_walk.png",pos_x, pos_y, _gwindow->render, width, heigth));
+        obj_escenario.push_back(new Game_Component("resources/sprites/enemy_walk.png",pos_x, pos_y, _gwindow->render, width, heigth,true,5));
     }
      /*  Sort por pos Y*/
-    sort(enemigos.begin(), enemigos.end(),[](Enemy* i1, Enemy* i2){return (i1->GetPosY() < i2->GetPosY());});
+    sort(obj_escenario.begin(), obj_escenario.end(),[](Game_Component* i1, Game_Component* i2){return (i1->GetPosY() < i2->GetPosY());});
     
     //solo existe una clase back, a los backs de fondo no les sirve pasarle game pero
     //se los paso por paja, para no hacer otro constructor. Solo el de lvl 1 usa el game para

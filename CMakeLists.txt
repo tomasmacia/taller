@@ -70,8 +70,8 @@ set(SOURCE_FILES
         src/background.cpp
         src/object.h
         src/object.cpp
-        src/enemy.h
-        src/enemy.cpp
+        src/game_component.h
+        src/game_component.cpp
         )
 
 # create executable
