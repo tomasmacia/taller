@@ -284,7 +284,7 @@ void Game::level2(int enemy, int cajas,int barril, int tubos,int knifes,int widt
     gmiddle.push_back("resources/sprites/barcos0.png");
     gmiddle.push_back("resources/sprites/barcos1.png");*/
     /* valla*/
-    gfront.push_back("resources/sprites/fro3nt.png");
+    gfront.push_back("resources/sprites/front.png");
     gfront.push_back("resources/sprites/front2.png");
     gfront.push_back("resources/sprites/front3.png");
 
