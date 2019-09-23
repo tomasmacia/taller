@@ -259,14 +259,14 @@ void Game::level2(int enemy, int cajas,int barril, int tubos,int knifes,int widt
     rectangle.h = heigth;
     SDL_RenderFillRect(_gwindow->render, &rectangle);
     _gwindow->updateWindow();
-    SDL_Delay(1000);*/
+    SDL_Delay(1000);
 
 
 
     floor->~Background();
     back->~Background();
   //  middle->~Background();
-    front->~Background();
+    front->~Background();*/
 
     /* Background */
     g1.push_back("resources/sprites/Final_Fight3-1.png");
