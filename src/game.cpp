@@ -56,7 +56,7 @@ void Game::runLoop(int width, int heigth)
             
             /* Actualizo la imagen */
             back->updateImage();
-            middle->updateImage();
+     //       middle->updateImage();
             floor->updateImage();
             
              /* Enemigos con pos y menor a pj */
@@ -107,7 +107,8 @@ Game::~Game()
     enemigos.clear();
     floor->~Background();
     back->~Background();
-    middle->~Background();
+  //  middle->~Background();
+    front->~Background();
     character->~Character();
     (_gwindow)->~Window();
     delete(_gwindow);
@@ -119,7 +120,7 @@ void Game::move_all(){
 //Actualiza posicion de todo menos de cody, en orden.
    back->move();
    
-   middle->move();
+ //  middle->move();
    
    floor->move();
 
@@ -159,12 +160,12 @@ void Game::pj_in_final(){
 void Game::level1(int enemy, int cajas,int barril, int tubos,int knifes,int width,int heigth){
 
     /* Background */
-    g1.push_back("resources/Final Fight3.png");
-  /*  g1.push_back("resources/sprites/FF_Stage4_floor2.png");
+    g1.push_back("resources/sprites/FF_Stage4_floor1.png");
+    g1.push_back("resources/sprites/FF_Stage4_floor2.png");
     g1.push_back("resources/sprites/FF_Stage4_floor3.png");
     g1.push_back("resources/sprites/FF_Stage4_floor4.png");
     g1.push_back("resources/sprites/FF_Stage4_floor5.png");
-    g1.push_back("resources/sprites/FF_Stage4_floor6.png");*/
+    g1.push_back("resources/sprites/FF_Stage4_floor6.png");
     /* Far Background */
     g2.push_back("resources/sprites/FF_Stage4_back1.png");
     g2.push_back("resources/sprites/FF_Stage4_back2.png");
@@ -173,12 +174,12 @@ void Game::level1(int enemy, int cajas,int barril, int tubos,int knifes,int widt
     g2.push_back("resources/sprites/FF_Stage4_back5.png");
     g2.push_back("resources/sprites/FF_Stage4_back6.png");
     /* Middle Background */
-    gmiddle.push_back("resources/sprites/barcos0.png");
+  /*  gmiddle.push_back("resources/sprites/barcos0.png");
     gmiddle.push_back("resources/sprites/barcos1.png");
     gmiddle.push_back("resources/sprites/barcos0.png");
     gmiddle.push_back("resources/sprites/barcos1.png");
     gmiddle.push_back("resources/sprites/barcos0.png");
-    gmiddle.push_back("resources/sprites/barcos1.png");
+    gmiddle.push_back("resources/sprites/barcos1.png");*/
     /* Postes */
     gfront.push_back("resources/sprites/FF_Stage4_overlay1.png");
     gfront.push_back("resources/sprites/FF_Stage4_overlay2.png");
@@ -238,9 +239,60 @@ void Game::level1(int enemy, int cajas,int barril, int tubos,int knifes,int widt
     // avisar que se llego al final del escenario.
     // se le pasa los parametros de la ventana, el render y la velocidad con la que se mueve
     // y el lvl de background que es (1 es el mas cercano y 3 el lejano)
-    back = new Background(g2,heigth,width,_gwindow->render, this, 0.063,3);
-    middle = new Background(gmiddle,heigth,width,_gwindow->render,this, 0.25,3);
+    back = new Background(g2,heigth,width,_gwindow->render, this, 0.063,3);//0.063
+   // middle = new Background(gmiddle,heigth,width,_gwindow->render,this, 0.25,3);
     floor = new Background(g1,heigth,width,_gwindow->render, this,0.5, 1);  
-    front =  new Background(gfront,heigth,width,_gwindow->render, this,0.5, 1);
+    front =  new Background(gfront,heigth,width,_gwindow->render, this,0.5, 4);
+    character = new Character(this,width,heigth,_gwindow->render);
+
+}
+
+void Game::level2(int enemy, int cajas,int barril, int tubos,int knifes,int width,int heigth){
+
+
+  /*  // Coloco pantalla en rojo y espero 1 sec
+    SDL_SetRenderDrawColor(_gwindow->render, 255, 0, 0, 255);
+    SDL_Rect rectangle;
+    rectangle.x = 0;
+    rectangle.y = 0;
+    rectangle.w = width;
+    rectangle.h = heigth;
+    SDL_RenderFillRect(_gwindow->render, &rectangle);
+    _gwindow->updateWindow();
+    SDL_Delay(1000);*/
+
+
+
+    floor->~Background();
+    back->~Background();
+  //  middle->~Background();
+    front->~Background();
+
+    /* Background */
+    g1.push_back("resources/sprites/Final_Fight3-1.png");
+    g1.push_back("resources/sprites/Final_Fight3-2.png");
+    g1.push_back("resources/sprites/Final_Fight3-3.png");
+    /* Far Background */
+    g2.push_back("resources/sprites/background1-1.png");
+    g2.push_back("resources/sprites/background1-2.png");
+
+    /* Middle Background */
+  /*  gmiddle.push_back("resources/sprites/barcos0.png");
+    gmiddle.push_back("resources/sprites/barcos1.png");
+    gmiddle.push_back("resources/sprites/barcos0.png");
+    gmiddle.push_back("resources/sprites/barcos1.png");
+    gmiddle.push_back("resources/sprites/barcos0.png");
+    gmiddle.push_back("resources/sprites/barcos1.png");*/
+    /* valla*/
+    gfront.push_back("resources/sprites/fro3nt.png");
+    gfront.push_back("resources/sprites/front2.png");
+    gfront.push_back("resources/sprites/front3.png");
+
+
+
+    back = new Background(g2,heigth,width,_gwindow->render, this, 0.13,3);
+  //  middle = new Background(gmiddle,heigth,width,_gwindow->render,this, 0.25,3);
+    floor = new Background(g1,heigth,width,_gwindow->render, this,0.5, 1);  
+    front =  new Background(gfront,heigth,width,_gwindow->render, this,0.6, 4);
     character = new Character(this,width,heigth,_gwindow->render);
 }

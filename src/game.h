@@ -22,8 +22,12 @@ public:
     Background* floor, *front;
     void move_all();
     void pj_in_final();
+    bool isRunning = true;
+    void level2(int enemy, int cajas,int barril, int tubos,int knifes,int width,int heigth);
 
 private:
+
+
     void UpdateAtras(vector<Enemy*> vector);
     void UpdateDelante(vector<Enemy*> vector);
     Enemy* _enemy;
@@ -32,7 +36,7 @@ private:
     void runLoop(int width, int heigth);
     void reboot(int width, int heigth);
     void fpsChanged(int fps);
-    bool isRunning = true;
+    
     std::vector <string> g1;
     std::vector <string> gmiddle;
     std::vector <string> g2;
@@ -40,6 +44,8 @@ private:
     std::vector <Object*> obj_escenario;
     std::vector <Enemy*> enemigos;
     void level1(int enemy, int cajas,int barril, int tubos,int knifes,int width,int heigth);
+;
+
 };
 
 #endif

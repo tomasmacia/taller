@@ -78,6 +78,7 @@ bool Character::move(int option,int p){
 
 
 void Character::updateImage(){
+    inFinal();
     sprite();
     if (spriteToload >= cant_img_sprite-1)
             {spriteToload=0;} 
@@ -259,4 +260,22 @@ void Character::_charge_vector(){
 
 int Character::GetPosY(){
     return _y;
+}
+
+
+int Character::inFinal(){
+    if (_x > _w_window - _w)
+    {   
+        if (inlevel2){
+                owner->isRunning = false;
+                return 0;
+        }
+/*
+        owner->level2(0,0,0,0,0,_w_window,_h_window);
+        
+        _y=(_h_window*.3);
+        _x=(_w_window*.3);
+        _v_limit = ((_w_window)*.7)-(_w/2);*/
+        
+    }
 }
