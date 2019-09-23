@@ -10,23 +10,23 @@ int main(int argc, char** argv) {
     LogManager::setStaticLogger(logger);
     LogManager::setStaticLogPath("test.txt");
 
-    LogManager::logError("This should be printed");
+    LogManager::logError("This should be printed, error");
     LogManager::logInfo("This should not");
     LogManager::logDebug("This should not");
 
     InfoLogger* logger2 = new InfoLogger();
     LogManager::setStaticLogger(logger2);
 
-    LogManager::logError("This should be printed");
-    LogManager::logInfo("This should be printed");
+    LogManager::logError("This should be printed, error");
+    LogManager::logInfo("This should be printed, info");
     LogManager::logDebug("This should not");
 
     DebugLogger* logger3 = new DebugLogger();
     LogManager::setStaticLogger(logger3);
 
-    LogManager::logError("This should be printed");
-    LogManager::logInfo("This should be printed");
-    LogManager::logDebug("This should be printed");
+    LogManager::logError("This should be printed, error");
+    LogManager::logInfo("This should be printed, info");
+    LogManager::logDebug("This should be printed, debug");
 
     delete logger;
     delete logger2;

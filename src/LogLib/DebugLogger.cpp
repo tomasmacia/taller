@@ -10,5 +10,5 @@ void DebugLogger::logInfo(std::string message){
 };
 
 void DebugLogger::logDebug(std::string message){
-    LogManager::writeLogFile(message);
+    LogManager::writeLogFile(message, "DEBUG");
 };
