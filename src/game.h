@@ -42,7 +42,6 @@ private:
     std::vector <string> g2;
      std::vector <string> gfront;
     std::vector <Game_Component*> obj_escenario;
-    std::vector <Game_Component*> enemigos;
     void level1(int enemy, int cajas,int barril, int tubos,int knifes,int width,int heigth);
 ;
 

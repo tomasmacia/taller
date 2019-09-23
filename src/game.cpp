@@ -44,7 +44,7 @@ void Game::runLoop(int width, int heigth)
 {
     Uint32 fps_last = SDL_GetTicks();
     Uint32 current;
-    level2(50,20,20,20,20,width,heigth);
+    level1(50,20,20,20,20,width,heigth);
 
     Events event(this, character);
     //loop hasta que se aprete ESC o click en (X)
@@ -90,7 +90,6 @@ Game::~Game()
     g1.clear();
     g2.clear();    
     obj_escenario.clear();
-    enemigos.clear();
     floor->~Background();
     back->~Background();
   //  middle->~Background();
@@ -114,10 +113,6 @@ void Game::move_all(){
        obj_escenario[i]->move();
    }
 
-   for (int i = 0; i < enemigos.size(); i++){
-       enemigos[i]->move();
-   }
-
    front->move();
 }
 // Copiado del de SDLTest, para ver fps(creo)
@@ -136,9 +131,6 @@ void Game::pj_in_final(){
     //cody al final de la pantalla
     for (int i = 0; i < obj_escenario.size();i++){
         obj_escenario[i]->moverse=false;
-    }
-    for (int i = 0; i < enemigos.size();i++){
-        enemigos[i]->moverse=false;
     }
 }
 
