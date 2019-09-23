@@ -11,13 +11,15 @@ void LogManager::setStaticLogger(Logger* logger){
     loggerToBeUsed = logger;
 };
 
-void LogManager::setStaticLogPath(std::string path){
-    if(LogManager::pathHasBeenSet){
+void LogManager::setStaticLogPath(std::string path) {
+    if (LogManager::pathHasBeenSet) {
         LogManager::file.close();
+        file.open(path, std::fstream::app);
+    } else {
+        file.open(path);
+        file << "//****************** LOGGER ******************//" << std::endl;
+        LogManager::pathHasBeenSet = true;
     }
-
-    file.open(path);
-    LogManager::pathHasBeenSet = true;
 };
 
 Logger* LogManager::createLoggerFromLevel(const std::string& level) {

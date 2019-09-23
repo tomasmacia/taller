@@ -1,6 +1,5 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <stdlib.h>
 #include <time.h>
 
 #include "game.h"
@@ -10,9 +9,6 @@
 #include "parser/config/config.h"
 #include "parser/xmlparser.h"
 #include "LogLib/Logger.h"
-#include "LogLib/DebugLogger.h"
-#include "LogLib/InfoLogger.h"
-#include "LogLib/ErrorLogger.h"
 
 
 
@@ -37,7 +33,7 @@ void Game::initLogManager(string loggerLevel) {
     this->logger = LogManager::createLoggerFromLevel(loggerLevel);
 
     LogManager::setStaticLogger(this->logger);
-    LogManager::setStaticLogPath("config.txt");
+    LogManager::setStaticLogPath("logs/log.txt");
 
 }
 
