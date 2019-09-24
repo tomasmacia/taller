@@ -44,8 +44,10 @@ bool Character::move(int option,int p){
 
     //Como estoy realizando una accion seteo mi option a 8 para ignorar eventos.    
     if (state==8){ option=8;}
+    if (state == 9){option=9;} //9 es el estado especifico del salto
     state = option;
-    while(option ==0 || state ==8){
+    while(option ==0 || state == 9){
+
         if(state == 0){
             cont++;
         }
@@ -218,7 +220,13 @@ void Character::actions_sprites(int n,int img_){
             SDL_SetColorKey(_image, SDL_TRUE,
             SDL_MapRGB(_image->format, 88,184,248));
             //Cambio el estado a accion para que se complete
-            state=8;
+            if (n == 1){
+                state = 9; //9 es el estado especifico de salto
+            }
+            else{
+                state=8;
+            }
+
             size();      
     }
 }
