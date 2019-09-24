@@ -46,6 +46,8 @@ bool Character::move(int option,int p){
     if (state==8){ option=8;}
     if (state == 9){
         option=9;
+        /* Solo me muevo cuando salto si antes estaba presionando left o rigth
+        no si se presiona lueo de saltar*/
         if(p == 6  && rgth){
             while(_x>_v_limit ){
                 _x--;           
