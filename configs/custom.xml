@@ -113,12 +113,12 @@
         <weapons>
             <knife>
                 <amount>5</amount>
-                <sprite>resources/sprites/tube.png</sprite>
+                <sprite>resources/sprites/knife1.png</sprite>
                 <damage>30</damage>
             </knife>
             <tube>
                 <amount>10</amount>
-                <sprite>resources/sprites/knife1.png</sprite>
+                <sprite>resources/sprites/tube.png</sprite>
                 <damage>20</damage>
             </tube>
         </weapons>
