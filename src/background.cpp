@@ -21,12 +21,6 @@ Background::Background( vector <string> g, int h,int w, SDL_Renderer* render, Ga
     _rect->y = 0;                   //  Y lo alto es directamente la misma que la imagen.
                                     
                                     // Lo mismo se aplica al far_background (tanto rect como pos)
-
-     //Transparencia en el contorno celeste del suelo
-    SDL_SetColorKey(_image, SDL_TRUE,
-    SDL_MapRGB(_image->format, 0, 162, 232));
-    
-
 }
 
 void Background::move(){
@@ -39,7 +33,6 @@ void Background::move(){
         if (cont < g1.size()){
             SDL_FreeSurface(_image);
             nextBackground(g1[cont].c_str());
-            //cont ++;
             _x = 0;
         }
         /* Aviso que se llego al final */
@@ -68,7 +61,7 @@ void Background::nextBackground(const std::string &image_path){
         LogManager::logDebug("Se carga una imagen por defecto al no encontrar el sprite del fondo.");
         _image = SDL_CreateRGBSurface(0, _w_window, _h, 32, 0, 0, 0, 0);
         SDL_Rect d;
-        if (lvl_parallax == 1 or lvl_parallax==4){
+        if (lvl_parallax == 1 or 4){
         
             d.y = 0;
             d.x=0;
@@ -91,10 +84,7 @@ void Background::nextBackground(const std::string &image_path){
             //Mitad superior transparente
             SDL_FillRect(_image,&d , SDL_MapRGB(_image->format, 0, 255, 0));
         }
-        if (lvl_parallax == 2){
-            //Al dope el lvl 2 y 3 son basicamente iguales
-        }
-        cont =6;
+        cont = g1.size();
     }
 
     SDL_SetColorKey(_image, SDL_TRUE,

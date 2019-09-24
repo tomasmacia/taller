@@ -14,8 +14,7 @@ public:
     bool moverse = true; //bool para saber si debe moverse el objeto
     int GetPosY();
 
-
-private:
+protected:
     
     int _y, _wide;
     float _x, mov_fondo = 1.57;

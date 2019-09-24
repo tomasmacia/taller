@@ -7,10 +7,10 @@
 #include <vector>
 #include <iostream>
 #include "object.h"
-#include "enemy.h"
 #include "GameObject.h"
 #include "LogLib/LogManager.h"
 #include "parser/config/config.h"
+#include "game_component.h"
 
 class Game
 {
@@ -32,6 +32,8 @@ public:
     Background* floor, *front;
     void move_all();
     void pj_in_final();
+    bool isRunning = true; // false
+    void level2(int enemy, int cajas,int barril, int tubos,int knifes,int width,int heigth);
 
     void addGameObject(GameObject *gameObject) {
         gameObjects.push_back(gameObject);
@@ -73,21 +75,18 @@ private:
 
     std::vector<GameObject*> gameObjects;
 
-    void UpdateAtras(vector<Enemy*> vector);
-    void UpdateDelante(vector<Enemy*> vector);
+    void UpdateAtras(vector<Game_Component*> vector);
+    void UpdateDelante(vector<Game_Component*> vector);
     void setWindowTitleWithFPS(int fps);
-
-    bool isRunning = false;
 
     std::vector <string> g1;
     std::vector <string> gmiddle;
     std::vector <string> g2;
     std::vector <string> gfront;
+    Game_Component* _enemy;
+    std::vector <Game_Component*> obj_escenario;
 
-    std::vector <Object*> barriles;
-    std::vector <Enemy*> enemigos;
-
-    void level1(int enemy, int objetos, int armas,int heigth,int width);
+    void level1(int enemy, int cajas,int barril, int tubos,int knifes,int width,int heigth);
 
     // wrappers
     Logger *logger; // since its a pointer allocating memory, we need to delete it later

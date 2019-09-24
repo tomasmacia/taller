@@ -17,7 +17,7 @@ Object::Object(const std::string &image_path, int x,int y, SDL_Renderer* render,
     _pos->h=(heigth) *0.66;// _image->clip_rect.h*2.8;
     _pos->w= (heigth) * .3; // _image->clip_rect.w*2.8; 
     _rect->h = _image->clip_rect.h;
-    _rect->w = _image->clip_rect.w;
+  //  _rect->w = _image->clip_rect.w;
     _rect->x = 0;
     _rect->y = 0;
      //Transparencia en el contorno celeste del suelo
@@ -33,12 +33,6 @@ void Object::move(){
 }
 
 void Object::updateImage(){
-    //Solo se renderiza lo qeu esta cerca de la pantalla
-    if (_pos->x>-200 &_pos->x < _wide/*wide windows*/){
-        _texture = SDL_CreateTextureFromSurface( _render, _image ); 
-        SDL_RenderCopy( _render, _texture, _rect, _pos );
-        SDL_DestroyTexture(_texture);
-    }
     
 }
 
