@@ -130,8 +130,8 @@ void Game::start() {
 
             SDL_RenderPresent(renderer);
 
-            current = 1000 / (SDL_GetTicks() - fps_last);
-            fps_last = SDL_GetTicks();
+            current = 1000 / ( (Uint32) SDL_GetTicks() - fps_last);
+            fps_last = (Uint32) SDL_GetTicks();
             setWindowTitleWithFPS(current);
         }
     }
