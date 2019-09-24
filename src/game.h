@@ -2,7 +2,6 @@
 #define GAME_H_
 
 #include "background.h"
-#include "character.h"
 #include "object.h"
 #include <cstdlib>
 #include <vector>
@@ -12,6 +11,7 @@
 #include "LogLib/LogManager.h"
 #include "parser/config/config.h"
 #include "game_component.h"
+#include "character.h"
 
 class Game {
 public:
@@ -27,9 +27,9 @@ public:
     // gameloop
     void start();
 
-    Character* character;
-    Background* back, *middle;
-    Background* floor, *front;
+    class Character* character;
+    Background *far, *middle;
+    Background *floor, *overlay;
     void move_all();
     void pj_in_final();
 
@@ -45,6 +45,65 @@ public:
     void addGameComponent(Game_Component* gameComponent) {
         obj_escenario.push_back(gameComponent);
     }
+
+    // ****** MOMENTANEOOOO !!!! *****
+
+    void setFloorSprites(vector<std::string> floor) {
+        floorSprites.clear();
+        floorSprites = floor;
+    }
+
+    void setMiddleSprites(vector<std::string> middle) {
+        middleSprites.clear();
+        middleSprites = middle;
+    }
+
+    void setFarSprites(vector<std::string> far) {
+        farSprites.clear();
+        farSprites = far;
+    }
+
+    void setOverlaySprites(vector<std::string> overlay) {
+        overlaySprites.clear();
+        overlaySprites = overlay;
+    }
+
+    void setCharacter(Character* pj) {
+        delete character;
+        character = pj;
+    }
+
+    void setFarBackground(Background *farBackground) {
+        delete far;
+        far = farBackground;
+    }
+
+    void setMiddleBackground(Background *middleBackground) {
+        delete middle;
+        middle = middleBackground;
+    }
+
+    void setFloorBackground(Background *floorBackground) {
+        delete floor;
+        floor = floorBackground;
+    }
+
+    void setOverlayBackground(Background *overlayBackground) {
+        delete overlay;
+        overlay = overlayBackground;
+    }
+
+    std::vector<Game_Component*> getGameComponents() {
+        return obj_escenario;
+    }
+
+    std::vector <string> floorSprites;
+    std::vector <string> middleSprites;
+    std::vector <string> farSprites;
+    std::vector <string> overlaySprites;
+
+
+    // *******************************
 
     // wrapper getters
     Config* getConfig() {
@@ -86,10 +145,6 @@ private:
     void UpdateDelante(vector<Game_Component*> vector);
     void setWindowTitleWithFPS(int fps);
 
-    std::vector <string> g1;
-    std::vector <string> gmiddle;
-    std::vector <string> g2;
-    std::vector <string> gfront;
     std::vector <Game_Component*> obj_escenario;
 
     bool hasNextLevel = false;
