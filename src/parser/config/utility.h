@@ -5,9 +5,14 @@
 #ifndef GAME_UTILITY_H
 #define GAME_UTILITY_H
 
+#include <string>
+
+using namespace std;
+
 class Utility {
 public:
     int amount;
+    string sprite;
     double knivesDropProb;
     double tubesDropProb;
 };
