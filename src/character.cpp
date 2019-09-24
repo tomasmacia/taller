@@ -1,6 +1,6 @@
-#include "character.h"
 #include <SDL2/SDL_image.h>
 #include "game.h"
+#include "character.h"
 
 Character::Character(class Game* _owner,int w, int h, SDL_Renderer* render):
     _render(render),
@@ -45,8 +45,11 @@ bool Character::move(int option,int p){
     //Como estoy realizando una accion seteo mi option a 8 para ignorar eventos.    
     if (state==8){ option=8;}
     state = option;
-    while(option ==0){
-        cont++; 
+    while(option ==0 || state ==8){
+        if(state == 0){
+            cont++;
+        }
+ 
         if(p == 4 ){
             
             _x -=default_mov;
