@@ -43,28 +43,29 @@ bool Character::move(int option,int p){
     //Limites de movimiento harcodeados en relacion a imagen y pantalla
 
     //Como estoy realizando una accion seteo mi option a 8 para ignorar eventos.    
-   if (state==8){ option=8;}
+    if (state==8){ option=8;}
     if (state == 9){
         option=9;
-        /* Movimientos a la derecha o izquierda en salto solo si estaba apretando
-        left o rigth antes de saltar(y lo mantengo), no si empiezo a
-        apretar left o rigth en el salto durante el salto */
-        if( rgth){
+        if(p == 6  && rgth){
             while(_x>_v_limit ){
                 _x--;           
                 owner->move_all();     
             }
-            _x +=default_mov*2;          
+            _x +=default_mov*1.5;          
         }
-        if( lft){
-            _x -=default_mov*2;
-            while(_x<0){_x++;} 
+        if(p == 4 && lft){    
+            while(_x<0){_x++;}
+            _x -=default_mov*1.5; //----> Limite izquierdo (X = 0)
             }
-        _pos->x =_x;        
+        _pos->x =_x;
         } //9 es el estado especifico del salto
     state = option;
     while(option ==0){
-        cont++;
+
+        if(state == 0){
+            cont++;
+        }
+ 
         if(p == 4 ){
             
             _x -=default_mov;
@@ -89,18 +90,20 @@ bool Character::move(int option,int p){
             }
         _pos->x =_x;
         _pos->y= _y;  
+        
         return false;
     }
     return false;     
 }
 
 
-void Character::mov_jump(int r){
+
+void Character::mov_jump(int me_estoy_moviendo){
     if(state != 8){
-        if(r==0){
+        if(me_estoy_moviendo == 0){
             rgth = true;
         }
-        if(r==1){
+        if(me_estoy_moviendo == 1){
             lft=true;
         }
     }
@@ -150,6 +153,7 @@ void Character::updateImage(){
     Pero la posicion x cambia. Contando en que imagen del total me encuentro (spriteToload)
     cada vez que aprieto una tecla que realize algo, calcula donde debe cortar, corta y
     hace un resize(el render) y lo coloca donde debe estar.
+
     Dato: Las imagenes deben tener una separacion uniforme para realizar un corte "lindo"
     
     x=0        x=wide/cant  x=2*wide/cant   .........etc
@@ -233,12 +237,14 @@ void Character::actions_sprites(int n,int img_){
             SDL_SetColorKey(_image, SDL_TRUE,
             SDL_MapRGB(_image->format, 88,184,248));
             //Cambio el estado a accion para que se complete
+            
             if (state == 1 || state == 5){
                 state = 9;
             }
             else{
                 state = 8;
             }
+
             size();      
     }
 }
