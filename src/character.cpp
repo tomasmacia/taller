@@ -21,7 +21,7 @@ Character::Character(class Game* _owner,int w, int h, SDL_Renderer* render):
     //Ancho y alto del personaje al iniciar es la misma (solo es 1 imagen por default)
     rect->w=_image->clip_rect.w;
     rect->h=_image->clip_rect.h;
-    
+   
 };
 
 bool Character::move(int option,int p){
@@ -75,7 +75,10 @@ bool Character::move(int option,int p){
             while(_y>(_h_window/3)){_y--;} //(heigth/3) --> Limite inferior
             }
         _pos->x =_x;
-        _pos->y= _y;  
+
+        if (state != 9){
+            _pos->y= _y;  
+        }
         return false;
     }
     return false;     
@@ -83,6 +86,7 @@ bool Character::move(int option,int p){
 
 
 void Character::updateImage(){
+
     inFinal();
     sprite();
     if (spriteToload >= cant_img_sprite-1)
@@ -94,8 +98,11 @@ void Character::updateImage(){
         spriteToload++;//cambio de imagen sprite
         cont=0;//contador reseteado
     }
-    if (state >= 8 ){
-    //si quiero realizar una accion
+    if (state >= 8 ){    //si quiero realizar una accion
+        if (state == 9){
+            saltoParabolico();
+        }
+
         cont_acc++;
         //aumento el contador de acciones
         if(cont_acc == loop){
@@ -111,6 +118,8 @@ void Character::updateImage(){
                 load_image_default();
             }
         }
+
+
     }/* Lo de la tira de imagenes es asi, yo se la cantidad que hay(cant_img_sprite)
     y se cuanto mide de ancho la imagen(_image->clip_rect.w). Con Rect elijo 
     que parte de la imagen agarro, lo alto (linea 191) es la mismo para todas los recortes,
@@ -143,6 +152,27 @@ void Character::updateImage(){
     
 }
 
+void Character::saltoParabolico(){
+    if(contador_saltar == 0){//significa que todavia no salte nada
+        valor_de_y_justo_antes_del_salto = _y;
+        valor_loop_previo = loop;
+        loop = 4*default_mov_salto; //salta mas lento
+        contador_saltar++;
+    }
+    if (contador_saltar >0){
+        cant_a_desplazarse_saltando = cant_a_desplazarse_saltando + default_mov_salto;
+        _pos->y += cant_a_desplazarse_saltando;
+        contador_saltar++;
+    }
+    if (contador_saltar >0 && _pos->y >= valor_de_y_justo_antes_del_salto){//ya estoy del otro lado de la parabola
+        cant_a_desplazarse_saltando = cant_altura_de_salto_max;
+        _pos->y = valor_de_y_justo_antes_del_salto; //la y naturalmente deberia coincidir pero por las dudas fuerzo a restaurar el valor original
+        loop = valor_loop_previo; //restaura el valor original
+        contador_saltar = 0;
+    }
+
+}
+
 void Character::sprite(){ 
     
     //Left
@@ -154,49 +184,6 @@ void Character::sprite(){
     //Agacharse
     actions_sprites(3,4);
  
-}
-
-Character::~Character(){
-    SDL_DestroyTexture(_texture);
-}
-
-void Character::load_image_default(){
-    /* Carga imagenes del sprite o muestra pantalliats azules donde
-    deberia estar el pj */
-    if ((_image = IMG_Load(path_img[4].c_str()))==NULL){
-        std::cerr <<  "No pudo cargar imagen.\n";
-        std::cerr << "Se carga imagen por default\n";
-        _image = SDL_CreateRGBSurface(0, 56, 125, 32, 0, 0, 0, 0);
-        SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 255, 255, 0));
-            }
-    SDL_SetColorKey(_image, SDL_TRUE,
-    SDL_MapRGB(_image->format, 88,184,248));
-    state_previous= -1;
-    state = -1;
-    spriteToload=0;
-    cant_img_sprite = 1;
-    rect->w = 56;// pongo dierctamente alto y ancho
-    rect->h = 125;// ya que se cuanto mide
-    _pos->w =_h*56/125;
-    cont = 3;
-    
-}
-
-void Character::change_limits(){
-    /* El limite de movimiento de cody ya no es la tercera parte
-     de la pantalla (seteado asi) sino que es el final de la pantalla */
-    _v_limit = (_w_window)- _w;
-}
-
-void Character::size(){
-    /* Recalculo width, heigth de rect(donde lo saco) y width de pos(donde debe ir) 
-    al cargar nueva tira de sprites */
-    rect->w=_image->clip_rect.w/cant_img_sprite;
-    rect->h=_image->clip_rect.h;
-    /* La tira de imagenes punch tiene un ancho promedio de 74, las demas
-    (tanto caminar, saltar) tienen un ancho de 56. Por lo que tengo que
-    recalcular el ancho o sino al dar golpes el personaje se "aplana" */
-    _pos->w =_h*(rect->w)/_image->clip_rect.h;   
 }
 
 void Character::actions_sprites(int n,int img_){
@@ -220,16 +207,68 @@ void Character::actions_sprites(int n,int img_){
             SDL_SetColorKey(_image, SDL_TRUE,
             SDL_MapRGB(_image->format, 88,184,248));
             //Cambio el estado a accion para que se complete
-            if (n == 1){
-                state = 9; //9 es el estado especifico de salto
+
+            if (state == 1){
+                state = 9;
             }
             else{
-                state=8;
+                state = 8;
             }
 
             size();      
     }
 }
+
+void Character::load_image_default(){
+    /* Carga imagenes del sprite o muestra pantalliats azules donde
+    deberia estar el pj */
+    if ((_image = IMG_Load(path_img[4].c_str()))==NULL){
+        std::cerr <<  "No pudo cargar imagen.\n";
+        std::cerr << "Se carga imagen por default\n";
+        _image = SDL_CreateRGBSurface(0, 56, 125, 32, 0, 0, 0, 0);
+        SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 255, 255, 0));
+            }
+    SDL_SetColorKey(_image, SDL_TRUE,
+    SDL_MapRGB(_image->format, 88,184,248));
+    state_previous= -1;
+    state = -1;
+    spriteToload=0;
+    cant_img_sprite = 1;
+    rect->w = 56;// pongo dierctamente alto y ancho
+    rect->h = 125;// ya que se cuanto mide
+    _pos->w =_h*56/125;
+    cont = 3;
+
+    if (contador_saltar > 0){
+        cant_a_desplazarse_saltando = cant_altura_de_salto_max;
+        _pos->y = valor_de_y_justo_antes_del_salto; //la y naturalmente deberia coincidir pero por las dudas fuerzo a restaurar el valor original
+        loop = valor_loop_previo; //restaura el valor original
+        contador_saltar = 0;
+    }
+}
+
+
+Character::~Character(){
+    SDL_DestroyTexture(_texture);
+}
+
+void Character::change_limits(){
+    /* El limite de movimiento de cody ya no es la tercera parte
+     de la pantalla (seteado asi) sino que es el final de la pantalla */
+    _v_limit = (_w_window)- _w;
+}
+
+void Character::size(){
+    /* Recalculo width, heigth de rect(donde lo saco) y width de pos(donde debe ir) 
+    al cargar nueva tira de sprites */
+    rect->w=_image->clip_rect.w/cant_img_sprite;
+    rect->h=_image->clip_rect.h;
+    /* La tira de imagenes punch tiene un ancho promedio de 74, las demas
+    (tanto caminar, saltar) tienen un ancho de 56. Por lo que tengo que
+    recalcular el ancho o sino al dar golpes el personaje se "aplana" */
+    _pos->w =_h*(rect->w)/_image->clip_rect.h;   
+}
+
 void Character::moves_sprites(int n, int img_){
     /* cargo sprites de movimientos */
         /* Carga imagenes del sprite o muestra pantalliats azules donde

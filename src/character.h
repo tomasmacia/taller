@@ -28,13 +28,23 @@ private:
     void size();
     void sprite();
     int inFinal();
+    void saltoParabolico();
  
 
     bool inlevel2 = true;
     SDL_RendererFlip flip =SDL_FLIP_NONE;
     int  _x,_y,_w,_h,_w_window,_h_window;
     int _v_limit; //limite vertical de movimiento
-    int default_mov = 5;   
+    int default_mov = 5;
+
+    //PARA SALTO CON VELOCIDAD VARIABLE
+    int default_mov_salto = 1; 
+    int cant_altura_de_salto_max = -13*2*default_mov_salto; //el 13 es por la cantidad de sprites del salto de cody 
+    int cant_a_desplazarse_saltando = cant_altura_de_salto_max;
+    int valor_de_y_justo_antes_del_salto = 0;
+    int valor_loop_previo = 0;
+    int contador_saltar = 0;
+
     int cont=1,cont_acc = 1; //para cambio de imagen sprite
     const int change = 5;// constante para cambiar de imagen
     int cant_img_sprite = 1;//imagenes en una tira de sprite (default 1)
