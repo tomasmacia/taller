@@ -37,6 +37,7 @@ bin/
 # IDE related
 .vscode/
 .idea/
+.metadata/
 
 # macOS
 .DS_Store
