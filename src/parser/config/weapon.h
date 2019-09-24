@@ -5,10 +5,15 @@
 #ifndef GAME_WEAPON_H
 #define GAME_WEAPON_H
 
+#include <string>
+
+using namespace std;
+
 
 class Weapon {
 public:
     int amount;
+    string sprite;
     int damage;
 };
 

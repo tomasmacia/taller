@@ -151,12 +151,6 @@ ScreenResolution XMLParser::getScreenResolution(XMLElement *config) {
 
 Gameplay XMLParser::wrapperGameplayModule(XMLElement *config, XMLElement *defaultConfig) {
     Gameplay gameplay = getGameplaySettings(config, defaultConfig);
-//    try {
-//        gameplay = getGameplaySettings(config);
-//    } catch (string& msg) {
-//        cerr << msg << endl;
-//        gameplay = getGameplaySettings(defaultConfig);
-//    }
 
     return gameplay;
 }
@@ -235,6 +229,11 @@ vector<NPC> XMLParser::getGameplayNPCS(XMLElement *gameplay) {
 CharacterXML XMLParser::mapCharacter(XMLElement *characters, const string currentChildName) {
     CharacterXML character;
     character.name = getSafeValueFromElement(characters, {currentChildName.c_str(), "name"}, charArrayToString, "characters");
+    character.stand = getSafeValueFromElement(characters, {currentChildName.c_str(), "stand"}, charArrayToString, "characters");
+    character.walk = getSafeValueFromElement(characters, {currentChildName.c_str(), "walk"}, charArrayToString, "characters");
+    character.jump = getSafeValueFromElement(characters, {currentChildName.c_str(), "jump"}, charArrayToString, "characters");
+    character.punch = getSafeValueFromElement(characters, {currentChildName.c_str(), "punch"}, charArrayToString, "characters");
+    character.crouch = getSafeValueFromElement(characters, {currentChildName.c_str(), "crouch"}, charArrayToString, "characters");
 
     return character;
 }
@@ -242,7 +241,20 @@ CharacterXML XMLParser::mapCharacter(XMLElement *characters, const string curren
 Level XMLParser::mapLevel(XMLElement *levels, const string currentChildName) {
     Level level;
 
+    XMLElement *levelI = getXMLElementSafe(levels, {currentChildName.c_str()});
+    XMLElement *floorElement = getXMLElementSafe(levelI, {"floor"});
+    XMLElement *farElement = getXMLElementSafe(levelI, {"far"});
+    XMLElement *overlayElement = getXMLElementSafe(levelI, {"overlay"});
+
+    level.floor = mapSettingToVector(floorElement, "floor", dummyStringMap, "levels");
+    level.far = mapSettingToVector(farElement, "far", dummyStringMap, "levels");
+    level.overlay = mapSettingToVector(overlayElement, "overlay", dummyStringMap, "levels");
+
     return level;
+}
+
+string XMLParser::dummyStringMap(XMLElement *genericElement, const string currentChildName) {
+    return getSafeValueFromElement(genericElement, {currentChildName.c_str()}, charArrayToString, "levels");
 }
 
 NPC XMLParser::mapNPC(XMLElement *npcs, const string currentChildName) {
@@ -307,6 +319,7 @@ Utilities XMLParser::wrapperGameplayUtilitiesModule(XMLElement *gameplay, XMLEle
 Weapon XMLParser::getGameplayWeapon(XMLElement *weaponElement) {
     Weapon weapon;
     weapon.amount = getSafeValueFromElement(weaponElement, {"amount"}, atoi, "weapons");
+    weapon.sprite = getSafeValueFromElement(weaponElement, {"sprite"}, charArrayToString, "weapons");
     weapon.damage = getSafeValueFromElement(weaponElement, {"damage"}, atoi, "weapons");
 
     return weapon;
@@ -328,6 +341,7 @@ Utilities XMLParser::getGameplayUtilities(XMLElement *gameplay) {
 Utility XMLParser::getGameplayUtility(XMLElement *utilityElement) {
     Utility utility;
     utility.amount = getSafeValueFromElement(utilityElement, {"amount"}, atoi, "utilities");
+    utility.sprite = getSafeValueFromElement(utilityElement, {"sprite"}, charArrayToString, "utilities");
     utility.knivesDropProb = getSafeValueFromElement(utilityElement, {"contains", "knives"}, atof, "utilities");
     utility.tubesDropProb = getSafeValueFromElement(utilityElement, {"contains", "tubes"}, atof, "utilities");
 

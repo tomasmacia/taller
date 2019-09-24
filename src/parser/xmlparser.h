@@ -53,7 +53,7 @@ private:
     Utility getGameplayUtility(XMLElement *utility);
 
     template <typename T>
-    vector<T> mapSettingToVector(XMLElement *genericElement, string childNameType, T (*function)(XMLElement*, string), string section);
+    static vector<T> mapSettingToVector(XMLElement *genericElement, string childNameType, T (*function)(XMLElement*, string), string section);
 
     static CharacterXML mapCharacter(XMLElement *characters, string currentChildName);
 
@@ -78,6 +78,8 @@ private:
     Weapons wrapperGameplayWeaponsModule(XMLElement *gameplay, XMLElement *defaultGameplay);
 
     Utilities wrapperGameplayUtilitiesModule(XMLElement *gameplay, XMLElement *defaultGameplay);
+
+    static string dummyStringMap(XMLElement *genericElement, const string currentChildName);
 };
 
 #endif //GAME_XMLPARSER_H
