@@ -2,6 +2,7 @@
 #define GAME_H_
 
 #include "background.h"
+#include "character.h"
 #include "object.h"
 #include <cstdlib>
 #include <vector>
@@ -12,8 +13,7 @@
 #include "parser/config/config.h"
 #include "game_component.h"
 
-class Game
-{
+class Game {
 public:
     static Game& getInstance() {
         static Game instance; // Guaranteed to be destroyed.
@@ -27,16 +27,23 @@ public:
     // gameloop
     void start();
 
-    class Character* character;
+    Character* character;
     Background* back, *middle;
     Background* floor, *front;
     void move_all();
     void pj_in_final();
-    bool isRunning = true; // false
+
     void level2(int enemy, int cajas,int barril, int tubos,int knifes,int width,int heigth);
+
+    bool isRunning = true; // false
+    bool levelFinished = false;
 
     void addGameObject(GameObject *gameObject) {
         gameObjects.push_back(gameObject);
+    }
+
+    void addGameComponent(Game_Component* gameComponent) {
+        obj_escenario.push_back(gameComponent);
     }
 
     // wrapper getters
@@ -83,8 +90,9 @@ private:
     std::vector <string> gmiddle;
     std::vector <string> g2;
     std::vector <string> gfront;
-    Game_Component* _enemy;
     std::vector <Game_Component*> obj_escenario;
+
+    bool hasNextLevel = false;
 
     void level1(int enemy, int cajas,int barril, int tubos,int knifes,int width,int heigth);
 

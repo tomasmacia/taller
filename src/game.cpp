@@ -11,6 +11,7 @@
 #include "parser/config/config.h"
 #include "parser/xmlparser.h"
 #include "LogLib/Logger.h"
+#include "LevelBuilder.h"
 
 
 
@@ -91,40 +92,48 @@ void Game::start() {
 
     level1(50,20,20,20,20, width, height);
 
+    LevelBuilder levelBuilder;
+    this->hasNextLevel = true;
+
     Events event(this, character);
 
     //loop hasta que se aprete ESC o click en (X)
     /* Veo qu se esta apretando */
-    while(isRunning) {
-        isRunning=!(event.keyboard_event());
-        /* Limpio la pantalla */
-        SDL_RenderClear(renderer);
+    while (isRunning && hasNextLevel) {
+        this->hasNextLevel = levelBuilder.loadNext();
+        this->levelFinished = false;
 
-        /* Actualizo la imagen */
-        back->updateImage();
-        //middle->updateImage();
-        floor->updateImage();
+        while (isRunning && !levelFinished) {
+            isRunning = !(event.keyboard_event());
+            /* Limpio la pantalla */
+            SDL_RenderClear(renderer);
 
-        /* Enemigos con pos y menor a pj */
-        UpdateAtras(obj_escenario);
+            /* Actualizo la imagen */
+            back->updateImage();
+            //middle->updateImage();
+            floor->updateImage();
 
-        /* cody se actualiza a lo ultimo */
-        character->updateImage();
+            /* Enemigos con pos y menor a pj */
+            UpdateAtras(obj_escenario);
 
-        /* Enemigos con pos y mayor a pj */
+            /* cody se actualiza a lo ultimo */
+            character->updateImage();
 
-        UpdateDelante(obj_escenario);
-        /* Estoy recorriendo 2 veces el mismo vector para poner
-         * cosas que estan detras de cody detras, ¿es necesario? */
+            /* Enemigos con pos y mayor a pj */
 
-        front->updateImage();
-        /* Refresco la pantalla con nueva posicion */
+            UpdateDelante(obj_escenario);
+            /* Estoy recorriendo 2 veces el mismo vector para poner
+             * cosas que estan detras de cody detras, ¿es necesario? */
 
-        SDL_RenderPresent(renderer);
+            front->updateImage();
+            /* Refresco la pantalla con nueva posicion */
 
-        current = 1000 / (SDL_GetTicks() - fps_last);
-        fps_last = SDL_GetTicks();
-        setWindowTitleWithFPS(current);
+            SDL_RenderPresent(renderer);
+
+            current = 1000 / (SDL_GetTicks() - fps_last);
+            fps_last = SDL_GetTicks();
+            setWindowTitleWithFPS(current);
+        }
     }
 }
 
