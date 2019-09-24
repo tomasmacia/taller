@@ -17,8 +17,9 @@ public:
     void change_limits();
     int GetPosY();
     void setFlip(SDL_RendererFlip _flip) { flip = _flip;}
-    
-        void load_image_default(); // luego de una accion cargo sprite default   
+    void load_image_default(); // luego de una accion cargo sprite default   
+    void mov_jump(int r);
+
 private:
     Game* owner;
     vector<string> path_img;
@@ -29,8 +30,10 @@ private:
     void sprite();
     int inFinal();
     void saltoParabolico();
- 
 
+
+ 
+    bool rgth = false, lft = false;
     bool inlevel2 = true;
     SDL_RendererFlip flip =SDL_FLIP_NONE;
     int  _x,_y,_w,_h,_w_window,_h_window;

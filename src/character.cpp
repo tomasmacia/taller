@@ -44,7 +44,23 @@ bool Character::move(int option,int p){
 
     //Como estoy realizando una accion seteo mi option a 8 para ignorar eventos.    
     if (state==8){ option=8;}
-    if (state == 9){option=9;} //9 es el estado especifico del salto
+    if (state == 9){option=9;
+            if(p == 6  && rgth){
+            while(_x>_v_limit ){
+                _x--;           
+                owner->move_all();     
+            }
+            _x +=default_mov;          
+        }
+        if(p == 4 && lft){    
+            while(_x<0){_x++;}_x -=default_mov; //----> Limite izquierdo (X = 0)
+            }
+        _pos->x =_x;
+       
+    
+    
+    
+    } //9 es el estado especifico del salto
     state = option;
     while(option ==0 || state == 9){
 
@@ -85,6 +101,19 @@ bool Character::move(int option,int p){
 }
 
 
+void Character::mov_jump(int r){
+    if(state != 8){
+        if(r==0){
+            rgth = true;
+        }
+        if(r==1){
+            lft=true;
+        }
+    }
+}
+
+
+
 void Character::updateImage(){
 
     inFinal();
@@ -115,6 +144,7 @@ void Character::updateImage(){
                 //si llegue al final de la secuencia de sprites, state y previous_state
                 // es quieto, al cargar la imagen defaullt lo hago.
                 SDL_FreeSurface(_image);
+                rgth = lft = false;
                 load_image_default();
             }
         }
