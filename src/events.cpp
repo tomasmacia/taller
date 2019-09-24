@@ -42,7 +42,6 @@ bool Events::keyboard_event()
                 case SDL_SCANCODE_LCTRL:
                 if (rigth){_cody->mov_jump(0);}
                 if (left) {_cody->mov_jump(1);}
-                
                     _cody->move(1,-1);
                     return false;
                 case SDL_SCANCODE_X:
@@ -57,7 +56,30 @@ bool Events::keyboard_event()
                     _cody->move(5,-1);
                     return false;
                 case SDL_SCANCODE_A:
-                    _cody->move(6,-1);                    return false;
+                    _cody->move(6,-1);
+                    return false;
+                  default:
+                    return false;
+            }                   
+        case SDL_KEYUP:
+            switch (_event.key.keysym.scancode)
+            {
+                case SDL_SCANCODE_LEFT:
+                   left =false;
+                    return false;
+                case SDL_SCANCODE_RIGHT:
+                    rigth = false;
+                    return false;
+                case SDL_SCANCODE_UP:
+                    up = false;
+                    return false;
+                case SDL_SCANCODE_DOWN:
+                    down = false;
+                    return false;
+                case SDL_SCANCODE_X:
+                    return false;
+                case SDL_SCANCODE_LCTRL:
+                    return false;
             default:
                 return false;
             }
