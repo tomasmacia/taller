@@ -24,18 +24,27 @@ Character::Character(class Game* _owner,int w, int h, SDL_Renderer* render):
     
 };
 
-bool Character::move(int option,int p){ 
-    // 0 = rigth , 5 = up, 6 = down, 1 = jump, 2 = punch, 3 = agacharse
-    // 8 = accion (vease como cosa que necesita un trigger y se completa sola) 
-    // -1 = quieto ; 
-    //Si realizo una accion espera a que se complete (creeria que es para evitar saltos dobles)
-   // std::cerr << state<< " * "<< state_previous<< " * "<< std::endl;
+bool Character::move(int option,int p){
+    //PARAMETRO OPTION 
+    // 0 = rigth , up, down,jump,-> me indica pos del vector donde esta su spritesheet(son el mismo e
+    //en los 4)
+    // 2 punch, 3 = agacharse
+
+    //PARAMETRO P
+    //De las 4 acciones de movimiento me indica cual es (8 up, 4 left, 6 rigth, 2 down)
+    //para realizar el movimiento.
+
+    //Cuando salto o golpeo o  me agacho, al cargar el sprite su estado(variable de la clase)
+    // pasa a accion 8  (vease como cosa que necesita un trigger y se completa sola) 
+    // y en el proximo update la accion se seguira hasta completarse.
+    // Si en el transurso de la accion, apreto un boton de movimiento, los ignora hasta realizar la accion.
+    //Si realizo una accion espera a que se complete,para evitar interrumpcion del sprite y bugs.
+
     //Limites de movimiento harcodeados en relacion a imagen y pantalla
-    
-    if (state==8){option = 8;}
-   // std::cerr << option<< "    " << p<< std::endl;
-    state = option; 
-  //  std::cerr << option<< std::endl;
+
+    //Como estoy realizando una accion seteo mi option a 8 para ignorar eventos.    
+    if (state==8){ option=8;}
+    state = option;
     while(option ==0){
         cont++; 
         if(p == 4 ){
@@ -44,7 +53,7 @@ bool Character::move(int option,int p){
             while(_x<0){_x++;} //----> Limite izquierdo (X = 0)
         }
         if(p == 6 ){
-            
+            //si esoy en el limite vertical, se realiza parallax
             while(_x>_v_limit ){
                 _x--;           
                 owner->move_all();     
@@ -69,33 +78,30 @@ bool Character::move(int option,int p){
 
 
 void Character::updateImage(){
-    
-
+    inFinal();
     sprite();
-  //   std::cerr << state<< " * "<< state_previous<< " * "<< std::endl;
     if (spriteToload >= cant_img_sprite-1)
             {spriteToload=0;} 
     if (cont >= change )
     //si el contador de cambio de sprites es mayor 
-    //al cambio seteado y si estoy apretando el
-    //mismo boton
+    //al cambio seteado
     {
         spriteToload++;//cambio de imagen sprite
         cont=0;//contador reseteado
     }
     if (state >= 8 ){
     //si quiero realizar una accion
-        cont++;
+        cont_acc++;
         //aumento el contador de acciones
-        if(cont == loop){
-        //si el contador es igual al numero que creo es
-        //vuelvo el contador a 0 y cambio de sprite en
+        if(cont_acc == loop){
+        //si el contador es igual al numero de loops que se necesitan para
+        //para pasar de imagen de sprite, vuelvo el contador a 0 y cambio de sprite en
         //la secuencia
-            cont = 0;
+            cont_acc = 0;
             spriteToload++;
             if (spriteToload >=cant_img_sprite-1){
-                //si llegue al final de la secuencia, mi estado es quieto
-                // y estado previo es "accion," al cargar la imagen defaullt lo hago.
+                //si llegue al final de la secuencia de sprites, state y previous_state
+                // es quieto, al cargar la imagen defaullt lo hago.
                 SDL_FreeSurface(_image);
                 load_image_default();
             }
@@ -254,4 +260,24 @@ void Character::_charge_vector(){
 
 int Character::GetPosY(){
     return _y;
+}
+
+
+int Character::inFinal(){
+    if (_x > _w_window - _w)
+    {   
+        if (inlevel2){
+                owner->isRunning = false;
+                return 0;
+        }
+    return 0;
+/*
+        owner->level2(0,0,0,0,0,_w_window,_h_window);
+        
+        _y=(_h_window*.3);
+        _x=(_w_window*.3);
+        _v_limit = ((_w_window)*.7)-(_w/2);*/
+        
+    }
+    return 0;
 }

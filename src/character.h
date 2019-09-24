@@ -27,13 +27,15 @@ private:
     void moves_sprites(int n, int img_);
     void size();
     void sprite();
+    int inFinal();
  
+
+    bool inlevel2 = true;
     SDL_RendererFlip flip =SDL_FLIP_NONE;
     int  _x,_y,_w,_h,_w_window,_h_window;
     int _v_limit; //limite vertical de movimiento
     int default_mov = 5;   
-    int cont=1; //para cambio de imagen sprite
-    bool jump_large = false;
+    int cont=1,cont_acc = 1; //para cambio de imagen sprite
     const int change = 5;// constante para cambiar de imagen
     int cant_img_sprite = 1;//imagenes en una tira de sprite (default 1)
     int spriteToload = 0;//en que imagen de la tira estoy
