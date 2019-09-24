@@ -90,15 +90,15 @@ void Game::start() {
     LevelBuilder levelBuilder;
     this->hasNextLevel = true;
 
-    Events event(this, character);
-
     //loop hasta que se aprete ESC o click en (X)
     /* Veo qu se esta apretando */
     while (isRunning && hasNextLevel) {
         this->hasNextLevel = levelBuilder.loadNext();
         this->levelFinished = false;
 
-        while (isRunning && !levelFinished) {
+        Events event(this, character);
+
+        while (isRunning && hasNextLevel && !levelFinished) {
             isRunning = !(event.keyboard_event());
             /* Limpio la pantalla */
             SDL_RenderClear(renderer);
@@ -113,6 +113,7 @@ void Game::start() {
 
             /* cody se actualiza a lo ultimo */
             character->updateImage();
+            this->levelFinished = character->inFinal();
 
             /* Enemigos con pos y mayor a pj */
 
@@ -137,7 +138,7 @@ void Game::move_all(){
 //Actualiza posicion de todo menos de cody, en orden.
    far->move();
    
- //  middle->move();
+   //middle->move();
    
    floor->move();
 

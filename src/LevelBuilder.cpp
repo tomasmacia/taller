@@ -36,17 +36,19 @@ void LevelBuilder::initialize() {
     initializeWeapons();
     initializeUtilities();
 
-//    sort(Game::getInstance().getGameComponents().begin(),
-//            Game::getInstance().getGameComponents().end(),
-//            [](Game_Component* i1, Game_Component* i2){return (i1->GetPosY() < i2->GetPosY());});
+    std::vector<Game_Component*> pepe = Game::getInstance().getGameComponents();
+
+    sort(pepe.begin(), pepe.end(),[](Game_Component* i1, Game_Component* i2) {
+        return (i1->GetPosY() < i2->GetPosY());
+    });
 }
 
 void LevelBuilder::initializeWorld() {
     LogManager::logDebug("Inicializando Fondos");
-    Game::getInstance().setFloorSprites(Game::getInstance().getConfig()->gameplay.levels.at(1).floor);
-    Game::getInstance().setMiddleSprites(Game::getInstance().getConfig()->gameplay.levels.at(1).middle);
-    Game::getInstance().setFarSprites(Game::getInstance().getConfig()->gameplay.levels.at(1).far);
-    Game::getInstance().setOverlaySprites(Game::getInstance().getConfig()->gameplay.levels.at(1).overlay);
+    Game::getInstance().setFloorSprites(Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1).floor);
+//    Game::getInstance().setMiddleSprites(Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1).middle);
+    Game::getInstance().setFarSprites(Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1).far);
+    Game::getInstance().setOverlaySprites(Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1).overlay);
 
     Game::getInstance().setFarBackground(new Background(Game::getInstance().farSprites,
             Game::getInstance().getConfig()->screenResolution.height,
@@ -58,10 +60,10 @@ void LevelBuilder::initializeWorld() {
             Game::getInstance().getConfig()->screenResolution.width,
             Game::getInstance().getRenderer(), &Game::getInstance(), 0.5, 1)); //0.5
 
-    Game::getInstance().setMiddleBackground(new Background(Game::getInstance().middleSprites,
-            Game::getInstance().getConfig()->screenResolution.height,
-            Game::getInstance().getConfig()->screenResolution.width,
-            Game::getInstance().getRenderer(), &Game::getInstance(), 0.25, 3)); //0.25
+//    Game::getInstance().setMiddleBackground(new Background(Game::getInstance().middleSprites,
+//            Game::getInstance().getConfig()->screenResolution.height,
+//            Game::getInstance().getConfig()->screenResolution.width,
+//            Game::getInstance().getRenderer(), &Game::getInstance(), 0.25, 3)); //0.25
 
     Game::getInstance().setOverlayBackground(new Background(Game::getInstance().overlaySprites,
             Game::getInstance().getConfig()->screenResolution.height,

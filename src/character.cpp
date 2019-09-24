@@ -265,10 +265,10 @@ int Character::GetPosY(){
 }
 
 
-int Character::inFinal(){
+bool Character::inFinal(){
     if (_x > _w_window - _w) {
-        owner->levelFinished = true;
+        return true;
     }
 
-    return 0;
+    return false;
 }
