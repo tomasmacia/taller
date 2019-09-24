@@ -49,14 +49,14 @@ bool Character::move(int option,int p){
         /* Movimientos a la derecha o izquierda en salto solo si estaba apretando
         left o rigth antes de saltar(y lo mantengo), no si empiezo a
         apretar left o rigth en el salto durante el salto */
-        if(p == 6  && rgth){
+        if( rgth){
             while(_x>_v_limit ){
                 _x--;           
                 owner->move_all();     
             }
             _x +=default_mov*2;          
         }
-        if(p == 4 && lft){
+        if( lft){
             _x -=default_mov*2;
             while(_x<0){_x++;} 
             }
