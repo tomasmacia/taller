@@ -245,10 +245,15 @@ Level XMLParser::mapLevel(XMLElement *levels, const string currentChildName) {
     XMLElement *floorElement = getXMLElementSafe(levelI, {"floor"});
     XMLElement *farElement = getXMLElementSafe(levelI, {"far"});
     XMLElement *overlayElement = getXMLElementSafe(levelI, {"overlay"});
+    XMLElement *middleElement = getXMLElementSafe(levelI, {"middle"});
 
     level.floor = mapSettingToVector(floorElement, "floor", dummyStringMap, "levels");
     level.far = mapSettingToVector(farElement, "far", dummyStringMap, "levels");
     level.overlay = mapSettingToVector(overlayElement, "overlay", dummyStringMap, "levels");
+
+    if (middleElement != nullptr) { // not necessary in config
+        level.middle = mapSettingToVector(middleElement, "middle", dummyStringMap, "levels");
+    }
 
     return level;
 }
