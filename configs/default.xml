@@ -91,6 +91,7 @@
             <amount>1</amount>
             <npc1>
                 <difficulty>NONE</difficulty>
+                <walk>resources/sprites/enemy_walk.png</walk>
             </npc1>
         </npcs>
         <weapons>
