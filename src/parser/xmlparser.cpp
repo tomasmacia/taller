@@ -124,6 +124,9 @@ Bindings XMLParser::getBindings(XMLElement *config) {
     bindings.ATTACK = getSafeValueFromElement(bindingsElement, {"attack"}, charArrayToString, section);
     bindings.CROUCH = getSafeValueFromElement(bindingsElement, {"crouch"}, charArrayToString, section);
 
+    bindings.KICK = getSafeValueFromElement(bindingsElement, {"kick"}, charArrayToString, section);
+    bindings.JUMPKICK = getSafeValueFromElement(bindingsElement, {"jumpkick"}, charArrayToString, section);
+
     return bindings;
 }
 

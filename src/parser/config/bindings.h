@@ -17,6 +17,8 @@ public:
     string JUMP;
     string ATTACK;
     string CROUCH;
+    string KICK;
+    string JUMPKICK;
 };
 
 
