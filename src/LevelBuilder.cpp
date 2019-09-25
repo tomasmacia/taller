@@ -107,9 +107,17 @@ void LevelBuilder::initializePlayers() {
 void LevelBuilder::initializeEnemies() {
     LogManager::logDebug("Inicializando enemigos");
     vector<NPC> enemies = Game::getInstance().getConfig()->gameplay.npcs;
+    Level level = Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
 
     for (auto &enemy : enemies) {
-        int x = -1000 + rand() % (20001 + 1000);
+        int x;
+        if (level.name == "bay") {
+            x = rand() % (20001);  
+        } else if (level.name == "desert") {
+            x = rand() % (20001/2); 
+        } else {
+            x = rand() % (20001/2); 
+        }
         int y = 120 + rand() % (201 - 120);
         Game::getInstance().addGameComponent(new Game_Component(enemy.walk, x, y, Game::getInstance().getRenderer(),
                 Game::getInstance().getConfig()->screenResolution.width,
@@ -121,9 +129,17 @@ void LevelBuilder::initializeEnemies() {
 void LevelBuilder::initializeWeapons() {
     LogManager::logDebug("Inicializando armas");
     Weapons weapons = Game::getInstance().getConfig()->gameplay.weapons;
+    Level level = Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
 
     for (int i = 0; i < weapons.tube.amount ; ++i) {
-        int x = rand() % (20001);
+        int x = 0;
+        if (level.name == "bay") {
+            x = rand() % (20001);  
+        } else if (level.name == "desert") {
+            x = rand() % (20001/2); 
+        } else {
+            x = rand() % (20001/2); 
+        }
         int y = 120 + rand() % (201 - 120);
         Game::getInstance().addGameComponent(new Game_Component(weapons.tube.sprite, x, y,
                 Game::getInstance().getRenderer(),
@@ -134,7 +150,14 @@ void LevelBuilder::initializeWeapons() {
 
     /* posiciones del cuchillos aleatoria en el rango del suelo */
     for (int i = 0; i < weapons.knife.amount; ++i) {
-        int x = rand() % (20001);
+        int x = 0;
+        if (level.name == "bay") {
+            x = rand() % (20001);  
+        } else if (level.name == "desert") {
+            x = rand() % (20001/2); 
+        } else {
+            x = rand() % (20001/2); 
+        }
         int y = 120 + rand() % (201 - 120);
         Game::getInstance().addGameComponent(new Game_Component(weapons.knife.sprite, x, y,
                 Game::getInstance().getRenderer(),
@@ -147,9 +170,17 @@ void LevelBuilder::initializeWeapons() {
 void LevelBuilder::initializeUtilities() {
     LogManager::logDebug("Inicializando utilidades");
     Utilities utilities = Game::getInstance().getConfig()->gameplay.utilities;
+    Level level = Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
 
     for (int i = 0; i < utilities.barrel.amount; ++i) {
-        int x = rand() % (20001 );
+        int x = 0;
+        if (level.name == "bay") {
+            x = rand() % (20001);  
+        } else if (level.name == "desert") {
+            x = rand() % (20001/2); 
+        } else {
+            x = rand() % (20001/2); 
+        }
         int y = 120 + rand() % (201 - 120);
         Game::getInstance().addGameComponent(new Game_Component(utilities.barrel.sprite, x, y,
                 Game::getInstance().getRenderer(),
@@ -159,7 +190,14 @@ void LevelBuilder::initializeUtilities() {
     }
 
     for (int i = 0; i < utilities.box.amount; ++i) {
-        int x = rand() % (20001);
+        int x = 0;
+        if (level.name == "bay") {
+            x = rand() % (20001);  
+        } else if (level.name == "desert") {
+            x = rand() % (20001/2); 
+        } else {
+            x = rand() % (20001/2); 
+        }
         int y = 120 + rand() % (201 - 120);
         Game::getInstance().addGameComponent(new Game_Component(utilities.box.sprite, x, y,
                 Game::getInstance().getRenderer(),
