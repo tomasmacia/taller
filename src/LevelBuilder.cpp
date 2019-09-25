@@ -30,6 +30,9 @@ void LevelBuilder::initialize() {
     LogManager::logDebug(&"Incializando NIVEL " [currentLevel]);
     srand(time(nullptr));
 
+    // destroy everything from previous level
+    Game::getInstance().destroyLevelObjects();
+
     initializeWorld();
     initializePlayers();
     initializeEnemies();

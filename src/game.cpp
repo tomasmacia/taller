@@ -65,19 +65,19 @@ void Game::initSDL() {
 }
 
 
-void Game::UpdateAtras(vector <Game_Component*> vector) {
-     for (int i = 0; i < vector.size();i++){
-        if(character->GetPosY() >= vector[i]->GetPosY()){
-            vector[i]->updateImage();
+void Game::UpdateAtras(vector<Game_Component*> vector) {
+     for (auto &objeto : vector) {
+        if (character->GetPosY() >= objeto->GetPosY()) {
+            objeto->updateImage();
         }
     }
 }
 
 
-void Game::UpdateDelante(vector <Game_Component*> vector) {
-     for (int i = 0; i < vector.size();i++){
-        if(character->GetPosY() < vector[i]->GetPosY()){
-            vector[i]->updateImage();
+void Game::UpdateDelante(vector<Game_Component*> vector) {
+     for (auto &objeto : vector) {
+        if (character->GetPosY() < objeto->GetPosY()) {
+            objeto->updateImage();
         }
     }
 }
@@ -90,8 +90,7 @@ void Game::start() {
     LevelBuilder levelBuilder;
     this->hasNextLevel = true;
 
-    //loop hasta que se aprete ESC o click en (X)
-    /* Veo qu se esta apretando */
+
     while (isRunning && hasNextLevel) {
         this->hasNextLevel = levelBuilder.loadNext();
         this->levelFinished = false;
@@ -142,8 +141,8 @@ void Game::move_all(){
    
    floor->move();
 
-   for (int i = 0; i < obj_escenario.size();i++) {
-       obj_escenario[i]->move();
+   for (auto &objeto : obj_escenario) {
+       objeto->move();
    }
 
    overlay->move();
@@ -163,89 +162,13 @@ void Game::pj_in_final(){
     character->change_limits();
     //le aviso a los obj_escenario que ya no se muevan al llegar
     //cody al final de la pantalla
-    for (int i = 0; i < obj_escenario.size();i++){
-        obj_escenario[i]->moverse=false;
+    for (auto &objeto : obj_escenario){
+        objeto->moverse = false;
     }
 }
 
 
 void Game::level1(int enemy, int cajas,int barril, int tubos,int knifes,int width,int heigth) {
-
-    /* Background */
-    floorSprites.push_back("resources/sprites/FF_Stage4_floor1.png");
-    floorSprites.push_back("resources/sprites/FF_Stage4_floor2.png");
-    floorSprites.push_back("resources/sprites/FF_Stage4_floor3.png");
-    floorSprites.push_back("resources/sprites/FF_Stage4_floor4.png");
-    floorSprites.push_back("resources/sprites/FF_Stage4_floor5.png");
-    floorSprites.push_back("resources/sprites/FF_Stage4_floor6.png");
-    /* Far Background */
-    farSprites.push_back("resources/sprites/FF_Stage4_back1.png");
-    farSprites.push_back("resources/sprites/FF_Stage4_back2.png");
-    farSprites.push_back("resources/sprites/FF_Stage4_back3.png");
-    farSprites.push_back("resources/sprites/FF_Stage4_back4.png");
-    farSprites.push_back("resources/sprites/FF_Stage4_back5.png");
-    farSprites.push_back("resources/sprites/FF_Stage4_back6.png");
-    /* Middle Background */
-  /*  middleSprites.push_back("resources/sprites/barcos0.png");
-    middleSprites.push_back("resources/sprites/barcos1.png");
-    middleSprites.push_back("resources/sprites/barcos0.png");
-    middleSprites.push_back("resources/sprites/barcos1.png");
-    middleSprites.push_back("resources/sprites/barcos0.png");
-    middleSprites.push_back("resources/sprites/barcos1.png");*/
-    /* Postes */
-    overlaySprites.push_back("resources/sprites/FF_Stage4_overlay1.png");
-    overlaySprites.push_back("resources/sprites/FF_Stage4_overlay2.png");
-    overlaySprites.push_back("resources/sprites/FF_Stage4_overlay3.png");
-    overlaySprites.push_back("resources/sprites/FF_Stage4_overlay4.png");
-    overlaySprites.push_back("resources/sprites/FF_Stage4_overlay5.png");
-    overlaySprites.push_back("resources/sprites/FF_Stage4_overlay6.png");
-
-/* Creo objetos */
-    int pos_x, pos_y;
-    srand(time(NULL));
-    /* posiciones del barril aleatoria en el rango del suelo */
-
-    for (int  i = 0; i < barril; i++)
-    {
-        pos_x =rand()%(20001 );
-        pos_y = 120 +rand() % (201 - 120);
-        obj_escenario.push_back(new Game_Component("resources/sprites/barril.png",pos_x, pos_y,renderer,width,heigth,false,1));
-    }
-    /* posiciones del cajas aleatoria en el rango del suelo */
-    for (int  i = 0; i < cajas; i++)
-    {
-        pos_x =rand()%(20001);
-        pos_y = 120 +rand() % (201 - 120);
-        obj_escenario.push_back(new Game_Component("resources/sprites/caja.png",pos_x, pos_y,renderer,width,heigth,false,1));
-    }
-    /* posiciones del tubos aleatoria en el rango del suelo */
-    for (int  i = 0; i < tubos; i++)
-    {
-        pos_x =rand()%(20001);
-        pos_y = 120 +rand() % (201 - 120);
-        obj_escenario.push_back(new Game_Component("resources/sprites/tube.png",pos_x, pos_y,renderer,width,heigth,false,1));
-    }
-    /* posiciones del cuchillos aleatoria en el rango del suelo */
-    for (int  i = 0; i < knifes; i++)
-    {
-        pos_x =rand()%(20001);
-        pos_y = 120 +rand() % (201 - 120);
-        obj_escenario.push_back(new Game_Component("resources/sprites/knife1.png",pos_x, pos_y,renderer,width,heigth,false,1));
-    }
-
-    /*  Sort por pos Y de objetos*/
-    //sort(obj_escenario.begin(), obj_escenario.end(),[](Object* i1, Object* i2){return (i1->GetPosY() < i2->GetPosY());});
-
-   
-    /* posiciones de los enemigos aleatorios en el rango del suelo */
-    for (int i=0; i < enemy; i++)
-    {
-        pos_x = -1000 + rand()%(20001 + 1000);
-        pos_y = 120 +rand() %(201 - 120);
-        obj_escenario.push_back(new Game_Component("resources/sprites/enemy_walk.png",pos_x, pos_y, renderer, width, heigth,true,5));
-    }
-     /*  Sort por pos Y*/
-    sort(obj_escenario.begin(), obj_escenario.end(),[](Game_Component* i1, Game_Component* i2){return (i1->GetPosY() < i2->GetPosY());});
     
     //solo existe una clase back, a los backs de fondo no les sirve pasarle game pero
     //se los paso por paja, para no hacer otro constructor. Solo el de lvl 1 usa el game para
@@ -260,7 +183,7 @@ void Game::level1(int enemy, int cajas,int barril, int tubos,int knifes,int widt
 }
 
 void Game::level2(int enemy, int cajas,int barril, int tubos,int knifes,int width,int heigth){
-    /*  // Coloco pantalla en rojo y espero 1 sec
+    /*Coloco pantalla en rojo y espero 1 sec
       SDL_SetRenderDrawColor(_gwindow->render, 255, 0, 0, 255);
       SDL_Rect rectangle;
       rectangle.x = 0;
@@ -269,34 +192,9 @@ void Game::level2(int enemy, int cajas,int barril, int tubos,int knifes,int widt
       rectangle.h = heigth;
       SDL_RenderFillRect(_gwindow->render, &rectangle);
       _gwindow->updateWindow();
-      SDL_Delay(1000);
+      SDL_Delay(1000);*/
 
 
-
-      floor->~Background();
-      back->~Background();
-    //  middle->~Background();
-      front->~Background();*/
-
-    /* Background */
-    floorSprites.push_back("resources/sprites/Final_Fight3-1.png");
-    floorSprites.push_back("resources/sprites/Final_Fight3-2.png");
-    floorSprites.push_back("resources/sprites/Final_Fight3-3.png");
-    /* Far Background */
-    farSprites.push_back("resources/sprites/background1-1.png");
-    farSprites.push_back("resources/sprites/background1-2.png");
-
-    /* Middle Background */
-    /*  middleSprites.push_back("resources/sprites/barcos0.png");
-      middleSprites.push_back("resources/sprites/barcos1.png");
-      middleSprites.push_back("resources/sprites/barcos0.png");
-      middleSprites.push_back("resources/sprites/barcos1.png");
-      middleSprites.push_back("resources/sprites/barcos0.png");
-      middleSprites.push_back("resources/sprites/barcos1.png");*/
-    /* valla*/
-    overlaySprites.push_back("resources/sprites/front.png");
-    overlaySprites.push_back("resources/sprites/front2.png");
-    overlaySprites.push_back("resources/sprites/front3.png");
 
 
 
@@ -307,23 +205,30 @@ void Game::level2(int enemy, int cajas,int barril, int tubos,int knifes,int widt
     character = new Character(this,width,heigth,renderer);
 }
 
-void Game::destroy() {
-    //limpio vectores de escenario
+void Game::destroyLevelObjects() {
     middleSprites.clear();
     overlaySprites.clear();
     obj_escenario.clear();
     floorSprites.clear();
     farSprites.clear();
-    floor->~Background();
-    //  delete(floor);
-    far->~Background();
-    // delete(middle);
-    //middle->~Background();
-    // delete(back);
-    character->~Character();
-    //   delete(character);
 
-    delete logger;
+    delete(floor);
+    delete(middle);
+    delete(far);
+    delete(overlay);
+    delete(character);
+
+    for (auto &objeto : obj_escenario) {
+        delete(objeto);
+    }
+
+    obj_escenario.clear();
+}
+
+void Game::destroy() {
+    destroyLevelObjects();
+
+    delete(logger);
 
     SDL_DestroyWindow(this->window);
     SDL_DestroyRenderer(this->renderer);

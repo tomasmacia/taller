@@ -34,7 +34,7 @@ private:
     SDL_RendererFlip flip =SDL_FLIP_NONE;
     int  _x,_y,_w,_h,_w_window,_h_window;
     int _v_limit; //limite vertical de movimiento
-    int default_mov = 5;
+    int default_mov = 75;
     int cont=1,cont_acc = 1; //para cambio de imagen sprite
     const int change = 5;// constante para cambiar de imagen
     int cant_img_sprite = 1;//imagenes en una tira de sprite (default 1)

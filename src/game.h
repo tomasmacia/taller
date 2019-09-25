@@ -69,27 +69,22 @@ public:
     }
 
     void setCharacter(Character* pj) {
-        delete character;
         character = pj;
     }
 
     void setFarBackground(Background *farBackground) {
-        delete far;
         far = farBackground;
     }
 
     void setMiddleBackground(Background *middleBackground) {
-        delete middle;
         middle = middleBackground;
     }
 
     void setFloorBackground(Background *floorBackground) {
-        delete floor;
         floor = floorBackground;
     }
 
     void setOverlayBackground(Background *overlayBackground) {
-        delete overlay;
         overlay = overlayBackground;
     }
 
@@ -101,6 +96,8 @@ public:
     std::vector <string> middleSprites;
     std::vector <string> farSprites;
     std::vector <string> overlaySprites;
+
+    void destroyLevelObjects();
 
 
     // *******************************
