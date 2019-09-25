@@ -2,7 +2,9 @@
 #include "game.h"
 #include "character.h"
 
-Character::Character(class Game* _owner,int w, int h, SDL_Renderer* render):
+#include <utility>
+
+Character::Character(class Game* _owner,int w, int h, SDL_Renderer* render, std::vector<std::string> pathsToSprites):
     _render(render),
     owner(_owner),
     _x(w*.3 ), /*--> posicion x inicial*/ /*----> .3 y .66 son ctes que se  q sirven */
@@ -10,9 +12,9 @@ Character::Character(class Game* _owner,int w, int h, SDL_Renderer* render):
     _h(h*.66),/*-->heigth que debe tener*/
     _y(h*.3), /*--> posicion y inicial*/
     _h_window( h), /*-->width de window*/
-    _w_window( w)/*-->heigth de window*/{
-    _v_limit = ((_w_window)*.7)-(_w/2);  //Normalmente llega  ala mitad de la pantalla
-    _charge_vector();                               //y deberia empezar a moverse el fondo.
+    _w_window( w),/*-->heigth de window*/
+    path_img(std::move(pathsToSprites)) {
+    _v_limit = ((_w_window)*.7)-(_w/2);  //Normalmente llega  ala mitad de la pantalla y deberia empezar a moverse el fondo.
     _pos->x = _x;//
     _pos->y = _y;//---->Parametros y posicion donde va a estar 
     _pos->h = _h;//---->la imagen de cody.
@@ -327,21 +329,6 @@ void Character::moves_sprites(int n, int img_){
     }
 }
 
-
-void Character::_charge_vector(){
-    /* Cargo vector de sprites del personaje*/
-    /* Las posiciones de las imagenes son las mismas que el codigo de 
-    sus acciones/movimientos. */
-
-    path_img.push_back("resources/sprites/codyRgth.png");
-    path_img.push_back("resources/sprites/cody_jump.png");
-    path_img.push_back("resources/sprites/cody_punch.png");
-    path_img.push_back("resources/sprites/cody_agacharse.png");
-    path_img.push_back("resources/sprites/cody.png");
-    path_img.push_back("resources/sprites/kick jump.png");
-    path_img.push_back("resources/sprites/kick.png");
-
-}
 
 int Character::GetPosY(){
     return _y;

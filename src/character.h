@@ -1,8 +1,8 @@
 #ifndef CHARACTER_H_
 #define CHARACTER_H_
-#include "iostream"
+
 #include <SDL2/SDL.h>
-#include "string.h"
+#include <string>
 #include <vector>
 #include "game.h"
 
@@ -10,7 +10,7 @@ using namespace std;
 
 class Character {
 public:
-    Character(Game* _owner,int w, int h,SDL_Renderer* render);
+    Character(Game* _owner,int w, int h,SDL_Renderer* render, vector<string> pathsToSprites);
     ~Character();
     bool move(int option,int p);
     void updateImage();
@@ -26,7 +26,6 @@ private:
 
     Game* owner;
     vector<string> path_img;
-    void _charge_vector();
     void actions_sprites(int n, int img_);
     void moves_sprites(int n, int img_);
     void size();

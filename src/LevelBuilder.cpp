@@ -76,17 +76,34 @@ void LevelBuilder::initializeWorld() {
 
 void LevelBuilder::initializePlayers() {
     LogManager::logDebug("Inicializando PJ");
-    Game::getInstance().setCharacter(new Character(&Game::getInstance(),
-            Game::getInstance().getConfig()->screenResolution.width,
-            Game::getInstance().getConfig()->screenResolution.height,
-            Game::getInstance().getRenderer()));
+
+    for (auto &pj : Game::getInstance().getConfig()->gameplay.characters) {
+        std::vector<std::string> pathToPJSprites;
+
+        // TODO esto es un asco, luego refactorizar a un mapa enum a string
+        pathToPJSprites.push_back(pj.walk);
+        pathToPJSprites.push_back(pj.jump);
+        pathToPJSprites.push_back(pj.punch);
+        pathToPJSprites.push_back(pj.crouch);
+        pathToPJSprites.push_back(pj.stand);
+        pathToPJSprites.push_back(pj.jumpkick);
+        pathToPJSprites.push_back(pj.kick);
+
+        Game::getInstance().setCharacter(new Character(&Game::getInstance(),
+                Game::getInstance().getConfig()->screenResolution.width,
+                Game::getInstance().getConfig()->screenResolution.height,
+                Game::getInstance().getRenderer(),
+                pathToPJSprites));
+
+        LogManager::logDebug("Jugador inicializado");
+    }
 }
 
 void LevelBuilder::initializeEnemies() {
     LogManager::logDebug("Inicializando enemigos");
     vector<NPC> enemies = Game::getInstance().getConfig()->gameplay.npcs;
 
-    for (auto enemy : enemies) {
+    for (auto &enemy : enemies) {
         int x = -1000 + rand() % (20001 + 1000);
         int y = 120 + rand() % (201 - 120);
         Game::getInstance().addGameComponent(new Game_Component(enemy.walk, x, y, Game::getInstance().getRenderer(),
