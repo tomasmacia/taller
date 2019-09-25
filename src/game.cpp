@@ -245,6 +245,7 @@ void Game::loadHotkeys(Config* config){
     Events::addHotkey(stringToScancode(config->bindings.LEFT),LEFT);
     Events::addHotkey(stringToScancode(config->bindings.RIGHT),RIGHT);
     Events::addHotkey(stringToScancode(config->bindings.UP),UP);
+    Events::addHotkey(SDL_SCANCODE_ESCAPE,QUIT);
     //Events::addHotkey(stringToScancode(config->bindings.JUMP_KICK),JUMP_KICK);
     //Events::addHotkey(stringToScancode(config->bindings.KICK),KICK);
 };
@@ -252,6 +253,7 @@ void Game::loadHotkeys(Config* config){
 SDL_Scancode Game::stringToScancode(std::string s){
 
     //Wellcome to hell
+
     if ((s == "A") or (s == "a")){
         return SDL_SCANCODE_A;
     };
@@ -345,9 +347,6 @@ SDL_Scancode Game::stringToScancode(std::string s){
     if ((s == "ALT") or (s == "LALT")){
         return SDL_SCANCODE_LALT;
     };
-    if ((s == "RALT") or ("ALTGR")){
-        return SDL_SCANCODE_RALT;
-    };
     if (s == "SPACE"){
         return SDL_SCANCODE_SPACE;
     };
@@ -360,37 +359,44 @@ SDL_Scancode Game::stringToScancode(std::string s){
     if (s == "RIGHT"){
         return SDL_SCANCODE_RIGHT;
     };
+    if (s == "DOWN"){
+        return SDL_SCANCODE_DOWN;
+    };
     if (s == "1"){
-        return SDL_SCANCODE_1;
+        return SDL_SCANCODE_KP_1;
     };
     if (s == "2"){
-        return SDL_SCANCODE_2;
+        return SDL_SCANCODE_KP_2;
     };
     if (s == "3"){
-        return SDL_SCANCODE_3;
+        return SDL_SCANCODE_KP_3;
     };
     if (s == "4"){
-        return SDL_SCANCODE_4;
+        return SDL_SCANCODE_KP_4;
     };
     if (s == "5"){
-        return SDL_SCANCODE_5;
+        return SDL_SCANCODE_KP_5;
     };
     if (s == "6"){
-        return SDL_SCANCODE_6;
+        return SDL_SCANCODE_KP_6;
     };
     if (s == "7"){
-        return SDL_SCANCODE_7;
+        return SDL_SCANCODE_KP_7;
     };
     if (s == "8"){
-        return SDL_SCANCODE_8;
+        return SDL_SCANCODE_KP_8;
     };
     if (s == "9"){
-        return SDL_SCANCODE_9;
+        return SDL_SCANCODE_KP_9;
     };
     if (s == "0"){
-        return SDL_SCANCODE_0;
+        return SDL_SCANCODE_KP_0;
     };
     if (s == "ENTER"){
         return SDL_SCANCODE_RETURN;
     };
+    if ((s == "RALT") or ("ALTGR")){
+        return SDL_SCANCODE_RALT;
+    };
+    return SDL_SCANCODE_WWW;
 };
