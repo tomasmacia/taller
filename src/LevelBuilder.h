@@ -19,6 +19,8 @@ private:
     void initializeUtilities();
     void initializeWeapons();
 
+    std::vector<float> getParallaxSpeedPerLevel();
+
     int currentLevel;
     int totalLevels;
 };

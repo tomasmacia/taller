@@ -53,25 +53,28 @@ void LevelBuilder::initializeWorld() {
     Game::getInstance().setFarSprites(Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1).far);
     Game::getInstance().setOverlaySprites(Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1).overlay);
 
+    std::vector<float> parallaxSpeeds = getParallaxSpeedPerLevel();
+
     Game::getInstance().setFarBackground(new Background(Game::getInstance().farSprites,
             Game::getInstance().getConfig()->screenResolution.height,
             Game::getInstance().getConfig()->screenResolution.width,
-            Game::getInstance().getRenderer(), &Game::getInstance(), 0.063, 3)); //0.063
-
-    Game::getInstance().setFloorBackground(new Background(Game::getInstance().floorSprites,
-            Game::getInstance().getConfig()->screenResolution.height,
-            Game::getInstance().getConfig()->screenResolution.width,
-            Game::getInstance().getRenderer(), &Game::getInstance(), 0.5, 1)); //0.5
+            Game::getInstance().getRenderer(), &Game::getInstance(), parallaxSpeeds.at(0), 3)); //0.063
 
 //    Game::getInstance().setMiddleBackground(new Background(Game::getInstance().middleSprites,
 //            Game::getInstance().getConfig()->screenResolution.height,
 //            Game::getInstance().getConfig()->screenResolution.width,
-//            Game::getInstance().getRenderer(), &Game::getInstance(), 0.25, 3)); //0.25
+//            Game::getInstance().getRenderer(), &Game::getInstance(), parallaxSpeeds.at(1), 3)); //0.25
 
-    Game::getInstance().setOverlayBackground(new Background(Game::getInstance().overlaySprites,
+    Game::getInstance().setFloorBackground(new Background(Game::getInstance().floorSprites,
             Game::getInstance().getConfig()->screenResolution.height,
             Game::getInstance().getConfig()->screenResolution.width,
-            Game::getInstance().getRenderer(), &Game::getInstance(), 0.5, 4)); //0.5
+            Game::getInstance().getRenderer(), &Game::getInstance(), parallaxSpeeds.at(2), 1)); //0.5
+
+    Game::getInstance().setOverlayBackground(new Background(Game::getInstance().overlaySprites,
+
+            Game::getInstance().getConfig()->screenResolution.height,
+            Game::getInstance().getConfig()->screenResolution.width,
+            Game::getInstance().getRenderer(), &Game::getInstance(), parallaxSpeeds.at(3), 4)); //0.5
 }
 
 void LevelBuilder::initializePlayers() {
@@ -162,4 +165,19 @@ void LevelBuilder::initializeUtilities() {
                 Game::getInstance().getConfig()->screenResolution.height, false, 1)); // HARDCODED 1
         LogManager::logDebug("Agregada caja");
     }
+}
+
+std::vector<float> LevelBuilder::getParallaxSpeedPerLevel() {
+    std::vector<float> speeds;
+    Level level = Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
+
+    if (level.name == "bay") {
+        speeds = {0.063, 0.25, 0.5, 0.5};
+    } else if (level.name == "desert") {
+        speeds = {0.095, 0.25, 0.5, 0.5};
+    } else {
+        speeds = {0.13, 0.25, 0.5, 0.6};
+    }
+
+    return speeds;
 }
