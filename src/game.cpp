@@ -74,9 +74,9 @@ void Game::runLoop(int width, int heigth)
 
             _gwindow->updateWindow();
             
-            current = 1000/(-fps_last+SDL_GetTicks());// No 
-            fps_last =SDL_GetTicks();//                   Son
-            fpsChanged(current);///                      Importantes*/
+            current = 1000 / ( (Uint32) SDL_GetTicks() - fps_last);
+            fps_last = (Uint32) SDL_GetTicks();
+            fpsChanged(current);
         }
             
     this->~Game(); 

@@ -1,12 +1,12 @@
-using namespace std; 
-
-#include <iostream> 
-#include "game.h"
-
+#include <iostream>
 #include <string>
+
+#include "game.h"
 #include "parser/xmlparser.h"
 
-  
+using namespace std;
+
+
 int main(int argc, const char** argv) {
     string pathToFile;
 
@@ -22,8 +22,7 @@ int main(int argc, const char** argv) {
     cout << "There are " << config.gameplay.levels.size() << " levels in the game" << endl;
     cout << "Logger level set in " << config.loggerLevel << endl;
 
-
    Game* game = new Game (800,600);
 
     return 0;
-} 
+}

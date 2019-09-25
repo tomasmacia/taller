@@ -40,6 +40,9 @@ bool Events::keyboard_event()
                     down = true;
                     return false;
                 case SDL_SCANCODE_LCTRL:
+                //Aviso si se presiona rigth o left antes de saltar
+                    if (rigth){_cody->mov_jump(0);}
+                    if (left) {_cody->mov_jump(1);}
                     _cody->move(1,-1);
                     return false;
                 case SDL_SCANCODE_X:
@@ -47,6 +50,15 @@ bool Events::keyboard_event()
                     return false;
                 case SDL_SCANCODE_Z:
                    _cody->move(3,-1);
+                    return false;
+                case SDL_SCANCODE_C:
+                  //Aviso si se presiona rigth o left antes de salta
+                if (rigth){ _cody->mov_jump(0);}
+                if (left) {_cody->mov_jump(1);}
+                    _cody->move(5,-1);
+                    return false;
+                case SDL_SCANCODE_A:
+                    _cody->move(6,-1);    
                     return false;
                 default:
                     return false;

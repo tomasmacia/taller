@@ -12,6 +12,7 @@ using namespace std;
 class NPC {
 public:
     string difficulty; // maybe map it as an enum?
+    string walk;
 };
 
 #endif //GAME_NPC_H
