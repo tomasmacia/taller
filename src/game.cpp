@@ -219,9 +219,10 @@ void Game::loadHotkeys(Config* config){
     Events::addHotkey(stringToScancode(config->bindings.LEFT),LEFT);
     Events::addHotkey(stringToScancode(config->bindings.RIGHT),RIGHT);
     Events::addHotkey(stringToScancode(config->bindings.UP),UP);
+    
     Events::addHotkey(SDL_SCANCODE_ESCAPE,QUIT);
-    //Events::addHotkey(stringToScancode(config->bindings.JUMP_KICK),JUMP_KICK);
-    //Events::addHotkey(stringToScancode(config->bindings.KICK),KICK);
+    Events::addHotkey(stringToScancode(config->bindings.JUMPKICK),JUMP_KICK);
+    Events::addHotkey(stringToScancode(config->bindings.KICK),KICK);
 };
 
 SDL_Scancode Game::stringToScancode(std::string s){
