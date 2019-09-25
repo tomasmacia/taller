@@ -41,11 +41,12 @@ private:
     int default_mov = 5;
 
     //PARA SALTO CON VELOCIDAD VARIABLE
-    int default_mov_salto = 1; 
-    int cant_altura_de_salto_max = -13*2*default_mov_salto; //el 13 es por la cantidad de sprites del salto de cody 
-    int cant_a_desplazarse_saltando = cant_altura_de_salto_max;
-    int valor_de_y_justo_antes_del_salto = 0;
-    int valor_loop_previo = 0;
+    float cant_altura_de_salto_max = -15; //el 13 es por la cantidad de sprites del salto de cody 
+    float cant_a_desplazarse_saltando = cant_altura_de_salto_max;
+    float velocidad_animacion_salto = 3;
+    float default_mov_salto = -2*cant_altura_de_salto_max/(velocidad_animacion_salto*13 -1); 
+    float valor_de_y_justo_antes_del_salto = 0;
+    float valor_loop_previo = 0;
     int contador_saltar = 0;
 
     int cont=1,cont_acc = 1; //para cambio de imagen sprite
