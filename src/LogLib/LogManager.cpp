@@ -1,5 +1,6 @@
 #include "LogManager.h"
 #include "Logger.h"
+#include "DebugLogger.h"
 #include <fstream>
 
 Logger* LogManager::loggerToBeUsed;
@@ -10,14 +11,29 @@ void LogManager::setStaticLogger(Logger* logger){
     loggerToBeUsed = logger;
 };
 
-void LogManager::setStaticLogPath(std::string path){
-    if(LogManager::pathHasBeenSet){
+void LogManager::setStaticLogPath(std::string path) {
+    if (LogManager::pathHasBeenSet) {
         LogManager::file.close();
+        file.open(path, std::fstream::app);
+    } else {
+        file.open(path);
+        file << "//****************** LOGGER ******************//" << std::endl;
+        LogManager::pathHasBeenSet = true;
+    }
+};
+
+Logger* LogManager::createLoggerFromLevel(const std::string& level) {
+    Logger* logger;
+    if (level == "DEBUG") {
+        logger = new DebugLogger();
+    } else if (level == "INFO") {
+        logger = new InfoLogger();
+    } else {
+        logger = new ErrorLogger();
     }
 
-    file.open(path);
-    LogManager::pathHasBeenSet = true;
-};
+    return logger;
+}
 
 void LogManager::logError(std::string message){
     loggerToBeUsed->logError(message);

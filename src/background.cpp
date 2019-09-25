@@ -9,7 +9,9 @@ Background::Background( vector <string> g, int h,int w, SDL_Renderer* render, Ga
    if (lvl_parallax==3){
        _h = _h*0.8125;
    }
-    nextBackground(g1[cont].c_str());
+   if (!g1.empty()) { // TODO check
+       nextBackground(g1[cont].c_str());
+   }
     _w=(w*(_image->clip_rect.h))/_h;
     _pos->x=0;           // _pos me indica en que parte de la ventana quiero colocar la imagen   
     _pos->y= 0;          //  (cortada via eleccion de rect). En este caso quiero colocarla en 
@@ -57,8 +59,8 @@ void Background::nextBackground(const std::string &image_path){
     si no las encuentra. */
     cont++;
     if ((_image = IMG_Load(image_path.c_str()))==NULL){
-        std::cerr <<  "No pudo cargar imagen.\n";
-        std::cerr << "Se carga imagen por default\n";
+        LogManager::logError("No se pudo cargar el sprite del fondo");
+        LogManager::logDebug("Se carga una imagen por defecto al no encontrar el sprite del fondo.");
         _image = SDL_CreateRGBSurface(0, _w_window, _h, 32, 0, 0, 0, 0);
         SDL_Rect d;
         if (lvl_parallax == 1 or 4){

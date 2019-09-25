@@ -2,7 +2,9 @@
 #include "game.h"
 #include "character.h"
 
-Character::Character(class Game* _owner,int w, int h, SDL_Renderer* render):
+#include <utility>
+
+Character::Character(class Game* _owner,int w, int h, SDL_Renderer* render, std::vector<std::string> pathsToSprites):
     _render(render),
     owner(_owner),
     _x(w*.3 ), /*--> posicion x inicial*/ /*----> .3 y .66 son ctes que se  q sirven */
@@ -10,9 +12,9 @@ Character::Character(class Game* _owner,int w, int h, SDL_Renderer* render):
     _h(h*.66),/*-->heigth que debe tener*/
     _y(h*.3), /*--> posicion y inicial*/
     _h_window( h), /*-->width de window*/
-    _w_window( w)/*-->heigth de window*/{
-    _v_limit = ((_w_window)*.7)-(_w/2);  //Normalmente llega  ala mitad de la pantalla
-    _charge_vector();                               //y deberia empezar a moverse el fondo.
+    _w_window( w),/*-->heigth de window*/
+    path_img(std::move(pathsToSprites)) {
+    _v_limit = ((_w_window)*.7)-(_w/2);  //Normalmente llega  ala mitad de la pantalla y deberia empezar a moverse el fondo.
     _pos->x = _x;//
     _pos->y = _y;//---->Parametros y posicion donde va a estar 
     _pos->h = _h;//---->la imagen de cody.
@@ -21,7 +23,7 @@ Character::Character(class Game* _owner,int w, int h, SDL_Renderer* render):
     //Ancho y alto del personaje al iniciar es la misma (solo es 1 imagen por default)
     rect->w=_image->clip_rect.w;
     rect->h=_image->clip_rect.h;
-   
+    
 };
 
 bool Character::move(int option,int p){
@@ -226,45 +228,14 @@ void Character::sprite(){
  
 }
 
-void Character::actions_sprites(int n,int img_){
-    /* Cargo sprites de acciones */
-        /* Carga imagenes del sprite o muestra pantalliats azules donde
-    deberia estar el pj */
-    if (state == n){
-            cant_img_sprite = img_;
-            cont = 0;
-            spriteToload = 0;
-            SDL_FreeSurface(_image);
-            if ((_image = IMG_Load(path_img[n].c_str()))==NULL){
-                cant_img_sprite = 2;
-                std::cerr <<  "No pudo cargar imagen.\n";
-                std::cerr << "Se carga imagen default\n";
-                _image = SDL_CreateRGBSurface(0, 112, 125, 32, 0, 0, 0, 0);
-                SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 255, 255, 0));
-
-            }
-            //transparencia la contorno celeste
-            SDL_SetColorKey(_image, SDL_TRUE,
-            SDL_MapRGB(_image->format, 88,184,248));
-            //Cambio el estado a accion para que se complete
-            
-            if (state == 1 || state == 5){
-                state = 9;
-            }
-            else{
-                state = 8;
-            }
-
-            size();      
-    }
-}
-
 void Character::load_image_default(){
     /* Carga imagenes del sprite o muestra pantalliats azules donde
     deberia estar el pj */
     if ((_image = IMG_Load(path_img[4].c_str()))==NULL){
-        std::cerr <<  "No pudo cargar imagen.\n";
-        std::cerr << "Se carga imagen por default\n";
+        LogManager::logError("No se pudo cargar el sprite del personaje.");
+        LogManager::logDebug("Se carga una imagen amarilla por defecto al no encontrar el sprite del personaje.");
+//        std::cerr <<  "No pudo cargar imagen.\n";
+//        std::cerr << "Se carga imagen por default\n";
         _image = SDL_CreateRGBSurface(0, 56, 125, 32, 0, 0, 0, 0);
         SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 255, 255, 0));
             }
@@ -309,6 +280,38 @@ void Character::size(){
     _pos->w =_h*(rect->w)/_image->clip_rect.h;   
 }
 
+void Character::actions_sprites(int n,int img_){
+    /* Cargo sprites de acciones */
+        /* Carga imagenes del sprite o muestra pantalliats azules donde
+    deberia estar el pj */
+    if (state == n){
+        cant_img_sprite = img_;
+        cont = 0;
+        spriteToload = 0;
+        SDL_FreeSurface(_image);
+        if ((_image = IMG_Load(path_img[n].c_str()))==NULL) {
+            cant_img_sprite = 2;
+            LogManager::logError("No se pudo cargar el sprite del personaje.");
+            LogManager::logDebug("Se carga una imagen amarilla por defecto al no encontrar el sprite del personaje.");
+            _image = SDL_CreateRGBSurface(0, 112, 125, 32, 0, 0, 0, 0);
+            SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 255, 255, 0));
+
+        }
+        //transparencia la contorno celeste
+        SDL_SetColorKey(_image, SDL_TRUE,
+        SDL_MapRGB(_image->format, 88,184,248));
+
+        //Cambio el estado a accion para que se complete
+        if (state == 1 || state == 5) {
+            state = 9;
+        } else {
+            state = 8;
+        }
+
+        size();
+    }
+}
+
 void Character::moves_sprites(int n, int img_){
     /* cargo sprites de movimientos */
         /* Carga imagenes del sprite o muestra pantalliats azules donde
@@ -320,8 +323,8 @@ void Character::moves_sprites(int n, int img_){
             SDL_FreeSurface(_image);
             if ((_image = IMG_Load(path_img[n].c_str()))==NULL){
                 cant_img_sprite = 2;
-                std::cerr <<  "No pudo cargar imagen.\n";
-                std::cerr << "Se carga imagen por default\n";
+                LogManager::logError("No se pudo cargar el sprite del personaje.");
+                LogManager::logDebug("Se carga una imagen amarilla por defecto al no encontrar el sprite de movimiento del personaje.");
                 _image = SDL_CreateRGBSurface(0, 112, 125, 32, 0, 0, 0, 0);
                 SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 255, 255, 0));
             }
@@ -335,41 +338,11 @@ void Character::moves_sprites(int n, int img_){
 }
 
 
-void Character::_charge_vector(){
-    /* Cargo vector de sprites del personaje*/
-    /* Las posiciones de las imagenes son las mismas que el codigo de 
-    sus acciones/movimientos. */
-
-    path_img.push_back("resources/sprites/codyRgth.png");
-    path_img.push_back("resources/sprites/cody_jump.png");
-    path_img.push_back("resources/sprites/cody_punch.png");
-    path_img.push_back("resources/sprites/cody_agacharse.png");
-    path_img.push_back("resources/sprites/cody.png");
-    path_img.push_back("resources/sprites/kick jump.png");
-    path_img.push_back("resources/sprites/kick.png");
-
-}
-
 int Character::GetPosY(){
     return _y;
 }
 
 
-int Character::inFinal(){
-    if (_x > _w_window - _w)
-    {   
-        if (inlevel2){
-                owner->isRunning = false;
-                return 0;
-        }
-    return 0;
-/*
-        owner->level2(0,0,0,0,0,_w_window,_h_window);
-        
-        _y=(_h_window*.3);
-        _x=(_w_window*.3);
-        _v_limit = ((_w_window)*.7)-(_w/2);*/
-        
-    }
-    return 0;
+bool Character::inFinal(){
+    return _x > (_w_window - _w);
 }

@@ -1,6 +1,6 @@
 <config>
     <logger>
-        <level>DEBUG</level>
+        <level>ERROR</level>
     </logger>
     <bindings>
         <up>UP</up>
@@ -85,6 +85,8 @@
                 <punch>resources/sprites/cody_punch.png</punch>
                 <jump>resources/sprites/cody_jump.png</jump>
                 <crouch>resources/sprites/cody_agacharse.png</crouch>
+                <jumpkick>resources/sprites/kick jump.png</jumpkick>
+                <kick>resources/sprites/kick.png</kick>
             </character1>
         </characters>
         <npcs>

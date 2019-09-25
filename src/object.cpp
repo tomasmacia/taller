@@ -1,13 +1,14 @@
 #include "object.h"
 #include "iostream"
+#include "LogLib/LogManager.h"
 #include <SDL2/SDL_image.h>
 
 Object::Object(const std::string &image_path, int x,int y, SDL_Renderer* render, int wide,int heigth):
     _x(x), _y(y),_render(render),_wide(wide) {
     if ((_image = IMG_Load(image_path.c_str()))==NULL){
         /* Carga la imagen o carga pantallitas azules donde deberian estar los objetos */
-        std::cerr <<  "No pudo cargar imagen.\n";
-        std::cerr << "Se carga imagen por default\n";
+        LogManager::logError("No se pudo cargar el sprite del objeto.");
+        LogManager::logDebug("Se carga una imagen azul por defecto al no encontrar el sprite del objeto.");
         _image = SDL_CreateRGBSurface(0, 56, 125, 32, 0, 0, 0, 0);
         SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 0, 0, 255));
             } 

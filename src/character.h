@@ -1,8 +1,8 @@
 #ifndef CHARACTER_H_
 #define CHARACTER_H_
-#include "iostream"
+
 #include <SDL2/SDL.h>
-#include "string.h"
+#include <string>
 #include <vector>
 #include "game.h"
 
@@ -10,12 +10,13 @@ using namespace std;
 
 class Character {
 public:
-    Character(Game* _owner,int w, int h,SDL_Renderer* render);
+    Character(Game* _owner,int w, int h,SDL_Renderer* render, vector<string> pathsToSprites);
     ~Character();
     bool move(int option,int p);
     void updateImage();
     void change_limits();
     int GetPosY();
+    bool inFinal();
     void setFlip(SDL_RendererFlip _flip) { flip = _flip;}
     void load_image_default(); // luego de una accion cargo sprite default   
     void mov_jump(int me_estoy_moviendo);
@@ -25,19 +26,18 @@ private:
 
     Game* owner;
     vector<string> path_img;
-    void _charge_vector();
     void actions_sprites(int n, int img_);
     void moves_sprites(int n, int img_);
     void size();
     void sprite();
-    int inFinal();
     void saltoParabolico();
- 
+
     bool rgth = false, lft = false; //para hacer salto parabolico o no
     bool inlevel2 = true;
     SDL_RendererFlip flip =SDL_FLIP_NONE;
     int  _x,_y,_w,_h,_w_window,_h_window;
     int _v_limit; //limite vertical de movimiento
+
     int default_mov = 5;
 
     //PARA SALTO CON VELOCIDAD VARIABLE

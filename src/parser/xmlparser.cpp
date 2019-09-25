@@ -1,28 +1,28 @@
 #include "xmlparser.h"
 #include "config/config.h"
 #include "config/characterxml.h"
+#include "../LogLib/LogManager.h"
 #include <tinyxml2.h>
-#include <iostream>
 #include <string>
 #include <vector>
 using namespace std;
 using namespace tinyxml2;
 
 
-Config XMLParser::parse(string pathToConfig) {
-    cout << pathToConfig << " is the path to the config file." << endl;
+Config* XMLParser::parse(string pathToConfig) {
+    LogManager::logDebug(pathToConfig + " is the path to the config file.");
     XMLDocument doc;
     loadFile(&doc, pathToConfig);
 
     XMLDocument docDefault;
     loadFile(&docDefault, DEFAULT_CONFIG_PATH);
 
-    Config config;
+    Config* config = nullptr;
 
     try {
         config = mapXMLDocumentToConfig(&doc, &docDefault);
     } catch(string& msg) {
-        cerr << "There was an error loading default config" << endl;
+        LogManager::logError("There was an error loading default config --> " + msg);
     }
 
     return config;
@@ -36,22 +36,22 @@ XMLError XMLParser::loadFile(XMLDocument *doc, string pathToConfig) {
         XMLError defaultResult = doc->LoadFile(DEFAULT_CONFIG_PATH);
 
         if (defaultResult != XML_SUCCESS) { // TODO what should we do here?
-            cerr << "Default config file located in " << DEFAULT_CONFIG_PATH << " could not be loaded" << endl;
+            LogManager::logError("Default config file located in " + string(DEFAULT_CONFIG_PATH) + " could not be loaded");
             return defaultResult;
         }
 
         if (pathToConfig.empty()) {
-            cout << "Default config file not specified, using default config located in " << DEFAULT_CONFIG_PATH << endl;
+            LogManager::logInfo("Default config file not specified, using default config located in " + string(DEFAULT_CONFIG_PATH));
         } else {
-            cout << "Config file specified located in " << pathToConfig <<
-            " could not be loaded. Using default config located in " << DEFAULT_CONFIG_PATH << endl;
+            LogManager::logInfo("Config file specified located in " + pathToConfig +
+            " could not be loaded. Using default config located in " + string(DEFAULT_CONFIG_PATH));
         }
     }
 
     return eResult;
 }
 
-Config XMLParser::mapXMLDocumentToConfig(XMLDocument *doc, XMLDocument *docDefault) {
+Config* XMLParser::mapXMLDocumentToConfig(XMLDocument *doc, XMLDocument *docDefault) {
     XMLElement *configElement = nullptr;
     XMLElement *defaultConfigElement = nullptr;
     if (doc == nullptr && docDefault == nullptr) {
@@ -67,16 +67,16 @@ Config XMLParser::mapXMLDocumentToConfig(XMLDocument *doc, XMLDocument *docDefau
     }
 
     if (configElement == nullptr) {
-        cerr << "Error reading config from XML. Using default config" << endl;
+        LogManager::logError("Error reading config from XML. Using default config");
         configElement = defaultConfigElement; // do not try to create modules later from null, use default directly
     }
 
-    Config config;
+    auto* config = new Config();
 
-    config.loggerLevel = wrapperLoggerModule(configElement, defaultConfigElement);
-    config.bindings = wrapperBindingsModule(configElement, defaultConfigElement);
-    config.screenResolution = wrapperScreenResolutionModule(configElement, defaultConfigElement);
-    config.gameplay = wrapperGameplayModule(configElement, defaultConfigElement);
+    config->loggerLevel = wrapperLoggerModule(configElement, defaultConfigElement);
+    config->bindings = wrapperBindingsModule(configElement, defaultConfigElement);
+    config->screenResolution = wrapperScreenResolutionModule(configElement, defaultConfigElement);
+    config->gameplay = wrapperGameplayModule(configElement, defaultConfigElement);
 
 
     return config;
@@ -87,7 +87,7 @@ string XMLParser::wrapperLoggerModule(XMLElement *config, XMLElement *defaultCon
     try {
         loggerLevel = getLoggerLevel(config);
     } catch(string& msg) {
-        cerr << msg << endl;
+        LogManager::logDebug(msg);
         loggerLevel = getLoggerLevel(defaultConfig);
     }
 
@@ -103,7 +103,7 @@ Bindings XMLParser::wrapperBindingsModule(XMLElement *config, XMLElement *defaul
     try {
         bindings = getBindings(config);
     } catch (string& msg) {
-        cerr << msg << endl;
+        LogManager::logDebug(msg);
         bindings = getBindings(defaultConfig);
     }
 
@@ -132,6 +132,7 @@ ScreenResolution XMLParser::wrapperScreenResolutionModule(XMLElement *config, XM
     try {
         screenResolution = getScreenResolution(config);
     } catch (string& msg) {
+        LogManager::logDebug(msg);
         screenResolution = getScreenResolution(defaultConfig);
     }
 
@@ -174,7 +175,7 @@ vector<Level> XMLParser::wrapperGameplayLevelsModule(XMLElement *gameplay, XMLEl
     try {
         levels = getGameplayLevels(gameplay);
     } catch (string& msg) {
-        cerr << msg << endl;
+        LogManager::logDebug(msg);
         levels = getGameplayLevels(defaultGameplay);
     }
 
@@ -193,7 +194,7 @@ vector<CharacterXML> XMLParser::wrapperGameplayCharactersModule(XMLElement *game
     try {
         characters = getGameplayCharacters(gameplay);
     } catch (string& msg) {
-        cerr << msg << endl;
+        LogManager::logDebug(msg);
         characters = getGameplayCharacters(defaultGameplay);
     }
 
@@ -212,7 +213,7 @@ vector<NPC> XMLParser::wrapperGameplayNPCSModule(XMLElement *gameplay, XMLElemen
     try {
         npcs = getGameplayNPCS(gameplay);
     } catch (string& msg) {
-        cerr << msg << endl;
+        LogManager::logDebug(msg);
         npcs = getGameplayNPCS(defaultGameplay);
     }
 
@@ -234,6 +235,8 @@ CharacterXML XMLParser::mapCharacter(XMLElement *characters, const string curren
     character.jump = getSafeValueFromElement(characters, {currentChildName.c_str(), "jump"}, charArrayToString, "characters");
     character.punch = getSafeValueFromElement(characters, {currentChildName.c_str(), "punch"}, charArrayToString, "characters");
     character.crouch = getSafeValueFromElement(characters, {currentChildName.c_str(), "crouch"}, charArrayToString, "characters");
+    character.kick = getSafeValueFromElement(characters, {currentChildName.c_str(), "kick"}, charArrayToString, "characters");
+    character.jumpkick = getSafeValueFromElement(characters, {currentChildName.c_str(), "jumpkick"}, charArrayToString, "characters");
 
     return character;
 }
@@ -291,7 +294,7 @@ Weapons XMLParser::wrapperGameplayWeaponsModule(XMLElement *gameplay, XMLElement
     try {
         weapons = getGameplayWeapons(gameplay);
     } catch (string& msg) {
-        cerr << msg << endl;
+        LogManager::logDebug(msg);
         weapons = getGameplayWeapons(defaultGameplay);
     }
 
@@ -315,7 +318,7 @@ Utilities XMLParser::wrapperGameplayUtilitiesModule(XMLElement *gameplay, XMLEle
     try {
         utilities = getGameplayUtilities(gameplay);
     } catch (string& msg) {
-        cerr << msg << endl;
+        LogManager::logDebug(msg);
         utilities = getGameplayUtilities(defaultGameplay);
     }
 

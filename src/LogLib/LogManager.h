@@ -51,6 +51,13 @@ class LogManager{
          * Forces to write the message in the log file
          */
         void static writeLogFile(std::string message, std::string level);
+
+        /**
+         * Creates a new Logger from a logger level string
+         * @param level indicates one of DEBUG, INFO, ERROR
+         * @return pointer to a new Logger
+         */
+        static Logger *createLoggerFromLevel(const std::string& level);
 };
 
 #endif
