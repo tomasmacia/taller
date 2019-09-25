@@ -49,7 +49,7 @@ void LevelBuilder::initialize() {
 void LevelBuilder::initializeWorld() {
     LogManager::logDebug("Inicializando Fondos");
     Game::getInstance().setFloorSprites(Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1).floor);
-//    Game::getInstance().setMiddleSprites(Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1).middle);
+    Game::getInstance().setMiddleSprites(Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1).middle);
     Game::getInstance().setFarSprites(Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1).far);
     Game::getInstance().setOverlaySprites(Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1).overlay);
 
@@ -60,10 +60,12 @@ void LevelBuilder::initializeWorld() {
             Game::getInstance().getConfig()->screenResolution.width,
             Game::getInstance().getRenderer(), &Game::getInstance(), parallaxSpeeds.at(0), 3)); //0.063
 
-//    Game::getInstance().setMiddleBackground(new Background(Game::getInstance().middleSprites,
-//            Game::getInstance().getConfig()->screenResolution.height,
-//            Game::getInstance().getConfig()->screenResolution.width,
-//            Game::getInstance().getRenderer(), &Game::getInstance(), parallaxSpeeds.at(1), 3)); //0.25
+    if (!Game::getInstance().middleSprites.empty()) {
+        Game::getInstance().setMiddleBackground(new Background(Game::getInstance().middleSprites,
+                                                               Game::getInstance().getConfig()->screenResolution.height,
+                                                               Game::getInstance().getConfig()->screenResolution.width,
+                                                               Game::getInstance().getRenderer(), &Game::getInstance(), parallaxSpeeds.at(1), 3)); //0.25
+    }
 
     Game::getInstance().setFloorBackground(new Background(Game::getInstance().floorSprites,
             Game::getInstance().getConfig()->screenResolution.height,

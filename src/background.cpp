@@ -95,5 +95,5 @@ void Background::nextBackground(const std::string &image_path){
 }
 
 Background::~Background(){
-    SDL_DestroyTexture(_texture);
+    //SDL_DestroyTexture(_texture);
 }
