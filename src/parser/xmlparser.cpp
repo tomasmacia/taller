@@ -250,6 +250,7 @@ Level XMLParser::mapLevel(XMLElement *levels, const string currentChildName) {
     XMLElement *overlayElement = getXMLElementSafe(levelI, {"overlay"});
     XMLElement *middleElement = getXMLElementSafe(levelI, {"middle"});
 
+    level.name = getSafeValueFromElement(levelI, {"name"}, charArrayToString, "levels");
     level.floor = mapSettingToVector(floorElement, "floor", dummyStringMap, "levels");
     level.far = mapSettingToVector(farElement, "far", dummyStringMap, "levels");
     level.overlay = mapSettingToVector(overlayElement, "overlay", dummyStringMap, "levels");

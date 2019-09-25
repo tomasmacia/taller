@@ -19,6 +19,7 @@
         <levels>
             <amount>3</amount>
             <level1>
+                <name>bay</name>
                 <floor>
                     <amount>6</amount>
                     <floor1>resources/sprites/stages/bay/floor/FF_Stage4_floor1.png</floor1>
@@ -57,6 +58,7 @@
                 </overlay>
             </level1>
             <level2>
+                <name>city</name>
                 <floor>
                     <amount>3</amount>
                     <floor1>resources/sprites/stages/city/floor/Final_Fight3-1.png</floor1>
@@ -76,15 +78,18 @@
                 </overlay>
             </level2>
             <level3>
+                <name>desert</name>
                 <floor>
                     <amount>3</amount>
                     <floor1>resources/sprites/stages/desert/floor/Stage3-1.png</floor1>
                     <floor2>resources/sprites/stages/desert/floor/Stage3-2.png</floor2>
                     <floor3>resources/sprites/stages/desert/floor/Stage3-3.png</floor3>
-
                 </floor>
                 <middle>
-
+                    <amount>3</amount>
+                    <middle1>resources/sprites/stages/desert/middle/middle1.png</middle1>
+                    <middle2>resources/sprites/stages/desert/middle/middle2.png</middle2>
+                    <middle3>resources/sprites/stages/desert/middle/middle3.png</middle3>
                 </middle>
                 <far>
                     <amount>2</amount>
@@ -96,8 +101,6 @@
                     <overlay1>resources/sprites/stages/desert/overlay/postes1.png</overlay1>
                     <overlay2>resources/sprites/stages/desert/overlay/postes2.png</overlay2>
                     <overlay3>resources/sprites/stages/desert/overlay/postes3.png</overlay3>
-
-
                 </overlay>
             </level3>
         </levels>

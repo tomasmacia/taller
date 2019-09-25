@@ -12,6 +12,7 @@ using namespace std;
 
 class Level {
 public:
+    string name;
     vector<string> floor;
     vector<string> middle;
     vector<string> far;
