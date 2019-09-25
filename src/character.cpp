@@ -190,8 +190,6 @@ void Character::saltoParabolico(){
     if (contador_saltar >0){
         cant_a_desplazarse_saltando = cant_a_desplazarse_saltando + default_mov_salto;
         _pos->y += cant_a_desplazarse_saltando;
-<<<<<<< Updated upstream
-=======
         /*
         cout<<'\n';
         cout<<"i: "<<contador_saltar<<'\n';
@@ -200,7 +198,6 @@ void Character::saltoParabolico(){
         cout<<"cant_a_desplazarse_saltando: "<<cant_a_desplazarse_saltando<<'\n';
         cout<<"default_mov_salto: "<<default_mov_salto<<'\n';
         */
->>>>>>> Stashed changes
         contador_saltar++;
     }
     if (contador_saltar >0 && _pos->y >= valor_de_y_justo_antes_del_salto){//ya estoy del otro lado de la parabola
