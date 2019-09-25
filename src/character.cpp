@@ -1,6 +1,6 @@
-#include "character.h"
 #include <SDL2/SDL_image.h>
 #include "game.h"
+#include "character.h"
 
 Character::Character(class Game* _owner,int w, int h, SDL_Renderer* render):
     _render(render),
@@ -44,9 +44,30 @@ bool Character::move(int option,int p){
 
     //Como estoy realizando una accion seteo mi option a 8 para ignorar eventos.    
     if (state==8){ option=8;}
+    if (state == 9){
+        option=9;
+        /* Solo me muevo cuando salto si antes estaba presionando left o rigth
+        no si se presiona lueo de saltar*/
+        if(p == 6  && rgth){
+            while(_x>_v_limit ){
+                _x--;           
+                owner->move_all();     
+            }
+            _x +=default_mov*1.5;          
+        }
+        if(p == 4 && lft){    
+            while(_x<0){_x++;}
+            _x -=default_mov*1.5; //----> Limite izquierdo (X = 0)
+            }
+        _pos->x =_x;
+        } //9 es el estado especifico del salto
     state = option;
     while(option ==0){
-        cont++; 
+
+        if(state == 0){
+            cont++;
+        }
+ 
         if(p == 4 ){
             
             _x -=default_mov;
@@ -71,13 +92,28 @@ bool Character::move(int option,int p){
             }
         _pos->x =_x;
         _pos->y= _y;  
+        
         return false;
     }
     return false;     
 }
 
 
+
+void Character::mov_jump(int me_estoy_moviendo){
+    if(state != 8){
+        if(me_estoy_moviendo == 0){
+            rgth = true;
+        }
+        if(me_estoy_moviendo == 1){
+            lft=true;
+        }
+    }
+}
+
+
 void Character::updateImage(){
+
     inFinal();
     sprite();
     if (spriteToload >= cant_img_sprite-1)
@@ -89,8 +125,11 @@ void Character::updateImage(){
         spriteToload++;//cambio de imagen sprite
         cont=0;//contador reseteado
     }
-    if (state >= 8 ){
-    //si quiero realizar una accion
+    if (state >= 8 ){    //si quiero realizar una accion
+        if (state == 9){
+            saltoParabolico();
+        }
+
         cont_acc++;
         //aumento el contador de acciones
         if(cont_acc == loop){
@@ -103,9 +142,12 @@ void Character::updateImage(){
                 //si llegue al final de la secuencia de sprites, state y previous_state
                 // es quieto, al cargar la imagen defaullt lo hago.
                 SDL_FreeSurface(_image);
+                rgth = lft = false;
                 load_image_default();
             }
         }
+
+
     }/* Lo de la tira de imagenes es asi, yo se la cantidad que hay(cant_img_sprite)
     y se cuanto mide de ancho la imagen(_image->clip_rect.w). Con Rect elijo 
     que parte de la imagen agarro, lo alto (linea 191) es la mismo para todas los recortes,
@@ -138,6 +180,27 @@ void Character::updateImage(){
     
 }
 
+void Character::saltoParabolico(){
+    if(contador_saltar == 0){//significa que todavia no salte nada
+        valor_de_y_justo_antes_del_salto = _y;
+        valor_loop_previo = loop;
+        loop = 4*default_mov_salto; //salta mas lento
+        contador_saltar++;
+    }
+    if (contador_saltar >0){
+        cant_a_desplazarse_saltando = cant_a_desplazarse_saltando + default_mov_salto;
+        _pos->y += cant_a_desplazarse_saltando;
+        contador_saltar++;
+    }
+    if (contador_saltar >0 && _pos->y >= valor_de_y_justo_antes_del_salto){//ya estoy del otro lado de la parabola
+        cant_a_desplazarse_saltando = cant_altura_de_salto_max;
+        _pos->y = valor_de_y_justo_antes_del_salto; //la y naturalmente deberia coincidir pero por las dudas fuerzo a restaurar el valor original
+        loop = valor_loop_previo; //restaura el valor original
+        contador_saltar = 0;
+    }
+
+}
+
 void Character::sprite(){ 
     
     //Left
@@ -148,11 +211,11 @@ void Character::sprite(){
     actions_sprites(2,3);
     //Agacharse
     actions_sprites(3,4);
+    //salto patada
+    actions_sprites(5,13);
+    // kick
+    actions_sprites(6,6);
  
-}
-
-Character::~Character(){
-    SDL_DestroyTexture(_texture);
 }
 
 void Character::load_image_default(){
@@ -176,7 +239,18 @@ void Character::load_image_default(){
     rect->h = 125;// ya que se cuanto mide
     _pos->w =_h*56/125;
     cont = 3;
-    
+
+    if (contador_saltar > 0){
+        cant_a_desplazarse_saltando = cant_altura_de_salto_max;
+        _pos->y = valor_de_y_justo_antes_del_salto; //la y naturalmente deberia coincidir pero por las dudas fuerzo a restaurar el valor original
+        loop = valor_loop_previo; //restaura el valor original
+        contador_saltar = 0;
+    }
+}
+
+
+Character::~Character(){
+    SDL_DestroyTexture(_texture);
 }
 
 void Character::change_limits(){
@@ -201,26 +275,33 @@ void Character::actions_sprites(int n,int img_){
         /* Carga imagenes del sprite o muestra pantalliats azules donde
     deberia estar el pj */
     if (state == n){
-            cant_img_sprite = img_;
-            cont = 0;
-            spriteToload = 0;
-            SDL_FreeSurface(_image);
-            if ((_image = IMG_Load(path_img[n].c_str()))==NULL){
-                cant_img_sprite = 2;
-                LogManager::logError("No se pudo cargar el sprite del personaje.");
-                LogManager::logDebug("Se carga una imagen amarilla por defecto al no encontrar el sprite del personaje.");
-                _image = SDL_CreateRGBSurface(0, 112, 125, 32, 0, 0, 0, 0);
-                SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 255, 255, 0));
+        cant_img_sprite = img_;
+        cont = 0;
+        spriteToload = 0;
+        SDL_FreeSurface(_image);
+        if ((_image = IMG_Load(path_img[n].c_str()))==NULL) {
+            cant_img_sprite = 2;
+            LogManager::logError("No se pudo cargar el sprite del personaje.");
+            LogManager::logDebug("Se carga una imagen amarilla por defecto al no encontrar el sprite del personaje.");
+            _image = SDL_CreateRGBSurface(0, 112, 125, 32, 0, 0, 0, 0);
+            SDL_FillRect(_image, NULL, SDL_MapRGB(_image->format, 255, 255, 0));
 
-            }
-            //transparencia la contorno celeste
-            SDL_SetColorKey(_image, SDL_TRUE,
-            SDL_MapRGB(_image->format, 88,184,248));
-            //Cambio el estado a accion para que se complete
-            state=8;
-            size();      
+        }
+        //transparencia la contorno celeste
+        SDL_SetColorKey(_image, SDL_TRUE,
+        SDL_MapRGB(_image->format, 88,184,248));
+
+        //Cambio el estado a accion para que se complete
+        if (state == 1 || state == 5) {
+            state = 9;
+        } else {
+            state = 8;
+        }
+
+        size();
     }
 }
+
 void Character::moves_sprites(int n, int img_){
     /* cargo sprites de movimientos */
         /* Carga imagenes del sprite o muestra pantalliats azules donde
@@ -257,6 +338,8 @@ void Character::_charge_vector(){
     path_img.push_back("resources/sprites/cody_punch.png");
     path_img.push_back("resources/sprites/cody_agacharse.png");
     path_img.push_back("resources/sprites/cody.png");
+    path_img.push_back("resources/sprites/kick jump.png");
+    path_img.push_back("resources/sprites/kick.png");
 
 }
 
@@ -266,9 +349,5 @@ int Character::GetPosY(){
 
 
 bool Character::inFinal(){
-    if (_x > _w_window - _w) {
-        return true;
-    }
-
-    return false;
+    return _x > (_w_window - _w);
 }
