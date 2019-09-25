@@ -8,7 +8,7 @@
         <left>LEFT</left>
         <right>RIGHT</right>
         <jump>Z</jump>
-        <attack>X</attack>
+        <attack>S</attack>
         <crouch>C</crouch>
     </bindings>
     <screen>

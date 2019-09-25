@@ -154,6 +154,9 @@ private:
     SDL_Window *window;
     SDL_Renderer *renderer;
 
+    void loadHotkeys(Config* config);
+    SDL_Scancode stringToScancode(std::string s);
+
 };
 
 #endif

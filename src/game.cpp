@@ -22,6 +22,7 @@ void Game::init() {
     this->initConfig();
     this->initLogManager(this->config->loggerLevel);
     this->initSDL();
+    this->loadHotkeys(this->config);
 }
 
 void Game::initConfig() {
@@ -234,3 +235,162 @@ void Game::destroy() {
     SDL_DestroyRenderer(this->renderer);
     SDL_Quit();
 }
+
+void Game::loadHotkeys(Config* config){
+    Events::initHotkeys();
+    Events::addHotkey(stringToScancode(config->bindings.ATTACK),PUNCH);
+    Events::addHotkey(stringToScancode(config->bindings.CROUCH),CROUCH);
+    Events::addHotkey(stringToScancode(config->bindings.DOWN),DOWN);
+    Events::addHotkey(stringToScancode(config->bindings.JUMP),JUMP);
+    Events::addHotkey(stringToScancode(config->bindings.LEFT),LEFT);
+    Events::addHotkey(stringToScancode(config->bindings.RIGHT),RIGHT);
+    Events::addHotkey(stringToScancode(config->bindings.UP),UP);
+    //Events::addHotkey(stringToScancode(config->bindings.JUMP_KICK),JUMP_KICK);
+    //Events::addHotkey(stringToScancode(config->bindings.KICK),KICK);
+};
+
+SDL_Scancode Game::stringToScancode(std::string s){
+
+    //Wellcome to hell
+    if ((s == "A") or (s == "a")){
+        return SDL_SCANCODE_A;
+    };
+    if ((s == "B") or (s == "b")){
+        return SDL_SCANCODE_B;
+    };
+    if ((s == "C") or (s == "c")){
+        return SDL_SCANCODE_C;
+    };
+    if ((s == "D") or (s == "d")){
+        return SDL_SCANCODE_D;
+    };
+    if ((s == "E") or (s == "e")){
+        return SDL_SCANCODE_E;
+    };
+    if ((s == "F") or (s == "f")){
+        return SDL_SCANCODE_F;
+    };
+    if ((s == "G") or (s == "g")){
+        return SDL_SCANCODE_G;
+    };
+    if ((s == "H") or (s == "h")){
+        return SDL_SCANCODE_H;
+    };
+    if ((s == "I") or (s == "i")){
+        return SDL_SCANCODE_I;
+    };
+    if ((s == "J") or (s == "j")){
+        return SDL_SCANCODE_J;
+    };
+    if ((s == "K") or (s == "k")){
+        return SDL_SCANCODE_K;
+    };
+    if ((s == "L") or (s == "l")){
+        return SDL_SCANCODE_L;
+    };
+    if ((s == "M") or (s == "m")){
+        return SDL_SCANCODE_M;
+    };
+    if ((s == "N") or (s == "n")){
+        return SDL_SCANCODE_N;
+    };
+    if ((s == "O") or (s == "o")){
+        return SDL_SCANCODE_O;
+    };
+    if ((s == "P") or (s == "p")){
+        return SDL_SCANCODE_P;
+    };
+    if ((s == "Q") or (s == "q")){
+        return SDL_SCANCODE_Q;
+    };
+    if ((s == "R") or (s == "r")){
+        return SDL_SCANCODE_R;
+    };
+    if ((s == "S") or (s == "s")){
+        return SDL_SCANCODE_S;
+    };
+    if ((s == "T") or (s == "t")){
+        return SDL_SCANCODE_T;
+    };
+    if ((s == "U") or (s == "u")){
+        return SDL_SCANCODE_U;
+    };
+    if ((s == "V") or (s == "v")){
+        return SDL_SCANCODE_V;
+    };
+    if ((s == "W") or (s == "w")){
+        return SDL_SCANCODE_W;
+    };
+    if ((s == "X") or (s == "x")){
+        return SDL_SCANCODE_X;
+    };
+    if ((s == "Y") or (s == "y")){
+        return SDL_SCANCODE_Y;
+    };
+    if ((s == "Z") or (s == "z")){
+        return SDL_SCANCODE_Z;
+    };
+    if ((s == "CONTROL") or (s == "LCTRL")){
+        return SDL_SCANCODE_LCTRL;
+    };
+    if (s == "RCTRL"){
+        return SDL_SCANCODE_RCTRL;
+    };
+    if ((s == "SHIFT") or (s == "LSHIFT")){
+        return SDL_SCANCODE_LSHIFT;
+    };
+    if (s == "RSHIFT"){
+        return SDL_SCANCODE_RSHIFT;
+    };
+    if ((s == "ALT") or (s == "LALT")){
+        return SDL_SCANCODE_LALT;
+    };
+    if ((s == "RALT") or ("ALTGR")){
+        return SDL_SCANCODE_RALT;
+    };
+    if (s == "SPACE"){
+        return SDL_SCANCODE_SPACE;
+    };
+    if (s == "UP"){
+        return SDL_SCANCODE_UP;
+    };
+    if (s == "LEFT"){
+        return SDL_SCANCODE_LEFT;
+    };
+    if (s == "RIGHT"){
+        return SDL_SCANCODE_RIGHT;
+    };
+    if (s == "1"){
+        return SDL_SCANCODE_1;
+    };
+    if (s == "2"){
+        return SDL_SCANCODE_2;
+    };
+    if (s == "3"){
+        return SDL_SCANCODE_3;
+    };
+    if (s == "4"){
+        return SDL_SCANCODE_4;
+    };
+    if (s == "5"){
+        return SDL_SCANCODE_5;
+    };
+    if (s == "6"){
+        return SDL_SCANCODE_6;
+    };
+    if (s == "7"){
+        return SDL_SCANCODE_7;
+    };
+    if (s == "8"){
+        return SDL_SCANCODE_8;
+    };
+    if (s == "9"){
+        return SDL_SCANCODE_9;
+    };
+    if (s == "0"){
+        return SDL_SCANCODE_0;
+    };
+    if (s == "ENTER"){
+        return SDL_SCANCODE_RETURN;
+    };
+};
