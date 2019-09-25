@@ -3,7 +3,7 @@
 //
 
 #include <vector>
-#include <iostream>
+#include <algorithm>
 #include "LevelBuilder.h"
 #include "game.h"
 #include "character.h"
