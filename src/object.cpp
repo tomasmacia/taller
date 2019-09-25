@@ -1,5 +1,4 @@
 #include "object.h"
-#include "iostream"
 #include "LogLib/LogManager.h"
 #include <SDL2/SDL_image.h>
 
@@ -38,7 +37,7 @@ void Object::updateImage(){
 
 
 Object::~Object(){
-    SDL_DestroyTexture(_texture);
+    //SDL_DestroyTexture(_texture);
 }
 
 int Object::GetPosY(){

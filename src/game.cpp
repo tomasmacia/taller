@@ -104,7 +104,11 @@ void Game::start() {
 
             /* Actualizo la imagen */
             far->updateImage();
-            //middle->updateImage();
+
+            if (middle != nullptr) {
+                middle->updateImage();
+            }
+
             floor->updateImage();
 
             /* Enemigos con pos y menor a pj */
@@ -136,9 +140,11 @@ void Game::start() {
 void Game::move_all(){
 //Actualiza posicion de todo menos de cody, en orden.
    far->move();
-   
-   //middle->move();
-   
+
+   if (middle != nullptr) {
+       middle->move();
+   }
+
    floor->move();
 
    for (auto &objeto : obj_escenario) {
@@ -167,59 +173,26 @@ void Game::pj_in_final(){
     }
 }
 
-
-void Game::level1(int enemy, int cajas,int barril, int tubos,int knifes,int width,int heigth) {
-    
-    //solo existe una clase back, a los backs de fondo no les sirve pasarle game pero
-    //se los paso por paja, para no hacer otro constructor. Solo el de lvl 1 usa el game para
-    // avisar que se llego al final del escenario.
-    // se le pasa los parametros de la ventana, el render y la velocidad con la que se mueve
-    // y el lvl de background que es (1 es el mas cercano y 3 el lejano)
-    far = new Background(farSprites, heigth, width, renderer, this, 0.063, 3);//0.063
-    // middle = new Background(middleSprites,heigth,width,renderer,this, 0.25,3);
-    floor = new Background(floorSprites, heigth, width, renderer, this, 0.5, 1);
-    overlay =  new Background(overlaySprites, heigth, width, renderer, this, 0.5, 4);
-    //character = new Character(this,width,heigth,renderer);
-}
-
-void Game::level2(int enemy, int cajas,int barril, int tubos,int knifes,int width,int heigth){
-    /*Coloco pantalla en rojo y espero 1 sec
-      SDL_SetRenderDrawColor(_gwindow->render, 255, 0, 0, 255);
-      SDL_Rect rectangle;
-      rectangle.x = 0;
-      rectangle.y = 0;
-      rectangle.w = width;
-      rectangle.h = heigth;
-      SDL_RenderFillRect(_gwindow->render, &rectangle);
-      _gwindow->updateWindow();
-      SDL_Delay(1000);*/
-
-
-
-
-
-    far = new Background(farSprites, heigth, width, renderer, this, 0.13, 3);
-    //  middle = new Background(middleSprites,heigth,width,renderer,this, 0.25,3);
-    floor = new Background(floorSprites, heigth, width, renderer, this, 0.5, 1);
-    overlay =  new Background(overlaySprites, heigth, width, renderer, this, 0.6, 4);
-    //character = new Character(this,width,heigth,renderer);
-}
-
 void Game::destroyLevelObjects() {
     middleSprites.clear();
     overlaySprites.clear();
-    obj_escenario.clear();
     floorSprites.clear();
     farSprites.clear();
 
     delete(floor);
+    floor = nullptr;
     delete(middle);
+    middle = nullptr;
     delete(far);
+    far = nullptr;
     delete(overlay);
+    overlay = nullptr;
     delete(character);
+    character = nullptr;
 
-    for (auto &objeto : obj_escenario) {
+    for (auto objeto : obj_escenario) {
         delete(objeto);
+        objeto = nullptr;
     }
 
     obj_escenario.clear();
@@ -229,6 +202,7 @@ void Game::destroy() {
     destroyLevelObjects();
 
     delete(logger);
+    logger = nullptr;
 
     SDL_DestroyWindow(this->window);
     SDL_DestroyRenderer(this->renderer);
