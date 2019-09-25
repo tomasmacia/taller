@@ -179,7 +179,7 @@ void Game::level1(int enemy, int cajas,int barril, int tubos,int knifes,int widt
     // middle = new Background(middleSprites,heigth,width,renderer,this, 0.25,3);
     floor = new Background(floorSprites, heigth, width, renderer, this, 0.5, 1);
     overlay =  new Background(overlaySprites, heigth, width, renderer, this, 0.5, 4);
-    character = new Character(this,width,heigth,renderer);
+    //character = new Character(this,width,heigth,renderer);
 }
 
 void Game::level2(int enemy, int cajas,int barril, int tubos,int knifes,int width,int heigth){
@@ -202,7 +202,7 @@ void Game::level2(int enemy, int cajas,int barril, int tubos,int knifes,int widt
     //  middle = new Background(middleSprites,heigth,width,renderer,this, 0.25,3);
     floor = new Background(floorSprites, heigth, width, renderer, this, 0.5, 1);
     overlay =  new Background(overlaySprites, heigth, width, renderer, this, 0.6, 4);
-    character = new Character(this,width,heigth,renderer);
+    //character = new Character(this,width,heigth,renderer);
 }
 
 void Game::destroyLevelObjects() {
