@@ -25,38 +25,47 @@ bool Events::keyboard_event() {
                     case LEFT:
                         left =true;
                         _cody->setFlip(SDL_FLIP_HORIZONTAL);
+                        LogManager::logDebug("IZQUIERDA PRESIONA");
                         return false;
                     case RIGHT:
                         rigth = true;
                         _cody->setFlip(SDL_FLIP_NONE);
+                        LogManager::logDebug("DERECHA PRESIONA");
                         // solo me interesa la derecha
                         return false;
                     case UP:
                         up = true;
+                        LogManager::logDebug("ARRIBA PRESIONA");
                         return false;
                     case DOWN:
                         down = true;
+                        LogManager::logDebug("ABAJO PRESIONA");
                         return false;
                     case JUMP:
                         //Aviso si se presiona rigth o left antes de saltar
                         if (rigth){_cody->mov_jump(0);}
                         if (left) {_cody->mov_jump(1);}
                         _cody->move(1,-1);
+                        LogManager::logDebug("SALTO PRESIONA");
                         return false;
                     case PUNCH:
                         _cody->move(2,-1);
+                        LogManager::logInfo("PUÑO PRESIONA");
                         return false;
                     case CROUCH:
                         _cody->move(3,-1);
+                        LogManager::logDebug("AGACHA PRESIONA");
                         return false;
                     case JUMP_KICK:
                         //Aviso si se presiona rigth o left antes de salta
                         if (rigth){ _cody->mov_jump(0);}
                         if (left) {_cody->mov_jump(1);}
                         _cody->move(5,-1);
+                        LogManager::logDebug("SALTO CON PATADA PRESIONA");
                         return false;
                     case KICK:
                         _cody->move(6,-1);
+                        LogManager::logInfo("PATADA PRESIONA");
                         return false;
                     default:
                         return false;
@@ -65,20 +74,26 @@ bool Events::keyboard_event() {
                 switch (b) {
                     case LEFT:
                         left = false;
+                        LogManager::logDebug("IZQUIERDA SUELTA");
                         return false;
                     case RIGHT:
                         rigth = false;
+                        LogManager::logDebug("DERECHA SUELTA");
                         return false;
                     case UP:
                         up = false;
+                        LogManager::logDebug("ARRIBA SUELTA");
                         return false;
                     case DOWN:
                         down = false;
+                        LogManager::logDebug("ABAJO SUELTA");
                         return false;
                     case PUNCH:
                         return false;
+                        LogManager::logDebug("PUÑO SUELTA");
                     case JUMP:
                         return false;
+                        LogManager::logDebug("SALTO SUELTA");
                     default:
                         return false;
                 }
