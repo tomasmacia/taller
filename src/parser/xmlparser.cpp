@@ -35,7 +35,7 @@ XMLError XMLParser::loadFile(XMLDocument *doc, string pathToConfig) {
 
 
     if (eResult != XML_SUCCESS) {
-        string errorMessage = getErrorMessageFromFile(pathToConfig, doc->ErrorLineNum());
+        int specifiedDocErrorLineNumber = doc->ErrorLineNum();
 
         XMLError defaultResult = doc->LoadFile(DEFAULT_CONFIG_PATH);
 
@@ -47,7 +47,7 @@ XMLError XMLParser::loadFile(XMLDocument *doc, string pathToConfig) {
         if (pathToConfig.empty()) {
             LogManager::logError("Default config file not specified, using default config located in " + string(DEFAULT_CONFIG_PATH));
         } else {
-            LogManager::logError(errorMessage);
+            LogManager::logError(getErrorMessageFromFile(pathToConfig, specifiedDocErrorLineNumber));
             LogManager::logError("Config file specified located in " + pathToConfig +
             " could not be loaded. Using default config located in " + string(DEFAULT_CONFIG_PATH));
         }
