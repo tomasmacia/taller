@@ -5,6 +5,7 @@
 #include <tinyxml2.h>
 #include <string>
 #include <vector>
+#include <fstream>
 using namespace std;
 using namespace tinyxml2;
 
@@ -32,7 +33,10 @@ XMLError XMLParser::loadFile(XMLDocument *doc, string pathToConfig) {
     vector<char> chars(pathToConfig.c_str(), pathToConfig.c_str() + pathToConfig.size() + 1);
     XMLError eResult = doc->LoadFile(&chars[0]);
 
+
     if (eResult != XML_SUCCESS) {
+        int specifiedDocErrorLineNumber = doc->ErrorLineNum();
+
         XMLError defaultResult = doc->LoadFile(DEFAULT_CONFIG_PATH);
 
         if (defaultResult != XML_SUCCESS) { // TODO what should we do here?
@@ -41,9 +45,10 @@ XMLError XMLParser::loadFile(XMLDocument *doc, string pathToConfig) {
         }
 
         if (pathToConfig.empty()) {
-            LogManager::logInfo("Default config file not specified, using default config located in " + string(DEFAULT_CONFIG_PATH));
+            LogManager::logError("Default config file not specified, using default config located in " + string(DEFAULT_CONFIG_PATH));
         } else {
-            LogManager::logInfo("Config file specified located in " + pathToConfig +
+            LogManager::logError(getErrorMessageFromFile(pathToConfig, specifiedDocErrorLineNumber));
+            LogManager::logError("Config file specified located in " + pathToConfig +
             " could not be loaded. Using default config located in " + string(DEFAULT_CONFIG_PATH));
         }
     }
@@ -87,7 +92,7 @@ string XMLParser::wrapperLoggerModule(XMLElement *config, XMLElement *defaultCon
     try {
         loggerLevel = getLoggerLevel(config);
     } catch(string& msg) {
-        LogManager::logDebug(msg);
+        LogManager::logError(msg);
         loggerLevel = getLoggerLevel(defaultConfig);
     }
 
@@ -103,7 +108,7 @@ Bindings XMLParser::wrapperBindingsModule(XMLElement *config, XMLElement *defaul
     try {
         bindings = getBindings(config);
     } catch (string& msg) {
-        LogManager::logDebug(msg);
+        LogManager::logError(msg);
         bindings = getBindings(defaultConfig);
     }
 
@@ -135,7 +140,7 @@ ScreenResolution XMLParser::wrapperScreenResolutionModule(XMLElement *config, XM
     try {
         screenResolution = getScreenResolution(config);
     } catch (string& msg) {
-        LogManager::logDebug(msg);
+        LogManager::logError(msg);
         screenResolution = getScreenResolution(defaultConfig);
     }
 
@@ -178,7 +183,7 @@ vector<Level> XMLParser::wrapperGameplayLevelsModule(XMLElement *gameplay, XMLEl
     try {
         levels = getGameplayLevels(gameplay);
     } catch (string& msg) {
-        LogManager::logDebug(msg);
+        LogManager::logError(msg);
         levels = getGameplayLevels(defaultGameplay);
     }
 
@@ -197,7 +202,7 @@ vector<CharacterXML> XMLParser::wrapperGameplayCharactersModule(XMLElement *game
     try {
         characters = getGameplayCharacters(gameplay);
     } catch (string& msg) {
-        LogManager::logDebug(msg);
+        LogManager::logError(msg);
         characters = getGameplayCharacters(defaultGameplay);
     }
 
@@ -216,7 +221,7 @@ vector<NPC> XMLParser::wrapperGameplayNPCSModule(XMLElement *gameplay, XMLElemen
     try {
         npcs = getGameplayNPCS(gameplay);
     } catch (string& msg) {
-        LogManager::logDebug(msg);
+        LogManager::logError(msg);
         npcs = getGameplayNPCS(defaultGameplay);
     }
 
@@ -298,7 +303,7 @@ Weapons XMLParser::wrapperGameplayWeaponsModule(XMLElement *gameplay, XMLElement
     try {
         weapons = getGameplayWeapons(gameplay);
     } catch (string& msg) {
-        LogManager::logDebug(msg);
+        LogManager::logError(msg);
         weapons = getGameplayWeapons(defaultGameplay);
     }
 
@@ -322,7 +327,7 @@ Utilities XMLParser::wrapperGameplayUtilitiesModule(XMLElement *gameplay, XMLEle
     try {
         utilities = getGameplayUtilities(gameplay);
     } catch (string& msg) {
-        LogManager::logDebug(msg);
+        LogManager::logError(msg);
         utilities = getGameplayUtilities(defaultGameplay);
     }
 
@@ -395,9 +400,42 @@ T XMLParser::getSafeValueFromElement(XMLElement *element, vector<string> names, 
     if (iterateElement != nullptr) {
         stringValue = iterateElement->GetText();
     } else {
-        throw string("Section " + section + " could not be parsed. Using default config file for this module");
+        throw string("El modulo " + section + " no se pudo parsear. " + getPathToElement(element, names) + " no existe y es obligatorio. Usando el archivo de configuración por defecto para este módulo");
     }
 
     return func(stringValue);
 }
 
+
+string XMLParser::getErrorMessageFromFile(string pathToFile, int lineNumber) {
+    string configLine, errorMsg;
+    ifstream read;
+
+    read.open(pathToFile);
+
+    int lineRead = 0;
+    while (lineRead != lineNumber && getline(read, configLine)) {
+        ++lineRead;
+    }
+
+    // if file contains fewer than lineNumber lines, getline in while conditions returns false
+    if (lineRead == lineNumber) {
+        errorMsg = "La línea " + to_string(lineNumber) + " no cumple con la sintaxis de XML --> " +  configLine;
+    } else {
+        errorMsg = "El archivo de configuración no cumple con la sintaxis XML";
+    }
+
+    read.close();
+
+    return errorMsg;
+}
+
+string XMLParser::getPathToElement(XMLElement *genericElement, vector<string> names) {
+    string pathToElement = genericElement->Name();
+
+    for (auto &name : names) {
+        pathToElement += "->" + name;
+    }
+
+    return pathToElement;
+}
