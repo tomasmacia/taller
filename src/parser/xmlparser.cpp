@@ -11,7 +11,7 @@ using namespace tinyxml2;
 
 
 Config* XMLParser::parse(string pathToConfig) {
-    LogManager::logDebug(pathToConfig + " is the path to the config file.");
+    LogManager::logInfo(pathToConfig + " is the path to the config file.");
     XMLDocument doc;
     loadFile(&doc, pathToConfig);
 
@@ -400,7 +400,7 @@ T XMLParser::getSafeValueFromElement(XMLElement *element, vector<string> names, 
     if (iterateElement != nullptr) {
         stringValue = iterateElement->GetText();
     } else {
-        throw string("El modulo " + section + " no se pudo parsear. " + getPathToElement(element, names) + " no existe y es obligatorio. Usando el archivo de configuración por defecto para este módulo");
+        throw string("El modulo " + section + " no se pudo parsear. " + getPathToElement(element, names, section) + " no existe y es obligatorio. Usando el archivo de configuración por defecto para este módulo");
     }
 
     return func(stringValue);
@@ -430,8 +430,14 @@ string XMLParser::getErrorMessageFromFile(string pathToFile, int lineNumber) {
     return errorMsg;
 }
 
-string XMLParser::getPathToElement(XMLElement *genericElement, vector<string> names) {
-    string pathToElement = genericElement->Name();
+string XMLParser::getPathToElement(XMLElement *genericElement, vector<string> names, string section) {
+    string pathToElement;
+    if (genericElement != nullptr) {
+        pathToElement = genericElement->Name();
+    } else {
+        return "config->" + section;
+    }
+
 
     for (auto &name : names) {
         pathToElement += "->" + name;
