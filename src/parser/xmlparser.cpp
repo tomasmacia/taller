@@ -237,14 +237,14 @@ vector<NPC> XMLParser::getGameplayNPCS(XMLElement *gameplay) {
 
 CharacterXML XMLParser::mapCharacter(XMLElement *characters, const string currentChildName) {
     CharacterXML character;
-    character.name = getSafeValueFromElement(characters, {currentChildName.c_str(), "name"}, charArrayToString, "characters");
-    character.stand = getSafeValueFromElement(characters, {currentChildName.c_str(), "stand"}, charArrayToString, "characters");
-    character.walk = getSafeValueFromElement(characters, {currentChildName.c_str(), "walk"}, charArrayToString, "characters");
-    character.jump = getSafeValueFromElement(characters, {currentChildName.c_str(), "jump"}, charArrayToString, "characters");
-    character.punch = getSafeValueFromElement(characters, {currentChildName.c_str(), "punch"}, charArrayToString, "characters");
-    character.crouch = getSafeValueFromElement(characters, {currentChildName.c_str(), "crouch"}, charArrayToString, "characters");
-    character.kick = getSafeValueFromElement(characters, {currentChildName.c_str(), "kick"}, charArrayToString, "characters");
-    character.jumpkick = getSafeValueFromElement(characters, {currentChildName.c_str(), "jumpkick"}, charArrayToString, "characters");
+    character.name = getSafeValueFromElement(characters, {currentChildName.c_str(), "name"}, charArrayToString, "characters", true);
+    character.stand = getSafeValueFromElement(characters, {currentChildName.c_str(), "stand"}, charArrayToString, "characters", true);
+    character.walk = getSafeValueFromElement(characters, {currentChildName.c_str(), "walk"}, charArrayToString, "characters", true);
+    character.jump = getSafeValueFromElement(characters, {currentChildName.c_str(), "jump"}, charArrayToString, "characters", true);
+    character.punch = getSafeValueFromElement(characters, {currentChildName.c_str(), "punch"}, charArrayToString, "characters", true);
+    character.crouch = getSafeValueFromElement(characters, {currentChildName.c_str(), "crouch"}, charArrayToString, "characters", true);
+    character.kick = getSafeValueFromElement(characters, {currentChildName.c_str(), "kick"}, charArrayToString, "characters", true);
+    character.jumpkick = getSafeValueFromElement(characters, {currentChildName.c_str(), "jumpkick"}, charArrayToString, "characters", true);
 
     return character;
 }
@@ -277,7 +277,7 @@ string XMLParser::dummyStringMap(XMLElement *genericElement, const string curren
 NPC XMLParser::mapNPC(XMLElement *npcs, const string currentChildName) {
     NPC npc;
     npc.difficulty = getSafeValueFromElement(npcs, {currentChildName.c_str(), "difficulty"}, charArrayToString, "npcs");
-    npc.walk = getSafeValueFromElement(npcs, {currentChildName.c_str(), "walk"}, charArrayToString, "npcs");
+    npc.walk = getSafeValueFromElement(npcs, {currentChildName.c_str(), "walk"}, charArrayToString, "npcs", true);
 
     return npc;
 }
@@ -337,7 +337,7 @@ Utilities XMLParser::wrapperGameplayUtilitiesModule(XMLElement *gameplay, XMLEle
 Weapon XMLParser::getGameplayWeapon(XMLElement *weaponElement) {
     Weapon weapon;
     weapon.amount = getSafeValueFromElement(weaponElement, {"amount"}, atoi, "weapons");
-    weapon.sprite = getSafeValueFromElement(weaponElement, {"sprite"}, charArrayToString, "weapons");
+    weapon.sprite = getSafeValueFromElement(weaponElement, {"sprite"}, charArrayToString, "weapons", true);
     weapon.damage = getSafeValueFromElement(weaponElement, {"damage"}, atoi, "weapons");
 
     return weapon;
@@ -359,7 +359,7 @@ Utilities XMLParser::getGameplayUtilities(XMLElement *gameplay) {
 Utility XMLParser::getGameplayUtility(XMLElement *utilityElement) {
     Utility utility;
     utility.amount = getSafeValueFromElement(utilityElement, {"amount"}, atoi, "utilities");
-    utility.sprite = getSafeValueFromElement(utilityElement, {"sprite"}, charArrayToString, "utilities");
+    utility.sprite = getSafeValueFromElement(utilityElement, {"sprite"}, charArrayToString, "utilities", true);
     utility.knivesDropProb = getSafeValueFromElement(utilityElement, {"contains", "knives"}, atof, "utilities");
     utility.tubesDropProb = getSafeValueFromElement(utilityElement, {"contains", "tubes"}, atof, "utilities");
 
@@ -392,7 +392,7 @@ XMLElement* XMLParser::getXMLElementSafe(XMLElement *element, vector<string> nam
 
 
 template <typename T>
-T XMLParser::getSafeValueFromElement(XMLElement *element, vector<string> names, T (*func)(const char*), string section) {
+T XMLParser::getSafeValueFromElement(XMLElement *element, vector<string> names, T (*func)(const char*), string section, bool isFile) {
     XMLElement *iterateElement = getXMLElementSafe(element, names);
 
     const char* stringValue = "";

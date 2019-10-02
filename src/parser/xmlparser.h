@@ -24,7 +24,7 @@ private:
     static XMLElement* getXMLElementSafe(XMLElement *element, vector<string> names);
 
     template <typename T>
-    static T getSafeValueFromElement(XMLElement *element, vector<string> names, T (*func)(const char*), string section);
+    static T getSafeValueFromElement(XMLElement *element, vector<string> names, T (*func)(const char*), string section, bool isFile = false);
 
     Config* mapXMLDocumentToConfig(XMLDocument *doc, XMLDocument *docDefault);
 
