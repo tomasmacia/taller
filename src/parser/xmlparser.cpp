@@ -5,6 +5,7 @@
 #include <tinyxml2.h>
 #include <string>
 #include <vector>
+#include <fstream>
 using namespace std;
 using namespace tinyxml2;
 
@@ -32,7 +33,10 @@ XMLError XMLParser::loadFile(XMLDocument *doc, string pathToConfig) {
     vector<char> chars(pathToConfig.c_str(), pathToConfig.c_str() + pathToConfig.size() + 1);
     XMLError eResult = doc->LoadFile(&chars[0]);
 
+
     if (eResult != XML_SUCCESS) {
+        string errorMessage = getErrorMessageFromFile(pathToConfig, doc->ErrorLineNum());
+
         XMLError defaultResult = doc->LoadFile(DEFAULT_CONFIG_PATH);
 
         if (defaultResult != XML_SUCCESS) { // TODO what should we do here?
@@ -41,9 +45,10 @@ XMLError XMLParser::loadFile(XMLDocument *doc, string pathToConfig) {
         }
 
         if (pathToConfig.empty()) {
-            LogManager::logInfo("Default config file not specified, using default config located in " + string(DEFAULT_CONFIG_PATH));
+            LogManager::logError("Default config file not specified, using default config located in " + string(DEFAULT_CONFIG_PATH));
         } else {
-            LogManager::logInfo("Config file specified located in " + pathToConfig +
+            LogManager::logError(errorMessage);
+            LogManager::logError("Config file specified located in " + pathToConfig +
             " could not be loaded. Using default config located in " + string(DEFAULT_CONFIG_PATH));
         }
     }
@@ -401,3 +406,26 @@ T XMLParser::getSafeValueFromElement(XMLElement *element, vector<string> names, 
     return func(stringValue);
 }
 
+
+string XMLParser::getErrorMessageFromFile(string pathToFile, int lineNumber) {
+    string configLine, errorMsg;
+    ifstream read;
+
+    read.open(pathToFile);
+
+    int lineRead = 0;
+    while (lineRead != lineNumber && getline(read, configLine)) {
+        ++lineRead;
+    }
+
+    // if file contains fewer than lineNumber lines, getline in while conditions returns false
+    if (lineRead == lineNumber) {
+        errorMsg = "La línea " + to_string(lineNumber) + " no cumple con la sintaxis de XML --> " +  configLine;
+    } else {
+        errorMsg = "El archivo de configuración no cumple con la sintaxis XML";
+    }
+
+    read.close();
+
+    return errorMsg;
+}

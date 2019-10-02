@@ -80,6 +80,8 @@ private:
     Utilities wrapperGameplayUtilitiesModule(XMLElement *gameplay, XMLElement *defaultGameplay);
 
     static string dummyStringMap(XMLElement *genericElement, const string currentChildName);
+
+    string getErrorMessageFromFile(string pathToFile, int lineNumber);
 };
 
 #endif //GAME_XMLPARSER_H
