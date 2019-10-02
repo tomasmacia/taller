@@ -15,8 +15,6 @@ class LogManager{
         static bool pathHasBeenSet;
         static std::ofstream file;
 
-        static std::string getCurrentTime();
-
     public:
 
         /**
