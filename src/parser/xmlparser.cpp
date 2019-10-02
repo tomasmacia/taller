@@ -237,7 +237,7 @@ vector<NPC> XMLParser::getGameplayNPCS(XMLElement *gameplay) {
 
 CharacterXML XMLParser::mapCharacter(XMLElement *characters, const string currentChildName) {
     CharacterXML character;
-    character.name = getSafeValueFromElement(characters, {currentChildName.c_str(), "name"}, charArrayToString, "characters", true);
+    character.name = getSafeValueFromElement(characters, {currentChildName.c_str(), "name"}, charArrayToString, "characters");
     character.stand = getSafeValueFromElement(characters, {currentChildName.c_str(), "stand"}, charArrayToString, "characters", true);
     character.walk = getSafeValueFromElement(characters, {currentChildName.c_str(), "walk"}, charArrayToString, "characters", true);
     character.jump = getSafeValueFromElement(characters, {currentChildName.c_str(), "jump"}, charArrayToString, "characters", true);
@@ -399,6 +399,11 @@ T XMLParser::getSafeValueFromElement(XMLElement *element, vector<string> names, 
 
     if (iterateElement != nullptr) {
         stringValue = iterateElement->GetText();
+
+        if (isFile && !pathToFileExists(stringValue)) {
+            throw string("El modulo " + section + " no se pudo parsear. " + stringValue + " no existe y es obligatorio. Usando el archivo de configuración por defecto para este módulo");
+        }
+
     } else {
         throw string("El modulo " + section + " no se pudo parsear. " + getPathToElement(element, names) + " no existe y es obligatorio. Usando el archivo de configuración por defecto para este módulo");
     }
@@ -438,4 +443,9 @@ string XMLParser::getPathToElement(XMLElement *genericElement, vector<string> na
     }
 
     return pathToElement;
+}
+
+bool XMLParser::pathToFileExists(string pathToFile) {
+    ifstream f(pathToFile.c_str());
+    return f.good();
 }

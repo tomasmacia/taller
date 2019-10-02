@@ -84,6 +84,8 @@ private:
     string getErrorMessageFromFile(string pathToFile, int lineNumber);
 
     static string getPathToElement(XMLElement *genericElement, vector<string> names);
+
+    static bool pathToFileExists(string pathToFile);
 };
 
 #endif //GAME_XMLPARSER_H
