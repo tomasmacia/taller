@@ -1,17 +1,14 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <stdlib.h>
-#include <time.h>
-#include <algorithm>
 
 #include "game.h"
 #include "events.h"
-#include "character.h"
 #include "parser/CLIArgumentParser.h"
 #include "parser/config/config.h"
 #include "parser/xmlparser.h"
 #include "LogLib/Logger.h"
 #include "LevelBuilder.h"
+#include "utils/TimeUtils.h"
 
 
 
@@ -37,8 +34,13 @@ void Game::initLogManager(string loggerLevel) {
     this->logger = nullptr;
     this->logger = LogManager::createLoggerFromLevel(loggerLevel);
 
+    string currentTime = TimeUtils::getCurrentTime();
+    std::replace(currentTime.begin(), currentTime.end(), ' ', '_');
+
+    string logfilePath = "logs/log_" + currentTime + ".txt";
+
     LogManager::setStaticLogger(this->logger);
-    LogManager::setStaticLogPath("logs/log.txt");
+    LogManager::setStaticLogPath(logfilePath);
 
 }
 

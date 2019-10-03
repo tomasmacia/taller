@@ -1,6 +1,7 @@
 #include "LogManager.h"
 #include "Logger.h"
 #include "DebugLogger.h"
+#include "../utils/TimeUtils.h"
 #include <fstream>
 
 Logger* LogManager::loggerToBeUsed;
@@ -48,20 +49,6 @@ void LogManager::logDebug(std::string message){
 };
 
 void LogManager::writeLogFile(std::string message, std::string level){
-    file << getCurrentTime() + " [" + level + "] : " + message << std::endl;
+    file << TimeUtils::getCurrentTime() + " [" + level + "] : " + message << std::endl;
 };
-
-std::string LogManager::getCurrentTime() {
-    time_t rawtime;
-    struct tm* timeinfo;
-    char buffer[80];
-
-    time (&rawtime);
-    timeinfo = localtime(&rawtime);
-
-    strftime(buffer,sizeof(buffer),"%d-%m-%Y %H:%M:%S",timeinfo);
-    std::string str(buffer);
-
-    return str;
-}
 
