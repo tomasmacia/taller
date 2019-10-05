@@ -1,6 +1,6 @@
 <config>
     <logger>
-        <level>DEBUG</level>
+        <level>ERROR</level>
     </logger>
     <bindings>
         <up>UP</up>
@@ -8,8 +8,10 @@
         <left>LEFT</left>
         <right>RIGHT</right>
         <jump>Z</jump>
-        <attack>X</attack>
+        <attack>S</attack>
         <crouch>C</crouch>
+        <kick>A</kick>
+        <jumpkick>X</jumpkick>
     </bindings>
     <screen>
         <width>800</width>
@@ -19,37 +21,101 @@
         <levels>
             <amount>2</amount>
             <level1>
-
+                <name>bay</name>
+                <floor>
+                    <amount>6</amount>
+                    <floor1>resources/sprites/stages/bay/floor/FF_Stage4_floor1.png</floor1>
+                    <floor2>resources/sprites/stages/bay/floor/FF_Stage4_floor2.png</floor2>
+                    <floor3>resources/sprites/stages/bay/floor/FF_Stage4_floor3.png</floor3>
+                    <floor4>resources/sprites/stages/bay/floor/FF_Stage4_floor4.png</floor4>
+                    <floor5>resources/sprites/stages/bay/floor/FF_Stage4_floor5.png</floor5>
+                    <floor6>resources/sprites/stages/bay/floor/FF_Stage4_floor6.png</floor6>
+                </floor>
+                <far>
+                    <amount>6</amount>
+                    <far1>resources/sprites/stages/bay/far/FF_Stage4_back1.png</far1>
+                    <far2>resources/sprites/stages/bay/far/FF_Stage4_back2.png</far2>
+                    <far3>resources/sprites/stages/bay/far/FF_Stage4_back3.png</far3>
+                    <far4>resources/sprites/stages/bay/far/FF_Stage4_back4.png</far4>
+                    <far5>resources/sprites/stages/bay/far/FF_Stage4_back5.png</far5>
+                    <far6>resources/sprites/stages/bay/far/FF_Stage4_back6.png</far6>3
+                </far>
+                <middle>
+                    <amount>6</amount>
+                    <middle1>resources/sprites/stages/bay/middle/barcos0.png</middle1>
+                    <middle2>resources/sprites/stages/bay/middle/barcos1.png</middle2>
+                    <middle3>resources/sprites/stages/bay/middle/barcos0.png</middle3>
+                    <middle4>resources/sprites/stages/bay/middle/barcos1.png</middle4>
+                    <middle5>resources/sprites/stages/bay/middle/barcos0.png</middle5>
+                    <middle6>resources/sprites/stages/bay/middle/barcos1.png</middle6>
+                </middle>
+                <overlay>
+                    <amount>6</amount>
+                    <overlay1>resources/sprites/stages/bay/overlay/FF_Stage4_overlay1.png</overlay1>
+                    <overlay2>resources/sprites/stages/bay/overlay/FF_Stage4_overlay2.png</overlay2>
+                    <overlay3>resources/sprites/stages/bay/overlay/FF_Stage4_overlay3.png</overlay3>
+                    <overlay4>resources/sprites/stages/bay/overlay/FF_Stage4_overlay4.png</overlay4>
+                    <overlay5>resources/sprites/stages/bay/overlay/FF_Stage4_overlay5.png</overlay5>
+                    <overlay6>resources/sprites/stages/bay/overlay/FF_Stage4_overlay6.png</overlay6>
+                </overlay>
             </level1>
             <level2>
-
+                <name>city</name>
+                <floor>
+                    <amount>3</amount>
+                    <floor1>resources/sprites/stages/city/floor/Final_Fight3-1.png</floor1>
+                    <floor2>resources/sprites/stages/city/floor/Final_Fight3-2.png</floor2>
+                    <floor3>resources/sprites/stages/city/floor/Final_Fight3-3.png</floor3>
+                </floor>
+                <far>
+                    <amount>2</amount>
+                    <far1>resources/sprites/stages/city/far/background1-1.png</far1>
+                    <far2>resources/sprites/stages/city/far/background1-2.png</far2>
+                </far>
+                <overlay>
+                    <amount>3</amount>
+                    <overlay1>resources/sprites/stages/city/overlay/front.png</overlay1>
+                    <overlay2>resources/sprites/stages/city/overlay/front2.png</overlay2>
+                    <overlay3>resources/sprites/stages/city/overlay/front3.png</overlay3>
+                </overlay>
             </level2>
         </levels>
         <characters>
             <amount>1</amount>
             <character1>
                 <name>Cody</name>
+                <stand>resources/sprites/players/cody/stand.png</stand>
+                <walk>resources/sprites/players/cody/walk.png</walk>
+                <punch>resources/sprites/players/cody/punch.png</punch>
+                <jump>resources/sprites/players/cody/jump.png</jump>
+                <crouch>resources/sprites/players/cody/crouch.png</crouch>
+                <jumpkick>resources/sprites/players/cody/jumpkick.png</jumpkick>
+                <kick>resources/sprites/players/cody/kick.png</kick>
             </character1>
         </characters>
         <npcs>
             <amount>1</amount>
             <npc1>
                 <difficulty>NONE</difficulty>
+                <walk>resources/sprites/npcs/enemy_walk.png</walk>
             </npc1>
         </npcs>
         <weapons>
             <knife>
                 <amount>3</amount>
+                <sprite>resources/sprites/weapons/knife.png</sprite>
                 <damage>25</damage>
             </knife>
             <tube>
                 <amount>5</amount>
+                <sprite>resources/sprites/weapons/tube.png</sprite>
                 <damage>15</damage>
             </tube>
         </weapons>
         <utilities>
             <barrel>
                 <amount>1</amount>
+                <sprite>resources/sprites/utilities/barril.png</sprite>
                 <contains>
                     <knives>0.5</knives>
                     <tubes>0.5</tubes>
@@ -57,6 +123,7 @@
             </barrel>
             <box>
                 <amount>1</amount>
+                <sprite>resources/sprites/utilities/caja.png</sprite>
                 <contains>
                     <knives>0</knives>
                     <tubes>1</tubes>

@@ -15,7 +15,7 @@ using namespace tinyxml2;
 
 class XMLParser {
 public:
-    Config parse(string);
+    Config* parse(string);
 private:
     static constexpr const char* const DEFAULT_CONFIG_PATH = "configs/default.xml";
 
@@ -26,7 +26,7 @@ private:
     template <typename T>
     static T getSafeValueFromElement(XMLElement *element, vector<string> names, T (*func)(const char*), string section);
 
-    Config mapXMLDocumentToConfig(XMLDocument *doc, XMLDocument *docDefault);
+    Config* mapXMLDocumentToConfig(XMLDocument *doc, XMLDocument *docDefault);
 
     string getLoggerLevel(XMLElement *config);
 
@@ -40,7 +40,7 @@ private:
 
     vector<Level> getGameplayLevels(XMLElement *gameplay);
 
-    vector<Character> getGameplayCharacters(XMLElement *gameplay);
+    vector<CharacterXML> getGameplayCharacters(XMLElement *gameplay);
 
     vector<NPC> getGameplayNPCS(XMLElement *gameplay);
 
@@ -53,9 +53,9 @@ private:
     Utility getGameplayUtility(XMLElement *utility);
 
     template <typename T>
-    vector<T> mapSettingToVector(XMLElement *genericElement, string childNameType, T (*function)(XMLElement*, string), string section);
+    static vector<T> mapSettingToVector(XMLElement *genericElement, string childNameType, T (*function)(XMLElement*, string), string section);
 
-    static Character mapCharacter(XMLElement *characters, string currentChildName);
+    static CharacterXML mapCharacter(XMLElement *characters, string currentChildName);
 
     static Level mapLevel(XMLElement *levels, string currentChildName);
 
@@ -71,13 +71,19 @@ private:
 
     vector<Level> wrapperGameplayLevelsModule(XMLElement *gameplay, XMLElement *defaultGameplay);
 
-    vector<Character> wrapperGameplayCharactersModule(XMLElement *gameplay, XMLElement *defaultGameplay);
+    vector<CharacterXML> wrapperGameplayCharactersModule(XMLElement *gameplay, XMLElement *defaultGameplay);
 
     vector<NPC> wrapperGameplayNPCSModule(XMLElement *gameplay, XMLElement *defaultGameplay);
 
     Weapons wrapperGameplayWeaponsModule(XMLElement *gameplay, XMLElement *defaultGameplay);
 
     Utilities wrapperGameplayUtilitiesModule(XMLElement *gameplay, XMLElement *defaultGameplay);
+
+    static string dummyStringMap(XMLElement *genericElement, const string currentChildName);
+
+    string getErrorMessageFromFile(string pathToFile, int lineNumber);
+
+    static string getPathToElement(XMLElement *genericElement, vector<string> names, string section);
 };
 
 #endif //GAME_XMLPARSER_H

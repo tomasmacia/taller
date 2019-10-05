@@ -7,7 +7,7 @@
 
 #include <vector>
 #include "level.h"
-#include "character.h"
+#include "characterxml.h"
 #include "npc.h"
 #include "weapons.h"
 #include "utilities.h"
@@ -17,7 +17,7 @@ using namespace std;
 class Gameplay {
 public:
     vector<Level> levels;
-    vector<Character> characters;
+    vector<CharacterXML> characters;
     vector<NPC> npcs;
     Weapons weapons;
     Utilities utilities;

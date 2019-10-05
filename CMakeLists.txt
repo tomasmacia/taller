@@ -17,19 +17,24 @@ ENDIF(APPLE)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
+
 # SDL
 find_package(SDL2 REQUIRED)
+find_package(SDL2_image REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
+include_directories(${SDL2_IMAGE_INCLUDE_DIRS})
 
 # source files
 set(SOURCE_FILES
         # parser module
         src/parser/xmlparser.cpp
         src/parser/xmlparser.h
+        src/parser/CLIArgumentParser.cpp
+        src/parser/CLIArgumentParser.h
         src/parser/config/config.h
         src/parser/config/bindings.h
         src/parser/config/gameplay.h
-        src/parser/config/character.h
+        src/parser/config/characterxml.h
         src/parser/config/level.h
         src/parser/config/weapons.h
         src/parser/config/utilities.h
@@ -51,18 +56,32 @@ set(SOURCE_FILES
         src/LogLib/LogManager.cpp
 
         # window
-        src/window.cpp
-        src/window.h
-        src/square.cpp
-        src/square.h
 
         #main
         src/main.cpp
-        )
 
+        src/events.h
+        src/events.cpp
+        src/game.h
+        src/game.cpp
+        src/character.h
+        src/character.cpp
+        src/background.h
+        src/background.cpp
+        src/object.h
+        src/object.cpp
+        src/LevelBuilder.cpp
+        src/LevelBuilder.h
+        src/GameObject.cpp
+        src/GameObject.h
+        src/TextureManager.cpp
+        src/TextureManager.h
+        src/game_component.h
+        src/game_component.cpp
+        src/utils/TimeUtils.cpp src/utils/TimeUtils.h)
 
 # create executable
 add_executable(game ${SOURCE_FILES})
 
 # link libraries
-target_link_libraries(game ${SDL2_LIBRARY} ${XMLPARSER})
+target_link_libraries(game ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARIES} ${XMLPARSER})
