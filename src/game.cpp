@@ -4,6 +4,7 @@
 
 #include "game.h"
 #include "events.h"
+#include "Controller.h"
 #include "parser/CLIArgumentParser.h"
 #include "parser/config/config.h"
 #include "parser/xmlparser.h"
@@ -20,6 +21,7 @@ void Game::init() {
     this->initConfig();
     this->initLogManager(this->config->loggerLevel);
     this->initSDL();
+    this->initController();
     this->loadHotkeys(this->config);
 }
 
@@ -66,6 +68,10 @@ void Game::initSDL() {
         //SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
     }
 
+}
+
+void Game::initController() {
+    this->controller = new Controller();
 }
 
 
@@ -138,6 +144,26 @@ void Game::start() {
             setWindowTitleWithFPS(current);
         }
     }
+}
+
+void Game::processInput() {
+    controller->processInput();
+}
+
+void Game::update() {
+    for (auto &object : gameObjects) {
+        object->update();
+    }
+}
+
+void Game::render() {
+    SDL_RenderClear(renderer);
+
+    for (auto &object : gameObjects) {
+        object->render();
+    }
+
+    SDL_RenderPresent(renderer);
 }
 
 
