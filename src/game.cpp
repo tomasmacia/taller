@@ -4,7 +4,7 @@
 
 #include "game.h"
 #include "events.h"
-#include "Controller.h"
+#include "game/Controller.h"
 #include "Action.h"
 #include "parser/CLIArgumentParser.h"
 #include "parser/config/config.h"
@@ -97,7 +97,7 @@ void Game::start() {
     Uint32 fps_last = SDL_GetTicks();
     Uint32 current;
 
-    this->initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
+    //this->initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
 
     LevelBuilder levelBuilder;
     this->hasNextLevel = true;
@@ -154,7 +154,7 @@ void Game::start() {
 //}
 
 void Game::processInput() {
-    controller->processInput();
+    //controller->processInput();
 }
 
 void Game::update() {

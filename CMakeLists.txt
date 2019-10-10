@@ -78,7 +78,7 @@ set(SOURCE_FILES
         src/TextureManager.h
         src/game_component.h
         src/game_component.cpp
-        src/utils/TimeUtils.cpp src/utils/TimeUtils.h src/Controller.cpp src/Controller.h src/Action.h)
+        src/utils/TimeUtils.cpp src/utils/TimeUtils.h src/game/Controller.cpp src/game/Controller.h src/Action.h)
 
 # create executable
 add_executable(game ${SOURCE_FILES})

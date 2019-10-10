@@ -3,7 +3,7 @@
 //
 
 #include "Controller.h"
-#include "game.h"
+#include "../game.h"
 #include <SDL2/SDL_scancode.h>
 #include <map>
 #include <vector>

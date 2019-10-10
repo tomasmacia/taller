@@ -8,7 +8,7 @@
 #include <iostream>
 #include "object.h"
 #include "GameObject.h"
-#include "Controller.h"
+#include "game/Controller.h"
 #include "LogLib/LogManager.h"
 #include "parser/config/config.h"
 #include "game_component.h"
