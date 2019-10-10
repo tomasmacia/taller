@@ -3,9 +3,9 @@
 #define EVENTS_H_
 #include <SDL2/SDL.h>
 #include "game.h"
+#include "Action.h"
 #include <map>
 
-enum binding {UP, DOWN, LEFT, RIGHT, JUMP, PUNCH, KICK, JUMP_KICK, NONE, QUIT, CROUCH};
 
 class Events{
 
@@ -15,7 +15,7 @@ public:
     Events(Game* game, class Character* cody):
         _game(game),_cody(cody){};
     bool keyboard_event();
-    static void addHotkey(SDL_Scancode scancode, binding b);
+    static void addHotkey(SDL_Scancode scancode, Action b);
     static void initHotkeys();
 
 private:
@@ -25,8 +25,8 @@ private:
     Game* _game;
     class Character* _cody;
     SDL_Event _event;
-    binding getBindingForKeyPress(SDL_Scancode scancode);
-    static map<SDL_Scancode,binding>* hotkeys;
+    Action getBindingForKeyPress(SDL_Scancode scancode);
+    static map<SDL_Scancode,Action>* hotkeys;
 
 };
 

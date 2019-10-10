@@ -8,6 +8,7 @@
 #include <iostream>
 #include "object.h"
 #include "GameObject.h"
+#include "game/Controller.h"
 #include "LogLib/LogManager.h"
 #include "parser/config/config.h"
 #include "game_component.h"
@@ -32,8 +33,6 @@ public:
     Background *floor, *overlay;
     void move_all();
     void pj_in_final();
-
-    void level2(int enemy, int cajas,int barril, int tubos,int knifes,int width,int heigth);
 
     bool isRunning = true; // false
     bool levelFinished = false;
@@ -107,6 +106,10 @@ public:
         return config;
     }
 
+    Controller* getController() {
+        return controller;
+    }
+
     SDL_Window* getWindow() {
         return window;
     }
@@ -129,10 +132,16 @@ private:
     void initConfig();
     void initLogManager(string loggerLevel);
     void initSDL();
+    void initController();
 
     // free memory
     void destroy();
 
+
+    // gameloop
+    void processInput();
+    void update();
+    void render();
 
     void reboot();
 
@@ -146,11 +155,10 @@ private:
 
     bool hasNextLevel = false;
 
-    void level1(int enemy, int cajas,int barril, int tubos,int knifes,int width,int heigth);
-
     // wrappers
     Logger *logger; // since its a pointer allocating memory, we need to delete it later
     Config *config;
+    Controller *controller;
     SDL_Window *window;
     SDL_Renderer *renderer;
 

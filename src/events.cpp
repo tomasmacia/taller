@@ -5,19 +5,19 @@
 /* Funcionales son los movimientos (no laterales)
 con las flechas, saltar con LCTRL, golpear con X y agacharse con Z*/
 
-map<SDL_Scancode,binding>* Events::hotkeys;
+map<SDL_Scancode,Action>* Events::hotkeys;
 
 bool Events::keyboard_event() {
     execute_event();
     if (SDL_PollEvent(&_event)) {
-        binding b = getBindingForKeyPress(_event.key.keysym.scancode);
+        Action action = getBindingForKeyPress(_event.key.keysym.scancode);
         switch (_event.type) {
             /*Click en la X*/
             case SDL_QUIT:
                 LogManager::logDebug("Click en CERRAR (X)");
                 return true;
             case SDL_KEYDOWN:
-                switch (b) {
+                switch (action) {
                     case(QUIT):
                         /*Aprete escape*/
                         LogManager::logDebug("ESCAPE presionado");
@@ -71,7 +71,7 @@ bool Events::keyboard_event() {
                         return false;
                 }
             case SDL_KEYUP:
-                switch (b) {
+                switch (action) {
                     case LEFT:
                         left = false;
                         LogManager::logDebug("IZQUIERDA SUELTA");
@@ -113,7 +113,7 @@ void Events::execute_event(){
     if(down){_cody->move(0,2);}
 }
 
-binding Events::getBindingForKeyPress(SDL_Scancode scancode){
+Action Events::getBindingForKeyPress(SDL_Scancode scancode){
     try{
         return Events::hotkeys->at(scancode);
     } catch (const std::out_of_range){
@@ -121,10 +121,10 @@ binding Events::getBindingForKeyPress(SDL_Scancode scancode){
     }
 }
 
-void Events::addHotkey(SDL_Scancode scancode, binding b){
+void Events::addHotkey(SDL_Scancode scancode, Action b){
     Events::hotkeys->insert(std::make_pair(scancode,b));
 }
 
 void Events::initHotkeys(){
-    Events::hotkeys = new map<SDL_Scancode,binding>;
+    Events::hotkeys = new map<SDL_Scancode,Action>;
 }
