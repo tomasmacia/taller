@@ -6,17 +6,32 @@
 #include "game.h"
 #include <SDL2/SDL_scancode.h>
 #include <map>
+#include <vector>
 #include <utility>
 
 void Controller::processInput() {
+    currentInput.clear();
 
-    if (SDL_PollEvent(&sdlEvent)) {
-        currentInput = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
+    //std::vector<Action> stash;
+
+    while (SDL_PollEvent(&sdlEvent)) {
+        Action action = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
+
+        if (action != NONE) {
+            currentInput.push_back(action);
+        }
     }
+
+    // filter out NONE actions
+//    for (auto action : currentInput) {
+//        if (action != NONE) {
+//            currentInput.push_back(action);
+//        }
+//    }
 
 }
 
-Action Controller::getInput() {
+std::vector<Action> Controller::getInput() {
     return currentInput;
 }
 

@@ -9,6 +9,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_scancode.h>
 #include <string>
+#include <vector>
 #include "Action.h"
 
 
@@ -23,13 +24,13 @@ public:
 
     void processInput();
 
-    Action getInput();
+    std::vector<Action> getInput();
 
 private:
     void init();
     void bind();
 
-    Action currentInput;
+    std::vector<Action> currentInput;
 
     SDL_Event sdlEvent;
 
