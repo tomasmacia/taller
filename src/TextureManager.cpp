@@ -3,7 +3,7 @@
 //
 #include "TextureManager.h"
 #include "game.h"
-#include <SDL2/SDL_image.h>
+#include <SDL_image.h>
 
 SDL_Texture* TextureManager::loadTexture(const char *textureFile) {
     SDL_Texture *texture = nullptr;

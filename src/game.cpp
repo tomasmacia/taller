@@ -1,5 +1,5 @@
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <SDL_image.h>
 #include <algorithm>
 
 #include "game.h"
@@ -21,7 +21,6 @@ void Game::init() {
     this->initConfig();
     this->initLogManager(this->config->loggerLevel);
     this->initSDL();
-    this->initController();
     this->loadHotkeys(this->config);
 }
 
@@ -96,6 +95,8 @@ void Game::UpdateDelante(vector<Game_Component*> vector) {
 void Game::start() {
     Uint32 fps_last = SDL_GetTicks();
     Uint32 current;
+
+    this->initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
 
     LevelBuilder levelBuilder;
     this->hasNextLevel = true;

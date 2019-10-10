@@ -1,6 +1,6 @@
 #include "object.h"
 #include "LogLib/LogManager.h"
-#include <SDL2/SDL_image.h>
+#include <SDL_image.h>
 
 Object::Object(const std::string &image_path, int x,int y, SDL_Renderer* render, int wide,int heigth):
     _x(x), _y(y),_render(render),_wide(wide) {
