@@ -1,10 +1,11 @@
 #include <SDL2/SDL.h>
-#include <SDL_image.h>
+#include <SDL2/SDL_image.h>
 #include <algorithm>
 
 #include "game.h"
 #include "events.h"
 #include "Controller.h"
+#include "Action.h"
 #include "parser/CLIArgumentParser.h"
 #include "parser/config/config.h"
 #include "parser/xmlparser.h"
@@ -146,6 +147,11 @@ void Game::start() {
         }
     }
 }
+
+//bool Game::isRunning() { // TODO: implement when we have a proper gameloop input-update-render
+//    std::vector<Action> actions = controller->getInput();
+//    return std::find(actions.begin(), actions.end(), Action::QUIT) != actions.end();
+//}
 
 void Game::processInput() {
     controller->processInput();

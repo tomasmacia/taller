@@ -12,8 +12,6 @@
 void Controller::processInput() {
     currentInput.clear();
 
-    //std::vector<Action> stash;
-
     while (SDL_PollEvent(&sdlEvent)) {
         Action action = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
 
@@ -21,13 +19,6 @@ void Controller::processInput() {
             currentInput.push_back(action);
         }
     }
-
-    // filter out NONE actions
-//    for (auto action : currentInput) {
-//        if (action != NONE) {
-//            currentInput.push_back(action);
-//        }
-//    }
 
 }
 

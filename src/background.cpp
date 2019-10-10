@@ -1,6 +1,6 @@
 #include "background.h"
 #include "iostream"
-#include <SDL_image.h>
+#include <SDL2/SDL_image.h>
 #include"game.h"
 
 /* Recibe vector con  string de imagenes de fondo, render , alto y ancho de resoucion y al juego */

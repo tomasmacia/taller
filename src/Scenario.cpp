@@ -1,6 +1,6 @@
 #include "Scenario.h"
 #include "iostream"
-#include <SDL_image.h>
+#include <SDL2/SDL_image.h>
 
 
 void Scenario::move(){
