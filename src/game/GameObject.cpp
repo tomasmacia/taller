@@ -3,13 +3,10 @@
 //
 
 #include "GameObject.h"
-#include "TextureManager.h"
-#include "Game.h"
 
 GameObject::GameObject(const char *textureFile, int xPos, int yPos) {
-    x = xPos;
-    y = yPos;
-    texture = TextureManager::loadTexture(textureFile);
+    graphicsComponent = new GraphicsComponent(textureFile);
+    physicsComponent = new PhysicsComponent(xPos,yPos);
 }
 
 //void GameObject::render() {

@@ -6,8 +6,16 @@
 #define GAME_GAMEOBJECT_H
 
 #include <SDL2/SDL_render.h>
+#include "PhysicsComponent.h"
+#include "GraphicsComponent.h"
 
 class GameObject {
+
+private:
+
+    GraphicsComponent* graphicsComponent;
+    PhysicsComponent* physicsComponent;
+
 public:
     GameObject(const char* textureFile, int x, int y);
     GameObject() = default;
@@ -16,14 +24,6 @@ public:
 
     virtual void update() = 0;
     virtual void render() = 0;
-
-    int x;
-    int y;
-    int velocity;
-
-    SDL_Texture *texture;
-    SDL_Rect sourceRect;
-    SDL_Rect destinationRect;
 };
 
 #endif //GAME_GAMEOBJECT_H
