@@ -2,8 +2,8 @@
 // Created by Tomás Macía on 21/09/2019.
 //
 #include "TextureManager.h"
-#include "game.h"
-#include <SDL2/SDL_image.h>
+#include "../game.h"
+#include <SDL_image.h>
 
 SDL_Texture* TextureManager::loadTexture(const char *textureFile) {
     SDL_Texture *texture = nullptr;

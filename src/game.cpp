@@ -1,16 +1,16 @@
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <SDL_image.h>
 #include <algorithm>
 
 #include "game.h"
 #include "events.h"
 #include "game/Controller.h"
-#include "Action.h"
+#include "game/Action.h"
 #include "parser/CLIArgumentParser.h"
 #include "parser/config/config.h"
 #include "parser/xmlparser.h"
 #include "LogLib/Logger.h"
-#include "LevelBuilder.h"
+#include "game/LevelBuilder.h"
 #include "utils/TimeUtils.h"
 
 
