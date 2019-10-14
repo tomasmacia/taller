@@ -5,16 +5,15 @@
 #ifndef GAME_GAMEOBJECT_H
 #define GAME_GAMEOBJECT_H
 
-#include <SDL2/SDL_render.h>
 #include "PhysicsComponent.h"
 #include "GraphicsComponent.h"
 
 class GameObject {
 
-private:
+protected:
 
-    GraphicsComponent* graphicsComponent;
-    PhysicsComponent* physicsComponent;
+    PhysicsComponent* _physicsComponent;
+    GraphicsComponent* _graphicsComponent;
 
 public:
     GameObject(const char* textureFile, int x, int y);

@@ -25,6 +25,9 @@ public:
     Game(Game const&) = delete;
     void operator=(Game const&) = delete;
 
+    bool static ifXOutOfRange(int x);
+    bool static ifYOutOfRange(int y);
+
     // gameloop
     void start();
 

@@ -7,17 +7,20 @@
 #include "game.h"
 #include "GameObject.h"
 #include "Controller.h"
+#include "InputComponent.h"
 
 using namespace std;
 
 class Character : public GameObject {
 
 public:
-    Character(Game* _owner, int w, int h,SDL_Renderer* render, vector<string> pathsToSprites);
+    Character(Game* _owner,Controller* controller, int w, int h,SDL_Renderer* render, vector<string> pathsToSprites);
     ~Character();
 
     void update() override;
     void render() override;
+
+    void setAction(Action action);
 
     bool move(int option,int p);
     void updateImage();
@@ -29,6 +32,7 @@ public:
     void mov_jump(int me_estoy_moviendo);
 
 private:
+    InputComponent* _inputComponent = nullptr;
 
 
     Game* owner;

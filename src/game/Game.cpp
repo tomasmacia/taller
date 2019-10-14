@@ -5,7 +5,7 @@
 #include "Game.h"
 
 #include <SDL2/SDL.h>
-#include <SDL_image.h>
+#include <SDL2/SDL_image.h>
 #include <algorithm>
 
 #include "../parser/CLIArgumentParser.h"
@@ -24,6 +24,8 @@ void Game::init() {
     this->initConfig();
     this->initLogManager(this->config->loggerLevel);
     this->initSDL();
+    //porque no instanciar/inicializar a Controller aca? (AXEL)
+    //porque no instanciar/inicializar a LevelBuilder aca? (AXEL)
 }
 
 void Game::initConfig() {
@@ -83,14 +85,13 @@ void Game::start() {
     Uint32 current;
 
     this->initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
-
-    LevelBuilder levelBuilder;
     this->hasNextLevel = true;
 
 
     while (isRunning && hasNextLevel) {
+        LevelBuilder levelBuilder;
         this->hasNextLevel = levelBuilder.loadNext();
-        this->levelFinished = false;
+        this->levelFinished = false; //porque no en init() ? (AXEL)
 
         while (isRunning && hasNextLevel && !levelFinished) {
             isRunning = isGameRunning();
@@ -161,5 +162,13 @@ void Game::destroy() {
     SDL_DestroyWindow(this->window);
     SDL_DestroyRenderer(this->renderer);
     SDL_Quit();
+}
+
+bool Game::ifXOutOfRange(int x){
+    return levelBuilder.ifXOutOfRange(x);
+}
+
+bool Game::ifYOutOfRange(int y){
+    return levelBuilder.ifYOutOfRange(y);
 }
 

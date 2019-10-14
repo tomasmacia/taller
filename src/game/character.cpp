@@ -1,12 +1,12 @@
 #include <SDL2/SDL.h>
-#include "game.h"
-#include "character.h"
-#include "Input.h"
-#include "State.h"
-
 #include <utility>
+#include "character.h"
+#include "State.h"
+#include "Action.h"
+#include "LogManager.h"
 
-Character::Character(class Game* _owner, int w, int h, SDL_Renderer* render, std::vector<std::string> pathsToSprites):
+
+Character::Character(class Game* _owner,Controller* controller, int w, int h, SDL_Renderer* render, std::vector<std::string> pathsToSprites):
     _render(render),
     owner(_owner),
     _x(w*.3 ), /*--> posicion x inicial*/ /*----> .3 y .66 son ctes que se  q sirven */
@@ -25,51 +25,24 @@ Character::Character(class Game* _owner, int w, int h, SDL_Renderer* render, std
     //Ancho y alto del personaje al iniciar es la misma (solo es 1 imagen por default)
     rect->w=_image->clip_rect.w;
     rect->h=_image->clip_rect.h;    
+
+    _inputComponent = new InputComponent(controller,this);
 };
 
-
-
-
 void Character::update(){
-
-        //para cada input se actua distinto (Double Dispatch??)
-    /*Ej:
-        newInput es un botonDeGolpear que extiende de Input
-
-        newInput->activate(this)
-
-        >>En metodo activate de botonDeGolpear>>>
-
-        activate(Character* character){
-            character->ejecutarGolpear();
-        }*/
-
-    Input* newInput = _controller->getInput(); //si no hay input nuevo es NULL
-
-    if (newInput){
-        newInput->activate(this);
-        delete newInput;
-    }
+    _inputComponent->update();
+    _physicsComponent->update();
+    _graphicsComponent->update(_physicsComponent->getState());
 }
 
 void Character::render(){
-
-    State* newLook = physicsComponent->getState(); //si no hay state nuevo es NULL
-    graphicsComponent->update(newLook); // si es NULL usa el look anterior
-
-    if (newLook)
-        delete newLook;
+    _graphicsComponent->render();
 }
 
-
-
-
-
-
-
-
-
-
+void Character::setAction(Action action){
+    _physicsComponent->setAction(action);
+    _graphicsComponent->setAction(action);
+}
 
 
 
