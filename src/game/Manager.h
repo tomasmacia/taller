@@ -12,7 +12,6 @@
 
 #include "ECS.h"
 
-
 class Manager {
 private:
     std::vector<std::unique_ptr<Entity>> entities;

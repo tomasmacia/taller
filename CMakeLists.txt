@@ -67,12 +67,20 @@ set(SOURCE_FILES
         src/game/Game.cpp
         src/game/Controller.cpp
         src/game/Controller.h
-        src/game/ECS.h
+        src/game/ECS/Component.h
+        src/game/ECS/Entity.h
         src/game/Manager.h
         src/game/Action.h
         src/game/LevelBuilder.h
         src/game/LevelBuilder.cpp
-        src/game/PositionComponent.cpp src/game/PositionComponent.h src/game/CameraComponent.cpp src/game/CameraComponent.h src/game/CameraPositionComponent.cpp src/game/CameraPositionComponent.h)
+        src/game/PositionComponent.cpp
+        src/game/PositionComponent.h 
+        src/game/CameraComponent.cpp 
+        src/game/CameraComponent.h 
+        src/game/CameraPositionComponent.cpp 
+        src/game/CameraPositionComponent.h
+        src/game/CharacterRenderComponent.h
+        src/game/CharacterRenderComponent.cpp)
 
 # create executable
 add_executable(game ${SOURCE_FILES})

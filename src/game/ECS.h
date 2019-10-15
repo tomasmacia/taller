@@ -13,7 +13,17 @@
 
 
 class Entity;
-class Component;
+class Component {
+    public:
+        Entity* entity;
+
+        virtual void init() {}
+
+        virtual void update() {}
+        virtual void render() {}
+
+        virtual ~Component() {}
+};
 
 using ComponentID = std::size_t;
 
@@ -35,18 +45,6 @@ constexpr std::size_t maxComponents{32};
 
 using ComponentBitset = std::bitset<maxComponents>;
 using ComponentArray = std::array<Component*, maxComponents>;
-
-class Component {
-public:
-    Entity* entity;
-
-    virtual void init() {}
-
-    virtual void update() {}
-    virtual void render() {}
-
-    virtual ~Component() {}
-};
 
 class Entity {
 private:
