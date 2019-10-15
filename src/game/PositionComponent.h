@@ -9,13 +9,13 @@
 
 class PositionComponent : public Component {
 public:
-    void update() override;
-    void render() override;
-    void init() override {
+    void update();
+    void render();
+    void init(){
         setPosition(0, 0);
     }
 
-    ~PositionComponent() override {}
+    ~PositionComponent(){}
 
     void setPosition(int xPos, int yPos) {
         this->x = xPos;

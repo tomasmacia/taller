@@ -8,6 +8,7 @@
 #include "Game.h"
 #include "PositionComponent.h"
 #include "CameraPositionComponent.h"
+#include "CharacterRenderComponent.h"
 
 using namespace std;
 
@@ -70,13 +71,14 @@ void LevelBuilder::initializePlayers() {
     Manager *manager = Game::getInstance().getManager();
 
     for (auto &pj : Game::getInstance().getConfig()->gameplay.characters) {
-        std::vector<std::string> pathToPJSprites;
+        //std::vector<std::string> pathToPJSprites;
+        std::string pathToPJSprites = "stand.png";
 
         auto &player = manager->addEntity();
 
         initializeCamera(player);
         PositionComponent playerPositionComp = player.addComponent<PositionComponent>();
-        player.addComponent<CharacterRenderComponent>(playerPositionComp,pathToPJSprites,Game::getRenderer);
+        player.addComponent<CharacterRenderComponent>(&playerPositionComp,pathToPJSprites,Game::getInstance().getRenderer());
 
 
         LogManager::logDebug("Jugador inicializado");
