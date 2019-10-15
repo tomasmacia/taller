@@ -75,7 +75,8 @@ void LevelBuilder::initializePlayers() {
         auto &player = manager->addEntity();
 
         initializeCamera(player);
-        player.addComponent<PositionComponent>();
+        PositionComponent playerPositionComp = player.addComponent<PositionComponent>();
+        player.addComponent<CharacterRenderComponent>(playerPositionComp,pathToPJSprites,Game::getRenderer);
 
 
         LogManager::logDebug("Jugador inicializado");
