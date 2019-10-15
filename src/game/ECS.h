@@ -9,6 +9,7 @@
 #include <array>
 #include <vector>
 #include <memory>
+#include <cassert>
 
 
 class Entity;
