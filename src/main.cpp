@@ -1,4 +1,4 @@
-#include "game.h"
+#include "game/Game.h"
 #include "parser/CLIArgumentParser.h"
 
 

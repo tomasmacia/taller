@@ -55,30 +55,24 @@ set(SOURCE_FILES
         src/LogLib/LogManager.h
         src/LogLib/LogManager.cpp
 
-        # window
+        # utils
+        src/utils/TimeUtils.cpp
+        src/utils/TimeUtils.h
 
         #main
         src/main.cpp
 
-        src/events.h
-        src/events.cpp
-        src/game.h
-        src/game.cpp
-        src/character.h
-        src/character.cpp
-        src/background.h
-        src/background.cpp
-        src/object.h
-        src/object.cpp
-        src/LevelBuilder.cpp
-        src/LevelBuilder.h
-        src/GameObject.cpp
-        src/GameObject.h
-        src/TextureManager.cpp
-        src/TextureManager.h
-        src/game_component.h
-        src/game_component.cpp
-        src/utils/TimeUtils.cpp src/utils/TimeUtils.h src/game/Controller.cpp src/game/Controller.h src/Action.h)
+        # game
+        src/game/Game.h
+        src/game/Game.cpp
+        src/game/Controller.cpp
+        src/game/Controller.h
+        src/game/ECS.h
+        src/game/Manager.h
+        src/game/Action.h
+        src/game/LevelBuilder.h
+        src/game/LevelBuilder.cpp
+        src/game/PositionComponent.cpp src/game/PositionComponent.h src/game/CameraComponent.cpp src/game/CameraComponent.h src/game/CameraPositionComponent.cpp src/game/CameraPositionComponent.h)
 
 # create executable
 add_executable(game ${SOURCE_FILES})

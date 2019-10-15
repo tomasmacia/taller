@@ -1,0 +1,39 @@
+//
+// Created by Tomás Macía on 14/10/2019.
+//
+
+#ifndef GAME_POSITIONCOMPONENT_H
+#define GAME_POSITIONCOMPONENT_H
+
+#include "ECS.h"
+
+class PositionComponent : public Component {
+public:
+    void update() override;
+    void render() override;
+    void init() override {
+        setPosition(0, 0);
+    }
+
+    ~PositionComponent() override {}
+
+    void setPosition(int xPos, int yPos) {
+        this->x = xPos;
+        this->y = yPos;
+    }
+
+    int getX() {
+        return x;
+    }
+
+    int getY() {
+        return y;
+    }
+
+private:
+    int x;
+    int y;
+};
+
+
+#endif //GAME_POSITIONCOMPONENT_H

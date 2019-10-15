@@ -5,7 +5,7 @@
 #include "game.h"
 #include "events.h"
 #include "game/Controller.h"
-#include "Action.h"
+#include "game/Action.h"
 #include "parser/CLIArgumentParser.h"
 #include "parser/config/config.h"
 #include "parser/xmlparser.h"
