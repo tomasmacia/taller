@@ -67,8 +67,7 @@ set(SOURCE_FILES
         src/game/Game.cpp
         src/game/Controller.cpp
         src/game/Controller.h
-        src/game/ECS/Component.h
-        src/game/ECS/Entity.h
+        src/game/ECS.h
         src/game/Manager.h
         src/game/Action.h
         src/game/LevelBuilder.h

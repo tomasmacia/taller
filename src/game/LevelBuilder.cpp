@@ -72,13 +72,13 @@ void LevelBuilder::initializePlayers() {
 
     for (auto &pj : Game::getInstance().getConfig()->gameplay.characters) {
         //std::vector<std::string> pathToPJSprites;
-        std::string pathToPJSprites = "stand.png";
+        std::string pathToPJSprites = pj.stand;
 
         auto &player = manager->addEntity();
 
-        initializeCamera(player);
-        PositionComponent playerPositionComp = player.addComponent<PositionComponent>();
-        player.addComponent<CharacterRenderComponent>(&playerPositionComp,pathToPJSprites,Game::getInstance().getRenderer());
+        //initializeCamera(player);
+        player.addComponent<PositionComponent>();
+        player.addComponent<CharacterRenderComponent>(pathToPJSprites);
 
 
         LogManager::logDebug("Jugador inicializado");
