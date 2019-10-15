@@ -164,11 +164,3 @@ void Game::destroy() {
     SDL_Quit();
 }
 
-bool Game::ifXOutOfRange(int x){
-    return levelBuilder.ifXOutOfRange(x);
-}
-
-bool Game::ifYOutOfRange(int y){
-    return levelBuilder.ifYOutOfRange(y);
-}
-

@@ -100,6 +100,8 @@ private:
     Config *config;
     Controller *controller;
     SDL_Window *window;
+
+public:
     SDL_Renderer *renderer;
 
 

@@ -3,7 +3,7 @@
 #include "character.h"
 #include "State.h"
 #include "Action.h"
-#include "LogManager.h"
+#include "../LogLib/LogManager.h"
 
 
 Character::Character(class Game* _owner,Controller* controller, int w, int h, SDL_Renderer* render, std::vector<std::string> pathsToSprites):
@@ -27,7 +27,6 @@ Character::Character(class Game* _owner,Controller* controller, int w, int h, SD
     rect->h=_image->clip_rect.h;    
 
     _inputComponent = new InputComponent(controller,this);
-    _graphicsComponent->setType(CHARACTER);
 };
 
 void Character::update(){

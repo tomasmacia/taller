@@ -4,9 +4,9 @@
 
 #include "GameObject.h"
 
-GameObject::GameObject(const char *textureFile, int xPos, int yPos) {
-    _graphicsComponent = new GraphicsComponent(textureFile);
-    _physicsComponent = new PhysicsComponent(xPos,yPos,_graphicsComponent);
+GameObject::GameObject(int xPos, int yPos, int width, int height) {
+    _physicsComponent = new PhysicsComponent(xPos,yPos);
+    _graphicsComponent = new GraphicsComponent(width,height,_physicsComponent);
 }
 
 //void GameObject::render() {

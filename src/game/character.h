@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include <string>
 #include <vector>
-#include "game.h"
+#include "Game.h"
 #include "GameObject.h"
 #include "Controller.h"
 #include "InputComponent.h"
@@ -32,7 +32,7 @@ public:
     void mov_jump(int me_estoy_moviendo);
 
 private:
-    InputComponent* _inputComponent = nullptr;
+    class InputComponent* _inputComponent = nullptr;
 
 
     Game* owner;

@@ -5,8 +5,9 @@
 #include <SDL2/SDL_image.h>
 #include <vector>
 #include <string>
+
 #include "GameObjectType.h"
-#include "Component.h"
+#include "PhysicsComponent.h"
 #include "Action.h"
 
 class GraphicsComponent : public Component {
@@ -33,13 +34,18 @@ private:
 
     SDL_Rect _sourceRect;
     SDL_Rect _destinationRect;
+    SDL_Renderer* _renderer = nullptr;
 
     Action _action = NONE;
     int _actionCounter = 0;
     bool _fliped = false;
 
+    int _imageAmount = 1; //NO DEBERIA ESTA HARDCODEADO. DEBERIA DEPENDER DE LA ACTION
+
+    PhysicsComponent* _physicsComponent = nullptr;
+
 public:
-    GraphicsComponent(const char* textureFile);
+    GraphicsComponent(int width, int height, PhysicsComponent* physicsComponent);
     ~GraphicsComponent();
 
     void update() override;
@@ -53,6 +59,10 @@ protected:
     void setSpritesAcordingToType();
 
 private:
+    void updatePosition();
+    void loadSprite();
+    void loadNextImage();
+
     bool notFliped();
     void flip();
 
@@ -63,6 +73,7 @@ private:
     void setCharacterJumpKickSprites();
     void setCharacterCrouchSprites();
     void setCharacterNeutralSprites();
+    /*
     void setEnemyWalkSprites();
     void setBarrelNeutralSprites();
     void setBoxNeutralSprites();
@@ -72,6 +83,7 @@ private:
     void setBackgroundMiddleSprites();
     void setBackgroundFarSprites();
     void setBackgroundOverlaySprites();
+    */
 
 };
 

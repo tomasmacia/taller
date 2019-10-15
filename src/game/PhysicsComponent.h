@@ -2,7 +2,6 @@
 #define GAME_PHYSICSCOMPONENT_H
 
 #include "Component.h"
-#include "GraphicsComponent.h"
 #include "Action.h"
 
 class PhysicsComponent : public Component{
@@ -35,14 +34,15 @@ private:
     Action _action = NONE;
     int _actionCounter = 0;
 
-    GraphicsComponent* _graphicsComponent = nullptr;
-
 public:
-    PhysicsComponent(int x, int y, GraphicsComponent* graphicsComponent);
+    PhysicsComponent(int x, int y);
     ~PhysicsComponent();
 
     void update() override;
     void render() override{}
+
+    int getX();
+    int getY();
 
 protected:
     void switchAction(Action action) override;
@@ -50,8 +50,6 @@ protected:
 private:
     bool ifXOutOfRange();
     bool ifYOutOfRange();
-    void broadcastPosition();
-
     
     void up();
     void down();

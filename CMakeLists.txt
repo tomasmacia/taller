@@ -76,7 +76,19 @@ set(SOURCE_FILES
         src/game/Parallax.h
         src/game/TextureManager.cpp
         src/game/TextureManager.h
-        src/game/Background.cpp src/game/Background.h)
+        src/game/Background.cpp 
+        src/game/Background.h
+        src/game/InputComponent.h
+        src/game/InputComponent.cpp
+        src/game/PhysicsComponent.h
+        src/game/PhysicsComponent.cpp
+        src/game/GraphicsComponent.h
+        src/game/GraphicsComponent.cpp
+        src/game/IAComponent.h
+        src/game/IAComponent.cpp
+        src/game/Component.h
+        src/game/GameObjectType.h
+)
 
 
 # create executable

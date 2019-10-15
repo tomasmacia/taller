@@ -1,10 +1,9 @@
 #include "PhysicsComponent.h"
-#include "game.h"
 
-PhysicsComponent::PhysicsComponent(int x, int y, GraphicsComponent* graphicsComponent){
+PhysicsComponent::PhysicsComponent(int x, int y){
     _x = x;
     _y = y;
-    _graphicsComponent = graphicsComponent;
+    none(); //estado neutro (no hace nada)
 }
 
 void PhysicsComponent::update(){
@@ -12,6 +11,7 @@ void PhysicsComponent::update(){
     if (actionIsOver()){
         _action = NONE;
         none();
+        _actionCounter = 0;
     }
 
     _velocityX += _accelerationX;
@@ -20,19 +20,20 @@ void PhysicsComponent::update(){
     _x += _velocityX;
     _y += _velocityY;
 
+    /*
     if (ifXOutOfRange()){
         _x -= _velocityX;
     }
     if (ifYOutOfRange()){
         _y -= _velocityY;
     }
-
-    broadcastPosition();
+    */
 
     if (_action != NONE)
         _actionCounter++;
 }
 
+/*
 bool PhysicsComponent::ifXOutOfRange(){
     return Game::->ifXOutOfRange(_x);
 }
@@ -42,9 +43,14 @@ bool PhysicsComponent::ifXOutOfRange(){
 bool PhysicsComponent::ifYOutOfRange(){
     return Game::->ifYOutOfRange(_y);
 }
+*/
 
-void PhysicsComponent::broadcastPosition(){
-    _graphicsComponent->setPosition(_x,_y);
+int PhysicsComponent::getX(){
+    return _x;
+}
+
+int PhysicsComponent::getY(){
+    return _y;
 }
 
 void PhysicsComponent::switchAction(Action action){
@@ -107,7 +113,7 @@ bool PhysicsComponent::actionIsOver(){
             return _actionCounter >= JUMP_KICK_TICKS;
         case CROUCH:
             return _actionCounter >= CROUCH_TICKS;
-    }
+        }
     }
     else{
         return false;

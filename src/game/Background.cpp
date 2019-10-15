@@ -6,7 +6,7 @@
 #include "GameObject.h"
 
 Background::Background(const char* textureFile, int x, int y) {
-    GameObject(texture, x, y);
+    //GameObject(texture, x, y);
 }
 
 void Background::update() {

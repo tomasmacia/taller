@@ -16,7 +16,7 @@ protected:
     GraphicsComponent* _graphicsComponent;
 
 public:
-    GameObject(const char* textureFile, int x, int y);
+    GameObject(int xPos, int yPos, int width, int height);
     GameObject() = default;
 
     virtual ~GameObject() = default;;

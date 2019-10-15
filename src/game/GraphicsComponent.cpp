@@ -1,10 +1,16 @@
 #include "GraphicsComponent.h"
-#include "TextureManager.h"
-#include "LogManager.h"
-#include "game.h"
+#include "../LogLib/LogManager.h"
+#include "Game.h"
 
-GraphicsComponent::GraphicsComponent(const char* textureFile){
-    _currentSprite = TextureManager::loadTexture(textureFile);
+GraphicsComponent::GraphicsComponent(int width, int height, PhysicsComponent* physicsComponent){
+    //Sets some objects
+    _physicsComponent = physicsComponent;
+    _renderer = Game::getInstance().renderer;
+
+    //Initializes destination square
+    updatePosition();
+    _destinationRect.w = width;
+    _destinationRect.h = height;
 }
 
 GraphicsComponent::~GraphicsComponent(){
@@ -13,10 +19,15 @@ GraphicsComponent::~GraphicsComponent(){
 
 void GraphicsComponent::update(){
 
+    if (_type == UNDEFINED)
+        LogManager::logError("GraphicsComponent: tried to update undefined type");
+
+    updatePosition();
+    loadNextImage();
 }
 
 void GraphicsComponent::render(){
-
+    SDL_RenderCopy( _renderer, _currentSprite, &_sourceRect, &_destinationRect);
 }
 
 void GraphicsComponent::setPosition(int x, int y){
@@ -25,8 +36,11 @@ void GraphicsComponent::setPosition(int x, int y){
 }
 
 void GraphicsComponent::setType(GameObjectType gameObjectType){
+    //Initializes type of graphic component and sprites                                      
     _type = gameObjectType;
     setSpritesAcordingToType();
+    _current_sprites_path = _neutral_sprites_path;
+    loadSprite(); // i think in memory
 }
 
 void GraphicsComponent::switchAction(Action action){
@@ -83,6 +97,7 @@ void GraphicsComponent::setSpritesAcordingToType(){
             setCharacterCrouchSprites();
             setCharacterNeutralSprites();
             break;
+        /*
         case ENEMY:
             setEnemyWalkSprites();
             //setEnemyJumpSprites();
@@ -116,6 +131,7 @@ void GraphicsComponent::setSpritesAcordingToType(){
         case BACKGROUND_OVERLAY:
             setBackgroundOverlaySprites();
             break;
+        */
         case UNDEFINED:
             LogManager::logError("undefined game object type");
             break;
@@ -130,20 +146,38 @@ void GraphicsComponent::flip(){
     _fliped = true;
 }
 
+void GraphicsComponent::updatePosition(){
+    _destinationRect.x = _physicsComponent->getX();
+    _destinationRect.y = _physicsComponent->getY();
+}
 
+void GraphicsComponent::loadSprite(){
 
+    SDL_Surface* loadedSurface = IMG_Load( _current_sprites_path.c_str() );
+    if( loadedSurface == NULL )
+    {
+        LogManager::logError("Unable to load image, SDL_image Error:");
+    }
+    else
+    {
+        _currentSprite = SDL_CreateTextureFromSurface( _renderer, loadedSurface );
+        if( _currentSprite == NULL )
+        {
+            LogManager::logError( "Unable to create texture from, SDL Error:");
+        }
+        SDL_FreeSurface( loadedSurface );
+    }
+}
 
+void GraphicsComponent::loadNextImage(){
+    int width, height;
+    SDL_QueryTexture(_currentSprite, NULL, NULL, &width, &height);
 
-
-
-
-
-
-
-
-
-
-
+    _sourceRect.h = height;
+    _sourceRect.w = width/_imageAmount;
+    _sourceRect.x = ((int)(width/_imageAmount))*_actionCounter;
+    _sourceRect.y = height;
+}
 
 
 
@@ -171,51 +205,51 @@ void GraphicsComponent::flip(){
 
 //PRIVATE
 void GraphicsComponent::setCharacterWalkSprites(){
-    _walk_sprites_path = Game::->getInstance().getConfig()->gameplay.characters.at(0).walk;  
+    _walk_sprites_path = Game::getInstance().getConfig()->gameplay.characters.at(0).walk;  
 }
 
 void GraphicsComponent::setCharacterJumpSprites(){
-    _walk_sprites_path = Game::->getInstance().getConfig()->gameplay.characters.at(0).jump;
+    _walk_sprites_path = Game::getInstance().getConfig()->gameplay.characters.at(0).jump;
 }
 
 void GraphicsComponent::setCharacterPunchSprites(){
-    _walk_sprites_path = Game::->getInstance().getConfig()->gameplay.characters.at(0).punch;
+    _walk_sprites_path = Game::getInstance().getConfig()->gameplay.characters.at(0).punch;
 }
 
 void GraphicsComponent::setCharacterKickSprites(){
-    _walk_sprites_path = Game::->getInstance().getConfig()->gameplay.characters.at(0).kick;
+    _walk_sprites_path = Game::getInstance().getConfig()->gameplay.characters.at(0).kick;
 }
 
 void GraphicsComponent::setCharacterJumpKickSprites(){
-    _walk_sprites_path = Game::->getInstance().getConfig()->gameplay.characters.at(0).jumpkick;
+    _walk_sprites_path = Game::getInstance().getConfig()->gameplay.characters.at(0).jumpkick;
 }
 
 void GraphicsComponent::setCharacterCrouchSprites(){
-    _walk_sprites_path = Game::->getInstance().getConfig()->gameplay.characters.at(0).crouch;
+    _walk_sprites_path = Game::getInstance().getConfig()->gameplay.characters.at(0).crouch;
 }
 
 void GraphicsComponent::setCharacterNeutralSprites(){
-    _walk_sprites_path = Game::->getInstance().getConfig()->gameplay.characters.at(0).stand;
+    _neutral_sprites_path = Game::getInstance().getConfig()->gameplay.characters.at(0).stand;
 }
-
+/*
 void GraphicsComponent::setEnemyWalkSprites(){
-    _walk_sprites_path = Game::->getInstance().getConfig()->gameplay.npcs.at(0).walk;
+    _walk_sprites_path = Game::getInstance().getConfig()->gameplay.npcs.at(0).walk;
 }
 
 void GraphicsComponent::setBarrelNeutralSprites(){
-    _walk_sprites_path = Game::->getInstance().getConfig()->gameplay.utilities.barrel;
+    _neutral_sprites_path = Game::getInstance().getConfig()->gameplay.utilities.barrel;
 }
 
 void GraphicsComponent::setBoxNeutralSprites(){
-    _walk_sprites_path = Game::->getInstance().getConfig()->gameplay.utilities.box;
+    _neutral_sprites_path = Game::getInstance().getConfig()->gameplay.utilities.box;
 }
 
 void GraphicsComponent::setTubeNeutralSprites(){
-    _walk_sprites_path = Game::->getInstance().getConfig()->gameplay.weapons.tube;
+    _neutral_sprites_path = Game::getInstance().getConfig()->gameplay.weapons.tube;
 }
 
 void GraphicsComponent::setKnifeNeutralSprites(){
-    _walk_sprites_path = Game::->getInstance().getConfig()->gameplay.weapons.knife;
+    _neutral_sprites_path = Game::getInstance().getConfig()->gameplay.weapons.knife;
 }
 
 void GraphicsComponent::setBackgroundFloorSprites(){
@@ -233,3 +267,4 @@ void GraphicsComponent::setBackgroundFarSprites(){
 void GraphicsComponent::setBackgroundOverlaySprites(){
     //IMPLEMENTAR
 }
+*/
