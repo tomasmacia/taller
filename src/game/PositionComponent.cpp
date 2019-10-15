@@ -18,16 +18,16 @@ void PositionComponent::update() {
     for (auto &action : actions){
         switch(action) {
             case Action::UP:
-                y += 1;
+                y -= 5;
                 break;
             case Action::DOWN:
-                y -= 1;
+                y += 5;
                 break;
             case Action::LEFT:
-                x -= 1;
+                x -= 5;
                 break;
             case Action::RIGHT:
-                x += 1;
+                x += 5;
                 break;
             default:
                 break;

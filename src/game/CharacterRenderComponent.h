@@ -4,19 +4,19 @@
 
 #include "ECS.h"
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <SDL_image.h>
 #include "PositionComponent.h"
 #include "../LogLib/LogManager.h"
 
 class CharacterRenderComponent : public Component{
 
     public:
-        CharacterRenderComponent(PositionComponent* iposition, std::string ispritePath, SDL_Renderer* irenderer);
-        void update();
-        void render();
+        CharacterRenderComponent(std::string ispritePath);
+        void update() override;
+        void render() override;
+
 
     private:
-        PositionComponent* position;
         std::string spritePath;
         SDL_Renderer* renderer;
         SDL_Texture* texture;
