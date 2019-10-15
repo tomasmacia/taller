@@ -27,12 +27,13 @@ Character::Character(class Game* _owner,Controller* controller, int w, int h, SD
     rect->h=_image->clip_rect.h;    
 
     _inputComponent = new InputComponent(controller,this);
+    _graphicsComponent->setType(CHARACTER);
 };
 
 void Character::update(){
     _inputComponent->update();
     _physicsComponent->update();
-    _graphicsComponent->update(_physicsComponent->getState());
+    _graphicsComponent->update();
 }
 
 void Character::render(){

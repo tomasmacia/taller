@@ -2,6 +2,7 @@
 #define GAME_PHYSICSCOMPONENT_H
 
 #include "Component.h"
+#include "GraphicsComponent.h"
 #include "Action.h"
 
 class PhysicsComponent : public Component{
@@ -15,8 +16,8 @@ private:
     float _accelerationX;
     float _accelerationY;
 
-    float DEFAULT_WAKING_VELOCITY_X = 2;
-    float DEFAULT_WAKING_VELOCITY_Y = 2;
+    float DEFAULT_WALKING_VELOCITY_X = 2;
+    float DEFAULT_WALKING_VELOCITY_Y = 2;
 
     float DEFAULT_JUMPING_VELOCITY_Y = 2; //velocidad vertical con la que el personaje salta
     float DEFAULT_JUMPING_ACCELERATION_Y = -2;
@@ -31,8 +32,13 @@ private:
     int JUMP_KICK_TICKS = 1;
     int CROUCH_TICKS = 1;
 
+    Action _action = NONE;
+    int _actionCounter = 0;
+
+    GraphicsComponent* _graphicsComponent = nullptr;
+
 public:
-    PhysicsComponent(int x, int y);
+    PhysicsComponent(int x, int y, GraphicsComponent* graphicsComponent);
     ~PhysicsComponent();
 
     void update() override;
@@ -44,6 +50,8 @@ protected:
 private:
     bool ifXOutOfRange();
     bool ifYOutOfRange();
+    void broadcastPosition();
+
     
     void up();
     void down();

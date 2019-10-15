@@ -1,0 +1,20 @@
+#ifndef GAME_GAME_OBJECT_TYPE_H
+#define GAME_GAME_OBJECT_TYPE_H
+
+
+enum GameObjectType {
+    CHARACTER,
+    ENEMY,
+    BARREL,
+    BOX,
+    TUBE,
+    KNIFE,
+    BACKGROUND_FLOOR,
+    BACKGROUND_MIDDLE,
+    BACKGROUND_FAR,
+    BACKGROUND_OVERLAY,
+    UNDEFINED
+};
+
+
+#endif //GAME_GAME_OBJECT_TYPE_H

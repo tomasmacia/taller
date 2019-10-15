@@ -1,9 +1,10 @@
 #include "PhysicsComponent.h"
 #include "game.h"
 
-PhysicsComponent::PhysicsComponent(int x, int y){
+PhysicsComponent::PhysicsComponent(int x, int y, GraphicsComponent* graphicsComponent){
     _x = x;
     _y = y;
+    _graphicsComponent = graphicsComponent;
 }
 
 void PhysicsComponent::update(){
@@ -26,6 +27,8 @@ void PhysicsComponent::update(){
         _y -= _velocityY;
     }
 
+    broadcastPosition();
+
     if (_action != NONE)
         _actionCounter++;
 }
@@ -38,6 +41,10 @@ bool PhysicsComponent::ifXOutOfRange(){
 
 bool PhysicsComponent::ifYOutOfRange(){
     return Game::->ifYOutOfRange(_y);
+}
+
+void PhysicsComponent::broadcastPosition(){
+    _graphicsComponent->setPosition(_x,_y);
 }
 
 void PhysicsComponent::switchAction(Action action){
@@ -111,34 +118,34 @@ void PhysicsComponent::up(){
     _accelerationX = 0;
     _accelerationY = 0;
     _velocityX = 0;
-    _velocityY = DEFAULT_WAKING_VELOCITY_Y;
+    _velocityY = DEFAULT_WALKING_VELOCITY_Y;
 }
 
 void PhysicsComponent::down(){
     _accelerationX = 0;
     _accelerationY = 0;
     _velocityX = 0;
-    _velocityY = -DEFAULT_WAKING_VELOCITY_Y;
+    _velocityY = -DEFAULT_WALKING_VELOCITY_Y;
 }
 
 void PhysicsComponent::left(){
     _accelerationX = 0;
     _accelerationY = 0;
-    _velocityX = -DEFAULT_WAKING_VELOCITY_X;
+    _velocityX = -DEFAULT_WALKING_VELOCITY_X;
     _velocityY = 0;
 }
 
 void PhysicsComponent::right(){
     _accelerationX = 0;
     _accelerationY = 0;
-    _velocityX = DEFAULT_WAKING_VELOCITY_X;
+    _velocityX = DEFAULT_WALKING_VELOCITY_X;
     _velocityY = 0;
 }
 
 void PhysicsComponent::jump(){
     _accelerationX = 0;
     _accelerationY = DEFAULT_JUMPING_ACCELERATION_Y;
-    _velocityX = DEFAULT_WAKING_VELOCITY_X; //aca esta la inercia horizontal
+    _velocityX = _velocityX; //aca esta la inercia horizontal. La velocidad ahora es la de antes
     _velocityY = DEFAULT_JUMPING_VELOCITY_Y;
 }
 
@@ -159,7 +166,7 @@ void PhysicsComponent::kick(){
 void PhysicsComponent::jumpKick(){
     _accelerationX = 0;
     _accelerationY = DEFAULT_JUMPING_ACCELERATION_Y;
-    _velocityX = DEFAULT_WAKING_VELOCITY_X; //aca esta la inercia horizontal
+    _velocityX = _velocityX; //aca esta la inercia horizontal. La velocidad ahora es la de antes
     _velocityY = DEFAULT_JUMPING_VELOCITY_Y; 
 }
 

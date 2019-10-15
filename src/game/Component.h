@@ -6,8 +6,6 @@
 class Component {
 
 protected:
-    Action _action = NONE;
-    int _actionCounter = 0;
 
 public:    
     virtual void update() = 0;
