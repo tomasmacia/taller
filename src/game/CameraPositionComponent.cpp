@@ -12,7 +12,7 @@ void CameraPositionComponent::update() {
     PositionComponent playerPositionComponent = player.getComponent<PositionComponent>();
 
     if (shouldMoveCamera(playerPositionComponent.getX())) {
-        moveCamera(1);
+        moveCamera(5);
     }
 
     std::cout << std::string("[CAMERA]: X inicial es ") + std::to_string(this->currentX) << std::endl;

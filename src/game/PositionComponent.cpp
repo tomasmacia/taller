@@ -9,6 +9,10 @@
 #include "Action.h"
 #include "Game.h"
 
+PositionComponent::PositionComponent(Entity *camera) {
+    this->camera = camera;
+}
+
 
 
 void PositionComponent::update() {
@@ -33,10 +37,9 @@ void PositionComponent::update() {
                 break;
         }
     }
+
     std::cout << std::string("[POSITION]: ") + std::to_string(this->x) + ", " + std::to_string(this->y) << std::endl;
 }
 
-void PositionComponent::render() {
 
-}
 

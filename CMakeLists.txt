@@ -79,7 +79,7 @@ set(SOURCE_FILES
         src/game/CameraPositionComponent.cpp 
         src/game/CameraPositionComponent.h
         src/game/CharacterRenderComponent.h
-        src/game/CharacterRenderComponent.cpp)
+        src/game/CharacterRenderComponent.cpp src/game/TextureWrapper.cpp src/game/TextureWrapper.h src/game/PhysicsComponent.cpp src/game/PhysicsComponent.h src/game/InputComponent.cpp src/game/InputComponent.h)
 
 # create executable
 add_executable(game ${SOURCE_FILES})

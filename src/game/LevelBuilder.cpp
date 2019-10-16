@@ -7,6 +7,7 @@
 #include "LevelBuilder.h"
 #include "Game.h"
 #include "PositionComponent.h"
+#include "InputComponent.h"
 #include "CameraPositionComponent.h"
 #include "CharacterRenderComponent.h"
 
@@ -56,13 +57,15 @@ void LevelBuilder::initializeWorld() {
 //    background.addComponent<>();
 }
 
-void LevelBuilder::initializeCamera(Entity &player) {
+Entity& LevelBuilder::initializeCamera(Entity &player) {
     LogManager::logDebug("Inicializando Camara");
 
     Manager *manager = Game::getInstance().getManager();
 
     auto &camera = manager->addEntity();
     camera.addComponent<CameraPositionComponent>(player);
+
+    return camera;
 }
 
 void LevelBuilder::initializePlayers() {
@@ -71,14 +74,14 @@ void LevelBuilder::initializePlayers() {
     Manager *manager = Game::getInstance().getManager();
 
     for (auto &pj : Game::getInstance().getConfig()->gameplay.characters) {
-        //std::vector<std::string> pathToPJSprites;
-        std::string pathToPJSprites = pj.stand;
 
         auto &player = manager->addEntity();
 
-        //initializeCamera(player);
-        player.addComponent<PositionComponent>();
-        player.addComponent<CharacterRenderComponent>(pathToPJSprites);
+        Entity& camera = initializeCamera(player);
+        player.addComponent<PositionComponent>(&camera);
+        //player.addComponent<InputComponent>(); // TODO check
+        player.addComponent<CharacterRenderComponent>(&pj);
+
 
 
         LogManager::logDebug("Jugador inicializado");

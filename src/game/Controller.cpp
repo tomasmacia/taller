@@ -20,6 +20,7 @@ void Controller::processInput() {
         }
     }
 
+
 }
 
 std::vector<Action> Controller::getInput() {
