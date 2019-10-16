@@ -11,6 +11,7 @@
 #include "CameraPositionComponent.h"
 #include "CharacterRenderComponent.h"
 #include "PhysicsComponent.h"
+#include "StateComponent.h"
 
 using namespace std;
 
@@ -79,11 +80,12 @@ void LevelBuilder::initializePlayers() {
         auto &player = manager->addEntity();
 
         Entity& camera = initializeCamera(player);
-        player.addComponent<PositionComponent>(&camera);
         player.addComponent<InputComponent>();
         player.addComponent<PhysicsComponent>();
+        player.addComponent<PositionComponent>(&camera);
         player.addComponent<CharacterRenderComponent>(&pj);
-
+        player.addComponent<StateComponent>();
+        //es imporante cuidar el orden de update (ESTE ES)
 
 
         LogManager::logDebug("Jugador inicializado");

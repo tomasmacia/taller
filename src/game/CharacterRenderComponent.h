@@ -10,6 +10,7 @@
 #include "../LogLib/LogManager.h"
 #include "../parser/config/characterxml.h"
 #include "TextureWrapper.h"
+#include "StateComponent.h"
 
 class CharacterRenderComponent : public Component {
 public:
@@ -20,29 +21,41 @@ public:
 
     ~CharacterRenderComponent() override;
 
+    void setIncomingAction(Action action){_incomingAction = action;}
+
 private:
     CharacterXML characterConfig;
     TextureWrapper texture;
     SDL_Rect srcRect;
     SDL_Rect destRect;
 
-    Action _action = NONE;
-    int imageAmount = 1; //NO DEBERIA ESTA HARDCODEADO. DEBERIA DEPENDER DE LA ACTION
-    int actionCount = 1;
+    int STAND_IMAGE_AMOUNT = 1;
+    int WALK_IMAGE_AMOUNT = 9;
+    int JUMP_IMAGE_AMOUNT = 13;
+    int PUNCH_IMAGE_AMOUNT = 3;
+    int KICK_IMAGE_AMOUNT = 6;
+    int JUMP_KICK_IMAGE_AMOUNT = 13;
+    int CROUCH_IMAGE_AMOUNT = 4;
 
+    int DELAY = 7;
+
+    int _imageAmount = 1;
+    
+    Action _incomingAction = NONE;
+    int _imageCounter = 0;
+
+    void updatePosition();
     void loadTexture();
-    void switchAction(Action);
+    void handleIncomingAction();
     void loadNextImage();
 
     bool isFlipped() {
-        return flipped;
+        return entity->getComponent<StateComponent>()->isFlipped();
     }
 
     void flip() {
-        flipped = true;
+        entity->getComponent<StateComponent>()->setFliped();
     }
-
-    bool flipped = false;
 
     std::string currentSprite;
 };

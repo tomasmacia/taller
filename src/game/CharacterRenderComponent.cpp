@@ -1,6 +1,7 @@
 #include "CharacterRenderComponent.h"
 #include "CameraPositionComponent.h"
 #include "Game.h"
+#include "StateComponent.h"
 
 CharacterRenderComponent::CharacterRenderComponent(CharacterXML *characterConfig) {
     this->characterConfig = *characterConfig;
@@ -18,17 +19,13 @@ void CharacterRenderComponent::init() {
 }
 
 void CharacterRenderComponent::update() {
-    auto positionComponent = entity->getComponent<PositionComponent>();
-    auto cameraPositionComponent = positionComponent->getCamera()->getComponent<CameraPositionComponent>();
-
-    destRect.x = positionComponent->getX() - cameraPositionComponent->currentX;
-    destRect.y = positionComponent->getY();
-
+    handleIncomingAction();
+    updatePosition();
     loadNextImage();
 }
 
 void CharacterRenderComponent::render() {
-    texture.render(destRect.x, destRect.y);
+    texture.render(&srcRect, &destRect,isFlipped());
 }
 
 
@@ -41,58 +38,81 @@ void CharacterRenderComponent::loadTexture() {
     texture.loadFromFile(currentSprite);
 }
 
-void CharacterRenderComponent::switchAction(Action action){
+void CharacterRenderComponent::handleIncomingAction(){
 
-    if (_action ==  NONE) {  //si hay una accion que no es NONE no se cambia
-        _action = action;
-        switch (action) {
+    auto state = entity->getComponent<StateComponent>();
+     
+    if (state->notBlockingAction()){
+        state->set(_incomingAction);
+
+        switch (state->current()) {
+            case NONE:
+                currentSprite = characterConfig.stand;
+                _imageAmount  = STAND_IMAGE_AMOUNT;
+                break;
             case UP:
                 currentSprite = characterConfig.walk;
+                _imageAmount  = WALK_IMAGE_AMOUNT;
                 break;
             case DOWN:
                 currentSprite = characterConfig.walk;
+                _imageAmount  = WALK_IMAGE_AMOUNT;
                 break;
             case LEFT:
-                if (!isFlipped()) flip();
+                if (state->facingRight()) flip();
                 currentSprite = characterConfig.walk;
+                _imageAmount  = WALK_IMAGE_AMOUNT;
                 break;
             case RIGHT:
-                if (!isFlipped()) flip();
+                if (state->facingLeft()) flip();
                 currentSprite = characterConfig.walk;
+                _imageAmount  = WALK_IMAGE_AMOUNT;
                 break;
             case JUMP:
                 currentSprite = characterConfig.jump;
+                _imageAmount  = JUMP_IMAGE_AMOUNT;
                 break;
             case PUNCH:
                 currentSprite = characterConfig.punch;
+                _imageAmount  = PUNCH_IMAGE_AMOUNT;
                 break;
             case KICK:
                 currentSprite = characterConfig.kick;
+                _imageAmount  = KICK_IMAGE_AMOUNT;
                 break;
             case JUMP_KICK:
                 currentSprite = characterConfig.jumpkick;
+                _imageAmount  = JUMP_KICK_IMAGE_AMOUNT;
                 break;
             case CROUCH:
                 currentSprite = characterConfig.crouch;
+                _imageAmount  = CROUCH_IMAGE_AMOUNT;
                 break;
             default:
                 LogManager::logError("Default Render Switch Action"); // TODO poner un log mejor
                 break;
         }
     }
+    loadTexture(); //OJO! ESTO ES UN CRIMEN DE LESA HUMANIDAD
 }
 
+void CharacterRenderComponent::loadNextImage(){
 
+    srcRect.w = texture.getWidth()/_imageAmount;
+    srcRect.h = texture.getHeight();
+    srcRect.x = srcRect.w * (int)(_imageCounter / DELAY);
+    srcRect.y = 0;
 
+    _imageCounter++;
+    _imageCounter = _imageCounter % (_imageAmount * DELAY);
+}
 
-void CharacterRenderComponent::loadNextImage() {
-//    int width, height;
-//    SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
-//
-//    srcRect.h = height;
-//    srcRect.w = width/imageAmount;
-//    srcRect.x = ((int)(width/imageAmount)) * actionCount;
-//    srcRect.y = height;
+void CharacterRenderComponent::updatePosition(){
+    auto positionComponent = entity->getComponent<PositionComponent>();
+    auto cameraPositionComponent = positionComponent->getCamera()->getComponent<CameraPositionComponent>();
+
+    destRect.x = positionComponent->getX() - cameraPositionComponent->currentX;
+    destRect.y = positionComponent->getY();
 }
 
 

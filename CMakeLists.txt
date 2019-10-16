@@ -87,7 +87,8 @@ set(SOURCE_FILES
         src/game/StateComponent.cpp 
         src/game/StateComponent.h 
         src/game/InputComponent.cpp 
-        src/game/InputComponent.h)
+        src/game/InputComponent.h
+)
 
 # create executable
 add_executable(game ${SOURCE_FILES})

@@ -15,7 +15,7 @@ void CameraPositionComponent::update() {
         moveCamera(5);
     }
 
-    std::cout << std::string("[CAMERA]: X inicial es ") + std::to_string(this->currentX) << std::endl;
+    //std::cout << std::string("[CAMERA]: X inicial es ") + std::to_string(this->currentX) << std::endl;
 }
 
 bool CameraPositionComponent::shouldMoveCamera(int characterX) {

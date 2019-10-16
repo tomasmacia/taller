@@ -16,36 +16,36 @@ public:
     void update() override;
     void init() override;
 
-    void setActions(std::list<Action> actions);
+    void setIncomingAction(Action action){_incomingAction = action;}
+    Action getIncoming();
 
 protected:
     void handleIncomingAction();
 
 private:
+
     float _velocityX;
     float _velocityY;
     float _accelerationX;
     float _accelerationY;
 
-    float DEFAULT_WALKING_VELOCITY_X = 2;
-    float DEFAULT_WALKING_VELOCITY_Y = 2;
+    float DEFAULT_WALKING_VELOCITY_X = 4;
+    float DEFAULT_WALKING_VELOCITY_Y = 4;
 
-    float DEFAULT_JUMPING_VELOCITY_Y = 2; // velocidad vertical con la que el personaje salta
-    float DEFAULT_JUMPING_ACCELERATION_Y = -2;
+    float DEFAULT_JUMPING_VELOCITY_Y = 40; // velocidad vertical con la que el personaje salta
+    float DEFAULT_JUMPING_ACCELERATION_Y = -4;
 
-    int UP_TICKS = 1;
-    int DOWN_TICKS = 1;
-    int LEFT_TICKS = 1;
-    int RIGHT_TICKS = 1;
-    int JUMP_TICKS = 1;
-    int PUNCH_TICKS = 1;
-    int KICK_TICKS = 1;
-    int JUMP_KICK_TICKS = 1;
-    int CROUCH_TICKS = 1;
+    int UP_TICKS = 9;
+    int DOWN_TICKS = 9;
+    int LEFT_TICKS = 9;
+    int RIGHT_TICKS = 9;
+    int JUMP_TICKS = 13;
+    int PUNCH_TICKS = 3;
+    int KICK_TICKS = 6;
+    int JUMP_KICK_TICKS = 13;
+    int CROUCH_TICKS = 4;
 
-    Action _currentAction = NONE;
     Action _incomingAction = NONE;
-    std::list<Action> _actionsQueue;
     int _actionCounter = 0;
 
     void up();
@@ -60,7 +60,6 @@ private:
     void none();
 
     bool actionIsOver();
-
 };
 
 #endif //GAME_PHYSICSCOMPONENT_H

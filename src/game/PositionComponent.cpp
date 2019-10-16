@@ -13,32 +13,8 @@ PositionComponent::PositionComponent(Entity *camera) {
     this->camera = camera;
 }
 
-
-
 void PositionComponent::update() {
-    std::list<Action> actions = Game::getInstance().getController()->getInput();
-
-
-    for (auto &action : actions){
-        switch(action) {
-            case Action::UP:
-                y -= 5;
-                break;
-            case Action::DOWN:
-                y += 5;
-                break;
-            case Action::LEFT:
-                x -= 5;
-                break;
-            case Action::RIGHT:
-                x += 5;
-                break;
-            default:
-                break;
-        }
-    }
-
-    std::cout << std::string("[POSITION]: ") + std::to_string(this->x) + ", " + std::to_string(this->y) << std::endl;
+    //std::cout << std::string("[POSITION]: ") + std::to_string(this->x) + ", " + std::to_string(this->y) << std::endl;
 }
 
 

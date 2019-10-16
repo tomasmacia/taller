@@ -1,10 +1,11 @@
 //
 // Created by Axel on 15/10/2019.
 //
- #include <iostream>
+#include <iostream>
 #include "PhysicsComponent.h"
 #include "../LogLib/LogManager.h"
 #include "PositionComponent.h"
+#include "StateComponent.h"
 
 void PhysicsComponent::init() {
     none(); //estado neutro (no hace nada)
@@ -12,39 +13,46 @@ void PhysicsComponent::init() {
 
 void PhysicsComponent::update() {
 
-    while (!_actionsQueue.empty()){
+    auto state = entity->getComponent<StateComponent>();
 
-        _incomingAction = _actionsQueue.front();
-        _actionsQueue.pop_front();
-        handleIncomingAction();
+    handleIncomingAction();
 
-        if (actionIsOver()) {
-            _currentAction = NONE;
-            none();
-            _actionCounter = 0;
-        }
-
-        _velocityX += _accelerationX;
-        _velocityY += _accelerationY;
-
-        auto positionComponent = entity->getComponent<PositionComponent>();
-
-        positionComponent->setPosition(
-                (int)((float)positionComponent->getX() + _velocityX),
-                (int)((float)positionComponent->getY() + _velocityY)
-                );
-
-        if (_currentAction != NONE)
-            _actionCounter++;
+    if (actionIsOver()) {
+        state->set(NONE);
+        none();
+        _actionCounter = 0;
     }
+
+    _velocityX += _accelerationX;
+    _velocityY += _accelerationY;
+
+    auto positionComponent = entity->getComponent<PositionComponent>();
+
+    positionComponent->setPosition(
+            (int)((float)positionComponent->getX() + _velocityX),
+            (int)((float)positionComponent->getY() - _velocityY) //resto porque el SDL tiene el eje Y al revez
+            );
+
+    if (state->current() != NONE)
+        _actionCounter++;
+
 }
 
+Action PhysicsComponent::getIncoming(){
+    return _incomingAction;
+}
 
 void PhysicsComponent::handleIncomingAction(){
 
-    if (_currentAction ==  NONE) {  // si hay una accion que no es NONE no se cambia
-        _currentAction = _incomingAction;
-        switch (_currentAction) {
+    auto state = entity->getComponent<StateComponent>();
+
+    if (state->notBlockingAction()){
+        state->set(_incomingAction);
+        std::cout << "physics: "<< state->current() <<"\n";
+        switch (state->current()) {
+            case NONE:
+                none();
+                break;
             case UP:
                 up();
                 break;
@@ -81,8 +89,10 @@ void PhysicsComponent::handleIncomingAction(){
 
 bool PhysicsComponent::actionIsOver(){
 
-    if (_currentAction !=  NONE) {
-        switch (_currentAction) {
+    auto state = entity->getComponent<StateComponent>();
+
+    if (state->current() !=  NONE) {
+        switch (state->current()) {
             case UP:
                 return _actionCounter >= UP_TICKS;
             case DOWN:
@@ -101,29 +111,22 @@ bool PhysicsComponent::actionIsOver(){
                 return _actionCounter >= JUMP_KICK_TICKS;
             case CROUCH:
                 return _actionCounter >= CROUCH_TICKS;
-            default:
-                return true; // or false ?
         }
     } else {
         return false;
     }
 }
 
-void PhysicsComponent::setActions(std::list<Action> actions){
-    _actionsQueue = actions;
-}
 
 void PhysicsComponent::up() {
     _accelerationX = 0;
     _accelerationY = 0;
-    _velocityX = 0;
     _velocityY = DEFAULT_WALKING_VELOCITY_Y;
 }
 
 void PhysicsComponent::down() {
     _accelerationX = 0;
     _accelerationY = 0;
-    _velocityX = 0;
     _velocityY = -DEFAULT_WALKING_VELOCITY_Y;
 }
 
@@ -131,14 +134,12 @@ void PhysicsComponent::left() {
     _accelerationX = 0;
     _accelerationY = 0;
     _velocityX = -DEFAULT_WALKING_VELOCITY_X;
-    _velocityY = 0;
 }
 
 void PhysicsComponent::right() {
     _accelerationX = 0;
     _accelerationY = 0;
     _velocityX = DEFAULT_WALKING_VELOCITY_X;
-    _velocityY = 0;
 }
 
 void PhysicsComponent::jump() {
