@@ -101,7 +101,7 @@ void CharacterRenderComponent::loadNextImage(){
 
     _imageCounter++;
     
-    if (_imageCounter == _imageAmount)
+    if (_imageCounter == (_imageAmount *DELAY))
         entity->getComponent<StateComponent>()->setFinished();
 
     _imageCounter = _imageCounter % (_imageAmount * DELAY);

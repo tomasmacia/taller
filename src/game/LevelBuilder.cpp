@@ -40,7 +40,7 @@ void LevelBuilder::initialize() {
 
     //initializeWorld();
     initializePlayers();
-    initializeEnemies();
+    //initializeEnemies();
     //initializeWeapons();
     //initializeUtilities();
 }

@@ -25,8 +25,8 @@ private:
     float DEFAULT_WALKING_VELOCITY_X = 4;
     float DEFAULT_WALKING_VELOCITY_Y = 4;
 
-    float DEFAULT_JUMPING_ACCELERATION_Y = -1;
-    float DEFAULT_JUMPING_VELOCITY_Y = 3;
+    float DEFAULT_JUMPING_ACCELERATION_Y = -3;
+    float DEFAULT_JUMPING_VELOCITY_Y = 12;
 
     void up();
     void down();

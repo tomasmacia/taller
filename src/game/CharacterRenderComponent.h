@@ -35,7 +35,7 @@ private:
     int JUMP_KICK_IMAGE_AMOUNT = 13;
     int CROUCH_IMAGE_AMOUNT = 4;
 
-    int DELAY = 7;
+    int DELAY = 5;
     int _imageAmount = 1;
     int _imageCounter = 0;
 

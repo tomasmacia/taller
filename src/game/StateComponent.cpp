@@ -17,15 +17,25 @@ void StateComponent::setIncomingAction(Action action){
 
     if (currentIsNotBlockingAction())
         _currentState = action;
+
+    if (_currentState == JUMP || _currentState == JUMP_KICK )
+        _jumping = true;
 }
 
 void StateComponent::setFinished(){
+
+    if (_jumping)
+        _jumping = false;
+
     if (currentIsblockingAction()){
         _currentState = NONE;
     }
+
 }
 
-
+bool StateComponent::notJumping(){
+    return !_jumping;
+}
 
 void StateComponent::setFliped(){
     _facingLeft = !_facingLeft;

@@ -16,10 +16,12 @@ public:
     bool currentIsblockingAction();
     bool blockingActionFinished();
     void setIncomingAction(Action action);
+    bool notJumping();
 
 private:
     Action _currentState = NONE;
     bool _facingLeft = false;
+    bool _jumping = false;
 };
 
 
