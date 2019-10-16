@@ -41,57 +41,53 @@ void CharacterRenderComponent::loadTexture() {
 void CharacterRenderComponent::handleIncomingAction(){
 
     auto state = entity->getComponent<StateComponent>();
-     
-    if (state->notBlockingAction()){
-        state->set(_incomingAction);
 
-        switch (state->current()) {
-            case NONE:
-                currentSprite = characterConfig.stand;
-                _imageAmount  = STAND_IMAGE_AMOUNT;
-                break;
-            case UP:
-                currentSprite = characterConfig.walk;
-                _imageAmount  = WALK_IMAGE_AMOUNT;
-                break;
-            case DOWN:
-                currentSprite = characterConfig.walk;
-                _imageAmount  = WALK_IMAGE_AMOUNT;
-                break;
-            case LEFT:
-                if (state->facingRight()) flip();
-                currentSprite = characterConfig.walk;
-                _imageAmount  = WALK_IMAGE_AMOUNT;
-                break;
-            case RIGHT:
-                if (state->facingLeft()) flip();
-                currentSprite = characterConfig.walk;
-                _imageAmount  = WALK_IMAGE_AMOUNT;
-                break;
-            case JUMP:
-                currentSprite = characterConfig.jump;
-                _imageAmount  = JUMP_IMAGE_AMOUNT;
-                break;
-            case PUNCH:
-                currentSprite = characterConfig.punch;
-                _imageAmount  = PUNCH_IMAGE_AMOUNT;
-                break;
-            case KICK:
-                currentSprite = characterConfig.kick;
-                _imageAmount  = KICK_IMAGE_AMOUNT;
-                break;
-            case JUMP_KICK:
-                currentSprite = characterConfig.jumpkick;
-                _imageAmount  = JUMP_KICK_IMAGE_AMOUNT;
-                break;
-            case CROUCH:
-                currentSprite = characterConfig.crouch;
-                _imageAmount  = CROUCH_IMAGE_AMOUNT;
-                break;
-            default:
-                LogManager::logError("Default Render Switch Action"); // TODO poner un log mejor
-                break;
-        }
+    switch (state->current()) {
+        case NONE:
+            currentSprite = characterConfig.stand;
+            _imageAmount  = STAND_IMAGE_AMOUNT;
+            break;
+        case UP:
+            currentSprite = characterConfig.walk;
+            _imageAmount  = WALK_IMAGE_AMOUNT;
+            break;
+        case DOWN:
+            currentSprite = characterConfig.walk;
+            _imageAmount  = WALK_IMAGE_AMOUNT;
+            break;
+        case LEFT:
+            if (state->facingRight()) flip();
+            currentSprite = characterConfig.walk;
+            _imageAmount  = WALK_IMAGE_AMOUNT;
+            break;
+        case RIGHT:
+            if (state->facingLeft()) flip();
+            currentSprite = characterConfig.walk;
+            _imageAmount  = WALK_IMAGE_AMOUNT;
+            break;
+        case JUMP:
+            currentSprite = characterConfig.jump;
+            _imageAmount  = JUMP_IMAGE_AMOUNT;
+            break;
+        case PUNCH:
+            currentSprite = characterConfig.punch;
+            _imageAmount  = PUNCH_IMAGE_AMOUNT;
+            break;
+        case KICK:
+            currentSprite = characterConfig.kick;
+            _imageAmount  = KICK_IMAGE_AMOUNT;
+            break;
+        case JUMP_KICK:
+            currentSprite = characterConfig.jumpkick;
+            _imageAmount  = JUMP_KICK_IMAGE_AMOUNT;
+            break;
+        case CROUCH:
+            currentSprite = characterConfig.crouch;
+            _imageAmount  = CROUCH_IMAGE_AMOUNT;
+            break;
+        default:
+            LogManager::logError("Default Render Switch Action"); // TODO poner un log mejor
+            break;
     }
     loadTexture(); //OJO! ESTO ES UN CRIMEN DE LESA HUMANIDAD
 }
@@ -104,6 +100,10 @@ void CharacterRenderComponent::loadNextImage(){
     srcRect.y = 0;
 
     _imageCounter++;
+    
+    if (_imageCounter == _imageAmount)
+        entity->getComponent<StateComponent>()->setFinished();
+
     _imageCounter = _imageCounter % (_imageAmount * DELAY);
 }
 

@@ -1,15 +1,31 @@
 #include "StateComponent.h"
 #include "PhysicsComponent.h"
 
-bool StateComponent::notBlockingAction(){
+bool StateComponent::currentIsNotBlockingAction(){
     return !(_currentState == JUMP || _currentState == PUNCH ||
              _currentState == KICK || _currentState == JUMP_KICK ||
              _currentState == CROUCH);
 }
 
-void StateComponent::set(Action action){
-    _currentState = action;
+bool StateComponent::currentIsblockingAction(){
+    return  (_currentState == JUMP || _currentState == PUNCH ||
+             _currentState == KICK || _currentState == JUMP_KICK ||
+             _currentState == CROUCH);
 }
+
+void StateComponent::setIncomingAction(Action action){
+
+    if (currentIsNotBlockingAction())
+        _currentState = action;
+}
+
+void StateComponent::setFinished(){
+    if (currentIsblockingAction()){
+        _currentState = NONE;
+    }
+}
+
+
 
 void StateComponent::setFliped(){
     _facingLeft = !_facingLeft;

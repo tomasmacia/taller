@@ -21,8 +21,6 @@ public:
 
     ~CharacterRenderComponent() override;
 
-    void setIncomingAction(Action action){_incomingAction = action;}
-
 private:
     CharacterXML characterConfig;
     TextureWrapper texture;
@@ -38,10 +36,7 @@ private:
     int CROUCH_IMAGE_AMOUNT = 4;
 
     int DELAY = 7;
-
     int _imageAmount = 1;
-    
-    Action _incomingAction = NONE;
     int _imageCounter = 0;
 
     void updatePosition();

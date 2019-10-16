@@ -6,17 +6,19 @@
 
 class StateComponent : public Component {
 public:
-    bool notBlockingAction();
-    void set(Action action);
+    bool currentIsNotBlockingAction();
     Action current();
     bool isFlipped();
     void setFliped();
     bool facingRight();
     bool facingLeft();
+    void setFinished();
+    bool currentIsblockingAction();
+    bool blockingActionFinished();
+    void setIncomingAction(Action action);
 
 private:
     Action _currentState = NONE;
-    bool _fliped = false;
     bool _facingLeft = false;
 };
 

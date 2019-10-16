@@ -15,8 +15,7 @@ void InputComponent::update() {
         if (actions.front() == QUIT)
             Game::getInstance().end();
         else{
-            entity->getComponent<PhysicsComponent>()->setIncomingAction(actions.front());
-            entity->getComponent<CharacterRenderComponent>()->setIncomingAction(actions.front());
+            entity->getComponent<StateComponent>()->setIncomingAction(actions.front());
             std::cout << "input: "<< actions.front() <<"\n";
             actions.pop_front();
         }
