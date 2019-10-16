@@ -4,23 +4,46 @@
 
 #include "ECS.h"
 #include <SDL2/SDL.h>
-#include <SDL_image.h>
+#include <SDL2/SDL_image.h>
+#include "Action.h"
 #include "PositionComponent.h"
 #include "../LogLib/LogManager.h"
+#include "../parser/config/characterxml.h"
+#include "TextureWrapper.h"
 
-class CharacterRenderComponent : public Component{
+class CharacterRenderComponent : public Component {
+public:
+    CharacterRenderComponent(CharacterXML *characterConfig);
+    void update() override;
+    void render() override;
+    void init() override;
 
-    public:
-        CharacterRenderComponent(std::string ispritePath);
-        void update() override;
-        void render() override;
+    ~CharacterRenderComponent() override;
 
+private:
+    CharacterXML characterConfig;
+    TextureWrapper texture;
+    SDL_Rect srcRect;
+    SDL_Rect destRect;
 
-    private:
-        std::string spritePath;
-        SDL_Renderer* renderer;
-        SDL_Texture* texture;
-        SDL_Rect* srcRect;
-        SDL_Rect* destRect;
+    Action _action = NONE;
+    int imageAmount = 1; //NO DEBERIA ESTA HARDCODEADO. DEBERIA DEPENDER DE LA ACTION
+    int actionCount = 1;
+
+    void loadTexture();
+    void switchAction(Action);
+    void loadNextImage();
+
+    bool isFlipped() {
+        return flipped;
+    }
+
+    void flip() {
+        flipped = true;
+    }
+
+    bool flipped = false;
+
+    std::string currentSprite;
 };
 #endif

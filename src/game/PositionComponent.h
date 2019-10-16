@@ -9,8 +9,9 @@
 
 class PositionComponent : public Component {
 public:
+    PositionComponent(Entity *camera);
+
     void update();
-    void render();
     void init(){
         setPosition(0, 0);
     }
@@ -30,9 +31,15 @@ public:
         return y;
     }
 
+    Entity* getCamera() {
+        return camera;
+    }
+
 private:
     int x;
     int y;
+
+    Entity *camera;
 };
 
 

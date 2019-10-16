@@ -16,7 +16,7 @@ public:
     void initialize();
 private:
     void initializeWorld();
-    void initializeCamera(Entity&);
+    Entity& initializeCamera(Entity&);
     void initializePlayers();
     void initializeEnemies();
     void initializeUtilities();

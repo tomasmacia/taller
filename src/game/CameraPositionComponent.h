@@ -17,20 +17,19 @@ public:
     void update() override;
     void init() override {
         this->currentX = 0;
-//        this->windowWidth = Game::getInstance().getConfig()->screenResolution.width;
-//        this->windowHeight = Game::getInstance().getConfig()->screenResolution.height;
-        this->windowWidth = 15;
-        this->windowHeight = 15;
-        this->levelWidth = 100;
-        this->levelHeight = 100;
-        this->marginWidth = 10;
+        this->windowWidth = Game::getInstance().getConfig()->screenResolution.width;
+        this->windowHeight = Game::getInstance().getConfig()->screenResolution.height;
+        this->levelWidth = 1600;
+        this->levelHeight = 600;
+        this->marginWidth = 200;
     }
 
+    int currentX;
 
     ~CameraPositionComponent() override {};
 
 private:
-    int currentX;
+
     int windowHeight, windowWidth;
     int levelHeight, levelWidth;
     int marginWidth;
