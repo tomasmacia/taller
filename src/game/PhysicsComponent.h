@@ -1,7 +1,3 @@
-//
-// Created by Tomás Macía on 15/10/2019.
-//
-
 #ifndef GAME_PHYSICSCOMPONENT_H
 #define GAME_PHYSICSCOMPONENT_H
 
@@ -42,8 +38,6 @@ private:
     void jumpKick();
     void crouch();
     void none();
-
-    bool actionIsOver();
 };
 
 #endif //GAME_PHYSICSCOMPONENT_H

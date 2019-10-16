@@ -88,6 +88,8 @@ set(SOURCE_FILES
         src/game/StateComponent.h 
         src/game/InputComponent.cpp 
         src/game/InputComponent.h
+         src/game/IAComponent.h  
+         src/game/IAComponent.cpp  
 )
 
 # create executable

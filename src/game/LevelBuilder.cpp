@@ -12,6 +12,7 @@
 #include "CharacterRenderComponent.h"
 #include "PhysicsComponent.h"
 #include "StateComponent.h"
+#include "IAComponent.h"
 
 using namespace std;
 
@@ -39,7 +40,7 @@ void LevelBuilder::initialize() {
 
     //initializeWorld();
     initializePlayers();
-    //initializeEnemies();
+    initializeEnemies();
     //initializeWeapons();
     //initializeUtilities();
 }
@@ -91,29 +92,52 @@ void LevelBuilder::initializePlayers() {
         LogManager::logDebug("Jugador inicializado");
     }
 }
-//
-//void LevelBuilder::initializeEnemies() {
-//    LogManager::logDebug("Inicializando enemigos");
-//    vector<NPC> enemies = Game::getInstance().getConfig()->gameplay.npcs;
-//    Level level = Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
-//
-//    for (auto &enemy : enemies) {
-//        int x;
-//        if (level.name == "bay") {
-//            x = rand() % (20001);
-//        } else if (level.name == "desert") {
-//            x = rand() % (20001/2);
-//        } else {
-//            x = rand() % (20001/2);
-//        }
-//        int y = 120 + rand() % (201 - 120);
-//        Game::getInstance().addGameComponent(new Game_Component(enemy.walk, x, y, Game::getInstance().getRenderer(),
-//                Game::getInstance().getConfig()->screenResolution.width,
-//                Game::getInstance().getConfig()->screenResolution.height,true,5)); // HARDCODE 5
-//        LogManager::logDebug("Enemigo inicializado");
-//    }
-//}
-//
+
+void LevelBuilder::initializeEnemies() {
+    LogManager::logDebug("Inicializando enemigos");
+
+    Manager *manager = Game::getInstance().getManager();
+
+    for (auto &pj : Game::getInstance().getConfig()->gameplay.characters) {
+
+        auto &npc = manager->addEntity();
+
+        Entity& camera = initializeCamera(npc);
+        npc.addComponent<IAComponent>();
+        npc.addComponent<PhysicsComponent>();
+        npc.addComponent<PositionComponent>(&camera);
+        npc.addComponent<CharacterRenderComponent>(&pj);
+        npc.addComponent<StateComponent>();
+    } 
+
+
+    LogManager::logDebug("Jugador inicializado");
+
+
+
+
+/*    vector<NPC> enemies = Game::getInstance().getConfig()->gameplay.npcs;
+    Level level = Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
+
+    for (auto &enemy : enemies) {
+        int x;
+        if (level.name == "bay") {
+            x = rand() % (20001);
+        } else if (level.name == "desert") {
+            x = rand() % (20001/2);
+        } else {
+            x = rand() % (20001/2);
+        }
+        int y = 120 + rand() % (201 - 120);
+        Game::getInstance().addGameComponent(new Game_Component(enemy.walk, x, y, Game::getInstance().getRenderer(),
+                Game::getInstance().getConfig()->screenResolution.width,
+                Game::getInstance().getConfig()->screenResolution.height,true,5)); // HARDCODE 5
+        LogManager::logDebug("Enemigo inicializado");
+    }*/
+
+
+}
+
 //void LevelBuilder::initializeWeapons() {
 //    LogManager::logDebug("Inicializando armas");
 //    Weapons weapons = Game::getInstance().getConfig()->gameplay.weapons;
