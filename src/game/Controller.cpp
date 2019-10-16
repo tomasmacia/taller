@@ -6,7 +6,6 @@
 #include "Game.h"
 #include <SDL2/SDL_scancode.h>
 #include <map>
-#include <vector>
 #include <utility>
 
 void Controller::processInput() {
@@ -23,7 +22,7 @@ void Controller::processInput() {
 
 }
 
-std::vector<Action> Controller::getInput() {
+std::list<Action> Controller::getInput() {
     return currentInput;
 }
 

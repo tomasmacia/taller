@@ -5,7 +5,7 @@
 #include "PositionComponent.h"
 #include <iostream>
 #include <string>
-#include <vector>
+#include <list>
 #include "Action.h"
 #include "Game.h"
 
@@ -16,7 +16,7 @@ PositionComponent::PositionComponent(Entity *camera) {
 
 
 void PositionComponent::update() {
-    std::vector<Action> actions = Game::getInstance().getController()->getInput();
+    std::list<Action> actions = Game::getInstance().getController()->getInput();
 
 
     for (auto &action : actions){

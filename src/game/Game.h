@@ -25,6 +25,7 @@ public:
     // ****** ENTRYPOINT *******
     // *************************
     void start();
+    void end();
 
     bool isRunning = true; // false
     bool levelFinished = false;

@@ -1,7 +1,7 @@
 //
 // Created by Axel on 15/10/2019.
 //
-
+ #include <iostream>
 #include "PhysicsComponent.h"
 #include "../LogLib/LogManager.h"
 #include "PositionComponent.h"
@@ -12,32 +12,39 @@ void PhysicsComponent::init() {
 
 void PhysicsComponent::update() {
 
-    if (actionIsOver()) {
-        _action = NONE;
-        none();
-        _actionCounter = 0;
+    while (!_actionsQueue.empty()){
+
+        _incomingAction = _actionsQueue.front();
+        _actionsQueue.pop_front();
+        handleIncomingAction();
+
+        if (actionIsOver()) {
+            _currentAction = NONE;
+            none();
+            _actionCounter = 0;
+        }
+
+        _velocityX += _accelerationX;
+        _velocityY += _accelerationY;
+
+        auto positionComponent = entity->getComponent<PositionComponent>();
+
+        positionComponent->setPosition(
+                (int)((float)positionComponent->getX() + _velocityX),
+                (int)((float)positionComponent->getY() + _velocityY)
+                );
+
+        if (_currentAction != NONE)
+            _actionCounter++;
     }
-
-    _velocityX += _accelerationX;
-    _velocityY += _accelerationY;
-
-    auto &positionComponent = entity->getComponent<PositionComponent>();
-
-    positionComponent.setPosition(
-            (int)((float)positionComponent.getX() + _velocityX),
-            (int)((float)positionComponent.getY() + _velocityY)
-            );
-
-    if (_action != NONE)
-        _actionCounter++;
 }
 
 
-void PhysicsComponent::switchAction(Action action){
+void PhysicsComponent::handleIncomingAction(){
 
-    if (_action ==  NONE) {  // si hay una accion que no es NONE no se cambia
-        _action = action;
-        switch (action) {
+    if (_currentAction ==  NONE) {  // si hay una accion que no es NONE no se cambia
+        _currentAction = _incomingAction;
+        switch (_currentAction) {
             case UP:
                 up();
                 break;
@@ -74,8 +81,8 @@ void PhysicsComponent::switchAction(Action action){
 
 bool PhysicsComponent::actionIsOver(){
 
-    if (_action !=  NONE) {
-        switch (_action) {
+    if (_currentAction !=  NONE) {
+        switch (_currentAction) {
             case UP:
                 return _actionCounter >= UP_TICKS;
             case DOWN:
@@ -100,6 +107,10 @@ bool PhysicsComponent::actionIsOver(){
     } else {
         return false;
     }
+}
+
+void PhysicsComponent::setActions(std::list<Action> actions){
+    _actionsQueue = actions;
 }
 
 void PhysicsComponent::up() {

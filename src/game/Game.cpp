@@ -107,7 +107,7 @@ void Game::start() {
 }
 
 bool Game::isGameRunning() { // TODO: implement when we have a proper gameloop input-update-render
-    std::vector<Action> actions = controller->getInput();
+    std::list<Action> actions = controller->getInput();
     //return actions.empty() || std::find(actions.begin(), actions.end(), Action::QUIT) != actions.end();
     return true;
 }
@@ -147,4 +147,8 @@ void Game::destroy() {
     SDL_DestroyWindow(this->window);
     SDL_DestroyRenderer(this->renderer);
     SDL_Quit();
+}
+
+void Game::end(){
+    isRunning = false;
 }

@@ -10,6 +10,7 @@
 #include "InputComponent.h"
 #include "CameraPositionComponent.h"
 #include "CharacterRenderComponent.h"
+#include "PhysicsComponent.h"
 
 using namespace std;
 
@@ -79,7 +80,8 @@ void LevelBuilder::initializePlayers() {
 
         Entity& camera = initializeCamera(player);
         player.addComponent<PositionComponent>(&camera);
-        //player.addComponent<InputComponent>(); // TODO check
+        player.addComponent<InputComponent>();
+        player.addComponent<PhysicsComponent>();
         player.addComponent<CharacterRenderComponent>(&pj);
 
 

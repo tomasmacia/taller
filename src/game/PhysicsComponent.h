@@ -7,6 +7,7 @@
 
 #include "ECS.h"
 #include "Action.h"
+#include <list>
 
 class PhysicsComponent : public Component {
 public:
@@ -15,8 +16,10 @@ public:
     void update() override;
     void init() override;
 
+    void setActions(std::list<Action> actions);
+
 protected:
-    void switchAction(Action action);
+    void handleIncomingAction();
 
 private:
     float _velocityX;
@@ -40,7 +43,9 @@ private:
     int JUMP_KICK_TICKS = 1;
     int CROUCH_TICKS = 1;
 
-    Action _action = NONE;
+    Action _currentAction = NONE;
+    Action _incomingAction = NONE;
+    std::list<Action> _actionsQueue;
     int _actionCounter = 0;
 
     void up();

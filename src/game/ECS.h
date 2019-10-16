@@ -15,7 +15,7 @@
 class Entity;
 class Component {
     public:
-        Entity* entity;
+        Entity* entity = nullptr;
 
         virtual void init() {}
 
@@ -88,10 +88,10 @@ public:
     }
 
     template <typename T>
-    T& getComponent() const {
+    T* getComponent() const {
         assert(hasComponent<T>());
         auto ptr(componentArray[getComponentTypeID<T>()]);
-        return *static_cast<T*>(ptr);
+        return static_cast<T*>(ptr);
     }
 };
 

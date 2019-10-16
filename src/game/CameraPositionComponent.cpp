@@ -9,9 +9,9 @@
 
 
 void CameraPositionComponent::update() {
-    PositionComponent playerPositionComponent = player.getComponent<PositionComponent>();
+    PositionComponent* playerPositionComponent = player.getComponent<PositionComponent>();
 
-    if (shouldMoveCamera(playerPositionComponent.getX())) {
+    if (shouldMoveCamera(playerPositionComponent->getX())) {
         moveCamera(5);
     }
 

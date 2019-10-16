@@ -18,11 +18,11 @@ void CharacterRenderComponent::init() {
 }
 
 void CharacterRenderComponent::update() {
-    auto &positionComponent = entity->getComponent<PositionComponent>();
-    auto &cameraPositionComponent = positionComponent.getCamera()->getComponent<CameraPositionComponent>();
+    auto positionComponent = entity->getComponent<PositionComponent>();
+    auto cameraPositionComponent = positionComponent->getCamera()->getComponent<CameraPositionComponent>();
 
-    destRect.x = positionComponent.getX() - cameraPositionComponent.currentX;
-    destRect.y = positionComponent.getY();
+    destRect.x = positionComponent->getX() - cameraPositionComponent->currentX;
+    destRect.y = positionComponent->getY();
 
     loadNextImage();
 }

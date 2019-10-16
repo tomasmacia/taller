@@ -8,9 +8,9 @@
 #include "PositionComponent.h"
 
 void CameraComponent::update() {
-    PositionComponent positionComponent = entity->getComponent<PositionComponent>(); // TODO move to class attr
+    PositionComponent* positionComponent = entity->getComponent<PositionComponent>(); // TODO move to class attr
 
-    if (shouldMoveCamera(positionComponent.getX())) {
+    if (shouldMoveCamera(positionComponent->getX())) {
         moveCamera(1);
     }
 
