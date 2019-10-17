@@ -10,7 +10,7 @@ public:
     NPCRenderComponent(NPC *npcConfig);
     void init() override;
 
-    int getJumpDuration();
+    int getJumpDuration() override;
 
 protected:
     void handleIncomingAction() override;

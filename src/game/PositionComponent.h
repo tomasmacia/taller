@@ -9,6 +9,7 @@
 
 class PositionComponent : public Component {
 public:
+    PositionComponent(Entity *camera, int x, int y) ;
     PositionComponent(Entity *camera);
     PositionComponent(){}
 

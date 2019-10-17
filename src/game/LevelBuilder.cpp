@@ -15,6 +15,7 @@
 #include "IAComponent.h"
 #include "../parser/config/npc.h"
 #include "NPCRenderComponent.h"
+#include "NonMovingRenderComponent.h"
 
 using namespace std;
 
@@ -100,22 +101,108 @@ void LevelBuilder::initializeEnemies() {
 
     Manager *manager = Game::getInstance().getManager();
 
-    for (auto &npcConfig : Game::getInstance().getConfig()->gameplay.npcs) {
+    auto npcs = Game::getInstance().getConfig()->gameplay.npcs;
 
+    for (int i = 0; i < npcs.size();i++) {
+
+        auto npcConfig = npcs.at(0);
         auto &npc = manager->addEntity();
+
+        int x = generateX();
+        int y = generateY();
 
         Entity& camera = initializeCamera(npc);
         npc.addComponent<IAComponent>();
         npc.addComponent<PhysicsComponent>();
-        npc.addComponent<PositionComponent>(&camera);
+        npc.addComponent<PositionComponent>(&camera,x,y);
         npc.addComponent<NPCRenderComponent>(&npcConfig);
         npc.addComponent<StateComponent>();
     } 
 
     LogManager::logDebug("enemigos inicializados");
+}
+
+void LevelBuilder::initializeWeapons() {
+    LogManager::logDebug("Inicializando armas");
+
+    Manager *manager = Game::getInstance().getManager();
+
+    auto weapons = Game::getInstance().getConfig()->gameplay.weapons;
+
+    for (int i = 0; i < weapons.knife.amount;i++) {
+
+        auto knifeConfig = weapons.knife;
+        auto &knife = manager->addEntity();
+
+        int x = generateX();
+        int y = generateY();
+
+        Entity& camera = initializeCamera(knife);
+        knife.addComponent<PositionComponent>(&camera,x,y);
+        knife.addComponent<NonMovingRenderComponent>(knifeConfig.sprite);
+    } 
+    LogManager::logDebug("tubos de metal inicializados");
+
+    for (int i = 0; i < weapons.tube.amount;i++) {
+
+        auto tubeConfig = weapons.tube;
+        auto &tube = manager->addEntity();
+
+        int x = generateX();
+        int y = generateY();
+
+        Entity& camera = initializeCamera(tube);
+        tube.addComponent<PositionComponent>(&camera,x,y);
+        tube.addComponent<NonMovingRenderComponent>(tubeConfig.sprite);
     }
 
+    LogManager::logDebug("tubos de metal inicializados");
+}
 
+void LevelBuilder::initializeUtilities() {
+    LogManager::logDebug("Inicializando cajas y barriles");
+
+    Manager *manager = Game::getInstance().getManager();
+
+    auto utilities = Game::getInstance().getConfig()->gameplay.utilities;
+
+    for (int i = 0; i < utilities.box.amount;i++) {
+
+        auto boxConfig = utilities.box;
+        auto &box = manager->addEntity();
+
+        int x = generateX();
+        int y = generateY();
+
+        Entity& camera = initializeCamera(box);
+        box.addComponent<PositionComponent>(&camera,x,y);
+        box.addComponent<NonMovingRenderComponent>(boxConfig.sprite);
+    } 
+    LogManager::logDebug("cajas inicializados");
+
+    for (int i = 0; i < utilities.barrel.amount;i++) {
+
+        auto barrelConfig = utilities.barrel;
+        auto &barrel = manager->addEntity();
+
+        int x = generateX();
+        int y = generateY();
+
+        Entity& camera = initializeCamera(barrel);
+        barrel.addComponent<PositionComponent>(&camera,x,y);
+        barrel.addComponent<NonMovingRenderComponent>(barrelConfig.sprite);
+    }
+
+    LogManager::logDebug("barriles inicializados");
+}
+
+int LevelBuilder::generateX(){
+    return 0;
+}
+
+int LevelBuilder::generateY(){
+    return 0; 
+}
 
 
 /*    vector<NPC> enemies = Game::getInstance().getConfig()->gameplay.npcs;

@@ -9,7 +9,7 @@ public:
     CharacterRenderComponent(CharacterXML *characterConfig);
     void init() override;
 
-    int getJumpDuration();
+    int getJumpDuration() override;
 
 protected:
     void handleIncomingAction() override;

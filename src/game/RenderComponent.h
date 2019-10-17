@@ -19,10 +19,10 @@ public:
 
     ~RenderComponent() override;
 
-    virtual int getJumpDuration() = 0;
+    virtual int getJumpDuration(){}
     
 protected:
-    virtual void handleIncomingAction() = 0;
+    virtual void handleIncomingAction(){}
 
     TextureWrapper texture;
     SDL_Rect srcRect;

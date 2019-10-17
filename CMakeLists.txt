@@ -93,7 +93,9 @@ set(SOURCE_FILES
         src/game/CharacterRenderComponent.h
         src/game/CharacterRenderComponent.cpp 
         src/game/NPCRenderComponent.h
-        src/game/NPCRenderComponent.cpp        
+        src/game/NPCRenderComponent.cpp   
+        src/game/NonMovingRenderComponent.h
+        src/game/NonMovingRenderComponent.cpp      
 )
 
 # create executable
