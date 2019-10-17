@@ -95,7 +95,9 @@ set(SOURCE_FILES
         src/game/NPCRenderComponent.h
         src/game/NPCRenderComponent.cpp   
         src/game/NonMovingRenderComponent.h
-        src/game/NonMovingRenderComponent.cpp      
+        src/game/NonMovingRenderComponent.cpp
+        src/game/BackgroundRenderComponent.h
+        src/game/BackgroundRenderComponent.cpp       
 )
 
 # create executable

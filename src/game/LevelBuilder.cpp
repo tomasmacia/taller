@@ -16,6 +16,8 @@
 #include "../parser/config/npc.h"
 #include "NPCRenderComponent.h"
 #include "NonMovingRenderComponent.h"
+#include "../parser/config/level.h"
+#include "BackgroundRenderComponent.h"
 
 using namespace std;
 
@@ -54,13 +56,23 @@ void LevelBuilder::initializeWorld() {
     Manager *manager = Game::getInstance().getManager();
     Level currentLevelSprites = Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
 
-    //if (!currentLevelSprites.floor.empty()) {
-        //background = manager->addEntity();
-    //}
+    auto &overlay = manager->addEntity();
+    overlay.addComponent<PositionComponent>();
+    overlay.addComponent<BackgroundRenderComponent>(currentLevelSprites.overlay);
 
-//    auto &background = manager->addEntity();
-//
-//    background.addComponent<>();
+    auto &floor = manager->addEntity();
+    floor.addComponent<PositionComponent>();
+    floor.addComponent<BackgroundRenderComponent>(currentLevelSprites.floor);
+
+    auto &middle = manager->addEntity();
+    middle.addComponent<PositionComponent>();
+    middle.addComponent<BackgroundRenderComponent>(currentLevelSprites.middle);
+
+    auto &far = manager->addEntity();
+    far.addComponent<PositionComponent>();
+    far.addComponent<BackgroundRenderComponent>(currentLevelSprites.far);
+
+    LogManager::logDebug("Fondos inicializados");
 }
 
 Entity& LevelBuilder::initializeCamera(Entity &player) {
@@ -105,7 +117,7 @@ void LevelBuilder::initializeEnemies() {
 
     for (int i = 0; i < npcs.size();i++) {
 
-        auto npcConfig = npcs.at(0);
+        auto npcConfig = npcs.at(i);
         auto &npc = manager->addEntity();
 
         int x = generateX();

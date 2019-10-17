@@ -99,6 +99,22 @@
                 <difficulty>NONE</difficulty>
                 <walk>resources/sprites/npcs/enemy_walk.png</walk>
             </npc1>
+            <npc2>
+                <difficulty>NONE</difficulty>
+                <walk>resources/sprites/npcs/enemy_walk.png</walk>
+            </npc2>
+            <npc3>
+                <difficulty>NONE</difficulty>
+                <walk>resources/sprites/npcs/enemy_walk.png</walk>
+            </npc3>
+            <npc4>
+                <difficulty>NONE</difficulty>
+                <walk>resources/sprites/npcs/enemy_walk.png</walk>
+            </npc4>
+            <npc5>
+                <difficulty>NONE</difficulty>
+                <walk>resources/sprites/npcs/enemy_walk.png</walk>
+            </npc5>
         </npcs>
         <weapons>
             <knife>
