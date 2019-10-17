@@ -10,13 +10,11 @@
 class PositionComponent : public Component {
 public:
     PositionComponent(Entity *camera);
+    PositionComponent(){}
 
-    void update();
-    void init(){
+    void init() override {
         setPosition(0, 0);
     }
-
-    ~PositionComponent(){}
 
     void setPosition(int xPos, int yPos) {
         this->x = xPos;

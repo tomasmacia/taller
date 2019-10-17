@@ -72,14 +72,12 @@ set(SOURCE_FILES
         src/game/Action.h
         src/game/LevelBuilder.h
         src/game/LevelBuilder.cpp
-        src/game/PositionComponent.cpp
         src/game/PositionComponent.h 
+        src/game/PositionComponent.cpp
         src/game/CameraComponent.cpp 
         src/game/CameraComponent.h 
         src/game/CameraPositionComponent.cpp 
         src/game/CameraPositionComponent.h
-        src/game/CharacterRenderComponent.h
-        src/game/CharacterRenderComponent.cpp 
         src/game/TextureWrapper.cpp 
         src/game/TextureWrapper.h 
         src/game/PhysicsComponent.cpp 
@@ -88,8 +86,14 @@ set(SOURCE_FILES
         src/game/StateComponent.h 
         src/game/InputComponent.cpp 
         src/game/InputComponent.h
-         src/game/IAComponent.h  
-         src/game/IAComponent.cpp  
+        src/game/IAComponent.h  
+        src/game/IAComponent.cpp
+        src/game/RenderComponent.h
+        src/game/RenderComponent.cpp
+        src/game/CharacterRenderComponent.h
+        src/game/CharacterRenderComponent.cpp 
+        src/game/NPCRenderComponent.h
+        src/game/NPCRenderComponent.cpp        
 )
 
 # create executable

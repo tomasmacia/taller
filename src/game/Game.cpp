@@ -13,8 +13,6 @@
 #include "../utils/TimeUtils.h"
 
 
-
-
 void Game::init() {
     //this->isRunning= false;
     this->initLogManager(CLIArgumentParser::getInstance().getDefaultLoggerLevel());

@@ -13,6 +13,8 @@
 #include "PhysicsComponent.h"
 #include "StateComponent.h"
 #include "IAComponent.h"
+#include "../parser/config/npc.h"
+#include "NPCRenderComponent.h"
 
 using namespace std;
 
@@ -40,7 +42,7 @@ void LevelBuilder::initialize() {
 
     //initializeWorld();
     initializePlayers();
-    //initializeEnemies();
+    initializeEnemies();
     //initializeWeapons();
     //initializeUtilities();
 }
@@ -51,9 +53,9 @@ void LevelBuilder::initializeWorld() {
     Manager *manager = Game::getInstance().getManager();
     Level currentLevelSprites = Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
 
-    if (!currentLevelSprites.floor.empty()) {
+    //if (!currentLevelSprites.floor.empty()) {
         //background = manager->addEntity();
-    }
+    //}
 
 //    auto &background = manager->addEntity();
 //
@@ -98,7 +100,7 @@ void LevelBuilder::initializeEnemies() {
 
     Manager *manager = Game::getInstance().getManager();
 
-    for (auto &pj : Game::getInstance().getConfig()->gameplay.characters) {
+    for (auto &npcConfig : Game::getInstance().getConfig()->gameplay.npcs) {
 
         auto &npc = manager->addEntity();
 
@@ -106,12 +108,12 @@ void LevelBuilder::initializeEnemies() {
         npc.addComponent<IAComponent>();
         npc.addComponent<PhysicsComponent>();
         npc.addComponent<PositionComponent>(&camera);
-        npc.addComponent<CharacterRenderComponent>(&pj);
+        npc.addComponent<NPCRenderComponent>(&npcConfig);
         npc.addComponent<StateComponent>();
     } 
 
-
-    LogManager::logDebug("Jugador inicializado");
+    LogManager::logDebug("enemigos inicializados");
+    }
 
 
 
@@ -136,7 +138,7 @@ void LevelBuilder::initializeEnemies() {
     }*/
 
 
-}
+
 
 //void LevelBuilder::initializeWeapons() {
 //    LogManager::logDebug("Inicializando armas");

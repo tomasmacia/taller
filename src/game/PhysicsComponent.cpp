@@ -6,7 +6,7 @@
 #include "../LogLib/LogManager.h"
 #include "PositionComponent.h"
 #include "StateComponent.h"
-#include "CharacterRenderComponent.h"
+#include "RenderComponent.h"
 
 void PhysicsComponent::init() {
     none(); //estado neutro (no hace nada)
@@ -19,13 +19,13 @@ void PhysicsComponent::update() {
     if (state->changed()){
         handleIncomingAction();
     }
-
+    /*
     std::cout << "============================\n";
     std::cout << "y: "<< entity->getComponent<PositionComponent>()->getY() <<"\n";
     std::cout << "_velocityY: "<< _velocityY <<"\n";
     std::cout << "_accelerationY: "<< _accelerationY <<"\n";
     std::cout << "jumping: "<< !state->notJumping() <<"\n";
-    std::cout << "physics: "<< state->current() <<"\n";
+    std::cout << "physics: "<< state->current() <<"\n";*/
 
     _velocityX += _accelerationX;
     _velocityY += _accelerationY;
@@ -153,7 +153,7 @@ void PhysicsComponent::none() {
 }
 
 void PhysicsComponent::seekToSyncJumping(){
-    int jumpDuration = entity->getComponent<CharacterRenderComponent>()->getJumpDuration();
+    int jumpDuration = entity->getComponent<RenderComponent>()->getJumpDuration();
     DEFAULT_JUMPING_ACCELERATION_Y = -2*(DEFAULT_JUMPING_VELOCITY_Y/jumpDuration);
 }
 

@@ -3,8 +3,6 @@
 #include "Game.h"
 #include "StateComponent.h"
 
-#include <iostream>
-
 CharacterRenderComponent::CharacterRenderComponent(CharacterXML *characterConfig) {
     this->characterConfig = *characterConfig;
 }
@@ -15,37 +13,11 @@ void CharacterRenderComponent::init() {
     destRect.x = (int)(Game::getInstance().getConfig()->screenResolution.width * 0.3);
     destRect.y = (int)(Game::getInstance().getConfig()->screenResolution.height * 0.3);
 
+    DELAY = 5;
     currentSprite = characterConfig.stand;
     _imageAmount  = STAND_IMAGE_AMOUNT;
     loadTexture();
     _imageCounter = 0;
-}
-
-void CharacterRenderComponent::update() {
-
-    auto state = entity->getComponent<StateComponent>();
-
-    if (state->changed()){
-        handleIncomingAction();
-        loadTexture();
-        _imageCounter = 0;
-    }
-    updatePosition();
-    loadNextImage();
-}
-
-void CharacterRenderComponent::render() {
-    texture.render(&srcRect, &destRect,isFlipped());
-}
-
-
-CharacterRenderComponent::~CharacterRenderComponent() {
-    texture.free();
-}
-
-void CharacterRenderComponent::loadTexture() {
-    texture.setWidthAndHeight(destRect.w, destRect.h);
-    texture.loadFromFile(currentSprite);
 }
 
 void CharacterRenderComponent::handleIncomingAction(){
@@ -99,35 +71,6 @@ void CharacterRenderComponent::handleIncomingAction(){
             LogManager::logError("Default Render Switch Action"); // TODO poner un log mejor
             break;
     }
-}
-
-void CharacterRenderComponent::loadNextImage(){
-
-    srcRect.w = texture.getWidth()/_imageAmount;
-    srcRect.h = texture.getHeight();
-    srcRect.x = srcRect.w * (int)(_imageCounter / DELAY);
-    srcRect.y = 0;
-    std::cout << "sprite: "<< _imageCounter / DELAY <<"\n";
-    std::cout << "_imageCounter: "<< _imageCounter <<"\n";
-    std::cout << "_imageAmount: "<< _imageAmount <<"\n";
-    std::cout << "currentSprite: "<< currentSprite <<"\n";
-    std::cout << "============================\n";
-    std::cout << "\n";
-
-    _imageCounter++;
-    
-    if (_imageCounter == (_imageAmount *DELAY))
-        entity->getComponent<StateComponent>()->setFinished();
-
-    _imageCounter = _imageCounter % (_imageAmount * DELAY);
-}
-
-void CharacterRenderComponent::updatePosition(){
-    auto positionComponent = entity->getComponent<PositionComponent>();
-    auto cameraPositionComponent = positionComponent->getCamera()->getComponent<CameraPositionComponent>();
-
-    destRect.x = positionComponent->getX() - cameraPositionComponent->currentX;
-    destRect.y = positionComponent->getY();
 }
 
 int CharacterRenderComponent::getJumpDuration(){
