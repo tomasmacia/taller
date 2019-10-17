@@ -6,6 +6,9 @@
 
 class StateComponent : public Component {
 public:
+
+    void update() override;
+
     bool currentIsNotBlockingAction();
     Action current();
     bool isFlipped();
@@ -17,11 +20,17 @@ public:
     bool blockingActionFinished();
     void setIncomingAction(Action action);
     bool notJumping();
+    bool jumping();
+    void setJumping();
+    bool changed();
 
 private:
     Action _currentState = NONE;
+    Action _prevState = NONE;
     bool _facingLeft = false;
     bool _jumping = false;
+    bool _requestForStateChange = false;
+
 };
 
 

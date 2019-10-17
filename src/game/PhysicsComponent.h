@@ -25,8 +25,8 @@ private:
     float DEFAULT_WALKING_VELOCITY_X = 4;
     float DEFAULT_WALKING_VELOCITY_Y = 4;
 
-    float DEFAULT_JUMPING_ACCELERATION_Y = -3;
-    float DEFAULT_JUMPING_VELOCITY_Y = 12;
+    float DEFAULT_JUMPING_ACCELERATION_Y; //setted later to sync with sprites
+    float DEFAULT_JUMPING_VELOCITY_Y = 20; //how high is the jump
 
     void up();
     void down();
@@ -38,6 +38,8 @@ private:
     void jumpKick();
     void crouch();
     void none();
+
+    void seekToSyncJumping();
 };
 
 #endif //GAME_PHYSICSCOMPONENT_H

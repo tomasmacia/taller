@@ -6,6 +6,7 @@
 #include "../LogLib/LogManager.h"
 #include "PositionComponent.h"
 #include "StateComponent.h"
+#include "CharacterRenderComponent.h"
 
 void PhysicsComponent::init() {
     none(); //estado neutro (no hace nada)
@@ -15,7 +16,16 @@ void PhysicsComponent::update() {
 
     auto state = entity->getComponent<StateComponent>();
 
-    handleIncomingAction();
+    if (state->changed()){
+        handleIncomingAction();
+    }
+
+    std::cout << "============================\n";
+    std::cout << "y: "<< entity->getComponent<PositionComponent>()->getY() <<"\n";
+    std::cout << "_velocityY: "<< _velocityY <<"\n";
+    std::cout << "_accelerationY: "<< _accelerationY <<"\n";
+    std::cout << "jumping: "<< !state->notJumping() <<"\n";
+    std::cout << "physics: "<< state->current() <<"\n";
 
     _velocityX += _accelerationX;
     _velocityY += _accelerationY;
@@ -26,17 +36,12 @@ void PhysicsComponent::update() {
             (int)((float)positionComponent->getX() + _velocityX),
             (int)((float)positionComponent->getY() - _velocityY) //resto porque el SDL tiene el eje Y al revez
             );
-
-    std::cout << "y: "<< positionComponent->getY() <<"\n";
-    std::cout << "_velocityY: "<< _velocityY <<"\n";
-    std::cout << "_accelerationY: "<< _accelerationY <<"\n";
 }
 
 void PhysicsComponent::handleIncomingAction(){
-
     auto state = entity->getComponent<StateComponent>();
-    if (state->notJumping()){
-    std::cout << "physics: "<< state->current() <<"\n";
+    
+    if (state->notJumping()){           //esto no es si la action actual es JUMP o JUMP_KICK
         switch (state->current()) {
             case NONE:
                 none();
@@ -54,6 +59,7 @@ void PhysicsComponent::handleIncomingAction(){
                 right();
                 break;
             case JUMP:
+                state->setJumping(); //la fisica es la que determina CUANDO EMPIEZA a saltar, no State
                 jump();
                 break;
             case PUNCH:
@@ -63,6 +69,7 @@ void PhysicsComponent::handleIncomingAction(){
                 kick();
                 break;
             case JUMP_KICK:
+                state->setJumping(); //la fisica es la que determina CUANDO EMPIEZA a saltar, no State
                 jumpKick();
                 break;
             case CROUCH:
@@ -102,6 +109,7 @@ void PhysicsComponent::right() {
 }
 
 void PhysicsComponent::jump() {
+    seekToSyncJumping();
     _accelerationX = 0;
     _accelerationY = DEFAULT_JUMPING_ACCELERATION_Y;
     _velocityX = _velocityX; //aca esta la inercia horizontal. La velocidad ahora es la de antes TODO no tiene sentido, se puede borrar esta linea
@@ -123,6 +131,7 @@ void PhysicsComponent::kick() {
 }
 
 void PhysicsComponent::jumpKick() {
+    seekToSyncJumping();
     _accelerationX = 0;
     _accelerationY = DEFAULT_JUMPING_ACCELERATION_Y;
     _velocityX = _velocityX; //aca esta la inercia horizontal. La velocidad ahora es la de antes TODO no tiene sentido, se puede borrar esta linea
@@ -142,3 +151,9 @@ void PhysicsComponent::none() {
     _velocityX = 0;
     _velocityY = 0;
 }
+
+void PhysicsComponent::seekToSyncJumping(){
+    int jumpDuration = entity->getComponent<CharacterRenderComponent>()->getJumpDuration();
+    DEFAULT_JUMPING_ACCELERATION_Y = -2*(DEFAULT_JUMPING_VELOCITY_Y/jumpDuration);
+}
+

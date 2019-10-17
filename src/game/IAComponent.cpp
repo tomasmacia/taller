@@ -8,11 +8,9 @@ void IAComponent::update(){
 
 Action IAComponent::generateAction(){
   srand (time(NULL));
-  int n = rand() % 4;
+  int n = rand() % 4 + 1;
 
     switch (n) {
-        case 0:
-            return NONE;
         case 1:
             return UP;
         case 2:

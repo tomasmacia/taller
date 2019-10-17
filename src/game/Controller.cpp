@@ -10,13 +10,14 @@
 
 void Controller::processInput() {
     currentInput.clear();
+    Action action;
 
     while (SDL_PollEvent(&sdlEvent)) {
 
+        action = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
+
         if( (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0) ||
             (sdlEvent.type == SDL_QUIT )){
-
-            Action action = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
 
             if (action != NONE) {
                 currentInput.push_back(action);
@@ -24,7 +25,10 @@ void Controller::processInput() {
         }
 
         if ((sdlEvent.type == SDL_KEYUP && sdlEvent.key.repeat == 0 ))
-            currentInput.push_back(NONE); //para anular la accion anterior
+        
+            if (action == UP || action == DOWN || action == LEFT || action == RIGHT ||
+                action == NONE) //no bloqueante
+                currentInput.push_back(NONE); //para anular la accion anterior
     }
 }
 

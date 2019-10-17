@@ -3,6 +3,8 @@
 #include "Game.h"
 #include "StateComponent.h"
 
+#include <iostream>
+
 CharacterRenderComponent::CharacterRenderComponent(CharacterXML *characterConfig) {
     this->characterConfig = *characterConfig;
 }
@@ -14,12 +16,20 @@ void CharacterRenderComponent::init() {
     destRect.y = (int)(Game::getInstance().getConfig()->screenResolution.height * 0.3);
 
     currentSprite = characterConfig.stand;
-
+    _imageAmount  = STAND_IMAGE_AMOUNT;
     loadTexture();
+    _imageCounter = 0;
 }
 
 void CharacterRenderComponent::update() {
-    handleIncomingAction();
+
+    auto state = entity->getComponent<StateComponent>();
+
+    if (state->changed()){
+        handleIncomingAction();
+        loadTexture();
+        _imageCounter = 0;
+    }
     updatePosition();
     loadNextImage();
 }
@@ -89,7 +99,6 @@ void CharacterRenderComponent::handleIncomingAction(){
             LogManager::logError("Default Render Switch Action"); // TODO poner un log mejor
             break;
     }
-    loadTexture(); //OJO! ESTO ES UN CRIMEN DE LESA HUMANIDAD
 }
 
 void CharacterRenderComponent::loadNextImage(){
@@ -98,6 +107,12 @@ void CharacterRenderComponent::loadNextImage(){
     srcRect.h = texture.getHeight();
     srcRect.x = srcRect.w * (int)(_imageCounter / DELAY);
     srcRect.y = 0;
+    std::cout << "sprite: "<< _imageCounter / DELAY <<"\n";
+    std::cout << "_imageCounter: "<< _imageCounter <<"\n";
+    std::cout << "_imageAmount: "<< _imageAmount <<"\n";
+    std::cout << "currentSprite: "<< currentSprite <<"\n";
+    std::cout << "============================\n";
+    std::cout << "\n";
 
     _imageCounter++;
     
@@ -113,6 +128,10 @@ void CharacterRenderComponent::updatePosition(){
 
     destRect.x = positionComponent->getX() - cameraPositionComponent->currentX;
     destRect.y = positionComponent->getY();
+}
+
+int CharacterRenderComponent::getJumpDuration(){
+    return DELAY * JUMP_IMAGE_AMOUNT;
 }
 
 

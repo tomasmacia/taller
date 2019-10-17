@@ -21,6 +21,8 @@ public:
 
     ~CharacterRenderComponent() override;
 
+    int getJumpDuration();
+
 private:
     CharacterXML characterConfig;
     TextureWrapper texture;
@@ -36,7 +38,7 @@ private:
     int CROUCH_IMAGE_AMOUNT = 4;
 
     int DELAY = 5;
-    int _imageAmount = 1;
+    int _imageAmount;
     int _imageCounter = 0;
 
     void updatePosition();
@@ -51,6 +53,7 @@ private:
     void flip() {
         entity->getComponent<StateComponent>()->setFliped();
     }
+
 
     std::string currentSprite;
 };
