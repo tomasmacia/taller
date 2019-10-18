@@ -94,7 +94,7 @@
             </character1>
         </characters>
         <npcs>
-            <amount>1</amount>
+            <amount>5</amount>
             <npc1>
                 <difficulty>NONE</difficulty>
                 <walk>resources/sprites/npcs/enemy_walk.png</walk>

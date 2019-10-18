@@ -11,34 +11,39 @@
 
 class CameraPositionComponent : public Component {
 public:
-    CameraPositionComponent(Entity &player): player(player) {}
-
 
     void update() override;
     void init() override {
         this->currentX = 0;
         this->windowWidth = Game::getInstance().getConfig()->screenResolution.width;
         this->windowHeight = Game::getInstance().getConfig()->screenResolution.height;
-        this->levelWidth = 1600;
-        this->levelHeight = 600;
+        this->levelWidth = 1600; //CASI SEGURO QUE NO SE USA
+        this->levelHeight = Game::getInstance().getConfig()->screenResolution.height;
         this->marginWidth = 200;
     }
+
+    void setPlayer(Entity* player);
 
     int currentX;
 
     ~CameraPositionComponent() override {};
 
 private:
+    int SCROLL_AMOUNT = 5;
 
     int windowHeight, windowWidth;
     int levelHeight, levelWidth;
     int marginWidth;
 
-    Entity& player;
+    std::list<Entity*> _players;
 
-    bool shouldMoveCamera(int);
+    bool shouldMoveCamera();
+    bool marginSurpased();
+    bool noPlayerInLeftLimit();
+    bool inLeftLimit(Entity* player);
+    bool touchingMargin(Entity* player);
 
-    void moveCamera(int);
+    void scroll();
 };
 
 

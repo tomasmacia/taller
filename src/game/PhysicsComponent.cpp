@@ -6,7 +6,7 @@
 #include "../LogLib/LogManager.h"
 #include "PositionComponent.h"
 #include "StateComponent.h"
-#include "RenderComponent.h"
+#include "CharacterRenderComponent.h"
 
 void PhysicsComponent::init() {
     none(); //estado neutro (no hace nada)
@@ -153,7 +153,7 @@ void PhysicsComponent::none() {
 }
 
 void PhysicsComponent::seekToSyncJumping(){
-    int jumpDuration = entity->getComponent<RenderComponent>()->getJumpDuration();
+    int jumpDuration = entity->getComponent<CharacterRenderComponent>()->getJumpDuration();
     DEFAULT_JUMPING_ACCELERATION_Y = -2*(DEFAULT_JUMPING_VELOCITY_Y/jumpDuration);
 }
 

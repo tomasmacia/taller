@@ -12,6 +12,8 @@
 #include "LevelBuilder.h"
 #include "../utils/TimeUtils.h"
 
+#include <iostream>
+
 
 void Game::init() {
     //this->isRunning= false;
@@ -121,9 +123,7 @@ void Game::update() {
 
 void Game::render() {
     SDL_RenderClear(renderer);
-
     manager->render();
-
     SDL_RenderPresent(renderer);
 }
 

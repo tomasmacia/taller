@@ -33,10 +33,10 @@ public:
                 std::end(entities));
     }
 
-    Entity& addEntity() {
+    Entity* addEntity() {
         auto *e = new Entity();
         entities.push_back(std::unique_ptr<Entity>(e));
-        return *e;
+        return e;
     }
 
     Entity& addCustomEntity(Entity* e) { // in case we want to add behaviour in a custom Entity that inherits from Entity

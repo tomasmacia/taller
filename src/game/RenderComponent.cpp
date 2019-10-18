@@ -22,7 +22,6 @@ void RenderComponent::render() {
     texture.render(&srcRect, &destRect,isFlipped());
 }
 
-
 RenderComponent::~RenderComponent() {
     texture.free();
 }

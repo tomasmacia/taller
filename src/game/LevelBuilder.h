@@ -16,7 +16,7 @@ public:
     void initialize();
 private:
     void initializeWorld();
-    Entity& initializeCamera(Entity&);
+    void initializeCamera();
     void initializePlayers();
     void initializeEnemies();
     void initializeUtilities();
@@ -26,9 +26,11 @@ private:
     int generateY();
 
     std::vector<float> getParallaxSpeedPerLevel();
+    Entity* _camera = nullptr;
 
     int currentLevel;
     int totalLevels;
+
 };
 
 

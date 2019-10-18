@@ -41,6 +41,8 @@ public:
         return mHeight;
     }
 
+    void drawErrorColor();
+
 private:
     // The actual hardware texture
     SDL_Texture* mTexture;

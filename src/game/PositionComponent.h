@@ -22,6 +22,8 @@ public:
         this->y = yPos;
     }
 
+    bool changed();
+
     int getX() {
         return x;
     }

@@ -19,6 +19,8 @@
 #include "../parser/config/level.h"
 #include "BackgroundRenderComponent.h"
 
+#include <iostream>
+
 using namespace std;
 
 LevelBuilder::LevelBuilder() {
@@ -43,7 +45,8 @@ void LevelBuilder::initialize() {
     // destroy everything from previous level
     Game::getInstance().getManager()->destroyAllEntities();
 
-    //initializeWorld();
+    initializeCamera();
+    initializeWorld();
     initializePlayers();
     initializeEnemies();
     //initializeWeapons();
@@ -56,34 +59,32 @@ void LevelBuilder::initializeWorld() {
     Manager *manager = Game::getInstance().getManager();
     Level currentLevelSprites = Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
 
-    auto &overlay = manager->addEntity();
-    overlay.addComponent<PositionComponent>();
-    overlay.addComponent<BackgroundRenderComponent>(currentLevelSprites.overlay);
+    auto *overlay = manager->addEntity();
+    overlay->addComponent<PositionComponent>(_camera);
+    overlay->addComponent<BackgroundRenderComponent>(currentLevelSprites.overlay);
 
-    auto &floor = manager->addEntity();
-    floor.addComponent<PositionComponent>();
-    floor.addComponent<BackgroundRenderComponent>(currentLevelSprites.floor);
+    auto *floor = manager->addEntity();
+    floor->addComponent<PositionComponent>(_camera);
+    floor->addComponent<BackgroundRenderComponent>(currentLevelSprites.floor);
 
-    auto &middle = manager->addEntity();
-    middle.addComponent<PositionComponent>();
-    middle.addComponent<BackgroundRenderComponent>(currentLevelSprites.middle);
+    auto *middle = manager->addEntity();
+    middle->addComponent<PositionComponent>(_camera);
+    middle->addComponent<BackgroundRenderComponent>(currentLevelSprites.middle);
 
-    auto &far = manager->addEntity();
-    far.addComponent<PositionComponent>();
-    far.addComponent<BackgroundRenderComponent>(currentLevelSprites.far);
+    auto *far = manager->addEntity();
+    far->addComponent<PositionComponent>(_camera);
+    far->addComponent<BackgroundRenderComponent>(currentLevelSprites.far);
 
     LogManager::logDebug("Fondos inicializados");
 }
 
-Entity& LevelBuilder::initializeCamera(Entity &player) {
+void LevelBuilder::initializeCamera() {
     LogManager::logDebug("Inicializando Camara");
 
     Manager *manager = Game::getInstance().getManager();
 
-    auto &camera = manager->addEntity();
-    camera.addComponent<CameraPositionComponent>(player);
-
-    return camera;
+    _camera = manager->addEntity();
+    _camera->addComponent<CameraPositionComponent>();
 }
 
 void LevelBuilder::initializePlayers() {
@@ -93,14 +94,13 @@ void LevelBuilder::initializePlayers() {
 
     for (auto &pj : Game::getInstance().getConfig()->gameplay.characters) {
 
-        auto &player = manager->addEntity();
-
-        Entity& camera = initializeCamera(player);
-        player.addComponent<InputComponent>();
-        player.addComponent<PhysicsComponent>();
-        player.addComponent<PositionComponent>(&camera);
-        player.addComponent<CharacterRenderComponent>(&pj);
-        player.addComponent<StateComponent>();
+        auto *player = manager->addEntity();
+        _camera->getComponent<CameraPositionComponent>()->setPlayer(player);
+        player->addComponent<InputComponent>();
+        player->addComponent<PhysicsComponent>();
+        player->addComponent<PositionComponent>(_camera);
+        player->addComponent<CharacterRenderComponent>(&pj);
+        player->addComponent<StateComponent>();
         //es imporante cuidar el orden de update (ESTE ES)
 
 
@@ -118,17 +118,16 @@ void LevelBuilder::initializeEnemies() {
     for (int i = 0; i < npcs.size();i++) {
 
         auto npcConfig = npcs.at(i);
-        auto &npc = manager->addEntity();
+        auto *npc = manager->addEntity();
 
         int x = generateX();
         int y = generateY();
 
-        Entity& camera = initializeCamera(npc);
-        npc.addComponent<IAComponent>();
-        npc.addComponent<PhysicsComponent>();
-        npc.addComponent<PositionComponent>(&camera,x,y);
-        npc.addComponent<NPCRenderComponent>(&npcConfig);
-        npc.addComponent<StateComponent>();
+        npc->addComponent<IAComponent>();
+        npc->addComponent<PhysicsComponent>();
+        npc->addComponent<PositionComponent>(_camera,x,y);
+        npc->addComponent<NPCRenderComponent>(&npcConfig);
+        npc->addComponent<StateComponent>();
     } 
 
     LogManager::logDebug("enemigos inicializados");
@@ -144,28 +143,26 @@ void LevelBuilder::initializeWeapons() {
     for (int i = 0; i < weapons.knife.amount;i++) {
 
         auto knifeConfig = weapons.knife;
-        auto &knife = manager->addEntity();
+        auto *knife = manager->addEntity();
 
         int x = generateX();
         int y = generateY();
 
-        Entity& camera = initializeCamera(knife);
-        knife.addComponent<PositionComponent>(&camera,x,y);
-        knife.addComponent<NonMovingRenderComponent>(knifeConfig.sprite);
+        knife->addComponent<PositionComponent>(_camera,x,y);
+        knife->addComponent<NonMovingRenderComponent>(knifeConfig.sprite);
     } 
     LogManager::logDebug("tubos de metal inicializados");
 
     for (int i = 0; i < weapons.tube.amount;i++) {
 
         auto tubeConfig = weapons.tube;
-        auto &tube = manager->addEntity();
+        auto *tube = manager->addEntity();
 
         int x = generateX();
         int y = generateY();
 
-        Entity& camera = initializeCamera(tube);
-        tube.addComponent<PositionComponent>(&camera,x,y);
-        tube.addComponent<NonMovingRenderComponent>(tubeConfig.sprite);
+        tube->addComponent<PositionComponent>(_camera,x,y);
+        tube->addComponent<NonMovingRenderComponent>(tubeConfig.sprite);
     }
 
     LogManager::logDebug("tubos de metal inicializados");
@@ -181,28 +178,26 @@ void LevelBuilder::initializeUtilities() {
     for (int i = 0; i < utilities.box.amount;i++) {
 
         auto boxConfig = utilities.box;
-        auto &box = manager->addEntity();
+        auto *box = manager->addEntity();
 
         int x = generateX();
         int y = generateY();
 
-        Entity& camera = initializeCamera(box);
-        box.addComponent<PositionComponent>(&camera,x,y);
-        box.addComponent<NonMovingRenderComponent>(boxConfig.sprite);
+        box->addComponent<PositionComponent>(_camera,x,y);
+        box->addComponent<NonMovingRenderComponent>(boxConfig.sprite);
     } 
     LogManager::logDebug("cajas inicializados");
 
     for (int i = 0; i < utilities.barrel.amount;i++) {
 
         auto barrelConfig = utilities.barrel;
-        auto &barrel = manager->addEntity();
+        auto *barrel = manager->addEntity();
 
         int x = generateX();
         int y = generateY();
 
-        Entity& camera = initializeCamera(barrel);
-        barrel.addComponent<PositionComponent>(&camera,x,y);
-        barrel.addComponent<NonMovingRenderComponent>(barrelConfig.sprite);
+        barrel->addComponent<PositionComponent>(_camera,x,y);
+        barrel->addComponent<NonMovingRenderComponent>(barrelConfig.sprite);
     }
 
     LogManager::logDebug("barriles inicializados");

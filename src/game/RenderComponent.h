@@ -23,6 +23,7 @@ public:
     
 protected:
     virtual void handleIncomingAction(){}
+    virtual void loadNextImage();
 
     TextureWrapper texture;
     SDL_Rect srcRect;
@@ -34,11 +35,10 @@ protected:
 
     std::string currentSprite;
 
-    void updatePosition();
     void loadTexture();
-    void loadNextImage();
+    void updatePosition();
 
-    bool isFlipped() {
+    virtual bool isFlipped() {
         return entity->getComponent<StateComponent>()->isFlipped();
     }
 

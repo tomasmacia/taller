@@ -74,3 +74,7 @@ void TextureWrapper::render(SDL_Rect* srcRect, SDL_Rect* destRect,bool flip = fa
     else
         SDL_RenderCopy(renderer, mTexture, srcRect, destRect );
 }
+
+void TextureWrapper::drawErrorColor() {
+    SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0, 0xFF );
+}
