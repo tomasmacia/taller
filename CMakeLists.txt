@@ -97,7 +97,9 @@ set(SOURCE_FILES
         src/game/BackgroundRenderComponent.h
         src/game/BackgroundRenderComponent.cpp       
         src/game/MobileRenderComponent.cpp
-        src/game/MobileRenderComponent.h  
+        src/game/MobileRenderComponent.h
+        src/game/NonMobileRenderComponent.cpp
+        src/game/NonMobileRenderComponent.h 
 )
 
 # create executable

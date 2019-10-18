@@ -11,13 +11,15 @@
 #include "PositionComponent.h"
 #include "InputComponent.h"
 #include "CameraPositionComponent.h"
-#include "CharacterRenderComponent.h"
 #include "PhysicsComponent.h"
 #include "StateComponent.h"
 #include "IAComponent.h"
 #include "NPCRenderComponent.h"
+#include "CharacterRenderComponent.h"
 #include "BackgroundRenderComponent.h"
 #include "NonMobileRenderComponent.h"
+#include "MobileRenderComponent.h"
+#include "RenderComponent.h"
 
 #include <iostream>
 
@@ -102,7 +104,6 @@ void LevelBuilder::initializePlayers() {
         player->addComponent<CharacterRenderComponent>(pj);
         player->addComponent<StateComponent>();
         //es imporante cuidar el orden de update (ESTE ES)
-
 
         LogManager::logDebug("Jugador inicializado");
     }

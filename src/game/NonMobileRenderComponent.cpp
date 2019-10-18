@@ -1,7 +1,8 @@
+#include <string>
 #include "NonMobileRenderComponent.h"
 #include "Game.h"
 
-NonMobileRenderComponent::NonMobileRenderComponent(const std::string string_path) {
+NonMobileRenderComponent::NonMobileRenderComponent(std::string string_path){
     currentSprite = string_path;
 }
 
@@ -17,4 +18,3 @@ void NonMobileRenderComponent::init() {
 void NonMobileRenderComponent::update() {
     updatePosition();
 }
-

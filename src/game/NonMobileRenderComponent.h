@@ -2,11 +2,12 @@
 #ifndef NON_MOBILE_RENDER_COMPONENT_H
 #define NON_MOBILE_RENDER_COMPONENT_H
 
+#include <string>
 #include "RenderComponent.h"
 
 class NonMobileRenderComponent : public RenderComponent {
 public:
-    NonMobileRenderComponent(const std::string string_path);
+    NonMobileRenderComponent(std::string string_path);
 
     void update() override;
     void init() override;
