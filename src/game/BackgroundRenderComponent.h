@@ -14,8 +14,6 @@ public:
 protected:
     void loadNextImage() override;
 
-    bool isFlipped() override {return false;}
-
 private:
     bool currentSpriteFinished();
     void loadErrorBackgroundImage();

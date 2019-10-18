@@ -1,12 +1,12 @@
 //
 // Created by Axel on 15/10/2019.
 //
-#include <iostream>
 #include "PhysicsComponent.h"
 #include "../LogLib/LogManager.h"
 #include "PositionComponent.h"
 #include "StateComponent.h"
 #include "CharacterRenderComponent.h"
+#include "NPCRenderComponent.h"
 
 void PhysicsComponent::init() {
     none(); //estado neutro (no hace nada)
@@ -19,13 +19,6 @@ void PhysicsComponent::update() {
     if (state->changed()){
         handleIncomingAction();
     }
-    /*
-    std::cout << "============================\n";
-    std::cout << "y: "<< entity->getComponent<PositionComponent>()->getY() <<"\n";
-    std::cout << "_velocityY: "<< _velocityY <<"\n";
-    std::cout << "_accelerationY: "<< _accelerationY <<"\n";
-    std::cout << "jumping: "<< !state->notJumping() <<"\n";
-    std::cout << "physics: "<< state->current() <<"\n";*/
 
     _velocityX += _accelerationX;
     _velocityY += _accelerationY;
@@ -153,7 +146,19 @@ void PhysicsComponent::none() {
 }
 
 void PhysicsComponent::seekToSyncJumping(){
-    int jumpDuration = entity->getComponent<CharacterRenderComponent>()->getJumpDuration();
+
+    int jumpDuration;
+    try{                                                                                            //MEA CULPA
+        jumpDuration = entity->getComponent<CharacterRenderComponent>()->getJumpDuration();
+    }
+    catch (std::exception& e){
+        try{
+        jumpDuration = entity->getComponent<NPCRenderComponent>()->getJumpDuration();
+        }
+        catch (std::exception& e){{
+            LogManager::logError("Tried to get jump duration from non jumping entitie");
+        }
+    }
     DEFAULT_JUMPING_ACCELERATION_Y = -2*(DEFAULT_JUMPING_VELOCITY_Y/jumpDuration);
 }
 

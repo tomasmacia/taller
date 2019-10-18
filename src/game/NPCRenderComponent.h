@@ -2,10 +2,10 @@
 #ifndef NPC_RENDER_COMPONENT_H
 #define NPC_RENDER_COMPONENT_H
 
-#include "RenderComponent.h"
+#include "MobileRenderComponent.h"
 #include "../parser/config/npc.h"
 
-class NPCRenderComponent : public RenderComponent {
+class NPCRenderComponent : public MobileRenderComponent {
 public:
     NPCRenderComponent(NPC *npcConfig);
     void init() override;

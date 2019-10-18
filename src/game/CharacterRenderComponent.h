@@ -2,9 +2,10 @@
 #ifndef CHARACTER_RENDER_COMPONENT_H
 #define CHARACTER_RENDER_COMPONENT_H
 
-#include "RenderComponent.h"
+#include "MobileRenderComponent.h"
+#include "../parser/config/characterxml.h
 
-class CharacterRenderComponent : public RenderComponent {
+class CharacterRenderComponent : public MobileRenderComponent {
 public:
     CharacterRenderComponent(CharacterXML *characterConfig);
     void init() override;

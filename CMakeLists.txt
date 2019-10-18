@@ -98,6 +98,8 @@ set(SOURCE_FILES
         src/game/NonMovingRenderComponent.cpp
         src/game/BackgroundRenderComponent.h
         src/game/BackgroundRenderComponent.cpp       
+        src/game/MobileRenderComponent.cpp
+        src/game/MobileRenderComponent.h  
 )
 
 # create executable

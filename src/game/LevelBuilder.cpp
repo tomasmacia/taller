@@ -49,8 +49,8 @@ void LevelBuilder::initialize() {
     initializeWorld();
     initializePlayers();
     initializeEnemies();
-    //initializeWeapons();
-    //initializeUtilities();
+    initializeWeapons();
+    initializeUtilities();
 }
 
 void LevelBuilder::initializeWorld() {

@@ -1,5 +1,4 @@
 #include "CharacterRenderComponent.h"
-#include "CameraPositionComponent.h"
 #include "Game.h"
 #include "StateComponent.h"
 
@@ -76,5 +75,4 @@ void CharacterRenderComponent::handleIncomingAction(){
 int CharacterRenderComponent::getJumpDuration(){
     return DELAY * JUMP_IMAGE_AMOUNT;
 }
-
 

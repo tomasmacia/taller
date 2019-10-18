@@ -8,42 +8,28 @@
 #include "Action.h"
 #include "PositionComponent.h"
 #include "../LogLib/LogManager.h"
-#include "../parser/config/characterxml.h"
 #include "TextureWrapper.h"
-#include "StateComponent.h"
 
 class RenderComponent : public Component {
 public:
-    void update() override;
-    void render() override;
+    virtual void update() = 0;
+    virtual void render() = 0;
 
     ~RenderComponent() override;
-
-    virtual int getJumpDuration(){}
     
 protected:
-    virtual void handleIncomingAction(){}
-    virtual void loadNextImage();
+    virtual void loadNextImage() = 0;
+    
+    void loadTexture();
+    void updatePosition();
 
     TextureWrapper texture;
     SDL_Rect srcRect;
     SDL_Rect destRect;
 
-    int DELAY;
     int _imageAmount;
     int _imageCounter = 0;
 
     std::string currentSprite;
-
-    void loadTexture();
-    void updatePosition();
-
-    virtual bool isFlipped() {
-        return entity->getComponent<StateComponent>()->isFlipped();
-    }
-
-    void flip() {
-        entity->getComponent<StateComponent>()->setFliped();
-    }
 };
 #endif //RENDER_COMPONENT_H
