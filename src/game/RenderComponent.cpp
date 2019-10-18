@@ -21,4 +21,6 @@ void RenderComponent::updatePosition(){
     destRect.y = positionComponent->getY();
 }
 
-
+void RenderComponent::render() {
+    texture.render(&srcRect, &destRect,false);
+}

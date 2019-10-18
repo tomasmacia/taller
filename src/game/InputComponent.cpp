@@ -3,8 +3,7 @@
 //
 #include "Game.h"
 #include "InputComponent.h"
-#include "PhysicsComponent.h"
-#include "CharacterRenderComponent.h"
+#include "StateComponent.h"
 #include <iostream>
 
 

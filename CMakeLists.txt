@@ -94,8 +94,6 @@ set(SOURCE_FILES
         src/game/CharacterRenderComponent.cpp 
         src/game/NPCRenderComponent.h
         src/game/NPCRenderComponent.cpp   
-        src/game/NonMovingRenderComponent.h
-        src/game/NonMovingRenderComponent.cpp
         src/game/BackgroundRenderComponent.h
         src/game/BackgroundRenderComponent.cpp       
         src/game/MobileRenderComponent.cpp

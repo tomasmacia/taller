@@ -148,14 +148,14 @@ void PhysicsComponent::none() {
 void PhysicsComponent::seekToSyncJumping(){
 
     int jumpDuration;
-    try{                                                                                            //MEA CULPA
+    try{                                                                                           //MEA CULPA
         jumpDuration = entity->getComponent<CharacterRenderComponent>()->getJumpDuration();
     }
     catch (std::exception& e){
         try{
         jumpDuration = entity->getComponent<NPCRenderComponent>()->getJumpDuration();
         }
-        catch (std::exception& e){{
+        catch (std::exception& e){
             LogManager::logError("Tried to get jump duration from non jumping entitie");
         }
     }

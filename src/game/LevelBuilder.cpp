@@ -4,6 +4,8 @@
 
 #include <vector>
 #include <algorithm>
+#include "../parser/config/level.h"
+#include "../parser/config/npc.h"
 #include "LevelBuilder.h"
 #include "Game.h"
 #include "PositionComponent.h"
@@ -13,11 +15,9 @@
 #include "PhysicsComponent.h"
 #include "StateComponent.h"
 #include "IAComponent.h"
-#include "../parser/config/npc.h"
 #include "NPCRenderComponent.h"
-#include "NonMovingRenderComponent.h"
-#include "../parser/config/level.h"
 #include "BackgroundRenderComponent.h"
+#include "NonMobileRenderComponent.h"
 
 #include <iostream>
 
@@ -98,8 +98,8 @@ void LevelBuilder::initializePlayers() {
         _camera->getComponent<CameraPositionComponent>()->setPlayer(player);
         player->addComponent<InputComponent>();
         player->addComponent<PhysicsComponent>();
-        player->addComponent<PositionComponent>(_camera);
-        player->addComponent<CharacterRenderComponent>(&pj);
+        player->addComponent<PositionComponent>(_camera,0,0);
+        player->addComponent<CharacterRenderComponent>(pj);
         player->addComponent<StateComponent>();
         //es imporante cuidar el orden de update (ESTE ES)
 
@@ -125,7 +125,7 @@ void LevelBuilder::initializeEnemies() {
 
         npc->addComponent<IAComponent>();
         npc->addComponent<PhysicsComponent>();
-        npc->addComponent<PositionComponent>(_camera,x,y);
+        npc->addComponent<PositionComponent>(_camera,x+i,y);
         npc->addComponent<NPCRenderComponent>(&npcConfig);
         npc->addComponent<StateComponent>();
     } 
@@ -149,7 +149,7 @@ void LevelBuilder::initializeWeapons() {
         int y = generateY();
 
         knife->addComponent<PositionComponent>(_camera,x,y);
-        knife->addComponent<NonMovingRenderComponent>(knifeConfig.sprite);
+        knife->addComponent<NonMobileRenderComponent>(knifeConfig.sprite);
     } 
     LogManager::logDebug("tubos de metal inicializados");
 
@@ -162,7 +162,7 @@ void LevelBuilder::initializeWeapons() {
         int y = generateY();
 
         tube->addComponent<PositionComponent>(_camera,x,y);
-        tube->addComponent<NonMovingRenderComponent>(tubeConfig.sprite);
+        tube->addComponent<NonMobileRenderComponent>(tubeConfig.sprite);
     }
 
     LogManager::logDebug("tubos de metal inicializados");
@@ -184,9 +184,9 @@ void LevelBuilder::initializeUtilities() {
         int y = generateY();
 
         box->addComponent<PositionComponent>(_camera,x,y);
-        box->addComponent<NonMovingRenderComponent>(boxConfig.sprite);
+        box->addComponent<NonMobileRenderComponent>(boxConfig.sprite);
     } 
-    LogManager::logDebug("cajas inicializados");
+    LogManager::logDebug("cajas inicializadas");
 
     for (int i = 0; i < utilities.barrel.amount;i++) {
 
@@ -197,7 +197,7 @@ void LevelBuilder::initializeUtilities() {
         int y = generateY();
 
         barrel->addComponent<PositionComponent>(_camera,x,y);
-        barrel->addComponent<NonMovingRenderComponent>(barrelConfig.sprite);
+        barrel->addComponent<NonMobileRenderComponent>(barrelConfig.sprite);
     }
 
     LogManager::logDebug("barriles inicializados");

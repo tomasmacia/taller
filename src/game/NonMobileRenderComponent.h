@@ -6,10 +6,9 @@
 
 class NonMobileRenderComponent : public RenderComponent {
 public:
-    NonMobileRenderComponent(std::string string_path);
+    NonMobileRenderComponent(const std::string string_path);
 
     void update() override;
-    void render() override;
     void init() override;
 
 protected:

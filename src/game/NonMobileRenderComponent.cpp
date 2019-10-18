@@ -1,8 +1,7 @@
-
 #include "NonMobileRenderComponent.h"
 #include "Game.h"
 
-NonMovingRenderComponent::NonMobileRenderComponent(std::string string_path) {
+NonMobileRenderComponent::NonMobileRenderComponent(const std::string string_path) {
     currentSprite = string_path;
 }
 
@@ -18,9 +17,4 @@ void NonMobileRenderComponent::init() {
 void NonMobileRenderComponent::update() {
     updatePosition();
 }
-
-void NonMobileRenderComponent::render() {
-    texture.render(&srcRect, &destRect,false);
-}
-
 

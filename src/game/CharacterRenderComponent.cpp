@@ -2,8 +2,8 @@
 #include "Game.h"
 #include "StateComponent.h"
 
-CharacterRenderComponent::CharacterRenderComponent(CharacterXML *characterConfig) {
-    this->characterConfig = *characterConfig;
+CharacterRenderComponent::CharacterRenderComponent(CharacterXML characterConfig) {
+    this->characterConfig = characterConfig;
 }
 
 void CharacterRenderComponent::init() {

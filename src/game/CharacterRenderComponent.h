@@ -3,11 +3,11 @@
 #define CHARACTER_RENDER_COMPONENT_H
 
 #include "MobileRenderComponent.h"
-#include "../parser/config/characterxml.h
+#include "../parser/config/characterxml.h"
 
 class CharacterRenderComponent : public MobileRenderComponent {
 public:
-    CharacterRenderComponent(CharacterXML *characterConfig);
+    CharacterRenderComponent(CharacterXML characterConfig);
     void init() override;
 
     int getJumpDuration() override;

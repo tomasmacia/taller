@@ -13,10 +13,6 @@ public:
     PositionComponent(Entity *camera);
     PositionComponent(){}
 
-    void init() override {
-        setPosition(0, 0);
-    }
-
     void setPosition(int xPos, int yPos) {
         this->x = xPos;
         this->y = yPos;

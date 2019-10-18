@@ -9,8 +9,6 @@ public:
     void update() override;
     void render() override;
 
-    ~MobileRenderComponent() override;
-
     virtual int getJumpDuration() = 0;
     
 protected:
