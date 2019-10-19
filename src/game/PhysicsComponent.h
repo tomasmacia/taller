@@ -4,6 +4,7 @@
 #include "ECS.h"
 #include "Action.h"
 #include <list>
+#include "Game.h"
 
 class PhysicsComponent : public Component {
 public:
@@ -24,11 +25,12 @@ private:
     float _accelerationX;
     float _accelerationY;
 
-    float DEFAULT_WALKING_VELOCITY_X = 3;
-    float DEFAULT_WALKING_VELOCITY_Y = 3;
+    float DEFAULT_WALKING_VELOCITY_X = (int)((Game::getInstance().getConfig()->screenResolution.width)/200);
+    float DEFAULT_WALKING_VELOCITY_Y = (int)((Game::getInstance().getConfig()->screenResolution.width)/200);;
 
     float DEFAULT_JUMPING_ACCELERATION_Y; //setted later to sync with sprites
-    float DEFAULT_JUMPING_VELOCITY_Y = 10; //how high is the jump
+    float DEFAULT_JUMPING_VELOCITY_Y = (int)((Game::getInstance().getConfig()->screenResolution.height)/60);; 
+    //how high is the jump
 
     void up();
     void down();

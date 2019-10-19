@@ -9,6 +9,8 @@
 #include <iostream>
 
 
+
+
 void CameraPositionComponent::update() {
     if (shouldMoveCamera()){
         scroll();
@@ -33,7 +35,7 @@ bool CameraPositionComponent::inLeftLimit(Entity* player) {
 }
 
 bool CameraPositionComponent::notAtTheEnd() {
-    return (currentX + windowWidth) < Game::getInstance().getCurrentLevelWidth();
+    return (currentX + windowWidth) < levelWidth;
 }
 
 bool CameraPositionComponent::marginSurpased() {

@@ -17,8 +17,9 @@ public:
         this->currentX = 0;
         this->windowWidth = Game::getInstance().getConfig()->screenResolution.width;
         this->windowHeight = Game::getInstance().getConfig()->screenResolution.height;
+        this->levelWidth = Game::getInstance().getCurrentLevelWidth();
         this->levelHeight = Game::getInstance().getConfig()->screenResolution.height;
-        this->marginWidth = 200;
+        this->marginWidth = windowWidth/4;
     }
 
     void setPlayer(Entity* player);
