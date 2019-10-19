@@ -16,17 +16,22 @@ void BackgroundRenderComponent::init() {
     int screenResolutionWidth = (int)(Game::getInstance().getConfig()->screenResolution.width);
     int screenResolutionHeight = (int)(Game::getInstance().getConfig()->screenResolution.height);
 
-    float aspectRatio = screenResolutionWidth/screenResolutionHeight;
+    float ratioAspect = (float)(screenResolutionWidth)/(float)(screenResolutionHeight);
 
     destRect.w = screenResolutionWidth;
     destRect.h = screenResolutionHeight;
     destRect.x = 0;
     destRect.y = 0;
 
-    srcRect.w = (int)(texture.getHeight()*aspectRatio);
+    srcRect.w = (int)(ratioAspect*(float)(texture.getHeight()));
     srcRect.h = texture.getHeight();
     srcRect.x = 0;
     srcRect.y = 0;
+
+    std::cout<<"destRect.w"<<destRect.w<<'\n';
+    std::cout<<"destRect.h"<<destRect.h<<'\n';
+    std::cout<<"srcRect.w"<<srcRect.w<<'\n';
+    std::cout<<"srcRect.h"<<srcRect.h<<'\n';
 }
 
 void BackgroundRenderComponent::update() {

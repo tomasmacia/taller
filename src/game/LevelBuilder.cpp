@@ -103,11 +103,6 @@ void LevelBuilder::initializeApropiateParallaxSpeeds(Level currentLevelSprites){
     _floorSpeed = (floorWidth/farWidth)*_farSpeed;
     _overlaySpeed = (overlayWidth/farWidth)*_farSpeed;
 
-    std::cout<<"_farSpeed: "<<_farSpeed<<'\n';
-    std::cout<<"_middleSpeed: "<<_middleSpeed<<'\n';
-    std::cout<<"_floorSpeed: "<<_floorSpeed<<'\n';
-    std::cout<<"_overlaySpeed: "<<_overlaySpeed<<'\n';
-
     _texture->free();
     delete(_texture);
     _texture = nullptr;
