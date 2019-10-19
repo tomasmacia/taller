@@ -63,19 +63,19 @@ void LevelBuilder::initializeWorld() {
 
     auto *far = manager->addEntity();
     far->addComponent<PositionComponent>(_camera);
-    far->addComponent<BackgroundRenderComponent>(currentLevelSprites.far,FAR_SPEED);
+    far->addComponent<BackgroundRenderComponent>(currentLevelSprites.far.front(),FAR_SPEED);
 
     auto *middle = manager->addEntity();
     middle->addComponent<PositionComponent>(_camera);
-    middle->addComponent<BackgroundRenderComponent>(currentLevelSprites.middle,MIDDLE_SPEED);
+    middle->addComponent<BackgroundRenderComponent>(currentLevelSprites.middle.front(),MIDDLE_SPEED);
 
     auto *floor = manager->addEntity();
     floor->addComponent<PositionComponent>(_camera);
-    floor->addComponent<BackgroundRenderComponent>(currentLevelSprites.floor,FLOOR_SPEED);
+    floor->addComponent<BackgroundRenderComponent>(currentLevelSprites.floor.front(),FLOOR_SPEED);
     
     auto *overlay = manager->addEntity();
     overlay->addComponent<PositionComponent>(_camera);
-    overlay->addComponent<BackgroundRenderComponent>(currentLevelSprites.overlay,OVERLAY_SPEED);
+    overlay->addComponent<BackgroundRenderComponent>(currentLevelSprites.overlay.front(),OVERLAY_SPEED);
 
     LogManager::logDebug("Fondos inicializados");
 }
@@ -126,7 +126,7 @@ void LevelBuilder::initializeEnemies() {
 
         npc->addComponent<IAComponent>();
         npc->addComponent<PhysicsComponent>();
-        npc->addComponent<PositionComponent>(_camera,x+i,y);
+        npc->addComponent<PositionComponent>(_camera,x+i*10,y);
         npc->addComponent<NPCRenderComponent>(&npcConfig);
         npc->addComponent<StateComponent>();
     } 

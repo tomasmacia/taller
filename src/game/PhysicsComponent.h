@@ -26,7 +26,7 @@ private:
     float DEFAULT_WALKING_VELOCITY_Y = 4;
 
     float DEFAULT_JUMPING_ACCELERATION_Y; //setted later to sync with sprites
-    float DEFAULT_JUMPING_VELOCITY_Y = 20; //how high is the jump
+    float DEFAULT_JUMPING_VELOCITY_Y = 10; //how high is the jump
 
     void up();
     void down();

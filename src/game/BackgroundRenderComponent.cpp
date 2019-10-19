@@ -4,9 +4,9 @@
 
 #include <iostream>
 
-BackgroundRenderComponent::BackgroundRenderComponent(std::vector<string> string_paths,
+BackgroundRenderComponent::BackgroundRenderComponent(string string_path,
                                              int parallaxSpeed) {
-    _string_paths = string_paths;
+    currentSprite = string_path;
     _parallaxSpeed = parallaxSpeed;
 }
 
@@ -21,9 +21,6 @@ void BackgroundRenderComponent::init() {
     srcRect.x = 0;
     srcRect.y = 0;
 
-    _imageCounter = 0;
-    _imageAmount = _string_paths.size();
-    currentSprite = _string_paths.at(_imageCounter);
     loadTexture();
 }
 
@@ -34,10 +31,11 @@ void BackgroundRenderComponent::update() {
 
 void BackgroundRenderComponent::render() {
     texture.render(&srcRect, &destRect,false);
+    //std::cout<<currentSprite<<'\n';
 }
 
 void BackgroundRenderComponent::loadNextImage(){
-
+    /*
     std::cout<<"_imageAmount: "<<_imageAmount<<'\n';
     std::cout<<"_imageCounter: "<<_imageCounter<<'\n';
     std::cout<<"currentSprite: "<<currentSprite<<'\n';
@@ -45,35 +43,12 @@ void BackgroundRenderComponent::loadNextImage(){
     std::cout<<"CameraStart: "<<srcRect.x<<'\n';
     std::cout<<"CameraEnd: "<<(srcRect.x + srcRect.w)<<'\n';
     std::cout<<"=============================: "<<'\n';
-    std::cout<<'\n';
+    std::cout<<'\n';*/
 
-    if (currentSpriteFinished()){
-        _imageCounter++;
-        _imageCounter = _imageCounter % _imageAmount ;
+    auto positionComponent = entity->getComponent<PositionComponent>();
+    auto cameraPositionComponent = positionComponent->getCamera()->getComponent<CameraPositionComponent>();
 
-        /*
-        if (_imageCounter >= _imageAmount){
-            loadErrorBackgroundImage();
-        }
-        else{
-            currentSprite = _string_paths.at(_imageCounter);
-            loadTexture();
-        }*/
-
-    }
-    else{
-        auto positionComponent = entity->getComponent<PositionComponent>();
-        auto cameraPositionComponent = positionComponent->getCamera()->getComponent<CameraPositionComponent>();
-
-        srcRect.w = (int)(Game::getInstance().getConfig()->screenResolution.width);
-        srcRect.h = (int)(Game::getInstance().getConfig()->screenResolution.height);
-        srcRect.x = cameraPositionComponent->currentX*_parallaxSpeed;
-        srcRect.y = 0;
-    }
-}
-
-bool BackgroundRenderComponent::currentSpriteFinished(){
-    return (srcRect.x + srcRect.w) >= texture.getWidth();
+    srcRect.x = cameraPositionComponent->currentX*_parallaxSpeed;
 }
 
 void BackgroundRenderComponent::loadErrorBackgroundImage(){

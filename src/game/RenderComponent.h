@@ -20,7 +20,7 @@ protected:
     virtual void loadNextImage() = 0;
     
     void loadTexture();
-    void updatePosition();
+    virtual void updatePosition();
 
     TextureWrapper texture;
     SDL_Rect srcRect;
