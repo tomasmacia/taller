@@ -5,23 +5,28 @@
 #include <iostream>
 
 BackgroundRenderComponent::BackgroundRenderComponent(string string_path,
-                                             int parallaxSpeed) {
+                                             float parallaxSpeed) {
     currentSprite = string_path;
     _parallaxSpeed = parallaxSpeed;
 }
 
 void BackgroundRenderComponent::init() {
-    destRect.w = (int)(Game::getInstance().getConfig()->screenResolution.width);
-    destRect.h = (int)(Game::getInstance().getConfig()->screenResolution.height);
+    loadTexture();
+
+    int screenResolutionWidth = (int)(Game::getInstance().getConfig()->screenResolution.width);
+    int screenResolutionHeight = (int)(Game::getInstance().getConfig()->screenResolution.height);
+
+    float aspectRatio = screenResolutionWidth/screenResolutionHeight;
+
+    destRect.w = screenResolutionWidth;
+    destRect.h = screenResolutionHeight;
     destRect.x = 0;
     destRect.y = 0;
 
-    srcRect.w = (int)(Game::getInstance().getConfig()->screenResolution.width);
-    srcRect.h = (int)(Game::getInstance().getConfig()->screenResolution.height);
+    srcRect.w = (int)(texture.getHeight()*aspectRatio);
+    srcRect.h = texture.getHeight();
     srcRect.x = 0;
     srcRect.y = 0;
-
-    loadTexture();
 }
 
 void BackgroundRenderComponent::update() {
@@ -48,7 +53,7 @@ void BackgroundRenderComponent::loadNextImage(){
     auto positionComponent = entity->getComponent<PositionComponent>();
     auto cameraPositionComponent = positionComponent->getCamera()->getComponent<CameraPositionComponent>();
 
-    srcRect.x = cameraPositionComponent->currentX*_parallaxSpeed;
+    srcRect.x = (int)((float)(cameraPositionComponent->currentX)*_parallaxSpeed);
 }
 
 void BackgroundRenderComponent::loadErrorBackgroundImage(){

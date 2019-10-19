@@ -9,7 +9,7 @@
 
 class BackgroundRenderComponent : public RenderComponent {
 public:
-    BackgroundRenderComponent(std::string string_path, int parallaxSpeed);
+    BackgroundRenderComponent(std::string string_path, float parallaxSpeed);
     void init() override;
     void update() override;
     void render() override;
@@ -22,6 +22,6 @@ protected:
 
 private:
     void loadErrorBackgroundImage();
-    int _parallaxSpeed = 1;
+    float _parallaxSpeed = 1;
 };
 #endif //BACKGROUND_RENDER_COMPONENT_H

@@ -6,6 +6,7 @@
 #define GAME_LEVELBUILDER_H
 
 #include "ECS.h"
+#include "TextureWrapper.h"
 
 
 class LevelBuilder {
@@ -16,6 +17,7 @@ public:
     void initialize();
 private:
     void initializeWorld();
+    void initializeApropiateParallaxSpeeds(Level currentLevelSprites);
     void initializeCamera();
     void initializePlayers();
     void initializeEnemies();
@@ -27,14 +29,15 @@ private:
 
     std::vector<float> getParallaxSpeedPerLevel();
     Entity* _camera = nullptr;
+    TextureWrapper* _texture = nullptr;
 
     int currentLevel;
     int totalLevels;
 
-    int OVERLAY_SPEED = 3;
-    int FLOOR_SPEED = 3;
-    int MIDDLE_SPEED = 2;
-    int FAR_SPEED = 1;
+    float _overlaySpeed;
+    float _floorSpeed;
+    float _middleSpeed;
+    float _farSpeed;
 };
 
 

@@ -61,23 +61,56 @@ void LevelBuilder::initializeWorld() {
     Manager *manager = Game::getInstance().getManager();
     Level currentLevelSprites = Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
 
+    initializeApropiateParallaxSpeeds(currentLevelSprites);
+
     auto *far = manager->addEntity();
     far->addComponent<PositionComponent>(_camera);
-    far->addComponent<BackgroundRenderComponent>(currentLevelSprites.far.front(),FAR_SPEED);
+    far->addComponent<BackgroundRenderComponent>(currentLevelSprites.far.front(),_farSpeed);
 
     auto *middle = manager->addEntity();
     middle->addComponent<PositionComponent>(_camera);
-    middle->addComponent<BackgroundRenderComponent>(currentLevelSprites.middle.front(),MIDDLE_SPEED);
+    middle->addComponent<BackgroundRenderComponent>(currentLevelSprites.middle.front(),_middleSpeed);
 
     auto *floor = manager->addEntity();
     floor->addComponent<PositionComponent>(_camera);
-    floor->addComponent<BackgroundRenderComponent>(currentLevelSprites.floor.front(),FLOOR_SPEED);
+    floor->addComponent<BackgroundRenderComponent>(currentLevelSprites.floor.front(),_floorSpeed);
     
     auto *overlay = manager->addEntity();
     overlay->addComponent<PositionComponent>(_camera);
-    overlay->addComponent<BackgroundRenderComponent>(currentLevelSprites.overlay.front(),OVERLAY_SPEED);
+    overlay->addComponent<BackgroundRenderComponent>(currentLevelSprites.overlay.front(),_overlaySpeed);
 
     LogManager::logDebug("Fondos inicializados");
+}
+
+void LevelBuilder::initializeApropiateParallaxSpeeds(Level currentLevelSprites){
+
+    _texture = new TextureWrapper(); 
+
+    _texture->loadFromFile(currentLevelSprites.far.front());
+    float farWidth = _texture->getWidth();
+
+    _texture->loadFromFile(currentLevelSprites.middle.front());
+    float middleWidth = _texture->getWidth();
+
+    _texture->loadFromFile(currentLevelSprites.floor.front());
+    float floorWidth = _texture->getWidth();
+
+    _texture->loadFromFile(currentLevelSprites.overlay.front());
+    float overlayWidth = _texture->getWidth();
+
+    _farSpeed = 1.0;
+    _middleSpeed = (middleWidth/farWidth)*_farSpeed;
+    _floorSpeed = (floorWidth/farWidth)*_farSpeed;
+    _overlaySpeed = (overlayWidth/farWidth)*_farSpeed;
+
+    std::cout<<"_farSpeed: "<<_farSpeed<<'\n';
+    std::cout<<"_middleSpeed: "<<_middleSpeed<<'\n';
+    std::cout<<"_floorSpeed: "<<_floorSpeed<<'\n';
+    std::cout<<"_overlaySpeed: "<<_overlaySpeed<<'\n';
+
+    _texture->free();
+    delete(_texture);
+    _texture = nullptr;
 }
 
 void LevelBuilder::initializeCamera() {
