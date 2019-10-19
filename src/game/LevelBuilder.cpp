@@ -98,6 +98,8 @@ void LevelBuilder::initializeApropiateParallaxSpeeds(Level currentLevelSprites){
     _texture->loadFromFile(currentLevelSprites.overlay.front());
     float overlayWidth = _texture->getWidth();
 
+    currentLevelWidth = floorWidth;
+
     _farSpeedRatio = (farWidth/floorWidth);
     _middleSpeedRatio = (middleWidth/floorWidth);
     _floorSpeedRatio = 1.0;
@@ -122,18 +124,28 @@ void LevelBuilder::initializePlayers() {
 
     Manager *manager = Game::getInstance().getManager();
 
+    int screenResolutionWidth = (int)(Game::getInstance().getConfig()->screenResolution.width);
+    int screenResolutionHeight = (int)(Game::getInstance().getConfig()->screenResolution.height);
+    int amountOfPlayers = Game::getInstance().getConfig()->gameplay.characters.size();
+    int offset = screenResolutionWidth/(amountOfPlayers+1);
+
+    int i = 0;
     for (auto &pj : Game::getInstance().getConfig()->gameplay.characters) {
+        
+        int x = offset*(i+1);
+        int y = screenResolutionHeight/2;
 
         auto *player = manager->addEntity();
         _camera->getComponent<CameraPositionComponent>()->setPlayer(player);
         player->addComponent<InputComponent>();
         player->addComponent<PhysicsComponent>();
-        player->addComponent<PositionComponent>(_camera,0,0);
+        player->addComponent<PositionComponent>(_camera,x,y);
         player->addComponent<CharacterRenderComponent>(pj);
         player->addComponent<StateComponent>();
         //es imporante cuidar el orden de update (ESTE ES)
 
         LogManager::logDebug("Jugador inicializado");
+        i++;
     }
 }
 
@@ -142,15 +154,22 @@ void LevelBuilder::initializeEnemies() {
 
     Manager *manager = Game::getInstance().getManager();
 
+    int screenResolutionWidth = (int)(Game::getInstance().getConfig()->screenResolution.width);
+    int screenResolutionHeight = (int)(Game::getInstance().getConfig()->screenResolution.height);
+
     auto npcs = Game::getInstance().getConfig()->gameplay.npcs;
+    int amountOfEnemies = npcs.size();
+    int offset = screenResolutionWidth/(amountOfEnemies+1);
 
     for (int i = 0; i < npcs.size();i++) {
 
         auto npcConfig = npcs.at(i);
         auto *npc = manager->addEntity();
 
-        int x = generateX();
-        int y = generateY();
+        //int x = generateX();
+        //int y = generateY();
+        int x = offset*(i+1);
+        int y = screenResolutionHeight/2;
 
         npc->addComponent<IAComponent>();
         npc->addComponent<PhysicsComponent>();
@@ -238,6 +257,10 @@ int LevelBuilder::generateX(){
 
 int LevelBuilder::generateY(){
     return 0; 
+}
+
+int LevelBuilder::getCurrentLevelWidth(){
+    return currentLevelWidth;
 }
 
 

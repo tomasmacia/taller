@@ -38,6 +38,7 @@ private:
 
     bool shouldMoveCamera();
     bool marginSurpased();
+    bool notAtTheEnd();
     bool noPlayerInLeftLimit();
     bool inLeftLimit(Entity* player);
     bool touchingMargin(Entity* player);

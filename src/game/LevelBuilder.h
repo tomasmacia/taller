@@ -15,6 +15,8 @@ public:
 
     bool loadNext();
     void initialize();
+
+    int getCurrentLevelWidth();
 private:
     void initializeWorld();
     void initializeApropiateParallaxSpeeds(Level currentLevelSprites);
@@ -33,6 +35,8 @@ private:
 
     int currentLevel;
     int totalLevels;
+
+    int currentLevelWidth;
 
     float _overlaySpeedRatio;
     float _floorSpeedRatio;

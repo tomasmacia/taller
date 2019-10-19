@@ -84,12 +84,12 @@ void Game::start() {
     this->initECSManager();
     this->initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
 
-    LevelBuilder levelBuilder;
+    levelBuilder = new LevelBuilder();
     this->hasNextLevel = true;
 
 
     while (isRunning && hasNextLevel) {
-        this->hasNextLevel = levelBuilder.loadNext();
+        this->hasNextLevel = levelBuilder->loadNext();
         this->levelFinished = false;
 
         while (isRunning && hasNextLevel && !levelFinished) {
@@ -141,7 +141,12 @@ void Game::destroy() {
 
     delete(logger);
     logger = nullptr;
-
+    delete(levelBuilder);
+    levelBuilder = nullptr;
+    delete(controller);
+    controller = nullptr;
+    delete(manager);
+    manager = nullptr;
     SDL_DestroyWindow(this->window);
     SDL_DestroyRenderer(this->renderer);
     SDL_Quit();
@@ -149,4 +154,8 @@ void Game::destroy() {
 
 void Game::end(){
     isRunning = false;
+}
+
+int Game::getCurrentLevelWidth(){
+    return levelBuilder->getCurrentLevelWidth();
 }

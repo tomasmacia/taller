@@ -17,7 +17,7 @@ void CameraPositionComponent::update() {
 }
 
 bool CameraPositionComponent::shouldMoveCamera() {
-    return (noPlayerInLeftLimit() && marginSurpased());
+    return (noPlayerInLeftLimit() && marginSurpased() && notAtTheEnd());
 }
 
 bool CameraPositionComponent::noPlayerInLeftLimit() {
@@ -30,6 +30,10 @@ bool CameraPositionComponent::noPlayerInLeftLimit() {
 
 bool CameraPositionComponent::inLeftLimit(Entity* player) {
     return (player->getComponent<PositionComponent>()->getX() <= currentX);
+}
+
+bool CameraPositionComponent::notAtTheEnd() {
+    return (currentX + windowWidth) < Game::getInstance().getCurrentLevelWidth();
 }
 
 bool CameraPositionComponent::marginSurpased() {

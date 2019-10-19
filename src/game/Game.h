@@ -6,6 +6,7 @@
 #include "../LogLib/LogManager.h"
 #include "../parser/config/config.h"
 #include "Manager.h"
+#include "LevelBuilder.h"
 
 class Game {
 public:
@@ -26,6 +27,7 @@ public:
     // *************************
     void start();
     void end();
+    int getCurrentLevelWidth();
 
     bool isRunning = true; // false
     bool levelFinished = false;
@@ -87,12 +89,13 @@ private:
     bool hasNextLevel = false;
 
     // wrappers
-    Logger *logger; // since its a pointer allocating memory, we need to delete it later
-    Config *config;
-    Controller *controller;
-    SDL_Window *window;
-    SDL_Renderer *renderer;
-    Manager* manager;
+    Logger *logger = nullptr; // since its a pointer allocating memory, we need to delete it later
+    LevelBuilder* levelBuilder = nullptr;
+    Controller *controller = nullptr;
+    Manager* manager = nullptr;
+    SDL_Window *window = nullptr;
+    SDL_Renderer *renderer = nullptr;
+    Config *config = nullptr;
 
 };
 
