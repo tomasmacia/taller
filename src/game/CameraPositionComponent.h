@@ -17,7 +17,6 @@ public:
         this->currentX = 0;
         this->windowWidth = Game::getInstance().getConfig()->screenResolution.width;
         this->windowHeight = Game::getInstance().getConfig()->screenResolution.height;
-        this->levelWidth = 1600; //CASI SEGURO QUE NO SE USA
         this->levelHeight = Game::getInstance().getConfig()->screenResolution.height;
         this->marginWidth = 200;
     }
@@ -29,7 +28,7 @@ public:
     ~CameraPositionComponent() override {};
 
 private:
-    int SCROLL_AMOUNT = 5;
+    int _scroll_amount;
 
     int windowHeight, windowWidth;
     int levelHeight, levelWidth;

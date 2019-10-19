@@ -34,10 +34,10 @@ private:
     int currentLevel;
     int totalLevels;
 
-    float _overlaySpeed;
-    float _floorSpeed;
-    float _middleSpeed;
-    float _farSpeed;
+    float _overlaySpeedRatio;
+    float _floorSpeedRatio;
+    float _middleSpeedRatio;
+    float _farSpeedRatio;
 };
 
 

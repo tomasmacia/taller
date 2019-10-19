@@ -162,3 +162,7 @@ void PhysicsComponent::seekToSyncJumping(){
     DEFAULT_JUMPING_ACCELERATION_Y = -2*(DEFAULT_JUMPING_VELOCITY_Y/jumpDuration);
 }
 
+int PhysicsComponent::getWalkingSpeed(){
+    return DEFAULT_WALKING_VELOCITY_X;
+}
+

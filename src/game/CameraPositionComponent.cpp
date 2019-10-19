@@ -4,6 +4,7 @@
 
 #include "CameraPositionComponent.h"
 #include "PositionComponent.h"
+#include "PhysicsComponent.h"
 #include <string>
 #include <iostream>
 
@@ -43,7 +44,7 @@ bool CameraPositionComponent::touchingMargin(Entity* player) {
 }
 
 void CameraPositionComponent::scroll() {
-    this->currentX += SCROLL_AMOUNT;
+    this->currentX += _players.front()->getComponent<PhysicsComponent>()->getWalkingSpeed();
 }
 
 void CameraPositionComponent::setPlayer(Entity* player){

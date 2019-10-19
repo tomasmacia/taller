@@ -22,6 +22,6 @@ protected:
 
 private:
     void loadErrorBackgroundImage();
-    float _parallaxSpeed = 1;
+    float _parallaxSpeed;
 };
 #endif //BACKGROUND_RENDER_COMPONENT_H

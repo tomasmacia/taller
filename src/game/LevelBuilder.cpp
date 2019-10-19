@@ -65,19 +65,19 @@ void LevelBuilder::initializeWorld() {
 
     auto *far = manager->addEntity();
     far->addComponent<PositionComponent>(_camera);
-    far->addComponent<BackgroundRenderComponent>(currentLevelSprites.far.front(),_farSpeed);
+    far->addComponent<BackgroundRenderComponent>(currentLevelSprites.far.front(),_farSpeedRatio);
 
     auto *middle = manager->addEntity();
     middle->addComponent<PositionComponent>(_camera);
-    middle->addComponent<BackgroundRenderComponent>(currentLevelSprites.middle.front(),_middleSpeed);
+    middle->addComponent<BackgroundRenderComponent>(currentLevelSprites.middle.front(),_middleSpeedRatio);
 
     auto *floor = manager->addEntity();
     floor->addComponent<PositionComponent>(_camera);
-    floor->addComponent<BackgroundRenderComponent>(currentLevelSprites.floor.front(),_floorSpeed);
+    floor->addComponent<BackgroundRenderComponent>(currentLevelSprites.floor.front(),_floorSpeedRatio);
     
     auto *overlay = manager->addEntity();
     overlay->addComponent<PositionComponent>(_camera);
-    overlay->addComponent<BackgroundRenderComponent>(currentLevelSprites.overlay.front(),_overlaySpeed);
+    overlay->addComponent<BackgroundRenderComponent>(currentLevelSprites.overlay.front(),_overlaySpeedRatio);
 
     LogManager::logDebug("Fondos inicializados");
 }
@@ -98,10 +98,10 @@ void LevelBuilder::initializeApropiateParallaxSpeeds(Level currentLevelSprites){
     _texture->loadFromFile(currentLevelSprites.overlay.front());
     float overlayWidth = _texture->getWidth();
 
-    _farSpeed = 1.0;
-    _middleSpeed = (middleWidth/farWidth)*_farSpeed;
-    _floorSpeed = (floorWidth/farWidth)*_farSpeed;
-    _overlaySpeed = (overlayWidth/farWidth)*_farSpeed;
+    _farSpeedRatio = (farWidth/floorWidth);
+    _middleSpeedRatio = (middleWidth/floorWidth);
+    _floorSpeedRatio = 1.0;
+    _overlaySpeedRatio = (overlayWidth/floorWidth);
 
     _texture->free();
     delete(_texture);

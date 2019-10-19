@@ -28,10 +28,6 @@ void BackgroundRenderComponent::init() {
     srcRect.x = 0;
     srcRect.y = 0;
 
-    std::cout<<"destRect.w"<<destRect.w<<'\n';
-    std::cout<<"destRect.h"<<destRect.h<<'\n';
-    std::cout<<"srcRect.w"<<srcRect.w<<'\n';
-    std::cout<<"srcRect.h"<<srcRect.h<<'\n';
 }
 
 void BackgroundRenderComponent::update() {
