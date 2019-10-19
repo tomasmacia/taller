@@ -7,12 +7,15 @@
 
 class IAComponent : public Component {
 public:
-    IAComponent() {};
-
+    IAComponent();
     void update() override;
 
 private:
     Action generateAction();
+
+    Action _currentAction = NONE;
+    int CHOOSING_ACTION_DELAY = 50;
+    int counter = 0;
 };
 
 #endif //GAME_IACOMPONENT_H

@@ -126,7 +126,7 @@ void LevelBuilder::initializeEnemies() {
 
         npc->addComponent<IAComponent>();
         npc->addComponent<PhysicsComponent>();
-        npc->addComponent<PositionComponent>(_camera,x+i*10,y);
+        npc->addComponent<PositionComponent>(_camera,x,y);
         npc->addComponent<NPCRenderComponent>(&npcConfig);
         npc->addComponent<StateComponent>();
     } 
