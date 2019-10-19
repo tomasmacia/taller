@@ -2,8 +2,12 @@
 #include "CameraPositionComponent.h"
 #include "Game.h"
 
-BackgroundRenderComponent::BackgroundRenderComponent(std::vector<string> string_paths) {
+#include <iostream>
+
+BackgroundRenderComponent::BackgroundRenderComponent(std::vector<string> string_paths,
+                                             int parallaxSpeed) {
     _string_paths = string_paths;
+    _parallaxSpeed = parallaxSpeed;
 }
 
 void BackgroundRenderComponent::init() {
@@ -23,17 +27,31 @@ void BackgroundRenderComponent::update() {
     loadNextImage();
 }
 
+void BackgroundRenderComponent::render() {
+    texture.render(&srcRect, &destRect,false);
+}
+
 void BackgroundRenderComponent::loadNextImage(){
 
     if (currentSpriteFinished()){
+        std::cout<<"currentSprite: "<<currentSprite<<'\n';
+        std::cout<<"width: "<<texture.getWidth()<<'\n';
+        std::cout<<"_imageCounter: "<<_imageCounter<<'\n';
+        std::cout<<"_imageAmount: "<<_imageAmount<<'\n';
+        std::cout<<"=============================: "<<'\n';
+        std::cout<<'\n';
         _imageCounter++;
+        _imageCounter = _imageCounter % _imageAmount ;
+
+        /*
         if (_imageCounter >= _imageAmount){
             loadErrorBackgroundImage();
         }
         else{
             currentSprite = _string_paths.at(_imageCounter);
             loadTexture();
-        }
+        }*/
+
     }
     else{
         auto positionComponent = entity->getComponent<PositionComponent>();
@@ -41,7 +59,7 @@ void BackgroundRenderComponent::loadNextImage(){
 
         srcRect.w = (int)(Game::getInstance().getConfig()->screenResolution.width);
         srcRect.h = (int)(Game::getInstance().getConfig()->screenResolution.height);
-        srcRect.x = cameraPositionComponent->currentX;
+        srcRect.x = cameraPositionComponent->currentX*_parallaxSpeed;
         srcRect.y = 0;
     }
 }

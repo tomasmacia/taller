@@ -61,21 +61,21 @@ void LevelBuilder::initializeWorld() {
     Manager *manager = Game::getInstance().getManager();
     Level currentLevelSprites = Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
 
-    auto *overlay = manager->addEntity();
-    overlay->addComponent<PositionComponent>(_camera);
-    overlay->addComponent<BackgroundRenderComponent>(currentLevelSprites.overlay);
-
-    auto *floor = manager->addEntity();
-    floor->addComponent<PositionComponent>(_camera);
-    floor->addComponent<BackgroundRenderComponent>(currentLevelSprites.floor);
+    auto *far = manager->addEntity();
+    far->addComponent<PositionComponent>(_camera);
+    far->addComponent<BackgroundRenderComponent>(currentLevelSprites.far,FAR_SPEED);
 
     auto *middle = manager->addEntity();
     middle->addComponent<PositionComponent>(_camera);
-    middle->addComponent<BackgroundRenderComponent>(currentLevelSprites.middle);
+    middle->addComponent<BackgroundRenderComponent>(currentLevelSprites.middle,MIDDLE_SPEED);
 
-    auto *far = manager->addEntity();
-    far->addComponent<PositionComponent>(_camera);
-    far->addComponent<BackgroundRenderComponent>(currentLevelSprites.far);
+    auto *floor = manager->addEntity();
+    floor->addComponent<PositionComponent>(_camera);
+    floor->addComponent<BackgroundRenderComponent>(currentLevelSprites.floor,FLOOR_SPEED);
+    
+    auto *overlay = manager->addEntity();
+    overlay->addComponent<PositionComponent>(_camera);
+    overlay->addComponent<BackgroundRenderComponent>(currentLevelSprites.overlay,OVERLAY_SPEED);
 
     LogManager::logDebug("Fondos inicializados");
 }

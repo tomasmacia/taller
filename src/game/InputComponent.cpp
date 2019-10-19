@@ -4,7 +4,6 @@
 #include "Game.h"
 #include "InputComponent.h"
 #include "StateComponent.h"
-#include <iostream>
 
 
 void InputComponent::update() {
@@ -15,7 +14,6 @@ void InputComponent::update() {
             Game::getInstance().end();
         else{
             entity->getComponent<StateComponent>()->setIncomingAction(actions.front());
-            std::cout << "input: "<< actions.front() <<"\n";
             actions.pop_front();
         }
     }

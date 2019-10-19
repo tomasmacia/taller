@@ -9,9 +9,10 @@
 
 class BackgroundRenderComponent : public RenderComponent {
 public:
-    BackgroundRenderComponent(std::vector<std::string> string_paths);
+    BackgroundRenderComponent(std::vector<std::string> string_paths, int parallaxSpeed);
     void init() override;
     void update() override;
+    void render() override;
 
 protected:
     void loadNextImage() override;
@@ -19,6 +20,7 @@ protected:
 private:
     bool currentSpriteFinished();
     void loadErrorBackgroundImage();
+    int _parallaxSpeed = 1;
 
     std::vector<std::string> _string_paths;
 };

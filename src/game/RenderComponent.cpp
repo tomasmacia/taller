@@ -20,7 +20,3 @@ void RenderComponent::updatePosition(){
     destRect.x = positionComponent->getX() - cameraPositionComponent->currentX;
     destRect.y = positionComponent->getY();
 }
-
-void RenderComponent::render() {
-    texture.render(&srcRect, &destRect,false);
-}

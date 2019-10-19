@@ -31,6 +31,10 @@ private:
     int currentLevel;
     int totalLevels;
 
+    int OVERLAY_SPEED = 3;
+    int FLOOR_SPEED = 3;
+    int MIDDLE_SPEED = 2;
+    int FAR_SPEED = 1;
 };
 
 

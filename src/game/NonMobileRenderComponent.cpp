@@ -18,3 +18,7 @@ void NonMobileRenderComponent::init() {
 void NonMobileRenderComponent::update() {
     updatePosition();
 }
+
+void NonMobileRenderComponent::render() {
+    texture.render(&srcRect, &destRect,false);
+}
