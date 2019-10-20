@@ -9,6 +9,7 @@
 #include "ECS.h"
 #include "Game.h"
 
+#include <iostream>
 class CameraPositionComponent : public Component {
 public:
 
@@ -17,12 +18,12 @@ public:
         this->currentX = 0;
         this->windowWidth = Game::getInstance().getConfig()->screenResolution.width;
         this->windowHeight = Game::getInstance().getConfig()->screenResolution.height;
-        this->levelWidth = Game::getInstance().getCurrentLevelWidth();
-        this->levelHeight = Game::getInstance().getConfig()->screenResolution.height;
         this->marginWidth = windowWidth/4;
+        this->offScreenTolerance = 2*marginWidth;
     }
 
     void setPlayer(Entity* player);
+    bool onScreen(int x, int y);
 
     int currentX;
 
@@ -33,7 +34,7 @@ private:
 
     int windowHeight, windowWidth;
     int levelHeight, levelWidth;
-    int marginWidth;
+    int marginWidth , offScreenTolerance;
 
     std::list<Entity*> _players;
 

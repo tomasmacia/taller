@@ -25,11 +25,11 @@ private:
     float _accelerationX;
     float _accelerationY;
 
-    float DEFAULT_WALKING_VELOCITY_X = (int)((Game::getInstance().getConfig()->screenResolution.width)/200);
-    float DEFAULT_WALKING_VELOCITY_Y = (int)((Game::getInstance().getConfig()->screenResolution.width)/200);;
+    float DEFAULT_WALKING_VELOCITY_X = ((Game::getInstance().getConfig()->screenResolution.width)/200);
+    float DEFAULT_WALKING_VELOCITY_Y = ((Game::getInstance().getConfig()->screenResolution.width)/200);;
 
     float DEFAULT_JUMPING_ACCELERATION_Y; //setted later to sync with sprites
-    float DEFAULT_JUMPING_VELOCITY_Y = (int)((Game::getInstance().getConfig()->screenResolution.height)/60);; 
+    float DEFAULT_JUMPING_VELOCITY_Y = ((Game::getInstance().getConfig()->screenResolution.height)/60);; 
     //how high is the jump
 
     void up();

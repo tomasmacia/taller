@@ -15,15 +15,13 @@ void CameraPositionComponent::update() {
     if (shouldMoveCamera()){
         scroll();
     }
-    //std::cout << std::string("[CAMERA]: X inicial es ") + std::to_string(this->currentX) << std::endl;
 }
 
-bool CameraPositionComponent::shouldMoveCamera() {
+bool CameraPositionComponent::shouldMoveCamera() { 
     return (noPlayerInLeftLimit() && marginSurpased() && notAtTheEnd());
 }
 
 bool CameraPositionComponent::noPlayerInLeftLimit() {
-
     for (auto* player : _players){
         if (inLeftLimit(player)){return false;}
     }
@@ -35,7 +33,7 @@ bool CameraPositionComponent::inLeftLimit(Entity* player) {
 }
 
 bool CameraPositionComponent::notAtTheEnd() {
-    return (currentX + windowWidth) < levelWidth;
+    return (currentX + windowWidth) < Game::getInstance().getCurrentLevelWidth();;
 }
 
 bool CameraPositionComponent::marginSurpased() {
@@ -50,9 +48,16 @@ bool CameraPositionComponent::touchingMargin(Entity* player) {
 }
 
 void CameraPositionComponent::scroll() {
-    this->currentX += _players.front()->getComponent<PhysicsComponent>()->getWalkingSpeed();
+    this->currentX += (int)(_players.front()->getComponent<PhysicsComponent>()->getWalkingSpeed());
 }
 
 void CameraPositionComponent::setPlayer(Entity* player){
     _players.push_back(player); 
+}
+
+bool CameraPositionComponent::onScreen(int x, int y){
+
+    return (x <= (currentX + windowWidth + offScreenTolerance) && x >= currentX - offScreenTolerance)
+            &&
+            (y <= (windowHeight + offScreenTolerance) && y >= -offScreenTolerance); //este luce raro pero es porque el eje y en SDL esta al revez
 }

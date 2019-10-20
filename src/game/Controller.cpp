@@ -16,8 +16,11 @@ void Controller::processInput() {
 
         action = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
 
-        if( (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0) ||
-            (sdlEvent.type == SDL_QUIT )){
+        if (sdlEvent.type == SDL_QUIT){
+            currentInput.push_back(QUIT);
+        }
+
+        if( (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)){
 
             if (action != NONE) {
                 currentInput.push_back(action);

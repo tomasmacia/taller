@@ -19,6 +19,6 @@ void NonMobileRenderComponent::update() {
     updatePosition();
 }
 
-void NonMobileRenderComponent::render() {
+void NonMobileRenderComponent::renderInOwnWay() {
     texture.render(&srcRect, &destRect,false);
 }

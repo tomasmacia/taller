@@ -14,7 +14,7 @@ void MobileRenderComponent::update() {
     loadNextImage();
 }
 
-void MobileRenderComponent::render() {
+void MobileRenderComponent::renderInOwnWay() {
     texture.render(&srcRect, &destRect,isFlipped());
 }
 

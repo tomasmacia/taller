@@ -12,13 +12,10 @@ public:
     BackgroundRenderComponent(std::string string_path, float parallaxSpeed);
     void init() override;
     void update() override;
-    void render() override;
 
 protected:
     void loadNextImage() override;
-    void updatePosition() override {} 
-    //en los fondos no quiero mover donde se pone el fondo en la window,
-    // sino de donde saco la el cacho de fondo a mostrar
+    void renderInOwnWay() override;
 
 private:
     void loadErrorBackgroundImage();

@@ -31,25 +31,14 @@ void BackgroundRenderComponent::init() {
 }
 
 void BackgroundRenderComponent::update() {
-    updatePosition();
     loadNextImage();
 }
 
-void BackgroundRenderComponent::render() {
+void BackgroundRenderComponent::renderInOwnWay() {
     texture.render(&srcRect, &destRect,false);
-    //std::cout<<currentSprite<<'\n';
 }
 
 void BackgroundRenderComponent::loadNextImage(){
-    /*
-    std::cout<<"_imageAmount: "<<_imageAmount<<'\n';
-    std::cout<<"_imageCounter: "<<_imageCounter<<'\n';
-    std::cout<<"currentSprite: "<<currentSprite<<'\n';
-    std::cout<<"SpriteWidth: "<<texture.getWidth()<<'\n';
-    std::cout<<"CameraStart: "<<srcRect.x<<'\n';
-    std::cout<<"CameraEnd: "<<(srcRect.x + srcRect.w)<<'\n';
-    std::cout<<"=============================: "<<'\n';
-    std::cout<<'\n';*/
 
     auto positionComponent = entity->getComponent<PositionComponent>();
     auto cameraPositionComponent = positionComponent->getCamera()->getComponent<CameraPositionComponent>();

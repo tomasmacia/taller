@@ -12,15 +12,17 @@
 class RenderComponent : public Component {
 public:
     virtual void update() = 0;
-    virtual void render() = 0;
+    void render();
 
     ~RenderComponent() override;
     
 protected:
     virtual void loadNextImage() = 0;
-    
+    virtual void renderInOwnWay() = 0;
+
+    bool onScreen();
+    void updatePosition();
     void loadTexture();
-    virtual void updatePosition();
 
     TextureWrapper texture;
     SDL_Rect srcRect;

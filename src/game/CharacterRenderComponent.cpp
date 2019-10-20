@@ -76,3 +76,5 @@ int CharacterRenderComponent::getJumpDuration(){
     return DELAY * JUMP_IMAGE_AMOUNT;
 }
 
+ 
+

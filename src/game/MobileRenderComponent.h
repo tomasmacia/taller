@@ -7,12 +7,13 @@
 class MobileRenderComponent : public RenderComponent {
 public:
     void update() override;
-    void render() override;
 
     virtual int getJumpDuration() = 0;
     
 protected:
     virtual void handleIncomingAction() = 0;
+    void renderInOwnWay() override;
+
     void loadNextImage() override;
     bool isFlipped();
     void flip();
