@@ -57,7 +57,7 @@ void CameraPositionComponent::setPlayer(Entity* player){
 
 bool CameraPositionComponent::onScreen(int x, int y){
 
-    return (x <= (currentX + windowWidth + offScreenTolerance) && x >= currentX - offScreenTolerance)
+    return (x <= (windowWidth + offScreenTolerance) && x >= -offScreenTolerance)
             &&
             (y <= (windowHeight + offScreenTolerance) && y >= -offScreenTolerance); //este luce raro pero es porque el eje y en SDL esta al revez
 }
