@@ -98,12 +98,12 @@ void LevelBuilder::initializeApropiateParallaxSpeeds(Level currentLevelSprites){
     _texture->loadFromFile(currentLevelSprites.overlay.front());
     float overlayWidth = _texture->getWidth();
 
-    currentLevelWidth = floorWidth;
 
-    _farSpeedRatio = (farWidth/floorWidth);
-    _middleSpeedRatio = (middleWidth/floorWidth);
-    _floorSpeedRatio = 1.0;
-    _overlaySpeedRatio = (overlayWidth/floorWidth);
+    _floorSpeedRatio = 0.4;
+    currentLevelWidth = floorWidth/_floorSpeedRatio;
+    _farSpeedRatio = (farWidth/floorWidth)*_floorSpeedRatio;
+    _middleSpeedRatio = (middleWidth/floorWidth)*_floorSpeedRatio;
+    _overlaySpeedRatio = (overlayWidth/floorWidth)*_floorSpeedRatio;
 
     _texture->free();
     delete(_texture);
