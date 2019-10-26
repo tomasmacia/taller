@@ -7,16 +7,16 @@ CharacterRenderComponent::CharacterRenderComponent(CharacterXML characterConfig)
 }
 
 void CharacterRenderComponent::init() {
-    destRect.w = (int)(Game::getInstance().getConfig()->screenResolution.width * 0.2);
-    destRect.h = (int)(Game::getInstance().getConfig()->screenResolution.height * 0.50);
-    destRect.x = (int)(Game::getInstance().getConfig()->screenResolution.width * 0.3);
-    destRect.y = (int)(Game::getInstance().getConfig()->screenResolution.height * 0.3);
+    destRect.w = (int)((float)(Game::getInstance().getConfig()->screenResolution.width)*WIDTH_SCALE);
+    destRect.h = (int)((float)(Game::getInstance().getConfig()->screenResolution.height)*HEIGHT_SCALE);
+    destRect.x = (int)entity->getComponent<PositionComponent>()->getX();
+    destRect.y = (int)entity->getComponent<PositionComponent>()->getY();
 
     DELAY = 5;
     currentSprite = characterConfig.stand;
     _imageAmount  = STAND_IMAGE_AMOUNT;
-    loadTexture();
     _imageCounter = 0;
+    loadTexture();
 }
 
 void CharacterRenderComponent::handleIncomingAction(){

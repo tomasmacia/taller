@@ -10,11 +10,7 @@ void InputComponent::update() {
     actions = Game::getInstance().getController()->getInput();
     
     if (!actions.empty()){
-        if (actions.front() == QUIT)
-            Game::getInstance().end();
-        else{
-            entity->getComponent<StateComponent>()->setIncomingAction(actions.front());
-            actions.pop_front();
-        }
+        entity->getComponent<StateComponent>()->setIncomingAction(actions.front());
+        actions.pop_front();
     }
 }

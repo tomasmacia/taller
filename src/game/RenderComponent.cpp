@@ -2,7 +2,6 @@
 #include "RenderComponent.h"
 #include "CameraPositionComponent.h"
 
-#include <iostream>
 
 RenderComponent::~RenderComponent() {
     texture.free();

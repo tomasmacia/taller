@@ -28,6 +28,9 @@ protected:
     SDL_Rect srcRect;
     SDL_Rect destRect;
 
+    float WIDTH_SCALE = 0.2;
+    float HEIGHT_SCALE = 0.5;
+
     int _imageAmount;
     int _imageCounter = 0;
 

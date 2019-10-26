@@ -16,8 +16,8 @@ void Controller::processInput() {
 
         action = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
 
-        if (sdlEvent.type == SDL_QUIT){
-            currentInput.push_back(QUIT);
+        if ((sdlEvent.type == SDL_QUIT) || action == QUIT){
+            Game::getInstance().end();
         }
 
         if( (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)){

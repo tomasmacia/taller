@@ -41,6 +41,9 @@ bool LevelBuilder::loadNext() {
 }
 
 void LevelBuilder::initialize() {
+
+    srand (time(NULL));
+
     LogManager::logDebug(&"Incializando NIVEL " [currentLevel]);
     srand(time(nullptr));
 
@@ -86,24 +89,34 @@ void LevelBuilder::initializeApropiateParallaxSpeeds(Level currentLevelSprites){
 
     _texture = new TextureWrapper(); 
 
+    float screenResolutionWidth = (int)(Game::getInstance().getConfig()->screenResolution.width);
+    float screenResolutionHeight = (int)(Game::getInstance().getConfig()->screenResolution.height);
+
+    float aspectRatio = screenResolutionWidth/screenResolutionHeight;
+
     _texture->loadFromFile(currentLevelSprites.far.front());
     float farWidth = _texture->getWidth();
+    float farHeigth = _texture->getHeight();
 
     _texture->loadFromFile(currentLevelSprites.middle.front());
     float middleWidth = _texture->getWidth();
+    float middleHeigth = _texture->getHeight();
 
     _texture->loadFromFile(currentLevelSprites.floor.front());
     float floorWidth = _texture->getWidth();
+    float floorHeigth = _texture->getHeight();
 
     _texture->loadFromFile(currentLevelSprites.overlay.front());
     float overlayWidth = _texture->getWidth();
+    float overlayHeigth = _texture->getHeight();
 
 
     _floorSpeedRatio = 0.4;
     currentLevelWidth = floorWidth/_floorSpeedRatio;
-    _farSpeedRatio = (farWidth/floorWidth)*_floorSpeedRatio;
-    _middleSpeedRatio = (middleWidth/floorWidth)*_floorSpeedRatio;
-    _overlaySpeedRatio = (overlayWidth/floorWidth)*_floorSpeedRatio;
+    _farSpeedRatio = (farWidth - aspectRatio*farHeigth)/(floorWidth - screenResolutionWidth)*_floorSpeedRatio;
+    _middleSpeedRatio = (middleWidth - aspectRatio*middleHeigth)/(floorWidth - screenResolutionWidth)*_floorSpeedRatio;
+    _overlaySpeedRatio = _floorSpeedRatio;
+    //aca en el overlay la logica es distinta porque nosotros tapamos el background de floor con otro en vez de editarlo
 
     _texture->free();
     delete(_texture);
@@ -199,7 +212,7 @@ void LevelBuilder::initializeWeapons() {
         knife->addComponent<PositionComponent>(_camera,x,y);
         knife->addComponent<NonMobileRenderComponent>(knifeConfig.sprite);
     } 
-    LogManager::logDebug("tubos de metal inicializados");
+    LogManager::logDebug("cuchillos inicializados");
 
     for (int i = 0; i < weapons.tube.amount;i++) {
 
@@ -211,8 +224,7 @@ void LevelBuilder::initializeWeapons() {
 
         tube->addComponent<PositionComponent>(_camera,x,y);
         tube->addComponent<NonMobileRenderComponent>(tubeConfig.sprite);
-    }
-
+    }    
     LogManager::logDebug("tubos de metal inicializados");
 }
 
@@ -247,137 +259,24 @@ void LevelBuilder::initializeUtilities() {
         barrel->addComponent<PositionComponent>(_camera,x,y);
         barrel->addComponent<NonMobileRenderComponent>(barrelConfig.sprite);
     }
-
     LogManager::logDebug("barriles inicializados");
 }
 
 int LevelBuilder::generateX(){
-    return 0;
+    //return rand() % currentLevelWidth;
+    int screenWidth = Game::getInstance().getConfig()->screenResolution.width;
+    return rand() % screenWidth;
 }
 
 int LevelBuilder::generateY(){
-    return 0; 
+    int screenHeight = Game::getInstance().getConfig()->screenResolution.height;
+
+    int offset = screenHeight * 0.3;
+    int range = screenHeight * 0.2;
+
+    return (rand() % range) + offset;
 }
 
 int LevelBuilder::getCurrentLevelWidth(){
     return currentLevelWidth;
 }
-
-
-/*    vector<NPC> enemies = Game::getInstance().getConfig()->gameplay.npcs;
-    Level level = Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
-
-    for (auto &enemy : enemies) {
-        int x;
-        if (level.name == "bay") {
-            x = rand() % (20001);
-        } else if (level.name == "desert") {
-            x = rand() % (20001/2);
-        } else {
-            x = rand() % (20001/2);
-        }
-        int y = 120 + rand() % (201 - 120);
-        Game::getInstance().addGameComponent(new Game_Component(enemy.walk, x, y, Game::getInstance().getRenderer(),
-                Game::getInstance().getConfig()->screenResolution.width,
-                Game::getInstance().getConfig()->screenResolution.height,true,5)); // HARDCODE 5
-        LogManager::logDebug("Enemigo inicializado");
-    }*/
-
-
-
-
-//void LevelBuilder::initializeWeapons() {
-//    LogManager::logDebug("Inicializando armas");
-//    Weapons weapons = Game::getInstance().getConfig()->gameplay.weapons;
-//    Level level = Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
-//
-//    for (int i = 0; i < weapons.tube.amount ; ++i) {
-//        int x = 0;
-//        if (level.name == "bay") {
-//            x = rand() % (20001);
-//        } else if (level.name == "desert") {
-//            x = rand() % (20001/2);
-//        } else {
-//            x = rand() % (20001/2);
-//        }
-//        int y = 120 + rand() % (201 - 120);
-//        Game::getInstance().addGameComponent(new Game_Component(weapons.tube.sprite, x, y,
-//                Game::getInstance().getRenderer(),
-//                Game::getInstance().getConfig()->screenResolution.width,
-//                Game::getInstance().getConfig()->screenResolution.height,false,1)); // HARDCODED 1
-//        LogManager::logDebug("Agregado tubo");
-//    }
-//
-//    /* posiciones del cuchillos aleatoria en el rango del suelo */
-//    for (int i = 0; i < weapons.knife.amount; ++i) {
-//        int x = 0;
-//        if (level.name == "bay") {
-//            x = rand() % (20001);
-//        } else if (level.name == "desert") {
-//            x = rand() % (20001/2);
-//        } else {
-//            x = rand() % (20001/2);
-//        }
-//        int y = 120 + rand() % (201 - 120);
-//        Game::getInstance().addGameComponent(new Game_Component(weapons.knife.sprite, x, y,
-//                Game::getInstance().getRenderer(),
-//                Game::getInstance().getConfig()->screenResolution.width,
-//                Game::getInstance().getConfig()->screenResolution.height,false,1)); // HARDCODED 1
-//        LogManager::logDebug("Agregado cuchillo");
-//    }
-//}
-//
-//void LevelBuilder::initializeUtilities() {
-//    LogManager::logDebug("Inicializando utilidades");
-//    Utilities utilities = Game::getInstance().getConfig()->gameplay.utilities;
-//    Level level = Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
-//
-//    for (int i = 0; i < utilities.barrel.amount; ++i) {
-//        int x = 0;
-//        if (level.name == "bay") {
-//            x = rand() % (20001);
-//        } else if (level.name == "desert") {
-//            x = rand() % (20001/2);
-//        } else {
-//            x = rand() % (20001/2);
-//        }
-//        int y = 120 + rand() % (201 - 120);
-//        Game::getInstance().addGameComponent(new Game_Component(utilities.barrel.sprite, x, y,
-//                Game::getInstance().getRenderer(),
-//                Game::getInstance().getConfig()->screenResolution.width,
-//                Game::getInstance().getConfig()->screenResolution.height,false,1)); // HARDCODED 1
-//        LogManager::logDebug("Agregado barril");
-//    }
-//
-//    for (int i = 0; i < utilities.box.amount; ++i) {
-//        int x = 0;
-//        if (level.name == "bay") {
-//            x = rand() % (20001);
-//        } else if (level.name == "desert") {
-//            x = rand() % (20001/2);
-//        } else {
-//            x = rand() % (20001/2);
-//        }
-//        int y = 120 + rand() % (201 - 120);
-//        Game::getInstance().addGameComponent(new Game_Component(utilities.box.sprite, x, y,
-//                Game::getInstance().getRenderer(),
-//                Game::getInstance().getConfig()->screenResolution.width,
-//                Game::getInstance().getConfig()->screenResolution.height, false, 1)); // HARDCODED 1
-//        LogManager::logDebug("Agregada caja");
-//    }
-//}
-//
-//std::vector<float> LevelBuilder::getParallaxSpeedPerLevel() {
-//    std::vector<float> speeds;
-//    Level level = Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
-//
-//    if (level.name == "bay") {
-//        speeds = {0.063, 0.25, 0.5, 0.5};
-//    } else if (level.name == "desert") {
-//        speeds = {0.095, 0.25, 0.5, 0.5};
-//    } else {
-//        speeds = {0.13, 0.25, 0.5, 0.6};
-//    }
-//
-//    return speeds;
-//}
