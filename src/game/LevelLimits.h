@@ -12,11 +12,15 @@ public:
 
     void update() override;
 
+    void reset(int windowWidth, int windowHeight, int levelWidth);
+
     int generateValidInScreenX();
     int generateValidInScreenY();
     bool newPositionOutOfRange(int x, int y);
 
 private:
+    void initialize(int windowWidth, int windowHeight, int levelWidth, CameraComponent* camera);
+    
     int _windowHeight, _windowWidth, _levelWidth;
 
     int _minY, _maxY, _minX, _maxX;

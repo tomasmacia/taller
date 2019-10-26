@@ -27,9 +27,10 @@ public:
     // *************************
     void start();
     void end();
+    void endLevel();
     int getCurrentLevelWidth();
 
-    bool isRunning = true; // false
+    bool isRunning = true;
     bool levelFinished = false;
 
     // *************************
@@ -85,6 +86,7 @@ private:
     void setWindowTitleWithFPS(int fps);
 
     bool isGameRunning();
+
 
     bool hasNextLevel = false;
 

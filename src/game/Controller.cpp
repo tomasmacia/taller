@@ -26,12 +26,13 @@ void Controller::processInput() {
                 currentInput.push_back(action);
             }
         }
-
-        if ((sdlEvent.type == SDL_KEYUP && sdlEvent.key.repeat == 0 ))
         
+        if ((sdlEvent.type == SDL_KEYUP && sdlEvent.key.repeat == 0 )){
             if (action == UP || action == DOWN || action == LEFT || action == RIGHT ||
-                action == NONE) //no bloqueante
-                currentInput.push_back(NONE); //para anular la accion anterior
+                action == NONE){//no bloqueante
+                    currentInput.push_back(NONE); //para anular la accion anterior
+            } 
+        }
     }
 }
 

@@ -18,10 +18,18 @@ void CameraComponent::init(){
     this->offScreenTolerance = 2*marginWidth;
 }
 
+void CameraComponent::reset(){
+    currentX = 0;
+}
+
 
 void CameraComponent::update() {
     if (shouldMoveCamera()){
         scroll();
+    }
+
+    if (atTheEnd()){
+        Game::getInstance().endLevel();
     }
 }
 
@@ -38,6 +46,10 @@ bool CameraComponent::noPlayerInLeftLimit() {
 
 bool CameraComponent::inLeftLimit(Entity* player) {
     return (player->getComponent<PositionComponent>()->getX() <= currentX);
+}
+
+bool CameraComponent::atTheEnd() {
+    return (currentX + windowWidth) >= Game::getInstance().getCurrentLevelWidth();
 }
 
 bool CameraComponent::notAtTheEnd() {

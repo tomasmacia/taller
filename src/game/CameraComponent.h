@@ -20,6 +20,8 @@ public:
 
     void setPlayer(Entity* player);
     bool onScreen(int x, int y);
+    
+    void reset();
 
     int getWindowWidth(){return windowWidth;}
     int getWindowHeight(){return windowHeight;}
@@ -32,13 +34,14 @@ private:
     int windowHeight, windowWidth;
     int levelHeight, levelWidth;
     int marginWidth , offScreenTolerance;
-    
+
 
     std::list<Entity*> _players;
 
     bool shouldMoveCamera();
     bool marginSurpased();
     bool notAtTheEnd();
+    bool atTheEnd();
     bool noPlayerInLeftLimit();
     bool inLeftLimit(Entity* player);
     bool touchingMargin(Entity* player);

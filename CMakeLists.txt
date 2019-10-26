@@ -69,6 +69,7 @@ set(SOURCE_FILES
         src/game/Controller.h
         src/game/ECS.h
         src/game/Manager.h
+        src/game/Manager.cpp
         src/game/Action.h
         src/game/LevelBuilder.h
         src/game/LevelBuilder.cpp

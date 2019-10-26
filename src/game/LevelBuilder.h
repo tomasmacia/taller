@@ -15,12 +15,14 @@ public:
     LevelBuilder();
     ~LevelBuilder();
 
-    bool loadNext();
-    void initialize();
+    void loadNext();
+    bool hasNextLevel();
 
     int getCurrentLevelWidth();
 
 private:
+    void initialize();
+    void initializeNextLevel();
     void initializeCamera();
     void initializeLevelLimits();
     void initializeWorld();
@@ -29,6 +31,11 @@ private:
     void initializeEnemies();
     void initializeUtilities();
     void initializeWeapons();
+
+    void resetCamera();
+    void resetLevelLimits();
+    void resetPlayers();
+    void destroyUselessEntities();
 
     int generateX();
     int generateY();

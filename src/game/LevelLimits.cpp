@@ -7,7 +7,10 @@
 #include <iostream>
 
 LevelLimits::LevelLimits(int windowWidth, int windowHeight, int levelWidth, CameraComponent* camera) {
+    initialize(windowWidth,windowHeight,levelWidth,camera);
+}
 
+void LevelLimits::initialize(int windowWidth, int windowHeight, int levelWidth, CameraComponent* camera){
     srand (time(NULL));
 
     _camera = camera;
@@ -26,6 +29,10 @@ LevelLimits::LevelLimits(int windowWidth, int windowHeight, int levelWidth, Came
     _maxY = _minY + _rangeOfMovementY + _toleranceY;
     _minX = 0 - _toleranceX;
     _maxX = _windowWidth;
+}
+
+void LevelLimits::reset(int windowWidth, int windowHeight, int levelWidth) {
+    initialize(windowWidth,windowHeight,levelWidth,_camera);
 }
 
 void LevelLimits::update(){

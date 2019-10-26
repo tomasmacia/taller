@@ -78,22 +78,21 @@ void Game::initECSManager() {
 
 
 void Game::start() {
+
     Uint32 fps_last = SDL_GetTicks();
     Uint32 current;
 
+    isRunning = true;
+
     this->initECSManager();
     this->initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
-
     levelBuilder = new LevelBuilder();
-    this->hasNextLevel = true;
 
-
-    while (isRunning && hasNextLevel) {
-        this->hasNextLevel = levelBuilder->loadNext();
+    while (isRunning && levelBuilder->hasNextLevel()) {
+        levelBuilder->loadNext();
         this->levelFinished = false;
 
-        while (isRunning && hasNextLevel && !levelFinished) {
-            isRunning = isGameRunning();
+        while (isRunning && !levelFinished) {
 
             processInput();
             update();
@@ -106,18 +105,12 @@ void Game::start() {
     }
 }
 
-bool Game::isGameRunning() { // TODO: implement when we have a proper gameloop input-update-render
-    std::list<Action> actions = controller->getInput();
-    //return actions.empty() || std::find(actions.begin(), actions.end(), Action::QUIT) != actions.end();
-    return true;
-}
-
 void Game::processInput() {
     controller->processInput();
 }
 
 void Game::update() {
-    manager->refresh();
+    //manager->refresh();
     manager->update();
 }
 
@@ -127,7 +120,9 @@ void Game::render() {
     SDL_RenderPresent(renderer);
 }
 
-
+void Game::endLevel(){
+    this->levelFinished = true;
+}
 
 void Game::setWindowTitleWithFPS(int fps){
 
@@ -135,7 +130,6 @@ void Game::setWindowTitleWithFPS(int fps){
     sprintf(szFps, "%s: %d FPS", "Final Fight", fps);
     SDL_SetWindowTitle(window, szFps);
 }
-
 
 void Game::destroy() {
 
