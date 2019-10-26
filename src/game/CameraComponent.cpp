@@ -1,13 +1,22 @@
 //
 // Created by Tomás Macía on 14/10/2019.
 //
+#include <string>
 
 #include "CameraComponent.h"
 #include "PositionComponent.h"
 #include "PhysicsComponent.h"
-#include <string>
-#include <iostream>
+#include "Game.h"
 
+
+
+void CameraComponent::init(){
+    this->currentX = 0;
+    this->windowWidth = Game::getInstance().getConfig()->screenResolution.width;
+    this->windowHeight = Game::getInstance().getConfig()->screenResolution.height;
+    this->marginWidth = windowWidth/4;
+    this->offScreenTolerance = 2*marginWidth;
+}
 
 
 void CameraComponent::update() {

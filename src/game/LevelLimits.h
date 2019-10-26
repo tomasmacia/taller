@@ -2,11 +2,13 @@
 #define GAME_LEVELLIMITS_H
 
 #include "ECS.h"
-#include "Game.h"
+#include "CameraComponent.h"
 
-class LevelLimits : Component{
+
+class LevelLimits : public Component{
 public:
-    LevelLimits(int windowWidth, int windowHeigh, int levelWidth);
+    LevelLimits(int windowWidth, int windowHeigh, int levelWidth,
+                 CameraComponent* camera);
 
     void update() override;
 
@@ -15,11 +17,13 @@ public:
     bool newPositionOutOfRange(int x, int y);
 
 private:
-
     int _windowHeight, _windowWidth, _levelWidth;
 
     int _minY, _maxY, _minX, _maxX;
     int _rangeOfMovementY, _offsetY;
+    int _toleranceX, _toleranceY;
+
+    CameraComponent* _camera = nullptr;
 };
 
 

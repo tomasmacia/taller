@@ -7,28 +7,22 @@
 
 
 #include "ECS.h"
-#include "Game.h"
 
-#include <iostream>
+#include <list>
+using namespace std;
+
+
 class CameraComponent : public Component {
 public:
 
     void update() override;
-    void init() override {
-        this->currentX = 0;
-        this->windowWidth = Game::getInstance().getConfig()->screenResolution.width;
-        this->windowHeight = Game::getInstance().getConfig()->screenResolution.height;
-        this->marginWidth = windowWidth/4;
-        this->offScreenTolerance = 2*marginWidth;
-    }
+    void init() override;
 
     void setPlayer(Entity* player);
     bool onScreen(int x, int y);
 
     int getWindowWidth(){return windowWidth;}
     int getWindowHeight(){return windowHeight;}
-
-    ~CameraComponent() override {};
 
     int currentX = 0;
 
@@ -38,6 +32,7 @@ private:
     int windowHeight, windowWidth;
     int levelHeight, levelWidth;
     int marginWidth , offScreenTolerance;
+    
 
     std::list<Entity*> _players;
 

@@ -69,11 +69,13 @@ void LevelBuilder::initializeCamera() {
 void LevelBuilder::initializeLevelLimits() {
     LogManager::logDebug("Inicializando limites de pantalla");
 
+    Manager *manager = Game::getInstance().getManager();
+
     int screenWidth = Game::getInstance().getConfig()->screenResolution.width;
     int screenHeigth = Game::getInstance().getConfig()->screenResolution.height;
 
-    _camera = manager->addEntity();
-    _levelLimits->addComponent<LevelLimits>(screenWidth,screenHeigth,currentLevelWidth);
+    _levelLimits = manager->addEntity();
+    _levelLimits->addComponent<LevelLimits>(screenWidth,screenHeigth,currentLevelWidth,_camera->getComponent<CameraComponent>());
 }
 
 void LevelBuilder::initializeWorld() {
@@ -156,7 +158,7 @@ void LevelBuilder::initializePlayers() {
         auto *player = manager->addEntity();
         _camera->getComponent<CameraComponent>()->setPlayer(player);
         player->addComponent<InputComponent>();
-        player->addComponent<PhysicsComponent>(_levelLimits);
+        player->addComponent<PhysicsComponent>(_levelLimits->getComponent<LevelLimits>());
         player->addComponent<PositionComponent>(x,y);
         player->addComponent<CharacterRenderComponent>(_camera, pj);
         player->addComponent<StateComponent>();
@@ -184,11 +186,11 @@ void LevelBuilder::initializeEnemies() {
         auto npcConfig = npcs.at(i);
         auto *npc = manager->addEntity();
 
-        int x = _levelLimits->generateValidInScreenX();
-        int y = _levelLimits->generateValidInScreenY();
+        int x = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenX();
+        int y = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenY();
 
         npc->addComponent<IAComponent>();
-        npc->addComponent<PhysicsComponent>(_levelLimits);
+        npc->addComponent<PhysicsComponent>(_levelLimits->getComponent<LevelLimits>());
         npc->addComponent<PositionComponent>(x,y);
         npc->addComponent<NPCRenderComponent>(_camera, &npcConfig);
         npc->addComponent<StateComponent>();
@@ -209,8 +211,8 @@ void LevelBuilder::initializeWeapons() {
         auto knifeConfig = weapons.knife;
         auto *knife = manager->addEntity();
 
-        int x = _levelLimits->generateValidInScreenX();
-        int y = _levelLimits->generateValidInScreenY();
+        int x = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenX();
+        int y = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenY();
 
         knife->addComponent<PositionComponent>(x,y);
         knife->addComponent<NonMobileRenderComponent>(_camera, knifeConfig.sprite);
@@ -222,8 +224,8 @@ void LevelBuilder::initializeWeapons() {
         auto tubeConfig = weapons.tube;
         auto *tube = manager->addEntity();
 
-        int x = _levelLimits->generateValidInScreenX();
-        int y = _levelLimits->generateValidInScreenY();
+        int x = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenX();
+        int y = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenY();
 
         tube->addComponent<PositionComponent>(x,y);
         tube->addComponent<NonMobileRenderComponent>(_camera, tubeConfig.sprite);
@@ -243,8 +245,8 @@ void LevelBuilder::initializeUtilities() {
         auto boxConfig = utilities.box;
         auto *box = manager->addEntity();
 
-        int x = _levelLimits->generateValidInScreenX();
-        int y = _levelLimits->generateValidInScreenY();
+        int x = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenX();
+        int y = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenY();
 
         box->addComponent<PositionComponent>(x,y);
         box->addComponent<NonMobileRenderComponent>(_camera, boxConfig.sprite);
@@ -256,8 +258,8 @@ void LevelBuilder::initializeUtilities() {
         auto barrelConfig = utilities.barrel;
         auto *barrel = manager->addEntity();
 
-        int x = _levelLimits->generateValidInScreenX();
-        int y = _levelLimits->generateValidInScreenY();
+        int x = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenX();
+        int y = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenY();
 
         barrel->addComponent<PositionComponent>(x,y);
         barrel->addComponent<NonMobileRenderComponent>(_camera, barrelConfig.sprite);
@@ -272,6 +274,4 @@ int LevelBuilder::getCurrentLevelWidth(){
 LevelBuilder::~LevelBuilder(){
     delete(_texture);
     _texture = nullptr;
-    delete(_levelLimits);
-    _levelLimits = nullptr;
 }
