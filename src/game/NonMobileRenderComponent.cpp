@@ -5,16 +5,14 @@
 #include <iostream>
 
 
-NonMobileRenderComponent::NonMobileRenderComponent(std::string string_path){
+NonMobileRenderComponent::NonMobileRenderComponent(Entity* camera, std::string string_path){
     currentSprite = string_path;
+    setCamera(camera);
 }
 
 void NonMobileRenderComponent::init() {
-    destRect.w = (int)((float)(Game::getInstance().getConfig()->screenResolution.width)*WIDTH_SCALE);
-    destRect.h = (int)((float)(Game::getInstance().getConfig()->screenResolution.height)*HEIGHT_SCALE);
-    destRect.x = (int)entity->getComponent<PositionComponent>()->getX();
-    destRect.y = (int)entity->getComponent<PositionComponent>()->getY();
 
+    setDimentions();
     loadTexture();
 
     srcRect.w = (int)(texture.getWidth());

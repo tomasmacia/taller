@@ -7,7 +7,7 @@
 
 class CharacterRenderComponent : public MobileRenderComponent {
 public:
-    CharacterRenderComponent(CharacterXML characterConfig);
+    CharacterRenderComponent(Entity* camera, CharacterXML characterConfig);
     void init() override;
 
     int getJumpDuration() override;

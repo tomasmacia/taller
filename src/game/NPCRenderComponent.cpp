@@ -4,16 +4,14 @@
 
 #include <iostream>
 
-NPCRenderComponent::NPCRenderComponent(NPC *npcConfig) {
+NPCRenderComponent::NPCRenderComponent(Entity* camera, NPC *npcConfig) {
     this->npcConfig = *npcConfig;
+    setCamera(camera);
 }
 
 void NPCRenderComponent::init() {
 
-    destRect.w = (int)((float)(Game::getInstance().getConfig()->screenResolution.width)*WIDTH_SCALE);
-    destRect.h = (int)((float)(Game::getInstance().getConfig()->screenResolution.height)*HEIGHT_SCALE);
-    destRect.x = (int)entity->getComponent<PositionComponent>()->getX();
-    destRect.y = (int)entity->getComponent<PositionComponent>()->getY();
+    setDimentions();
 
     DELAY = 3;
     currentSprite = npcConfig.walk;

@@ -8,6 +8,7 @@
 #include "PositionComponent.h"
 #include "../LogLib/LogManager.h"
 #include "TextureWrapper.h"
+#include "CameraComponent.h"
 
 class RenderComponent : public Component {
 public:
@@ -23,10 +24,15 @@ protected:
     bool onScreen();
     void updatePosition();
     void loadTexture();
+    
+    void setCamera(Entity* camera);
+    void setDimentions();
 
     TextureWrapper texture;
     SDL_Rect srcRect;
     SDL_Rect destRect;
+
+    CameraComponent* _camera = nullptr;
 
     float WIDTH_SCALE = 0.2;
     float HEIGHT_SCALE = 0.5;

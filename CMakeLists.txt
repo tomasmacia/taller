@@ -76,8 +76,6 @@ set(SOURCE_FILES
         src/game/PositionComponent.cpp
         src/game/CameraComponent.cpp 
         src/game/CameraComponent.h 
-        src/game/CameraPositionComponent.cpp 
-        src/game/CameraPositionComponent.h
         src/game/TextureWrapper.cpp 
         src/game/TextureWrapper.h 
         src/game/PhysicsComponent.cpp 

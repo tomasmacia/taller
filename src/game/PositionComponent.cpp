@@ -3,11 +3,6 @@
 //
 #include "PositionComponent.h"
 
-PositionComponent::PositionComponent(Entity *camera) {
-    this->camera = camera;
-}
-
-PositionComponent::PositionComponent(Entity *camera, int x, int y) {
-    this->camera = camera;
+PositionComponent::PositionComponent(int x, int y) {
     setPosition(x,y);
 }

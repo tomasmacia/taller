@@ -1,6 +1,6 @@
 #include "Game.h"
 #include "RenderComponent.h"
-#include "CameraPositionComponent.h"
+#include "CameraComponent.h"
 
 
 RenderComponent::~RenderComponent() {
@@ -19,13 +19,24 @@ void RenderComponent::loadTexture() {
 
 void RenderComponent::updatePosition(){
     auto positionComponent = entity->getComponent<PositionComponent>();
-    auto cameraPositionComponent = positionComponent->getCamera()->getComponent<CameraPositionComponent>();
 
-    destRect.x = positionComponent->getX() - cameraPositionComponent->currentX;
+    destRect.x = positionComponent->getX() - _camera->currentX;
     destRect.y = positionComponent->getY();
 }
 
 bool RenderComponent::onScreen(){
-    auto *camera = entity->getComponent<PositionComponent>()->getCamera()->getComponent<CameraPositionComponent>();
-    return camera->onScreen(destRect.x,destRect.y);
+    return _camera->onScreen(destRect.x,destRect.y);
 }
+
+void RenderComponent::setCamera(Entity* camera){
+    _camera = camera->getComponent<CameraComponent>();
+}
+
+void RenderComponent::setDimentions(){
+    destRect.w = (int)((float)(_camera->getWindowWidth())*WIDTH_SCALE);
+    destRect.h = (int)((float)(_camera->getWindowHeight())*HEIGHT_SCALE);
+    destRect.x = (int)entity->getComponent<PositionComponent>()->getX();
+    destRect.y = (int)entity->getComponent<PositionComponent>()->getY();
+}
+
+

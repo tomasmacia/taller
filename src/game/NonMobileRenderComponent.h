@@ -7,7 +7,7 @@
 
 class NonMobileRenderComponent : public RenderComponent {
 public:
-    NonMobileRenderComponent(std::string string_path);
+    NonMobileRenderComponent(Entity* camera, std::string string_path);
 
     void update() override;
     void init() override;

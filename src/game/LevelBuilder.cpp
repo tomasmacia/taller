@@ -10,7 +10,6 @@
 #include "Game.h"
 #include "PositionComponent.h"
 #include "InputComponent.h"
-#include "CameraPositionComponent.h"
 #include "PhysicsComponent.h"
 #include "StateComponent.h"
 #include "IAComponent.h"
@@ -20,6 +19,7 @@
 #include "NonMobileRenderComponent.h"
 #include "MobileRenderComponent.h"
 #include "RenderComponent.h"
+#include "CameraComponent.h"
 
 #include <iostream>
 
@@ -67,20 +67,16 @@ void LevelBuilder::initializeWorld() {
     initializeApropiateParallaxSpeeds(currentLevelSprites);
 
     auto *far = manager->addEntity();
-    far->addComponent<PositionComponent>(_camera);
-    far->addComponent<BackgroundRenderComponent>(currentLevelSprites.far.front(),_farSpeedRatio);
+    far->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.far.front(),_farSpeedRatio);
 
     auto *middle = manager->addEntity();
-    middle->addComponent<PositionComponent>(_camera);
-    middle->addComponent<BackgroundRenderComponent>(currentLevelSprites.middle.front(),_middleSpeedRatio);
+    middle->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.middle.front(),_middleSpeedRatio);
 
     auto *floor = manager->addEntity();
-    floor->addComponent<PositionComponent>(_camera);
-    floor->addComponent<BackgroundRenderComponent>(currentLevelSprites.floor.front(),_floorSpeedRatio);
+    floor->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.floor.front(),_floorSpeedRatio);
     
     auto *overlay = manager->addEntity();
-    overlay->addComponent<PositionComponent>(_camera);
-    overlay->addComponent<BackgroundRenderComponent>(currentLevelSprites.overlay.front(),_overlaySpeedRatio);
+    overlay->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.overlay.front(),_overlaySpeedRatio);
 
     LogManager::logDebug("Fondos inicializados");
 }
@@ -129,7 +125,7 @@ void LevelBuilder::initializeCamera() {
     Manager *manager = Game::getInstance().getManager();
 
     _camera = manager->addEntity();
-    _camera->addComponent<CameraPositionComponent>();
+    _camera->addComponent<CameraComponent>();
 }
 
 void LevelBuilder::initializePlayers() {
@@ -149,11 +145,11 @@ void LevelBuilder::initializePlayers() {
         int y = screenResolutionHeight/2;
 
         auto *player = manager->addEntity();
-        _camera->getComponent<CameraPositionComponent>()->setPlayer(player);
+        _camera->getComponent<CameraComponent>()->setPlayer(player);
         player->addComponent<InputComponent>();
         player->addComponent<PhysicsComponent>();
-        player->addComponent<PositionComponent>(_camera,x,y);
-        player->addComponent<CharacterRenderComponent>(pj);
+        player->addComponent<PositionComponent>(x,y);
+        player->addComponent<CharacterRenderComponent>(_camera, pj);
         player->addComponent<StateComponent>();
         //es imporante cuidar el orden de update (ESTE ES)
 
@@ -186,8 +182,8 @@ void LevelBuilder::initializeEnemies() {
 
         npc->addComponent<IAComponent>();
         npc->addComponent<PhysicsComponent>();
-        npc->addComponent<PositionComponent>(_camera,x,y);
-        npc->addComponent<NPCRenderComponent>(&npcConfig);
+        npc->addComponent<PositionComponent>(x,y);
+        npc->addComponent<NPCRenderComponent>(_camera, &npcConfig);
         npc->addComponent<StateComponent>();
     } 
 
@@ -209,8 +205,8 @@ void LevelBuilder::initializeWeapons() {
         int x = generateX();
         int y = generateY();
 
-        knife->addComponent<PositionComponent>(_camera,x,y);
-        knife->addComponent<NonMobileRenderComponent>(knifeConfig.sprite);
+        knife->addComponent<PositionComponent>(x,y);
+        knife->addComponent<NonMobileRenderComponent>(_camera, knifeConfig.sprite);
     } 
     LogManager::logDebug("cuchillos inicializados");
 
@@ -222,8 +218,8 @@ void LevelBuilder::initializeWeapons() {
         int x = generateX();
         int y = generateY();
 
-        tube->addComponent<PositionComponent>(_camera,x,y);
-        tube->addComponent<NonMobileRenderComponent>(tubeConfig.sprite);
+        tube->addComponent<PositionComponent>(x,y);
+        tube->addComponent<NonMobileRenderComponent>(_camera, tubeConfig.sprite);
     }    
     LogManager::logDebug("tubos de metal inicializados");
 }
@@ -243,8 +239,8 @@ void LevelBuilder::initializeUtilities() {
         int x = generateX();
         int y = generateY();
 
-        box->addComponent<PositionComponent>(_camera,x,y);
-        box->addComponent<NonMobileRenderComponent>(boxConfig.sprite);
+        box->addComponent<PositionComponent>(x,y);
+        box->addComponent<NonMobileRenderComponent>(_camera, boxConfig.sprite);
     } 
     LogManager::logDebug("cajas inicializadas");
 
@@ -256,8 +252,8 @@ void LevelBuilder::initializeUtilities() {
         int x = generateX();
         int y = generateY();
 
-        barrel->addComponent<PositionComponent>(_camera,x,y);
-        barrel->addComponent<NonMobileRenderComponent>(barrelConfig.sprite);
+        barrel->addComponent<PositionComponent>(x,y);
+        barrel->addComponent<NonMobileRenderComponent>(_camera, barrelConfig.sprite);
     }
     LogManager::logDebug("barriles inicializados");
 }

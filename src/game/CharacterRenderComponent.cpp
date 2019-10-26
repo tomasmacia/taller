@@ -2,15 +2,14 @@
 #include "Game.h"
 #include "StateComponent.h"
 
-CharacterRenderComponent::CharacterRenderComponent(CharacterXML characterConfig) {
+CharacterRenderComponent::CharacterRenderComponent(Entity* camera, CharacterXML characterConfig) {
     this->characterConfig = characterConfig;
+    setCamera(camera);
 }
 
 void CharacterRenderComponent::init() {
-    destRect.w = (int)((float)(Game::getInstance().getConfig()->screenResolution.width)*WIDTH_SCALE);
-    destRect.h = (int)((float)(Game::getInstance().getConfig()->screenResolution.height)*HEIGHT_SCALE);
-    destRect.x = (int)entity->getComponent<PositionComponent>()->getX();
-    destRect.y = (int)entity->getComponent<PositionComponent>()->getY();
+    
+    setDimentions();
 
     DELAY = 5;
     currentSprite = characterConfig.stand;

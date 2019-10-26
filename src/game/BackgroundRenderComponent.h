@@ -9,7 +9,7 @@
 
 class BackgroundRenderComponent : public RenderComponent {
 public:
-    BackgroundRenderComponent(std::string string_path, float parallaxSpeed);
+    BackgroundRenderComponent(Entity* camera, std::string string_path, float parallaxSpeed);
     void init() override;
     void update() override;
 

@@ -9,9 +9,7 @@
 
 class PositionComponent : public Component {
 public:
-    PositionComponent(Entity *camera, int x, int y) ;
-    PositionComponent(Entity *camera);
-    PositionComponent(){}
+    PositionComponent(int x, int y) ;
 
     void setPosition(int xPos, int yPos) {
         this->x = xPos;
@@ -28,15 +26,9 @@ public:
         return y;
     }
 
-    Entity* getCamera() {
-        return camera;
-    }
-
 private:
     int x;
     int y;
-
-    Entity *camera;
 };
 
 

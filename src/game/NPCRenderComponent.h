@@ -7,7 +7,7 @@
 
 class NPCRenderComponent : public MobileRenderComponent {
 public:
-    NPCRenderComponent(NPC *npcConfig);
+    NPCRenderComponent(Entity* camera, NPC *npcConfig);
     void init() override;
 
     int getJumpDuration() override;
