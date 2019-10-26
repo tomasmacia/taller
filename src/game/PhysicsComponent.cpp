@@ -8,12 +8,18 @@
 #include "CharacterRenderComponent.h"
 #include "NPCRenderComponent.h"
 
+
+PhysicsComponent::PhysicsComponent(LevelLimits* levelLimits){
+    _levelLimits = levelLimits;
+}
+
 void PhysicsComponent::init() {
     none(); //estado neutro (no hace nada)
 }
 
 void PhysicsComponent::update() {
 
+    auto positionComponent = entity->getComponent<PositionComponent>();
     auto state = entity->getComponent<StateComponent>();
 
     if (state->changed()){
@@ -23,12 +29,13 @@ void PhysicsComponent::update() {
     _velocityX += _accelerationX;
     _velocityY += _accelerationY;
 
-    auto positionComponent = entity->getComponent<PositionComponent>();
+    int newX = (int)((float)positionComponent->getX() + _velocityX);
+    int newY = (int)((float)positionComponent->getY() - _velocityY); //resto porque el SDL tiene el eje Y al revez
 
-    positionComponent->setPosition(
-            (int)((float)positionComponent->getX() + _velocityX),
-            (int)((float)positionComponent->getY() - _velocityY) //resto porque el SDL tiene el eje Y al revez
-            );
+    if ((state->jumping()) || (!_levelLimits->newPositionOutOfRange(newX,newY))){
+        positionComponent->setPosition(newX,newY);
+    }
+
 }
 
 void PhysicsComponent::handleIncomingAction(){

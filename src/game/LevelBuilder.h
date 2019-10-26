@@ -7,20 +7,24 @@
 
 #include "ECS.h"
 #include "TextureWrapper.h"
+#include "LevelLimits.h"
 
 
 class LevelBuilder {
 public:
     LevelBuilder();
+    ~LevelBuilder();
 
     bool loadNext();
     void initialize();
 
     int getCurrentLevelWidth();
+
 private:
+    void initializeCamera();
+    void initializeLevelLimits();
     void initializeWorld();
     void initializeApropiateParallaxSpeeds(Level currentLevelSprites);
-    void initializeCamera();
     void initializePlayers();
     void initializeEnemies();
     void initializeUtilities();
@@ -32,6 +36,7 @@ private:
     std::vector<float> getParallaxSpeedPerLevel();
     Entity* _camera = nullptr;
     TextureWrapper* _texture = nullptr;
+    Entity* _levelLimits = nullptr;
 
     int currentLevel;
     int totalLevels;

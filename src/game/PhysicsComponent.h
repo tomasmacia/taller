@@ -5,10 +5,11 @@
 #include "Action.h"
 #include <list>
 #include "Game.h"
+#include "LevelLimits.h"
 
 class PhysicsComponent : public Component {
 public:
-    PhysicsComponent() {};
+    PhysicsComponent(LevelLimits* levelLimits);
 
     void update() override;
     void init() override;
@@ -19,6 +20,8 @@ protected:
     void handleIncomingAction();
 
 private:
+
+    LevelLimits* _levelLimits = nullptr;
 
     float _velocityX;
     float _velocityY;

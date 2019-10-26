@@ -21,6 +21,7 @@
 #include "RenderComponent.h"
 #include "CameraComponent.h"
 
+
 #include <iostream>
 
 using namespace std;
@@ -42,20 +43,37 @@ bool LevelBuilder::loadNext() {
 
 void LevelBuilder::initialize() {
 
-    srand (time(NULL));
-
     LogManager::logDebug(&"Incializando NIVEL " [currentLevel]);
-    srand(time(nullptr));
 
     // destroy everything from previous level
     Game::getInstance().getManager()->destroyAllEntities();
 
     initializeCamera();
     initializeWorld();
+    initializeLevelLimits();
     initializePlayers();
     initializeEnemies();
     initializeWeapons();
     initializeUtilities();
+}
+
+void LevelBuilder::initializeCamera() {
+    LogManager::logDebug("Inicializando Camara");
+
+    Manager *manager = Game::getInstance().getManager();
+
+    _camera = manager->addEntity();
+    _camera->addComponent<CameraComponent>();
+}
+
+void LevelBuilder::initializeLevelLimits() {
+    LogManager::logDebug("Inicializando limites de pantalla");
+
+    int screenWidth = Game::getInstance().getConfig()->screenResolution.width;
+    int screenHeigth = Game::getInstance().getConfig()->screenResolution.height;
+
+    _camera = manager->addEntity();
+    _levelLimits->addComponent<LevelLimits>(screenWidth,screenHeigth,currentLevelWidth);
 }
 
 void LevelBuilder::initializeWorld() {
@@ -107,7 +125,7 @@ void LevelBuilder::initializeApropiateParallaxSpeeds(Level currentLevelSprites){
     float overlayHeigth = _texture->getHeight();
 
 
-    _floorSpeedRatio = 0.4;
+    _floorSpeedRatio = 0.2;
     currentLevelWidth = floorWidth/_floorSpeedRatio;
     _farSpeedRatio = (farWidth - aspectRatio*farHeigth)/(floorWidth - screenResolutionWidth)*_floorSpeedRatio;
     _middleSpeedRatio = (middleWidth - aspectRatio*middleHeigth)/(floorWidth - screenResolutionWidth)*_floorSpeedRatio;
@@ -117,15 +135,6 @@ void LevelBuilder::initializeApropiateParallaxSpeeds(Level currentLevelSprites){
     _texture->free();
     delete(_texture);
     _texture = nullptr;
-}
-
-void LevelBuilder::initializeCamera() {
-    LogManager::logDebug("Inicializando Camara");
-
-    Manager *manager = Game::getInstance().getManager();
-
-    _camera = manager->addEntity();
-    _camera->addComponent<CameraComponent>();
 }
 
 void LevelBuilder::initializePlayers() {
@@ -147,7 +156,7 @@ void LevelBuilder::initializePlayers() {
         auto *player = manager->addEntity();
         _camera->getComponent<CameraComponent>()->setPlayer(player);
         player->addComponent<InputComponent>();
-        player->addComponent<PhysicsComponent>();
+        player->addComponent<PhysicsComponent>(_levelLimits);
         player->addComponent<PositionComponent>(x,y);
         player->addComponent<CharacterRenderComponent>(_camera, pj);
         player->addComponent<StateComponent>();
@@ -175,13 +184,11 @@ void LevelBuilder::initializeEnemies() {
         auto npcConfig = npcs.at(i);
         auto *npc = manager->addEntity();
 
-        //int x = generateX();
-        //int y = generateY();
-        int x = offset*(i+1);
-        int y = screenResolutionHeight/2;
+        int x = _levelLimits->generateValidInScreenX();
+        int y = _levelLimits->generateValidInScreenY();
 
         npc->addComponent<IAComponent>();
-        npc->addComponent<PhysicsComponent>();
+        npc->addComponent<PhysicsComponent>(_levelLimits);
         npc->addComponent<PositionComponent>(x,y);
         npc->addComponent<NPCRenderComponent>(_camera, &npcConfig);
         npc->addComponent<StateComponent>();
@@ -202,8 +209,8 @@ void LevelBuilder::initializeWeapons() {
         auto knifeConfig = weapons.knife;
         auto *knife = manager->addEntity();
 
-        int x = generateX();
-        int y = generateY();
+        int x = _levelLimits->generateValidInScreenX();
+        int y = _levelLimits->generateValidInScreenY();
 
         knife->addComponent<PositionComponent>(x,y);
         knife->addComponent<NonMobileRenderComponent>(_camera, knifeConfig.sprite);
@@ -215,8 +222,8 @@ void LevelBuilder::initializeWeapons() {
         auto tubeConfig = weapons.tube;
         auto *tube = manager->addEntity();
 
-        int x = generateX();
-        int y = generateY();
+        int x = _levelLimits->generateValidInScreenX();
+        int y = _levelLimits->generateValidInScreenY();
 
         tube->addComponent<PositionComponent>(x,y);
         tube->addComponent<NonMobileRenderComponent>(_camera, tubeConfig.sprite);
@@ -236,8 +243,8 @@ void LevelBuilder::initializeUtilities() {
         auto boxConfig = utilities.box;
         auto *box = manager->addEntity();
 
-        int x = generateX();
-        int y = generateY();
+        int x = _levelLimits->generateValidInScreenX();
+        int y = _levelLimits->generateValidInScreenY();
 
         box->addComponent<PositionComponent>(x,y);
         box->addComponent<NonMobileRenderComponent>(_camera, boxConfig.sprite);
@@ -249,8 +256,8 @@ void LevelBuilder::initializeUtilities() {
         auto barrelConfig = utilities.barrel;
         auto *barrel = manager->addEntity();
 
-        int x = generateX();
-        int y = generateY();
+        int x = _levelLimits->generateValidInScreenX();
+        int y = _levelLimits->generateValidInScreenY();
 
         barrel->addComponent<PositionComponent>(x,y);
         barrel->addComponent<NonMobileRenderComponent>(_camera, barrelConfig.sprite);
@@ -258,21 +265,13 @@ void LevelBuilder::initializeUtilities() {
     LogManager::logDebug("barriles inicializados");
 }
 
-int LevelBuilder::generateX(){
-    //return rand() % currentLevelWidth;
-    int screenWidth = Game::getInstance().getConfig()->screenResolution.width;
-    return rand() % screenWidth;
-}
-
-int LevelBuilder::generateY(){
-    int screenHeight = Game::getInstance().getConfig()->screenResolution.height;
-
-    int offset = screenHeight * 0.3;
-    int range = screenHeight * 0.2;
-
-    return (rand() % range) + offset;
-}
-
 int LevelBuilder::getCurrentLevelWidth(){
     return currentLevelWidth;
+}
+
+LevelBuilder::~LevelBuilder(){
+    delete(_texture);
+    _texture = nullptr;
+    delete(_levelLimits);
+    _levelLimits = nullptr;
 }

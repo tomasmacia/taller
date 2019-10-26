@@ -98,6 +98,9 @@ set(SOURCE_FILES
         src/game/MobileRenderComponent.h
         src/game/NonMobileRenderComponent.cpp
         src/game/NonMobileRenderComponent.h 
+        src/game/LevelLimits.h
+        src/game/LevelLimits.cpp
+
 )
 
 # create executable

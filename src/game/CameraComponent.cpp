@@ -58,5 +58,5 @@ bool CameraComponent::onScreen(int x, int y){
 
     return (x <= (windowWidth + offScreenTolerance) && x >= -offScreenTolerance)
             &&
-            (y <= (windowHeight + offScreenTolerance) && y >= -offScreenTolerance); //este luce raro pero es porque el eje y en SDL esta al revez
+           (y <= (windowHeight + offScreenTolerance) && y >= -offScreenTolerance); //este luce raro pero es porque el eje y en SDL esta al revez
 }
