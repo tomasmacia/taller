@@ -69,7 +69,7 @@
                     <far1>resources/sprites/stages/desert/far/mountain.png</far1>
                 </far>
                 <overlay>
-                    <amount>3</amount>
+                    <amount>1</amount>
                     <overlay1>resources/sprites/stages/desert/overlay/postes.png</overlay1>
                 </overlay>
             </level3>

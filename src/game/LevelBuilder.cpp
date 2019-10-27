@@ -46,6 +46,10 @@ void LevelBuilder::loadNext() {
     }
 }
 
+void LevelBuilder::prepareForNextLevel(){
+    Game::getInstance().getManager()->prepareForNextLevel();
+}
+
 void LevelBuilder::initialize() {
 
     currentLevel = 1;
@@ -337,10 +341,6 @@ void LevelBuilder::initializeUtilities() {
 
 int LevelBuilder::getCurrentLevelWidth(){
     return currentLevelWidth;
-}
-
-void LevelBuilder::prepareForNextLevel(){
-    Game::getInstance().getManager()->prepareForNextLevel();
 }
 
 LevelBuilder::~LevelBuilder(){
