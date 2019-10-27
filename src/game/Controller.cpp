@@ -3,7 +3,7 @@
 //
 
 #include "Controller.h"
-#include "../game.h"
+#include "Game.h"
 #include <SDL2/SDL_scancode.h>
 #include <map>
 #include <vector>
@@ -19,6 +19,7 @@ void Controller::processInput() {
             currentInput.push_back(action);
         }
     }
+
 
 }
 

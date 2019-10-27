@@ -10,7 +10,7 @@
 #include <SDL2/SDL_scancode.h>
 #include <string>
 #include <vector>
-#include "../Action.h"
+#include "Action.h"
 
 
 class Controller {
