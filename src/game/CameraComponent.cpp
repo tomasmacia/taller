@@ -92,8 +92,10 @@ void CameraComponent::setPlayer(Entity* player){
     _players.push_back(player); 
 }
 
-int CameraComponent::getSpeed(){
-    return (int)(_players.front()->getComponent<PhysicsComponent>()->getWalkingSpeed());
+float CameraComponent::getLevelPercentageCovered(){
+
+    float levelWidth = Game::getInstance().getCurrentLevelWidth();
+    return (currentX/levelWidth);
 }
 
 bool CameraComponent::onScreen(int x, int y){

@@ -9,7 +9,7 @@
 
 class BackgroundRenderComponent : public RenderComponent {
 public:
-    BackgroundRenderComponent(Entity* camera, std::string string_path, float scaleFactor);
+    BackgroundRenderComponent(Entity* camera, std::string string_path, float parallaxSpeed);
     void init() override;
     void update() override;
 
@@ -20,5 +20,6 @@ protected:
 private:
     void loadErrorBackgroundImage();
     float _scaleFactor;
+    float _parallaxSpeed;
 };
 #endif //BACKGROUND_RENDER_COMPONENT_H

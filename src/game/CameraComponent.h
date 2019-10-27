@@ -25,7 +25,7 @@ public:
 
     int getWindowWidth(){return windowWidth;}
     int getWindowHeight(){return windowHeight;}
-    int getSpeed();
+    float getLevelPercentageCovered();
 
     int currentX = 0;
 

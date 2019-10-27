@@ -4,11 +4,10 @@
 
 #include <iostream>
 
-BackgroundRenderComponent::BackgroundRenderComponent(Entity* camera, string string_path,
-                                             float scaleFactor) {
+BackgroundRenderComponent::BackgroundRenderComponent(Entity* camera, string string_path, float parallaxSpeed) {
     currentSprite = string_path;
-    _scaleFactor = scaleFactor;
     setCamera(camera);
+    _parallaxSpeed = parallaxSpeed;
 }
 
 void BackgroundRenderComponent::init() {
@@ -17,14 +16,16 @@ void BackgroundRenderComponent::init() {
     int screenResolutionWidth = _camera->getWindowWidth();
     int screenResolutionHeight = _camera->getWindowHeight();
 
-    float aspectRatio = (float)(screenResolutionWidth)/(float)(screenResolutionHeight);
+    //float aspectRatio = (float)(screenResolutionWidth)/(float)(screenResolutionHeight);
+    int asda = Game::getInstance().getCurrentLevelWidth();
+    float scaleFactor = screenResolutionWidth/(float)Game::getInstance().getCurrentLevelWidth();
 
     destRect.w = screenResolutionWidth;
     destRect.h = screenResolutionHeight;
     destRect.x = 0;
     destRect.y = 0;
 
-    srcRect.w = (int)(aspectRatio*(float)(texture.getHeight()));
+    srcRect.w = (int)(scaleFactor*(float)(texture.getWidth()));
     srcRect.h = texture.getHeight();
     srcRect.x = 0;
     srcRect.y = 0;
@@ -44,9 +45,7 @@ void BackgroundRenderComponent::loadNextImage(){
     int screenWidth = srcRect.w;
     int spriteWidth = texture.getWidth();
 
-    //int newX = (int)((float)srcRect.x + (float)(_camera->getSpeed())*_scaleFactor);
-
-    int newX = (float)(_camera->currentX)*_scaleFactor;
+    int newX = (float)spriteWidth*_camera->getLevelPercentageCovered()*_parallaxSpeed;
 
     if ((newX + screenWidth) < spriteWidth){
         srcRect.x = newX;

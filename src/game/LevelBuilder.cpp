@@ -119,70 +119,37 @@ void LevelBuilder::initializeWorld() {
     Manager *manager = Game::getInstance().getManager();
     Level currentLevelSprites = Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
 
-    initializeApropiateParallaxSpeeds(currentLevelSprites);
+    initializeLevelWidth(currentLevelSprites.floor.front());
 
     if (!currentLevelSprites.far.empty()){
         auto *far = manager->addBackLayerBackgrounds();
-        far->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.far.front(),_farSpeedRatio);
+        far->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.far.front(), FAR_SPEED_RATIO);
     }
 
     if (!currentLevelSprites.middle.empty()){
         auto *middle = manager->addBackLayerBackgrounds();
-        middle->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.middle.front(),_middleSpeedRatio);
+        middle->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.middle.front(), MIDDLE_SPEED_RATIO);
     }
 
     if (!currentLevelSprites.floor.empty()){
         auto *floor = manager->addBackLayerBackgrounds();
-        floor->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.floor.front(),_floorSpeedRatio);
+        floor->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.floor.front(), FLOOR_SPEED_RATIO);
     }
 
     if (!currentLevelSprites.overlay.empty()){
         auto *overlay = manager->addFrontLayerBackgrounds();
-        overlay->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.overlay.front(),_overlaySpeedRatio);
+        overlay->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.overlay.front(), OVERLAY_SPEED_RATIO);
     }
 
     LogManager::logDebug("Fondos inicializados");
 }
 
-void LevelBuilder::initializeApropiateParallaxSpeeds(Level currentLevelSprites){
+void LevelBuilder::initializeLevelWidth(std::string floorSpritePath){
 
     auto texture = new TextureWrapper();
 
-    float screenResolutionWidth = (int)(Game::getInstance().getConfig()->screenResolution.width);
-    float screenResolutionHeight = (int)(Game::getInstance().getConfig()->screenResolution.height);
-
-    float aspectRatio = screenResolutionWidth/screenResolutionHeight;
-    _floorSpeedRatio = 0.2;
-    float floorWidth = 10000; //HARCODED BUT USED ONLY ON ERROR
-
-    if (!currentLevelSprites.far.empty()){
-        texture->loadFromFile(currentLevelSprites.far.front());
-        float farWidth = texture->getWidth();
-        float farHeigth = texture->getHeight();
-        _farSpeedRatio = (farWidth - aspectRatio*farHeigth)/(floorWidth - screenResolutionWidth)*_floorSpeedRatio;
-    }
-
-    if (!currentLevelSprites.middle.empty()){
-        texture->loadFromFile(currentLevelSprites.middle.front());
-        float middleWidth = texture->getWidth();
-        float middleHeigth = texture->getHeight();
-        _middleSpeedRatio = (middleWidth - aspectRatio*middleHeigth)/(floorWidth - screenResolutionWidth)*_floorSpeedRatio;
-    }
-
-    if (!currentLevelSprites.floor.empty()){
-        texture->loadFromFile(currentLevelSprites.floor.front());
-        floorWidth = texture->getWidth();
-        float floorHeigth = texture->getHeight();
-    }
-
-    if (!currentLevelSprites.overlay.empty()){
-        texture->loadFromFile(currentLevelSprites.overlay.front());
-        float overlayWidth = texture->getWidth();
-        float overlayHeigth = texture->getHeight();
-        _overlaySpeedRatio = _floorSpeedRatio;
-        //aca en el overlay la logica es distinta porque nosotros tapamos el background de floor con otro en vez de editarlo
-    }
-    currentLevelWidth = floorWidth/_floorSpeedRatio;
+    texture->loadFromFile(floorSpritePath);
+    currentLevelWidth = texture->getWidth();
 
     texture->free();
     delete(texture);
