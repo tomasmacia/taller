@@ -40,9 +40,7 @@ private:
     int generateX();
     int generateY();
 
-    std::vector<float> getParallaxSpeedPerLevel();
     Entity* _camera = nullptr;
-    TextureWrapper* _texture = nullptr;
     Entity* _levelLimits = nullptr;
 
     int currentLevel;

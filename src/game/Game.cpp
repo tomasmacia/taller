@@ -103,6 +103,7 @@ void Game::start() {
             //setWindowTitleWithFPS(current);
         }
     }
+    LogManager::logDebug("Juego terminado");
 }
 
 void Game::processInput() {
@@ -121,6 +122,7 @@ void Game::render() {
 }
 
 void Game::endLevel(){
+    LogManager::logDebug("Nivel terminado");
     this->levelFinished = true;
 }
 

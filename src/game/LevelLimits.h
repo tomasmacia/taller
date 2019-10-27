@@ -1,6 +1,9 @@
 #ifndef GAME_LEVELLIMITS_H
 #define GAME_LEVELLIMITS_H
 
+#include <cstdio>
+#include <ctime>
+
 #include "ECS.h"
 #include "CameraComponent.h"
 
@@ -17,6 +20,7 @@ public:
     int generateValidInScreenX();
     int generateValidInScreenY();
     bool newPositionOutOfRange(int x, int y);
+    bool newXOutOfRange(int newX);
 
 private:
     void initialize(int windowWidth, int windowHeight, int levelWidth, CameraComponent* camera);
@@ -26,6 +30,8 @@ private:
     int _minY, _maxY, _minX, _maxX;
     int _rangeOfMovementY, _offsetY;
     int _toleranceX, _toleranceY;
+
+    std::clock_t start = std::clock();
 
     CameraComponent* _camera = nullptr;
 };

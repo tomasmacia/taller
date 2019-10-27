@@ -5,9 +5,9 @@
 #include <iostream>
 
 BackgroundRenderComponent::BackgroundRenderComponent(Entity* camera, string string_path,
-                                             float parallaxSpeed) {                                               
+                                             float scaleFactor) {
     currentSprite = string_path;
-    _parallaxSpeed = parallaxSpeed;
+    _scaleFactor = scaleFactor;
     setCamera(camera);
 }
 
@@ -40,7 +40,17 @@ void BackgroundRenderComponent::renderInOwnWay() {
 }
 
 void BackgroundRenderComponent::loadNextImage(){
-    srcRect.x = (int)((float)(_camera->currentX)*_parallaxSpeed);
+
+    int screenWidth = srcRect.w;
+    int spriteWidth = texture.getWidth();
+
+    //int newX = (int)((float)srcRect.x + (float)(_camera->getSpeed())*_scaleFactor);
+
+    int newX = (float)(_camera->currentX)*_scaleFactor;
+
+    if ((newX + screenWidth) < spriteWidth){
+        srcRect.x = newX;
+    }
 }
 
 void BackgroundRenderComponent::loadErrorBackgroundImage(){

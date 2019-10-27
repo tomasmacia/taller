@@ -22,6 +22,9 @@ void PhysicsComponent::update() {
     auto positionComponent = entity->getComponent<PositionComponent>();
     auto state = entity->getComponent<StateComponent>();
 
+    int prevX = positionComponent->getX();
+    int prevY = positionComponent->getY();
+
     if (state->changed()){
         handleIncomingAction();
     }
@@ -29,13 +32,26 @@ void PhysicsComponent::update() {
     _velocityX += _accelerationX;
     _velocityY += _accelerationY;
 
-    int newX = (int)((float)positionComponent->getX() + _velocityX);
-    int newY = (int)((float)positionComponent->getY() - _velocityY); //resto porque el SDL tiene el eje Y al revez
+    int newX = (int)((float)prevX + _velocityX);
+    int newY = (int)((float)prevY - _velocityY); //resto porque el SDL tiene el eje Y al revez
 
-    if ((state->jumping()) || (!_levelLimits->newPositionOutOfRange(newX,newY))){
-        positionComponent->setPosition(newX,newY);
+
+    if (state->jumping()){
+        if (_levelLimits->newXOutOfRange(newX)){
+            positionComponent->setPosition(prevX,newY);
+        }
+        else{
+            positionComponent->setPosition(newX,newY);
+        }
     }
-
+    else{
+        if (_levelLimits->newPositionOutOfRange(newX,newY)){
+            positionComponent->setPosition(prevX,prevY);
+        }
+        else{
+            positionComponent->setPosition(newX,newY);
+        }
+    }
 }
 
 void PhysicsComponent::handleIncomingAction(){

@@ -15,7 +15,7 @@ void CameraComponent::init(){
     this->currentX = 0;
     this->windowWidth = Game::getInstance().getConfig()->screenResolution.width;
     this->windowHeight = Game::getInstance().getConfig()->screenResolution.height;
-    this->marginWidth = windowWidth/4;
+    this->marginWidth = windowWidth/3;
     this->offScreenTolerance = 2*marginWidth;
 }
 
@@ -35,11 +35,6 @@ void CameraComponent::update() {
 }
 
 bool CameraComponent::shouldMoveCamera() {
-    std::cout<<"noPlayerInLeftLimit: "<<noPlayerInLeftLimit()<<'\n';
-    std::cout<<"marginSurpased: "<<marginSurpased()<<'\n';
-    std::cout<<"notAtTheEnd: "<<notAtTheEnd()<<'\n';
-    std::cout<<"==========================================="<<'\n';
-    std::cout<<'\n';
     return (noPlayerInLeftLimit() && marginSurpased() && notAtTheEnd());
 }
 
@@ -55,7 +50,23 @@ bool CameraComponent::inLeftLimit(Entity* player) {
 }
 
 bool CameraComponent::atTheEnd() {
+    return cameraHasReachedLimit() && aPlayerSurpasedRightLimit();
+}
+
+bool CameraComponent::cameraHasReachedLimit(){
     return (currentX + windowWidth) >= Game::getInstance().getCurrentLevelWidth();
+}
+
+bool CameraComponent::surpasedRightLimit(Entity* player){
+    return (currentX + windowWidth - offScreenTolerance/30) < player->getComponent<PositionComponent>()->getX();
+}
+
+bool CameraComponent::aPlayerSurpasedRightLimit(){
+
+    for (auto* player : _players){
+        if (surpasedRightLimit(player)){return true;}
+    }
+    return false;
 }
 
 bool CameraComponent::notAtTheEnd() {
@@ -79,6 +90,10 @@ void CameraComponent::scroll() {
 
 void CameraComponent::setPlayer(Entity* player){
     _players.push_back(player); 
+}
+
+int CameraComponent::getSpeed(){
+    return (int)(_players.front()->getComponent<PhysicsComponent>()->getWalkingSpeed());
 }
 
 bool CameraComponent::onScreen(int x, int y){

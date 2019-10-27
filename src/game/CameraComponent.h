@@ -25,14 +25,13 @@ public:
 
     int getWindowWidth(){return windowWidth;}
     int getWindowHeight(){return windowHeight;}
+    int getSpeed();
 
     int currentX = 0;
 
 private:
-    int _scroll_amount;
 
     int windowHeight, windowWidth;
-    int levelHeight, levelWidth;
     int marginWidth , offScreenTolerance;
 
 
@@ -45,6 +44,9 @@ private:
     bool noPlayerInLeftLimit();
     bool inLeftLimit(Entity* player);
     bool touchingMargin(Entity* player);
+    bool surpasedRightLimit(Entity* player);
+    bool cameraHasReachedLimit();
+    bool aPlayerSurpasedRightLimit();
 
     void scroll();
 };

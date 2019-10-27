@@ -19,7 +19,7 @@
     </screen>
     <gameplay>
         <levels>
-            <amount>2</amount>
+            <amount>3</amount>
             <level1>
                 <name>bay</name>
                 <floor>

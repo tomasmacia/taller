@@ -146,7 +146,7 @@ void LevelBuilder::initializeWorld() {
 
 void LevelBuilder::initializeApropiateParallaxSpeeds(Level currentLevelSprites){
 
-    _texture = new TextureWrapper(); 
+    auto texture = new TextureWrapper();
 
     float screenResolutionWidth = (int)(Game::getInstance().getConfig()->screenResolution.width);
     float screenResolutionHeight = (int)(Game::getInstance().getConfig()->screenResolution.height);
@@ -156,37 +156,36 @@ void LevelBuilder::initializeApropiateParallaxSpeeds(Level currentLevelSprites){
     float floorWidth = 10000; //HARCODED BUT USED ONLY ON ERROR
 
     if (!currentLevelSprites.far.empty()){
-        _texture->loadFromFile(currentLevelSprites.far.front());
-        float farWidth = _texture->getWidth();
-        float farHeigth = _texture->getHeight();
+        texture->loadFromFile(currentLevelSprites.far.front());
+        float farWidth = texture->getWidth();
+        float farHeigth = texture->getHeight();
         _farSpeedRatio = (farWidth - aspectRatio*farHeigth)/(floorWidth - screenResolutionWidth)*_floorSpeedRatio;
     }
 
     if (!currentLevelSprites.middle.empty()){
-        _texture->loadFromFile(currentLevelSprites.middle.front());
-        float middleWidth = _texture->getWidth();
-        float middleHeigth = _texture->getHeight();
+        texture->loadFromFile(currentLevelSprites.middle.front());
+        float middleWidth = texture->getWidth();
+        float middleHeigth = texture->getHeight();
         _middleSpeedRatio = (middleWidth - aspectRatio*middleHeigth)/(floorWidth - screenResolutionWidth)*_floorSpeedRatio;
     }
 
     if (!currentLevelSprites.floor.empty()){
-        _texture->loadFromFile(currentLevelSprites.floor.front());
-        floorWidth = _texture->getWidth();
-        float floorHeigth = _texture->getHeight();
+        texture->loadFromFile(currentLevelSprites.floor.front());
+        floorWidth = texture->getWidth();
+        float floorHeigth = texture->getHeight();
     }
 
     if (!currentLevelSprites.overlay.empty()){
-        _texture->loadFromFile(currentLevelSprites.overlay.front());
-        float overlayWidth = _texture->getWidth();
-        float overlayHeigth = _texture->getHeight();
+        texture->loadFromFile(currentLevelSprites.overlay.front());
+        float overlayWidth = texture->getWidth();
+        float overlayHeigth = texture->getHeight();
         _overlaySpeedRatio = _floorSpeedRatio;
         //aca en el overlay la logica es distinta porque nosotros tapamos el background de floor con otro en vez de editarlo
     }
     currentLevelWidth = floorWidth/_floorSpeedRatio;
 
-    _texture->free();
-    delete(_texture);
-    _texture = nullptr;
+    texture->free();
+    delete(texture);
 }
 
 void LevelBuilder::resetPlayers() {
@@ -345,6 +344,4 @@ int LevelBuilder::getCurrentLevelWidth(){
 
 LevelBuilder::~LevelBuilder(){
     Game::getInstance().getManager()->destroyAllEntities();
-    delete(_texture);
-    _texture = nullptr;
 }

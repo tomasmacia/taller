@@ -3,6 +3,8 @@
 
 #include "PositionComponent.h"
 
+#include <iostream>
+
 void Manager::update() {
     sortEntitiesByY();
 
@@ -95,13 +97,18 @@ void Manager::destroyNonLevelPersistentEntities() {
         delete e;
         e = nullptr;
     }
+    nonLevelPersistentEntities.clear();
 }
 void Manager::prepareForNextLevel(){
+
     entitiesWithPosition.clear();
+    destroyNonLevelPersistentEntities();
     backLayerBackgrounds.clear();
     fronLayerBackgrounds.clear();
-    destroyNonLevelPersistentEntities();
-    entitiesWithPosition.merge(players);
+
+    for (auto* e : players){
+        entitiesWithPosition.push_back(e);
+    }
 }
 
 std::list<Entity*> Manager::getPlayers() {
