@@ -1,0 +1,4 @@
+/home/axel/clion-2019.2.4/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/axel/repositorio_local/taller
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/axel/repositorio_local/taller/cmake-build-debug

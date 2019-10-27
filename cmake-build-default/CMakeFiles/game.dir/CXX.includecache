@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/axel/repositorio_local/taller/src/game/CameraComponent.h
+ECS.h
+/home/axel/repositorio_local/taller/src/game/ECS.h
+list
+-
+
+/home/axel/repositorio_local/taller/src/game/ECS.h
+bitset
+-
+array
+-
+vector
+-
+memory
+-
+cassert
+-
+
+/home/axel/repositorio_local/taller/src/game/LevelLimits.cpp
+time.h
+-
+stdlib.h
+-
+LevelLimits.h
+/home/axel/repositorio_local/taller/src/game/LevelLimits.h
+CameraComponent.h
+/home/axel/repositorio_local/taller/src/game/CameraComponent.h
+iostream
+-
+
+/home/axel/repositorio_local/taller/src/game/LevelLimits.h
+ECS.h
+/home/axel/repositorio_local/taller/src/game/ECS.h
+CameraComponent.h
+/home/axel/repositorio_local/taller/src/game/CameraComponent.h
+

@@ -35,7 +35,7 @@ private:
     void resetCamera();
     void resetLevelLimits();
     void resetPlayers();
-    void destroyUselessEntities();
+    void prepareForNextLevel();
 
     int generateX();
     int generateY();

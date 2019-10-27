@@ -14,22 +14,31 @@
 
 class Manager {
 private:
-    std::list<Entity*> entities;
+    std::list<Entity*> entitiesWithPosition;        //only utilities, weapons, npcs and players
+    std::list<Entity*> specialEntities;             //camera and levelLimits
     std::list<Entity*> nonLevelPersistentEntities;
     std::list<Entity*> players;
-    std::list<Entity*> backgrounds;
+    std::list<Entity*> backLayerBackgrounds;
+    std::list<Entity*> fronLayerBackgrounds;
 
 public:
     void update();
     void render();
     void refresh();
-    Entity* addEntity();
-    Entity* addNonPersistentEntity();
+
+    Entity* addNPC();
+    Entity* addUtilitie();
+    Entity* addWeapon();
     Entity* addPlayer();
-    Entity* addBackground();
+    Entity* addBackLayerBackgrounds();
+    Entity* addFrontLayerBackgrounds();
+    Entity* addSpecialEntity();
     Entity* addCustomEntity(Entity* e);
+
+    void prepareForNextLevel();
     void destroyAllEntities();
     void destroyNonLevelPersistentEntities();
     std::list<Entity*> getPlayers();
+    void sortEntitiesByY();
 };
 #endif //GAME_MANAGER_H

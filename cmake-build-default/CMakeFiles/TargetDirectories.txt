@@ -1,0 +1,3 @@
+/home/axel/repositorio_local/taller/cmake-build-default/CMakeFiles/rebuild_cache.dir
+/home/axel/repositorio_local/taller/cmake-build-default/CMakeFiles/game.dir
+/home/axel/repositorio_local/taller/cmake-build-default/CMakeFiles/edit_cache.dir

@@ -20,9 +20,9 @@ void LevelLimits::initialize(int windowWidth, int windowHeight, int levelWidth, 
     _levelWidth = levelWidth;
 
     _rangeOfMovementY = windowHeight * 0.2;
-    _offsetY = windowHeight * 0.3;
+    _offsetY = windowHeight * 0.25;
 
-    _toleranceY = _windowHeight * 0.1;
+    _toleranceY = _windowHeight * 0.15;
     _toleranceX = _windowWidth * 0.1;
 
     _minY = _offsetY;

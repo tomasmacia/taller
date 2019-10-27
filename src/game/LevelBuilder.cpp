@@ -41,7 +41,7 @@ void LevelBuilder::loadNext() {
         initialize();
     }
     else{
-        destroyUselessEntities();
+        prepareForNextLevel();
         initializeNextLevel();
     }
 }
@@ -84,7 +84,7 @@ void LevelBuilder::initializeCamera() {
 
     Manager *manager = Game::getInstance().getManager();
 
-    _camera = manager->addEntity();
+    _camera = manager->addSpecialEntity();
     _camera->addComponent<CameraComponent>();
 }
 
@@ -105,7 +105,7 @@ void LevelBuilder::initializeLevelLimits() {
     int screenWidth = Game::getInstance().getConfig()->screenResolution.width;
     int screenHeigth = Game::getInstance().getConfig()->screenResolution.height;
 
-    _levelLimits = manager->addEntity();
+    _levelLimits = manager->addSpecialEntity();
     _levelLimits->addComponent<LevelLimits>(screenWidth,screenHeigth,currentLevelWidth,_camera->getComponent<CameraComponent>());
 }
 
@@ -118,22 +118,22 @@ void LevelBuilder::initializeWorld() {
     initializeApropiateParallaxSpeeds(currentLevelSprites);
 
     if (!currentLevelSprites.far.empty()){
-        auto *far = manager->addBackground();
+        auto *far = manager->addBackLayerBackgrounds();
         far->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.far.front(),_farSpeedRatio);
     }
 
     if (!currentLevelSprites.middle.empty()){
-        auto *middle = manager->addBackground();
+        auto *middle = manager->addBackLayerBackgrounds();
         middle->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.middle.front(),_middleSpeedRatio);
     }
 
     if (!currentLevelSprites.floor.empty()){
-        auto *floor = manager->addBackground();
+        auto *floor = manager->addBackLayerBackgrounds();
         floor->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.floor.front(),_floorSpeedRatio);
     }
 
     if (!currentLevelSprites.overlay.empty()){
-        auto *overlay = manager->addBackground();
+        auto *overlay = manager->addFrontLayerBackgrounds();
         overlay->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.overlay.front(),_overlaySpeedRatio);
     }
 
@@ -222,6 +222,7 @@ void LevelBuilder::initializePlayers() {
         
         int x = offset*(i+1);
         int y = screenResolutionHeight/2;
+
         auto *player = manager->addPlayer();
         _camera->getComponent<CameraComponent>()->setPlayer(player);
         player->addComponent<InputComponent>();
@@ -251,7 +252,7 @@ void LevelBuilder::initializeEnemies() {
     for (int i = 0; i < npcs.size();i++) {
 
         auto npcConfig = npcs.at(i);
-        auto *npc = manager->addNonPersistentEntity();
+        auto *npc = manager->addNPC();
 
         int x = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenX();
         int y = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenY();
@@ -276,7 +277,7 @@ void LevelBuilder::initializeWeapons() {
     for (int i = 0; i < weapons.knife.amount;i++) {
 
         auto knifeConfig = weapons.knife;
-        auto *knife = manager->addNonPersistentEntity();
+        auto *knife = manager->addWeapon();
 
         int x = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenX();
         int y = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenY();
@@ -289,7 +290,7 @@ void LevelBuilder::initializeWeapons() {
     for (int i = 0; i < weapons.tube.amount;i++) {
 
         auto tubeConfig = weapons.tube;
-        auto *tube = manager->addNonPersistentEntity();
+        auto *tube = manager->addWeapon();
 
         int x = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenX();
         int y = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenY();
@@ -310,7 +311,7 @@ void LevelBuilder::initializeUtilities() {
     for (int i = 0; i < utilities.box.amount;i++) {
 
         auto boxConfig = utilities.box;
-        auto *box = manager->addNonPersistentEntity();
+        auto *box = manager->addUtilitie();
 
         int x = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenX();
         int y = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenY();
@@ -323,7 +324,7 @@ void LevelBuilder::initializeUtilities() {
     for (int i = 0; i < utilities.barrel.amount;i++) {
 
         auto barrelConfig = utilities.barrel;
-        auto *barrel = manager->addNonPersistentEntity();
+        auto *barrel = manager->addUtilitie();
 
         int x = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenX();
         int y = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenY();
@@ -338,8 +339,8 @@ int LevelBuilder::getCurrentLevelWidth(){
     return currentLevelWidth;
 }
 
-void LevelBuilder::destroyUselessEntities(){
-    Game::getInstance().getManager()->destroyNonLevelPersistentEntities();
+void LevelBuilder::prepareForNextLevel(){
+    Game::getInstance().getManager()->prepareForNextLevel();
 }
 
 LevelBuilder::~LevelBuilder(){

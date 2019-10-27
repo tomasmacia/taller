@@ -14,12 +14,12 @@
         <jumpkick>S</jumpkick>
     </bindings>
     <screen>
-        <width>800</width>
-        <height>600</height>
+        <width>1333</width>
+        <height>1000</height>
     </screen>
     <gameplay>
         <levels>
-            <amount>3</amount>
+            <amount>2</amount>
             <level1>
                 <name>bay</name>
                 <floor>
