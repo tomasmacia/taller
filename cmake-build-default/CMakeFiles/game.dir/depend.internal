@@ -244,6 +244,7 @@ CMakeFiles/game.dir/src/game/Manager.cpp.o
  /home/axel/repositorio_local/taller/src/game/ECS.h
  /home/axel/repositorio_local/taller/src/game/Manager.cpp
  /home/axel/repositorio_local/taller/src/game/Manager.h
+ /home/axel/repositorio_local/taller/src/game/PositionComponent.h
 CMakeFiles/game.dir/src/game/MobileRenderComponent.cpp.o
  /home/axel/repositorio_local/taller/src/LogLib/LogManager.h
  /home/axel/repositorio_local/taller/src/LogLib/Logger.h

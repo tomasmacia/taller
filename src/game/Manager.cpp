@@ -72,15 +72,28 @@ Entity* Manager::addCustomEntity(Entity* e) { // in case we want to add behaviou
 }
 
 void Manager::destroyAllEntities() {
-    for(auto* e : entitiesWithPosition) delete e;
-    for(auto* e : specialEntities) delete e;
-    for(auto* e : backLayerBackgrounds) delete e;
-    for(auto* e : fronLayerBackgrounds) delete e;
+    for(auto* e : entitiesWithPosition) {
+        delete e;
+        e = nullptr;
+    }
+    for(auto* e : specialEntities){
+        delete e;
+        e = nullptr;
+    }
+    for(auto* e : backLayerBackgrounds) {
+        delete e;
+        e = nullptr;
+    }
+    for(auto* e : fronLayerBackgrounds) {
+        delete e;
+        e = nullptr;
+    }
 }
 
 void Manager::destroyNonLevelPersistentEntities() {
     for(auto* e : nonLevelPersistentEntities){
         delete e;
+        e = nullptr;
     }
 }
 void Manager::prepareForNextLevel(){

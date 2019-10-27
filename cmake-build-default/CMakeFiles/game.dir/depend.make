@@ -243,6 +243,7 @@ CMakeFiles/game.dir/src/game/LevelLimits.cpp.o: ../src/game/LevelLimits.h
 CMakeFiles/game.dir/src/game/Manager.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/Manager.cpp.o: ../src/game/Manager.cpp
 CMakeFiles/game.dir/src/game/Manager.cpp.o: ../src/game/Manager.h
+CMakeFiles/game.dir/src/game/Manager.cpp.o: ../src/game/PositionComponent.h
 
 CMakeFiles/game.dir/src/game/MobileRenderComponent.cpp.o: ../src/LogLib/LogManager.h
 CMakeFiles/game.dir/src/game/MobileRenderComponent.cpp.o: ../src/LogLib/Logger.h
