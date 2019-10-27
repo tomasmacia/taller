@@ -4,6 +4,8 @@
 
 #include "game.h"
 #include "events.h"
+#include "game/Controller.h"
+#include "game/Action.h"
 #include "parser/CLIArgumentParser.h"
 #include "parser/config/config.h"
 #include "parser/xmlparser.h"
@@ -68,6 +70,10 @@ void Game::initSDL() {
 
 }
 
+void Game::initController() {
+    this->controller = new Controller();
+}
+
 
 void Game::UpdateAtras(vector<Game_Component*> vector) {
      for (auto &objeto : vector) {
@@ -90,6 +96,8 @@ void Game::UpdateDelante(vector<Game_Component*> vector) {
 void Game::start() {
     Uint32 fps_last = SDL_GetTicks();
     Uint32 current;
+
+    //this->initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
 
     LevelBuilder levelBuilder;
     this->hasNextLevel = true;
@@ -138,6 +146,31 @@ void Game::start() {
             setWindowTitleWithFPS(current);
         }
     }
+}
+
+//bool Game::isRunning() { // TODO: implement when we have a proper gameloop input-update-render
+//    std::vector<Action> actions = controller->getInput();
+//    return std::find(actions.begin(), actions.end(), Action::QUIT) != actions.end();
+//}
+
+void Game::processInput() {
+    //controller->processInput();
+}
+
+void Game::update() {
+    for (auto &object : gameObjects) {
+        object->update();
+    }
+}
+
+void Game::render() {
+    SDL_RenderClear(renderer);
+
+    for (auto &object : gameObjects) {
+        object->render();
+    }
+
+    SDL_RenderPresent(renderer);
 }
 
 

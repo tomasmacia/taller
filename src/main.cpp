@@ -1,7 +1,5 @@
-#include "game.h"
+#include "game/Game.h"
 #include "parser/CLIArgumentParser.h"
-
-using namespace std;
 
 
 int main(int argc, const char** argv) {
