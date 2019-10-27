@@ -53,7 +53,7 @@ void LevelBuilder::prepareForNextLevel(){
 void LevelBuilder::initialize() {
 
     currentLevel = 1;
-    LogManager::logDebug(&"Incializando NIVEL " [currentLevel]);
+    LogManager::logDebug(&"inicializando NIVEL " [currentLevel]);
 
     initializeCamera();
     initializeWorld();
@@ -67,7 +67,7 @@ void LevelBuilder::initialize() {
 void LevelBuilder::initializeNextLevel() {
 
     currentLevel++;
-    LogManager::logDebug(&"Incializando NIVEL " [currentLevel]);
+    LogManager::logDebug(&"inicializando NIVEL " [currentLevel]);
 
     resetCamera();
     initializeWorld();

@@ -6,6 +6,36 @@
 
 #IncludeRegexTransform: 
 
+../include/tinyxml2.h
+ctype.h
+-
+limits.h
+-
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+stddef.h
+-
+cctype
+-
+climits
+-
+cstdio
+-
+cstdlib
+-
+cstring
+-
+stdint.h
+-
+android/log.h
+-
+assert.h
+-
+
 ../src/parser/config/bindings.h
 string
 -
@@ -68,6 +98,16 @@ string
 
 /home/axel/repositorio_local/taller/src/game/Action.h
 
+/home/axel/repositorio_local/taller/src/game/BackgroundRenderComponent.cpp
+BackgroundRenderComponent.h
+/home/axel/repositorio_local/taller/src/game/BackgroundRenderComponent.h
+CameraComponent.h
+/home/axel/repositorio_local/taller/src/game/CameraComponent.h
+Game.h
+/home/axel/repositorio_local/taller/src/game/Game.h
+iostream
+-
+
 /home/axel/repositorio_local/taller/src/game/BackgroundRenderComponent.h
 vector
 -
@@ -87,6 +127,8 @@ PhysicsComponent.h
 /home/axel/repositorio_local/taller/src/game/PhysicsComponent.h
 Game.h
 /home/axel/repositorio_local/taller/src/game/Game.h
+iostream
+-
 
 /home/axel/repositorio_local/taller/src/game/CameraComponent.h
 ECS.h
@@ -94,11 +136,31 @@ ECS.h
 list
 -
 
+/home/axel/repositorio_local/taller/src/game/CharacterRenderComponent.cpp
+CharacterRenderComponent.h
+/home/axel/repositorio_local/taller/src/game/CharacterRenderComponent.h
+Game.h
+/home/axel/repositorio_local/taller/src/game/Game.h
+StateComponent.h
+/home/axel/repositorio_local/taller/src/game/StateComponent.h
+
 /home/axel/repositorio_local/taller/src/game/CharacterRenderComponent.h
 MobileRenderComponent.h
 /home/axel/repositorio_local/taller/src/game/MobileRenderComponent.h
 ../parser/config/characterxml.h
 /home/axel/repositorio_local/taller/src/parser/config/characterxml.h
+
+/home/axel/repositorio_local/taller/src/game/Controller.cpp
+Controller.h
+/home/axel/repositorio_local/taller/src/game/Controller.h
+Game.h
+/home/axel/repositorio_local/taller/src/game/Game.h
+SDL2/SDL_scancode.h
+-
+map
+-
+utility
+-
 
 /home/axel/repositorio_local/taller/src/game/Controller.h
 map
@@ -126,6 +188,34 @@ memory
 cassert
 -
 
+/home/axel/repositorio_local/taller/src/game/Game.cpp
+SDL2/SDL.h
+-
+SDL2/SDL_image.h
+-
+algorithm
+-
+Game.h
+/home/axel/repositorio_local/taller/src/game/Game.h
+Controller.h
+/home/axel/repositorio_local/taller/src/game/Controller.h
+Action.h
+/home/axel/repositorio_local/taller/src/game/Action.h
+../parser/CLIArgumentParser.h
+/home/axel/repositorio_local/taller/src/parser/CLIArgumentParser.h
+../parser/config/config.h
+/home/axel/repositorio_local/taller/src/parser/config/config.h
+../parser/xmlparser.h
+/home/axel/repositorio_local/taller/src/parser/xmlparser.h
+../LogLib/Logger.h
+/home/axel/repositorio_local/taller/src/LogLib/Logger.h
+LevelBuilder.h
+/home/axel/repositorio_local/taller/src/game/LevelBuilder.h
+../utils/TimeUtils.h
+/home/axel/repositorio_local/taller/src/utils/TimeUtils.h
+iostream
+-
+
 /home/axel/repositorio_local/taller/src/game/Game.h
 vector
 -
@@ -140,6 +230,12 @@ Manager.h
 LevelBuilder.h
 /home/axel/repositorio_local/taller/src/game/LevelBuilder.h
 
+/home/axel/repositorio_local/taller/src/game/IAComponent.cpp
+IAComponent.h
+/home/axel/repositorio_local/taller/src/game/IAComponent.h
+StateComponent.h
+/home/axel/repositorio_local/taller/src/game/StateComponent.h
+
 /home/axel/repositorio_local/taller/src/game/IAComponent.h
 ECS.h
 /home/axel/repositorio_local/taller/src/game/ECS.h
@@ -147,6 +243,14 @@ Action.h
 /home/axel/repositorio_local/taller/src/game/Action.h
 list
 -
+
+/home/axel/repositorio_local/taller/src/game/InputComponent.cpp
+Game.h
+/home/axel/repositorio_local/taller/src/game/Game.h
+InputComponent.h
+/home/axel/repositorio_local/taller/src/game/InputComponent.h
+StateComponent.h
+/home/axel/repositorio_local/taller/src/game/StateComponent.h
 
 /home/axel/repositorio_local/taller/src/game/InputComponent.h
 ECS.h
@@ -204,11 +308,29 @@ TextureWrapper.h
 LevelLimits.h
 /home/axel/repositorio_local/taller/src/game/LevelLimits.h
 
+/home/axel/repositorio_local/taller/src/game/LevelLimits.cpp
+time.h
+-
+stdlib.h
+-
+LevelLimits.h
+/home/axel/repositorio_local/taller/src/game/LevelLimits.h
+CameraComponent.h
+/home/axel/repositorio_local/taller/src/game/CameraComponent.h
+iostream
+-
+
 /home/axel/repositorio_local/taller/src/game/LevelLimits.h
 ECS.h
 /home/axel/repositorio_local/taller/src/game/ECS.h
 CameraComponent.h
 /home/axel/repositorio_local/taller/src/game/CameraComponent.h
+
+/home/axel/repositorio_local/taller/src/game/Manager.cpp
+Manager.h
+/home/axel/repositorio_local/taller/src/game/Manager.h
+PositionComponent.h
+/home/axel/repositorio_local/taller/src/game/PositionComponent.h
 
 /home/axel/repositorio_local/taller/src/game/Manager.h
 list
@@ -220,15 +342,41 @@ algorithm
 ECS.h
 /home/axel/repositorio_local/taller/src/game/ECS.h
 
+/home/axel/repositorio_local/taller/src/game/MobileRenderComponent.cpp
+MobileRenderComponent.h
+/home/axel/repositorio_local/taller/src/game/MobileRenderComponent.h
+StateComponent.h
+/home/axel/repositorio_local/taller/src/game/StateComponent.h
+
 /home/axel/repositorio_local/taller/src/game/MobileRenderComponent.h
 RenderComponent.h
 /home/axel/repositorio_local/taller/src/game/RenderComponent.h
+
+/home/axel/repositorio_local/taller/src/game/NPCRenderComponent.cpp
+NPCRenderComponent.h
+/home/axel/repositorio_local/taller/src/game/NPCRenderComponent.h
+Game.h
+/home/axel/repositorio_local/taller/src/game/Game.h
+StateComponent.h
+/home/axel/repositorio_local/taller/src/game/StateComponent.h
+iostream
+-
 
 /home/axel/repositorio_local/taller/src/game/NPCRenderComponent.h
 MobileRenderComponent.h
 /home/axel/repositorio_local/taller/src/game/MobileRenderComponent.h
 ../parser/config/npc.h
 /home/axel/repositorio_local/taller/src/parser/config/npc.h
+
+/home/axel/repositorio_local/taller/src/game/NonMobileRenderComponent.cpp
+string
+-
+NonMobileRenderComponent.h
+/home/axel/repositorio_local/taller/src/game/NonMobileRenderComponent.h
+Game.h
+/home/axel/repositorio_local/taller/src/game/Game.h
+iostream
+-
 
 /home/axel/repositorio_local/taller/src/game/NonMobileRenderComponent.h
 string
@@ -262,9 +410,21 @@ Game.h
 LevelLimits.h
 /home/axel/repositorio_local/taller/src/game/LevelLimits.h
 
+/home/axel/repositorio_local/taller/src/game/PositionComponent.cpp
+PositionComponent.h
+/home/axel/repositorio_local/taller/src/game/PositionComponent.h
+
 /home/axel/repositorio_local/taller/src/game/PositionComponent.h
 ECS.h
 /home/axel/repositorio_local/taller/src/game/ECS.h
+
+/home/axel/repositorio_local/taller/src/game/RenderComponent.cpp
+Game.h
+/home/axel/repositorio_local/taller/src/game/Game.h
+RenderComponent.h
+/home/axel/repositorio_local/taller/src/game/RenderComponent.h
+CameraComponent.h
+/home/axel/repositorio_local/taller/src/game/CameraComponent.h
 
 /home/axel/repositorio_local/taller/src/game/RenderComponent.h
 SDL2/SDL.h
@@ -296,12 +456,30 @@ Action.h
 ECS.h
 /home/axel/repositorio_local/taller/src/game/ECS.h
 
+/home/axel/repositorio_local/taller/src/game/TextureWrapper.cpp
+SDL2/SDL_image.h
+-
+TextureWrapper.h
+/home/axel/repositorio_local/taller/src/game/TextureWrapper.h
+Game.h
+/home/axel/repositorio_local/taller/src/game/Game.h
+
 /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
 string
 -
 vector
 -
 SDL2/SDL_render.h
+-
+
+/home/axel/repositorio_local/taller/src/main.cpp
+game/Game.h
+/home/axel/repositorio_local/taller/src/game/Game.h
+parser/CLIArgumentParser.h
+/home/axel/repositorio_local/taller/src/parser/CLIArgumentParser.h
+
+/home/axel/repositorio_local/taller/src/parser/CLIArgumentParser.h
+string
 -
 
 /home/axel/repositorio_local/taller/src/parser/config/characterxml.h
@@ -325,6 +503,20 @@ string
 -
 
 /home/axel/repositorio_local/taller/src/parser/config/npc.h
+string
+-
+
+/home/axel/repositorio_local/taller/src/parser/xmlparser.h
+string
+-
+vector
+-
+config/config.h
+/home/axel/repositorio_local/taller/src/parser/config/config.h
+tinyxml2.h
+-
+
+/home/axel/repositorio_local/taller/src/utils/TimeUtils.h
 string
 -
 

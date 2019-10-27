@@ -8,6 +8,7 @@
 #include "PhysicsComponent.h"
 #include "Game.h"
 
+#include <iostream>
 
 
 void CameraComponent::init(){
@@ -33,7 +34,12 @@ void CameraComponent::update() {
     }
 }
 
-bool CameraComponent::shouldMoveCamera() { 
+bool CameraComponent::shouldMoveCamera() {
+    std::cout<<"noPlayerInLeftLimit: "<<noPlayerInLeftLimit()<<'\n';
+    std::cout<<"marginSurpased: "<<marginSurpased()<<'\n';
+    std::cout<<"notAtTheEnd: "<<notAtTheEnd()<<'\n';
+    std::cout<<"==========================================="<<'\n';
+    std::cout<<'\n';
     return (noPlayerInLeftLimit() && marginSurpased() && notAtTheEnd());
 }
 
