@@ -6,7 +6,7 @@
 #define GAME_MANAGER_H
 
 
-#include <vector>
+#include <list>
 #include <memory>
 #include <algorithm>
 
@@ -14,40 +14,22 @@
 
 class Manager {
 private:
-    std::vector<std::unique_ptr<Entity>> entities;
+    std::list<Entity*> entities;
+    std::list<Entity*> nonLevelPersistentEntities;
+    std::list<Entity*> players;
+    std::list<Entity*> backgrounds;
 
 public:
-    void update() {
-        for(auto& e : entities) e->update();
-    }
-    void render() {
-        for(auto& e : entities) e->render();
-    }
-
-    void refresh() {
-        entities.erase(
-                std::remove_if(std::begin(entities), std::end(entities),
-                        [](const std::unique_ptr<Entity>& mEntity) {
-                            return !mEntity->isAlive();
-                        }),
-                std::end(entities));
-    }
-
-    Entity& addEntity() {
-        auto *e = new Entity();
-        entities.push_back(std::unique_ptr<Entity>(e));
-        return *e;
-    }
-
-    Entity& addCustomEntity(Entity* e) { // in case we want to add behaviour in a custom Entity that inherits from Entity
-        entities.push_back(std::unique_ptr<Entity>(e));
-        return *e;
-    }
-
-    void destroyAllEntities() {
-        entities.clear();
-    }
+    void update();
+    void render();
+    void refresh();
+    Entity* addEntity();
+    Entity* addNonPersistentEntity();
+    Entity* addPlayer();
+    Entity* addBackground();
+    Entity* addCustomEntity(Entity* e);
+    void destroyAllEntities();
+    void destroyNonLevelPersistentEntities();
+    std::list<Entity*> getPlayers();
 };
-
-
 #endif //GAME_MANAGER_H

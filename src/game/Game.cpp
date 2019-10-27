@@ -12,7 +12,7 @@
 #include "LevelBuilder.h"
 #include "../utils/TimeUtils.h"
 
-
+#include <iostream>
 
 
 void Game::init() {
@@ -78,22 +78,21 @@ void Game::initECSManager() {
 
 
 void Game::start() {
+
     Uint32 fps_last = SDL_GetTicks();
     Uint32 current;
 
+    isRunning = true;
+
     this->initECSManager();
     this->initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
+    levelBuilder = new LevelBuilder();
 
-    LevelBuilder levelBuilder;
-    this->hasNextLevel = true;
-
-
-    while (isRunning && hasNextLevel) {
-        this->hasNextLevel = levelBuilder.loadNext();
+    while (isRunning && levelBuilder->hasNextLevel()) {
+        levelBuilder->loadNext();
         this->levelFinished = false;
 
-        while (isRunning && hasNextLevel && !levelFinished) {
-            isRunning = isGameRunning();
+        while (isRunning && !levelFinished) {
 
             processInput();
             update();
@@ -106,30 +105,24 @@ void Game::start() {
     }
 }
 
-bool Game::isGameRunning() { // TODO: implement when we have a proper gameloop input-update-render
-    std::vector<Action> actions = controller->getInput();
-    //return actions.empty() || std::find(actions.begin(), actions.end(), Action::QUIT) != actions.end();
-    return true;
-}
-
 void Game::processInput() {
     controller->processInput();
 }
 
 void Game::update() {
-    manager->refresh();
+    //manager->refresh();
     manager->update();
 }
 
 void Game::render() {
     SDL_RenderClear(renderer);
-
     manager->render();
-
     SDL_RenderPresent(renderer);
 }
 
-
+void Game::endLevel(){
+    this->levelFinished = true;
+}
 
 void Game::setWindowTitleWithFPS(int fps){
 
@@ -138,13 +131,25 @@ void Game::setWindowTitleWithFPS(int fps){
     SDL_SetWindowTitle(window, szFps);
 }
 
-
 void Game::destroy() {
 
     delete(logger);
     logger = nullptr;
-
+    delete(levelBuilder);
+    levelBuilder = nullptr;
+    delete(controller);
+    controller = nullptr;
+    delete(manager);
+    manager = nullptr;
     SDL_DestroyWindow(this->window);
     SDL_DestroyRenderer(this->renderer);
     SDL_Quit();
+}
+
+void Game::end(){
+    isRunning = false;
+}
+
+int Game::getCurrentLevelWidth(){
+    return levelBuilder->getCurrentLevelWidth();
 }

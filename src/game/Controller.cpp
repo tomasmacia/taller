@@ -6,24 +6,37 @@
 #include "Game.h"
 #include <SDL2/SDL_scancode.h>
 #include <map>
-#include <vector>
 #include <utility>
 
 void Controller::processInput() {
     currentInput.clear();
+    Action action;
 
     while (SDL_PollEvent(&sdlEvent)) {
-        Action action = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
 
-        if (action != NONE) {
-            currentInput.push_back(action);
+        action = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
+
+        if ((sdlEvent.type == SDL_QUIT) || action == QUIT){
+            Game::getInstance().end();
+        }
+
+        if( (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)){
+
+            if (action != NONE) {
+                currentInput.push_back(action);
+            }
+        }
+        
+        if ((sdlEvent.type == SDL_KEYUP && sdlEvent.key.repeat == 0 )){
+            if (action == UP || action == DOWN || action == LEFT || action == RIGHT ||
+                action == NONE){//no bloqueante
+                    currentInput.push_back(NONE); //para anular la accion anterior
+            } 
         }
     }
-
-
 }
 
-std::vector<Action> Controller::getInput() {
+std::list<Action> Controller::getInput() {
     return currentInput;
 }
 

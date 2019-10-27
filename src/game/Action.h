@@ -7,6 +7,7 @@
 
 
 enum Action {
+    NONE,
     UP,
     DOWN,
     LEFT,
@@ -17,7 +18,6 @@ enum Action {
     JUMP_KICK,
     CROUCH,
     QUIT,
-    NONE
 };
 
 

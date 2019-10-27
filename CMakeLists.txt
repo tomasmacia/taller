@@ -69,17 +69,40 @@ set(SOURCE_FILES
         src/game/Controller.h
         src/game/ECS.h
         src/game/Manager.h
+        src/game/Manager.cpp
         src/game/Action.h
         src/game/LevelBuilder.h
         src/game/LevelBuilder.cpp
-        src/game/PositionComponent.cpp
         src/game/PositionComponent.h 
+        src/game/PositionComponent.cpp
         src/game/CameraComponent.cpp 
         src/game/CameraComponent.h 
-        src/game/CameraPositionComponent.cpp 
-        src/game/CameraPositionComponent.h
+        src/game/TextureWrapper.cpp 
+        src/game/TextureWrapper.h 
+        src/game/PhysicsComponent.cpp 
+        src/game/PhysicsComponent.h 
+        src/game/StateComponent.cpp 
+        src/game/StateComponent.h 
+        src/game/InputComponent.cpp 
+        src/game/InputComponent.h
+        src/game/IAComponent.h  
+        src/game/IAComponent.cpp
+        src/game/RenderComponent.h
+        src/game/RenderComponent.cpp
         src/game/CharacterRenderComponent.h
-        src/game/CharacterRenderComponent.cpp src/game/TextureWrapper.cpp src/game/TextureWrapper.h src/game/PhysicsComponent.cpp src/game/PhysicsComponent.h src/game/InputComponent.cpp src/game/InputComponent.h)
+        src/game/CharacterRenderComponent.cpp 
+        src/game/NPCRenderComponent.h
+        src/game/NPCRenderComponent.cpp   
+        src/game/BackgroundRenderComponent.h
+        src/game/BackgroundRenderComponent.cpp       
+        src/game/MobileRenderComponent.cpp
+        src/game/MobileRenderComponent.h
+        src/game/NonMobileRenderComponent.cpp
+        src/game/NonMobileRenderComponent.h 
+        src/game/LevelLimits.h
+        src/game/LevelLimits.cpp
+
+)
 
 # create executable
 add_executable(game ${SOURCE_FILES})
