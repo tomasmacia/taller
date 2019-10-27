@@ -1,27 +1,83 @@
 //
 // Created by Tomás Macía on 14/10/2019.
 //
-
-#include <iostream>
 #include <string>
+
 #include "CameraComponent.h"
 #include "PositionComponent.h"
+#include "PhysicsComponent.h"
+#include "Game.h"
+
+
+
+void CameraComponent::init(){
+    this->currentX = 0;
+    this->windowWidth = Game::getInstance().getConfig()->screenResolution.width;
+    this->windowHeight = Game::getInstance().getConfig()->screenResolution.height;
+    this->marginWidth = windowWidth/4;
+    this->offScreenTolerance = 2*marginWidth;
+}
+
+void CameraComponent::reset(){
+    currentX = 0;
+}
+
 
 void CameraComponent::update() {
-    PositionComponent positionComponent = entity->getComponent<PositionComponent>(); // TODO move to class attr
-
-    if (shouldMoveCamera(positionComponent.getX())) {
-        moveCamera(1);
+    if (shouldMoveCamera()){
+        scroll();
     }
 
-    std::cout << std::string("[CAMERA]: X inicial es ") + std::to_string(this->currentX) << std::endl;
+    if (atTheEnd()){
+        Game::getInstance().endLevel();
+    }
 }
 
-bool CameraComponent::shouldMoveCamera(int characterX) {
-    // when character surpass camera limit with margin and character is not at the end of level
-    return characterX >= (windowWidth - marginWidth) && levelWidth > (currentX + windowWidth);
+bool CameraComponent::shouldMoveCamera() { 
+    return (noPlayerInLeftLimit() && marginSurpased() && notAtTheEnd());
 }
 
-void CameraComponent::moveCamera(int amountX) {
-    this->currentX += amountX;
+bool CameraComponent::noPlayerInLeftLimit() {
+    for (auto* player : _players){
+        if (inLeftLimit(player)){return false;}
+    }
+    return true;
+}
+
+bool CameraComponent::inLeftLimit(Entity* player) {
+    return (player->getComponent<PositionComponent>()->getX() <= currentX);
+}
+
+bool CameraComponent::atTheEnd() {
+    return (currentX + windowWidth) >= Game::getInstance().getCurrentLevelWidth();
+}
+
+bool CameraComponent::notAtTheEnd() {
+    return (currentX + windowWidth) < Game::getInstance().getCurrentLevelWidth();
+}
+
+bool CameraComponent::marginSurpased() {
+    for (auto& player : _players){
+        if (touchingMargin(player)){return true;}
+    }
+    return false;
+}
+
+bool CameraComponent::touchingMargin(Entity* player) {
+    return (player->getComponent<PositionComponent>()->getX() >= (currentX + windowWidth - marginWidth));
+}
+
+void CameraComponent::scroll() {
+    this->currentX += (int)(_players.front()->getComponent<PhysicsComponent>()->getWalkingSpeed());
+}
+
+void CameraComponent::setPlayer(Entity* player){
+    _players.push_back(player); 
+}
+
+bool CameraComponent::onScreen(int x, int y){
+
+    return (x <= (windowWidth + offScreenTolerance) && x >= -offScreenTolerance)
+            &&
+           (y <= (windowHeight + offScreenTolerance) && y >= -offScreenTolerance); //este luce raro pero es porque el eje y en SDL esta al revez
 }

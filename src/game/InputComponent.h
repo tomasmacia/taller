@@ -7,18 +7,19 @@
 
 #include "ECS.h"
 #include "Action.h"
+#include <list>
 
 
 class InputComponent : public Component {
 public:
     void update() override;
 
-    std::vector<Action> getActions() {
+    std::list<Action> getActions() {
         return actions;
     }
 
 private:
-    std::vector<Action> actions;
+    std::list<Action> actions;
 };
 
 

@@ -25,7 +25,7 @@ public:
     void free();
 
     // Renders texture at given point
-    void render(int x, int y, SDL_Rect* sourceRect = nullptr);
+    void render(SDL_Rect* srcRect, SDL_Rect* destRect, bool flip);
 
     void setWidthAndHeight(int w, int h) {
         mWidth = w;
@@ -41,6 +41,8 @@ public:
         return mHeight;
     }
 
+    void drawErrorColor();
+
 private:
     // The actual hardware texture
     SDL_Texture* mTexture;
@@ -48,6 +50,8 @@ private:
     // Image dimensions
     int mWidth;
     int mHeight;
+
+    SDL_Renderer* renderer = nullptr;
 };
 
 

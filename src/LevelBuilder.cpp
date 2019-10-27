@@ -33,11 +33,11 @@ void LevelBuilder::initialize() {
     // destroy everything from previous level
     Game::getInstance().destroyLevelObjects();
 
-    initializeWorld();
+    //initializeWorld();
     initializePlayers();
     initializeEnemies();
-    initializeWeapons();
-    initializeUtilities();
+    //initializeWeapons();
+    //initializeUtilities();
 
     std::vector<Game_Component*> pepe = Game::getInstance().getGameComponents();
 
@@ -105,6 +105,7 @@ void LevelBuilder::initializePlayers() {
 }
 
 void LevelBuilder::initializeEnemies() {
+    /*
     LogManager::logDebug("Inicializando enemigos");
     vector<NPC> enemies = Game::getInstance().getConfig()->gameplay.npcs;
     Level level = Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
@@ -123,9 +124,13 @@ void LevelBuilder::initializeEnemies() {
                 Game::getInstance().getConfig()->screenResolution.width,
                 Game::getInstance().getConfig()->screenResolution.height,true,5)); // HARDCODE 5
         LogManager::logDebug("Enemigo inicializado");
-    }
+    }*/
+
+
+    LogManager::logDebug("Inicializando enemigos");
 }
 
+/*
 void LevelBuilder::initializeWeapons() {
     LogManager::logDebug("Inicializando armas");
     Weapons weapons = Game::getInstance().getConfig()->gameplay.weapons;
@@ -147,8 +152,8 @@ void LevelBuilder::initializeWeapons() {
                 Game::getInstance().getConfig()->screenResolution.height,false,1)); // HARDCODED 1
         LogManager::logDebug("Agregado tubo");
     }
-
-    /* posiciones del cuchillos aleatoria en el rango del suelo */
+*/
+    /* posiciones del cuchillos aleatoria en el rango del suelo *//*
     for (int i = 0; i < weapons.knife.amount; ++i) {
         int x = 0;
         if (level.name == "bay") {
@@ -221,3 +226,4 @@ std::vector<float> LevelBuilder::getParallaxSpeedPerLevel() {
 
     return speeds;
 }
+*/

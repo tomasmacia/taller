@@ -1,47 +1,39 @@
-//
-// Created by Tomás Macía on 15/10/2019.
-//
-
 #ifndef GAME_PHYSICSCOMPONENT_H
 #define GAME_PHYSICSCOMPONENT_H
 
 #include "ECS.h"
 #include "Action.h"
+#include <list>
+#include "Game.h"
+#include "LevelLimits.h"
 
 class PhysicsComponent : public Component {
 public:
-    PhysicsComponent() {};
+    PhysicsComponent(LevelLimits* levelLimits);
 
     void update() override;
     void init() override;
 
+    int getWalkingSpeed();
+
 protected:
-    void switchAction(Action action);
+    void handleIncomingAction();
 
 private:
+
+    LevelLimits* _levelLimits = nullptr;
+
     float _velocityX;
     float _velocityY;
     float _accelerationX;
     float _accelerationY;
 
-    float DEFAULT_WALKING_VELOCITY_X = 2;
-    float DEFAULT_WALKING_VELOCITY_Y = 2;
+    float DEFAULT_WALKING_VELOCITY_X = ((Game::getInstance().getConfig()->screenResolution.width)/10);
+    float DEFAULT_WALKING_VELOCITY_Y = ((Game::getInstance().getConfig()->screenResolution.width)/10);;
 
-    float DEFAULT_JUMPING_VELOCITY_Y = 2; // velocidad vertical con la que el personaje salta
-    float DEFAULT_JUMPING_ACCELERATION_Y = -2;
-
-    int UP_TICKS = 1;
-    int DOWN_TICKS = 1;
-    int LEFT_TICKS = 1;
-    int RIGHT_TICKS = 1;
-    int JUMP_TICKS = 1;
-    int PUNCH_TICKS = 1;
-    int KICK_TICKS = 1;
-    int JUMP_KICK_TICKS = 1;
-    int CROUCH_TICKS = 1;
-
-    Action _action = NONE;
-    int _actionCounter = 0;
+    float DEFAULT_JUMPING_ACCELERATION_Y; //setted later to sync with sprites
+    float DEFAULT_JUMPING_VELOCITY_Y = ((Game::getInstance().getConfig()->screenResolution.height)/40);; 
+    //how high is the jump
 
     void up();
     void down();
@@ -54,8 +46,7 @@ private:
     void crouch();
     void none();
 
-    bool actionIsOver();
-
+    void seekToSyncJumping();
 };
 
 #endif //GAME_PHYSICSCOMPONENT_H

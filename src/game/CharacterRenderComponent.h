@@ -2,48 +2,28 @@
 #ifndef CHARACTER_RENDER_COMPONENT_H
 #define CHARACTER_RENDER_COMPONENT_H
 
-#include "ECS.h"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include "Action.h"
-#include "PositionComponent.h"
-#include "../LogLib/LogManager.h"
+#include "MobileRenderComponent.h"
 #include "../parser/config/characterxml.h"
-#include "TextureWrapper.h"
 
-class CharacterRenderComponent : public Component {
+class CharacterRenderComponent : public MobileRenderComponent {
 public:
-    CharacterRenderComponent(CharacterXML *characterConfig);
-    void update() override;
-    void render() override;
+    CharacterRenderComponent(Entity* camera, CharacterXML characterConfig);
     void init() override;
 
-    ~CharacterRenderComponent() override;
+    int getJumpDuration() override;
+
+protected:
+    void handleIncomingAction() override;
 
 private:
     CharacterXML characterConfig;
-    TextureWrapper texture;
-    SDL_Rect srcRect;
-    SDL_Rect destRect;
 
-    Action _action = NONE;
-    int imageAmount = 1; //NO DEBERIA ESTA HARDCODEADO. DEBERIA DEPENDER DE LA ACTION
-    int actionCount = 1;
-
-    void loadTexture();
-    void switchAction(Action);
-    void loadNextImage();
-
-    bool isFlipped() {
-        return flipped;
-    }
-
-    void flip() {
-        flipped = true;
-    }
-
-    bool flipped = false;
-
-    std::string currentSprite;
+    int STAND_IMAGE_AMOUNT = 1;
+    int WALK_IMAGE_AMOUNT = 9;
+    int JUMP_IMAGE_AMOUNT = 13;
+    int PUNCH_IMAGE_AMOUNT = 3;
+    int KICK_IMAGE_AMOUNT = 6;
+    int JUMP_KICK_IMAGE_AMOUNT = 13;
+    int CROUCH_IMAGE_AMOUNT = 4;
 };
 #endif

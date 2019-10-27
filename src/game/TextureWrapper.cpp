@@ -6,12 +6,12 @@
 #include "TextureWrapper.h"
 #include "Game.h"
 
-
 TextureWrapper::TextureWrapper() {
     //Initialize
     mTexture = nullptr;
     mWidth = 0;
     mHeight = 0;
+    renderer = Game::getInstance().getRenderer();
 }
 
 TextureWrapper::~TextureWrapper() {
@@ -50,6 +50,10 @@ bool TextureWrapper::loadFromFile(std::string path, std::vector<int> rgb) {
 
     // Return success
     mTexture = newTexture;
+
+    // Sets texture dimentions
+    SDL_QueryTexture(mTexture, nullptr, nullptr, &mWidth, &mHeight);
+
     return mTexture != nullptr;
 }
 
@@ -63,8 +67,14 @@ void TextureWrapper::free() {
     }
 }
 
-void TextureWrapper::render(int x, int y, SDL_Rect *sourceRect) {
-    //Set rendering space and render to screen
-    SDL_Rect renderQuad = { x, y, mWidth, mHeight };
-    SDL_RenderCopy(Game::getInstance().getRenderer(), mTexture, sourceRect, &renderQuad );
+void TextureWrapper::render(SDL_Rect* srcRect, SDL_Rect* destRect,bool flip = false) {
+
+    if (flip)
+        SDL_RenderCopyEx( renderer, mTexture, srcRect, destRect, 0, NULL, SDL_FLIP_HORIZONTAL);
+    else
+        SDL_RenderCopy(renderer, mTexture, srcRect, destRect );
+}
+
+void TextureWrapper::drawErrorColor() {
+    SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0, 0xFF );
 }
