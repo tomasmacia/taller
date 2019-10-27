@@ -21,8 +21,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 # SDL
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
+find_package(SDL2_ttf REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 include_directories(${SDL2_IMAGE_INCLUDE_DIRS})
+include_directories(${SDL2_TTF_INCLUDE_DIRS})
 
 # source files
 set(SOURCE_FILES
@@ -63,6 +65,8 @@ set(SOURCE_FILES
         src/main.cpp
 
         # game
+        src/game/LoggerMenu.cpp
+        src/game/LoggerMenu.h
         src/game/Game.h
         src/game/Game.cpp
         src/game/Controller.cpp
@@ -108,4 +112,4 @@ set(SOURCE_FILES
 add_executable(game ${SOURCE_FILES})
 
 # link libraries
-target_link_libraries(game ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARIES} ${XMLPARSER})
+target_link_libraries(game ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARIES} ${SDL2_TTF_LIBRARIES} ${XMLPARSER})
