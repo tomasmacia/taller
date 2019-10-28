@@ -3,10 +3,12 @@
 #include "../parser/CLIArgumentParser.h"
 #include "../LogLib/LogManager.h"
 #include "GameServer.h"
+#include "GameClient.h"
+#include "Mode.h"
 
 using namespace std;
 
-void initLogger(string loggerLevel){
+Logger* initLogger(string loggerLevel){
     Logger* logger = LogManager::createLoggerFromLevel(loggerLevel);
 
     string currentTime = TimeUtils::getCurrentTime();
@@ -22,10 +24,10 @@ int main(int argc, const char** argv) {
 
     CLIArgumentParser::getInstance().init(argc, argv);
 
-    initLogger(CLIArgumentParser::getInstance().getDefaultLoggerLevel());
+    Logger* logger = initLogger(CLIArgumentParser::getInstance().getDefaultLoggerLevel());
     LogManager::logDebug("inicializado LogManager");
 
-    Mode mode = parser.getMode();
+    Mode mode = CLIArgumentParser::getInstance().getMode();
 
     if (mode == SERVER){
         GameServer::getInstance().start();
@@ -38,6 +40,8 @@ int main(int argc, const char** argv) {
     else{
         LogManager::logError("modo de juego invalido");
     }
+
+    delete(logger);
 
     return 0;
 }

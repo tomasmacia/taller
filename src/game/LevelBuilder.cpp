@@ -26,6 +26,7 @@ using namespace std;
 
 LevelBuilder::LevelBuilder() {
     currentLevel = 0;
+    levelRunning = false;
     totalLevels = Game::getInstance().getConfig()->gameplay.levels.size();
     LogManager::logDebug(&"cantidad de niveles cargados: " [totalLevels]);
 }
@@ -40,12 +41,18 @@ void LevelBuilder::loadNext() {
     if (currentLevel == 0){
         LogManager::logInfo("cargando primer nivel");
         initialize();
+        levelRunning = true;
     }
     else{
         LogManager::logInfo("cargando siguiente nivel");
         prepareForNextLevel();
         initializeNextLevel();
+        levelRunning = true;
     }
+}
+
+void LevelBuilder::endLevel(){
+    levelRunning = false;
 }
 
 void LevelBuilder::prepareForNextLevel(){

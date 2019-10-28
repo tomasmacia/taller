@@ -17,6 +17,7 @@ public:
 
     void loadNext();
     bool hasNextLevel();
+    void endLevel();
 
     int getCurrentLevelWidth();
 
@@ -45,6 +46,7 @@ private:
 
     int currentLevel;
     int totalLevels;
+    bool levelRunning;
 
     int currentLevelWidth = 10000; //ONLY USED ON ERROR
 

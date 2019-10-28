@@ -366,32 +366,59 @@ src/game/Controller.cpp.s:
 	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/Controller.cpp.s
 .PHONY : src/game/Controller.cpp.s
 
-src/game/Game.o: src/game/Game.cpp.o
+src/game/GameClient.o: src/game/GameClient.cpp.o
 
-.PHONY : src/game/Game.o
+.PHONY : src/game/GameClient.o
 
 # target to build an object file
-src/game/Game.cpp.o:
-	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/Game.cpp.o
-.PHONY : src/game/Game.cpp.o
+src/game/GameClient.cpp.o:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/GameClient.cpp.o
+.PHONY : src/game/GameClient.cpp.o
 
-src/game/Game.i: src/game/Game.cpp.i
+src/game/GameClient.i: src/game/GameClient.cpp.i
 
-.PHONY : src/game/Game.i
+.PHONY : src/game/GameClient.i
 
 # target to preprocess a source file
-src/game/Game.cpp.i:
-	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/Game.cpp.i
-.PHONY : src/game/Game.cpp.i
+src/game/GameClient.cpp.i:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/GameClient.cpp.i
+.PHONY : src/game/GameClient.cpp.i
 
-src/game/Game.s: src/game/Game.cpp.s
+src/game/GameClient.s: src/game/GameClient.cpp.s
 
-.PHONY : src/game/Game.s
+.PHONY : src/game/GameClient.s
 
 # target to generate assembly for a file
-src/game/Game.cpp.s:
-	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/Game.cpp.s
-.PHONY : src/game/Game.cpp.s
+src/game/GameClient.cpp.s:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/GameClient.cpp.s
+.PHONY : src/game/GameClient.cpp.s
+
+src/game/GameServer.o: src/game/GameServer.cpp.o
+
+.PHONY : src/game/GameServer.o
+
+# target to build an object file
+src/game/GameServer.cpp.o:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/GameServer.cpp.o
+.PHONY : src/game/GameServer.cpp.o
+
+src/game/GameServer.i: src/game/GameServer.cpp.i
+
+.PHONY : src/game/GameServer.i
+
+# target to preprocess a source file
+src/game/GameServer.cpp.i:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/GameServer.cpp.i
+.PHONY : src/game/GameServer.cpp.i
+
+src/game/GameServer.s: src/game/GameServer.cpp.s
+
+.PHONY : src/game/GameServer.s
+
+# target to generate assembly for a file
+src/game/GameServer.cpp.s:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/GameServer.cpp.s
+.PHONY : src/game/GameServer.cpp.s
 
 src/game/IAComponent.o: src/game/IAComponent.cpp.o
 
@@ -888,9 +915,12 @@ help:
 	@echo "... src/game/Controller.o"
 	@echo "... src/game/Controller.i"
 	@echo "... src/game/Controller.s"
-	@echo "... src/game/Game.o"
-	@echo "... src/game/Game.i"
-	@echo "... src/game/Game.s"
+	@echo "... src/game/GameClient.o"
+	@echo "... src/game/GameClient.i"
+	@echo "... src/game/GameClient.s"
+	@echo "... src/game/GameServer.o"
+	@echo "... src/game/GameServer.i"
+	@echo "... src/game/GameServer.s"
 	@echo "... src/game/IAComponent.o"
 	@echo "... src/game/IAComponent.i"
 	@echo "... src/game/IAComponent.s"

@@ -102,7 +102,7 @@ void Game::render() {
 
 void Game::endLevel(){
     LogManager::logInfo("Nivel terminado");
-    this->levelFinished = true;
+    this->levelBuilder()->endLevel();
 }
 
 void Game::destroy() {
@@ -117,8 +117,6 @@ void Game::destroy() {
     SDL_DestroyRenderer(this->renderer);
     SDL_Quit();
     LogManager::logDebug("Memoria de Game liberada");
-    delete(logger);
-    logger = nullptr;
 }
 
 void Game::end(){
