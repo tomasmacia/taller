@@ -130,6 +130,7 @@ void LoggerMenu::Logeo(){
     SDL_DestroyTexture(_cursor);
     SDL_DestroyWindow(this->window);
     SDL_DestroyRenderer(this->_render);
+    TTF_CloseFont(font);
     TTF_Quit();
     IMG_Quit();
     SDL_Quit();
