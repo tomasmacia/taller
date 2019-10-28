@@ -11,6 +11,9 @@
 
 void GameClient::start() {
     LogManager::logInfo("Se inicia GameClient");
+    LogManager::logInfo("Se inicia pantalla de login");
+
+    
 
     this->initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
     LogManager::logDebug("inicializado Controller");

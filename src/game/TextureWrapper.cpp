@@ -79,3 +79,30 @@ void TextureWrapper::render(SDL_Rect* srcRect, SDL_Rect* destRect,bool flip = fa
             SDL_RenderCopy(renderer, mTexture, srcRect, destRect );
     }
 }
+
+int TextureWrapper::measureWidthOf(std::string spritePath){
+
+    int spriteWidth;
+    int aux;
+
+    //Solo para generar una textura temporal y medir el width del sprite
+    SDL_Init(SDL_INIT_VIDEO);
+    IMG_Init(IMG_INIT_PNG);
+    int aux1 = 1000;
+    int aux2 = 1000;
+    SDL_Window* temporaryWindow = SDL_CreateWindow("Final Fight", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, aux1, aux2, 0);
+    SDL_Renderer* temporaryRenderer = SDL_CreateRenderer(temporaryWindow, -1, SDL_RENDERER_PRESENTVSYNC);
+    SDL_Surface* temporarySurface = IMG_Load( spritePath.c_str() );
+    SDL_Texture* temporaryTexture = SDL_CreateTextureFromSurface( temporaryRenderer, temporarySurface );
+    SDL_QueryTexture(temporaryTexture, nullptr, nullptr, &spriteWidth, &aux);
+
+    //Libero memoria y cierro el SDL que abri en este metodo de forma temporal
+    SDL_FreeSurface(temporarySurface);
+    SDL_DestroyTexture(temporaryTexture);
+    SDL_DestroyWindow(temporaryWindow);
+    SDL_DestroyRenderer(temporaryRenderer);
+    SDL_Quit();
+
+    return spriteWidth;
+}
+

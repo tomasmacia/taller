@@ -41,6 +41,8 @@ public:
         return mHeight;
     }
 
+    static int measureWidthOf(std::string spritePath);
+
 private:
     // The actual hardware texture
     SDL_Texture* mTexture = nullptr;

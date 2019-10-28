@@ -26,7 +26,8 @@ void GameServer::start() {
         while (isRunning && !levelBuilder->levelFinished()) {
             processInput();
             update();
-            sendUpdate();
+            render();
+            //sendUpdate();
         }
         LogManager::logInfo("fin de game loop de este nivel");
         LogManager::logInfo("=======================================");
@@ -41,6 +42,10 @@ void GameServer::processInput() {
 
 void GameServer::update() {
     manager->update();
+}
+
+void GameServer::render() { // TODO SOLO PARA PROBARLO HASTA TENER LOS SOCKETS (BORRAR)
+    manager->render();
 }
 
 void GameServer::sendUpdate() {

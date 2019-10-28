@@ -157,21 +157,14 @@ void LevelBuilder::initializeWorld() {
 
 void LevelBuilder::initializeLevelWidth(std::string floorSpritePath){
 
-    auto texture = new TextureWrapper();
+    float floorSpriteWidth = TextureWrapper::measureWidthOf(floorSpritePath);
+    int screenResolutionWidth = GameServer::getInstance().getConfig()->screenResolution.width;
+    int screenResolutionHeight = GameServer::getInstance().getConfig()->screenResolution.height;
+    float aspectRatio = (float)(screenResolutionWidth)/(float)(screenResolutionHeight);
 
-    if(texture->loadFromFile(floorSpritePath)) {
+    float scaleFactor =  (aspectRatio * floorSpriteWidth)/screenResolutionWidth;
 
-        int screenResolutionWidth = GameServer::getInstance().getConfig()->screenResolution.width;
-        int screenResolutionHeight = GameServer::getInstance().getConfig()->screenResolution.height;
-        float aspectRatio = (float)(screenResolutionWidth)/(float)(screenResolutionHeight);
-
-        float scaleFactor =  (aspectRatio * (float)texture->getHeight())/screenResolutionWidth;
-
-        currentLevelWidth = (float)texture->getWidth() / scaleFactor;
-    }
-
-    texture->free();
-    delete(texture);
+    currentLevelWidth = floorSpriteWidth/ scaleFactor;
 }
 
 void LevelBuilder::resetPlayers() {

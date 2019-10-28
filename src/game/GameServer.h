@@ -57,6 +57,8 @@ private:
     void update();
     void sendUpdate();
 
+    void render(); // TODO SOLO PARA PROBARLO HASTA TENER LOS SOCKETS (BORRAR)
+
     LevelBuilder* levelBuilder = nullptr;
     Manager* manager = nullptr;
 };
