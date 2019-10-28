@@ -18,7 +18,6 @@ protected:
     void renderInOwnWay() override;
 
 private:
-    float _scaleFactor;
     float _parallaxSpeed;
 };
 #endif //BACKGROUND_RENDER_COMPONENT_H

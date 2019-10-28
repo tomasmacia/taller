@@ -17,7 +17,7 @@ TextureWrapper::TextureWrapper() {
 TextureWrapper::~TextureWrapper() {
     //Deallocate
     free();
-    LogManager::logDebug("Memoria de TextureWrapper liberada");
+    //LogManager::logDebug("Memoria de TextureWrapper liberada");
 }
 
 bool TextureWrapper::loadFromFile(std::string path, std::vector<int> rgb) {
