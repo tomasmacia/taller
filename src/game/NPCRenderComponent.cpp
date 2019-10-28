@@ -1,5 +1,5 @@
 #include "NPCRenderComponent.h"
-#include "Game.h"
+#include "GameServer.h"
 #include "StateComponent.h"
 
 #include <iostream>

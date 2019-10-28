@@ -6,15 +6,15 @@
 #include "CameraComponent.h"
 #include "PositionComponent.h"
 #include "PhysicsComponent.h"
-#include "Game.h"
+#include "GameServer.h"
 
 #include <iostream>
 
 
 void CameraComponent::init(){
     this->currentX = 0;
-    this->windowWidth = Game::getInstance().getConfig()->screenResolution.width;
-    this->windowHeight = Game::getInstance().getConfig()->screenResolution.height;
+    this->windowWidth = GameServer::getInstance().getConfig()->screenResolution.width;
+    this->windowHeight = GameServer::getInstance().getConfig()->screenResolution.height;
     this->marginWidth = windowWidth/3;
     this->offScreenTolerance = 2*marginWidth;
 }
@@ -30,7 +30,7 @@ void CameraComponent::update() {
     }
 
     if (atTheEnd()){
-        Game::getInstance().endLevel();
+        GameServer::getInstance().endLevel();
     }
 }
 
@@ -54,7 +54,7 @@ bool CameraComponent::atTheEnd() {
 }
 
 bool CameraComponent::cameraHasReachedLimit(){
-    return (currentX + windowWidth) >= Game::getInstance().getCurrentLevelWidth();
+    return (currentX + windowWidth) >= GameServer::getInstance().getCurrentLevelWidth();
 }
 
 bool CameraComponent::surpasedRightLimit(Entity* player){
@@ -70,7 +70,7 @@ bool CameraComponent::aPlayerSurpasedRightLimit(){
 }
 
 bool CameraComponent::notAtTheEnd() {
-    return (currentX + windowWidth) < Game::getInstance().getCurrentLevelWidth();
+    return (currentX + windowWidth) < GameServer::getInstance().getCurrentLevelWidth();
 }
 
 bool CameraComponent::marginSurpased() {
@@ -94,7 +94,7 @@ void CameraComponent::setPlayer(Entity* player){
 
 float CameraComponent::getLevelPercentageCovered(){
 
-    float levelWidth = Game::getInstance().getCurrentLevelWidth();
+    float levelWidth = GameServer::getInstance().getCurrentLevelWidth();
     return (currentX/levelWidth);
 }
 

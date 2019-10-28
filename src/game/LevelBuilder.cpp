@@ -6,7 +6,7 @@
 #include "../parser/config/level.h"
 #include "../parser/config/npc.h"
 #include "LevelBuilder.h"
-#include "Game.h"
+#include "GameServer.h"
 #include "PositionComponent.h"
 #include "InputComponent.h"
 #include "PhysicsComponent.h"
@@ -27,7 +27,7 @@ using namespace std;
 LevelBuilder::LevelBuilder() {
     currentLevel = 0;
     levelRunning = false;
-    totalLevels = Game::getInstance().getConfig()->gameplay.levels.size();
+    totalLevels = GameServer::getInstance().getConfig()->gameplay.levels.size();
     LogManager::logDebug(&"cantidad de niveles cargados: " [totalLevels]);
 }
 
@@ -56,7 +56,7 @@ void LevelBuilder::endLevel(){
 }
 
 void LevelBuilder::prepareForNextLevel(){
-    Game::getInstance().getManager()->prepareForNextLevel();
+    GameServer::getInstance().getManager()->prepareForNextLevel();
 }
 
 void LevelBuilder::initialize() {
@@ -97,7 +97,7 @@ void LevelBuilder::resetCamera() {
 void LevelBuilder::initializeCamera() {
     LogManager::logDebug("Inicializando Camara");
 
-    Manager *manager = Game::getInstance().getManager();
+    Manager *manager = GameServer::getInstance().getManager();
 
     _camera = manager->addSpecialEntity();
     _camera->addComponent<CameraComponent>();
@@ -106,8 +106,8 @@ void LevelBuilder::initializeCamera() {
 void LevelBuilder::resetLevelLimits() {
     LogManager::logDebug("reseteando limites de pantalla");
 
-    int screenWidth = Game::getInstance().getConfig()->screenResolution.width;
-    int screenHeigth = Game::getInstance().getConfig()->screenResolution.height;
+    int screenWidth = GameServer::getInstance().getConfig()->screenResolution.width;
+    int screenHeigth = GameServer::getInstance().getConfig()->screenResolution.height;
 
     _levelLimits->getComponent<LevelLimits>()->reset(screenWidth,screenHeigth,currentLevelWidth);
 }
@@ -115,10 +115,10 @@ void LevelBuilder::resetLevelLimits() {
 void LevelBuilder::initializeLevelLimits() {
     LogManager::logDebug("Inicializando limites de pantalla");
 
-    Manager *manager = Game::getInstance().getManager();
+    Manager *manager = GameServer::getInstance().getManager();
 
-    int screenWidth = Game::getInstance().getConfig()->screenResolution.width;
-    int screenHeigth = Game::getInstance().getConfig()->screenResolution.height;
+    int screenWidth = GameServer::getInstance().getConfig()->screenResolution.width;
+    int screenHeigth = GameServer::getInstance().getConfig()->screenResolution.height;
 
     _levelLimits = manager->addSpecialEntity();
     _levelLimits->addComponent<LevelLimits>(screenWidth,screenHeigth,currentLevelWidth,_camera->getComponent<CameraComponent>());
@@ -127,8 +127,8 @@ void LevelBuilder::initializeLevelLimits() {
 void LevelBuilder::initializeWorld() {
     LogManager::logDebug("Inicializando Fondos");
 
-    Manager *manager = Game::getInstance().getManager();
-    Level currentLevelSprites = Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
+    Manager *manager = GameServer::getInstance().getManager();
+    Level currentLevelSprites = GameServer::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
 
     initializeLevelWidth(currentLevelSprites.floor.front());
 
@@ -161,8 +161,8 @@ void LevelBuilder::initializeLevelWidth(std::string floorSpritePath){
 
     if(texture->loadFromFile(floorSpritePath)) {
 
-        int screenResolutionWidth = Game::getInstance().getConfig()->screenResolution.width;
-        int screenResolutionHeight = Game::getInstance().getConfig()->screenResolution.height;
+        int screenResolutionWidth = GameServer::getInstance().getConfig()->screenResolution.width;
+        int screenResolutionHeight = GameServer::getInstance().getConfig()->screenResolution.height;
         float aspectRatio = (float)(screenResolutionWidth)/(float)(screenResolutionHeight);
 
         float scaleFactor =  (aspectRatio * (float)texture->getHeight())/screenResolutionWidth;
@@ -177,10 +177,10 @@ void LevelBuilder::initializeLevelWidth(std::string floorSpritePath){
 void LevelBuilder::resetPlayers() {
     LogManager::logDebug("reseteando jugadores");
 
-    Manager *manager = Game::getInstance().getManager();
+    Manager *manager = GameServer::getInstance().getManager();
 
-    int screenResolutionWidth = (int)(Game::getInstance().getConfig()->screenResolution.width);
-    int screenResolutionHeight = (int)(Game::getInstance().getConfig()->screenResolution.height);
+    int screenResolutionWidth = (int)(GameServer::getInstance().getConfig()->screenResolution.width);
+    int screenResolutionHeight = (int)(GameServer::getInstance().getConfig()->screenResolution.height);
     int amountOfPlayers = manager->getPlayers().size();
     int offset = screenResolutionWidth/(amountOfPlayers+1);
 
@@ -200,14 +200,14 @@ void LevelBuilder::resetPlayers() {
 void LevelBuilder::initializePlayers() {
     LogManager::logDebug("Inicializando PJ");
 
-    Manager *manager = Game::getInstance().getManager();
+    Manager *manager = GameServer::getInstance().getManager();
 
-    int screenResolutionWidth = (int)(Game::getInstance().getConfig()->screenResolution.width);
-    int screenResolutionHeight = (int)(Game::getInstance().getConfig()->screenResolution.height);
-    int amountOfPlayers = Game::getInstance().getConfig()->gameplay.characters.size();
+    int screenResolutionWidth = (int)(GameServer::getInstance().getConfig()->screenResolution.width);
+    int screenResolutionHeight = (int)(GameServer::getInstance().getConfig()->screenResolution.height);
+    int amountOfPlayers = GameServer::getInstance().getConfig()->gameplay.characters.size();
     int offset = screenResolutionWidth/(amountOfPlayers + 1);
     int i = 0;
-    for (auto &pj : Game::getInstance().getConfig()->gameplay.characters) {
+    for (auto &pj : GameServer::getInstance().getConfig()->gameplay.characters) {
         
         int x = offset*(i+1);
         int y = screenResolutionHeight/2;
@@ -229,12 +229,12 @@ void LevelBuilder::initializePlayers() {
 void LevelBuilder::initializeEnemies() {
     LogManager::logDebug("Inicializando enemigos");
 
-    Manager *manager = Game::getInstance().getManager();
+    Manager *manager = GameServer::getInstance().getManager();
 
-    int screenResolutionWidth = (int)(Game::getInstance().getConfig()->screenResolution.width);
-    int screenResolutionHeight = (int)(Game::getInstance().getConfig()->screenResolution.height);
+    int screenResolutionWidth = (int)(GameServer::getInstance().getConfig()->screenResolution.width);
+    int screenResolutionHeight = (int)(GameServer::getInstance().getConfig()->screenResolution.height);
 
-    auto npcs = Game::getInstance().getConfig()->gameplay.npcs;
+    auto npcs = GameServer::getInstance().getConfig()->gameplay.npcs;
     int amountOfEnemies = npcs.size();
 
     for (int i = 0; i < npcs.size();i++) {
@@ -258,9 +258,9 @@ void LevelBuilder::initializeEnemies() {
 void LevelBuilder::initializeWeapons() {
     LogManager::logDebug("Inicializando armas");
 
-    Manager *manager = Game::getInstance().getManager();
+    Manager *manager = GameServer::getInstance().getManager();
 
-    auto weapons = Game::getInstance().getConfig()->gameplay.weapons;
+    auto weapons = GameServer::getInstance().getConfig()->gameplay.weapons;
 
     for (int i = 0; i < weapons.knife.amount;i++) {
 
@@ -292,9 +292,9 @@ void LevelBuilder::initializeWeapons() {
 void LevelBuilder::initializeUtilities() {
     LogManager::logDebug("Inicializando cajas y barriles");
 
-    Manager *manager = Game::getInstance().getManager();
+    Manager *manager = GameServer::getInstance().getManager();
 
-    auto utilities = Game::getInstance().getConfig()->gameplay.utilities;
+    auto utilities = GameServer::getInstance().getConfig()->gameplay.utilities;
 
     for (int i = 0; i < utilities.box.amount;i++) {
 
@@ -331,4 +331,8 @@ LevelBuilder::~LevelBuilder(){
     _camera = nullptr;
     _levelLimits = nullptr;
     LogManager::logDebug("Memoria de LevelBuilder liberada");
+}
+
+bool LevelBuilder::levelFinished(){
+    return levelRunning;
 }
