@@ -61,6 +61,21 @@ private:
 
     LevelBuilder* levelBuilder = nullptr;
     Manager* manager = nullptr;
+
+
+
+
+
+
+
+
+public:
+    SDL_Renderer* getRenderer(){
+        return renderer;
+    }
+
+    SDL_Window *window = nullptr;
+    SDL_Renderer *renderer = nullptr;
 };
 
 #endif //GAME_GAMESERVER_H_

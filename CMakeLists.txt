@@ -106,6 +106,10 @@ set(SOURCE_FILES
         src/game/LevelLimits.h
         src/game/LevelLimits.cpp
         src/game/ToClientPack.h
+        src/game/LoggerMenu.h
+        src/game/LoggerMenu.cpp
+
+LoggerMenu
 )
 
 # create executable

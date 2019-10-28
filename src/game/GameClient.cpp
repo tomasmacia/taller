@@ -5,15 +5,14 @@
 #include "GameClient.h"
 #include "Controller.h"
 
+
 #include <iostream>
 
 
 
 void GameClient::start() {
     LogManager::logInfo("Se inicia GameClient");
-    LogManager::logInfo("Se inicia pantalla de login");
-
-    
+    openLogin();
 
     this->initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
     LogManager::logDebug("inicializado Controller");
@@ -50,8 +49,11 @@ void GameClient::destroy() {
 void GameClient::init() {
     this->initConfig();
     this->initSDL();
+    //this->initLoggerMenu(); TODO
 
     LogManager::logDebug("inicializado Config");
+    LogManager::logDebug("inicializado SDL");
+    LogManager::logDebug("inicializado LoggerMenu");
     LogManager::logDebug("=======================================");
 }
 
@@ -75,4 +77,13 @@ void GameClient::initSDL() {
         this->isRunning = true;
         //SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
     }
+}
+
+void GameClient::initLoggerMenu(){
+    this->loggerMenu = new LoggerMenu();
+}
+
+void GameClient::openLogin(){
+    LogManager::logInfo("Se inicia pantalla de login");
+    //loggerMenu->open(); TODO
 }
