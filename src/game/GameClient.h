@@ -1,11 +1,12 @@
 #ifndef GAME_GAMECLIENT_H_
 #define GAME_GAMECLIENT_H_
 
-#include "Controller.h"
-#include "../LogLib/LogManager.h"
-#include "../parser/config/config.h"
 
-class GameClient {
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include "Game.h"
+
+class GameClient : public  Game{
 public:
     // *************************
     // ******* SINGLETON *******
@@ -24,51 +25,37 @@ public:
     // ******* METHODS *********
     // *************************
 
-    void start();
-    SDL_Renderer* getRenderer(){
-        return renderer;
-    }
+    void start() override;
 
     // *************************
     // ******* WRAPPERS ********
     // *************************
 
-    Config* getConfig() {
-        return config;
+    SDL_Renderer* getRenderer(){
+        return renderer;
     }
 
-    Controller* getController() {
-        return controller;
-    }
+protected:
+    void init() override ;
+    void destroy() override ;
 
 private:
     GameClient() {
         init();
     }
-
     ~GameClient() {
         destroy();
     }
 
     // inits
-    void init();
-    void initConfig();
     void initSDL();
-    void initController();
-
-    // free memory
-    void destroy();
 
     // gameloop
     void sendInput();
     void render();
 
-    bool isRunning;
-
-    Controller *controller = nullptr;
     SDL_Window *window = nullptr;
     SDL_Renderer *renderer = nullptr;
-    Config *config = nullptr;
 
 };
 

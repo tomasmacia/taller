@@ -1,23 +1,11 @@
 #include "../LogLib/LogManager.h"
 #include "Controller.h"
-#include "../parser/CLIArgumentParser.h"
-#include "../parser/xmlparser.h"
 #include "../LogLib/Logger.h"
 #include "LevelBuilder.h"
 #include "GameServer.h"
 
 #include <iostream>
 
-
-
-void GameServer::init() {
-    this->initConfig();
-    this->initECSManager();
-
-    LogManager::logDebug("inicializado Config");
-    LogManager::logDebug("inicializado ECSManager");
-    LogManager::logDebug("=======================================");
-}
 
 
 void GameServer::start() {
@@ -64,20 +52,8 @@ void GameServer::endLevel(){
     this->levelBuilder->endLevel();
 }
 
-void GameServer::end(){
-    isRunning = false;
-    LogManager::logDebug("señal de fin de juego emitida a GameServer");
-}
-
 int GameServer::getCurrentLevelWidth(){
     return levelBuilder->getCurrentLevelWidth();
-}
-
-void GameServer::initConfig() {
-    string pathToConfigFile = CLIArgumentParser::getInstance().getPathToConfigFileName();
-
-    XMLParser xmlParser;
-    this->config = xmlParser.parse(pathToConfigFile);
 }
 
 void GameServer::destroy() {
@@ -91,8 +67,13 @@ void GameServer::destroy() {
     LogManager::logDebug("Memoria de GameServer liberada");
 }
 
-void GameServer::initController() {
-    this->controller = new Controller();
+void GameServer::init() {
+    this->initConfig();
+    this->initECSManager();
+
+    LogManager::logDebug("inicializado Config");
+    LogManager::logDebug("inicializado ECSManager");
+    LogManager::logDebug("=======================================");
 }
 
 void GameServer::initECSManager() {

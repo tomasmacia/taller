@@ -10,6 +10,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/game.dir/src/game/CameraComponent.cpp.o"
   "CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.o"
   "CMakeFiles/game.dir/src/game/Controller.cpp.o"
+  "CMakeFiles/game.dir/src/game/Game.cpp.o"
   "CMakeFiles/game.dir/src/game/GameClient.cpp.o"
   "CMakeFiles/game.dir/src/game/GameServer.cpp.o"
   "CMakeFiles/game.dir/src/game/IAComponent.cpp.o"

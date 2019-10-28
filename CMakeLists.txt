@@ -63,6 +63,8 @@ set(SOURCE_FILES
         src/game/main.cpp
 
         # game
+        src/game/Game.h
+        src/game/Game.cpp
         src/game/GameServer.h
         src/game/GameServer.cpp
         src/game/GameClient.h

@@ -174,9 +174,22 @@ CMakeFiles/game.dir/src/game/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/game.dir/src/game/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/axel/repositorio_local/taller/src/game/main.cpp -o CMakeFiles/game.dir/src/game/main.cpp.s
 
+CMakeFiles/game.dir/src/game/Game.cpp.o: CMakeFiles/game.dir/flags.make
+CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/Game.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/game.dir/src/game/Game.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/Game.cpp.o -c /home/axel/repositorio_local/taller/src/game/Game.cpp
+
+CMakeFiles/game.dir/src/game/Game.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/game.dir/src/game/Game.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/axel/repositorio_local/taller/src/game/Game.cpp > CMakeFiles/game.dir/src/game/Game.cpp.i
+
+CMakeFiles/game.dir/src/game/Game.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/game.dir/src/game/Game.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/axel/repositorio_local/taller/src/game/Game.cpp -o CMakeFiles/game.dir/src/game/Game.cpp.s
+
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: CMakeFiles/game.dir/flags.make
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/GameServer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/game.dir/src/game/GameServer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/game.dir/src/game/GameServer.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/GameServer.cpp.o -c /home/axel/repositorio_local/taller/src/game/GameServer.cpp
 
 CMakeFiles/game.dir/src/game/GameServer.cpp.i: cmake_force
@@ -189,7 +202,7 @@ CMakeFiles/game.dir/src/game/GameServer.cpp.s: cmake_force
 
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: CMakeFiles/game.dir/flags.make
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/GameClient.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/game.dir/src/game/GameClient.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/game.dir/src/game/GameClient.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/GameClient.cpp.o -c /home/axel/repositorio_local/taller/src/game/GameClient.cpp
 
 CMakeFiles/game.dir/src/game/GameClient.cpp.i: cmake_force
@@ -202,7 +215,7 @@ CMakeFiles/game.dir/src/game/GameClient.cpp.s: cmake_force
 
 CMakeFiles/game.dir/src/game/Controller.cpp.o: CMakeFiles/game.dir/flags.make
 CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/Controller.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/game.dir/src/game/Controller.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/game.dir/src/game/Controller.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/Controller.cpp.o -c /home/axel/repositorio_local/taller/src/game/Controller.cpp
 
 CMakeFiles/game.dir/src/game/Controller.cpp.i: cmake_force
@@ -215,7 +228,7 @@ CMakeFiles/game.dir/src/game/Controller.cpp.s: cmake_force
 
 CMakeFiles/game.dir/src/game/Manager.cpp.o: CMakeFiles/game.dir/flags.make
 CMakeFiles/game.dir/src/game/Manager.cpp.o: ../src/game/Manager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/game.dir/src/game/Manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/game.dir/src/game/Manager.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/Manager.cpp.o -c /home/axel/repositorio_local/taller/src/game/Manager.cpp
 
 CMakeFiles/game.dir/src/game/Manager.cpp.i: cmake_force
@@ -228,7 +241,7 @@ CMakeFiles/game.dir/src/game/Manager.cpp.s: cmake_force
 
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: CMakeFiles/game.dir/flags.make
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/LevelBuilder.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o -c /home/axel/repositorio_local/taller/src/game/LevelBuilder.cpp
 
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.i: cmake_force
@@ -241,7 +254,7 @@ CMakeFiles/game.dir/src/game/LevelBuilder.cpp.s: cmake_force
 
 CMakeFiles/game.dir/src/game/PositionComponent.cpp.o: CMakeFiles/game.dir/flags.make
 CMakeFiles/game.dir/src/game/PositionComponent.cpp.o: ../src/game/PositionComponent.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/game.dir/src/game/PositionComponent.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/game.dir/src/game/PositionComponent.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/PositionComponent.cpp.o -c /home/axel/repositorio_local/taller/src/game/PositionComponent.cpp
 
 CMakeFiles/game.dir/src/game/PositionComponent.cpp.i: cmake_force
@@ -254,7 +267,7 @@ CMakeFiles/game.dir/src/game/PositionComponent.cpp.s: cmake_force
 
 CMakeFiles/game.dir/src/game/CameraComponent.cpp.o: CMakeFiles/game.dir/flags.make
 CMakeFiles/game.dir/src/game/CameraComponent.cpp.o: ../src/game/CameraComponent.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/game.dir/src/game/CameraComponent.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/game.dir/src/game/CameraComponent.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/CameraComponent.cpp.o -c /home/axel/repositorio_local/taller/src/game/CameraComponent.cpp
 
 CMakeFiles/game.dir/src/game/CameraComponent.cpp.i: cmake_force
@@ -267,7 +280,7 @@ CMakeFiles/game.dir/src/game/CameraComponent.cpp.s: cmake_force
 
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: CMakeFiles/game.dir/flags.make
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/TextureWrapper.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o -c /home/axel/repositorio_local/taller/src/game/TextureWrapper.cpp
 
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.i: cmake_force
@@ -280,7 +293,7 @@ CMakeFiles/game.dir/src/game/TextureWrapper.cpp.s: cmake_force
 
 CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.o: CMakeFiles/game.dir/flags.make
 CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.o: ../src/game/PhysicsComponent.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.o -c /home/axel/repositorio_local/taller/src/game/PhysicsComponent.cpp
 
 CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.i: cmake_force
@@ -293,7 +306,7 @@ CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.s: cmake_force
 
 CMakeFiles/game.dir/src/game/StateComponent.cpp.o: CMakeFiles/game.dir/flags.make
 CMakeFiles/game.dir/src/game/StateComponent.cpp.o: ../src/game/StateComponent.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/game.dir/src/game/StateComponent.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/game.dir/src/game/StateComponent.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/StateComponent.cpp.o -c /home/axel/repositorio_local/taller/src/game/StateComponent.cpp
 
 CMakeFiles/game.dir/src/game/StateComponent.cpp.i: cmake_force
@@ -306,7 +319,7 @@ CMakeFiles/game.dir/src/game/StateComponent.cpp.s: cmake_force
 
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: CMakeFiles/game.dir/flags.make
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/InputComponent.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/game.dir/src/game/InputComponent.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/game.dir/src/game/InputComponent.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/InputComponent.cpp.o -c /home/axel/repositorio_local/taller/src/game/InputComponent.cpp
 
 CMakeFiles/game.dir/src/game/InputComponent.cpp.i: cmake_force
@@ -319,7 +332,7 @@ CMakeFiles/game.dir/src/game/InputComponent.cpp.s: cmake_force
 
 CMakeFiles/game.dir/src/game/IAComponent.cpp.o: CMakeFiles/game.dir/flags.make
 CMakeFiles/game.dir/src/game/IAComponent.cpp.o: ../src/game/IAComponent.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/game.dir/src/game/IAComponent.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/game.dir/src/game/IAComponent.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/IAComponent.cpp.o -c /home/axel/repositorio_local/taller/src/game/IAComponent.cpp
 
 CMakeFiles/game.dir/src/game/IAComponent.cpp.i: cmake_force
@@ -332,7 +345,7 @@ CMakeFiles/game.dir/src/game/IAComponent.cpp.s: cmake_force
 
 CMakeFiles/game.dir/src/game/RenderComponent.cpp.o: CMakeFiles/game.dir/flags.make
 CMakeFiles/game.dir/src/game/RenderComponent.cpp.o: ../src/game/RenderComponent.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/game.dir/src/game/RenderComponent.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/game.dir/src/game/RenderComponent.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/RenderComponent.cpp.o -c /home/axel/repositorio_local/taller/src/game/RenderComponent.cpp
 
 CMakeFiles/game.dir/src/game/RenderComponent.cpp.i: cmake_force
@@ -345,7 +358,7 @@ CMakeFiles/game.dir/src/game/RenderComponent.cpp.s: cmake_force
 
 CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.o: CMakeFiles/game.dir/flags.make
 CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.o: ../src/game/CharacterRenderComponent.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.o -c /home/axel/repositorio_local/taller/src/game/CharacterRenderComponent.cpp
 
 CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.i: cmake_force
@@ -358,7 +371,7 @@ CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.s: cmake_force
 
 CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o: CMakeFiles/game.dir/flags.make
 CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o: ../src/game/NPCRenderComponent.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o -c /home/axel/repositorio_local/taller/src/game/NPCRenderComponent.cpp
 
 CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.i: cmake_force
@@ -371,7 +384,7 @@ CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.s: cmake_force
 
 CMakeFiles/game.dir/src/game/BackgroundRenderComponent.cpp.o: CMakeFiles/game.dir/flags.make
 CMakeFiles/game.dir/src/game/BackgroundRenderComponent.cpp.o: ../src/game/BackgroundRenderComponent.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/game.dir/src/game/BackgroundRenderComponent.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/game.dir/src/game/BackgroundRenderComponent.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/BackgroundRenderComponent.cpp.o -c /home/axel/repositorio_local/taller/src/game/BackgroundRenderComponent.cpp
 
 CMakeFiles/game.dir/src/game/BackgroundRenderComponent.cpp.i: cmake_force
@@ -384,7 +397,7 @@ CMakeFiles/game.dir/src/game/BackgroundRenderComponent.cpp.s: cmake_force
 
 CMakeFiles/game.dir/src/game/MobileRenderComponent.cpp.o: CMakeFiles/game.dir/flags.make
 CMakeFiles/game.dir/src/game/MobileRenderComponent.cpp.o: ../src/game/MobileRenderComponent.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/game.dir/src/game/MobileRenderComponent.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/game.dir/src/game/MobileRenderComponent.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/MobileRenderComponent.cpp.o -c /home/axel/repositorio_local/taller/src/game/MobileRenderComponent.cpp
 
 CMakeFiles/game.dir/src/game/MobileRenderComponent.cpp.i: cmake_force
@@ -397,7 +410,7 @@ CMakeFiles/game.dir/src/game/MobileRenderComponent.cpp.s: cmake_force
 
 CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o: CMakeFiles/game.dir/flags.make
 CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o: ../src/game/NonMobileRenderComponent.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o -c /home/axel/repositorio_local/taller/src/game/NonMobileRenderComponent.cpp
 
 CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.i: cmake_force
@@ -410,7 +423,7 @@ CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.s: cmake_force
 
 CMakeFiles/game.dir/src/game/LevelLimits.cpp.o: CMakeFiles/game.dir/flags.make
 CMakeFiles/game.dir/src/game/LevelLimits.cpp.o: ../src/game/LevelLimits.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/game.dir/src/game/LevelLimits.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/game.dir/src/game/LevelLimits.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/LevelLimits.cpp.o -c /home/axel/repositorio_local/taller/src/game/LevelLimits.cpp
 
 CMakeFiles/game.dir/src/game/LevelLimits.cpp.i: cmake_force
@@ -432,6 +445,7 @@ game_OBJECTS = \
 "CMakeFiles/game.dir/src/LogLib/LogManager.cpp.o" \
 "CMakeFiles/game.dir/src/utils/TimeUtils.cpp.o" \
 "CMakeFiles/game.dir/src/game/main.cpp.o" \
+"CMakeFiles/game.dir/src/game/Game.cpp.o" \
 "CMakeFiles/game.dir/src/game/GameServer.cpp.o" \
 "CMakeFiles/game.dir/src/game/GameClient.cpp.o" \
 "CMakeFiles/game.dir/src/game/Controller.cpp.o" \
@@ -464,6 +478,7 @@ game_EXTERNAL_OBJECTS =
 ../bin/game: CMakeFiles/game.dir/src/LogLib/LogManager.cpp.o
 ../bin/game: CMakeFiles/game.dir/src/utils/TimeUtils.cpp.o
 ../bin/game: CMakeFiles/game.dir/src/game/main.cpp.o
+../bin/game: CMakeFiles/game.dir/src/game/Game.cpp.o
 ../bin/game: CMakeFiles/game.dir/src/game/GameServer.cpp.o
 ../bin/game: CMakeFiles/game.dir/src/game/GameClient.cpp.o
 ../bin/game: CMakeFiles/game.dir/src/game/Controller.cpp.o
@@ -488,7 +503,7 @@ game_EXTERNAL_OBJECTS =
 ../bin/game: /usr/lib/x86_64-linux-gnu/libSDL2.so
 ../bin/game: /usr/lib/x86_64-linux-gnu/libSDL2_image.so
 ../bin/game: CMakeFiles/game.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Linking CXX executable ../bin/game"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Linking CXX executable ../bin/game"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/game.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

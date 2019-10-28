@@ -366,6 +366,33 @@ src/game/Controller.cpp.s:
 	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/Controller.cpp.s
 .PHONY : src/game/Controller.cpp.s
 
+src/game/Game.o: src/game/Game.cpp.o
+
+.PHONY : src/game/Game.o
+
+# target to build an object file
+src/game/Game.cpp.o:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/Game.cpp.o
+.PHONY : src/game/Game.cpp.o
+
+src/game/Game.i: src/game/Game.cpp.i
+
+.PHONY : src/game/Game.i
+
+# target to preprocess a source file
+src/game/Game.cpp.i:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/Game.cpp.i
+.PHONY : src/game/Game.cpp.i
+
+src/game/Game.s: src/game/Game.cpp.s
+
+.PHONY : src/game/Game.s
+
+# target to generate assembly for a file
+src/game/Game.cpp.s:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/Game.cpp.s
+.PHONY : src/game/Game.cpp.s
+
 src/game/GameClient.o: src/game/GameClient.cpp.o
 
 .PHONY : src/game/GameClient.o
@@ -915,6 +942,9 @@ help:
 	@echo "... src/game/Controller.o"
 	@echo "... src/game/Controller.i"
 	@echo "... src/game/Controller.s"
+	@echo "... src/game/Game.o"
+	@echo "... src/game/Game.i"
+	@echo "... src/game/Game.s"
 	@echo "... src/game/GameClient.o"
 	@echo "... src/game/GameClient.i"
 	@echo "... src/game/GameClient.s"

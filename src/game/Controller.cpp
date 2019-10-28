@@ -2,11 +2,20 @@
 // Created by Tomás Macía on 04/10/2019.
 //
 
-#include "Controller.h"
-#include "GameServer.h"
 #include <SDL2/SDL_scancode.h>
 #include <map>
 #include <utility>
+
+#include "Controller.h"
+#include "Game.h"
+
+#include <iostream>
+
+Controller::Controller(Game* game) {
+    init();
+    bind();
+    this->game = game;
+}
 
 void Controller::processInput() {
     currentInput.clear();
@@ -17,7 +26,7 @@ void Controller::processInput() {
         action = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
 
         if ((sdlEvent.type == SDL_QUIT) || action == QUIT){
-            GameServer::getInstance().end();
+            game->end();
         }
 
         if( (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)){
@@ -36,13 +45,21 @@ void Controller::processInput() {
     }
 }
 
+void Controller::reciveInput() {
+    std::cout<<"CONTROLLER: me llegan inputs de clientes y las leo y derivo"<<'\n';
+}
+
+void Controller::sendInput() {
+    std::cout<<"CONTROLLER: envio las inputs que tengo almacenadas al server"<<'\n';
+}
+
 std::list<Action> Controller::getInput() {
     return currentInput;
 }
 
 
 void Controller::bind() {
-    Bindings bindings = GameServer::getInstance().getConfig()->bindings;
+    Bindings bindings = game->getConfig()->bindings;
 
     actions.insert(std::make_pair(scancodes.at(bindings.UP), UP));
     actions.insert(std::make_pair(scancodes.at(bindings.DOWN), DOWN));

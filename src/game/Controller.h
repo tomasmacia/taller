@@ -11,18 +11,18 @@
 #include <string>
 #include <list>
 #include "Action.h"
+#include "Game.h"
 
 
 class Controller {
 public:
-    Controller() {
-        init();
-        bind();
-    }
+    Controller(Game* game);
 
     ~Controller() {}
 
+    void reciveInput();
     void processInput();
+    void sendInput();
 
     std::list<Action> getInput();
 
@@ -36,6 +36,8 @@ private:
 
     std::map<SDL_Scancode, Action> actions;
     std::map<std::string, SDL_Scancode> scancodes;
+
+    Game* game = nullptr;
 
 
     template <typename K, typename V>

@@ -1,10 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "../LogLib/LogManager.h"
-#include "Controller.h"
-#include "../parser/CLIArgumentParser.h"
-#include "../parser/xmlparser.h"
 #include "../LogLib/Logger.h"
 #include "GameClient.h"
 
@@ -29,11 +25,22 @@ void GameClient::start() {
 }
 
 void GameClient::sendInput() {
-    std::cout<<"MAGIA THREADS Y SOCKETS"<<'\n';
+    controller->processInput();
+    controller->sendInput();
 }
 
 void GameClient::render() {
-    std::cout<<"RENDER"<<'\n';
+    std::cout<<"CLIENT: renderizo todo lo que me llego"<<'\n';
+}
+
+void GameClient::destroy() {
+
+    delete(controller);
+    controller = nullptr;
+    SDL_DestroyWindow(this->window);
+    SDL_DestroyRenderer(this->renderer);
+    SDL_Quit();
+    LogManager::logDebug("Memoria de Game liberada");
 }
 
 void GameClient::init() {
@@ -64,25 +71,4 @@ void GameClient::initSDL() {
         this->isRunning = true;
         //SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
     }
-}
-
-void GameClient::initController() {
-    this->controller = new Controller();
-}
-
-void GameClient::initConfig() {
-    string pathToConfigFile = CLIArgumentParser::getInstance().getPathToConfigFileName();
-
-    XMLParser xmlParser;
-    this->config = xmlParser.parse(pathToConfigFile);
-}
-
-void GameClient::destroy() {
-
-    delete(controller);
-    controller = nullptr;
-    SDL_DestroyWindow(this->window);
-    SDL_DestroyRenderer(this->renderer);
-    SDL_Quit();
-    LogManager::logDebug("Memoria de Game liberada");
 }

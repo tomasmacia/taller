@@ -1,13 +1,11 @@
 #ifndef GAME_GAMESERVER_H_
 #define GAME_GAMESERVER_H_
 
-#include "Controller.h"
-#include "../LogLib/LogManager.h"
-#include "../parser/config/config.h"
 #include "Manager.h"
 #include "LevelBuilder.h"
+#include "Game.h"
 
-class GameServer {
+class GameServer : public  Game{
 public:
 
     // *************************
@@ -27,8 +25,7 @@ public:
     // ******* METHODS *********
     // *************************
 
-    void start();
-    void end();
+    void start() override ;
     void endLevel();
     int getCurrentLevelWidth();
 
@@ -36,47 +33,32 @@ public:
     // ******* WRAPPERS ********
     // *************************
 
-    Config* getConfig() {
-        return config;
-    }
-
-    Controller* getController() {
-        return controller;
-    }
-
     Manager* getManager() {
         return manager;
     }
+
+protected:
+    void init() override ;
+    void destroy() override ;
 
 private:
     GameServer() {
         init();
     }
-
     ~GameServer() {
         destroy();
     }
 
     // inits
-    void init();
-    void initConfig();
-    void initController();
     void initECSManager();
-
-    // free memory
-    void destroy();
 
     // gameloop
     void processInput();
     void update();
     void sendUpdate();
 
-    bool isRunning;
-
     LevelBuilder* levelBuilder = nullptr;
-    Controller *controller = nullptr;
     Manager* manager = nullptr;
-    Config *config = nullptr;
 };
 
 #endif //GAME_GAMESERVER_H_
