@@ -49,7 +49,11 @@ private:
     SDL_Texture *text;
     SDL_Color textColor;
     SDL_Rect textRect,UserRect;
+
+    //cursor
     int enter, cursor;
+    SDL_Rect destCursor;
+    SDL_Texture* _cursor=nullptr;
     
     //Mesajes emergentes
     SDL_Texture* msjEmergente = nullptr;

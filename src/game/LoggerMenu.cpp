@@ -33,6 +33,7 @@ void LoggerMenu::init(){
   agregar();
   enter = 0;
   Fondo();
+  cursor=0;
   UserRect.x=475;UserRect.y=180;
   textRect.x=475;textRect.y=180;
   this->Logeo();
@@ -55,7 +56,6 @@ void LoggerMenu::Logeo(){
 
   SDL_Event Event;
     while(running){
-    //  cursorBlip();
       while(SDL_PollEvent(&Event)){ 
         OnEvent(&Event);
       }
@@ -87,26 +87,33 @@ void LoggerMenu::Logeo(){
     _pass.h=h;_pass.w=w;
     SDL_FreeSurface(_image);
 
+      _image = TTF_RenderText_Solid(font,"l",textColor);
+    _cursor= SDL_CreateTextureFromSurface(_render,_image);
+    SDL_QueryTexture(_cursor,NULL,NULL,&w,&h);
+    destCursor.x=475;destCursor.y=180;
+    destCursor.h=h;destCursor.w=w;
+    SDL_FreeSurface(_image);
+
   }
 
 
   void LoggerMenu::Update(){
+        cursorBlip();
         SDL_RenderClear(_render);
         SDL_RenderCopy( _render, _texture, NULL, NULL );
-       // SDL_DestroyTexture(_texture);
         SDL_RenderCopy(_render,Usuario,NULL,&_usuario);
         SDL_RenderCopy(_render,pass,NULL,&_pass);
-        if(input!=""){
+        if(text!=nullptr){
           SDL_RenderCopy(_render, text, NULL, &textRect);
         }
-        if(user!=""){
+        if(Usuario_completo!=nullptr){
             SDL_RenderCopy(_render, Usuario_completo, NULL, &UserRect);
         }
-        //SDL_DestroyTexture(text);
-        //SDL_DestroyTexture(Usuario_completo);
         if(msjEmergente!=nullptr){
             SDL_RenderCopy(_render,msjEmergente, NULL, &msjEmrgnte);   
-
+        }
+        if(cursosrInTxt){
+          SDL_RenderCopy(_render,_cursor, NULL, &destCursor);
         }
         SDL_RenderPresent(_render);
 
@@ -120,6 +127,7 @@ void LoggerMenu::Logeo(){
     SDL_DestroyTexture(text);
     SDL_DestroyTexture(Usuario_completo);
     SDL_DestroyTexture(msjEmergente);
+    SDL_DestroyTexture(_cursor);
     SDL_DestroyWindow(this->window);
     SDL_DestroyRenderer(this->_render);
     TTF_Quit();
@@ -130,16 +138,11 @@ void LoggerMenu::Logeo(){
 
 
 void LoggerMenu::cursorBlip(){
-  if(!cursosrInTxt){
-    cursosrInTxt=true;
-    input+="|";
+  if (cursor ==30){
+    cursosrInTxt=(!cursosrInTxt);
+    cursor=0;
   }
-  else
-  {
-    cursosrInTxt=false;
-    input.pop_back();
-  }
-  
+  cursor++;
 
 }
 void LoggerMenu::OnEvent(SDL_Event* Event) {
@@ -194,7 +197,10 @@ void LoggerMenu::OnEvent(SDL_Event* Event) {
                 input.clear();
                 Nombre_de_Usuario_Estatico();
                 textRect.y = 280;
+
               }
+              destCursor.x = textRect.x;
+              destCursor.y = textRect.y;
               break;
             
             case SDLK_BACKSPACE:
@@ -209,9 +215,6 @@ void LoggerMenu::OnEvent(SDL_Event* Event) {
             default:
             //Solo 10 caracteres para no salirse de su espacio
               if(input.size()<10){
-             /*   if (cursosrInTxt){
-                  input.pop_back();
-                }*/
                 input = input + SDL_GetScancodeName(Event->key.keysym.scancode);
                 this->typing();
                 }
@@ -226,6 +229,8 @@ void LoggerMenu::Nombre_de_Usuario_Estatico(){
     Usuario_completo = SDL_CreateTextureFromSurface(_render,message);
     UserRect.h=textRect.h;
     UserRect.w=textRect.w;
+    SDL_DestroyTexture(text);
+    text=nullptr;
     SDL_FreeSurface(message);
 
 }
@@ -248,6 +253,8 @@ void LoggerMenu::ValidarCredenciales(){
 
   SDL_DestroyTexture(text);
   SDL_DestroyTexture(Usuario_completo);
+  Usuario_completo=nullptr;
+  text=nullptr;
   user.clear();
   password.clear();
 
@@ -260,6 +267,7 @@ void LoggerMenu::typing(){
     text = SDL_CreateTextureFromSurface(_render,message);
     SDL_QueryTexture(text, NULL, NULL, &w, &h);
     textRect.w=w;textRect.h=h;
+    destCursor.x=textRect.x + w;
     SDL_FreeSurface(message);
 }
 
