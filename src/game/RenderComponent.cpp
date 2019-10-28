@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "GameServer.h"
 #include "RenderComponent.h"
 #include "CameraComponent.h"
 

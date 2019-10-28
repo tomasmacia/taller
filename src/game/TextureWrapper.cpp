@@ -4,14 +4,14 @@
 
 #include <SDL2/SDL_image.h>
 #include "TextureWrapper.h"
-#include "Game.h"
+#include "GameClient.h"
 
 TextureWrapper::TextureWrapper() {
     //Initialize
     mTexture = nullptr;
     mWidth = 0;
     mHeight = 0;
-    renderer = Game::getInstance().getRenderer();
+    renderer = GameClient::getInstance().getRenderer();
 }
 
 TextureWrapper::~TextureWrapper() {

@@ -20,28 +20,6 @@ Logger* initLogger(string loggerLevel){
     LogManager::setStaticLogPath(logfilePath);
 }
 
-int main(int argc, const char** argv) {
-
-    CLIArgumentParser::getInstance().init(argc, argv);
-
-    Logger* logger = initLogger(CLIArgumentParser::getInstance().getDefaultLoggerLevel());
-    LogManager::logDebug("inicializado LogManager");
-
-    Mode mode = getModeFromCommandLine(argc, argv);
-
-    if (mode == SERVER){
-        GameServer::getInstance().start();
-    }
-
-    if (mode == CLIENT){
-        GameClient::getInstance().start();
-    }
-
-    delete(logger);
-
-    return 0;
-}
-
 Mode getModeFromCommandLine(int argc, const char** argv){
     Mode mode = CLIENT;
     string commandLineMode;
@@ -62,4 +40,26 @@ Mode getModeFromCommandLine(int argc, const char** argv){
         }
     }
     return mode;
+}
+
+int main(int argc, const char** argv) {
+
+    CLIArgumentParser::getInstance().init(argc, argv);
+
+    Logger* logger = initLogger(CLIArgumentParser::getInstance().getDefaultLoggerLevel());
+    LogManager::logDebug("inicializado LogManager");
+
+    Mode mode = getModeFromCommandLine(argc, argv);
+
+    if (mode == SERVER){
+        GameServer::getInstance().start();
+    }
+
+    if (mode == CLIENT){
+        GameClient::getInstance().start();
+    }
+
+    delete(logger);
+
+    return 0;
 }

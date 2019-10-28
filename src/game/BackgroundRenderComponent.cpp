@@ -1,6 +1,6 @@
 #include "BackgroundRenderComponent.h"
 #include "CameraComponent.h"
-#include "Game.h"
+#include "GameServer.h"
 
 #include <iostream>
 

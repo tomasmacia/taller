@@ -3,7 +3,7 @@
 //
 
 #include "Controller.h"
-#include "Game.h"
+#include "GameServer.h"
 #include <SDL2/SDL_scancode.h>
 #include <map>
 #include <utility>
@@ -17,7 +17,7 @@ void Controller::processInput() {
         action = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
 
         if ((sdlEvent.type == SDL_QUIT) || action == QUIT){
-            Game::getInstance().end();
+            GameServer::getInstance().end();
         }
 
         if( (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)){
@@ -42,7 +42,7 @@ std::list<Action> Controller::getInput() {
 
 
 void Controller::bind() {
-    Bindings bindings = Game::getInstance().getConfig()->bindings;
+    Bindings bindings = GameServer::getInstance().getConfig()->bindings;
 
     actions.insert(std::make_pair(scancodes.at(bindings.UP), UP));
     actions.insert(std::make_pair(scancodes.at(bindings.DOWN), DOWN));

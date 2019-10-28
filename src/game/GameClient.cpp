@@ -8,6 +8,10 @@
 #include "../LogLib/Logger.h"
 #include "GameClient.h"
 
+#include <iostream>
+
+
+
 void GameClient::start() {
     LogManager::logInfo("Se inicia GameClient");
 
@@ -22,6 +26,14 @@ void GameClient::start() {
     }
     LogManager::logInfo("Juego terminado");
     LogManager::logInfo("=======================================");
+}
+
+void GameClient::sendInput() {
+    std::cout<<"MAGIA THREADS Y SOCKETS"<<'\n';
+}
+
+void GameClient::render() {
+    std::cout<<"RENDER"<<'\n';
 }
 
 void GameClient::init() {

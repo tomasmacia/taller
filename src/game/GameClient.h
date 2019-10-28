@@ -25,6 +25,9 @@ public:
     // *************************
 
     void start();
+    SDL_Renderer* getRenderer(){
+        return renderer;
+    }
 
     // *************************
     // ******* WRAPPERS ********

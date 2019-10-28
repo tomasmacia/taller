@@ -1,6 +1,6 @@
 #include <string>
 #include "NonMobileRenderComponent.h"
-#include "Game.h"
+#include "GameServer.h"
 
 #include <iostream>
 

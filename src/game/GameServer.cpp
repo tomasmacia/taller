@@ -66,7 +66,7 @@ void GameServer::endLevel(){
 
 void GameServer::end(){
     isRunning = false;
-    LogManager::logDebug("señal de fin de juego emitida a Game");
+    LogManager::logDebug("señal de fin de juego emitida a GameServer");
 }
 
 int GameServer::getCurrentLevelWidth(){
@@ -88,7 +88,7 @@ void GameServer::destroy() {
     controller = nullptr;
     delete(manager);
     manager = nullptr;
-    LogManager::logDebug("Memoria de Game liberada");
+    LogManager::logDebug("Memoria de GameServer liberada");
 }
 
 void GameServer::initController() {
