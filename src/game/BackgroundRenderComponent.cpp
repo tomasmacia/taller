@@ -15,10 +15,7 @@ void BackgroundRenderComponent::init() {
 
     int screenResolutionWidth = _camera->getWindowWidth();
     int screenResolutionHeight = _camera->getWindowHeight();
-    float levelWitdh = (float)Game::getInstance().getCurrentLevelWidth();
-
     float aspectRatio = (float)(screenResolutionWidth)/(float)(screenResolutionHeight);
-    float scaleFactor = screenResolutionWidth/levelWitdh;
 
     destRect.w = screenResolutionWidth;
     destRect.h = screenResolutionHeight;
@@ -45,7 +42,7 @@ void BackgroundRenderComponent::loadNextImage(){
     int screenWidth = srcRect.w;
     int spriteWidth = texture.getWidth();
 
-    int newX = (float)spriteWidth*_camera->getLevelPercentageCovered()*_parallaxSpeed;
+    int newX = ((float)spriteWidth*_camera->getLevelPercentageCovered()*_parallaxSpeed);
 
     if ((newX + screenWidth) < spriteWidth){
         srcRect.x = newX;
