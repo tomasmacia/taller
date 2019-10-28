@@ -24,7 +24,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/game.dir/src/game/RenderComponent.cpp.o"
   "CMakeFiles/game.dir/src/game/StateComponent.cpp.o"
   "CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o"
-  "CMakeFiles/game.dir/src/main.cpp.o"
+  "CMakeFiles/game.dir/src/game/main.cpp.o"
   "CMakeFiles/game.dir/src/parser/CLIArgumentParser.cpp.o"
   "CMakeFiles/game.dir/src/parser/xmlparser.cpp.o"
   "CMakeFiles/game.dir/src/utils/TimeUtils.cpp.o"

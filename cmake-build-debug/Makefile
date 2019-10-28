@@ -744,32 +744,32 @@ src/game/TextureWrapper.cpp.s:
 	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/TextureWrapper.cpp.s
 .PHONY : src/game/TextureWrapper.cpp.s
 
-src/main.o: src/main.cpp.o
+src/game/main.o: src/game/main.cpp.o
 
-.PHONY : src/main.o
+.PHONY : src/game/main.o
 
 # target to build an object file
-src/main.cpp.o:
-	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/main.cpp.o
-.PHONY : src/main.cpp.o
+src/game/main.cpp.o:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/main.cpp.o
+.PHONY : src/game/main.cpp.o
 
-src/main.i: src/main.cpp.i
+src/game/main.i: src/game/main.cpp.i
 
-.PHONY : src/main.i
+.PHONY : src/game/main.i
 
 # target to preprocess a source file
-src/main.cpp.i:
-	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/main.cpp.i
-.PHONY : src/main.cpp.i
+src/game/main.cpp.i:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/main.cpp.i
+.PHONY : src/game/main.cpp.i
 
-src/main.s: src/main.cpp.s
+src/game/main.s: src/game/main.cpp.s
 
-.PHONY : src/main.s
+.PHONY : src/game/main.s
 
 # target to generate assembly for a file
-src/main.cpp.s:
-	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/main.cpp.s
-.PHONY : src/main.cpp.s
+src/game/main.cpp.s:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/main.cpp.s
+.PHONY : src/game/main.cpp.s
 
 src/parser/CLIArgumentParser.o: src/parser/CLIArgumentParser.cpp.o
 
@@ -930,9 +930,9 @@ help:
 	@echo "... src/game/TextureWrapper.o"
 	@echo "... src/game/TextureWrapper.i"
 	@echo "... src/game/TextureWrapper.s"
-	@echo "... src/main.o"
-	@echo "... src/main.i"
-	@echo "... src/main.s"
+	@echo "... src/game/main.o"
+	@echo "... src/game/main.i"
+	@echo "... src/game/main.s"
 	@echo "... src/parser/CLIArgumentParser.o"
 	@echo "... src/parser/CLIArgumentParser.i"
 	@echo "... src/parser/CLIArgumentParser.s"

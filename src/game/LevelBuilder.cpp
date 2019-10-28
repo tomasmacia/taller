@@ -3,7 +3,6 @@
 //
 
 #include <vector>
-#include <algorithm>
 #include "../parser/config/level.h"
 #include "../parser/config/npc.h"
 #include "LevelBuilder.h"
@@ -17,7 +16,6 @@
 #include "CharacterRenderComponent.h"
 #include "BackgroundRenderComponent.h"
 #include "NonMobileRenderComponent.h"
-#include "MobileRenderComponent.h"
 #include "RenderComponent.h"
 #include "CameraComponent.h"
 
@@ -33,6 +31,7 @@ LevelBuilder::LevelBuilder() {
 }
 
 bool LevelBuilder::hasNextLevel(){
+    LogManager::logInfo("se chequea si hay siguiente nivel");
     return currentLevel < totalLevels;
 }
 
@@ -313,5 +312,7 @@ int LevelBuilder::getCurrentLevelWidth(){
 }
 
 LevelBuilder::~LevelBuilder(){
-    Game::getInstance().getManager()->destroyAllEntities();
+    _camera = nullptr;
+    _levelLimits = nullptr;
+    LogManager::logDebug("Memoria de LevelBuilder liberada");
 }

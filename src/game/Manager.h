@@ -26,6 +26,8 @@ public:
     void render();
     void refresh();
 
+    ~Manager();
+
     Entity* addNPC();
     Entity* addUtilitie();
     Entity* addWeapon();

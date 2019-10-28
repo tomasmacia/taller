@@ -1,5 +1,5 @@
-#include "game/Game.h"
-#include "parser/CLIArgumentParser.h"
+#include "Game.h"
+#include "../parser/CLIArgumentParser.h"
 
 
 int main(int argc, const char** argv) {

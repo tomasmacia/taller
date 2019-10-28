@@ -161,18 +161,18 @@ CMakeFiles/game.dir/src/utils/TimeUtils.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/game.dir/src/utils/TimeUtils.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/axel/repositorio_local/taller/src/utils/TimeUtils.cpp -o CMakeFiles/game.dir/src/utils/TimeUtils.cpp.s
 
-CMakeFiles/game.dir/src/main.cpp.o: CMakeFiles/game.dir/flags.make
-CMakeFiles/game.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/game.dir/src/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/main.cpp.o -c /home/axel/repositorio_local/taller/src/main.cpp
+CMakeFiles/game.dir/src/game/main.cpp.o: CMakeFiles/game.dir/flags.make
+CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/game.dir/src/game/main.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/main.cpp.o -c /home/axel/repositorio_local/taller/src/game/main.cpp
 
-CMakeFiles/game.dir/src/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/game.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/axel/repositorio_local/taller/src/main.cpp > CMakeFiles/game.dir/src/main.cpp.i
+CMakeFiles/game.dir/src/game/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/game.dir/src/game/main.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/axel/repositorio_local/taller/src/game/main.cpp > CMakeFiles/game.dir/src/game/main.cpp.i
 
-CMakeFiles/game.dir/src/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/game.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/axel/repositorio_local/taller/src/main.cpp -o CMakeFiles/game.dir/src/main.cpp.s
+CMakeFiles/game.dir/src/game/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/game.dir/src/game/main.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/axel/repositorio_local/taller/src/game/main.cpp -o CMakeFiles/game.dir/src/game/main.cpp.s
 
 CMakeFiles/game.dir/src/game/Game.cpp.o: CMakeFiles/game.dir/flags.make
 CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/Game.cpp
@@ -418,7 +418,7 @@ game_OBJECTS = \
 "CMakeFiles/game.dir/src/LogLib/DebugLogger.cpp.o" \
 "CMakeFiles/game.dir/src/LogLib/LogManager.cpp.o" \
 "CMakeFiles/game.dir/src/utils/TimeUtils.cpp.o" \
-"CMakeFiles/game.dir/src/main.cpp.o" \
+"CMakeFiles/game.dir/src/game/main.cpp.o" \
 "CMakeFiles/game.dir/src/game/Game.cpp.o" \
 "CMakeFiles/game.dir/src/game/Controller.cpp.o" \
 "CMakeFiles/game.dir/src/game/Manager.cpp.o" \
@@ -449,7 +449,7 @@ game_EXTERNAL_OBJECTS =
 ../bin/game: CMakeFiles/game.dir/src/LogLib/DebugLogger.cpp.o
 ../bin/game: CMakeFiles/game.dir/src/LogLib/LogManager.cpp.o
 ../bin/game: CMakeFiles/game.dir/src/utils/TimeUtils.cpp.o
-../bin/game: CMakeFiles/game.dir/src/main.cpp.o
+../bin/game: CMakeFiles/game.dir/src/game/main.cpp.o
 ../bin/game: CMakeFiles/game.dir/src/game/Game.cpp.o
 ../bin/game: CMakeFiles/game.dir/src/game/Controller.cpp.o
 ../bin/game: CMakeFiles/game.dir/src/game/Manager.cpp.o

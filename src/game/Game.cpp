@@ -4,9 +4,7 @@
 
 #include "Game.h"
 #include "Controller.h"
-#include "Action.h"
 #include "../parser/CLIArgumentParser.h"
-#include "../parser/config/config.h"
 #include "../parser/xmlparser.h"
 #include "../LogLib/Logger.h"
 #include "LevelBuilder.h"
@@ -71,7 +69,6 @@ void Game::initSDL() {
         this->isRunning = true;
         //SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
     }
-
 }
 
 void Game::initController() {
@@ -97,12 +94,14 @@ void Game::start() {
         levelBuilder->loadNext();
         this->levelFinished = false;
 
+        LogManager::logInfo("=======================================");
+        LogManager::logInfo("se inicia game loop de este nivel");
         while (isRunning && !levelFinished) {
             processInput();
             update();
             render();
         }
-        LogManager::logInfo("se chequea si hay siguiente nivel");
+        LogManager::logInfo("fin de game loop de este nivel");
         LogManager::logInfo("=======================================");
     }
     LogManager::logInfo("Juego terminado");
@@ -130,8 +129,6 @@ void Game::endLevel(){
 
 void Game::destroy() {
 
-    delete(logger);
-    logger = nullptr;
     delete(levelBuilder);
     levelBuilder = nullptr;
     delete(controller);
@@ -141,8 +138,9 @@ void Game::destroy() {
     SDL_DestroyWindow(this->window);
     SDL_DestroyRenderer(this->renderer);
     SDL_Quit();
-
     LogManager::logDebug("Memoria de Game liberada");
+    delete(logger);
+    logger = nullptr;
 }
 
 void Game::end(){

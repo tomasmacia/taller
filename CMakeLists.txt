@@ -60,7 +60,7 @@ set(SOURCE_FILES
         src/utils/TimeUtils.h
 
         #main
-        src/main.cpp
+        src/game/main.cpp
 
         # game
         src/game/Game.h
@@ -101,7 +101,6 @@ set(SOURCE_FILES
         src/game/NonMobileRenderComponent.h 
         src/game/LevelLimits.h
         src/game/LevelLimits.cpp
-
 )
 
 # create executable

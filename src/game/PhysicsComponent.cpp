@@ -91,9 +91,6 @@ void PhysicsComponent::handleIncomingAction(){
             case CROUCH:
                 crouch();
                 break;
-            default:
-                LogManager::logDebug("Default Action detected in physics");
-                break;
     }
     }
 

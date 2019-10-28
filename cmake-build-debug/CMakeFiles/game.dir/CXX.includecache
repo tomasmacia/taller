@@ -141,12 +141,8 @@ Game.h
 /home/axel/repositorio_local/taller/src/game/Game.h
 Controller.h
 /home/axel/repositorio_local/taller/src/game/Controller.h
-Action.h
-/home/axel/repositorio_local/taller/src/game/Action.h
 ../parser/CLIArgumentParser.h
 /home/axel/repositorio_local/taller/src/parser/CLIArgumentParser.h
-../parser/config/config.h
-/home/axel/repositorio_local/taller/src/parser/config/config.h
 ../parser/xmlparser.h
 /home/axel/repositorio_local/taller/src/parser/xmlparser.h
 ../LogLib/Logger.h

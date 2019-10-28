@@ -47,9 +47,6 @@ void NPCRenderComponent::handleIncomingAction(){
             currentSprite = npcConfig.walk;
             _imageAmount  = WALK_IMAGE_AMOUNT;
             break;
-        default:
-            LogManager::logError("Default Render Switch Action"); // TODO poner un log mejor
-            break;
     }
 }
 

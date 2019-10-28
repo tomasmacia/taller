@@ -2,8 +2,8 @@
 #include "Manager.h"
 
 #include "PositionComponent.h"
+#include "../LogLib/LogManager.h"
 
-#include <iostream>
 
 void Manager::update() {
     sortEntitiesByY();
@@ -131,6 +131,18 @@ struct EntityComparator
 void Manager::sortEntitiesByY() {
     entitiesWithPosition.sort(EntityComparator());
 }
+
+Manager::~Manager() {
+    destroyAllEntities();
+    entitiesWithPosition.clear();
+    specialEntities.clear();
+    nonLevelPersistentEntities.clear();
+    players.clear();
+    backLayerBackgrounds.clear();
+    fronLayerBackgrounds.clear();
+    LogManager::logDebug("Memoria de Manager liberada");
+}
+
 
 
 

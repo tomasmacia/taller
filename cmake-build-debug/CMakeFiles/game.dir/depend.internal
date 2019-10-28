@@ -241,6 +241,8 @@ CMakeFiles/game.dir/src/game/LevelLimits.cpp.o
  /home/axel/repositorio_local/taller/src/game/LevelLimits.cpp
  /home/axel/repositorio_local/taller/src/game/LevelLimits.h
 CMakeFiles/game.dir/src/game/Manager.cpp.o
+ /home/axel/repositorio_local/taller/src/LogLib/LogManager.h
+ /home/axel/repositorio_local/taller/src/LogLib/Logger.h
  /home/axel/repositorio_local/taller/src/game/ECS.h
  /home/axel/repositorio_local/taller/src/game/Manager.cpp
  /home/axel/repositorio_local/taller/src/game/Manager.h
@@ -427,7 +429,7 @@ CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.cpp
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
-CMakeFiles/game.dir/src/main.cpp.o
+CMakeFiles/game.dir/src/game/main.cpp.o
  ../src/parser/config/bindings.h
  ../src/parser/config/characterxml.h
  ../src/parser/config/gameplay.h
@@ -449,7 +451,7 @@ CMakeFiles/game.dir/src/main.cpp.o
  /home/axel/repositorio_local/taller/src/game/LevelLimits.h
  /home/axel/repositorio_local/taller/src/game/Manager.h
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
- /home/axel/repositorio_local/taller/src/main.cpp
+ /home/axel/repositorio_local/taller/src/game/main.cpp
  /home/axel/repositorio_local/taller/src/parser/CLIArgumentParser.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
 CMakeFiles/game.dir/src/parser/CLIArgumentParser.cpp.o

@@ -27,7 +27,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/axel/repositorio_local/taller/src/game/RenderComponent.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/game/RenderComponent.cpp.o"
   "/home/axel/repositorio_local/taller/src/game/StateComponent.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/game/StateComponent.cpp.o"
   "/home/axel/repositorio_local/taller/src/game/TextureWrapper.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o"
-  "/home/axel/repositorio_local/taller/src/main.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/main.cpp.o"
+  "/home/axel/repositorio_local/taller/src/game/main.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/game/main.cpp.o"
   "/home/axel/repositorio_local/taller/src/parser/CLIArgumentParser.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/parser/CLIArgumentParser.cpp.o"
   "/home/axel/repositorio_local/taller/src/parser/xmlparser.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/parser/xmlparser.cpp.o"
   "/home/axel/repositorio_local/taller/src/utils/TimeUtils.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/utils/TimeUtils.cpp.o"

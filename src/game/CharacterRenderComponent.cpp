@@ -65,9 +65,6 @@ void CharacterRenderComponent::handleIncomingAction(){
             currentSprite = characterConfig.crouch;
             _imageAmount  = CROUCH_IMAGE_AMOUNT;
             break;
-        default:
-            LogManager::logError("Default Render Switch Action"); // TODO poner un log mejor
-            break;
     }
 }
 
