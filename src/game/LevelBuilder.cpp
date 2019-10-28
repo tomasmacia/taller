@@ -71,7 +71,7 @@ void LevelBuilder::initializeNextLevel() {
 
     currentLevel++;
     LogManager::logInfo("=======================================");
-    LogManager::logInfo(&"inicializando NIVEL " [currentLevel]);
+    LogManager::logInfo("Inicializando NIVEL " + std::to_string(currentLevel));
 
     resetCamera();
     initializeWorld();
