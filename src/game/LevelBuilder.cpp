@@ -27,7 +27,7 @@ using namespace std;
 LevelBuilder::LevelBuilder() {
     currentLevel = 0;
     totalLevels = Game::getInstance().getConfig()->gameplay.levels.size();
-    LogManager::logDebug(&"cantidad de niveles cargados: " [totalLevels]);
+    LogManager::logDebug("cantidad de niveles cargados: " + std::to_string(totalLevels));
 }
 
 bool LevelBuilder::hasNextLevel(){
@@ -56,7 +56,7 @@ void LevelBuilder::initialize() {
 
     currentLevel = 1;
     LogManager::logInfo("=======================================");
-    LogManager::logInfo(&"inicializando NIVEL " [currentLevel]);
+    LogManager::logInfo("inicializando NIVEL " + std::to_string(currentLevel));
 
     initializeCamera();
     initializeWorld();
@@ -187,7 +187,7 @@ void LevelBuilder::resetPlayers() {
 
         i++;
     }
-    LogManager::logDebug(&"Jugadores resetados: " [amountOfPlayers]);
+    LogManager::logDebug("Jugadores resetados: " + std::to_string(amountOfPlayers));
 }
 
 void LevelBuilder::initializePlayers() {
@@ -214,7 +214,7 @@ void LevelBuilder::initializePlayers() {
         player->addComponent<StateComponent>();
         //es imporante cuidar el orden de update (ESTE ES)
 
-        LogManager::logDebug(&"Jugadores inicializados: " [amountOfPlayers]);
+        LogManager::logDebug("Jugadores inicializados: " + std::to_string(amountOfPlayers));
         i++;
     }
 }
@@ -245,7 +245,7 @@ void LevelBuilder::initializeEnemies() {
         npc->addComponent<StateComponent>();
     }
 
-    LogManager::logDebug(&"Enemigos inicializados: " [amountOfEnemies]);
+    LogManager::logDebug("Enemigos inicializados: " + std::to_string(amountOfEnemies));
 }
 
 void LevelBuilder::initializeWeapons() {
@@ -266,7 +266,7 @@ void LevelBuilder::initializeWeapons() {
         knife->addComponent<PositionComponent>(x,y);
         knife->addComponent<NonMobileRenderComponent>(_camera, knifeConfig.sprite);
     }
-    LogManager::logDebug(&"armas inicializadas: " [weapons.knife.amount]);
+    LogManager::logDebug("Armas inicializadas: " + std::to_string(weapons.knife.amount));
 
     for (int i = 0; i < weapons.tube.amount;i++) {
 
@@ -279,7 +279,7 @@ void LevelBuilder::initializeWeapons() {
         tube->addComponent<PositionComponent>(x,y);
         tube->addComponent<NonMobileRenderComponent>(_camera, tubeConfig.sprite);
     }    
-    LogManager::logDebug(&"tubos de metal inicializados: " [weapons.tube.amount]);
+    LogManager::logDebug("Tubos de metal inicializados: " + std::to_string(weapons.tube.amount));
 }
 
 void LevelBuilder::initializeUtilities() {
@@ -300,7 +300,7 @@ void LevelBuilder::initializeUtilities() {
         box->addComponent<PositionComponent>(x,y);
         box->addComponent<NonMobileRenderComponent>(_camera, boxConfig.sprite);
     } 
-    LogManager::logDebug(&"cajas inicializadas: " [utilities.box.amount]);
+    LogManager::logDebug("Cajas inicializadas: " + std::to_string(utilities.box.amount));
 
     for (int i = 0; i < utilities.barrel.amount;i++) {
 
@@ -313,7 +313,7 @@ void LevelBuilder::initializeUtilities() {
         barrel->addComponent<PositionComponent>(x,y);
         barrel->addComponent<NonMobileRenderComponent>(_camera, barrelConfig.sprite);
     }
-    LogManager::logDebug(&"barriles inicializados: " [utilities.barrel.amount]);
+    LogManager::logDebug("Barriles inicializados: " +std::to_string(utilities.barrel.amount));
 }
 
 int LevelBuilder::getCurrentLevelWidth(){
