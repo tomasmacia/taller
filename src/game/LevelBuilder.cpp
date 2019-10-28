@@ -334,5 +334,5 @@ LevelBuilder::~LevelBuilder(){
 }
 
 bool LevelBuilder::levelFinished(){
-    return levelRunning;
+    return !levelRunning;
 }

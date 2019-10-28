@@ -59,7 +59,7 @@ int main(int argc, const char** argv) {
         GameClient::getInstance().start();
     }
 
-    delete(logger);
+    //delete(logger); TODO solucionar seg fault
 
     return 0;
 }

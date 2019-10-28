@@ -44,7 +44,7 @@ void GameServer::update() {
 }
 
 void GameServer::sendUpdate() {
-    std::cout<<"MAGIA THREADS Y SOCKETS"<<'\n';
+    std::cout<<"SERVER: mando paquetes a clientes"<<'\n';
 }
 
 void GameServer::endLevel(){

@@ -9,7 +9,7 @@ class ToClientPack {
     
     public:
         ToClientPack(std::string path, SDL_Rect srcRect, SDL_Rect destRect);
-        string getPath();
+        std::string getPath();
         SDL_Rect getSourceRect();
         SDL_Rect getDestinationRect();
         TextureWrapper asTextureWrapper();
