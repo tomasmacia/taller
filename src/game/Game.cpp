@@ -1,6 +1,5 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <algorithm>
 
 #include "Game.h"
 #include "Controller.h"
@@ -8,20 +7,14 @@
 #include "../parser/xmlparser.h"
 #include "../LogLib/Logger.h"
 #include "LevelBuilder.h"
-#include "../utils/TimeUtils.h"
-
-#include <iostream>
 
 
 void Game::init() {
-    this->initLogManager(CLIArgumentParser::getInstance().getDefaultLoggerLevel());
     this->initConfig();
-    this->initLogManager(this->config->loggerLevel);
     this->initSDL();
     this->initECSManager();
 
     LogManager::logDebug("inicializado Config");
-    LogManager::logDebug("inicializado LogManager");
     LogManager::logDebug("inicializado SDL");
     LogManager::logDebug("inicializado ECSManager");
     LogManager::logDebug("=======================================");
@@ -32,21 +25,6 @@ void Game::initConfig() {
 
     XMLParser xmlParser;
     this->config = xmlParser.parse(pathToConfigFile);
-}
-
-void Game::initLogManager(string loggerLevel) {
-    delete(this->logger);
-    this->logger = nullptr;
-    this->logger = LogManager::createLoggerFromLevel(loggerLevel);
-
-    string currentTime = TimeUtils::getCurrentTime();
-    std::replace(currentTime.begin(), currentTime.end(), ' ', '_');
-
-    string logfilePath = "logs/log_" + currentTime + ".txt";
-
-    LogManager::setStaticLogger(this->logger);
-    LogManager::setStaticLogPath(logfilePath);
-
 }
 
 void Game::initSDL() {

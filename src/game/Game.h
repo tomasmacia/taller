@@ -69,7 +69,7 @@ private:
     // inits
     void init();
     void initConfig();
-    void initLogManager(string loggerLevel);
+    void setLogManager();
     void initSDL();
     void initController();
     void initECSManager();
@@ -86,7 +86,6 @@ private:
     bool hasNextLevel = false;
 
     // wrappers
-    Logger *logger = nullptr; // since its a pointer allocating memory, we need to delete it later
     LevelBuilder* levelBuilder = nullptr;
     Controller *controller = nullptr;
     Manager* manager = nullptr;
