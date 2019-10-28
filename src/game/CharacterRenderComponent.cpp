@@ -15,7 +15,7 @@ void CharacterRenderComponent::init() {
     currentSprite = characterConfig.stand;
     _imageAmount  = STAND_IMAGE_AMOUNT;
     _imageCounter = 0;
-    loadTexture();
+    getCurrentSpriteDimentions();
 }
 
 void CharacterRenderComponent::handleIncomingAction(){

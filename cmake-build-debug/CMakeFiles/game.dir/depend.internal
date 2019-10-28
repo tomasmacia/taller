@@ -31,16 +31,6 @@ CMakeFiles/game.dir/src/LogLib/Logger.cpp.o
  /home/axel/repositorio_local/taller/src/LogLib/Logger.cpp
  /home/axel/repositorio_local/taller/src/LogLib/Logger.h
 CMakeFiles/game.dir/src/game/BackgroundRenderComponent.cpp.o
- ../src/parser/config/bindings.h
- ../src/parser/config/characterxml.h
- ../src/parser/config/gameplay.h
- ../src/parser/config/level.h
- ../src/parser/config/npc.h
- ../src/parser/config/screenresolution.h
- ../src/parser/config/utilities.h
- ../src/parser/config/utility.h
- ../src/parser/config/weapon.h
- ../src/parser/config/weapons.h
  /home/axel/repositorio_local/taller/src/LogLib/LogManager.h
  /home/axel/repositorio_local/taller/src/LogLib/Logger.h
  /home/axel/repositorio_local/taller/src/game/Action.h
@@ -48,15 +38,10 @@ CMakeFiles/game.dir/src/game/BackgroundRenderComponent.cpp.o
  /home/axel/repositorio_local/taller/src/game/BackgroundRenderComponent.h
  /home/axel/repositorio_local/taller/src/game/CameraComponent.h
  /home/axel/repositorio_local/taller/src/game/ECS.h
- /home/axel/repositorio_local/taller/src/game/Game.h
- /home/axel/repositorio_local/taller/src/game/GameServer.h
- /home/axel/repositorio_local/taller/src/game/LevelBuilder.h
- /home/axel/repositorio_local/taller/src/game/LevelLimits.h
- /home/axel/repositorio_local/taller/src/game/Manager.h
  /home/axel/repositorio_local/taller/src/game/PositionComponent.h
  /home/axel/repositorio_local/taller/src/game/RenderComponent.h
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
- /home/axel/repositorio_local/taller/src/parser/config/config.h
+ /home/axel/repositorio_local/taller/src/game/ToClientPack.h
 CMakeFiles/game.dir/src/game/CameraComponent.cpp.o
  ../src/parser/config/bindings.h
  ../src/parser/config/characterxml.h
@@ -82,6 +67,7 @@ CMakeFiles/game.dir/src/game/CameraComponent.cpp.o
  /home/axel/repositorio_local/taller/src/game/PhysicsComponent.h
  /home/axel/repositorio_local/taller/src/game/PositionComponent.h
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
+ /home/axel/repositorio_local/taller/src/game/ToClientPack.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
 CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.o
  ../src/parser/config/bindings.h
@@ -111,6 +97,7 @@ CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.o
  /home/axel/repositorio_local/taller/src/game/RenderComponent.h
  /home/axel/repositorio_local/taller/src/game/StateComponent.h
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
+ /home/axel/repositorio_local/taller/src/game/ToClientPack.h
  /home/axel/repositorio_local/taller/src/parser/config/characterxml.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
 CMakeFiles/game.dir/src/game/Controller.cpp.o
@@ -195,6 +182,7 @@ CMakeFiles/game.dir/src/game/GameServer.cpp.o
  /home/axel/repositorio_local/taller/src/game/LevelLimits.h
  /home/axel/repositorio_local/taller/src/game/Manager.h
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
+ /home/axel/repositorio_local/taller/src/game/ToClientPack.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
 CMakeFiles/game.dir/src/game/IAComponent.cpp.o
  /home/axel/repositorio_local/taller/src/game/Action.h
@@ -228,6 +216,7 @@ CMakeFiles/game.dir/src/game/InputComponent.cpp.o
  /home/axel/repositorio_local/taller/src/game/Manager.h
  /home/axel/repositorio_local/taller/src/game/StateComponent.h
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
+ /home/axel/repositorio_local/taller/src/game/ToClientPack.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o
  ../src/parser/config/bindings.h
@@ -263,6 +252,7 @@ CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o
  /home/axel/repositorio_local/taller/src/game/RenderComponent.h
  /home/axel/repositorio_local/taller/src/game/StateComponent.h
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
+ /home/axel/repositorio_local/taller/src/game/ToClientPack.h
  /home/axel/repositorio_local/taller/src/parser/config/characterxml.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
  /home/axel/repositorio_local/taller/src/parser/config/level.h
@@ -275,10 +265,22 @@ CMakeFiles/game.dir/src/game/LevelLimits.cpp.o
 CMakeFiles/game.dir/src/game/Manager.cpp.o
  /home/axel/repositorio_local/taller/src/LogLib/LogManager.h
  /home/axel/repositorio_local/taller/src/LogLib/Logger.h
+ /home/axel/repositorio_local/taller/src/game/Action.h
+ /home/axel/repositorio_local/taller/src/game/BackgroundRenderComponent.h
+ /home/axel/repositorio_local/taller/src/game/CameraComponent.h
+ /home/axel/repositorio_local/taller/src/game/CharacterRenderComponent.h
  /home/axel/repositorio_local/taller/src/game/ECS.h
  /home/axel/repositorio_local/taller/src/game/Manager.cpp
  /home/axel/repositorio_local/taller/src/game/Manager.h
+ /home/axel/repositorio_local/taller/src/game/MobileRenderComponent.h
+ /home/axel/repositorio_local/taller/src/game/NPCRenderComponent.h
+ /home/axel/repositorio_local/taller/src/game/NonMobileRenderComponent.h
  /home/axel/repositorio_local/taller/src/game/PositionComponent.h
+ /home/axel/repositorio_local/taller/src/game/RenderComponent.h
+ /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
+ /home/axel/repositorio_local/taller/src/game/ToClientPack.h
+ /home/axel/repositorio_local/taller/src/parser/config/characterxml.h
+ /home/axel/repositorio_local/taller/src/parser/config/npc.h
 CMakeFiles/game.dir/src/game/MobileRenderComponent.cpp.o
  /home/axel/repositorio_local/taller/src/LogLib/LogManager.h
  /home/axel/repositorio_local/taller/src/LogLib/Logger.h
@@ -291,6 +293,7 @@ CMakeFiles/game.dir/src/game/MobileRenderComponent.cpp.o
  /home/axel/repositorio_local/taller/src/game/RenderComponent.h
  /home/axel/repositorio_local/taller/src/game/StateComponent.h
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
+ /home/axel/repositorio_local/taller/src/game/ToClientPack.h
 CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o
  ../src/parser/config/bindings.h
  ../src/parser/config/characterxml.h
@@ -319,6 +322,7 @@ CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o
  /home/axel/repositorio_local/taller/src/game/RenderComponent.h
  /home/axel/repositorio_local/taller/src/game/StateComponent.h
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
+ /home/axel/repositorio_local/taller/src/game/ToClientPack.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
  /home/axel/repositorio_local/taller/src/parser/config/npc.h
 CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o
@@ -347,6 +351,7 @@ CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o
  /home/axel/repositorio_local/taller/src/game/PositionComponent.h
  /home/axel/repositorio_local/taller/src/game/RenderComponent.h
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
+ /home/axel/repositorio_local/taller/src/game/ToClientPack.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
 CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.o
  ../src/parser/config/bindings.h
@@ -378,6 +383,7 @@ CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.o
  /home/axel/repositorio_local/taller/src/game/RenderComponent.h
  /home/axel/repositorio_local/taller/src/game/StateComponent.h
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
+ /home/axel/repositorio_local/taller/src/game/ToClientPack.h
  /home/axel/repositorio_local/taller/src/parser/config/characterxml.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
  /home/axel/repositorio_local/taller/src/parser/config/npc.h
@@ -410,6 +416,7 @@ CMakeFiles/game.dir/src/game/RenderComponent.cpp.o
  /home/axel/repositorio_local/taller/src/game/RenderComponent.cpp
  /home/axel/repositorio_local/taller/src/game/RenderComponent.h
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
+ /home/axel/repositorio_local/taller/src/game/ToClientPack.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
 CMakeFiles/game.dir/src/game/StateComponent.cpp.o
  ../src/parser/config/bindings.h
@@ -436,6 +443,7 @@ CMakeFiles/game.dir/src/game/StateComponent.cpp.o
  /home/axel/repositorio_local/taller/src/game/StateComponent.cpp
  /home/axel/repositorio_local/taller/src/game/StateComponent.h
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
+ /home/axel/repositorio_local/taller/src/game/ToClientPack.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o
  ../src/parser/config/bindings.h
@@ -450,14 +458,8 @@ CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o
  ../src/parser/config/weapons.h
  /home/axel/repositorio_local/taller/src/LogLib/LogManager.h
  /home/axel/repositorio_local/taller/src/LogLib/Logger.h
- /home/axel/repositorio_local/taller/src/game/CameraComponent.h
- /home/axel/repositorio_local/taller/src/game/ECS.h
  /home/axel/repositorio_local/taller/src/game/Game.h
  /home/axel/repositorio_local/taller/src/game/GameClient.h
- /home/axel/repositorio_local/taller/src/game/GameServer.h
- /home/axel/repositorio_local/taller/src/game/LevelBuilder.h
- /home/axel/repositorio_local/taller/src/game/LevelLimits.h
- /home/axel/repositorio_local/taller/src/game/Manager.h
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.cpp
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
@@ -484,6 +486,7 @@ CMakeFiles/game.dir/src/game/main.cpp.o
  /home/axel/repositorio_local/taller/src/game/Manager.h
  /home/axel/repositorio_local/taller/src/game/Mode.h
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
+ /home/axel/repositorio_local/taller/src/game/ToClientPack.h
  /home/axel/repositorio_local/taller/src/game/main.cpp
  /home/axel/repositorio_local/taller/src/parser/CLIArgumentParser.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h

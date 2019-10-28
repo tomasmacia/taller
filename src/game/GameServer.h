@@ -4,6 +4,7 @@
 #include "Manager.h"
 #include "LevelBuilder.h"
 #include "Game.h"
+#include "ToClientPack.h"
 
 class GameServer : public  Game{
 public:
@@ -56,6 +57,8 @@ private:
     void processInput();
     void update();
     void sendUpdate();
+
+    std::list<ToClientPack> toClientsPackages;
 
     LevelBuilder* levelBuilder = nullptr;
     Manager* manager = nullptr;

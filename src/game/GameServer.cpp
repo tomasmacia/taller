@@ -44,6 +44,8 @@ void GameServer::update() {
 }
 
 void GameServer::sendUpdate() {
+    toClientsPackages = manager->generateRenderables();
+    //socketManager->broadcast(toClientsPackages);  TODO
     std::cout<<"SERVER: mando paquetes a clientes"<<'\n';
 }
 

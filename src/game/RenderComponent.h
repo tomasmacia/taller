@@ -9,26 +9,27 @@
 #include "../LogLib/LogManager.h"
 #include "TextureWrapper.h"
 #include "CameraComponent.h"
+#include "ToClientPack.h"
 
 class RenderComponent : public Component {
 public:
     virtual void update() = 0;
-    void render();
 
-    ~RenderComponent() override;
+    ToClientPack emitRenderable();
     
 protected:
     virtual void loadNextImage() = 0;
-    virtual void renderInOwnWay() = 0;
+    virtual ToClientPack generateRenderable() = 0;
+    //virtual void renderInOwnWay() = 0;
 
+    void getCurrentSpriteDimentions();
     bool onScreen();
     void updatePosition();
-    void loadTexture();
-    
     void setCamera(Entity* camera);
     void setDimentions();
 
-    TextureWrapper texture;
+    int currentSpriteWidth;
+    int currentSpriteHight;
     SDL_Rect srcRect;
     SDL_Rect destRect;
 

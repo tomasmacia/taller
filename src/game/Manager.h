@@ -10,24 +10,32 @@
 #include <memory>
 #include <algorithm>
 
+#include "ToClientPack.h"
+
 #include "ECS.h"
 
 class Manager {
 private:
-    std::list<Entity*> entitiesWithPosition;        //only utilities, weapons, npcs and players
-    std::list<Entity*> specialEntities;             //camera and levelLimits
+    //no forman una particion (hay overlapings o no estan todas)
     std::list<Entity*> nonLevelPersistentEntities;
     std::list<Entity*> players;
+    std::list<Entity*> npcs;
+    std::list<Entity*> nonMobileEntities;
+
+    //estas listas forman una particion de todas las entities
+    // es decir, toda entitie esta en alguna y si esta en una no esta en las otras
+    std::list<Entity*> specialEntities;             //camera and levelLimits
+    std::list<Entity*> entitiesWithPosition;        //only utilities, weapons, npcs and players
     std::list<Entity*> backLayerBackgrounds;
     std::list<Entity*> fronLayerBackgrounds;
 
 public:
     void update();
-    void render();
-    void refresh();
+    std::list<ToClientPack> generateRenderables();
+    //void render();
+    //void refresh();
 
     ~Manager();
-
     Entity* addNPC();
     Entity* addUtilitie();
     Entity* addWeapon();

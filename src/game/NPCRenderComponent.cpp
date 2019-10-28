@@ -17,7 +17,7 @@ void NPCRenderComponent::init() {
     currentSprite = npcConfig.walk;
     _imageAmount  = WALK_IMAGE_AMOUNT;
     _imageCounter = 0;
-    loadTexture();
+    getCurrentSpriteDimentions();
 }
 
 void NPCRenderComponent::handleIncomingAction(){

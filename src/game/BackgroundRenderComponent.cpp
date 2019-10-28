@@ -1,6 +1,6 @@
 #include "BackgroundRenderComponent.h"
 #include "CameraComponent.h"
-#include "GameServer.h"
+#include "ToClientPack.h"
 
 #include <iostream>
 
@@ -11,7 +11,7 @@ BackgroundRenderComponent::BackgroundRenderComponent(Entity* camera, string stri
 }
 
 void BackgroundRenderComponent::init() {
-    loadTexture();
+    getCurrentSpriteDimentions();
 
     int screenResolutionWidth = _camera->getWindowWidth();
     int screenResolutionHeight = _camera->getWindowHeight();
@@ -22,8 +22,8 @@ void BackgroundRenderComponent::init() {
     destRect.x = 0;
     destRect.y = 0;
 
-    srcRect.w = (int)(aspectRatio*(float)(texture.getHeight()));
-    srcRect.h = texture.getHeight();
+    srcRect.w = (int)(aspectRatio*(float)(currentSpriteHight));
+    srcRect.h = currentSpriteHight;
     srcRect.x = 0;
     srcRect.y = 0;
 
@@ -33,14 +33,10 @@ void BackgroundRenderComponent::update() {
     loadNextImage();
 }
 
-void BackgroundRenderComponent::renderInOwnWay() {
-    texture.render(&srcRect, &destRect,false);
-}
-
 void BackgroundRenderComponent::loadNextImage(){
 
     int screenWidth = srcRect.w;
-    int spriteWidth = texture.getWidth();
+    int spriteWidth = currentSpriteWidth;
 
     int newX = ((float)spriteWidth*_camera->getLevelPercentageCovered()*_parallaxSpeed);
 
@@ -48,3 +44,13 @@ void BackgroundRenderComponent::loadNextImage(){
         srcRect.x = newX;
     }
 }
+
+ToClientPack BackgroundRenderComponent::generateRenderable() {
+    return ToClientPack(currentSprite,srcRect,destRect,false);
+}
+
+/*
+void BackgroundRenderComponent::renderInOwnWay() {
+    texture.render(&srcRect, &destRect,false);
+}
+ */

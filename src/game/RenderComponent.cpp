@@ -2,18 +2,9 @@
 #include "RenderComponent.h"
 #include "CameraComponent.h"
 
-
-RenderComponent::~RenderComponent() {
-    texture.free();
-}
-
-void RenderComponent::render() {
+ToClientPack RenderComponent::emitRenderable() {
     if (onScreen())
-        renderInOwnWay();
-}
-
-void RenderComponent::loadTexture() {
-    texture.loadFromFile(currentSprite);
+        return generateRenderable();
 }
 
 void RenderComponent::updatePosition(){
@@ -38,4 +29,6 @@ void RenderComponent::setDimentions(){
     destRect.y = (int)entity->getComponent<PositionComponent>()->getY();
 }
 
-
+void RenderComponent::getCurrentSpriteDimentions() {
+    TextureWrapper::measureWidtAndHeighthOf(currentSprite,&currentSpriteWidth,&currentSpriteHight);
+}

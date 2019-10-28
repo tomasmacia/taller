@@ -19,6 +19,7 @@ class Component {
         virtual void init() {}
 
         virtual void update() {}
+
         virtual void render() {}
 
         virtual ~Component() {}
@@ -57,6 +58,7 @@ public:
     void update() {
         for(auto& c : components) c->update();
     }
+
     void render() {
         for (auto &c : components) c->render();
     }

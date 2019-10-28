@@ -7,21 +7,17 @@ void MobileRenderComponent::update() {
 
     if (state->changed()){
         handleIncomingAction();
-        loadTexture();
+        getCurrentSpriteDimentions();
         _imageCounter = 0;
     }
     updatePosition();
     loadNextImage();
 }
 
-void MobileRenderComponent::renderInOwnWay() {
-    texture.render(&srcRect, &destRect,isFlipped());
-}
-
 void MobileRenderComponent::loadNextImage(){
 
-    srcRect.w = texture.getWidth()/_imageAmount;
-    srcRect.h = texture.getHeight();
+    srcRect.w = currentSpriteWidth/_imageAmount;
+    srcRect.h = currentSpriteHight;
     srcRect.x = srcRect.w * (int)(_imageCounter / DELAY);
     srcRect.y = 0;
 
@@ -33,12 +29,22 @@ void MobileRenderComponent::loadNextImage(){
     _imageCounter = _imageCounter % (_imageAmount * DELAY);
 }
 
-bool MobileRenderComponent::isFlipped() {
-    return entity->getComponent<StateComponent>()->isFlipped();
+bool MobileRenderComponent::isFliped() {
+    return entity->getComponent<StateComponent>()->isFliped();
 }
 
 void MobileRenderComponent::flip() {
     entity->getComponent<StateComponent>()->setFliped();
 }
+
+ToClientPack MobileRenderComponent::generateRenderable() {
+    return ToClientPack(currentSprite,srcRect,destRect,isFliped());
+}
+
+/*
+void MobileRenderComponent::renderInOwnWay() {
+    texture.render(&srcRect, &destRect,isFlipped());
+}
+ */
 
 

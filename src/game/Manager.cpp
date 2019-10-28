@@ -3,9 +3,13 @@
 
 #include "PositionComponent.h"
 #include "../LogLib/LogManager.h"
+#include "BackgroundRenderComponent.h"
+#include "NonMobileRenderComponent.h"
+#include "CharacterRenderComponent.h"
+#include "NPCRenderComponent.h"
 
 
-void Manager::update() {
+void Manager::update() {//se updatean todas seguro porque updateo las listas que formaban una particion de las entities
     sortEntitiesByY();
 
     for(auto* e : backLayerBackgrounds) e->update();
@@ -13,16 +17,44 @@ void Manager::update() {
     for(auto* e : fronLayerBackgrounds) e->update();
     for(auto* e : specialEntities) e->update();
 }
+
+std::list<ToClientPack> Manager::generateRenderables() {
+    //Estoy al tanto de que overall no es la mejor implementacion posible
+    //pero dentro del tiempo que tenemos es la mas elegante que se me ocurre sin hacer cambios estructurales profundos
+
+    std::list<ToClientPack> packages;
+
+    for(auto* e : backLayerBackgrounds){
+        packages.push_back(e->getComponent<BackgroundRenderComponent>()->emitRenderable());
+    }
+    for(auto* e : nonMobileEntities){
+        packages.push_back(e->getComponent<NonMobileRenderComponent>()->emitRenderable());
+    }
+    for(auto* e : npcs){
+        packages.push_back(e->getComponent<NPCRenderComponent>()->emitRenderable());
+    }
+    for(auto* e : players){
+        packages.push_back(e->getComponent<CharacterRenderComponent>()->emitRenderable());
+    }
+    for(auto* e : fronLayerBackgrounds){
+        packages.push_back(e->getComponent<BackgroundRenderComponent>()->emitRenderable());
+    }
+    return packages;
+}
+
+/*
 void Manager::render() {
 
     for(auto* e : backLayerBackgrounds) e->render();
     for(auto* e : entitiesWithPosition) e->render();
     for(auto* e : fronLayerBackgrounds) e->render();
 }
+ */
 
 Entity* Manager::addNPC() {
     auto *e = new Entity();
     nonLevelPersistentEntities.push_back(e);
+    npcs.push_back(e);
     entitiesWithPosition.push_back(e);
     return e;
 }
@@ -30,6 +62,7 @@ Entity* Manager::addNPC() {
 Entity* Manager::addUtilitie() {
     auto *e = new Entity();
     nonLevelPersistentEntities.push_back(e);
+    nonMobileEntities.push_back(e);
     entitiesWithPosition.push_back(e);
     return e;
 }
@@ -37,6 +70,7 @@ Entity* Manager::addUtilitie() {
 Entity* Manager::addWeapon() {
     auto *e = new Entity();
     nonLevelPersistentEntities.push_back(e);
+    nonMobileEntities.push_back(e);
     entitiesWithPosition.push_back(e);
     return e;
 }
@@ -73,7 +107,7 @@ Entity* Manager::addCustomEntity(Entity* e) { // in case we want to add behaviou
     return e;
 }
 
-void Manager::destroyAllEntities() {
+void Manager::destroyAllEntities() { //se destruyen todas seguro porque borro las listas que formaban una particion de las entities
     for(auto* e : entitiesWithPosition) {
         delete e;
         e = nullptr;
@@ -103,6 +137,8 @@ void Manager::prepareForNextLevel(){
 
     entitiesWithPosition.clear();
     destroyNonLevelPersistentEntities();
+    npcs.clear();
+    nonMobileEntities.clear();
     backLayerBackgrounds.clear();
     fronLayerBackgrounds.clear();
 
@@ -135,6 +171,8 @@ void Manager::sortEntitiesByY() {
 Manager::~Manager() {
     destroyAllEntities();
     entitiesWithPosition.clear();
+    npcs.clear();
+    nonMobileEntities.clear();
     specialEntities.clear();
     nonLevelPersistentEntities.clear();
     players.clear();

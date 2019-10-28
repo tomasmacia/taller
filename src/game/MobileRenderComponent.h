@@ -12,10 +12,11 @@ public:
     
 protected:
     virtual void handleIncomingAction() = 0;
-    void renderInOwnWay() override;
+    ToClientPack generateRenderable() override;
+    //void renderInOwnWay() override;
 
     void loadNextImage() override;
-    bool isFlipped();
+    bool isFliped();
     void flip();
 
     int DELAY;

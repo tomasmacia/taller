@@ -13,10 +13,10 @@ NonMobileRenderComponent::NonMobileRenderComponent(Entity* camera, std::string s
 void NonMobileRenderComponent::init() {
 
     setDimentions();
-    loadTexture();
+    getCurrentSpriteDimentions();
 
-    srcRect.w = (int)(texture.getWidth());
-    srcRect.h = (int)(texture.getHeight());
+    srcRect.w = currentSpriteWidth;
+    srcRect.h = currentSpriteHight;
     srcRect.x = 0;
     srcRect.y = 0;    
 }
@@ -25,6 +25,12 @@ void NonMobileRenderComponent::update() {
     updatePosition();
 }
 
+ToClientPack NonMobileRenderComponent::generateRenderable() {
+    return ToClientPack(currentSprite,srcRect,destRect,false);
+}
+
+/*
 void NonMobileRenderComponent::renderInOwnWay() {
     texture.render(&srcRect, &destRect,false);
 }
+*/
