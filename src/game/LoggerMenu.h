@@ -28,6 +28,8 @@ public:
     void initSDL();
     void destroy();
     void ValidarCredenciales();
+    void cursorBlip();
+    void MensajeEmergente(std::string path);
 
 
 private:
@@ -39,7 +41,7 @@ private:
     SDL_Window *window = nullptr;
     SDL_Texture* Usuario=nullptr, *Usuario_completo=nullptr;
     SDL_Texture* pass =nullptr;
-    bool running=true;
+    bool running=true, cursosrInTxt=false;
     
     std::string input,user,password;
     TTF_Font *font;
@@ -47,8 +49,11 @@ private:
     SDL_Texture *text;
     SDL_Color textColor;
     SDL_Rect textRect,UserRect;
-    int enter;
+    int enter, cursor;
     
+    //Mesajes emergentes
+    SDL_Texture* msjEmergente = nullptr;
+    SDL_Rect msjEmrgnte;
 
     
 };

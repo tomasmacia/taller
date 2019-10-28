@@ -55,11 +55,13 @@ void LoggerMenu::Logeo(){
 
   SDL_Event Event;
     while(running){
+    //  cursorBlip();
       while(SDL_PollEvent(&Event)){ 
         OnEvent(&Event);
       }
       Update();
     }
+  SDL_Delay(2000);
   this->destroy();
 }
   void LoggerMenu::Fondo(){
@@ -102,14 +104,22 @@ void LoggerMenu::Logeo(){
         }
         //SDL_DestroyTexture(text);
         //SDL_DestroyTexture(Usuario_completo);
+        if(msjEmergente!=nullptr){
+            SDL_RenderCopy(_render,msjEmergente, NULL, &msjEmrgnte);   
+
+        }
         SDL_RenderPresent(_render);
 
 
   }
 
   void LoggerMenu::destroy(){
+    SDL_DestroyTexture(_texture);
+    SDL_DestroyTexture(Usuario);
+    SDL_DestroyTexture(pass);
     SDL_DestroyTexture(text);
     SDL_DestroyTexture(Usuario_completo);
+    SDL_DestroyTexture(msjEmergente);
     SDL_DestroyWindow(this->window);
     SDL_DestroyRenderer(this->_render);
     TTF_Quit();
@@ -119,6 +129,19 @@ void LoggerMenu::Logeo(){
   }
 
 
+void LoggerMenu::cursorBlip(){
+  if(!cursosrInTxt){
+    cursosrInTxt=true;
+    input+="|";
+  }
+  else
+  {
+    cursosrInTxt=false;
+    input.pop_back();
+  }
+  
+
+}
 void LoggerMenu::OnEvent(SDL_Event* Event) {
     //handle window close
     if(Event->type == SDL_QUIT) {
@@ -186,6 +209,9 @@ void LoggerMenu::OnEvent(SDL_Event* Event) {
             default:
             //Solo 10 caracteres para no salirse de su espacio
               if(input.size()<10){
+             /*   if (cursosrInTxt){
+                  input.pop_back();
+                }*/
                 input = input + SDL_GetScancodeName(Event->key.keysym.scancode);
                 this->typing();
                 }
@@ -209,14 +235,17 @@ void LoggerMenu::ValidarCredenciales(){
   std::map<std::string, std::string>::iterator p = directorio.find(user);
   if(p != directorio.end()){
     if(p->second == password){
-      cout << "User y Password aceptados.\n";
+      MensajeEmergente("User y Password aceptados");
       running=false;
     }
     else{
-      cout << "Password incorrecto.\n";
+      MensajeEmergente("Password incorrecto");
     }
   }
-  else cout << user << " no es un usuario registrado\n";
+  else {
+    MensajeEmergente("Usuario no existente");
+  }
+
   SDL_DestroyTexture(text);
   SDL_DestroyTexture(Usuario_completo);
   user.clear();
@@ -232,4 +261,19 @@ void LoggerMenu::typing(){
     SDL_QueryTexture(text, NULL, NULL, &w, &h);
     textRect.w=w;textRect.h=h;
     SDL_FreeSurface(message);
+}
+
+
+void LoggerMenu::MensajeEmergente(std::string path){
+    SDL_DestroyTexture(msjEmergente);  
+    int w=0,h=0;
+    SDL_Surface* _image = TTF_RenderText_Solid(font,path.c_str(),textColor);
+    msjEmergente= SDL_CreateTextureFromSurface(_render,_image);
+    SDL_QueryTexture(msjEmergente,NULL,NULL,&w,&h);
+    msjEmrgnte.x=475;msjEmrgnte.y=350;
+    msjEmrgnte.h=h;msjEmrgnte.w=w;
+    SDL_FreeSurface(_image);
+    
+
+
 }
