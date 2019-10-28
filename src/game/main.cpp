@@ -27,18 +27,14 @@ int main(int argc, const char** argv) {
     Logger* logger = initLogger(CLIArgumentParser::getInstance().getDefaultLoggerLevel());
     LogManager::logDebug("inicializado LogManager");
 
-    Mode mode = CLIArgumentParser::getInstance().getMode();
+    Mode mode = getModeFromCommandLine(argc, argv);
 
     if (mode == SERVER){
         GameServer::getInstance().start();
     }
 
     if (mode == CLIENT){
-        GameCliente::getInstance().start();
-    }
-
-    else{
-        LogManager::logError("modo de juego invalido");
+        GameClient::getInstance().start();
     }
 
     delete(logger);
@@ -46,3 +42,24 @@ int main(int argc, const char** argv) {
     return 0;
 }
 
+Mode getModeFromCommandLine(int argc, const char** argv){
+    Mode mode = CLIENT;
+    string commandLineMode;
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
+        if (((arg == "-m") || (arg == "--mode")) && (i + 1 < argc)) {
+            commandLineMode = argv[i + 1];
+            if ((commandLineMode == "client") || (commandLineMode == "Client") || (commandLineMode == "CLIENT")){
+                LogManager::logInfo("Client mode detected in command line");
+            } else {
+                if ((commandLineMode == "server") || (commandLineMode == "Server") || (commandLineMode == "SERVER")){
+                    mode = SERVER;
+                    LogManager::logInfo("Server mode detected in command line");
+                } else {
+                    LogManager::logError("Incomprehensible mode in command line, going to client mode");
+                }
+            }
+        }
+    }
+    return mode;
+}
