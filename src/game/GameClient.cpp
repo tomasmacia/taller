@@ -12,7 +12,7 @@
 
 void GameClient::start() {
     LogManager::logInfo("Se inicia GameClient");
-    //openLogin();
+    //openLogin(); TODO
 
     this->initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
     LogManager::logDebug("inicializado Controller");
@@ -35,7 +35,7 @@ void GameClient::sendInput() {
 void GameClient::render() {
     std::cout<<"CLIENT: renderizo todo lo que me llego"<<'\n';
 
-    /*
+    /*TODO
     SDL_RenderClear(renderer);
     renderCadaPaquete();
     SDL_RenderPresent(renderer);
@@ -81,15 +81,14 @@ void GameClient::initSDL() {
         LogManager::logError("SDL no pudo inicializarse");
     } else {
         this->isRunning = true;
-        //SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
     }
 }
 /*
-void GameClient::initLoggerMenu(){
+void GameClient::initLoggerMenu(){TODO
     this->loggerMenu = new LoggerMenu();
 }*/
 /*
-void GameClient::openLogin(){
+void GameClient::openLogin(){TODO
     LogManager::logInfo("Se inicia pantalla de login");
     //loggerMenu->open(); TODO
 }*/

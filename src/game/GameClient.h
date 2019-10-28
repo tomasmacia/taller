@@ -5,7 +5,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "Game.h"
-//#include "LoggerMenu.h"
+//#include "LoggerMenu.h" TODO
 
 class GameClient : public  Game{
 public:
@@ -54,12 +54,12 @@ private:
     // gameloop
     void sendInput();
     void render();
-    //void initLoggerMenu();
-    //void openLogin();
+    //void initLoggerMenu(); TODO
+    //void openLogin(); TODO
 
     SDL_Window *window = nullptr;
     SDL_Renderer *renderer = nullptr;
-    //LoggerMenu* loggerMenu = nullptr;
+    //LoggerMenu* loggerMenu = nullptr; TODO
 
 };
 

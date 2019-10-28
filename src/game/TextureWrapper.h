@@ -41,7 +41,7 @@ public:
         return mHeight;
     }
 
-    static int measureWidthOf(std::string spritePath);
+    static void measureWidtAndHeighthOf(std::string spritePath,int* width, int* hegith); //si habias iniciado SDL antes en este thread, este metodo lo corta
 
 private:
     // The actual hardware texture

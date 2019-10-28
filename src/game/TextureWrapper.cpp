@@ -5,14 +5,13 @@
 #include <SDL2/SDL_image.h>
 #include "TextureWrapper.h"
 #include "GameClient.h"
-#include "GameServer.h"
 
 TextureWrapper::TextureWrapper() {
     //Initialize
     mTexture = nullptr;
     mWidth = 0;
     mHeight = 0;
-    renderer = GameServer::getInstance().getRenderer();
+    renderer = GameClient::getInstance().getRenderer();
 }
 
 TextureWrapper::~TextureWrapper() {
@@ -81,10 +80,7 @@ void TextureWrapper::render(SDL_Rect* srcRect, SDL_Rect* destRect,bool flip = fa
     }
 }
 
-int TextureWrapper::measureWidthOf(std::string spritePath){
-
-    int spriteWidth;
-    int aux;
+void TextureWrapper::measureWidtAndHeighthOf(std::string spritePath,int* width, int* hegith){
 
     //Solo para generar una textura temporal y medir el width del sprite
     SDL_Init(SDL_INIT_VIDEO);
@@ -95,7 +91,7 @@ int TextureWrapper::measureWidthOf(std::string spritePath){
     SDL_Renderer* temporaryRenderer = SDL_CreateRenderer(temporaryWindow, -1, SDL_RENDERER_PRESENTVSYNC);
     SDL_Surface* temporarySurface = IMG_Load( spritePath.c_str() );
     SDL_Texture* temporaryTexture = SDL_CreateTextureFromSurface( temporaryRenderer, temporarySurface );
-    SDL_QueryTexture(temporaryTexture, nullptr, nullptr, &spriteWidth, &aux);
+    SDL_QueryTexture(temporaryTexture, nullptr, nullptr, width, hegith);
 
     //Libero memoria y cierro el SDL que abri en este metodo de forma temporal
     SDL_FreeSurface(temporarySurface);
@@ -103,7 +99,5 @@ int TextureWrapper::measureWidthOf(std::string spritePath){
     SDL_DestroyWindow(temporaryWindow);
     SDL_DestroyRenderer(temporaryRenderer);
     SDL_Quit();
-
-    return spriteWidth;
 }
 

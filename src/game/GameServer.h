@@ -57,25 +57,8 @@ private:
     void update();
     void sendUpdate();
 
-    void render(); // TODO SOLO PARA PROBARLO HASTA TENER LOS SOCKETS (BORRAR)
-
     LevelBuilder* levelBuilder = nullptr;
     Manager* manager = nullptr;
-
-
-
-
-
-
-
-
-public:
-    SDL_Renderer* getRenderer(){
-        return renderer;
-    }
-
-    SDL_Window *window = nullptr;
-    SDL_Renderer *renderer = nullptr;
 };
 
 #endif //GAME_GAMESERVER_H_
