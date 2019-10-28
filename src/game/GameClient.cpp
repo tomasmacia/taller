@@ -1,3 +1,4 @@
+#include "../LogLib/LogManager.h"
 #include "GameClient.h"
 
 void GameClient::start() {

@@ -30,9 +30,6 @@ public:
     void endLevel();
     int getCurrentLevelWidth();
 
-    bool isRunning = true;
-    bool levelFinished = false;
-
     // *************************
     // ******* WRAPPERS ********
     // *************************
@@ -82,8 +79,6 @@ private:
     void processInput();
     void update();
     void render();
-
-    bool hasNextLevel = false;
 
     // wrappers
     LevelBuilder* levelBuilder = nullptr;

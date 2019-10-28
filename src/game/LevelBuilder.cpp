@@ -332,3 +332,7 @@ LevelBuilder::~LevelBuilder(){
     _levelLimits = nullptr;
     LogManager::logDebug("Memoria de LevelBuilder liberada");
 }
+
+bool LevelBuilder::levelFinished(){
+    return levelRunning;
+}

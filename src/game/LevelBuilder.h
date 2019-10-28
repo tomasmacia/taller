@@ -18,6 +18,7 @@ public:
     void loadNext();
     bool hasNextLevel();
     void endLevel();
+    bool levelFinished();
 
     int getCurrentLevelWidth();
 
@@ -37,9 +38,6 @@ private:
     void resetLevelLimits();
     void resetPlayers();
     void prepareForNextLevel();
-
-    int generateX();
-    int generateY();
 
     Entity* _camera = nullptr;
     Entity* _levelLimits = nullptr;
