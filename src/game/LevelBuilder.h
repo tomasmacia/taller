@@ -51,8 +51,8 @@ private:
     //un numero entre 0 y 1. 1 significa nada de parallax y 0 es quieto
     float OVERLAY_SPEED_RATIO = 1; //este TIENE que ser 1
     float FLOOR_SPEED_RATIO = 1;   //este TIENE que ser 1
-    float MIDDLE_SPEED_RATIO = 0.6;
-    float FAR_SPEED_RATIO = 0.4;
+    float MIDDLE_SPEED_RATIO =0.9 ;
+    float FAR_SPEED_RATIO = 0.75;
 };
 
 
