@@ -48,14 +48,6 @@ public:
         return manager;
     }
 
-    SDL_Window* getWindow() {
-        return window;
-    }
-
-    SDL_Renderer* getRenderer() {
-        return renderer;
-    }
-
 private:
     GameServer() {
         init();
@@ -68,7 +60,6 @@ private:
     // inits
     void init();
     void initConfig();
-    void initSDL();
     void initController();
     void initECSManager();
 
@@ -85,8 +76,6 @@ private:
     LevelBuilder* levelBuilder = nullptr;
     Controller *controller = nullptr;
     Manager* manager = nullptr;
-    SDL_Window *window = nullptr;
-    SDL_Renderer *renderer = nullptr;
     Config *config = nullptr;
 };
 

@@ -20,8 +20,23 @@ public:
     void operator=(GameClient const &) = delete;
 
 
+    // *************************
+    // ******* METHODS *********
+    // *************************
 
     void start();
+
+    // *************************
+    // ******* WRAPPERS ********
+    // *************************
+
+    Config* getConfig() {
+        return config;
+    }
+
+    Controller* getController() {
+        return controller;
+    }
 
 private:
     GameClient() {
