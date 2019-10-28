@@ -42,12 +42,6 @@ private:
 
     template <typename K, typename V>
     V getWithDefault(const std::map<K,V> &map, const K &key, const V &defaultValue);
-
-
 };
-
-
-
-
 
 #endif //GAME_CONTROLLER_H

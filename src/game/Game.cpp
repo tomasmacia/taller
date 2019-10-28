@@ -2,6 +2,7 @@
 #include "../parser/CLIArgumentParser.h"
 #include "../parser/xmlparser.h"
 #include "Game.h"
+#include "Controller.h"
 
 void Game::end(){
     isRunning = false;

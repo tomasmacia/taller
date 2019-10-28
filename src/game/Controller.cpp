@@ -12,9 +12,9 @@
 #include <iostream>
 
 Controller::Controller(Game* game) {
+    this->game = game;
     init();
     bind();
-    this->game = game;
 }
 
 void Controller::processInput() {

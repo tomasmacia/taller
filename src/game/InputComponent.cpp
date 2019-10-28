@@ -4,6 +4,7 @@
 #include "GameServer.h"
 #include "InputComponent.h"
 #include "StateComponent.h"
+#include "Controller.h"
 
 
 void InputComponent::update() {

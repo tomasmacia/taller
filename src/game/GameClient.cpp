@@ -3,6 +3,7 @@
 
 #include "../LogLib/Logger.h"
 #include "GameClient.h"
+#include "Controller.h"
 
 #include <iostream>
 
