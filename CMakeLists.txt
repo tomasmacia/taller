@@ -102,7 +102,12 @@ set(SOURCE_FILES
         src/game/LevelLimits.h
         src/game/LevelLimits.cpp
 
-)
+        # server
+        src/server/Client.cpp
+        src/server/Client.h
+        src/server/Server.cpp
+        src/server/Server.h
+        src/server/UserConnection.cpp src/server/UserConnection.h)
 
 # create executable
 add_executable(game ${SOURCE_FILES})
