@@ -1,7 +1,11 @@
+#include "Game.h"
 #include "../LogLib/LogManager.h"
+#include <SDL2/SDL.h>
+#include <SDL_image.h>
+
+#include <algorithm>
 #include "../parser/CLIArgumentParser.h"
 #include "../parser/xmlparser.h"
-#include "Game.h"
 #include "Controller.h"
 
 void Game::end(){

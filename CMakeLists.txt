@@ -107,6 +107,7 @@ set(SOURCE_FILES
         src/game/NonMobileRenderComponent.h 
         src/game/LevelLimits.h
         src/game/LevelLimits.cpp
+
         src/game/ToClientPack.h
         src/game/ToClientPack.cpp
         src/game/IDPlayer.cpp 
@@ -115,8 +116,13 @@ set(SOURCE_FILES
         src/game/IDComponent.h
         src/game/LoggerMenu.cpp
         src/game/LoggerMenu.h
-        
-)
+
+        # server
+        src/server/Client.cpp
+        src/server/Client.h
+        src/server/Server.cpp
+        src/server/Server.h
+        src/server/UserConnection.cpp src/server/UserConnection.h)
 
 # create executable
 add_executable(game ${SOURCE_FILES})
