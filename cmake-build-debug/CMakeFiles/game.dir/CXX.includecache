@@ -68,16 +68,6 @@ string
 
 /home/axel/repositorio_local/taller/src/game/Action.h
 
-/home/axel/repositorio_local/taller/src/game/BackgroundRenderComponent.cpp
-BackgroundRenderComponent.h
-/home/axel/repositorio_local/taller/src/game/BackgroundRenderComponent.h
-CameraComponent.h
-/home/axel/repositorio_local/taller/src/game/CameraComponent.h
-GameServer.h
-/home/axel/repositorio_local/taller/src/game/GameServer.h
-iostream
--
-
 /home/axel/repositorio_local/taller/src/game/BackgroundRenderComponent.h
 vector
 -
@@ -86,55 +76,17 @@ string
 RenderComponent.h
 /home/axel/repositorio_local/taller/src/game/RenderComponent.h
 
-/home/axel/repositorio_local/taller/src/game/CameraComponent.cpp
-string
--
-CameraComponent.h
-/home/axel/repositorio_local/taller/src/game/CameraComponent.h
-PositionComponent.h
-/home/axel/repositorio_local/taller/src/game/PositionComponent.h
-PhysicsComponent.h
-/home/axel/repositorio_local/taller/src/game/PhysicsComponent.h
-GameServer.h
-/home/axel/repositorio_local/taller/src/game/GameServer.h
-iostream
--
-
 /home/axel/repositorio_local/taller/src/game/CameraComponent.h
 ECS.h
 /home/axel/repositorio_local/taller/src/game/ECS.h
 list
 -
 
-/home/axel/repositorio_local/taller/src/game/CharacterRenderComponent.cpp
-CharacterRenderComponent.h
-/home/axel/repositorio_local/taller/src/game/CharacterRenderComponent.h
-GameServer.h
-/home/axel/repositorio_local/taller/src/game/GameServer.h
-StateComponent.h
-/home/axel/repositorio_local/taller/src/game/StateComponent.h
-
 /home/axel/repositorio_local/taller/src/game/CharacterRenderComponent.h
 MobileRenderComponent.h
 /home/axel/repositorio_local/taller/src/game/MobileRenderComponent.h
 ../parser/config/characterxml.h
 /home/axel/repositorio_local/taller/src/parser/config/characterxml.h
-
-/home/axel/repositorio_local/taller/src/game/Controller.h
-map
--
-SDL2/SDL.h
--
-SDL2/SDL_scancode.h
--
-string
--
-list
--
-Action.h
-/home/axel/repositorio_local/taller/src/game/Action.h
-Game.h
-/home/axel/repositorio_local/taller/src/game/Game.h
 
 /home/axel/repositorio_local/taller/src/game/ECS.h
 bitset
@@ -154,28 +106,6 @@ cassert
 ../parser/config/config.h
 /home/axel/repositorio_local/taller/src/parser/config/config.h
 
-/home/axel/repositorio_local/taller/src/game/GameClient.h
-SDL2/SDL.h
--
-SDL2/SDL_image.h
--
-Game.h
-/home/axel/repositorio_local/taller/src/game/Game.h
-
-/home/axel/repositorio_local/taller/src/game/GameServer.cpp
-../LogLib/LogManager.h
-/home/axel/repositorio_local/taller/src/LogLib/LogManager.h
-Controller.h
-/home/axel/repositorio_local/taller/src/game/Controller.h
-../LogLib/Logger.h
-/home/axel/repositorio_local/taller/src/LogLib/Logger.h
-LevelBuilder.h
-/home/axel/repositorio_local/taller/src/game/LevelBuilder.h
-GameServer.h
-/home/axel/repositorio_local/taller/src/game/GameServer.h
-iostream
--
-
 /home/axel/repositorio_local/taller/src/game/GameServer.h
 Manager.h
 /home/axel/repositorio_local/taller/src/game/Manager.h
@@ -191,16 +121,6 @@ Action.h
 /home/axel/repositorio_local/taller/src/game/Action.h
 list
 -
-
-/home/axel/repositorio_local/taller/src/game/InputComponent.cpp
-GameServer.h
-/home/axel/repositorio_local/taller/src/game/GameServer.h
-InputComponent.h
-/home/axel/repositorio_local/taller/src/game/InputComponent.h
-StateComponent.h
-/home/axel/repositorio_local/taller/src/game/StateComponent.h
-Controller.h
-/home/axel/repositorio_local/taller/src/game/Controller.h
 
 /home/axel/repositorio_local/taller/src/game/InputComponent.h
 ECS.h
@@ -274,27 +194,9 @@ algorithm
 ECS.h
 /home/axel/repositorio_local/taller/src/game/ECS.h
 
-/home/axel/repositorio_local/taller/src/game/MobileRenderComponent.cpp
-MobileRenderComponent.h
-/home/axel/repositorio_local/taller/src/game/MobileRenderComponent.h
-StateComponent.h
-/home/axel/repositorio_local/taller/src/game/StateComponent.h
-
 /home/axel/repositorio_local/taller/src/game/MobileRenderComponent.h
 RenderComponent.h
 /home/axel/repositorio_local/taller/src/game/RenderComponent.h
-
-/home/axel/repositorio_local/taller/src/game/Mode.h
-
-/home/axel/repositorio_local/taller/src/game/NPCRenderComponent.cpp
-NPCRenderComponent.h
-/home/axel/repositorio_local/taller/src/game/NPCRenderComponent.h
-GameServer.h
-/home/axel/repositorio_local/taller/src/game/GameServer.h
-StateComponent.h
-/home/axel/repositorio_local/taller/src/game/StateComponent.h
-iostream
--
 
 /home/axel/repositorio_local/taller/src/game/NPCRenderComponent.h
 MobileRenderComponent.h
@@ -302,35 +204,11 @@ MobileRenderComponent.h
 ../parser/config/npc.h
 /home/axel/repositorio_local/taller/src/parser/config/npc.h
 
-/home/axel/repositorio_local/taller/src/game/NonMobileRenderComponent.cpp
-string
--
-NonMobileRenderComponent.h
-/home/axel/repositorio_local/taller/src/game/NonMobileRenderComponent.h
-GameServer.h
-/home/axel/repositorio_local/taller/src/game/GameServer.h
-iostream
--
-
 /home/axel/repositorio_local/taller/src/game/NonMobileRenderComponent.h
 string
 -
 RenderComponent.h
 /home/axel/repositorio_local/taller/src/game/RenderComponent.h
-
-/home/axel/repositorio_local/taller/src/game/PhysicsComponent.cpp
-PhysicsComponent.h
-/home/axel/repositorio_local/taller/src/game/PhysicsComponent.h
-../LogLib/LogManager.h
-/home/axel/repositorio_local/taller/src/LogLib/LogManager.h
-PositionComponent.h
-/home/axel/repositorio_local/taller/src/game/PositionComponent.h
-StateComponent.h
-/home/axel/repositorio_local/taller/src/game/StateComponent.h
-CharacterRenderComponent.h
-/home/axel/repositorio_local/taller/src/game/CharacterRenderComponent.h
-NPCRenderComponent.h
-/home/axel/repositorio_local/taller/src/game/NPCRenderComponent.h
 
 /home/axel/repositorio_local/taller/src/game/PhysicsComponent.h
 ECS.h
@@ -347,14 +225,6 @@ LevelLimits.h
 /home/axel/repositorio_local/taller/src/game/PositionComponent.h
 ECS.h
 /home/axel/repositorio_local/taller/src/game/ECS.h
-
-/home/axel/repositorio_local/taller/src/game/RenderComponent.cpp
-GameServer.h
-/home/axel/repositorio_local/taller/src/game/GameServer.h
-RenderComponent.h
-/home/axel/repositorio_local/taller/src/game/RenderComponent.h
-CameraComponent.h
-/home/axel/repositorio_local/taller/src/game/CameraComponent.h
 
 /home/axel/repositorio_local/taller/src/game/RenderComponent.h
 SDL2/SDL.h
@@ -374,25 +244,11 @@ TextureWrapper.h
 CameraComponent.h
 /home/axel/repositorio_local/taller/src/game/CameraComponent.h
 
-/home/axel/repositorio_local/taller/src/game/StateComponent.cpp
-StateComponent.h
-/home/axel/repositorio_local/taller/src/game/StateComponent.h
-PhysicsComponent.h
-/home/axel/repositorio_local/taller/src/game/PhysicsComponent.h
-
 /home/axel/repositorio_local/taller/src/game/StateComponent.h
 Action.h
 /home/axel/repositorio_local/taller/src/game/Action.h
 ECS.h
 /home/axel/repositorio_local/taller/src/game/ECS.h
-
-/home/axel/repositorio_local/taller/src/game/TextureWrapper.cpp
-SDL2/SDL_image.h
--
-TextureWrapper.h
-/home/axel/repositorio_local/taller/src/game/TextureWrapper.h
-GameClient.h
-/home/axel/repositorio_local/taller/src/game/GameClient.h
 
 /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
 string
@@ -400,26 +256,6 @@ string
 vector
 -
 SDL2/SDL_render.h
--
-
-/home/axel/repositorio_local/taller/src/game/main.cpp
-algorithm
--
-../utils/TimeUtils.h
-/home/axel/repositorio_local/taller/src/utils/TimeUtils.h
-../parser/CLIArgumentParser.h
-/home/axel/repositorio_local/taller/src/parser/CLIArgumentParser.h
-../LogLib/LogManager.h
-/home/axel/repositorio_local/taller/src/LogLib/LogManager.h
-GameServer.h
-/home/axel/repositorio_local/taller/src/game/GameServer.h
-GameClient.h
-/home/axel/repositorio_local/taller/src/game/GameClient.h
-Mode.h
-/home/axel/repositorio_local/taller/src/game/Mode.h
-
-/home/axel/repositorio_local/taller/src/parser/CLIArgumentParser.h
-string
 -
 
 /home/axel/repositorio_local/taller/src/parser/config/characterxml.h
@@ -443,10 +279,6 @@ string
 -
 
 /home/axel/repositorio_local/taller/src/parser/config/npc.h
-string
--
-
-/home/axel/repositorio_local/taller/src/utils/TimeUtils.h
 string
 -
 

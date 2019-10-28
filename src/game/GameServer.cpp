@@ -46,7 +46,9 @@ void GameServer::update() {
 }
 
 void GameServer::render() { // TODO SOLO PARA PROBARLO HASTA TENER LOS SOCKETS (BORRAR)
+    SDL_RenderClear(renderer);
     manager->render();
+    SDL_RenderPresent(renderer);
 }
 
 void GameServer::sendUpdate() {
