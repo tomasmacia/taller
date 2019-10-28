@@ -159,11 +159,12 @@ void LevelBuilder::initializeLevelWidth(std::string floorSpritePath){
 
     //float floorSpriteWidth = TextureWrapper::measureWidthOf(floorSpritePath);
     float floorSpriteWidth = 8190;
+    float floorSpriteHeight = 250;
     int screenResolutionWidth = GameServer::getInstance().getConfig()->screenResolution.width;
     int screenResolutionHeight = GameServer::getInstance().getConfig()->screenResolution.height;
     float aspectRatio = (float)(screenResolutionWidth)/(float)(screenResolutionHeight);
 
-    float scaleFactor =  (aspectRatio * floorSpriteWidth)/screenResolutionWidth;
+    float scaleFactor =  (aspectRatio * floorSpriteHeight)/screenResolutionWidth;
 
     currentLevelWidth = floorSpriteWidth/ scaleFactor;
 
