@@ -51,9 +51,3 @@ void BackgroundRenderComponent::loadNextImage(){
         srcRect.x = newX;
     }
 }
-
-void BackgroundRenderComponent::loadErrorBackgroundImage(){
-    texture.drawErrorColor();
-}
-
-

@@ -13,7 +13,6 @@ void RenderComponent::render() {
 }
 
 void RenderComponent::loadTexture() {
-    texture.setWidthAndHeight(destRect.w, destRect.h);
     texture.loadFromFile(currentSprite);
 }
 

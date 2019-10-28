@@ -18,7 +18,6 @@ protected:
     void renderInOwnWay() override;
 
 private:
-    void loadErrorBackgroundImage();
     float _scaleFactor;
     float _parallaxSpeed;
 };

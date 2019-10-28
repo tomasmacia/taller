@@ -46,7 +46,7 @@ private:
     int currentLevel;
     int totalLevels;
 
-    int currentLevelWidth;
+    int currentLevelWidth = 10000; //ONLY USED ON ERROR
 
     //un numero entre 0 y 1. 1 significa nada de parallax y 0 es quieto
     float OVERLAY_SPEED_RATIO = 1; //este TIENE que ser 1

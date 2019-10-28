@@ -16,11 +16,17 @@
 
 
 void Game::init() {
-    //this->isRunning= false;
     this->initLogManager(CLIArgumentParser::getInstance().getDefaultLoggerLevel());
     this->initConfig();
     this->initLogManager(this->config->loggerLevel);
     this->initSDL();
+    this->initECSManager();
+
+    LogManager::logDebug("inicializado Config");
+    LogManager::logDebug("inicializado LogManager");
+    LogManager::logDebug("inicializado SDL");
+    LogManager::logDebug("inicializado ECSManager");
+    LogManager::logDebug("=======================================");
 }
 
 void Game::initConfig() {
@@ -78,32 +84,29 @@ void Game::initECSManager() {
 
 
 void Game::start() {
+    LogManager::logInfo("Se inicia Game");
 
-    Uint32 fps_last = SDL_GetTicks();
-    Uint32 current;
-
-    isRunning = true;
-
-    this->initECSManager();
     this->initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
     levelBuilder = new LevelBuilder();
+    LogManager::logDebug("inicializado LevelBuilder");
+    LogManager::logDebug("inicializado Controller");
+
+    isRunning = true;
 
     while (isRunning && levelBuilder->hasNextLevel()) {
         levelBuilder->loadNext();
         this->levelFinished = false;
 
         while (isRunning && !levelFinished) {
-
             processInput();
             update();
             render();
-
-            //current = 1000 / ( (Uint32) SDL_GetTicks() - fps_last);
-            //fps_last = (Uint32) SDL_GetTicks();
-            //setWindowTitleWithFPS(current);
         }
+        LogManager::logInfo("se chequea si hay siguiente nivel");
+        LogManager::logInfo("=======================================");
     }
-    LogManager::logDebug("Juego terminado");
+    LogManager::logInfo("Juego terminado");
+    LogManager::logInfo("=======================================");
 }
 
 void Game::processInput() {
@@ -111,7 +114,6 @@ void Game::processInput() {
 }
 
 void Game::update() {
-    //manager->refresh();
     manager->update();
 }
 
@@ -122,15 +124,8 @@ void Game::render() {
 }
 
 void Game::endLevel(){
-    LogManager::logDebug("Nivel terminado");
+    LogManager::logInfo("Nivel terminado");
     this->levelFinished = true;
-}
-
-void Game::setWindowTitleWithFPS(int fps){
-
-    char szFps[128];
-    sprintf(szFps, "%s: %d FPS", "Final Fight", fps);
-    SDL_SetWindowTitle(window, szFps);
 }
 
 void Game::destroy() {
@@ -146,10 +141,13 @@ void Game::destroy() {
     SDL_DestroyWindow(this->window);
     SDL_DestroyRenderer(this->renderer);
     SDL_Quit();
+
+    LogManager::logDebug("Memoria de Game liberada");
 }
 
 void Game::end(){
     isRunning = false;
+    LogManager::logDebug("señal de fin de juego emitida a Game");
 }
 
 int Game::getCurrentLevelWidth(){

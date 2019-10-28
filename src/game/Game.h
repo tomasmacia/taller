@@ -83,11 +83,6 @@ private:
     void update();
     void render();
 
-    void setWindowTitleWithFPS(int fps);
-
-    bool isGameRunning();
-
-
     bool hasNextLevel = false;
 
     // wrappers
