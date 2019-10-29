@@ -5,17 +5,17 @@
 #ifndef GAME_IDPLAYER_H
 #define GAME_IDPLAYER_H
 
-#include <list>
+#include <vector>
 
 class IDPlayer { //cada pc tiene asignado un player id y es unico
 
 public:
-    static void addNewIdPlayer();
+    static int addNewIdPlayer();
     static int getNextId();
     static void initIDCounter();
 private:
 
-    static std::list<int> ids;
+    static std::vector<int> ids;
     static int currentIdCounter;
     static int lastIDGenerated;
 };

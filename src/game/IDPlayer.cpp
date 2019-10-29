@@ -6,16 +6,17 @@
 
 int lastIDGenerated = 0; //el cero esta reservado para el NULL
 int currentIdCounter = 0;
-std::list<int> ids;
+std::vector<int> ids;
 
-void IDPlayer::addNewIdPlayer(){
+int IDPlayer::addNewIdPlayer(){
     lastIDGenerated ++;
     ids.push_back(lastIDGenerated);
+    return lastIDGenerated;
 }
 
 int IDPlayer::getNextId(){
     currentIdCounter ++;
-    return ids. % ids.size();
+    return ids.at(currentIdCounter) % ids.size();
 }
 void IDPlayer::initIDCounter(){
     currentIdCounter = 1;

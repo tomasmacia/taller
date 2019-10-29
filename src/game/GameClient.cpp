@@ -12,7 +12,7 @@ bool GameClient::hasInstance = false;
 
 void GameClient::start() {
     LogManager::logInfo("Se inicia GameClient");
-    //openLogin(); TODO
+    //starLogin(); TODO
 
     this->initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
     LogManager::logDebug("inicializado Controller");
