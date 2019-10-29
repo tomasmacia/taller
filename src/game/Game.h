@@ -35,6 +35,10 @@ public:
         return renderer;
     }
 
+    int getPlayerId(){
+        return playerId;
+    }
+
 protected:
     virtual void init() = 0;
     virtual void destroy() = 0;
@@ -44,6 +48,7 @@ protected:
     void initSDL();
 
     bool isRunning;
+    int playerId = NULL;
 
     Controller *controller = nullptr;
     Config *config = nullptr;

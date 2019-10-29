@@ -474,6 +474,33 @@ src/game/IAComponent.cpp.s:
 	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/IAComponent.cpp.s
 .PHONY : src/game/IAComponent.cpp.s
 
+src/game/IDPlayer.o: src/game/IDPlayer.cpp.o
+
+.PHONY : src/game/IDPlayer.o
+
+# target to build an object file
+src/game/IDPlayer.cpp.o:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/IDPlayer.cpp.o
+.PHONY : src/game/IDPlayer.cpp.o
+
+src/game/IDPlayer.i: src/game/IDPlayer.cpp.i
+
+.PHONY : src/game/IDPlayer.i
+
+# target to preprocess a source file
+src/game/IDPlayer.cpp.i:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/IDPlayer.cpp.i
+.PHONY : src/game/IDPlayer.cpp.i
+
+src/game/IDPlayer.s: src/game/IDPlayer.cpp.s
+
+.PHONY : src/game/IDPlayer.s
+
+# target to generate assembly for a file
+src/game/IDPlayer.cpp.s:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/IDPlayer.cpp.s
+.PHONY : src/game/IDPlayer.cpp.s
+
 src/game/InputComponent.o: src/game/InputComponent.cpp.o
 
 .PHONY : src/game/InputComponent.o
@@ -981,6 +1008,9 @@ help:
 	@echo "... src/game/IAComponent.o"
 	@echo "... src/game/IAComponent.i"
 	@echo "... src/game/IAComponent.s"
+	@echo "... src/game/IDPlayer.o"
+	@echo "... src/game/IDPlayer.i"
+	@echo "... src/game/IDPlayer.s"
 	@echo "... src/game/InputComponent.o"
 	@echo "... src/game/InputComponent.i"
 	@echo "... src/game/InputComponent.s"

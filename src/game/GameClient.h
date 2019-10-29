@@ -52,7 +52,7 @@ private:
     void clearTextureMap();
 
     // gameloop
-    void sendInput();
+    void pollAndSendInput();
     void render();
     void renderCadaPaquete();
     //void initLoggerMenu(); TODO

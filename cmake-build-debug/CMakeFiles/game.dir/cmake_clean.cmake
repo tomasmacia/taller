@@ -14,6 +14,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/game.dir/src/game/GameClient.cpp.o"
   "CMakeFiles/game.dir/src/game/GameServer.cpp.o"
   "CMakeFiles/game.dir/src/game/IAComponent.cpp.o"
+  "CMakeFiles/game.dir/src/game/IDPlayer.cpp.o"
   "CMakeFiles/game.dir/src/game/InputComponent.cpp.o"
   "CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o"
   "CMakeFiles/game.dir/src/game/LevelLimits.cpp.o"

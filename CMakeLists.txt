@@ -108,7 +108,7 @@ set(SOURCE_FILES
         src/game/ToClientPack.h
         src/game/ToClientPack.cpp
 
-)
+        src/game/IDPlayer.cpp src/game/IDPlayer.h)
 
 # create executable
 add_executable(game ${SOURCE_FILES})

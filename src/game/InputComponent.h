@@ -14,12 +14,8 @@ class InputComponent : public Component {
 public:
     void update() override;
 
-    std::list<Action> getActions() {
-        return actions;
-    }
-
 private:
-    std::list<Action> actions;
+    std::list<std::tuple<Action,int>> actions;
 };
 
 

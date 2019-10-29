@@ -9,6 +9,18 @@
 
 void InputComponent::update() {
     actions = GameServer::getInstance().getController()->getInput();
+
+
+
+
+    
+
+
+
+
+
+
+
     
     if (!actions.empty()){
         entity->getComponent<StateComponent>()->setIncomingAction(actions.front());

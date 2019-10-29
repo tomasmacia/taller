@@ -20,14 +20,14 @@ void GameClient::start() {
     isRunning = true;
 
     while (isRunning) {
-        sendInput();
+        pollAndSendInput();            //aca se podria cortar el game loop si se lee un ESC o QUIT
         render();
     }
     LogManager::logInfo("Juego terminado");
     LogManager::logInfo("=======================================");
 }
 
-void GameClient::sendInput() {
+void GameClient::pollAndSendInput() {
     controller->processInput();
     controller->sendInput();
 }
