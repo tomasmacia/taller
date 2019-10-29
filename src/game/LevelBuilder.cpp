@@ -159,7 +159,7 @@ void LevelBuilder::initializeLevelWidth(std::string floorSpritePath){
 
     int floorSpriteWidth;
     int floorSpriteHeight;
-    TextureWrapper::measureWidtAndHeighthOf(floorSpritePath, &floorSpriteWidth, &floorSpriteHeight);
+    TextureWrapper::measureWidthAndHeighthOf(floorSpritePath, &floorSpriteWidth, &floorSpriteHeight);
 
     int screenResolutionWidth = GameServer::getInstance().getConfig()->screenResolution.width;
     int screenResolutionHeight = GameServer::getInstance().getConfig()->screenResolution.height;

@@ -25,19 +25,34 @@ std::list<ToClientPack> Manager::generateRenderables() {
     std::list<ToClientPack> packages;
 
     for(auto* e : backLayerBackgrounds){
-        packages.push_back(e->getComponent<BackgroundRenderComponent>()->emitRenderable());
+        ToClientPack renderable = e->getComponent<BackgroundRenderComponent>()->emitRenderable();
+        if (renderable.getPath() != "NULL"){
+            packages.push_back(renderable);
+        }
     }
     for(auto* e : nonMobileEntities){
-        packages.push_back(e->getComponent<NonMobileRenderComponent>()->emitRenderable());
+        ToClientPack renderable = e->getComponent<NonMobileRenderComponent>()->emitRenderable();
+        if (renderable.getPath() != "NULL"){
+            packages.push_back(renderable);
+        }
     }
     for(auto* e : npcs){
-        packages.push_back(e->getComponent<NPCRenderComponent>()->emitRenderable());
+        ToClientPack renderable = e->getComponent<NPCRenderComponent>()->emitRenderable();
+        if (renderable.getPath() != "NULL"){
+            packages.push_back(renderable);
+        }
     }
     for(auto* e : players){
-        packages.push_back(e->getComponent<CharacterRenderComponent>()->emitRenderable());
+        ToClientPack renderable = e->getComponent<CharacterRenderComponent>()->emitRenderable();
+        if (renderable.getPath() != "NULL"){
+            packages.push_back(renderable);
+        }
     }
     for(auto* e : fronLayerBackgrounds){
-        packages.push_back(e->getComponent<BackgroundRenderComponent>()->emitRenderable());
+        ToClientPack renderable = e->getComponent<BackgroundRenderComponent>()->emitRenderable();
+        if (renderable.getPath() != "NULL"){
+            packages.push_back(renderable);
+        }
     }
     return packages;
 }

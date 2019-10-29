@@ -7,6 +7,7 @@
 #include <iostream>
 
 
+bool GameServer::hasInstance = false;
 
 void GameServer::start() {
     LogManager::logInfo("Se inicia Game");
@@ -66,15 +67,20 @@ void GameServer::destroy() {
     controller = nullptr;
     delete(manager);
     manager = nullptr;
+    SDL_DestroyWindow(this->window);
+    SDL_DestroyRenderer(this->renderer);
+    SDL_Quit();
     LogManager::logDebug("Memoria de GameServer liberada");
 }
 
 void GameServer::init() {
     this->initConfig();
     this->initECSManager();
+    this->initSDL();
 
     LogManager::logDebug("inicializado Config");
     LogManager::logDebug("inicializado ECSManager");
+    LogManager::logDebug("inicializado SDL");
     LogManager::logDebug("=======================================");
 }
 

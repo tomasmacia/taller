@@ -5,13 +5,16 @@
 #include <SDL2/SDL_image.h>
 #include "TextureWrapper.h"
 #include "GameClient.h"
+#include "GameServer.h"
+
+SDL_Renderer* _renderer = nullptr;
 
 TextureWrapper::TextureWrapper() {
     //Initialize
     mTexture = nullptr;
     mWidth = 0;
     mHeight = 0;
-    renderer = GameClient::getInstance().getRenderer();
+    getRenderer();
 }
 
 TextureWrapper::~TextureWrapper() {
@@ -80,24 +83,32 @@ void TextureWrapper::render(SDL_Rect* srcRect, SDL_Rect* destRect,bool flip = fa
     }
 }
 
-void TextureWrapper::measureWidtAndHeighthOf(std::string spritePath,int* width, int* hegith){
+void TextureWrapper::measureWidthAndHeighthOf(std::string spritePath,int* width, int* hegith){
 
     //Solo para generar una textura temporal y medir el width del sprite
-    SDL_Init(SDL_INIT_VIDEO);
-    IMG_Init(IMG_INIT_PNG);
-    int aux1 = 1000;
-    int aux2 = 1000;
-    SDL_Window* temporaryWindow = SDL_CreateWindow("Final Fight", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, aux1, aux2, 0);
-    SDL_Renderer* temporaryRenderer = SDL_CreateRenderer(temporaryWindow, -1, SDL_RENDERER_PRESENTVSYNC);
     SDL_Surface* temporarySurface = IMG_Load( spritePath.c_str() );
-    SDL_Texture* temporaryTexture = SDL_CreateTextureFromSurface( temporaryRenderer, temporarySurface );
+    SDL_Texture* temporaryTexture = SDL_CreateTextureFromSurface(staticGetRenderer(), temporarySurface );
     SDL_QueryTexture(temporaryTexture, nullptr, nullptr, width, hegith);
 
     //Libero memoria y cierro el SDL que abri en este metodo de forma temporal
     SDL_FreeSurface(temporarySurface);
     SDL_DestroyTexture(temporaryTexture);
-    SDL_DestroyWindow(temporaryWindow);
-    SDL_DestroyRenderer(temporaryRenderer);
-    SDL_Quit();
 }
 
+SDL_Renderer* TextureWrapper::staticGetRenderer(){
+
+    SDL_Renderer* _renderer = nullptr;
+
+    if (GameClient::isActive()){                                //hago esto porque si no pregunto y pido directamente me va a crear una instancia de Game y no quiero
+        _renderer = GameClient::getInstance().getRenderer();
+    }
+    else if (GameServer::isActive()){
+        _renderer = GameServer::getInstance().getRenderer();
+    }
+
+    return _renderer;
+}
+
+void TextureWrapper::getRenderer(){
+    renderer = staticGetRenderer();
+}

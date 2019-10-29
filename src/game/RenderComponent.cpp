@@ -3,8 +3,12 @@
 #include "CameraComponent.h"
 
 ToClientPack RenderComponent::emitRenderable() {
-    if (onScreen())
+    if (onScreen()){
         return generateRenderable();
+    }
+    else{
+        return ToClientPack(); //NULL PATTERN
+    }
 }
 
 void RenderComponent::updatePosition(){
@@ -30,5 +34,5 @@ void RenderComponent::setDimentions(){
 }
 
 void RenderComponent::getCurrentSpriteDimentions() {
-    TextureWrapper::measureWidtAndHeighthOf(currentSprite,&currentSpriteWidth,&currentSpriteHight);
+    TextureWrapper::measureWidthAndHeighthOf(currentSprite,&currentSpriteWidth,&currentSpriteHight);
 }

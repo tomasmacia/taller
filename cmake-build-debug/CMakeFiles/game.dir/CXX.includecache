@@ -149,16 +149,16 @@ cassert
 -
 
 /home/axel/repositorio_local/taller/src/game/Game.h
+SDL2/SDL.h
+-
+SDL2/SDL_image.h
+-
 ../LogLib/LogManager.h
 /home/axel/repositorio_local/taller/src/LogLib/LogManager.h
 ../parser/config/config.h
 /home/axel/repositorio_local/taller/src/parser/config/config.h
 
 /home/axel/repositorio_local/taller/src/game/GameClient.h
-SDL2/SDL.h
--
-SDL2/SDL_image.h
--
 Game.h
 /home/axel/repositorio_local/taller/src/game/Game.h
 
@@ -407,6 +407,16 @@ Action.h
 /home/axel/repositorio_local/taller/src/game/Action.h
 ECS.h
 /home/axel/repositorio_local/taller/src/game/ECS.h
+
+/home/axel/repositorio_local/taller/src/game/TextureWrapper.cpp
+SDL2/SDL_image.h
+-
+TextureWrapper.h
+/home/axel/repositorio_local/taller/src/game/TextureWrapper.h
+GameClient.h
+/home/axel/repositorio_local/taller/src/game/GameClient.h
+GameServer.h
+/home/axel/repositorio_local/taller/src/game/GameServer.h
 
 /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
 string

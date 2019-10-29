@@ -457,10 +457,17 @@ CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/parser/config/weapon.h
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/parser/config/weapons.h
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/LogLib/LogManager.h
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/LogLib/Logger.h
+CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/CameraComponent.h
+CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/GameClient.h
+CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/GameServer.h
+CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/LevelBuilder.h
+CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/LevelLimits.h
+CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/Manager.h
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/TextureWrapper.cpp
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/TextureWrapper.h
+CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/ToClientPack.h
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/parser/config/config.h
 
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/parser/config/bindings.h

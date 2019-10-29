@@ -16,6 +16,7 @@ public:
     static GameServer &getInstance() {
         static GameServer instance; // Guaranteed to be destroyed.
         // Instantiated on first use.
+        hasInstance = true;
         return instance;
     }
     GameServer(GameServer const &) = delete;
@@ -29,6 +30,10 @@ public:
     void start() override ;
     void endLevel();
     int getCurrentLevelWidth();
+
+    static bool isActive(){
+        return hasInstance;
+    }
 
     // *************************
     // ******* WRAPPERS ********
@@ -57,6 +62,8 @@ private:
     void processInput();
     void update();
     void sendUpdate();
+
+    static bool hasInstance;
 
     std::list<ToClientPack> toClientsPackages;
 

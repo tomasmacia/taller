@@ -1,9 +1,6 @@
 #ifndef GAME_GAMECLIENT_H_
 #define GAME_GAMECLIENT_H_
 
-
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 #include "Game.h"
 //#include "LoggerMenu.h" TODO
 
@@ -16,6 +13,7 @@ public:
     static GameClient &getInstance() {
         static GameClient instance; // Guaranteed to be destroyed.
         // Instantiated on first use.
+        hasInstance = true;
         return instance;
     }
     GameClient(GameClient const &) = delete;
@@ -28,13 +26,13 @@ public:
 
     void start() override;
 
+    static bool isActive(){
+        return hasInstance;
+    }
+
     // *************************
     // ******* WRAPPERS ********
     // *************************
-
-    SDL_Renderer* getRenderer(){
-        return renderer;
-    }
 
 protected:
     void init() override ;
@@ -48,17 +46,14 @@ private:
         destroy();
     }
 
-    // inits
-    void initSDL();
-
     // gameloop
     void sendInput();
     void render();
     //void initLoggerMenu(); TODO
     //void openLogin(); TODO
 
-    SDL_Window *window = nullptr;
-    SDL_Renderer *renderer = nullptr;
+    static bool hasInstance;
+
     //LoggerMenu* loggerMenu = nullptr; TODO
 
 };

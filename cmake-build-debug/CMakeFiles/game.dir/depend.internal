@@ -458,10 +458,17 @@ CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o
  ../src/parser/config/weapons.h
  /home/axel/repositorio_local/taller/src/LogLib/LogManager.h
  /home/axel/repositorio_local/taller/src/LogLib/Logger.h
+ /home/axel/repositorio_local/taller/src/game/CameraComponent.h
+ /home/axel/repositorio_local/taller/src/game/ECS.h
  /home/axel/repositorio_local/taller/src/game/Game.h
  /home/axel/repositorio_local/taller/src/game/GameClient.h
+ /home/axel/repositorio_local/taller/src/game/GameServer.h
+ /home/axel/repositorio_local/taller/src/game/LevelBuilder.h
+ /home/axel/repositorio_local/taller/src/game/LevelLimits.h
+ /home/axel/repositorio_local/taller/src/game/Manager.h
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.cpp
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
+ /home/axel/repositorio_local/taller/src/game/ToClientPack.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
 CMakeFiles/game.dir/src/game/main.cpp.o
  ../src/parser/config/bindings.h

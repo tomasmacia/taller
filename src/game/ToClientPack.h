@@ -12,9 +12,20 @@ class ToClientPack {
             this->path = path;
             this->srcRect = srcRect;
             this->destRect = destRect;
-            this->fliped = fliped;
+            this->fliped = isFliped;
         }
-        std::string getPath();
+        ToClientPack(){ //NULL PATTERN
+            SDL_Rect aux;
+            this->path = "NULL";
+            this->srcRect = aux;
+            this->destRect = aux;
+            this->fliped = false;
+        }
+
+        std::string getPath(){
+            return path;
+        }
+
         SDL_Rect getSourceRect();
         SDL_Rect getDestinationRect();
         TextureWrapper asTextureWrapper();

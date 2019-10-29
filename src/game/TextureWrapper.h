@@ -41,9 +41,12 @@ public:
         return mHeight;
     }
 
-    static void measureWidtAndHeighthOf(std::string spritePath,int* width, int* hegith); //si habias iniciado SDL antes en este thread, este metodo lo corta
+    static void measureWidthAndHeighthOf(std::string spritePath,int* width, int* hegith); //si habias iniciado SDL antes en este thread, este metodo lo corta
 
 private:
+    void getRenderer();
+    static SDL_Renderer* staticGetRenderer();
+
     // The actual hardware texture
     SDL_Texture* mTexture = nullptr;
 
@@ -53,6 +56,5 @@ private:
 
     SDL_Renderer* renderer = nullptr;
 };
-
 
 #endif //GAME_TEXTUREWRAPPER_H
