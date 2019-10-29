@@ -295,6 +295,7 @@ CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/LogLib/Logger.h
 CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/game/LoggerMenu.cpp
 CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/game/LoggerMenu.h
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/game/TextureWrapper.h
 CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/parser/CLIArgumentParser.h
 CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/parser/config/config.h
 CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/parser/xmlparser.h

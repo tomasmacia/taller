@@ -17,7 +17,7 @@ void GameClient::start() {
     isRunning = true;
     LogManager::logInfo("Se inicia GameClient");
 
-    startLogin();
+    //startLogin();
     initSDL();
     LogManager::logDebug("inicializado SDL");
 
@@ -71,6 +71,7 @@ void GameClient::clearTextureMap(){
 
 void GameClient::init() {
     initConfig();
+    //amountOfPlayersExpected = config->gameplay.amountPlayers;
     //initiSocketManager();
     loginMenu = new LoggerMenu();
 
@@ -90,7 +91,11 @@ void GameClient::startLogin(){
     LogManager::logInfo("Se inicia pantalla de login");
     if (!loginMenu->open()){
         end();
+        LogManager::logInfo("Login no exitoso");
     }
-    //loginMenu->sendUserPassLogged(socketManager);
-    //this->playerId = socketManager->listen();
+    else{
+        //loginMenu->sendUserPassLogged(socketManager);
+        //this->playerId = socketManager->listen();
+        LogManager::logInfo("Login exitoso!");
+    }
 }

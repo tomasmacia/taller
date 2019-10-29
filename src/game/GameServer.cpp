@@ -53,8 +53,11 @@ void GameServer::sendUpdate() {
 }
 
 void GameServer::checkUntilAllPlayerHasBeenLoged(){
-
-
+    /*
+    while (amountOfPlayersLoged < amountOfPlayersExpected){
+        socketManager()->listen();
+    }
+     */
 }
 
 void GameServer::endLevel(){

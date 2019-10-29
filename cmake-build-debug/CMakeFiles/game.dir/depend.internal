@@ -296,6 +296,7 @@ CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o
  /home/axel/repositorio_local/taller/src/game/Game.h
  /home/axel/repositorio_local/taller/src/game/LoggerMenu.cpp
  /home/axel/repositorio_local/taller/src/game/LoggerMenu.h
+ /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
  /home/axel/repositorio_local/taller/src/parser/CLIArgumentParser.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
  /home/axel/repositorio_local/taller/src/parser/xmlparser.h

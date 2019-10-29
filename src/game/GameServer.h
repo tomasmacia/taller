@@ -67,6 +67,9 @@ private:
 
     static bool hasInstance;
 
+    int amountOfPlayersLoged = 0;
+    int amountOfPlayersExpected;
+
     std::list<ToClientPack> toClientsPackages;
 
     LevelBuilder* levelBuilder = nullptr;
