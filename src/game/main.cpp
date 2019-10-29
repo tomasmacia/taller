@@ -59,7 +59,8 @@ int main(int argc, const char** argv) {
         GameClient::getInstance().start();
     }
 
-    //delete(logger); TODO solucionar seg fault
+    //la funcion delete no existe si no es explicitada. delete es un operador primitivo de cpp
+    delete logger;
 
     return 0;
 }
