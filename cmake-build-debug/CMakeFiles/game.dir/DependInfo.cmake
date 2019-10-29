@@ -22,6 +22,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/axel/repositorio_local/taller/src/game/InputComponent.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/game/InputComponent.cpp.o"
   "/home/axel/repositorio_local/taller/src/game/LevelBuilder.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o"
   "/home/axel/repositorio_local/taller/src/game/LevelLimits.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/game/LevelLimits.cpp.o"
+  "/home/axel/repositorio_local/taller/src/game/LoggerMenu.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o"
   "/home/axel/repositorio_local/taller/src/game/Manager.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/game/Manager.cpp.o"
   "/home/axel/repositorio_local/taller/src/game/MobileRenderComponent.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/game/MobileRenderComponent.cpp.o"
   "/home/axel/repositorio_local/taller/src/game/NPCRenderComponent.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o"

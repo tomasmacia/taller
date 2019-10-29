@@ -48,7 +48,7 @@ protected:
     void initSDL();
 
     bool isRunning;
-    int playerId = NULL;
+    int playerId = 0;
 
     Controller *controller = nullptr;
     Config *config = nullptr;

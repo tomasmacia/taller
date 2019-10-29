@@ -19,6 +19,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/game.dir/src/game/InputComponent.cpp.o"
   "CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o"
   "CMakeFiles/game.dir/src/game/LevelLimits.cpp.o"
+  "CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o"
   "CMakeFiles/game.dir/src/game/Manager.cpp.o"
   "CMakeFiles/game.dir/src/game/MobileRenderComponent.cpp.o"
   "CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o"

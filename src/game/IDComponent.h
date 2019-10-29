@@ -15,7 +15,7 @@ public:
     int getId();
 
 private:
-    int id = NULL;
+    int id = 0;
 
 };
 

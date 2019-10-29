@@ -192,6 +192,13 @@ CMakeFiles/game.dir/src/game/IAComponent.cpp.o
  /home/axel/repositorio_local/taller/src/game/IAComponent.cpp
  /home/axel/repositorio_local/taller/src/game/IAComponent.h
  /home/axel/repositorio_local/taller/src/game/StateComponent.h
+CMakeFiles/game.dir/src/game/IDComponent.cpp.o
+ /home/axel/repositorio_local/taller/src/game/ECS.h
+ /home/axel/repositorio_local/taller/src/game/IDComponent.cpp
+ /home/axel/repositorio_local/taller/src/game/IDComponent.h
+CMakeFiles/game.dir/src/game/IDPlayer.cpp.o
+ /home/axel/repositorio_local/taller/src/game/IDPlayer.cpp
+ /home/axel/repositorio_local/taller/src/game/IDPlayer.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o
  ../src/parser/config/bindings.h
  ../src/parser/config/characterxml.h
@@ -211,6 +218,7 @@ CMakeFiles/game.dir/src/game/InputComponent.cpp.o
  /home/axel/repositorio_local/taller/src/game/ECS.h
  /home/axel/repositorio_local/taller/src/game/Game.h
  /home/axel/repositorio_local/taller/src/game/GameServer.h
+ /home/axel/repositorio_local/taller/src/game/IDComponent.h
  /home/axel/repositorio_local/taller/src/game/InputComponent.cpp
  /home/axel/repositorio_local/taller/src/game/InputComponent.h
  /home/axel/repositorio_local/taller/src/game/LevelBuilder.h
@@ -241,6 +249,8 @@ CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o
  /home/axel/repositorio_local/taller/src/game/Game.h
  /home/axel/repositorio_local/taller/src/game/GameServer.h
  /home/axel/repositorio_local/taller/src/game/IAComponent.h
+ /home/axel/repositorio_local/taller/src/game/IDComponent.h
+ /home/axel/repositorio_local/taller/src/game/IDPlayer.h
  /home/axel/repositorio_local/taller/src/game/InputComponent.h
  /home/axel/repositorio_local/taller/src/game/LevelBuilder.cpp
  /home/axel/repositorio_local/taller/src/game/LevelBuilder.h
@@ -264,6 +274,26 @@ CMakeFiles/game.dir/src/game/LevelLimits.cpp.o
  /home/axel/repositorio_local/taller/src/game/ECS.h
  /home/axel/repositorio_local/taller/src/game/LevelLimits.cpp
  /home/axel/repositorio_local/taller/src/game/LevelLimits.h
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o
+ ../include/tinyxml2.h
+ ../src/parser/config/bindings.h
+ ../src/parser/config/characterxml.h
+ ../src/parser/config/gameplay.h
+ ../src/parser/config/level.h
+ ../src/parser/config/npc.h
+ ../src/parser/config/screenresolution.h
+ ../src/parser/config/utilities.h
+ ../src/parser/config/utility.h
+ ../src/parser/config/weapon.h
+ ../src/parser/config/weapons.h
+ /home/axel/repositorio_local/taller/src/LogLib/LogManager.h
+ /home/axel/repositorio_local/taller/src/LogLib/Logger.h
+ /home/axel/repositorio_local/taller/src/game/Game.h
+ /home/axel/repositorio_local/taller/src/game/LoggerMenu.cpp
+ /home/axel/repositorio_local/taller/src/game/LoggerMenu.h
+ /home/axel/repositorio_local/taller/src/parser/CLIArgumentParser.h
+ /home/axel/repositorio_local/taller/src/parser/config/config.h
+ /home/axel/repositorio_local/taller/src/parser/xmlparser.h
 CMakeFiles/game.dir/src/game/Manager.cpp.o
  /home/axel/repositorio_local/taller/src/LogLib/LogManager.h
  /home/axel/repositorio_local/taller/src/LogLib/Logger.h
@@ -477,6 +507,7 @@ CMakeFiles/game.dir/src/game/ToClientPack.cpp.o
  /home/axel/repositorio_local/taller/src/game/ToClientPack.cpp
  /home/axel/repositorio_local/taller/src/game/ToClientPack.h
 CMakeFiles/game.dir/src/game/main.cpp.o
+ ../include/tinyxml2.h
  ../src/parser/config/bindings.h
  ../src/parser/config/characterxml.h
  ../src/parser/config/gameplay.h
@@ -496,6 +527,7 @@ CMakeFiles/game.dir/src/game/main.cpp.o
  /home/axel/repositorio_local/taller/src/game/GameServer.h
  /home/axel/repositorio_local/taller/src/game/LevelBuilder.h
  /home/axel/repositorio_local/taller/src/game/LevelLimits.h
+ /home/axel/repositorio_local/taller/src/game/LoggerMenu.h
  /home/axel/repositorio_local/taller/src/game/Manager.h
  /home/axel/repositorio_local/taller/src/game/Mode.h
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
@@ -503,6 +535,7 @@ CMakeFiles/game.dir/src/game/main.cpp.o
  /home/axel/repositorio_local/taller/src/game/main.cpp
  /home/axel/repositorio_local/taller/src/parser/CLIArgumentParser.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
+ /home/axel/repositorio_local/taller/src/parser/xmlparser.h
  /home/axel/repositorio_local/taller/src/utils/TimeUtils.h
 CMakeFiles/game.dir/src/parser/CLIArgumentParser.cpp.o
  /home/axel/repositorio_local/taller/src/parser/CLIArgumentParser.cpp

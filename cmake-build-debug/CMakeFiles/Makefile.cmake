@@ -41,6 +41,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.15.3/CMakeSystem.cmake"
   "../cmake/FindSDL2.cmake"
   "../cmake/FindSDL2_image.cmake"
+  "../cmake/FindSDL2_ttf.cmake"
   )
 
 # The corresponding makefile is:

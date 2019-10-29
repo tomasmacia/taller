@@ -6,7 +6,6 @@
 
 #include "ToClientPack.h"
 #include "Game.h"
-//#include "LoggerMenu.h" TODO
 
 class GameClient : public  Game{
 public:
@@ -55,16 +54,11 @@ private:
     void pollAndSendInput();
     void render();
     void renderCadaPaquete();
-    //void initLoggerMenu(); TODO
-    //void openLogin(); TODO
 
     static bool hasInstance;
 
     std::map<std::string, TextureWrapper*> loadedTexturesMap;
     std::list<ToClientPack> packages;
-
-    //LoggerMenu* loggerMenu = nullptr; TODO
-
 };
 
 #endif //GAME_GAMECLIENT_H_

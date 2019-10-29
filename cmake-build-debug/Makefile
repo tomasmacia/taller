@@ -609,6 +609,33 @@ src/game/LevelLimits.cpp.s:
 	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/LevelLimits.cpp.s
 .PHONY : src/game/LevelLimits.cpp.s
 
+src/game/LoggerMenu.o: src/game/LoggerMenu.cpp.o
+
+.PHONY : src/game/LoggerMenu.o
+
+# target to build an object file
+src/game/LoggerMenu.cpp.o:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o
+.PHONY : src/game/LoggerMenu.cpp.o
+
+src/game/LoggerMenu.i: src/game/LoggerMenu.cpp.i
+
+.PHONY : src/game/LoggerMenu.i
+
+# target to preprocess a source file
+src/game/LoggerMenu.cpp.i:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/LoggerMenu.cpp.i
+.PHONY : src/game/LoggerMenu.cpp.i
+
+src/game/LoggerMenu.s: src/game/LoggerMenu.cpp.s
+
+.PHONY : src/game/LoggerMenu.s
+
+# target to generate assembly for a file
+src/game/LoggerMenu.cpp.s:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/LoggerMenu.cpp.s
+.PHONY : src/game/LoggerMenu.cpp.s
+
 src/game/Manager.o: src/game/Manager.cpp.o
 
 .PHONY : src/game/Manager.o
@@ -1050,6 +1077,9 @@ help:
 	@echo "... src/game/LevelLimits.o"
 	@echo "... src/game/LevelLimits.i"
 	@echo "... src/game/LevelLimits.s"
+	@echo "... src/game/LoggerMenu.o"
+	@echo "... src/game/LoggerMenu.i"
+	@echo "... src/game/LoggerMenu.s"
 	@echo "... src/game/Manager.o"
 	@echo "... src/game/Manager.i"
 	@echo "... src/game/Manager.s"

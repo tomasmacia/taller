@@ -206,7 +206,7 @@ void LevelBuilder::initializePlayers() {
     int offset = screenResolutionWidth/(amountOfPlayers + 1);
     int i = 0;
 
-    IDPlayer::initIDCounter();
+    IDPlayer::getInstance().initIDCounter();
     for (auto &pj : GameServer::getInstance().getConfig()->gameplay.characters) {
         
         int x = offset*(i+1);
@@ -214,7 +214,7 @@ void LevelBuilder::initializePlayers() {
 
         auto *player = manager->addPlayer();
         _camera->getComponent<CameraComponent>()->setPlayer(player);
-        player->addComponent<IDComponent>(IDPlayer::getNextId());
+        player->addComponent<IDComponent>(IDPlayer::getInstance().getNextId());
         player->addComponent<InputComponent>();
         player->addComponent<PhysicsComponent>(_levelLimits->getComponent<LevelLimits>());
         player->addComponent<PositionComponent>(x,y);
