@@ -43,13 +43,6 @@ Mode getModeFromCommandLine(int argc, const char** argv){
     return mode;
 }
 
-void startLogin(Logger* logger){
-    LogManager::logInfo("Se inicia pantalla de login");
-
-    LoggerMenu* login = new LoggerMenu();
-    login->open();
-}
-
 int main(int argc, const char** argv) {
 
     CLIArgumentParser::getInstance().init(argc, argv);
@@ -65,8 +58,12 @@ int main(int argc, const char** argv) {
 
     if (mode == CLIENT){
 
-        startLogin(logger);
-        GameClient::getInstance().start();
+        LoggerMenu* login = new LoggerMenu();
+        LogManager::logInfo("Se inicia pantalla de login");
+
+        if (login->open()){
+            GameClient::getInstance().start();
+        }
     }
 
     //delete(logger); TODO solucionar seg fault
