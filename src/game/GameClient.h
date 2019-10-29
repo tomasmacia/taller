@@ -1,6 +1,10 @@
 #ifndef GAME_GAMECLIENT_H_
 #define GAME_GAMECLIENT_H_
 
+#include <map>
+#include "list"
+
+#include "ToClientPack.h"
 #include "Game.h"
 //#include "LoggerMenu.h" TODO
 
@@ -49,10 +53,14 @@ private:
     // gameloop
     void sendInput();
     void render();
+    void renderCadaPaquete();
     //void initLoggerMenu(); TODO
     //void openLogin(); TODO
 
     static bool hasInstance;
+
+    std::map<std::string, TextureWrapper*> loadedTexturesMap;
+    std::list<ToClientPack> packages;
 
     //LoggerMenu* loggerMenu = nullptr; TODO
 

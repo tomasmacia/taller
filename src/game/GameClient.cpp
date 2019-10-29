@@ -33,13 +33,12 @@ void GameClient::sendInput() {
 }
 
 void GameClient::render() {
-    std::cout<<"CLIENT: renderizo todo lo que me llego"<<'\n';
 
-    /*TODO
     SDL_RenderClear(renderer);
     renderCadaPaquete();
     SDL_RenderPresent(renderer);
-     */
+
+    std::cout<<"CLIENT: renderizo todo lo que me llego"<<'\n';
 }
 
 void GameClient::destroy() {
@@ -61,6 +60,10 @@ void GameClient::init() {
     LogManager::logDebug("inicializado SDL");
     LogManager::logDebug("inicializado LoggerMenu");
     LogManager::logDebug("=======================================");
+}
+
+void GameClient::renderCadaPaquete(){
+    for(auto package : packages){ package.render(loadedTexturesMap); }
 }
 
 /*

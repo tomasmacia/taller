@@ -157,6 +157,8 @@ CMakeFiles/game.dir/src/game/GameClient.cpp.o
  /home/axel/repositorio_local/taller/src/game/Game.h
  /home/axel/repositorio_local/taller/src/game/GameClient.cpp
  /home/axel/repositorio_local/taller/src/game/GameClient.h
+ /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
+ /home/axel/repositorio_local/taller/src/game/ToClientPack.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
 CMakeFiles/game.dir/src/game/GameServer.cpp.o
  ../src/parser/config/bindings.h
@@ -470,6 +472,10 @@ CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
  /home/axel/repositorio_local/taller/src/game/ToClientPack.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
+CMakeFiles/game.dir/src/game/ToClientPack.cpp.o
+ /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
+ /home/axel/repositorio_local/taller/src/game/ToClientPack.cpp
+ /home/axel/repositorio_local/taller/src/game/ToClientPack.h
 CMakeFiles/game.dir/src/game/main.cpp.o
  ../src/parser/config/bindings.h
  ../src/parser/config/characterxml.h

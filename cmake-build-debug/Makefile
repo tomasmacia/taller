@@ -798,6 +798,33 @@ src/game/TextureWrapper.cpp.s:
 	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/TextureWrapper.cpp.s
 .PHONY : src/game/TextureWrapper.cpp.s
 
+src/game/ToClientPack.o: src/game/ToClientPack.cpp.o
+
+.PHONY : src/game/ToClientPack.o
+
+# target to build an object file
+src/game/ToClientPack.cpp.o:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/ToClientPack.cpp.o
+.PHONY : src/game/ToClientPack.cpp.o
+
+src/game/ToClientPack.i: src/game/ToClientPack.cpp.i
+
+.PHONY : src/game/ToClientPack.i
+
+# target to preprocess a source file
+src/game/ToClientPack.cpp.i:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/ToClientPack.cpp.i
+.PHONY : src/game/ToClientPack.cpp.i
+
+src/game/ToClientPack.s: src/game/ToClientPack.cpp.s
+
+.PHONY : src/game/ToClientPack.s
+
+# target to generate assembly for a file
+src/game/ToClientPack.cpp.s:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/ToClientPack.cpp.s
+.PHONY : src/game/ToClientPack.cpp.s
+
 src/game/main.o: src/game/main.cpp.o
 
 .PHONY : src/game/main.o
@@ -990,6 +1017,9 @@ help:
 	@echo "... src/game/TextureWrapper.o"
 	@echo "... src/game/TextureWrapper.i"
 	@echo "... src/game/TextureWrapper.s"
+	@echo "... src/game/ToClientPack.o"
+	@echo "... src/game/ToClientPack.i"
+	@echo "... src/game/ToClientPack.s"
 	@echo "... src/game/main.o"
 	@echo "... src/game/main.i"
 	@echo "... src/game/main.s"

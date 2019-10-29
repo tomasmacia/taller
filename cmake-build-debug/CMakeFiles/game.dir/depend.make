@@ -156,6 +156,8 @@ CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/Controller.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/GameClient.cpp
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/GameClient.h
+CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/TextureWrapper.h
+CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/ToClientPack.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/parser/config/config.h
 
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/parser/config/bindings.h
@@ -469,6 +471,10 @@ CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/TextureWrapper.cp
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/TextureWrapper.h
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/ToClientPack.h
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/parser/config/config.h
+
+CMakeFiles/game.dir/src/game/ToClientPack.cpp.o: ../src/game/TextureWrapper.h
+CMakeFiles/game.dir/src/game/ToClientPack.cpp.o: ../src/game/ToClientPack.cpp
+CMakeFiles/game.dir/src/game/ToClientPack.cpp.o: ../src/game/ToClientPack.h
 
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/parser/config/bindings.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/parser/config/characterxml.h

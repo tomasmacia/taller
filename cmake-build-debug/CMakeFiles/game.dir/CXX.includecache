@@ -158,7 +158,27 @@ SDL2/SDL_image.h
 ../parser/config/config.h
 /home/axel/repositorio_local/taller/src/parser/config/config.h
 
+/home/axel/repositorio_local/taller/src/game/GameClient.cpp
+SDL2/SDL.h
+-
+SDL2/SDL_image.h
+-
+../LogLib/Logger.h
+/home/axel/repositorio_local/taller/src/LogLib/Logger.h
+GameClient.h
 /home/axel/repositorio_local/taller/src/game/GameClient.h
+Controller.h
+/home/axel/repositorio_local/taller/src/game/Controller.h
+iostream
+-
+
+/home/axel/repositorio_local/taller/src/game/GameClient.h
+map
+-
+list
+/home/axel/repositorio_local/taller/src/game/list
+ToClientPack.h
+/home/axel/repositorio_local/taller/src/game/ToClientPack.h
 Game.h
 /home/axel/repositorio_local/taller/src/game/Game.h
 
@@ -426,13 +446,19 @@ vector
 SDL2/SDL_render.h
 -
 
+/home/axel/repositorio_local/taller/src/game/ToClientPack.cpp
+ToClientPack.h
+/home/axel/repositorio_local/taller/src/game/ToClientPack.h
+
 /home/axel/repositorio_local/taller/src/game/ToClientPack.h
 SDL2/SDL.h
 -
-TextureWrapper.h
-/home/axel/repositorio_local/taller/src/game/TextureWrapper.h
 string
 -
+map
+-
+TextureWrapper.h
+/home/axel/repositorio_local/taller/src/game/TextureWrapper.h
 
 /home/axel/repositorio_local/taller/src/game/main.cpp
 algorithm
