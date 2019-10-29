@@ -17,10 +17,10 @@ class ToClientPack {
         std::string getPath();
 
     private:
-        std::string path;
-        SDL_Rect destRect;
-        SDL_Rect srcRect;
-        bool fliped;
-};
+        std::string path;   //un string
+        SDL_Rect destRect;  //4 int
+        SDL_Rect srcRect;   //4 int
+        bool fliped;        //1 int (1 o 0)
+};      //PODEMOS USAR ESTO PARA MANDAR TEXTO EN VEZ DE SERIALIZAR EL OBJETO
 
 #endif
