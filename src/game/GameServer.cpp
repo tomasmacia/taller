@@ -54,7 +54,7 @@ void GameServer::sendUpdate() {
 
 void GameServer::checkUntilAllPlayerHasBeenLoged(){
 
-    while 
+
 }
 
 void GameServer::endLevel(){

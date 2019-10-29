@@ -158,6 +158,7 @@ CMakeFiles/game.dir/src/game/GameClient.cpp.o
  /home/axel/repositorio_local/taller/src/game/Game.h
  /home/axel/repositorio_local/taller/src/game/GameClient.cpp
  /home/axel/repositorio_local/taller/src/game/GameClient.h
+ /home/axel/repositorio_local/taller/src/game/IDPlayer.h
  /home/axel/repositorio_local/taller/src/game/LoggerMenu.h
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
  /home/axel/repositorio_local/taller/src/game/ToClientPack.h

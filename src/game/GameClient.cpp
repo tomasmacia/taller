@@ -67,7 +67,7 @@ void GameClient::clearTextureMap(){
     {
         delete itr->second;
     }
-}IDPlayer::getInstance().addNewIdPlayer();
+}
 
 void GameClient::init() {
     initConfig();

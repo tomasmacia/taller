@@ -157,6 +157,7 @@ CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/Controller.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/GameClient.cpp
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/GameClient.h
+CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/IDPlayer.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/LoggerMenu.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/TextureWrapper.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/ToClientPack.h
