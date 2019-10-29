@@ -5,9 +5,11 @@
 
 int main(int argc, const char** argv) {
     CLIArgumentParser::getInstance().init(argc, argv);
-    LoggerMenu* log = new LoggerMenu();
-
-    Game::getInstance().start();
+    LoggerMenu* login = new LoggerMenu();
+    
+    if(login->open()){
+        Game::getInstance().start();
+    }
 
     return 0;
 }

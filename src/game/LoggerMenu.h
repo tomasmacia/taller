@@ -17,9 +17,10 @@ class LoggerMenu {
 typedef std::pair<std::string, std::string> componente;
 public:
     LoggerMenu();
-    void init();
+    bool open();
+private:
+    void setPositionToText();
     void agregar();
-    void Logeo();
     void OnEvent(SDL_Event* Event);
     void Nombre_de_Usuario_Estatico();
     void typing();
@@ -41,7 +42,7 @@ private:
     SDL_Window *window = nullptr;
     SDL_Texture* Usuario=nullptr, *Usuario_completo=nullptr;
     SDL_Texture* pass =nullptr;
-    bool running=true, cursosrInTxt=false;
+    bool running=true, cursosrInTxt=false, quit = false;
     
     std::string input,user,password;
     TTF_Font *font;

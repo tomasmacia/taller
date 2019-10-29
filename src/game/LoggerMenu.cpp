@@ -6,9 +6,11 @@
 #include<string>
 
 LoggerMenu::LoggerMenu(){
-    initSDL();
-    init();
-
+   // initSDL();
+  agregar();
+  enter = 0;
+  cursor=0;
+  initSDL();
 }
 
 void LoggerMenu::initSDL() {
@@ -20,7 +22,7 @@ void LoggerMenu::initSDL() {
         int windowWidth = 800;
         int windowHeight = 600;
 
-        this->window = SDL_CreateWindow("Final Fight", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowWidth, windowHeight, 0);
+        this->window = SDL_CreateWindow("Final Fight", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowWidth, windowHeight, SDL_WINDOW_HIDDEN);
         this->_render = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_PRESENTVSYNC);
 
         TTF_Init();
@@ -29,14 +31,10 @@ void LoggerMenu::initSDL() {
 
 }
 
-void LoggerMenu::init(){
-  agregar();
-  enter = 0;
-  Fondo();
-  cursor=0;
+void LoggerMenu::setPositionToText(){
+
   UserRect.x=475;UserRect.y=180;
   textRect.x=475;textRect.y=180;
-  this->Logeo();
 }
 
 
@@ -52,8 +50,10 @@ void LoggerMenu::agregar()
     directorio.insert( componente("ANDREA", "777"));
 }
 
-void LoggerMenu::Logeo(){
-
+bool LoggerMenu::open(){
+  Fondo();
+  setPositionToText();
+  SDL_ShowWindow(window);
   SDL_Event Event;
     while(running){
       while(SDL_PollEvent(&Event)){ 
@@ -61,40 +61,46 @@ void LoggerMenu::Logeo(){
       }
       Update();
     }
-  SDL_Delay(2000);
+  SDL_Delay(1000);
   this->destroy();
-}
-  void LoggerMenu::Fondo(){
-    SDL_Surface*_image = IMG_Load("resources/sprites/Menu/logo.png");
-    _texture = SDL_CreateTextureFromSurface( _render, _image );
-    SDL_FreeSurface(_image);
-
-    int w=0,h=0;
-    font =TTF_OpenFont("resources/sprites/Menu/reve.ttf",20);
-    textColor.r=textColor.g=textColor.b=0;
-
-    _image = TTF_RenderText_Solid(font,"User: ",textColor);
-    Usuario= SDL_CreateTextureFromSurface(_render,_image);
-    SDL_QueryTexture(Usuario,NULL,NULL,&w,&h);
-    _usuario.x=550;_usuario.y=150;
-    _usuario.h=h;_usuario.w=w;
-    SDL_FreeSurface(_image);
-
-    _image = TTF_RenderText_Solid(font,"Password: ",textColor);
-    pass= SDL_CreateTextureFromSurface(_render,_image);
-    SDL_QueryTexture(pass,NULL,NULL,&w,&h);
-    _pass.x=525;_pass.y=250;
-    _pass.h=h;_pass.w=w;
-    SDL_FreeSurface(_image);
-
-      _image = TTF_RenderText_Solid(font,"l",textColor);
-    _cursor= SDL_CreateTextureFromSurface(_render,_image);
-    SDL_QueryTexture(_cursor,NULL,NULL,&w,&h);
-    destCursor.x=475;destCursor.y=180;
-    destCursor.h=h;destCursor.w=w;
-    SDL_FreeSurface(_image);
-
+  if (quit){
+    return false;
   }
+  return true;
+}
+
+
+void LoggerMenu::Fondo(){
+  SDL_Surface*_image = IMG_Load("resources/sprites/Menu/logo.png");
+  _texture = SDL_CreateTextureFromSurface( _render, _image );
+  SDL_FreeSurface(_image);
+
+  int w=0,h=0;
+  font =TTF_OpenFont("resources/sprites/Menu/reve.ttf",20);
+  textColor.r=textColor.g=textColor.b=0;
+
+  _image = TTF_RenderText_Solid(font,"User: ",textColor);
+  Usuario= SDL_CreateTextureFromSurface(_render,_image);
+  SDL_QueryTexture(Usuario,NULL,NULL,&w,&h);
+  _usuario.x=550;_usuario.y=150;
+  _usuario.h=h;_usuario.w=w;
+  SDL_FreeSurface(_image);
+
+  _image = TTF_RenderText_Solid(font,"Password: ",textColor);
+  pass= SDL_CreateTextureFromSurface(_render,_image);
+  SDL_QueryTexture(pass,NULL,NULL,&w,&h);
+  _pass.x=525;_pass.y=250;
+  _pass.h=h;_pass.w=w;
+  SDL_FreeSurface(_image);
+
+    _image = TTF_RenderText_Solid(font,"l",textColor);
+  _cursor= SDL_CreateTextureFromSurface(_render,_image);
+  SDL_QueryTexture(_cursor,NULL,NULL,&w,&h);
+  destCursor.x=475;destCursor.y=180;
+  destCursor.h=h;destCursor.w=w;
+  SDL_FreeSurface(_image);
+
+}
 
 
   void LoggerMenu::Update(){
@@ -149,6 +155,7 @@ void LoggerMenu::cursorBlip(){
 void LoggerMenu::OnEvent(SDL_Event* Event) {
     //handle window close
     if(Event->type == SDL_QUIT) {
+        quit = true;
         running = false;
     }
 
@@ -185,8 +192,6 @@ void LoggerMenu::OnEvent(SDL_Event* Event) {
             case SDLK_KP_PLUS:break;
             case SDLK_RETURN:
               if (enter == 1){
-                password=input;
-                input.clear();
                 enter=0;
                 textRect.y = 180;
                 ValidarCredenciales();
@@ -211,6 +216,7 @@ void LoggerMenu::OnEvent(SDL_Event* Event) {
                 }
               break;
             case SDLK_ESCAPE:
+              quit = true;
               running=false;
               break;
             default:
@@ -240,7 +246,7 @@ void LoggerMenu::ValidarCredenciales(){
   
   std::map<std::string, std::string>::iterator p = directorio.find(user);
   if(p != directorio.end()){
-    if(p->second == password){
+    if(p->second == input){
       MensajeEmergente("User y Password aceptados");
       running=false;
     }
@@ -258,13 +264,19 @@ void LoggerMenu::ValidarCredenciales(){
   text=nullptr;
   user.clear();
   password.clear();
-
-  }
+  input.clear();
+}
 
 void LoggerMenu::typing(){
-      int w=0,h=0;
+    int w=0,h=0;
     SDL_DestroyTexture(text);
-    message = TTF_RenderText_Solid( font, input.c_str(), textColor );
+    if (enter == 1){
+      password += "*";
+      message = TTF_RenderText_Solid( font, password.c_str(), textColor );
+    }
+    else {
+      message = TTF_RenderText_Solid( font, input.c_str(), textColor );
+    }
     text = SDL_CreateTextureFromSurface(_render,message);
     SDL_QueryTexture(text, NULL, NULL, &w, &h);
     textRect.w=w;textRect.h=h;
