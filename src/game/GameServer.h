@@ -63,6 +63,8 @@ private:
     void update();
     void sendUpdate();
 
+    void checkUntilAllPlayerHasBeenLoged();
+
     static bool hasInstance;
 
     std::list<ToClientPack> toClientsPackages;

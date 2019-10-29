@@ -12,6 +12,8 @@ bool GameServer::hasInstance = false;
 void GameServer::start() {
     LogManager::logInfo("Se inicia Game");
 
+    checkUntilAllPlayerHasBeenLoged();
+
     this->initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
     levelBuilder = new LevelBuilder();
     LogManager::logDebug("inicializado LevelBuilder");
@@ -48,6 +50,11 @@ void GameServer::sendUpdate() {
     toClientsPackages = manager->generateRenderables();
     //socketManager->broadcast(toClientsPackages);  TODO
     std::cout<<"SERVER: mando paquetes a clientes"<<'\n';
+}
+
+void GameServer::checkUntilAllPlayerHasBeenLoged(){
+
+    while 
 }
 
 void GameServer::endLevel(){

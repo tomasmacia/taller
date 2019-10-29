@@ -3,6 +3,8 @@
 #include "../LogLib/Logger.h"
 #include "GameClient.h"
 #include "Controller.h"
+#include "LoggerMenu.h"
+#include "IDPlayer.h"
 
 
 
@@ -11,12 +13,16 @@
 bool GameClient::hasInstance = false;
 
 void GameClient::start() {
+
+    isRunning = true;
     LogManager::logInfo("Se inicia GameClient");
+
+    startLogin();
+    initSDL();
+    LogManager::logDebug("inicializado SDL");
 
     this->initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
     LogManager::logDebug("inicializado Controller");
-
-    isRunning = true;
 
     while (isRunning) {
         pollAndSendInput();            //aca se podria cortar el game loop si se lee un ESC o QUIT
@@ -44,6 +50,10 @@ void GameClient::destroy() {
 
     delete(controller);
     controller = nullptr;
+    delete(loginMenu);
+    loginMenu = nullptr;
+    //delete(socketManager);
+    //socketManager = nullptr;
     clearTextureMap();
     SDL_DestroyWindow(this->window);
     SDL_DestroyRenderer(this->renderer);
@@ -57,18 +67,30 @@ void GameClient::clearTextureMap(){
     {
         delete itr->second;
     }
-}
+}IDPlayer::getInstance().addNewIdPlayer();
 
 void GameClient::init() {
-    this->initConfig();
-    this->initSDL();
+    initConfig();
+    //initiSocketManager();
+    loginMenu = new LoggerMenu();
 
     LogManager::logDebug("inicializado Config");
-    LogManager::logDebug("inicializado SDL");
+    LogManager::logDebug("inicializado SocketManager");
     LogManager::logDebug("inicializado LoggerMenu");
     LogManager::logDebug("=======================================");
 }
 
 void GameClient::renderCadaPaquete(){
     for(auto package : packages){ package.render(loadedTexturesMap); }
+}
+
+void GameClient::startLogin(){
+
+    //loginMenu->getValidCredentials(socketManager);
+    LogManager::logInfo("Se inicia pantalla de login");
+    if (!loginMenu->open()){
+        end();
+    }
+    //loginMenu->sendUserPassLogged(socketManager);
+    //this->playerId = socketManager->listen();
 }

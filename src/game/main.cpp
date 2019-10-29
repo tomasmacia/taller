@@ -57,14 +57,7 @@ int main(int argc, const char** argv) {
     }
 
     if (mode == CLIENT){
-
-        LoggerMenu* loginMenu = new LoggerMenu();
-        LogManager::logInfo("Se inicia pantalla de login");
-
-        if (loginMenu->open()){
-
-            GameClient::getInstance().start();
-        }
+        GameClient::getInstance().start();
     }
 
     //delete(logger); TODO solucionar seg fault

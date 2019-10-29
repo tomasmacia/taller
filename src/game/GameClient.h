@@ -6,6 +6,7 @@
 
 #include "ToClientPack.h"
 #include "Game.h"
+#include "LoggerMenu.h"
 
 class GameClient : public  Game{
 public:
@@ -49,6 +50,7 @@ private:
         destroy();
     }
     void clearTextureMap();
+    void startLogin();
 
     // gameloop
     void pollAndSendInput();
@@ -59,6 +61,9 @@ private:
 
     std::map<std::string, TextureWrapper*> loadedTexturesMap;
     std::list<ToClientPack> packages;
+
+    LoggerMenu* loginMenu = nullptr;
+    //SocketManager* socketManager = nullptr;
 };
 
 #endif //GAME_GAMECLIENT_H_
