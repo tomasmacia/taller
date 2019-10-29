@@ -49,6 +49,7 @@ private:
     ~GameClient() {
         destroy();
     }
+    void clearTextureMap();
 
     // gameloop
     void sendInput();

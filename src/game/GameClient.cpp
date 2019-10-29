@@ -45,10 +45,19 @@ void GameClient::destroy() {
 
     delete(controller);
     controller = nullptr;
+    clearTextureMap();
     SDL_DestroyWindow(this->window);
     SDL_DestroyRenderer(this->renderer);
     SDL_Quit();
     LogManager::logDebug("Memoria de Game liberada");
+}
+
+void GameClient::clearTextureMap(){
+
+    for(std::map<std::string, TextureWrapper*>::iterator itr = loadedTexturesMap.begin(); itr != loadedTexturesMap.end(); itr++)
+    {
+        delete itr->second;
+    }
 }
 
 void GameClient::init() {
