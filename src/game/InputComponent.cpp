@@ -8,8 +8,9 @@
 
 void InputComponent::update() {
     actions = Game::getInstance().getController()->getInput();
-    
-    if (!actions.empty()){
+
+    while (!actions.empty()){
+
         entity->getComponent<StateComponent>()->setIncomingAction(actions.front());
         actions.pop_front();
     }
