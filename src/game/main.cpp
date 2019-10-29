@@ -58,10 +58,11 @@ int main(int argc, const char** argv) {
 
     if (mode == CLIENT){
 
-        LoggerMenu* login = new LoggerMenu();
+        LoggerMenu* loginMenu = new LoggerMenu();
         LogManager::logInfo("Se inicia pantalla de login");
 
-        if (login->open()){
+        if (loginMenu->open()){
+
             GameClient::getInstance().start();
         }
     }
