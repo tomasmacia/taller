@@ -18,6 +18,8 @@
 #include "NonMobileRenderComponent.h"
 #include "RenderComponent.h"
 #include "CameraComponent.h"
+#include "IDComponent.h"
+#include "IDPlayer.h"
 
 
 #include <iostream>
@@ -203,6 +205,8 @@ void LevelBuilder::initializePlayers() {
     int amountOfPlayers = GameServer::getInstance().getConfig()->gameplay.characters.size();
     int offset = screenResolutionWidth/(amountOfPlayers + 1);
     int i = 0;
+
+    IDPlayer::initIDCounter();
     for (auto &pj : GameServer::getInstance().getConfig()->gameplay.characters) {
         
         int x = offset*(i+1);
@@ -210,6 +214,7 @@ void LevelBuilder::initializePlayers() {
 
         auto *player = manager->addPlayer();
         _camera->getComponent<CameraComponent>()->setPlayer(player);
+        player->addComponent<IDComponent>(IDPlayer::getNextId());
         player->addComponent<InputComponent>();
         player->addComponent<PhysicsComponent>(_levelLimits->getComponent<LevelLimits>());
         player->addComponent<PositionComponent>(x,y);

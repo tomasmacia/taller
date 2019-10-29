@@ -17,6 +17,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/axel/repositorio_local/taller/src/game/GameClient.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/game/GameClient.cpp.o"
   "/home/axel/repositorio_local/taller/src/game/GameServer.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/game/GameServer.cpp.o"
   "/home/axel/repositorio_local/taller/src/game/IAComponent.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/game/IAComponent.cpp.o"
+  "/home/axel/repositorio_local/taller/src/game/IDComponent.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/game/IDComponent.cpp.o"
   "/home/axel/repositorio_local/taller/src/game/IDPlayer.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/game/IDPlayer.cpp.o"
   "/home/axel/repositorio_local/taller/src/game/InputComponent.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/game/InputComponent.cpp.o"
   "/home/axel/repositorio_local/taller/src/game/LevelBuilder.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o"

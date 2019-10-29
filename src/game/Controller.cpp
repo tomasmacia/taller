@@ -59,7 +59,7 @@ void Controller::sendInput() {
 }
 
 std::list<std::tuple<Action,int>> Controller::getInput() {
-    return currentInput;
+    return currentInput; //obtengo una copia de todos los inputs de todos los clientes
 }
 
 

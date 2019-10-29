@@ -4,10 +4,19 @@
 
 #include "IDPlayer.h"
 
-void IDPlayer::addNewPlayer(){
-    this->lastIDGenerated ++;
+int lastIDGenerated = 0; //el cero esta reservado para el NULL
+int currentIdCounter = 0;
+std::list<int> ids;
+
+void IDPlayer::addNewIdPlayer(){
+    lastIDGenerated ++;
+    ids.push_back(lastIDGenerated);
 }
 
-int IDPlayer::getNewIdPlayer(){
-    return this->lastIDGenerated;
+int IDPlayer::getNextId(){
+    currentIdCounter ++;
+    return ids. % ids.size();
+}
+void IDPlayer::initIDCounter(){
+    currentIdCounter = 1;
 }
