@@ -15,6 +15,9 @@ class ToClientPack {
 
         void render(std::map<std::string, TextureWrapper*> loadedTexturesMap);
         std::string getPath();
+        SDL_Rect getSrcRect();
+        SDL_Rect getDstRect();
+        bool getFliped();
 
     private:
         std::string path;

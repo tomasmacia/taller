@@ -40,3 +40,17 @@ ToClientPack::ToClientPack(){
 std::string ToClientPack::getPath(){
     return path;
 }
+
+SDL_Rect ToClientPack::getSrcRect() {
+    return srcRect;
+}
+
+SDL_Rect ToClientPack::getDstRect() {
+    return destRect;
+}
+
+bool ToClientPack::getFliped() {
+    return fliped;
+}
+
+

@@ -48,6 +48,9 @@ public:
     Manager* getManager() {
         return manager;
     }
+    Server* getServer() {
+        return server;
+    }
 
 protected:
     void init() override ;
@@ -67,7 +70,7 @@ private:
     void loadValidCredenctials();   //<user,pass>
 
     // gameloop
-    void processInput();
+    void pollInput();
     void update();
     void sendUpdate();
 

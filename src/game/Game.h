@@ -50,7 +50,7 @@ protected:
     void initSDL();
 
     bool isRunning;
-    int playerId = 0;
+    int playerId = -1;
 
     Controller *controller = nullptr;
     Config *config = nullptr;

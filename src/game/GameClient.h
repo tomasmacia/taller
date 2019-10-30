@@ -29,6 +29,9 @@ public:
     // *************************
 
     void start() override;
+    void reconstructPackage(vector<string> splitedPackage);
+    void sendAknowledgeToLogerMenu(int id);
+    void setPlayerId(int id);
 
     static bool isActive(){
         return hasInstance;
@@ -55,13 +58,13 @@ private:
     // gameloop
     void pollAndSendInput();
     void render();
-    void renderCadaPaquete();
+    void renderAllPackages();
 
     static bool hasInstance;
 
+    LoggerMenu* loggerMenu = nullptr;
     Client* client = nullptr;
-    std::map<std::string, TextureWrapper*> loadedTexturesMap;
-    std::list<ToClientPack> packages;
+    std::map<std::string, TextureWrapper*> loadedTexturesMap;;
 };
 
 #endif //GAME_GAMECLIENT_H_

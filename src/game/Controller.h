@@ -12,6 +12,9 @@
 #include <list>
 #include "Action.h"
 #include "Game.h"
+#include "ToClientPack.h"
+#include "../net/Server.h"
+#include "GameClient.h"
 
 
 class Controller {
@@ -20,18 +23,22 @@ public:
 
     ~Controller() {}
 
-    void processInput();
-    void sendInput();   //nunca una misma instancia ejecuta reciveInput() y sendInput()
-
+    std::string processInput();
+    void sendUpdate(std::list<ToClientPack> toClientsPackages, Server* server);
     void reconstructInput(std::string action, std::string id);
+    void reconstructPackage(vector<string> splitedPackage);
     std::list<std::tuple<Action,int>> getInput();
+    std::list<ToClientPack> getPackages();
 
 private:
     void init();
     void bind();
+    std::string generateSerializedObj(ToClientPack package);
+    std::string serializeAction(Action action);
 
     //el input ahora es una tupla (Action, id)
     std::list<std::tuple<Action,int>> currentInput;
+    std::list<ToClientPack> currentPackagesToRender;
 
     SDL_Event sdlEvent;
 

@@ -52,7 +52,7 @@ void UserConnection::dispatchThread() {
     while(connectionIsOn) {
         mu.lock();
         if (!incomingMessagesQueue.empty()){
-            toSendMessage = incomingMessagesQueue.front();
+            incomingMessage = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
 
             std::string header = incomingMessage.substr(0,1);
@@ -79,7 +79,7 @@ void UserConnection::processLoginFromTheClient(std::string loginMsg) {
         std::string pass = splited.at(2);
         toSendMessage = gameServer->validateLogin(user,pass,userId);
     }
-    toSendMessagesQueue.push_back(toSendMessage);
+    server->setToSendToSpecific(toSendMessage,userId);
 }
 
 void UserConnection::processInput(std::string inputMsg) {

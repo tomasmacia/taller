@@ -22,12 +22,14 @@ void GameClient::start() {
     LogManager::logInfo("inicializado Cliente");
 
     //LOGIN
-    LoggerMenu* login = new LoggerMenu();
-    LogManager::logInfo("Se inicia pantalla de login");
-    if (login->open()){
+    loggerMenu = new LoggerMenu();
+    LogManager::logDebug("inicializado LoggerMenu");
+    if (loggerMenu->open()){
 
         //INIT GAME
-        this->initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
+        initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
+        initSDL();
+        LogManager::logDebug("inicializado SDL");
         LogManager::logDebug("inicializado Controller");
         isRunning = true;
 
@@ -42,23 +44,49 @@ void GameClient::start() {
 }
 
 void GameClient::pollAndSendInput() {
-    controller->processInput();
-    controller->sendInput();
+    std::string serializedInput = controller->processInput();
+    client->setToSend(serializedInput);
 }
 
 void GameClient::render() {
 
     SDL_RenderClear(renderer);
-    renderCadaPaquete();
+    renderAllPackages();
     SDL_RenderPresent(renderer);
 
     std::cout<<"CLIENT: renderizo todo lo que me llego"<<'\n';
+}
+
+void GameClient::renderAllPackages(){
+
+    std::list<ToClientPack> packages = controller->getPackages();
+    ToClientPack currenPackage;
+
+    while (!packages.empty()){
+        currenPackage = packages.front();
+        packages.pop_front();
+        currenPackage.render(loadedTexturesMap);
+    }
+}
+
+void GameClient::reconstructPackage(vector<string> splitedPackage){
+    controller->reconstructPackage(splitedPackage);
+}
+
+void GameClient::setPlayerId(int id) {
+    playerId = id;
+}
+
+void GameClient::sendAknowledgeToLogerMenu(int id) {}{
+    //loggerMenu->sendServerResponse(id); TODO
 }
 
 void GameClient::destroy() {
 
     delete(controller);
     controller = nullptr;
+    delete(loggerMenu);
+    controller = loggerMenu;
     clearTextureMap();
     SDL_DestroyWindow(this->window);
     SDL_DestroyRenderer(this->renderer);
@@ -76,14 +104,7 @@ void GameClient::clearTextureMap(){
 
 void GameClient::init() {
     this->initConfig();
-    this->initSDL();
 
     LogManager::logDebug("inicializado Config");
-    LogManager::logDebug("inicializado SDL");
-    LogManager::logDebug("inicializado LoggerMenu");
     LogManager::logDebug("=======================================");
-}
-
-void GameClient::renderCadaPaquete(){
-    for(auto package : packages){ package.render(loadedTexturesMap); }
 }

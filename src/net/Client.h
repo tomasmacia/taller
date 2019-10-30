@@ -26,6 +26,7 @@ public:
 
 private:
     std::string END_SERIALIZATION_SIMBOL = "x";
+    char SEPARATOR = '_';
 
     int socketFD;
     std::mutex mu;
@@ -54,6 +55,7 @@ private:
     //===============
     void readThread();
     void sendThread();
+    void dispatchThread();
 
     //no podemos permitir que toquen esto desde afuera
     //===============
@@ -63,6 +65,7 @@ private:
 
     void processIDFromTheServer(std::string msg);
     void processRenderableSerializedObject(std::string msg);
+    const vector<string> split(const string& s, const char& c);
 };
 
 

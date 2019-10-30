@@ -81,6 +81,50 @@ void Client::sendThread() {
     }
 }
 
+void Client::dispatchThread() {
+    while(clientOn) {
+        mu.lock();
+        if (!incomingMessagesQueue.empty()){
+            incomingMessage = incomingMessagesQueue.front();
+            incomingMessagesQueue.pop_front();
+
+            std::string header = incomingMessage.substr(0,1);
+            if (header == "0"){
+                processIDFromTheServer(incomingMessage);
+            }
+            if (header == "1"){
+                processRenderableSerializedObject(incomingMessage);
+            }
+        }
+        mu.unlock();
+    }
+}
+
+void Client::processIDFromTheServer(std::string loginMsg) {
+
+    vector<string> splited{split(loginMsg, SEPARATOR)};
+
+    if (splited.size() != 3){//header,id,endcaracter
+        gameClient->sendAknowledgeToLogerMenu(-1);
+    }
+    else{
+        int id = std::stoi(splited.at(2));
+        gameClient->sendAknowledgeToLogerMenu(id);
+        if (id != -1){
+            gameClient->setPlayerId(id);
+        }
+    }
+}
+
+void Client::processRenderableSerializedObject(std::string inputMsg) {
+
+    vector<string> splited{split(inputMsg, SEPARATOR)};
+
+    if (splited.size() == 12){//header,path,srcw,srch,srcx,srcy,dstw,dsth,dstx,dsty,bool,endcaracter
+        gameClient->reconstructPackage(splited);
+    }
+}
+
 bool Client::connectionOff(){
     int error_code;
     socklen_t error_code_size = sizeof(error_code);
@@ -142,6 +186,21 @@ Client::Client(GameClient* gameClient) {
 
 Client::~Client() {
     disconnectFromServer();
+}
+
+const vector<string> Client::split(const string& s, const char& c)
+{
+    string buff{""};
+    vector<string> v;
+
+    for(auto n:s)
+    {
+        if(n != c) buff+=n; else
+        if(n == c && buff != "") { v.push_back(buff); buff = ""; }
+    }
+    if(buff != "") v.push_back(buff);
+
+    return v;
 }
 
 //IMPLEMENTACION STANDART DE SOCKETS

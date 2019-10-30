@@ -36,7 +36,6 @@ void GameServer::start() {
         LogManager::logInfo("=======================================");
         LogManager::logInfo("se inicia game loop de este nivel");
         while (isRunning && !levelBuilder->levelFinished()) {
-            processInput();
             update();
             sendUpdate();
         }
@@ -47,17 +46,13 @@ void GameServer::start() {
     LogManager::logInfo("=======================================");
 }
 
-void GameServer::processInput() {
-    controller->processInput();
-}
-
 void GameServer::update() {
     manager->update();
 }
 
 void GameServer::sendUpdate() {
     toClientsPackages = manager->generateRenderables();
-    //socketManager->broadcast(toClientsPackages);  TODO
+    controller->sendUpdate(toClientsPackages,server);
     std::cout<<"SERVER: mando paquetes a clientes"<<'\n';
 }
 
