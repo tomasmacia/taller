@@ -27,7 +27,6 @@ private:
     std::string incomingMessage;
     std::string toSendMessage;
     std::list<std::string> toSendMessagesQueue;
-
     std::list<std::string> incomingMessagesQueue;
     Server *server = nullptr;
 

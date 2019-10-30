@@ -47,19 +47,17 @@ void Controller::processInput() {
     }
 }
 
-std::string header = incomingMessage.substr(0,1);
-if (header == "0"){
-processIDFromTheServer(incomingMessage);
-}
-if (header == "1"){
-processRenderableSerializedObject(incomingMessage);
-}
-
 void Controller::reciveInput() {
-    /*los inputs individuales dentro de la lista de cada cliente se van almacenando al final
-     * y en el mismo orden en que fueron almacenados por el cliente*/
-
-    std::cout<<"CONTROLLER: me llegan inputs de clientes y las leo y derivo"<<'\n';
+    /*
+    std::string incomingMessage = game->pollMessage();
+    std::string header = incomingMessage.substr(0,1);
+    if (header == "0"){
+        processIDFromTheServer(incomingMessage);
+    }
+    if (header == "1"){
+        processRenderableSerializedObject(incomingMessage);
+    }
+     */
 }
 
 void Controller::sendInput() {

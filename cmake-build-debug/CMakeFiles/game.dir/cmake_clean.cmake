@@ -31,11 +31,11 @@ file(REMOVE_RECURSE
   "CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o"
   "CMakeFiles/game.dir/src/game/ToClientPack.cpp.o"
   "CMakeFiles/game.dir/src/game/main.cpp.o"
+  "CMakeFiles/game.dir/src/net/Client.cpp.o"
+  "CMakeFiles/game.dir/src/net/Server.cpp.o"
+  "CMakeFiles/game.dir/src/net/UserConnection.cpp.o"
   "CMakeFiles/game.dir/src/parser/CLIArgumentParser.cpp.o"
   "CMakeFiles/game.dir/src/parser/xmlparser.cpp.o"
-  "CMakeFiles/game.dir/src/server/Client.cpp.o"
-  "CMakeFiles/game.dir/src/server/Server.cpp.o"
-  "CMakeFiles/game.dir/src/server/UserConnection.cpp.o"
   "CMakeFiles/game.dir/src/utils/TimeUtils.cpp.o"
 )
 

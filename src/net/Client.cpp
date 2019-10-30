@@ -16,6 +16,13 @@
 //NUESTRO CODIGO
 //===============================================================================================
 
+std::string Client::pollMessage(){
+    std::lock_guard<mutex> lock(mu);
+    std::string message = incomingMessagesQueue.front();
+    incomingMessagesQueue.pop_front();
+    return message;
+}
+
 void Client::setToSend(std::string message){
     mu.lock();
     toSendMessagesQueue.push_back(message);

@@ -273,6 +273,24 @@
 		<Unit filename="/home/axel/repositorio_local/taller/src/game/main.cpp">
 			<Option target="game"/>
 		</Unit>
+		<Unit filename="/home/axel/repositorio_local/taller/src/net/Client.cpp">
+			<Option target="game"/>
+		</Unit>
+		<Unit filename="/home/axel/repositorio_local/taller/src/net/Client.h">
+			<Option target="game"/>
+		</Unit>
+		<Unit filename="/home/axel/repositorio_local/taller/src/net/Server.cpp">
+			<Option target="game"/>
+		</Unit>
+		<Unit filename="/home/axel/repositorio_local/taller/src/net/Server.h">
+			<Option target="game"/>
+		</Unit>
+		<Unit filename="/home/axel/repositorio_local/taller/src/net/UserConnection.cpp">
+			<Option target="game"/>
+		</Unit>
+		<Unit filename="/home/axel/repositorio_local/taller/src/net/UserConnection.h">
+			<Option target="game"/>
+		</Unit>
 		<Unit filename="/home/axel/repositorio_local/taller/src/parser/CLIArgumentParser.cpp">
 			<Option target="game"/>
 		</Unit>
@@ -316,24 +334,6 @@
 			<Option target="game"/>
 		</Unit>
 		<Unit filename="/home/axel/repositorio_local/taller/src/parser/xmlparser.h">
-			<Option target="game"/>
-		</Unit>
-		<Unit filename="/home/axel/repositorio_local/taller/src/server/Client.cpp">
-			<Option target="game"/>
-		</Unit>
-		<Unit filename="/home/axel/repositorio_local/taller/src/server/Client.h">
-			<Option target="game"/>
-		</Unit>
-		<Unit filename="/home/axel/repositorio_local/taller/src/server/Server.cpp">
-			<Option target="game"/>
-		</Unit>
-		<Unit filename="/home/axel/repositorio_local/taller/src/server/Server.h">
-			<Option target="game"/>
-		</Unit>
-		<Unit filename="/home/axel/repositorio_local/taller/src/server/UserConnection.cpp">
-			<Option target="game"/>
-		</Unit>
-		<Unit filename="/home/axel/repositorio_local/taller/src/server/UserConnection.h">
 			<Option target="game"/>
 		</Unit>
 		<Unit filename="/home/axel/repositorio_local/taller/src/utils/TimeUtils.cpp">

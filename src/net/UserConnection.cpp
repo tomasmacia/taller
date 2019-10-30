@@ -5,7 +5,6 @@
 #include "UserConnection.h"
 #include <iostream>
 #include <thread>
-#include <bits/socket.h>
 #include <sys/socket.h>
 
 UserConnection::UserConnection(int socket, int userId, Server *server) {

@@ -18,6 +18,7 @@ public:
     // *************************
 
     void end();
+    virtual std::string pollMessage(){}
 
     // *************************
     // ******* WRAPPERS ********

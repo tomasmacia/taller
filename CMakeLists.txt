@@ -118,11 +118,14 @@ set(SOURCE_FILES
         src/game/LoggerMenu.h
 
         # server
-        src/server/Client.cpp
-        src/server/Client.h
-        src/server/Server.cpp
-        src/server/Server.h
-        src/server/UserConnection.cpp src/server/UserConnection.h)
+        src/net/Client.cpp
+        src/net/Client.h
+        src/net/Server.cpp
+        src/net/Server.h
+        src/net/UserConnection.cpp 
+        src/net/UserConnection.h
+
+)
 
 # create executable
 add_executable(game ${SOURCE_FILES})

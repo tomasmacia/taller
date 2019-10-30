@@ -61,13 +61,13 @@ int main(int argc, const char** argv) {
         LoggerMenu* login = new LoggerMenu();
         LogManager::logInfo("Se inicia pantalla de login");
 
-        if (login->open()){
-            GameClient::getInstance().start();
-        }
+        GameClient::getInstance().start();
+        //if (login->open()){
+        //}
     }
 
     //la funcion delete no existe si no es explicitada. delete es un operador primitivo de cpp
-    delete logger;
+    //delete logger;
 
     return 0;
 }

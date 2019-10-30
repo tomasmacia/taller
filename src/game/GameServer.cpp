@@ -55,6 +55,7 @@ void GameServer::endLevel(){
     this->levelBuilder->endLevel();
 }
 
+
 int GameServer::getCurrentLevelWidth(){
     return levelBuilder->getCurrentLevelWidth();
 }

@@ -34,11 +34,11 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/axel/repositorio_local/taller/src/game/TextureWrapper.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o"
   "/home/axel/repositorio_local/taller/src/game/ToClientPack.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/game/ToClientPack.cpp.o"
   "/home/axel/repositorio_local/taller/src/game/main.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/game/main.cpp.o"
+  "/home/axel/repositorio_local/taller/src/net/Client.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/net/Client.cpp.o"
+  "/home/axel/repositorio_local/taller/src/net/Server.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/net/Server.cpp.o"
+  "/home/axel/repositorio_local/taller/src/net/UserConnection.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/net/UserConnection.cpp.o"
   "/home/axel/repositorio_local/taller/src/parser/CLIArgumentParser.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/parser/CLIArgumentParser.cpp.o"
   "/home/axel/repositorio_local/taller/src/parser/xmlparser.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/parser/xmlparser.cpp.o"
-  "/home/axel/repositorio_local/taller/src/server/Client.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/server/Client.cpp.o"
-  "/home/axel/repositorio_local/taller/src/server/Server.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/server/Server.cpp.o"
-  "/home/axel/repositorio_local/taller/src/server/UserConnection.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/server/UserConnection.cpp.o"
   "/home/axel/repositorio_local/taller/src/utils/TimeUtils.cpp" "/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles/game.dir/src/utils/TimeUtils.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

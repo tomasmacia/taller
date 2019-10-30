@@ -5,6 +5,7 @@
 #include "LevelBuilder.h"
 #include "Game.h"
 #include "ToClientPack.h"
+#include "../net/Server.h"
 
 class GameServer : public  Game{
 public:
@@ -30,6 +31,7 @@ public:
     void start() override ;
     void endLevel();
     int getCurrentLevelWidth();
+    std::string pollMessage() override {}
 
     static bool isActive(){
         return hasInstance;
@@ -67,6 +69,7 @@ private:
 
     std::list<ToClientPack> toClientsPackages;
 
+    Server* server = nullptr;
     LevelBuilder* levelBuilder = nullptr;
     Manager* manager = nullptr;
 };

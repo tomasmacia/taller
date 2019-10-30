@@ -6,6 +6,7 @@
 
 #include "ToClientPack.h"
 #include "Game.h"
+#include "../net/Client.h"
 
 class GameClient : public  Game{
 public:
@@ -28,6 +29,7 @@ public:
     // *************************
 
     void start() override;
+    std::string pollMessage() override {}
 
     static bool isActive(){
         return hasInstance;
@@ -57,6 +59,7 @@ private:
 
     static bool hasInstance;
 
+    Client* client = nullptr;
     std::map<std::string, TextureWrapper*> loadedTexturesMap;
     std::list<ToClientPack> packages;
 };

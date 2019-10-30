@@ -17,6 +17,7 @@ public:
     //API
     //===============
     void setToSend(std::string message);
+    std::string pollMessage();
 
 private:
     std::string END_SERIALIZATION_SIMBOL = "x";
