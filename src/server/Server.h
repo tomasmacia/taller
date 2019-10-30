@@ -8,6 +8,8 @@
 #include <vector>
 #include <string>
 
+class UserConnection;
+
 class Server {
 public:
     Server();
@@ -23,7 +25,7 @@ public:
 private:
     int socketFD;
     int maxBytesBuffer;
-    std::vector<int> connections;
+    std::vector<UserConnection *> connections;
     int maxConnections;
 
     void error(const char* msg);

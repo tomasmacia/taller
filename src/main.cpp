@@ -2,6 +2,14 @@
 #include "parser/CLIArgumentParser.h"
 #include "server/Client.h"
 #include "server/Server.h"
+#include <thread>
+
+void accept_connections(Server* server) {
+    while(1) {
+        server->listen();
+        server->accept();
+    }
+}
 
 
 int main(int argc, const char** argv) {
@@ -23,10 +31,9 @@ int main(int argc, const char** argv) {
 
         server->create();
         server->bind();
-        server->listen();
-        server->accept();
-        //server->send();
-        //server->receive();
+        std::thread hola = std::thread(&accept_connections, server);
+
+        hola.join();
         server->shutdown();
         server->close();
 
