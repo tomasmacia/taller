@@ -7,6 +7,9 @@
 
 #include <vector>
 #include <string>
+#include <list>
+#include <map>
+#include <mutex>
 
 class UserConnection;
 
@@ -14,21 +17,42 @@ class Server {
 public:
     Server();
     ~Server();
-    int create();
-    int bind();
-    int listen();
-    int accept();
-    int send(std::string, int someSocketFD);
-    int receive(int someSocketFD);
-    int shutdown();
-    int close();
+
+    //API
+    void setToBroadcast(std::string message);               //usada por objetos del modelo
+    void setToSendToSpecific(std::string message,int connectionID);   //usada por objetos del modelo
+
+
+    //SOLO PUEDE USAR EL UserConnection
+    int send(std::string, int someSocketFD);         //SOLO ACCEDIDO DESDE EL SENDTHREAD DE USER CONNECTION
+    std::string receive(int someSocketFD);                  //SOLO ACCEDIDO DESDE EL READTHREAD DE USER CONNECTION
+
 private:
-    int socketFD;
+    std::mutex mu;
+    bool serverOn;
+
     int maxBytesBuffer;
-    std::vector<UserConnection *> connections;
     int maxConnections;
 
+    int socketFD;
+    std::map<int,UserConnection*> connections;
+    int nextConectionIDtoAssign = 0;
+
     void error(const char* msg);
+    std::string parse(char* rawRecivedMessage);
+
+    //no podemos permitir que toquen esto desde afuera
+    //===============
+    void listenThread();
+    void specificSend(std::string message,int connectionID);    //usada para hablar con los UserConnections
+
+    bool init();
+    int create();
+    int bind();
+    int listen();                                  //SOLO ACCEDIDO DESDE EL LISTENTHREAD DE USER CONNECTION
+    int accept();                                  //SOLO ACCEDIDO DESDE EL LISTENTHREAD DE USER CONNECTION
+    int shutdown();
+    int close();
 };
 
 

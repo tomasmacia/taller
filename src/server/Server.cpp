@@ -9,18 +9,96 @@
 #include <arpa/inet.h>
 #include <CLIArgumentParser.h>
 #include "UserConnection.h"
+#include "../LogLib/LogManager.h"
 
 #define MAX_BYTES_BUFFER 4096
 #define MAX_CONNECTIONS 4
 
-void Server::error(const char *msg) {
-    perror(msg);
-    exit(1);
+
+//NUESTRO CODIGO
+//===============================================================================================
+
+void Server::setToSendToSpecific(std::string message,int connectionID){
+    connections.at(connectionID)->setToSendMessage(message);
+}
+
+void Server::setToBroadcast(std::string message) {
+
+    for (std::pair<int, UserConnection*> element : connections) {
+        element.second->setToSendMessage(message);
+    }
+}
+
+int Server::send(string msg, int someSocketFD) {
+    // TODO REVISAR. Hay que fijarse que someSOcketFD este en la lista de conexiones?
+
+    int len = msg.size() + 1;
+    char buf[len];
+    strcpy(buf, msg.c_str());
+
+    if (::send(someSocketFD,buf , len, 0) < 0) { // TODO msg
+        error("ERROR on accept");
+    }
+    return someSocketFD;
+}
+
+std::string Server::receive(int someSocketFD) {
+    // TODO REVISAR. Hay que fijarse que someSOcketFD este en la lista de conexiones?
+    char buffer[MAX_BYTES_BUFFER]{0};
+    int n = read(someSocketFD, buffer, MAX_BYTES_BUFFER);
+    if (n < 0) {
+        error("ERROR reading from socket");
+    }
+    return parse(buffer);;
 }
 
 Server::Server() {
-    this->connections = {nullptr};
+    this->serverOn = true;
     this->maxConnections = MAX_CONNECTIONS; // TODO sacarlo de la config
+    maxBytesBuffer = MAX_BYTES_BUFFER;
+    maxConnections = MAX_CONNECTIONS;
+
+    if (!init()){
+        error("ERROR no se pudo crear el server");
+    }
+}
+
+void Server::listenThread(){
+    while (serverOn){
+        mu.lock();
+        if (listen() >= 0){
+            accept();
+        }
+        mu.unlock();
+    }
+};
+
+bool Server::init(){
+
+    if(create() < 0){return false;}
+    if(bind() < 0){return false;}
+
+    std::thread listen = std::thread(&Server::listenThread, this);
+    listen.join();
+}
+
+Server::~Server() {
+    for(std::map<int, UserConnection*>::iterator itr = connections.begin(); itr != connections.end(); itr++)
+    {
+        delete itr->second;
+    }
+    shutdown();
+    close();
+}
+
+//IMPLEMENTACION STANDART DE SOCKETS
+//===============================================================================================
+
+void Server::error(const char *msg) {   //Cierra el server y en el destructor se cierra las conexiones
+    LogManager::logError(msg);
+    mu.lock();
+    serverOn = false;
+    mu.unlock();
 }
 
 int Server::create() {
@@ -48,14 +126,14 @@ int Server::bind() {
 }
 
 int Server::listen() {
-    if (::listen(socketFD, 4) < 0) { // TODO hardcoded MAX connections. Replace with config later
+
+    if (::listen(socketFD, MAX_CONNECTIONS) < 0) { // TODO hardcoded MAX connections. Replace with config later
         error("ERROR on listening");
     }
-
     return socketFD;
 }
 
-int Server::accept() {
+int Server::accept() {                  //INSTANCIA Y AGREGA CONECCION AL MAP
     struct sockaddr_in clientAddress{};
     socklen_t clientAddressSize = sizeof(clientAddress);
 
@@ -64,34 +142,13 @@ int Server::accept() {
         error("ERROR on accept");
     } else {
         printf("[SERVER]: Connection from %s on port %d\n", inet_ntoa(clientAddress.sin_addr), ntohs(clientAddress.sin_port));
-        auto *userConnection = new UserConnection(newClientSocketFD, (int) this->connections.size(), this);
-        this->connections.push_back(userConnection);
+        auto *userConnection = new UserConnection(newClientSocketFD, nextConectionIDtoAssign, this);
+        this->connections.insert({ nextConectionIDtoAssign, userConnection });
+        nextConectionIDtoAssign++; //esto asegura que la ID sea unica
         userConnection->init();
     }
 
     return newClientSocketFD;
-}
-
-int Server::send(string msg, int someSocketFD) {
-    // TODO REVISAR. Hay que fijarse que someSOcketFD este en la lista de conexiones?
-    if (::send(someSocketFD, "Hello, world!\n", 13, 0) < 0) { // TODO msg
-        error("ERROR on accept");
-    }
-
-    return someSocketFD;
-}
-
-int Server::receive(int someSocketFD) {
-    // TODO REVISAR. Hay que fijarse que someSOcketFD este en la lista de conexiones?
-    char buffer[MAX_BYTES_BUFFER]{0};
-    int n = read(someSocketFD, buffer, MAX_BYTES_BUFFER);
-    if (n < 0) {
-        error("ERROR reading from socket");
-    }
-
-    printf("Here is the message: %s\n", buffer);
-
-    return someSocketFD;
 }
 
 int Server::shutdown() {
@@ -106,9 +163,38 @@ int Server::close() {
     return ::close(socketFD);
 }
 
-Server::~Server() {
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //int main(int argc, char *argv[]) {
 //    char buffer[256];

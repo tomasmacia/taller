@@ -7,18 +7,22 @@
 
 using namespace std;
 
-A::A(int x) {
-    this->x = x;
-}
-
-void A::run() {
+void A::run1() {
 
     while(true){
-        print();
+        print(1);
     }
 }
 
-void A::print() {
+void A::run2() {
+
+    while(true){
+        print(2);
+    }
+}
+
+
+void A::print(int x) {
     mu.lock();
     cout<<"value: "<<x<<endl;
     mu.unlock();

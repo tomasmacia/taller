@@ -10,31 +10,53 @@ UserConnection::UserConnection(int socket, int userId, Server *server) {
     this->socketFD = socket;
     this->userId = userId;
     this->server = server;
+    this->connectionIsOn = true;
+    init();
 }
 
-void UserConnection::dummyThread() {
-    while(true) {
-        std::cout << "read" << std::endl;
+void UserConnection::setToSendMessage(std::string message){
+    mu.lock();
+    toSendMessagesQueue.push_back(message);
+    mu.unlock();
+}
+
+void UserConnection::readThread() {
+    while(connectionIsOn) {
+        mu.lock();
+        incomingMessage = server->receive(socketFD);
+        incomingMessagesQueue.push_back(incomingMessage);
+        mu.unlock();
     }
 }
 
-void UserConnection::writeThread() {
-    while(true) {
-        std::cout << "write" << std::endl;
+void UserConnection::sendThread() {
+    while(connectionIsOn) {
+        mu.lock();
+        toSendMessage = toSendMessagesQueue.front();
+        toSendMessagesQueue.pop_front();
+        server->send(toSendMessage,socketFD);
+        mu.unlock();
     }
 }
 
-void UserConnection::controlThread() {
-    while(true) {
-        std::cout << "control" << std::endl;
+void UserConnection::dispatchThread() {
+    while(connectionIsOn) {
+        incomingMessage = server->receive(socketFD);
+        if (incomingMessage != CONTROL__ID_ON){
+            connectionLost();
+        }
     }
+}
+
+void UserConnection::connectionLost(){
+    connectionIsOn = false;
 }
 
 void UserConnection::init() {
-    std::thread xd = std::thread(&UserConnection::dummyThread, this);
-    std::thread read = std::thread(&UserConnection::writeThread, this);
-    std::thread control = std::thread(&UserConnection::controlThread, this);
-    xd.join();
+    std::thread read = std::thread(&UserConnection::readThread, this);
+    std::thread send = std::thread(&UserConnection::sendThread, this);
+    std::thread dispatch = std::thread(&UserConnection::dispatchThread, this);
     read.join();
-    control.join();
+    send.join();
+    dispatch.join();
 }

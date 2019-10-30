@@ -9,16 +9,13 @@ using namespace std;
 
 int main() {
 
-    A* a = new A(0);
-    A* b = new A(1);
+    A* a = new A();
 
-    std::thread t1(&A::run,a);
-    std::thread t2(&A::run,b);
+    std::thread t1(&A::run1,a);
+    std::thread t2(&A::run2,a);
 
     t1.join();
     t2.join();
-
-
 
     return 0;
 }

@@ -7,25 +7,36 @@
 
 #include "Server.h"
 #include <thread>
+#include <mutex>
 
 // UserConnection at Server level
 class UserConnection {
 public:
     UserConnection(int socket, int userId, Server *server);
 
-    void init();
+    void setToSendMessage(std::string message);
+
 private:
     int socketFD;
     int userId;
 
+    bool connectionIsOn;
+    std::string CONTROL__ID_ON = "*";
+
+    std::string incomingMessage;
+    std::string toSendMessage;
+    std::list<std::string> toSendMessagesQueue;
+    std::list<std::string> incomingMessagesQueue;
+
     Server *server = nullptr;
+    std::mutex mu;
 
-    std::thread dummy;
-    void dummyThread();
+    void readThread();
+    void sendThread();
+    void dispatchThread();
 
-    void controlThread();
-
-    void writeThread();
+    void connectionLost();
+    void init();
 };
 
 

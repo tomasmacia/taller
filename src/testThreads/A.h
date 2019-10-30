@@ -7,17 +7,18 @@
 
 
 #include <mutex>
+#include <iostream>
+using namespace std;
 
 class A {
 
 public:
-    A(int x);
-    void run();
-    void print();
+    void run1();
+    void run2();
+    void print(int x);
 
 private:
     std::mutex mu;
-    int x;
 };
 
 

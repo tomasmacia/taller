@@ -7,10 +7,10 @@
 #include <netinet/in.h>
 #include <arpa/inet.h> // for inet_pton -> string to in_addr
 #include <CLIArgumentParser.h>
+#include "../LogLib/LogManager.h"
 
 void Client::error(const char *msg) {
-    perror(msg);
-    exit(0);
+    LogManager::logError(msg);
 }
 
 int Client::create() {
