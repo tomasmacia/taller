@@ -8,6 +8,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <CLIArgumentParser.h>
+#include "UserConnection.h"
 
 #define MAX_BYTES_BUFFER 4096
 #define MAX_CONNECTIONS 4
@@ -18,7 +19,7 @@ void Server::error(const char *msg) {
 }
 
 Server::Server() {
-    this->connections = {0};
+    this->connections = {nullptr};
     this->maxConnections = MAX_CONNECTIONS; // TODO sacarlo de la config
 }
 
@@ -63,6 +64,9 @@ int Server::accept() {
         error("ERROR on accept");
     } else {
         printf("[SERVER]: Connection from %s on port %d\n", inet_ntoa(clientAddress.sin_addr), ntohs(clientAddress.sin_port));
+        auto *userConnection = new UserConnection(newClientSocketFD, (int) this->connections.size(), this);
+        this->connections.push_back(userConnection);
+        userConnection->init();
     }
 
     return newClientSocketFD;
@@ -100,6 +104,10 @@ int Server::shutdown() {
 
 int Server::close() {
     return ::close(socketFD);
+}
+
+Server::~Server() {
+
 }
 
 //int main(int argc, char *argv[]) {

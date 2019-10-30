@@ -5,10 +5,27 @@
 #ifndef GAME_USERCONNECTION_H
 #define GAME_USERCONNECTION_H
 
+#include "Server.h"
+#include <thread>
 
+// UserConnection at Server level
 class UserConnection {
 public:
-    //UserConnection(int socket, int userId, Server *server);
+    UserConnection(int socket, int userId, Server *server);
+
+    void init();
+private:
+    int socketFD;
+    int userId;
+
+    Server *server = nullptr;
+
+    std::thread dummy;
+    void dummyThread();
+
+    void controlThread();
+
+    void writeThread();
 };
 
 
