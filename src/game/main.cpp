@@ -5,6 +5,7 @@
 #include "GameServer.h"
 #include "GameClient.h"
 #include "Mode.h"
+#include "LoggerMenu.h"
 
 using namespace std;
 
@@ -56,7 +57,13 @@ int main(int argc, const char** argv) {
     }
 
     if (mode == CLIENT){
-        GameClient::getInstance().start();
+
+        LoggerMenu* login = new LoggerMenu();
+        LogManager::logInfo("Se inicia pantalla de login");
+
+        if (login->open()){
+            GameClient::getInstance().start();
+        }
     }
 
     //la funcion delete no existe si no es explicitada. delete es un operador primitivo de cpp

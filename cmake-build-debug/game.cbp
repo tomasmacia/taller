@@ -174,6 +174,18 @@
 		<Unit filename="/home/axel/repositorio_local/taller/src/game/IAComponent.h">
 			<Option target="game"/>
 		</Unit>
+		<Unit filename="/home/axel/repositorio_local/taller/src/game/IDComponent.cpp">
+			<Option target="game"/>
+		</Unit>
+		<Unit filename="/home/axel/repositorio_local/taller/src/game/IDComponent.h">
+			<Option target="game"/>
+		</Unit>
+		<Unit filename="/home/axel/repositorio_local/taller/src/game/IDPlayer.cpp">
+			<Option target="game"/>
+		</Unit>
+		<Unit filename="/home/axel/repositorio_local/taller/src/game/IDPlayer.h">
+			<Option target="game"/>
+		</Unit>
 		<Unit filename="/home/axel/repositorio_local/taller/src/game/InputComponent.cpp">
 			<Option target="game"/>
 		</Unit>
@@ -190,6 +202,12 @@
 			<Option target="game"/>
 		</Unit>
 		<Unit filename="/home/axel/repositorio_local/taller/src/game/LevelLimits.h">
+			<Option target="game"/>
+		</Unit>
+		<Unit filename="/home/axel/repositorio_local/taller/src/game/LoggerMenu.cpp">
+			<Option target="game"/>
+		</Unit>
+		<Unit filename="/home/axel/repositorio_local/taller/src/game/LoggerMenu.h">
 			<Option target="game"/>
 		</Unit>
 		<Unit filename="/home/axel/repositorio_local/taller/src/game/Manager.cpp">
@@ -313,6 +331,9 @@
 			<Option virtualFolder="CMake Files\cmake\"/>
 		</Unit>
 		<Unit filename="/home/axel/repositorio_local/taller/cmake/FindSDL2_image.cmake">
+			<Option virtualFolder="CMake Files\cmake\"/>
+		</Unit>
+		<Unit filename="/home/axel/repositorio_local/taller/cmake/FindSDL2_ttf.cmake">
 			<Option virtualFolder="CMake Files\cmake\"/>
 		</Unit>
 	</Project>

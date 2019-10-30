@@ -1,9 +1,9 @@
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 
 #include "../LogLib/Logger.h"
 #include "GameClient.h"
 #include "Controller.h"
+
 
 
 #include <iostream>
@@ -12,7 +12,6 @@ bool GameClient::hasInstance = false;
 
 void GameClient::start() {
     LogManager::logInfo("Se inicia GameClient");
-    //openLogin(); TODO
 
     this->initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
     LogManager::logDebug("inicializado Controller");
@@ -20,14 +19,14 @@ void GameClient::start() {
     isRunning = true;
 
     while (isRunning) {
-        sendInput();
+        pollAndSendInput();            //aca se podria cortar el game loop si se lee un ESC o QUIT
         render();
     }
     LogManager::logInfo("Juego terminado");
     LogManager::logInfo("=======================================");
 }
 
-void GameClient::sendInput() {
+void GameClient::pollAndSendInput() {
     controller->processInput();
     controller->sendInput();
 }
@@ -63,7 +62,6 @@ void GameClient::clearTextureMap(){
 void GameClient::init() {
     this->initConfig();
     this->initSDL();
-    //this->initLoggerMenu(); TODO
 
     LogManager::logDebug("inicializado Config");
     LogManager::logDebug("inicializado SDL");
@@ -74,13 +72,3 @@ void GameClient::init() {
 void GameClient::renderCadaPaquete(){
     for(auto package : packages){ package.render(loadedTexturesMap); }
 }
-
-/*
-void GameClient::initLoggerMenu(){TODO
-    this->loggerMenu = new LoggerMenu();
-}*/
-/*
-void GameClient::openLogin(){TODO
-    LogManager::logInfo("Se inicia pantalla de login");
-    //loggerMenu->open(); TODO
-}*/

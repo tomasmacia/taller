@@ -447,6 +447,45 @@ CMakeFiles/game.dir/src/game/ToClientPack.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/game.dir/src/game/ToClientPack.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/axel/repositorio_local/taller/src/game/ToClientPack.cpp -o CMakeFiles/game.dir/src/game/ToClientPack.cpp.s
 
+CMakeFiles/game.dir/src/game/IDPlayer.cpp.o: CMakeFiles/game.dir/flags.make
+CMakeFiles/game.dir/src/game/IDPlayer.cpp.o: ../src/game/IDPlayer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/game.dir/src/game/IDPlayer.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/IDPlayer.cpp.o -c /home/axel/repositorio_local/taller/src/game/IDPlayer.cpp
+
+CMakeFiles/game.dir/src/game/IDPlayer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/game.dir/src/game/IDPlayer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/axel/repositorio_local/taller/src/game/IDPlayer.cpp > CMakeFiles/game.dir/src/game/IDPlayer.cpp.i
+
+CMakeFiles/game.dir/src/game/IDPlayer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/game.dir/src/game/IDPlayer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/axel/repositorio_local/taller/src/game/IDPlayer.cpp -o CMakeFiles/game.dir/src/game/IDPlayer.cpp.s
+
+CMakeFiles/game.dir/src/game/IDComponent.cpp.o: CMakeFiles/game.dir/flags.make
+CMakeFiles/game.dir/src/game/IDComponent.cpp.o: ../src/game/IDComponent.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/game.dir/src/game/IDComponent.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/IDComponent.cpp.o -c /home/axel/repositorio_local/taller/src/game/IDComponent.cpp
+
+CMakeFiles/game.dir/src/game/IDComponent.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/game.dir/src/game/IDComponent.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/axel/repositorio_local/taller/src/game/IDComponent.cpp > CMakeFiles/game.dir/src/game/IDComponent.cpp.i
+
+CMakeFiles/game.dir/src/game/IDComponent.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/game.dir/src/game/IDComponent.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/axel/repositorio_local/taller/src/game/IDComponent.cpp -o CMakeFiles/game.dir/src/game/IDComponent.cpp.s
+
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: CMakeFiles/game.dir/flags.make
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/game/LoggerMenu.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o -c /home/axel/repositorio_local/taller/src/game/LoggerMenu.cpp
+
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/game.dir/src/game/LoggerMenu.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/axel/repositorio_local/taller/src/game/LoggerMenu.cpp > CMakeFiles/game.dir/src/game/LoggerMenu.cpp.i
+
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/game.dir/src/game/LoggerMenu.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/axel/repositorio_local/taller/src/game/LoggerMenu.cpp -o CMakeFiles/game.dir/src/game/LoggerMenu.cpp.s
+
 # Object files for target game
 game_OBJECTS = \
 "CMakeFiles/game.dir/src/parser/xmlparser.cpp.o" \
@@ -478,7 +517,10 @@ game_OBJECTS = \
 "CMakeFiles/game.dir/src/game/MobileRenderComponent.cpp.o" \
 "CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o" \
 "CMakeFiles/game.dir/src/game/LevelLimits.cpp.o" \
-"CMakeFiles/game.dir/src/game/ToClientPack.cpp.o"
+"CMakeFiles/game.dir/src/game/ToClientPack.cpp.o" \
+"CMakeFiles/game.dir/src/game/IDPlayer.cpp.o" \
+"CMakeFiles/game.dir/src/game/IDComponent.cpp.o" \
+"CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o"
 
 # External object files for target game
 game_EXTERNAL_OBJECTS =
@@ -513,12 +555,16 @@ game_EXTERNAL_OBJECTS =
 ../bin/game: CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o
 ../bin/game: CMakeFiles/game.dir/src/game/LevelLimits.cpp.o
 ../bin/game: CMakeFiles/game.dir/src/game/ToClientPack.cpp.o
+../bin/game: CMakeFiles/game.dir/src/game/IDPlayer.cpp.o
+../bin/game: CMakeFiles/game.dir/src/game/IDComponent.cpp.o
+../bin/game: CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o
 ../bin/game: CMakeFiles/game.dir/build.make
 ../bin/game: /usr/lib/x86_64-linux-gnu/libSDL2main.a
 ../bin/game: /usr/lib/x86_64-linux-gnu/libSDL2.so
 ../bin/game: /usr/lib/x86_64-linux-gnu/libSDL2_image.so
+../bin/game: /usr/lib/x86_64-linux-gnu/libSDL2_ttf.so
 ../bin/game: CMakeFiles/game.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Linking CXX executable ../bin/game"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Linking CXX executable ../bin/game"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/game.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -4,6 +4,7 @@
 
 #include <SDL2/SDL_scancode.h>
 #include <map>
+#include <tuple>
 #include <utility>
 
 #include "Controller.h"
@@ -20,6 +21,7 @@ Controller::Controller(Game* game) {
 void Controller::processInput() {
     currentInput.clear();
     Action action;
+    int playerId = game->getPlayerId(); //cada pc tiene uno asignado al principio y es unico
 
     while (SDL_PollEvent(&sdlEvent)) {
 
@@ -32,20 +34,23 @@ void Controller::processInput() {
         if( (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)){
 
             if (action != NONE) {
-                currentInput.push_back(action);
+                currentInput.push_back(std::make_tuple (action,playerId));
             }
         }
         
         if ((sdlEvent.type == SDL_KEYUP && sdlEvent.key.repeat == 0 )){
             if (action == UP || action == DOWN || action == LEFT || action == RIGHT ||
                 action == NONE){//no bloqueante
-                    currentInput.push_back(NONE); //para anular la accion anterior
+                    currentInput.push_back(std::make_tuple (NONE,playerId)); //para anular la accion anterior
             } 
         }
     }
 }
 
 void Controller::reciveInput() {
+    /*los inputs individuales dentro de la lista de cada cliente se van almacenando al final
+     * y en el mismo orden en que fueron almacenados por el cliente*/
+
     std::cout<<"CONTROLLER: me llegan inputs de clientes y las leo y derivo"<<'\n';
 }
 
@@ -53,8 +58,8 @@ void Controller::sendInput() {
     std::cout<<"CONTROLLER: envio las inputs que tengo almacenadas al server"<<'\n';
 }
 
-std::list<Action> Controller::getInput() {
-    return currentInput;
+std::list<std::tuple<Action,int>> Controller::getInput() {
+    return currentInput; //obtengo una copia de todos los inputs de todos los clientes
 }
 
 

@@ -20,17 +20,18 @@ public:
 
     ~Controller() {}
 
-    void reciveInput();
+    void reciveInput(); //nunca una misma instancia ejecuta reciveInput() y sendInput()
     void processInput();
-    void sendInput();
+    void sendInput();   //nunca una misma instancia ejecuta reciveInput() y sendInput()
 
-    std::list<Action> getInput();
+    std::list<std::tuple<Action,int>> getInput();
 
 private:
     void init();
     void bind();
 
-    std::list<Action> currentInput;
+    //el input ahora es una tupla (Action, id)
+    std::list<std::tuple<Action,int>> currentInput;
 
     SDL_Event sdlEvent;
 

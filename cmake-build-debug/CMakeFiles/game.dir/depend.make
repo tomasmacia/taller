@@ -192,6 +192,13 @@ CMakeFiles/game.dir/src/game/IAComponent.cpp.o: ../src/game/IAComponent.cpp
 CMakeFiles/game.dir/src/game/IAComponent.cpp.o: ../src/game/IAComponent.h
 CMakeFiles/game.dir/src/game/IAComponent.cpp.o: ../src/game/StateComponent.h
 
+CMakeFiles/game.dir/src/game/IDComponent.cpp.o: ../src/game/ECS.h
+CMakeFiles/game.dir/src/game/IDComponent.cpp.o: ../src/game/IDComponent.cpp
+CMakeFiles/game.dir/src/game/IDComponent.cpp.o: ../src/game/IDComponent.h
+
+CMakeFiles/game.dir/src/game/IDPlayer.cpp.o: ../src/game/IDPlayer.cpp
+CMakeFiles/game.dir/src/game/IDPlayer.cpp.o: ../src/game/IDPlayer.h
+
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/parser/config/bindings.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/parser/config/characterxml.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/parser/config/gameplay.h
@@ -210,6 +217,7 @@ CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/Controller.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/GameServer.h
+CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/IDComponent.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/InputComponent.cpp
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/InputComponent.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/LevelBuilder.h
@@ -240,6 +248,8 @@ CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/GameServer.h
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/IAComponent.h
+CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/IDComponent.h
+CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/IDPlayer.h
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/InputComponent.h
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/LevelBuilder.cpp
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/LevelBuilder.h
@@ -263,6 +273,26 @@ CMakeFiles/game.dir/src/game/LevelLimits.cpp.o: ../src/game/CameraComponent.h
 CMakeFiles/game.dir/src/game/LevelLimits.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/LevelLimits.cpp.o: ../src/game/LevelLimits.cpp
 CMakeFiles/game.dir/src/game/LevelLimits.cpp.o: ../src/game/LevelLimits.h
+
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../include/tinyxml2.h
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/parser/config/bindings.h
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/parser/config/characterxml.h
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/parser/config/gameplay.h
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/parser/config/level.h
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/parser/config/npc.h
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/parser/config/screenresolution.h
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/parser/config/utilities.h
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/parser/config/utility.h
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/parser/config/weapon.h
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/parser/config/weapons.h
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/LogLib/LogManager.h
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/LogLib/Logger.h
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/game/Game.h
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/game/LoggerMenu.cpp
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/game/LoggerMenu.h
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/parser/CLIArgumentParser.h
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/parser/config/config.h
+CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o: ../src/parser/xmlparser.h
 
 CMakeFiles/game.dir/src/game/Manager.cpp.o: ../src/LogLib/LogManager.h
 CMakeFiles/game.dir/src/game/Manager.cpp.o: ../src/LogLib/Logger.h
@@ -476,6 +506,7 @@ CMakeFiles/game.dir/src/game/ToClientPack.cpp.o: ../src/game/TextureWrapper.h
 CMakeFiles/game.dir/src/game/ToClientPack.cpp.o: ../src/game/ToClientPack.cpp
 CMakeFiles/game.dir/src/game/ToClientPack.cpp.o: ../src/game/ToClientPack.h
 
+CMakeFiles/game.dir/src/game/main.cpp.o: ../include/tinyxml2.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/parser/config/bindings.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/parser/config/characterxml.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/parser/config/gameplay.h
@@ -495,6 +526,7 @@ CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/GameClient.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/GameServer.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/LevelBuilder.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/LevelLimits.h
+CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/LoggerMenu.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/Manager.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/Mode.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/TextureWrapper.h
@@ -502,6 +534,7 @@ CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/ToClientPack.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/main.cpp
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/parser/CLIArgumentParser.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/parser/config/config.h
+CMakeFiles/game.dir/src/game/main.cpp.o: ../src/parser/xmlparser.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/utils/TimeUtils.h
 
 CMakeFiles/game.dir/src/parser/CLIArgumentParser.cpp.o: ../src/parser/CLIArgumentParser.cpp
