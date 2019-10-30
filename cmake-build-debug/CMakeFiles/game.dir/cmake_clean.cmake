@@ -33,6 +33,9 @@ file(REMOVE_RECURSE
   "CMakeFiles/game.dir/src/game/main.cpp.o"
   "CMakeFiles/game.dir/src/parser/CLIArgumentParser.cpp.o"
   "CMakeFiles/game.dir/src/parser/xmlparser.cpp.o"
+  "CMakeFiles/game.dir/src/server/Client.cpp.o"
+  "CMakeFiles/game.dir/src/server/Server.cpp.o"
+  "CMakeFiles/game.dir/src/server/UserConnection.cpp.o"
   "CMakeFiles/game.dir/src/utils/TimeUtils.cpp.o"
 )
 

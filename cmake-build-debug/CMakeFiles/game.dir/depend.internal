@@ -42,6 +42,51 @@ CMakeFiles/game.dir/src/game/BackgroundRenderComponent.cpp.o
  /home/axel/repositorio_local/taller/src/game/RenderComponent.h
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
  /home/axel/repositorio_local/taller/src/game/ToClientPack.h
+ /usr/include/SDL2/SDL.h
+ /usr/include/SDL2/SDL_assert.h
+ /usr/include/SDL2/SDL_atomic.h
+ /usr/include/SDL2/SDL_audio.h
+ /usr/include/SDL2/SDL_blendmode.h
+ /usr/include/SDL2/SDL_clipboard.h
+ /usr/include/SDL2/SDL_config.h
+ /usr/include/SDL2/SDL_cpuinfo.h
+ /usr/include/SDL2/SDL_endian.h
+ /usr/include/SDL2/SDL_error.h
+ /usr/include/SDL2/SDL_events.h
+ /usr/include/SDL2/SDL_filesystem.h
+ /usr/include/SDL2/SDL_gamecontroller.h
+ /usr/include/SDL2/SDL_gesture.h
+ /usr/include/SDL2/SDL_haptic.h
+ /usr/include/SDL2/SDL_hints.h
+ /usr/include/SDL2/SDL_image.h
+ /usr/include/SDL2/SDL_joystick.h
+ /usr/include/SDL2/SDL_keyboard.h
+ /usr/include/SDL2/SDL_keycode.h
+ /usr/include/SDL2/SDL_loadso.h
+ /usr/include/SDL2/SDL_log.h
+ /usr/include/SDL2/SDL_main.h
+ /usr/include/SDL2/SDL_messagebox.h
+ /usr/include/SDL2/SDL_mouse.h
+ /usr/include/SDL2/SDL_mutex.h
+ /usr/include/SDL2/SDL_pixels.h
+ /usr/include/SDL2/SDL_platform.h
+ /usr/include/SDL2/SDL_power.h
+ /usr/include/SDL2/SDL_quit.h
+ /usr/include/SDL2/SDL_rect.h
+ /usr/include/SDL2/SDL_render.h
+ /usr/include/SDL2/SDL_rwops.h
+ /usr/include/SDL2/SDL_scancode.h
+ /usr/include/SDL2/SDL_shape.h
+ /usr/include/SDL2/SDL_stdinc.h
+ /usr/include/SDL2/SDL_surface.h
+ /usr/include/SDL2/SDL_system.h
+ /usr/include/SDL2/SDL_thread.h
+ /usr/include/SDL2/SDL_timer.h
+ /usr/include/SDL2/SDL_touch.h
+ /usr/include/SDL2/SDL_version.h
+ /usr/include/SDL2/SDL_video.h
+ /usr/include/SDL2/begin_code.h
+ /usr/include/SDL2/close_code.h
 CMakeFiles/game.dir/src/game/CameraComponent.cpp.o
  ../src/parser/config/bindings.h
  ../src/parser/config/characterxml.h
@@ -100,6 +145,51 @@ CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.o
  /home/axel/repositorio_local/taller/src/game/ToClientPack.h
  /home/axel/repositorio_local/taller/src/parser/config/characterxml.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
+ /usr/include/SDL2/SDL.h
+ /usr/include/SDL2/SDL_assert.h
+ /usr/include/SDL2/SDL_atomic.h
+ /usr/include/SDL2/SDL_audio.h
+ /usr/include/SDL2/SDL_blendmode.h
+ /usr/include/SDL2/SDL_clipboard.h
+ /usr/include/SDL2/SDL_config.h
+ /usr/include/SDL2/SDL_cpuinfo.h
+ /usr/include/SDL2/SDL_endian.h
+ /usr/include/SDL2/SDL_error.h
+ /usr/include/SDL2/SDL_events.h
+ /usr/include/SDL2/SDL_filesystem.h
+ /usr/include/SDL2/SDL_gamecontroller.h
+ /usr/include/SDL2/SDL_gesture.h
+ /usr/include/SDL2/SDL_haptic.h
+ /usr/include/SDL2/SDL_hints.h
+ /usr/include/SDL2/SDL_image.h
+ /usr/include/SDL2/SDL_joystick.h
+ /usr/include/SDL2/SDL_keyboard.h
+ /usr/include/SDL2/SDL_keycode.h
+ /usr/include/SDL2/SDL_loadso.h
+ /usr/include/SDL2/SDL_log.h
+ /usr/include/SDL2/SDL_main.h
+ /usr/include/SDL2/SDL_messagebox.h
+ /usr/include/SDL2/SDL_mouse.h
+ /usr/include/SDL2/SDL_mutex.h
+ /usr/include/SDL2/SDL_pixels.h
+ /usr/include/SDL2/SDL_platform.h
+ /usr/include/SDL2/SDL_power.h
+ /usr/include/SDL2/SDL_quit.h
+ /usr/include/SDL2/SDL_rect.h
+ /usr/include/SDL2/SDL_render.h
+ /usr/include/SDL2/SDL_rwops.h
+ /usr/include/SDL2/SDL_scancode.h
+ /usr/include/SDL2/SDL_shape.h
+ /usr/include/SDL2/SDL_stdinc.h
+ /usr/include/SDL2/SDL_surface.h
+ /usr/include/SDL2/SDL_system.h
+ /usr/include/SDL2/SDL_thread.h
+ /usr/include/SDL2/SDL_timer.h
+ /usr/include/SDL2/SDL_touch.h
+ /usr/include/SDL2/SDL_version.h
+ /usr/include/SDL2/SDL_video.h
+ /usr/include/SDL2/begin_code.h
+ /usr/include/SDL2/close_code.h
 CMakeFiles/game.dir/src/game/Controller.cpp.o
  ../src/parser/config/bindings.h
  ../src/parser/config/characterxml.h
@@ -139,6 +229,51 @@ CMakeFiles/game.dir/src/game/Game.cpp.o
  /home/axel/repositorio_local/taller/src/parser/CLIArgumentParser.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
  /home/axel/repositorio_local/taller/src/parser/xmlparser.h
+ /usr/include/SDL2/SDL.h
+ /usr/include/SDL2/SDL_assert.h
+ /usr/include/SDL2/SDL_atomic.h
+ /usr/include/SDL2/SDL_audio.h
+ /usr/include/SDL2/SDL_blendmode.h
+ /usr/include/SDL2/SDL_clipboard.h
+ /usr/include/SDL2/SDL_config.h
+ /usr/include/SDL2/SDL_cpuinfo.h
+ /usr/include/SDL2/SDL_endian.h
+ /usr/include/SDL2/SDL_error.h
+ /usr/include/SDL2/SDL_events.h
+ /usr/include/SDL2/SDL_filesystem.h
+ /usr/include/SDL2/SDL_gamecontroller.h
+ /usr/include/SDL2/SDL_gesture.h
+ /usr/include/SDL2/SDL_haptic.h
+ /usr/include/SDL2/SDL_hints.h
+ /usr/include/SDL2/SDL_image.h
+ /usr/include/SDL2/SDL_joystick.h
+ /usr/include/SDL2/SDL_keyboard.h
+ /usr/include/SDL2/SDL_keycode.h
+ /usr/include/SDL2/SDL_loadso.h
+ /usr/include/SDL2/SDL_log.h
+ /usr/include/SDL2/SDL_main.h
+ /usr/include/SDL2/SDL_messagebox.h
+ /usr/include/SDL2/SDL_mouse.h
+ /usr/include/SDL2/SDL_mutex.h
+ /usr/include/SDL2/SDL_pixels.h
+ /usr/include/SDL2/SDL_platform.h
+ /usr/include/SDL2/SDL_power.h
+ /usr/include/SDL2/SDL_quit.h
+ /usr/include/SDL2/SDL_rect.h
+ /usr/include/SDL2/SDL_render.h
+ /usr/include/SDL2/SDL_rwops.h
+ /usr/include/SDL2/SDL_scancode.h
+ /usr/include/SDL2/SDL_shape.h
+ /usr/include/SDL2/SDL_stdinc.h
+ /usr/include/SDL2/SDL_surface.h
+ /usr/include/SDL2/SDL_system.h
+ /usr/include/SDL2/SDL_thread.h
+ /usr/include/SDL2/SDL_timer.h
+ /usr/include/SDL2/SDL_touch.h
+ /usr/include/SDL2/SDL_version.h
+ /usr/include/SDL2/SDL_video.h
+ /usr/include/SDL2/begin_code.h
+ /usr/include/SDL2/close_code.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o
  ../src/parser/config/bindings.h
  ../src/parser/config/characterxml.h
@@ -269,6 +404,51 @@ CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o
  /home/axel/repositorio_local/taller/src/parser/config/config.h
  /home/axel/repositorio_local/taller/src/parser/config/level.h
  /home/axel/repositorio_local/taller/src/parser/config/npc.h
+ /usr/include/SDL2/SDL.h
+ /usr/include/SDL2/SDL_assert.h
+ /usr/include/SDL2/SDL_atomic.h
+ /usr/include/SDL2/SDL_audio.h
+ /usr/include/SDL2/SDL_blendmode.h
+ /usr/include/SDL2/SDL_clipboard.h
+ /usr/include/SDL2/SDL_config.h
+ /usr/include/SDL2/SDL_cpuinfo.h
+ /usr/include/SDL2/SDL_endian.h
+ /usr/include/SDL2/SDL_error.h
+ /usr/include/SDL2/SDL_events.h
+ /usr/include/SDL2/SDL_filesystem.h
+ /usr/include/SDL2/SDL_gamecontroller.h
+ /usr/include/SDL2/SDL_gesture.h
+ /usr/include/SDL2/SDL_haptic.h
+ /usr/include/SDL2/SDL_hints.h
+ /usr/include/SDL2/SDL_image.h
+ /usr/include/SDL2/SDL_joystick.h
+ /usr/include/SDL2/SDL_keyboard.h
+ /usr/include/SDL2/SDL_keycode.h
+ /usr/include/SDL2/SDL_loadso.h
+ /usr/include/SDL2/SDL_log.h
+ /usr/include/SDL2/SDL_main.h
+ /usr/include/SDL2/SDL_messagebox.h
+ /usr/include/SDL2/SDL_mouse.h
+ /usr/include/SDL2/SDL_mutex.h
+ /usr/include/SDL2/SDL_pixels.h
+ /usr/include/SDL2/SDL_platform.h
+ /usr/include/SDL2/SDL_power.h
+ /usr/include/SDL2/SDL_quit.h
+ /usr/include/SDL2/SDL_rect.h
+ /usr/include/SDL2/SDL_render.h
+ /usr/include/SDL2/SDL_rwops.h
+ /usr/include/SDL2/SDL_scancode.h
+ /usr/include/SDL2/SDL_shape.h
+ /usr/include/SDL2/SDL_stdinc.h
+ /usr/include/SDL2/SDL_surface.h
+ /usr/include/SDL2/SDL_system.h
+ /usr/include/SDL2/SDL_thread.h
+ /usr/include/SDL2/SDL_timer.h
+ /usr/include/SDL2/SDL_touch.h
+ /usr/include/SDL2/SDL_version.h
+ /usr/include/SDL2/SDL_video.h
+ /usr/include/SDL2/begin_code.h
+ /usr/include/SDL2/close_code.h
 CMakeFiles/game.dir/src/game/LevelLimits.cpp.o
  /home/axel/repositorio_local/taller/src/game/CameraComponent.h
  /home/axel/repositorio_local/taller/src/game/ECS.h
@@ -313,6 +493,51 @@ CMakeFiles/game.dir/src/game/Manager.cpp.o
  /home/axel/repositorio_local/taller/src/game/ToClientPack.h
  /home/axel/repositorio_local/taller/src/parser/config/characterxml.h
  /home/axel/repositorio_local/taller/src/parser/config/npc.h
+ /usr/include/SDL2/SDL.h
+ /usr/include/SDL2/SDL_assert.h
+ /usr/include/SDL2/SDL_atomic.h
+ /usr/include/SDL2/SDL_audio.h
+ /usr/include/SDL2/SDL_blendmode.h
+ /usr/include/SDL2/SDL_clipboard.h
+ /usr/include/SDL2/SDL_config.h
+ /usr/include/SDL2/SDL_cpuinfo.h
+ /usr/include/SDL2/SDL_endian.h
+ /usr/include/SDL2/SDL_error.h
+ /usr/include/SDL2/SDL_events.h
+ /usr/include/SDL2/SDL_filesystem.h
+ /usr/include/SDL2/SDL_gamecontroller.h
+ /usr/include/SDL2/SDL_gesture.h
+ /usr/include/SDL2/SDL_haptic.h
+ /usr/include/SDL2/SDL_hints.h
+ /usr/include/SDL2/SDL_image.h
+ /usr/include/SDL2/SDL_joystick.h
+ /usr/include/SDL2/SDL_keyboard.h
+ /usr/include/SDL2/SDL_keycode.h
+ /usr/include/SDL2/SDL_loadso.h
+ /usr/include/SDL2/SDL_log.h
+ /usr/include/SDL2/SDL_main.h
+ /usr/include/SDL2/SDL_messagebox.h
+ /usr/include/SDL2/SDL_mouse.h
+ /usr/include/SDL2/SDL_mutex.h
+ /usr/include/SDL2/SDL_pixels.h
+ /usr/include/SDL2/SDL_platform.h
+ /usr/include/SDL2/SDL_power.h
+ /usr/include/SDL2/SDL_quit.h
+ /usr/include/SDL2/SDL_rect.h
+ /usr/include/SDL2/SDL_render.h
+ /usr/include/SDL2/SDL_rwops.h
+ /usr/include/SDL2/SDL_scancode.h
+ /usr/include/SDL2/SDL_shape.h
+ /usr/include/SDL2/SDL_stdinc.h
+ /usr/include/SDL2/SDL_surface.h
+ /usr/include/SDL2/SDL_system.h
+ /usr/include/SDL2/SDL_thread.h
+ /usr/include/SDL2/SDL_timer.h
+ /usr/include/SDL2/SDL_touch.h
+ /usr/include/SDL2/SDL_version.h
+ /usr/include/SDL2/SDL_video.h
+ /usr/include/SDL2/begin_code.h
+ /usr/include/SDL2/close_code.h
 CMakeFiles/game.dir/src/game/MobileRenderComponent.cpp.o
  /home/axel/repositorio_local/taller/src/LogLib/LogManager.h
  /home/axel/repositorio_local/taller/src/LogLib/Logger.h
@@ -326,6 +551,51 @@ CMakeFiles/game.dir/src/game/MobileRenderComponent.cpp.o
  /home/axel/repositorio_local/taller/src/game/StateComponent.h
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
  /home/axel/repositorio_local/taller/src/game/ToClientPack.h
+ /usr/include/SDL2/SDL.h
+ /usr/include/SDL2/SDL_assert.h
+ /usr/include/SDL2/SDL_atomic.h
+ /usr/include/SDL2/SDL_audio.h
+ /usr/include/SDL2/SDL_blendmode.h
+ /usr/include/SDL2/SDL_clipboard.h
+ /usr/include/SDL2/SDL_config.h
+ /usr/include/SDL2/SDL_cpuinfo.h
+ /usr/include/SDL2/SDL_endian.h
+ /usr/include/SDL2/SDL_error.h
+ /usr/include/SDL2/SDL_events.h
+ /usr/include/SDL2/SDL_filesystem.h
+ /usr/include/SDL2/SDL_gamecontroller.h
+ /usr/include/SDL2/SDL_gesture.h
+ /usr/include/SDL2/SDL_haptic.h
+ /usr/include/SDL2/SDL_hints.h
+ /usr/include/SDL2/SDL_image.h
+ /usr/include/SDL2/SDL_joystick.h
+ /usr/include/SDL2/SDL_keyboard.h
+ /usr/include/SDL2/SDL_keycode.h
+ /usr/include/SDL2/SDL_loadso.h
+ /usr/include/SDL2/SDL_log.h
+ /usr/include/SDL2/SDL_main.h
+ /usr/include/SDL2/SDL_messagebox.h
+ /usr/include/SDL2/SDL_mouse.h
+ /usr/include/SDL2/SDL_mutex.h
+ /usr/include/SDL2/SDL_pixels.h
+ /usr/include/SDL2/SDL_platform.h
+ /usr/include/SDL2/SDL_power.h
+ /usr/include/SDL2/SDL_quit.h
+ /usr/include/SDL2/SDL_rect.h
+ /usr/include/SDL2/SDL_render.h
+ /usr/include/SDL2/SDL_rwops.h
+ /usr/include/SDL2/SDL_scancode.h
+ /usr/include/SDL2/SDL_shape.h
+ /usr/include/SDL2/SDL_stdinc.h
+ /usr/include/SDL2/SDL_surface.h
+ /usr/include/SDL2/SDL_system.h
+ /usr/include/SDL2/SDL_thread.h
+ /usr/include/SDL2/SDL_timer.h
+ /usr/include/SDL2/SDL_touch.h
+ /usr/include/SDL2/SDL_version.h
+ /usr/include/SDL2/SDL_video.h
+ /usr/include/SDL2/begin_code.h
+ /usr/include/SDL2/close_code.h
 CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o
  ../src/parser/config/bindings.h
  ../src/parser/config/characterxml.h
@@ -357,6 +627,51 @@ CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o
  /home/axel/repositorio_local/taller/src/game/ToClientPack.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
  /home/axel/repositorio_local/taller/src/parser/config/npc.h
+ /usr/include/SDL2/SDL.h
+ /usr/include/SDL2/SDL_assert.h
+ /usr/include/SDL2/SDL_atomic.h
+ /usr/include/SDL2/SDL_audio.h
+ /usr/include/SDL2/SDL_blendmode.h
+ /usr/include/SDL2/SDL_clipboard.h
+ /usr/include/SDL2/SDL_config.h
+ /usr/include/SDL2/SDL_cpuinfo.h
+ /usr/include/SDL2/SDL_endian.h
+ /usr/include/SDL2/SDL_error.h
+ /usr/include/SDL2/SDL_events.h
+ /usr/include/SDL2/SDL_filesystem.h
+ /usr/include/SDL2/SDL_gamecontroller.h
+ /usr/include/SDL2/SDL_gesture.h
+ /usr/include/SDL2/SDL_haptic.h
+ /usr/include/SDL2/SDL_hints.h
+ /usr/include/SDL2/SDL_image.h
+ /usr/include/SDL2/SDL_joystick.h
+ /usr/include/SDL2/SDL_keyboard.h
+ /usr/include/SDL2/SDL_keycode.h
+ /usr/include/SDL2/SDL_loadso.h
+ /usr/include/SDL2/SDL_log.h
+ /usr/include/SDL2/SDL_main.h
+ /usr/include/SDL2/SDL_messagebox.h
+ /usr/include/SDL2/SDL_mouse.h
+ /usr/include/SDL2/SDL_mutex.h
+ /usr/include/SDL2/SDL_pixels.h
+ /usr/include/SDL2/SDL_platform.h
+ /usr/include/SDL2/SDL_power.h
+ /usr/include/SDL2/SDL_quit.h
+ /usr/include/SDL2/SDL_rect.h
+ /usr/include/SDL2/SDL_render.h
+ /usr/include/SDL2/SDL_rwops.h
+ /usr/include/SDL2/SDL_scancode.h
+ /usr/include/SDL2/SDL_shape.h
+ /usr/include/SDL2/SDL_stdinc.h
+ /usr/include/SDL2/SDL_surface.h
+ /usr/include/SDL2/SDL_system.h
+ /usr/include/SDL2/SDL_thread.h
+ /usr/include/SDL2/SDL_timer.h
+ /usr/include/SDL2/SDL_touch.h
+ /usr/include/SDL2/SDL_version.h
+ /usr/include/SDL2/SDL_video.h
+ /usr/include/SDL2/begin_code.h
+ /usr/include/SDL2/close_code.h
 CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o
  ../src/parser/config/bindings.h
  ../src/parser/config/characterxml.h
@@ -385,6 +700,51 @@ CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
  /home/axel/repositorio_local/taller/src/game/ToClientPack.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
+ /usr/include/SDL2/SDL.h
+ /usr/include/SDL2/SDL_assert.h
+ /usr/include/SDL2/SDL_atomic.h
+ /usr/include/SDL2/SDL_audio.h
+ /usr/include/SDL2/SDL_blendmode.h
+ /usr/include/SDL2/SDL_clipboard.h
+ /usr/include/SDL2/SDL_config.h
+ /usr/include/SDL2/SDL_cpuinfo.h
+ /usr/include/SDL2/SDL_endian.h
+ /usr/include/SDL2/SDL_error.h
+ /usr/include/SDL2/SDL_events.h
+ /usr/include/SDL2/SDL_filesystem.h
+ /usr/include/SDL2/SDL_gamecontroller.h
+ /usr/include/SDL2/SDL_gesture.h
+ /usr/include/SDL2/SDL_haptic.h
+ /usr/include/SDL2/SDL_hints.h
+ /usr/include/SDL2/SDL_image.h
+ /usr/include/SDL2/SDL_joystick.h
+ /usr/include/SDL2/SDL_keyboard.h
+ /usr/include/SDL2/SDL_keycode.h
+ /usr/include/SDL2/SDL_loadso.h
+ /usr/include/SDL2/SDL_log.h
+ /usr/include/SDL2/SDL_main.h
+ /usr/include/SDL2/SDL_messagebox.h
+ /usr/include/SDL2/SDL_mouse.h
+ /usr/include/SDL2/SDL_mutex.h
+ /usr/include/SDL2/SDL_pixels.h
+ /usr/include/SDL2/SDL_platform.h
+ /usr/include/SDL2/SDL_power.h
+ /usr/include/SDL2/SDL_quit.h
+ /usr/include/SDL2/SDL_rect.h
+ /usr/include/SDL2/SDL_render.h
+ /usr/include/SDL2/SDL_rwops.h
+ /usr/include/SDL2/SDL_scancode.h
+ /usr/include/SDL2/SDL_shape.h
+ /usr/include/SDL2/SDL_stdinc.h
+ /usr/include/SDL2/SDL_surface.h
+ /usr/include/SDL2/SDL_system.h
+ /usr/include/SDL2/SDL_thread.h
+ /usr/include/SDL2/SDL_timer.h
+ /usr/include/SDL2/SDL_touch.h
+ /usr/include/SDL2/SDL_version.h
+ /usr/include/SDL2/SDL_video.h
+ /usr/include/SDL2/begin_code.h
+ /usr/include/SDL2/close_code.h
 CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.o
  ../src/parser/config/bindings.h
  ../src/parser/config/characterxml.h
@@ -419,6 +779,51 @@ CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.o
  /home/axel/repositorio_local/taller/src/parser/config/characterxml.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
  /home/axel/repositorio_local/taller/src/parser/config/npc.h
+ /usr/include/SDL2/SDL.h
+ /usr/include/SDL2/SDL_assert.h
+ /usr/include/SDL2/SDL_atomic.h
+ /usr/include/SDL2/SDL_audio.h
+ /usr/include/SDL2/SDL_blendmode.h
+ /usr/include/SDL2/SDL_clipboard.h
+ /usr/include/SDL2/SDL_config.h
+ /usr/include/SDL2/SDL_cpuinfo.h
+ /usr/include/SDL2/SDL_endian.h
+ /usr/include/SDL2/SDL_error.h
+ /usr/include/SDL2/SDL_events.h
+ /usr/include/SDL2/SDL_filesystem.h
+ /usr/include/SDL2/SDL_gamecontroller.h
+ /usr/include/SDL2/SDL_gesture.h
+ /usr/include/SDL2/SDL_haptic.h
+ /usr/include/SDL2/SDL_hints.h
+ /usr/include/SDL2/SDL_image.h
+ /usr/include/SDL2/SDL_joystick.h
+ /usr/include/SDL2/SDL_keyboard.h
+ /usr/include/SDL2/SDL_keycode.h
+ /usr/include/SDL2/SDL_loadso.h
+ /usr/include/SDL2/SDL_log.h
+ /usr/include/SDL2/SDL_main.h
+ /usr/include/SDL2/SDL_messagebox.h
+ /usr/include/SDL2/SDL_mouse.h
+ /usr/include/SDL2/SDL_mutex.h
+ /usr/include/SDL2/SDL_pixels.h
+ /usr/include/SDL2/SDL_platform.h
+ /usr/include/SDL2/SDL_power.h
+ /usr/include/SDL2/SDL_quit.h
+ /usr/include/SDL2/SDL_rect.h
+ /usr/include/SDL2/SDL_render.h
+ /usr/include/SDL2/SDL_rwops.h
+ /usr/include/SDL2/SDL_scancode.h
+ /usr/include/SDL2/SDL_shape.h
+ /usr/include/SDL2/SDL_stdinc.h
+ /usr/include/SDL2/SDL_surface.h
+ /usr/include/SDL2/SDL_system.h
+ /usr/include/SDL2/SDL_thread.h
+ /usr/include/SDL2/SDL_timer.h
+ /usr/include/SDL2/SDL_touch.h
+ /usr/include/SDL2/SDL_version.h
+ /usr/include/SDL2/SDL_video.h
+ /usr/include/SDL2/begin_code.h
+ /usr/include/SDL2/close_code.h
 CMakeFiles/game.dir/src/game/PositionComponent.cpp.o
  /home/axel/repositorio_local/taller/src/game/ECS.h
  /home/axel/repositorio_local/taller/src/game/PositionComponent.cpp
@@ -450,6 +855,51 @@ CMakeFiles/game.dir/src/game/RenderComponent.cpp.o
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
  /home/axel/repositorio_local/taller/src/game/ToClientPack.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
+ /usr/include/SDL2/SDL.h
+ /usr/include/SDL2/SDL_assert.h
+ /usr/include/SDL2/SDL_atomic.h
+ /usr/include/SDL2/SDL_audio.h
+ /usr/include/SDL2/SDL_blendmode.h
+ /usr/include/SDL2/SDL_clipboard.h
+ /usr/include/SDL2/SDL_config.h
+ /usr/include/SDL2/SDL_cpuinfo.h
+ /usr/include/SDL2/SDL_endian.h
+ /usr/include/SDL2/SDL_error.h
+ /usr/include/SDL2/SDL_events.h
+ /usr/include/SDL2/SDL_filesystem.h
+ /usr/include/SDL2/SDL_gamecontroller.h
+ /usr/include/SDL2/SDL_gesture.h
+ /usr/include/SDL2/SDL_haptic.h
+ /usr/include/SDL2/SDL_hints.h
+ /usr/include/SDL2/SDL_image.h
+ /usr/include/SDL2/SDL_joystick.h
+ /usr/include/SDL2/SDL_keyboard.h
+ /usr/include/SDL2/SDL_keycode.h
+ /usr/include/SDL2/SDL_loadso.h
+ /usr/include/SDL2/SDL_log.h
+ /usr/include/SDL2/SDL_main.h
+ /usr/include/SDL2/SDL_messagebox.h
+ /usr/include/SDL2/SDL_mouse.h
+ /usr/include/SDL2/SDL_mutex.h
+ /usr/include/SDL2/SDL_pixels.h
+ /usr/include/SDL2/SDL_platform.h
+ /usr/include/SDL2/SDL_power.h
+ /usr/include/SDL2/SDL_quit.h
+ /usr/include/SDL2/SDL_rect.h
+ /usr/include/SDL2/SDL_render.h
+ /usr/include/SDL2/SDL_rwops.h
+ /usr/include/SDL2/SDL_scancode.h
+ /usr/include/SDL2/SDL_shape.h
+ /usr/include/SDL2/SDL_stdinc.h
+ /usr/include/SDL2/SDL_surface.h
+ /usr/include/SDL2/SDL_system.h
+ /usr/include/SDL2/SDL_thread.h
+ /usr/include/SDL2/SDL_timer.h
+ /usr/include/SDL2/SDL_touch.h
+ /usr/include/SDL2/SDL_version.h
+ /usr/include/SDL2/SDL_video.h
+ /usr/include/SDL2/begin_code.h
+ /usr/include/SDL2/close_code.h
 CMakeFiles/game.dir/src/game/StateComponent.cpp.o
  ../src/parser/config/bindings.h
  ../src/parser/config/characterxml.h
@@ -502,6 +952,51 @@ CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
  /home/axel/repositorio_local/taller/src/game/ToClientPack.h
  /home/axel/repositorio_local/taller/src/parser/config/config.h
+ /usr/include/SDL2/SDL.h
+ /usr/include/SDL2/SDL_assert.h
+ /usr/include/SDL2/SDL_atomic.h
+ /usr/include/SDL2/SDL_audio.h
+ /usr/include/SDL2/SDL_blendmode.h
+ /usr/include/SDL2/SDL_clipboard.h
+ /usr/include/SDL2/SDL_config.h
+ /usr/include/SDL2/SDL_cpuinfo.h
+ /usr/include/SDL2/SDL_endian.h
+ /usr/include/SDL2/SDL_error.h
+ /usr/include/SDL2/SDL_events.h
+ /usr/include/SDL2/SDL_filesystem.h
+ /usr/include/SDL2/SDL_gamecontroller.h
+ /usr/include/SDL2/SDL_gesture.h
+ /usr/include/SDL2/SDL_haptic.h
+ /usr/include/SDL2/SDL_hints.h
+ /usr/include/SDL2/SDL_image.h
+ /usr/include/SDL2/SDL_joystick.h
+ /usr/include/SDL2/SDL_keyboard.h
+ /usr/include/SDL2/SDL_keycode.h
+ /usr/include/SDL2/SDL_loadso.h
+ /usr/include/SDL2/SDL_log.h
+ /usr/include/SDL2/SDL_main.h
+ /usr/include/SDL2/SDL_messagebox.h
+ /usr/include/SDL2/SDL_mouse.h
+ /usr/include/SDL2/SDL_mutex.h
+ /usr/include/SDL2/SDL_pixels.h
+ /usr/include/SDL2/SDL_platform.h
+ /usr/include/SDL2/SDL_power.h
+ /usr/include/SDL2/SDL_quit.h
+ /usr/include/SDL2/SDL_rect.h
+ /usr/include/SDL2/SDL_render.h
+ /usr/include/SDL2/SDL_rwops.h
+ /usr/include/SDL2/SDL_scancode.h
+ /usr/include/SDL2/SDL_shape.h
+ /usr/include/SDL2/SDL_stdinc.h
+ /usr/include/SDL2/SDL_surface.h
+ /usr/include/SDL2/SDL_system.h
+ /usr/include/SDL2/SDL_thread.h
+ /usr/include/SDL2/SDL_timer.h
+ /usr/include/SDL2/SDL_touch.h
+ /usr/include/SDL2/SDL_version.h
+ /usr/include/SDL2/SDL_video.h
+ /usr/include/SDL2/begin_code.h
+ /usr/include/SDL2/close_code.h
 CMakeFiles/game.dir/src/game/ToClientPack.cpp.o
  /home/axel/repositorio_local/taller/src/game/TextureWrapper.h
  /home/axel/repositorio_local/taller/src/game/ToClientPack.cpp
@@ -558,6 +1053,19 @@ CMakeFiles/game.dir/src/parser/xmlparser.cpp.o
  /home/axel/repositorio_local/taller/src/parser/config/config.h
  /home/axel/repositorio_local/taller/src/parser/xmlparser.cpp
  /home/axel/repositorio_local/taller/src/parser/xmlparser.h
+CMakeFiles/game.dir/src/server/Client.cpp.o
+ ../src/parser/CLIArgumentParser.h
+ /home/axel/repositorio_local/taller/src/server/Client.cpp
+ /home/axel/repositorio_local/taller/src/server/Client.h
+CMakeFiles/game.dir/src/server/Server.cpp.o
+ ../src/parser/CLIArgumentParser.h
+ /home/axel/repositorio_local/taller/src/server/Server.cpp
+ /home/axel/repositorio_local/taller/src/server/Server.h
+ /home/axel/repositorio_local/taller/src/server/UserConnection.h
+CMakeFiles/game.dir/src/server/UserConnection.cpp.o
+ /home/axel/repositorio_local/taller/src/server/Server.h
+ /home/axel/repositorio_local/taller/src/server/UserConnection.cpp
+ /home/axel/repositorio_local/taller/src/server/UserConnection.h
 CMakeFiles/game.dir/src/utils/TimeUtils.cpp.o
  /home/axel/repositorio_local/taller/src/utils/TimeUtils.cpp
  /home/axel/repositorio_local/taller/src/utils/TimeUtils.h

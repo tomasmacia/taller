@@ -987,6 +987,87 @@ src/parser/xmlparser.cpp.s:
 	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/parser/xmlparser.cpp.s
 .PHONY : src/parser/xmlparser.cpp.s
 
+src/server/Client.o: src/server/Client.cpp.o
+
+.PHONY : src/server/Client.o
+
+# target to build an object file
+src/server/Client.cpp.o:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/server/Client.cpp.o
+.PHONY : src/server/Client.cpp.o
+
+src/server/Client.i: src/server/Client.cpp.i
+
+.PHONY : src/server/Client.i
+
+# target to preprocess a source file
+src/server/Client.cpp.i:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/server/Client.cpp.i
+.PHONY : src/server/Client.cpp.i
+
+src/server/Client.s: src/server/Client.cpp.s
+
+.PHONY : src/server/Client.s
+
+# target to generate assembly for a file
+src/server/Client.cpp.s:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/server/Client.cpp.s
+.PHONY : src/server/Client.cpp.s
+
+src/server/Server.o: src/server/Server.cpp.o
+
+.PHONY : src/server/Server.o
+
+# target to build an object file
+src/server/Server.cpp.o:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/server/Server.cpp.o
+.PHONY : src/server/Server.cpp.o
+
+src/server/Server.i: src/server/Server.cpp.i
+
+.PHONY : src/server/Server.i
+
+# target to preprocess a source file
+src/server/Server.cpp.i:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/server/Server.cpp.i
+.PHONY : src/server/Server.cpp.i
+
+src/server/Server.s: src/server/Server.cpp.s
+
+.PHONY : src/server/Server.s
+
+# target to generate assembly for a file
+src/server/Server.cpp.s:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/server/Server.cpp.s
+.PHONY : src/server/Server.cpp.s
+
+src/server/UserConnection.o: src/server/UserConnection.cpp.o
+
+.PHONY : src/server/UserConnection.o
+
+# target to build an object file
+src/server/UserConnection.cpp.o:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/server/UserConnection.cpp.o
+.PHONY : src/server/UserConnection.cpp.o
+
+src/server/UserConnection.i: src/server/UserConnection.cpp.i
+
+.PHONY : src/server/UserConnection.i
+
+# target to preprocess a source file
+src/server/UserConnection.cpp.i:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/server/UserConnection.cpp.i
+.PHONY : src/server/UserConnection.cpp.i
+
+src/server/UserConnection.s: src/server/UserConnection.cpp.s
+
+.PHONY : src/server/UserConnection.s
+
+# target to generate assembly for a file
+src/server/UserConnection.cpp.s:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/server/UserConnection.cpp.s
+.PHONY : src/server/UserConnection.cpp.s
+
 src/utils/TimeUtils.o: src/utils/TimeUtils.cpp.o
 
 .PHONY : src/utils/TimeUtils.o
@@ -1119,6 +1200,15 @@ help:
 	@echo "... src/parser/xmlparser.o"
 	@echo "... src/parser/xmlparser.i"
 	@echo "... src/parser/xmlparser.s"
+	@echo "... src/server/Client.o"
+	@echo "... src/server/Client.i"
+	@echo "... src/server/Client.s"
+	@echo "... src/server/Server.o"
+	@echo "... src/server/Server.i"
+	@echo "... src/server/Server.s"
+	@echo "... src/server/UserConnection.o"
+	@echo "... src/server/UserConnection.i"
+	@echo "... src/server/UserConnection.s"
 	@echo "... src/utils/TimeUtils.o"
 	@echo "... src/utils/TimeUtils.i"
 	@echo "... src/utils/TimeUtils.s"
