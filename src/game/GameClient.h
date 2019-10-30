@@ -29,7 +29,6 @@ public:
     // *************************
 
     void start() override;
-    std::string pollMessage() override {}
 
     static bool isActive(){
         return hasInstance;
@@ -38,6 +37,7 @@ public:
     // *************************
     // ******* WRAPPERS ********
     // *************************
+
 
 protected:
     void init() override ;

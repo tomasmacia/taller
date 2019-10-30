@@ -16,6 +16,10 @@
 //NUESTRO CODIGO
 //===============================================================================================
 
+bool Client::isThereAMessage(){
+    return !incomingMessagesQueue.empty();
+}
+
 std::string Client::pollMessage(){
     std::lock_guard<mutex> lock(mu);
     std::string message = incomingMessagesQueue.front();
@@ -62,14 +66,16 @@ void Client::readThread() {
 void Client::sendThread() {
     while(clientOn) {
         mu.lock();
-        toSendMessage = toSendMessagesQueue.front();
-        toSendMessagesQueue.pop_front();
-        this->send(toSendMessage);
+        if (!toSendMessagesQueue.empty()){
+            toSendMessage = toSendMessagesQueue.front();
+            toSendMessagesQueue.pop_front();
+            this->send(toSendMessage);
 
-        if (connectionOff()) {
-            disconnectFromServer();
-            mu.unlock();            //TODO, ojo aca
-            break;
+            if (connectionOff()) {
+                disconnectFromServer();
+                mu.unlock();            //TODO, ojo aca
+                break;
+            }
         }
         mu.unlock();
     }
@@ -126,11 +132,12 @@ void Client::error(const char *msg) {
     mu.unlock();
 }
 
-Client::Client() {
+Client::Client(GameClient* gameClient) {
     clientOn = true;
     maxBytesBuffer = MAX_BYTES_BUFFER;
     char buf[MAX_BYTES_BUFFER];
     buffer = buf;
+    this->gameClient = gameClient;
 }
 
 Client::~Client() {

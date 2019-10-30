@@ -9,6 +9,7 @@
 
 #include "Controller.h"
 #include "Game.h"
+#include "IDPlayer.h"
 
 #include <iostream>
 
@@ -47,21 +48,26 @@ void Controller::processInput() {
     }
 }
 
-void Controller::reciveInput() {
-    /*
-    std::string incomingMessage = game->pollMessage();
-    std::string header = incomingMessage.substr(0,1);
-    if (header == "0"){
-        processIDFromTheServer(incomingMessage);
-    }
-    if (header == "1"){
-        processRenderableSerializedObject(incomingMessage);
-    }
-     */
-}
-
 void Controller::sendInput() {
     std::cout<<"CONTROLLER: envio las inputs que tengo almacenadas al server"<<'\n';
+}
+
+void Controller::reconstructInput(std::string action, std::string id){
+
+    Action reconstructedAction;
+    if (action == "NONE"){reconstructedAction = NONE;}
+    if (action == "UP"){reconstructedAction = UP;}
+    if (action == "DOWN"){reconstructedAction = DOWN;}
+    if (action == "LEFT"){reconstructedAction = LEFT;}
+    if (action == "RIGHT"){reconstructedAction = RIGHT;}
+    if (action == "JUMP"){reconstructedAction = JUMP;}
+    if (action == "PUNCH"){reconstructedAction = PUNCH;}
+    if (action == "KICK"){reconstructedAction = KICK;}
+    if (action == "JUMP_KICK"){reconstructedAction = JUMP_KICK;}
+    if (action == "CROUCH"){reconstructedAction = CROUCH;}
+
+    int reconstructedId = std::stoi(id);
+    currentInput.push_back(std::make_tuple (reconstructedAction,reconstructedId));
 }
 
 std::list<std::tuple<Action,int>> Controller::getInput() {

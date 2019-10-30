@@ -18,6 +18,10 @@
 //NUESTRO CODIGO
 //===============================================================================================
 
+int Server::numberOfConectionsEstablished(){
+    return connections.size();
+}
+
 void Server::setToSendToSpecific(std::string message,int connectionID){
     connections.at(connectionID)->setToSendMessage(message);
 }
@@ -51,20 +55,25 @@ std::string Server::receive(int someSocketFD) {
     return extractMessageFromStream();
 }
 
-Server::Server() {
+Server::Server(GameServer* gameServer) {
     this->serverOn = true;
     this->maxConnections = MAX_CONNECTIONS; // TODO sacarlo de la config
     maxBytesBuffer = MAX_BYTES_BUFFER;
     maxConnections = MAX_CONNECTIONS;
     char buf[MAX_BYTES_BUFFER];
     buffer = buf;
+    this->gameServer = gameServer;
 }
 
-void Server::initialListeningToClients(){
-    while (serverOn && connections.size() <= maxConnections){
+void Server::listenThread(){
+    while (serverOn){
         mu.lock();
-        if (listen() >= 0){
-            accept();
+        if (listen() >= 0 && connections.size() <= maxConnections){
+            auto newUserConnection = accept();
+            if (newUserConnection != nullptr){
+                std::thread connection = std::thread(&UserConnection::init, this);
+                connection.join();
+            }
         }
         mu.unlock();
     }
@@ -146,22 +155,21 @@ int Server::listen() {
     return socketFD;
 }
 
-int Server::accept() {                  //INSTANCIA Y AGREGA CONECCION AL MAP
+UserConnection* Server::accept() {                  //INSTANCIA Y AGREGA CONECCION AL MAP
     struct sockaddr_in clientAddress{};
     socklen_t clientAddressSize = sizeof(clientAddress);
+    UserConnection* userConnection = nullptr;
 
     int newClientSocketFD = ::accept(socketFD, (struct sockaddr *) &clientAddress, &clientAddressSize);
     if (newClientSocketFD < 0) {
         error("ERROR on accept");
     } else {
         printf("[SERVER]: Connection from %s on port %d\n", inet_ntoa(clientAddress.sin_addr), ntohs(clientAddress.sin_port));
-        auto *userConnection = new UserConnection(newClientSocketFD, nextConectionIDtoAssign, this);
+        userConnection = new UserConnection(newClientSocketFD, nextConectionIDtoAssign, this,gameServer);
         this->connections.insert({ nextConectionIDtoAssign, userConnection });
         nextConectionIDtoAssign++; //esto asegura que la ID sea unica
-        userConnection->init();
     }
-
-    return newClientSocketFD;
+    return userConnection;
 }
 
 int Server::shutdown() {

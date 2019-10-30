@@ -7,6 +7,8 @@
 #include "ToClientPack.h"
 #include "../net/Server.h"
 
+class Server;
+
 class GameServer : public  Game{
 public:
 
@@ -31,7 +33,9 @@ public:
     void start() override ;
     void endLevel();
     int getCurrentLevelWidth();
-    std::string pollMessage() override {}
+    std::string validateLogin(std::string user, std::string pass, int userId);
+    void reconstructInput(std::string action, std::string id);
+    void addNewIDToGame(int id);
 
     static bool isActive(){
         return hasInstance;
@@ -56,9 +60,11 @@ private:
     ~GameServer() {
         destroy();
     }
+    void waitUntilAllPlayersAreConected();
 
     // inits
     void initECSManager();
+    void loadValidCredenctials();   //<user,pass>
 
     // gameloop
     void processInput();
@@ -68,6 +74,10 @@ private:
     static bool hasInstance;
 
     std::list<ToClientPack> toClientsPackages;
+    std::map<std::string,std::string> validCredentials;
+    std::map<std::string,std::string> loggedPlayers;
+
+    int amountOfConectionsNeeded;
 
     Server* server = nullptr;
     LevelBuilder* levelBuilder = nullptr;

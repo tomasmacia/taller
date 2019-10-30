@@ -12,18 +12,21 @@
 // UserConnection at Server level
 class UserConnection {
 public:
-    UserConnection(int socket, int userId, Server *server);
+    UserConnection(int socket, int userId, Server *server,GameServer* gameServer);
 
     void setToSendMessage(std::string message);
     void init();
 
 private:
     int socketFD;
+    GameServer* gameServer = nullptr;
 
     int userId;
     bool connectionIsOn;
 
-    std::string CONTROL__ID_ON = "*";
+
+    char SEPARATOR = '_';
+    std::string END_SERIALIZATION_SIMBOL = "x";
     std::string incomingMessage;
     std::string toSendMessage;
     std::list<std::string> toSendMessagesQueue;
@@ -34,10 +37,15 @@ private:
     //THREADS
     //===============
     void readThread();
-
     void sendThread();
+    void dispatchThread();
+
     void connectionLost();
     bool connectionOff();
+
+    void processLoginFromTheClient(std::string msg);
+    void processInput(std::string msg);
+    const vector<string> split(const string& s, const char& c);
 };
 
 

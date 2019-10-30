@@ -3,6 +3,8 @@
 #include "../LogLib/Logger.h"
 #include "GameClient.h"
 #include "Controller.h"
+#include "LoggerMenu.h"
+#include <thread>
 
 
 
@@ -13,14 +15,27 @@ bool GameClient::hasInstance = false;
 void GameClient::start() {
     LogManager::logInfo("Se inicia GameClient");
 
-    this->initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
-    LogManager::logDebug("inicializado Controller");
+    //INIT CLIENT
+    this->client = new Client(this);
+    std::thread clientReadSend = std::thread(&Client::init, client);
+    clientReadSend.join();
+    LogManager::logInfo("inicializado Cliente");
 
-    isRunning = true;
+    //LOGIN
+    LoggerMenu* login = new LoggerMenu();
+    LogManager::logInfo("Se inicia pantalla de login");
+    if (login->open()){
 
-    while (isRunning) {
-        pollAndSendInput();            //aca se podria cortar el game loop si se lee un ESC o QUIT
-        render();
+        //INIT GAME
+        this->initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
+        LogManager::logDebug("inicializado Controller");
+        isRunning = true;
+
+        //GAME LOOP
+        while (isRunning) {
+            pollAndSendInput();//aca se podria cortar el game loop si se lee un ESC o QUIT
+            render();
+        }
     }
     LogManager::logInfo("Juego terminado");
     LogManager::logInfo("=======================================");

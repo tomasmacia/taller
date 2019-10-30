@@ -8,16 +8,21 @@
 #include <list>
 #include <string>
 #include <mutex>
+#include "../game/GameClient.h"
+
+class GameClient;
 
 class Client {
 public:
-    Client();
+    Client(GameClient* gameClient);
     ~Client();
 
     //API
     //===============
     void setToSend(std::string message);
     std::string pollMessage();
+    bool isThereAMessage();
+    bool init();
 
 private:
     std::string END_SERIALIZATION_SIMBOL = "x";
@@ -25,6 +30,8 @@ private:
     int socketFD;
     std::mutex mu;
     bool clientOn;
+
+    GameClient* gameClient = nullptr;
 
     int maxBytesBuffer;
     char* buffer;
@@ -50,10 +57,12 @@ private:
 
     //no podemos permitir que toquen esto desde afuera
     //===============
-    bool init();
     int create();
     int connectToServer();
     int disconnectFromServer();
+
+    void processIDFromTheServer(std::string msg);
+    void processRenderableSerializedObject(std::string msg);
 };
 
 

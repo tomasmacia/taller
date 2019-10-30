@@ -4,10 +4,8 @@
 
 #include "IDPlayer.h"
 
-int IDPlayer::addNewIdPlayer(){
-    lastIDGenerated ++;
-    ids.push_back(lastIDGenerated);
-    return lastIDGenerated;
+void IDPlayer::addNewIdPlayer(int id){
+    ids.push_back(id);
 }
 
 int IDPlayer::getNextId(){

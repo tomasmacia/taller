@@ -10,12 +10,14 @@
 #include <list>
 #include <map>
 #include <mutex>
+#include "../game/GameServer.h"
 
+class GameServer;
 class UserConnection;
 
 class Server {
 public:
-    Server();
+    Server(GameServer* gameServer);
     ~Server();
 
     //API
@@ -23,6 +25,7 @@ public:
     void setToSendToSpecific(std::string message,int connectionID);   //LO QUE VE EL MODELO
     bool init();
     void initialListeningToClients();
+    int numberOfConectionsEstablished();
 
     //SOLO PUEDE USAR EL UserConnection
     int send(std::string, int someSocketFD);         //SOLO ACCEDIDO DESDE EL SENDTHREAD DE USER CONNECTION
@@ -35,6 +38,7 @@ public:
 private:
     std::string END_SERIALIZATION_SIMBOL = "x";
 
+    GameServer* gameServer = nullptr;
     std::mutex mu;
     bool serverOn;
     char* buffer;
@@ -54,7 +58,7 @@ private:
     int create();
     int bind();
     int listen();                                  //SOLO ACCEDIDO DESDE EL LISTENTHREAD DE USER CONNECTION
-    int accept();                                  //SOLO ACCEDIDO DESDE EL LISTENTHREAD DE USER CONNECTION
+    UserConnection* accept();                                  //SOLO ACCEDIDO DESDE EL LISTENTHREAD DE USER CONNECTION
     int shutdown();
     int close();
 };

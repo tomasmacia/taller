@@ -18,7 +18,7 @@ public:
     IDPlayer(IDPlayer const &) = delete;
     void operator=(IDPlayer const &) = delete;
 
-    int addNewIdPlayer();
+    void addNewIdPlayer(int id);
     int getNextId();
     void initIDCounter();
 
