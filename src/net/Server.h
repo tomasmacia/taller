@@ -21,11 +21,16 @@ public:
     //API
     void setToBroadcast(std::string message);                         //LO QUE VE EL MODELO
     void setToSendToSpecific(std::string message,int connectionID);   //LO QUE VE EL MODELO
-
+    bool init();
+    void initialListeningToClients();
 
     //SOLO PUEDE USAR EL UserConnection
     int send(std::string, int someSocketFD);         //SOLO ACCEDIDO DESDE EL SENDTHREAD DE USER CONNECTION
     std::string receive(int someSocketFD);                  //SOLO ACCEDIDO DESDE EL READTHREAD DE USER CONNECTION
+
+    //THREADS
+    //===============
+    void listenThread();
 
 private:
     std::string END_SERIALIZATION_SIMBOL = "x";
@@ -44,13 +49,8 @@ private:
     void error(const char* msg);
     std::string extractMessageFromStream();
 
-    //THREADS
-    //===============
-    void listenThread();
-
     //no podemos permitir que toquen esto desde afuera
     //===============
-    bool init();
     int create();
     int bind();
     int listen();                                  //SOLO ACCEDIDO DESDE EL LISTENTHREAD DE USER CONNECTION

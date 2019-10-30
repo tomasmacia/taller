@@ -60,8 +60,8 @@ Server::Server() {
     buffer = buf;
 }
 
-void Server::listenThread(){
-    while (serverOn){
+void Server::initialListeningToClients(){
+    while (serverOn && connections.size() <= maxConnections){
         mu.lock();
         if (listen() >= 0){
             accept();
@@ -92,9 +92,7 @@ bool Server::init(){
 
     if(create() < 0){return false;}
     if(bind() < 0){return false;}
-
-    std::thread listen = std::thread(&Server::listenThread, this);
-    listen.join();
+    return true;
 }
 
 Server::~Server() {

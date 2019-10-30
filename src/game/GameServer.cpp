@@ -3,6 +3,7 @@
 #include "../LogLib/Logger.h"
 #include "LevelBuilder.h"
 #include "GameServer.h"
+#include <thread>
 
 #include <iostream>
 
@@ -16,6 +17,9 @@ void GameServer::start() {
     levelBuilder = new LevelBuilder();
     LogManager::logDebug("inicializado LevelBuilder");
     LogManager::logDebug("inicializado Controller");
+
+
+
 
     isRunning = true;
 
@@ -78,6 +82,7 @@ void GameServer::init() {
     this->initConfig();
     this->initECSManager();
     this->initSDL();
+    this->server = new Server();
 
     LogManager::logDebug("inicializado Config");
     LogManager::logDebug("inicializado ECSManager");
