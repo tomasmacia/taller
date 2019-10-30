@@ -15,28 +15,30 @@ public:
     UserConnection(int socket, int userId, Server *server);
 
     void setToSendMessage(std::string message);
+    void init();
 
 private:
     int socketFD;
+
     int userId;
-
     bool connectionIsOn;
-    std::string CONTROL__ID_ON = "*";
 
+    std::string CONTROL__ID_ON = "*";
     std::string incomingMessage;
     std::string toSendMessage;
     std::list<std::string> toSendMessagesQueue;
+
     std::list<std::string> incomingMessagesQueue;
-
     Server *server = nullptr;
+
     std::mutex mu;
-
+    //THREADS
+    //===============
     void readThread();
-    void sendThread();
-    void dispatchThread();
 
+    void sendThread();
     void connectionLost();
-    void init();
+    bool connectionOff();
 };
 
 

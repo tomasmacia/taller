@@ -33,7 +33,7 @@ int Server::send(string msg, int someSocketFD) {
     // TODO REVISAR. Hay que fijarse que someSOcketFD este en la lista de conexiones?
 
     int len = msg.size() + 1;
-    char buf[len];
+    char buf[len];//este buffer tiene que que ser otro distinto al de atributo
     strcpy(buf, msg.c_str());
 
     if (::send(someSocketFD,buf , len, 0) < 0) { // TODO msg
@@ -44,12 +44,11 @@ int Server::send(string msg, int someSocketFD) {
 
 std::string Server::receive(int someSocketFD) {
     // TODO REVISAR. Hay que fijarse que someSOcketFD este en la lista de conexiones?
-    char buffer[MAX_BYTES_BUFFER]{0};
     int n = read(someSocketFD, buffer, MAX_BYTES_BUFFER);
     if (n < 0) {
         error("ERROR reading from socket");
     }
-    return parse(buffer);;
+    return extractMessageFromStream();
 }
 
 Server::Server() {
@@ -57,10 +56,8 @@ Server::Server() {
     this->maxConnections = MAX_CONNECTIONS; // TODO sacarlo de la config
     maxBytesBuffer = MAX_BYTES_BUFFER;
     maxConnections = MAX_CONNECTIONS;
-
-    if (!init()){
-        error("ERROR no se pudo crear el server");
-    }
+    char buf[MAX_BYTES_BUFFER];
+    buffer = buf;
 }
 
 void Server::listenThread(){
@@ -71,7 +68,25 @@ void Server::listenThread(){
         }
         mu.unlock();
     }
-};
+}
+
+std::string Server::extractMessageFromStream(){
+
+    std::string stringedBuffer = buffer;
+    std::string delimiter = "_" + END_SERIALIZATION_SIMBOL;
+    std::string message = stringedBuffer.substr(0, stringedBuffer.find(delimiter));
+
+    //le quito al buffer lo que acabo de parsear
+    int messageLength = message.length();
+    std::string restOfBuffer = stringedBuffer.substr(stringedBuffer.find(delimiter),
+                                                     stringedBuffer.length() - messageLength);
+    //(TODO) QUIZAS SEA COSTOSO A LA LARGA EN RECURSOS PORQUE SE HACE TODO EL TIEMPO ESTO
+    char* cleanedBuf;
+    strcpy(cleanedBuf, restOfBuffer.c_str());
+    buffer = cleanedBuf;
+
+    return message;
+}
 
 bool Server::init(){
 
@@ -95,8 +110,8 @@ Server::~Server() {
 //===============================================================================================
 
 void Server::error(const char *msg) {   //Cierra el server y en el destructor se cierra las conexiones
-    LogManager::logError(msg);
     mu.lock();
+    LogManager::logError(msg);
     serverOn = false;
     mu.unlock();
 }

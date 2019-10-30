@@ -5,13 +5,14 @@
 #include "UserConnection.h"
 #include <iostream>
 #include <thread>
+#include <bits/socket.h>
+#include <sys/socket.h>
 
 UserConnection::UserConnection(int socket, int userId, Server *server) {
     this->socketFD = socket;
     this->userId = userId;
     this->server = server;
     this->connectionIsOn = true;
-    init();
 }
 
 void UserConnection::setToSendMessage(std::string message){
@@ -35,17 +36,24 @@ void UserConnection::sendThread() {
         toSendMessage = toSendMessagesQueue.front();
         toSendMessagesQueue.pop_front();
         server->send(toSendMessage,socketFD);
+
+        if (connectionOff()) {
+            connectionLost();
+            //server->userConectionLost(userId);  AL FINAL BORRAMOS TODAS LAS CONEXIONES EN EL DESTRUCTOR DE SERVER (MAS PROLIJO)
+            mu.unlock();            //TODO, ojo aca
+            break;
+        }
         mu.unlock();
     }
 }
 
-void UserConnection::dispatchThread() {
-    while(connectionIsOn) {
-        incomingMessage = server->receive(socketFD);
-        if (incomingMessage != CONTROL__ID_ON){
-            connectionLost();
-        }
+bool UserConnection::connectionOff(){
+    int error_code;
+    socklen_t error_code_size = sizeof(error_code);
+    if (getsockopt(socketFD, SOL_SOCKET, SO_ERROR, &error_code, &error_code_size) < 0){
+        return true;
     }
+    return false;
 }
 
 void UserConnection::connectionLost(){
@@ -55,8 +63,6 @@ void UserConnection::connectionLost(){
 void UserConnection::init() {
     std::thread read = std::thread(&UserConnection::readThread, this);
     std::thread send = std::thread(&UserConnection::sendThread, this);
-    std::thread dispatch = std::thread(&UserConnection::dispatchThread, this);
     read.join();
     send.join();
-    dispatch.join();
 }

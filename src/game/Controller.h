@@ -30,6 +30,9 @@ private:
     void init();
     void bind();
 
+    void processIDFromTheServer(std::string msg);
+    void processRenderableSerializedObject(std::string msg);
+
     //el input ahora es una tupla (Action, id)
     std::list<std::tuple<Action,int>> currentInput;
 

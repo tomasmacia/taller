@@ -19,8 +19,8 @@ public:
     ~Server();
 
     //API
-    void setToBroadcast(std::string message);               //usada por objetos del modelo
-    void setToSendToSpecific(std::string message,int connectionID);   //usada por objetos del modelo
+    void setToBroadcast(std::string message);                         //LO QUE VE EL MODELO
+    void setToSendToSpecific(std::string message,int connectionID);   //LO QUE VE EL MODELO
 
 
     //SOLO PUEDE USAR EL UserConnection
@@ -28,8 +28,11 @@ public:
     std::string receive(int someSocketFD);                  //SOLO ACCEDIDO DESDE EL READTHREAD DE USER CONNECTION
 
 private:
+    std::string END_SERIALIZATION_SIMBOL = "x";
+
     std::mutex mu;
     bool serverOn;
+    char* buffer;
 
     int maxBytesBuffer;
     int maxConnections;
@@ -39,13 +42,14 @@ private:
     int nextConectionIDtoAssign = 0;
 
     void error(const char* msg);
-    std::string parse(char* rawRecivedMessage);
+    std::string extractMessageFromStream();
+
+    //THREADS
+    //===============
+    void listenThread();
 
     //no podemos permitir que toquen esto desde afuera
     //===============
-    void listenThread();
-    void specificSend(std::string message,int connectionID);    //usada para hablar con los UserConnections
-
     bool init();
     int create();
     int bind();
