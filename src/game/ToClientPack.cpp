@@ -4,24 +4,8 @@
 
 #include "ToClientPack.h"
 
-
-void ToClientPack::render(std::map<std::string, TextureWrapper*> loadedTexturesMap){
-
-    TextureWrapper* textureAsociatedToSpritePath;
-
-    //sintaxis estandar para chequear si la key esta en el diccionario
-    if (loadedTexturesMap.find(path) != loadedTexturesMap.end()){ //si esta en diccionario
-
-        textureAsociatedToSpritePath = loadedTexturesMap.find(path)->second;
-    }
-    else{//si no fue cargado nunca el sprite
-
-        textureAsociatedToSpritePath = new TextureWrapper();
-        loadedTexturesMap.insert({ path, textureAsociatedToSpritePath });
-    }
-    textureAsociatedToSpritePath->render(&srcRect,&destRect,fliped);
-}
-
+//CONSTRUCTORS
+//=========================================================================================
 ToClientPack::ToClientPack(std::string path, SDL_Rect srcRect, SDL_Rect destRect, bool isFliped){
     this->path = path;
     this->srcRect = srcRect;
@@ -37,20 +21,24 @@ ToClientPack::ToClientPack(){
     this->fliped = false;
 }
 
-std::string ToClientPack::getPath(){
-    return path;
-}
+//API
+//=========================================================================================
+void ToClientPack::render(std::map<std::string, TextureWrapper*>* loadedTexturesMap){
 
-SDL_Rect ToClientPack::getSrcRect() {
-    return srcRect;
-}
+    TextureWrapper* textureAsociatedToSpritePath;
 
-SDL_Rect ToClientPack::getDstRect() {
-    return destRect;
-}
+    //sintaxis estandar para chequear si la key esta en el diccionario
+    if (loadedTexturesMap->find(path) != loadedTexturesMap->end()){ //si esta en diccionario
 
-bool ToClientPack::getFliped() {
-    return fliped;
+        textureAsociatedToSpritePath = loadedTexturesMap->find(path)->second;
+    }
+    else{//si no fue cargado nunca el sprite
+
+        textureAsociatedToSpritePath = new TextureWrapper();
+        textureAsociatedToSpritePath->loadFromFile(path);
+        loadedTexturesMap->insert({ path, textureAsociatedToSpritePath });
+    }
+    textureAsociatedToSpritePath->render(&srcRect,&destRect,fliped);
 }
 
 

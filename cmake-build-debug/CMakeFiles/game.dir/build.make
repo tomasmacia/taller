@@ -525,6 +525,32 @@ CMakeFiles/game.dir/src/net/UserConnection.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/game.dir/src/net/UserConnection.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/axel/repositorio_local/taller/src/net/UserConnection.cpp -o CMakeFiles/game.dir/src/net/UserConnection.cpp.s
 
+CMakeFiles/game.dir/src/game/ObjectSerializer.cpp.o: CMakeFiles/game.dir/flags.make
+CMakeFiles/game.dir/src/game/ObjectSerializer.cpp.o: ../src/game/ObjectSerializer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object CMakeFiles/game.dir/src/game/ObjectSerializer.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/ObjectSerializer.cpp.o -c /home/axel/repositorio_local/taller/src/game/ObjectSerializer.cpp
+
+CMakeFiles/game.dir/src/game/ObjectSerializer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/game.dir/src/game/ObjectSerializer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/axel/repositorio_local/taller/src/game/ObjectSerializer.cpp > CMakeFiles/game.dir/src/game/ObjectSerializer.cpp.i
+
+CMakeFiles/game.dir/src/game/ObjectSerializer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/game.dir/src/game/ObjectSerializer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/axel/repositorio_local/taller/src/game/ObjectSerializer.cpp -o CMakeFiles/game.dir/src/game/ObjectSerializer.cpp.s
+
+CMakeFiles/game.dir/src/game/MessageParser.cpp.o: CMakeFiles/game.dir/flags.make
+CMakeFiles/game.dir/src/game/MessageParser.cpp.o: ../src/game/MessageParser.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building CXX object CMakeFiles/game.dir/src/game/MessageParser.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/game.dir/src/game/MessageParser.cpp.o -c /home/axel/repositorio_local/taller/src/game/MessageParser.cpp
+
+CMakeFiles/game.dir/src/game/MessageParser.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/game.dir/src/game/MessageParser.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/axel/repositorio_local/taller/src/game/MessageParser.cpp > CMakeFiles/game.dir/src/game/MessageParser.cpp.i
+
+CMakeFiles/game.dir/src/game/MessageParser.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/game.dir/src/game/MessageParser.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/axel/repositorio_local/taller/src/game/MessageParser.cpp -o CMakeFiles/game.dir/src/game/MessageParser.cpp.s
+
 # Object files for target game
 game_OBJECTS = \
 "CMakeFiles/game.dir/src/parser/xmlparser.cpp.o" \
@@ -562,7 +588,9 @@ game_OBJECTS = \
 "CMakeFiles/game.dir/src/game/LoggerMenu.cpp.o" \
 "CMakeFiles/game.dir/src/net/Client.cpp.o" \
 "CMakeFiles/game.dir/src/net/Server.cpp.o" \
-"CMakeFiles/game.dir/src/net/UserConnection.cpp.o"
+"CMakeFiles/game.dir/src/net/UserConnection.cpp.o" \
+"CMakeFiles/game.dir/src/game/ObjectSerializer.cpp.o" \
+"CMakeFiles/game.dir/src/game/MessageParser.cpp.o"
 
 # External object files for target game
 game_EXTERNAL_OBJECTS =
@@ -603,13 +631,15 @@ game_EXTERNAL_OBJECTS =
 ../bin/game: CMakeFiles/game.dir/src/net/Client.cpp.o
 ../bin/game: CMakeFiles/game.dir/src/net/Server.cpp.o
 ../bin/game: CMakeFiles/game.dir/src/net/UserConnection.cpp.o
+../bin/game: CMakeFiles/game.dir/src/game/ObjectSerializer.cpp.o
+../bin/game: CMakeFiles/game.dir/src/game/MessageParser.cpp.o
 ../bin/game: CMakeFiles/game.dir/build.make
 ../bin/game: /usr/lib/x86_64-linux-gnu/libSDL2main.a
 ../bin/game: /usr/lib/x86_64-linux-gnu/libSDL2.so
 ../bin/game: /usr/lib/x86_64-linux-gnu/libSDL2_image.so
 ../bin/game: /usr/lib/x86_64-linux-gnu/libSDL2_ttf.so
 ../bin/game: CMakeFiles/game.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Linking CXX executable ../bin/game"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/axel/repositorio_local/taller/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Linking CXX executable ../bin/game"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/game.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

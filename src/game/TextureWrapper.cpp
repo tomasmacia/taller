@@ -9,6 +9,8 @@
 
 SDL_Renderer* _renderer = nullptr;
 
+//CONSTRUCTOR
+//=========================================================================================
 TextureWrapper::TextureWrapper() {
     //Initialize
     mTexture = nullptr;
@@ -17,12 +19,8 @@ TextureWrapper::TextureWrapper() {
     getRenderer();
 }
 
-TextureWrapper::~TextureWrapper() {
-    //Deallocate
-    free();
-    //LogManager::logDebug("Memoria de TextureWrapper liberada");
-}
-
+//API
+//=========================================================================================
 bool TextureWrapper::loadFromFile(std::string path, std::vector<int> rgb) {
     // Get rid of preexisting texture
     free();
@@ -58,16 +56,6 @@ bool TextureWrapper::loadFromFile(std::string path, std::vector<int> rgb) {
     return mTexture != nullptr;
 }
 
-void TextureWrapper::free() {
-    // Free texture if it exists
-    if(mTexture != nullptr) {
-        SDL_DestroyTexture( mTexture);
-        mTexture = nullptr;
-        mWidth = 0;
-        mHeight = 0;
-    }
-}
-
 void TextureWrapper::render(SDL_Rect* srcRect, SDL_Rect* destRect,bool flip = false) {
 
     if (mTexture == nullptr){
@@ -95,6 +83,8 @@ void TextureWrapper::measureWidthAndHeighthOf(std::string spritePath,int* width,
     SDL_DestroyTexture(temporaryTexture);
 }
 
+//MANAGING RENDERER
+//=========================================================================================
 SDL_Renderer* TextureWrapper::staticGetRenderer(){
 
     SDL_Renderer* _renderer = nullptr;
@@ -111,4 +101,21 @@ SDL_Renderer* TextureWrapper::staticGetRenderer(){
 
 void TextureWrapper::getRenderer(){
     renderer = staticGetRenderer();
+}
+
+//DESTROY
+//=========================================================================================
+TextureWrapper::~TextureWrapper() {
+    free();
+    //LogManager::logDebug("Memoria de TextureWrapper liberada");
+}
+
+void TextureWrapper::free() {
+    // Free texture if it exists
+    if(mTexture != nullptr) {
+        SDL_DestroyTexture( mTexture);
+        mTexture = nullptr;
+        mWidth = 0;
+        mHeight = 0;
+    }
 }

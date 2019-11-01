@@ -168,6 +168,9 @@
 		<Unit filename="/home/axel/repositorio_local/taller/src/game/GameServer.h">
 			<Option target="game"/>
 		</Unit>
+		<Unit filename="/home/axel/repositorio_local/taller/src/game/Header.h">
+			<Option target="game"/>
+		</Unit>
 		<Unit filename="/home/axel/repositorio_local/taller/src/game/IAComponent.cpp">
 			<Option target="game"/>
 		</Unit>
@@ -216,6 +219,12 @@
 		<Unit filename="/home/axel/repositorio_local/taller/src/game/Manager.h">
 			<Option target="game"/>
 		</Unit>
+		<Unit filename="/home/axel/repositorio_local/taller/src/game/MessageParser.cpp">
+			<Option target="game"/>
+		</Unit>
+		<Unit filename="/home/axel/repositorio_local/taller/src/game/MessageParser.h">
+			<Option target="game"/>
+		</Unit>
 		<Unit filename="/home/axel/repositorio_local/taller/src/game/MobileRenderComponent.cpp">
 			<Option target="game"/>
 		</Unit>
@@ -232,6 +241,12 @@
 			<Option target="game"/>
 		</Unit>
 		<Unit filename="/home/axel/repositorio_local/taller/src/game/NonMobileRenderComponent.h">
+			<Option target="game"/>
+		</Unit>
+		<Unit filename="/home/axel/repositorio_local/taller/src/game/ObjectSerializer.cpp">
+			<Option target="game"/>
+		</Unit>
+		<Unit filename="/home/axel/repositorio_local/taller/src/game/ObjectSerializer.h">
 			<Option target="game"/>
 		</Unit>
 		<Unit filename="/home/axel/repositorio_local/taller/src/game/PhysicsComponent.cpp">

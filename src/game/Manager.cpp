@@ -8,7 +8,8 @@
 #include "CharacterRenderComponent.h"
 #include "NPCRenderComponent.h"
 
-
+//API
+//=========================================================================================
 void Manager::update() {//se updatean todas seguro porque updateo las listas que formaban una particion de las entities
     sortEntitiesByY();
 
@@ -57,15 +58,22 @@ std::list<ToClientPack> Manager::generateRenderables() {
     return packages;
 }
 
-/*
-void Manager::render() {
+void Manager::prepareForNextLevel(){
 
-    for(auto* e : backLayerBackgrounds) e->render();
-    for(auto* e : entitiesWithPosition) e->render();
-    for(auto* e : fronLayerBackgrounds) e->render();
+    entitiesWithPosition.clear();
+    destroyNonLevelPersistentEntities();
+    npcs.clear();
+    nonMobileEntities.clear();
+    backLayerBackgrounds.clear();
+    fronLayerBackgrounds.clear();
+
+    for (auto* e : players){
+        entitiesWithPosition.push_back(e);
+    }
 }
- */
 
+//ADDING NEW ENTITIES
+//=========================================================================================
 Entity* Manager::addNPC() {
     auto *e = new Entity();
     nonLevelPersistentEntities.push_back(e);
@@ -117,11 +125,8 @@ Entity* Manager::addSpecialEntity() {
     return e;
 }
 
-Entity* Manager::addCustomEntity(Entity* e) { // in case we want to add behaviour in a custom Entity that inherits from Entity
-    nonLevelPersistentEntities.push_back(e);
-    return e;
-}
-
+//DESTROY
+//=========================================================================================
 void Manager::destroyAllEntities() { //se destruyen todas seguro porque borro las listas que formaban una particion de las entities
     for(auto* e : entitiesWithPosition) {
         delete e;
@@ -148,24 +153,22 @@ void Manager::destroyNonLevelPersistentEntities() {
     }
     nonLevelPersistentEntities.clear();
 }
-void Manager::prepareForNextLevel(){
 
+Manager::~Manager() {
+    destroyAllEntities();
     entitiesWithPosition.clear();
-    destroyNonLevelPersistentEntities();
     npcs.clear();
     nonMobileEntities.clear();
+    specialEntities.clear();
+    nonLevelPersistentEntities.clear();
+    players.clear();
     backLayerBackgrounds.clear();
     fronLayerBackgrounds.clear();
-
-    for (auto* e : players){
-        entitiesWithPosition.push_back(e);
-    }
+    LogManager::logDebug("Memoria de Manager liberada");
 }
 
-std::list<Entity*> Manager::getPlayers() {
-    return players;
-}
-
+//SORTING
+//=========================================================================================
 struct EntityComparator
 {
     bool operator ()(const Entity* entity1, const Entity* entity2)
@@ -182,30 +185,3 @@ struct EntityComparator
 void Manager::sortEntitiesByY() {
     entitiesWithPosition.sort(EntityComparator());
 }
-
-Manager::~Manager() {
-    destroyAllEntities();
-    entitiesWithPosition.clear();
-    npcs.clear();
-    nonMobileEntities.clear();
-    specialEntities.clear();
-    nonLevelPersistentEntities.clear();
-    players.clear();
-    backLayerBackgrounds.clear();
-    fronLayerBackgrounds.clear();
-    LogManager::logDebug("Memoria de Manager liberada");
-}
-
-
-
-
-/*
-void Manager::refresh() {// estas perdiendo el puntero, no estas eliminando al objeto
-    entities.erase(
-            std::remove_if(std::begin(entities), std::end(entities),
-                    [](const std::unique_ptr<Entity>& mEntity) {
-                        return !mEntity->isAlive();
-                    }),
-            std::end(entities));
-}*/
-

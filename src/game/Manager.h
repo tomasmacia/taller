@@ -15,7 +15,44 @@
 #include "ECS.h"
 
 class Manager {
+public:
+    ~Manager();
+
+    //API
+    //===============================
+    void update();
+    std::list<ToClientPack> generateRenderables();
+    void prepareForNextLevel();
+
+    //ADDING NEW ENTITIES
+    //===============================
+    Entity* addNPC();
+    Entity* addUtilitie();
+    Entity* addWeapon();
+    Entity* addPlayer();
+    Entity* addBackLayerBackgrounds();
+    Entity* addFrontLayerBackgrounds();
+    Entity* addSpecialEntity();
+
+    //GETTERS
+    //===============================
+    std::list<Entity*> getPlayers(){
+        return players;
+    }
+
 private:
+    //SORTING
+    //===============================
+    void sortEntitiesByY();
+
+    //ADDING NEW ENTITIES
+    //===============================
+    void destroyAllEntities();
+    void destroyNonLevelPersistentEntities();
+
+private:
+    //ATRIBUTES
+    //===============================
     //no forman una particion (hay overlapings o no estan todas)
     std::list<Entity*> nonLevelPersistentEntities;
     std::list<Entity*> players;
@@ -28,27 +65,5 @@ private:
     std::list<Entity*> entitiesWithPosition;        //only utilities, weapons, npcs and players
     std::list<Entity*> backLayerBackgrounds;
     std::list<Entity*> fronLayerBackgrounds;
-
-public:
-    void update();
-    std::list<ToClientPack> generateRenderables();
-    //void render();
-    //void refresh();
-
-    ~Manager();
-    Entity* addNPC();
-    Entity* addUtilitie();
-    Entity* addWeapon();
-    Entity* addPlayer();
-    Entity* addBackLayerBackgrounds();
-    Entity* addFrontLayerBackgrounds();
-    Entity* addSpecialEntity();
-    Entity* addCustomEntity(Entity* e);
-
-    void prepareForNextLevel();
-    void destroyAllEntities();
-    void destroyNonLevelPersistentEntities();
-    std::list<Entity*> getPlayers();
-    void sortEntitiesByY();
 };
 #endif //GAME_MANAGER_H

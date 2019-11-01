@@ -59,15 +59,15 @@ void GameClient::renderAllPackages(){
     while (!packages.empty()){
         currentPackage = packages.front();
         packages.pop_front();
-        currentPackage.render(loadedTexturesMap);
+        currentPackage.render(&loadedTexturesMap);
     }
 }
 
 //API
 //=========================================================================================
 
-void GameClient::reconstructPackage(vector<string> splitedPackage){
-    controller->reconstructPackage(splitedPackage);
+void GameClient::reciveSerializedObject(vector<string> splitedPackage){
+    controller->reconstructAndStorePackage(splitedPackage);
 }
 
 void GameClient::setPlayerId(int id) {

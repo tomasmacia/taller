@@ -15,14 +15,23 @@ public:
     LevelBuilder();
     ~LevelBuilder();
 
+
+    //API
+    //===============================
     void loadNext();
     bool hasNextLevel();
-    void endLevel();
     bool levelFinished();
+    void endLevel();
 
-    int getCurrentLevelWidth();
+    //GETTERS
+    //===============================
+    int getCurrentLevelWidth(){
+        return currentLevelWidth;
+    }
 
 private:
+    //INITIALIZING
+    //===============================
     void initialize();
     void initializeNextLevel();
     void initializeCamera();
@@ -33,12 +42,16 @@ private:
     void initializeEnemies();
     void initializeUtilities();
     void initializeWeapons();
-
     void resetCamera();
     void resetLevelLimits();
     void resetPlayers();
+
+    //MANAGING OWN STATE
+    //===============================
     void prepareForNextLevel();
 
+    //ATRIBUTES
+    //===============================
     Entity* _camera = nullptr;
     Entity* _levelLimits = nullptr;
 

@@ -31,7 +31,7 @@ public:
 
     //API
     //===============================
-    void reconstructPackage(vector<string> splitedPackage);
+    void reciveSerializedObject(vector<string> splitedPackage);
     void sendAknowledgeToLogerMenu(int id);
     void setPlayerId(int id);
 

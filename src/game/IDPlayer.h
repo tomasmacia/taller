@@ -10,6 +10,8 @@
 class IDPlayer { //cada pc tiene asignado un player id y es unico
 
 public:
+    //SINGLETON
+    //===============================
     static IDPlayer &getInstance() {
         static IDPlayer instance; // Guaranteed to be destroyed.
         // Instantiated on first use.
@@ -18,6 +20,8 @@ public:
     IDPlayer(IDPlayer const &) = delete;
     void operator=(IDPlayer const &) = delete;
 
+    //API
+    //===============================
     void addNewIdPlayer(int id);
     int getNextId();
     void initIDCounter();
@@ -25,9 +29,10 @@ public:
 private:
     IDPlayer(){}
 
+    //ATRIBUTES
+    //===============================
     std::vector<int> ids;
-    int currentIdCounter = 0;
-    int lastIDGenerated = 0; //el cero esta reservado para el NULL
+    int currentIdCounter;
 };
 
 #endif //GAME_IDPLAYER_H

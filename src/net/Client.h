@@ -8,7 +8,8 @@
 #include <list>
 #include <string>
 #include <mutex>
-#include "../game/GameClient.h"
+#include "../game/MessageParser.h"
+#include "../game/ObjectSerializer.h"
 
 class GameClient;
 
@@ -18,55 +19,58 @@ public:
     ~Client();
 
     //API
-    //===============
+    //===============================
     void setToSend(std::string message);
-    std::string pollMessage();
-    bool isThereAMessage();
     bool init();
 
 private:
-    std::string END_SERIALIZATION_SIMBOL = "x";
-    char SEPARATOR = '_';
-
-    int socketFD;
-    std::mutex mu;
-    bool clientOn;
-
-    GameClient* gameClient = nullptr;
-
-    int maxBytesBuffer;
-    char* buffer;
-
-    std::string incomingMessage;
-    std::string toSendMessage;
-    std::list<std::string> toSendMessagesQueue;
-    std::list<std::string> incomingMessagesQueue;
-
-
-    int send(std::string msg);                  //SOLO ACCEDIDO DESDE EL SENDTHREAD DE USER CONNECTION
-    std::string receive();                  //SOLO ACCEDIDO DESDE EL READTHREAD DE USER CONNECTION
-
-    void error(const char* msg);
-    std::string extractMessageFromStream();
-    bool connectionOff();
-
-
     //THREADS
-    //===============
+    //===============================
     void readThread();
     void sendThread();
     void dispatchThread();
 
-    //no podemos permitir que toquen esto desde afuera
-    //===============
-    int create();
-    int connectToServer();
+
+    //ACTUAL DATA TRANSFER
+    //===============================
+    int send(std::string msg);
+    string receive();
+
+    //DISPATCHING OF INCOMMING MESSAGES
+    //===============================
+    void processIDFromServer();
+    void processRenderableSerializedObject();
+
+    //DISCONECTION RELATED
+    //===============================
+    bool connectionOff();
     int disconnectFromServer();
 
-    void processIDFromTheServer(std::string msg);
-    void processRenderableSerializedObject(std::string msg);
-    const vector<string> split(const string& s, const char& c);
-};
+    //ERROR
+    //===============================
+    void error(const char* msg);
 
+    //INIT
+    //===============================
+    int create();
+    int connectToServer();
+
+    //ATRIBUTES
+    //===============================
+    std::mutex mu;
+    int socketFD;
+    bool clientOn;
+    int maxBytesBuffer;
+    char* buffer;
+
+    MessageParser messageParser;
+    ObjectSerializer objectSerializer;
+    GameClient* gameClient = nullptr;
+
+    string incomingMessage;
+    string toSendMessage;
+    list<string> toSendMessagesQueue;
+    list<string> incomingMessagesQueue;
+};
 
 #endif //GAME_CLIENT_H

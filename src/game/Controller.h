@@ -30,8 +30,8 @@ public:
     //SERIALIZATION
     //===============================
     std::string processInput();
-    void reconstructInput(std::string action, std::string id);
-    void reconstructPackage(vector<string> splitedPackage);
+    void reconstrucAndStoretInput(std::string action, std::string id);
+    void reconstructAndStorePackage(vector<string> splitedPackage);
 
     //GETTERS
     //===============================

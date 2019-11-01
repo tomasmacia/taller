@@ -117,15 +117,17 @@ set(SOURCE_FILES
         src/game/LoggerMenu.cpp
         src/game/LoggerMenu.h
 
-        # server
+        # net
         src/net/Client.cpp
         src/net/Client.h
         src/net/Server.cpp
         src/net/Server.h
         src/net/UserConnection.cpp 
         src/net/UserConnection.h
+        src/game/ObjectSerializer.cpp
+        src/game/ObjectSerializer.h
 
-)
+        src/game/Header.h src/game/MessageParser.cpp src/game/MessageParser.h)
 
 # create executable
 add_executable(game ${SOURCE_FILES})

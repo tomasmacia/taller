@@ -663,6 +663,33 @@ src/game/Manager.cpp.s:
 	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/Manager.cpp.s
 .PHONY : src/game/Manager.cpp.s
 
+src/game/MessageParser.o: src/game/MessageParser.cpp.o
+
+.PHONY : src/game/MessageParser.o
+
+# target to build an object file
+src/game/MessageParser.cpp.o:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/MessageParser.cpp.o
+.PHONY : src/game/MessageParser.cpp.o
+
+src/game/MessageParser.i: src/game/MessageParser.cpp.i
+
+.PHONY : src/game/MessageParser.i
+
+# target to preprocess a source file
+src/game/MessageParser.cpp.i:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/MessageParser.cpp.i
+.PHONY : src/game/MessageParser.cpp.i
+
+src/game/MessageParser.s: src/game/MessageParser.cpp.s
+
+.PHONY : src/game/MessageParser.s
+
+# target to generate assembly for a file
+src/game/MessageParser.cpp.s:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/MessageParser.cpp.s
+.PHONY : src/game/MessageParser.cpp.s
+
 src/game/MobileRenderComponent.o: src/game/MobileRenderComponent.cpp.o
 
 .PHONY : src/game/MobileRenderComponent.o
@@ -743,6 +770,33 @@ src/game/NonMobileRenderComponent.s: src/game/NonMobileRenderComponent.cpp.s
 src/game/NonMobileRenderComponent.cpp.s:
 	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.s
 .PHONY : src/game/NonMobileRenderComponent.cpp.s
+
+src/game/ObjectSerializer.o: src/game/ObjectSerializer.cpp.o
+
+.PHONY : src/game/ObjectSerializer.o
+
+# target to build an object file
+src/game/ObjectSerializer.cpp.o:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/ObjectSerializer.cpp.o
+.PHONY : src/game/ObjectSerializer.cpp.o
+
+src/game/ObjectSerializer.i: src/game/ObjectSerializer.cpp.i
+
+.PHONY : src/game/ObjectSerializer.i
+
+# target to preprocess a source file
+src/game/ObjectSerializer.cpp.i:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/ObjectSerializer.cpp.i
+.PHONY : src/game/ObjectSerializer.cpp.i
+
+src/game/ObjectSerializer.s: src/game/ObjectSerializer.cpp.s
+
+.PHONY : src/game/ObjectSerializer.s
+
+# target to generate assembly for a file
+src/game/ObjectSerializer.cpp.s:
+	$(MAKE) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/src/game/ObjectSerializer.cpp.s
+.PHONY : src/game/ObjectSerializer.cpp.s
 
 src/game/PhysicsComponent.o: src/game/PhysicsComponent.cpp.o
 
@@ -1164,6 +1218,9 @@ help:
 	@echo "... src/game/Manager.o"
 	@echo "... src/game/Manager.i"
 	@echo "... src/game/Manager.s"
+	@echo "... src/game/MessageParser.o"
+	@echo "... src/game/MessageParser.i"
+	@echo "... src/game/MessageParser.s"
 	@echo "... src/game/MobileRenderComponent.o"
 	@echo "... src/game/MobileRenderComponent.i"
 	@echo "... src/game/MobileRenderComponent.s"
@@ -1173,6 +1230,9 @@ help:
 	@echo "... src/game/NonMobileRenderComponent.o"
 	@echo "... src/game/NonMobileRenderComponent.i"
 	@echo "... src/game/NonMobileRenderComponent.s"
+	@echo "... src/game/ObjectSerializer.o"
+	@echo "... src/game/ObjectSerializer.i"
+	@echo "... src/game/ObjectSerializer.s"
 	@echo "... src/game/PhysicsComponent.o"
 	@echo "... src/game/PhysicsComponent.i"
 	@echo "... src/game/PhysicsComponent.s"

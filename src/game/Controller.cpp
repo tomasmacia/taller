@@ -106,7 +106,7 @@ std::string Controller::generateSerializedObj(ToClientPack package){
     return serializedObject;
 }
 
-void Controller::reconstructInput(std::string action, std::string id){ //TODO hacer un map
+void Controller::reconstrucAndStoretInput(std::string action, std::string id){ //TODO hacer un map
 
     Action reconstructedAction;
     if (action == "NONE"){reconstructedAction = NONE;}
@@ -124,7 +124,7 @@ void Controller::reconstructInput(std::string action, std::string id){ //TODO ha
     currentInput.push_back(std::make_tuple (reconstructedAction,reconstructedId));
 }
 
-void Controller::reconstructPackage(vector<string> splitedPackage){ //header,path,srcw,srch,srcx,srcy,dstw,dsth,dstx,dsty,bool,endcaracter
+void Controller::reconstructAndStorePackage(vector<string> splitedPackage){ //header,path,srcw,srch,srcx,srcy,dstw,dsth,dstx,dsty,bool,endcaracter
 
     std::string path = splitedPackage.at(1);
     SDL_Rect src = {std::stoi(splitedPackage.at(4)),std::stoi(splitedPackage.at(5)),std::stoi(splitedPackage.at(2)),std::stoi(splitedPackage.at(3))};

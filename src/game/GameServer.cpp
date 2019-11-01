@@ -73,6 +73,7 @@ std::string GameServer::validateLogin(std::string user, std::string pass, int us
         if (validCredentials.at(user) == pass){
             if (loggedPlayers.find(user) == loggedPlayers.end()){
                 loggedPlayers.insert({ user, pass });
+                addNewIDToGame(userId);
                 return succesfulLoginMessage;
             }
             else{

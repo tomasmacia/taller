@@ -13,17 +13,35 @@ class ToClientPack {
         ToClientPack(std::string path, SDL_Rect srcRect, SDL_Rect destRect, bool isFliped);
         ToClientPack(); //NULL PATTERN
 
-        void render(std::map<std::string, TextureWrapper*> loadedTexturesMap);
-        std::string getPath();
-        SDL_Rect getSrcRect();
-        SDL_Rect getDstRect();
-        bool getFliped();
+        //GETTERS
+        //===============================
+        void render(std::map<std::string, TextureWrapper*>* loadedTexturesMap);
+
+        //GETTERS
+        //===============================
+        std::string getPath(){
+            return path;
+        }
+
+        SDL_Rect getSrcRect() {
+        return srcRect;
+        }
+
+        SDL_Rect getDstRect() {
+        return destRect;
+        }
+
+        bool getFliped() {
+        return fliped;
+        }
 
     private:
-        std::string path;
-        SDL_Rect destRect;
-        SDL_Rect srcRect;
-        bool fliped;
+    //ATRIBUTES
+    //===============================
+    std::string path;
+    SDL_Rect destRect;
+    SDL_Rect srcRect;
+    bool fliped;
 };
 
 #endif

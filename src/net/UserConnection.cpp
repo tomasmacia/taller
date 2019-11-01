@@ -90,7 +90,6 @@ void UserConnection::processInput(std::string inputMsg) {
         std::string action = splited.at(1);
         std::string id = splited.at(2);
         gameServer->reconstructInput(action,id);
-        gameServer->addNewIDToGame(std::stoi(id));
     }
 }
 

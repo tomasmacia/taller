@@ -2,7 +2,6 @@
 // Created by Tomás Macía on 21/09/2019.
 //
 
-#include <vector>
 #include "../parser/config/level.h"
 #include "../parser/config/npc.h"
 #include "LevelBuilder.h"
@@ -21,11 +20,10 @@
 #include "IDComponent.h"
 #include "IDPlayer.h"
 
-
-#include <iostream>
-
 using namespace std;
 
+//CONSTRUCTOR
+//=========================================================================================
 LevelBuilder::LevelBuilder() {
     currentLevel = 0;
     levelRunning = false;
@@ -33,11 +31,8 @@ LevelBuilder::LevelBuilder() {
     LogManager::logDebug("Cantidad de niveles cargados: " + std::to_string(totalLevels));
 }
 
-bool LevelBuilder::hasNextLevel(){
-    LogManager::logInfo("se chequea si hay siguiente nivel");
-    return currentLevel < totalLevels;
-}
-
+//API
+//=========================================================================================
 void LevelBuilder::loadNext() {
 
     if (currentLevel == 0){
@@ -53,14 +48,27 @@ void LevelBuilder::loadNext() {
     }
 }
 
+bool LevelBuilder::hasNextLevel(){
+    LogManager::logInfo("se chequea si hay siguiente nivel");
+    return currentLevel < totalLevels;
+}
+
+bool LevelBuilder::levelFinished(){
+    return !levelRunning;
+}
+
 void LevelBuilder::endLevel(){
     levelRunning = false;
 }
 
+//MANAGING OWN STATE
+//=========================================================================================
 void LevelBuilder::prepareForNextLevel(){
     GameServer::getInstance().getManager()->prepareForNextLevel();
 }
 
+//INITIALIZING LEVEL
+//=========================================================================================
 void LevelBuilder::initialize() {
 
     currentLevel = 1;
@@ -91,11 +99,6 @@ void LevelBuilder::initializeNextLevel() {
     initializeUtilities();
 }
 
-void LevelBuilder::resetCamera() {
-    LogManager::logDebug("reseteando Camara");
-    _camera->getComponent<CameraComponent>()->reset();
-}
-
 void LevelBuilder::initializeCamera() {
     LogManager::logDebug("Inicializando Camara");
 
@@ -103,15 +106,6 @@ void LevelBuilder::initializeCamera() {
 
     _camera = manager->addSpecialEntity();
     _camera->addComponent<CameraComponent>();
-}
-
-void LevelBuilder::resetLevelLimits() {
-    LogManager::logDebug("reseteando limites de pantalla");
-
-    int screenWidth = GameServer::getInstance().getConfig()->screenResolution.width;
-    int screenHeigth = GameServer::getInstance().getConfig()->screenResolution.height;
-
-    _levelLimits->getComponent<LevelLimits>()->reset(screenWidth,screenHeigth,currentLevelWidth);
 }
 
 void LevelBuilder::initializeLevelLimits() {
@@ -170,29 +164,6 @@ void LevelBuilder::initializeLevelWidth(std::string floorSpritePath){
     float scaleFactor =  (aspectRatio * (float)floorSpriteHeight)/screenResolutionWidth;
 
     currentLevelWidth = (float)floorSpriteWidth/ scaleFactor;
-}
-
-void LevelBuilder::resetPlayers() {
-    LogManager::logDebug("reseteando jugadores");
-
-    Manager *manager = GameServer::getInstance().getManager();
-
-    int screenResolutionWidth = (int)(GameServer::getInstance().getConfig()->screenResolution.width);
-    int screenResolutionHeight = (int)(GameServer::getInstance().getConfig()->screenResolution.height);
-    int amountOfPlayers = manager->getPlayers().size();
-    int offset = screenResolutionWidth/(amountOfPlayers+1);
-
-    int i = 0;
-    for (auto &pj : manager->getPlayers()) {
-        
-        int x = offset*(i+1);
-        int y = screenResolutionHeight/2;
-
-        pj->getComponent<PositionComponent>()->setPosition(x,y);
-
-        i++;
-    }
-    LogManager::logDebug("Jugadores resetados: " + std::to_string(amountOfPlayers));
 }
 
 void LevelBuilder::initializePlayers() {
@@ -324,16 +295,48 @@ void LevelBuilder::initializeUtilities() {
     LogManager::logDebug("Barriles inicializados: " + std::to_string(utilities.barrel.amount));
 }
 
-int LevelBuilder::getCurrentLevelWidth(){
-    return currentLevelWidth;
+void LevelBuilder::resetLevelLimits() {
+    LogManager::logDebug("reseteando limites de pantalla");
+
+    int screenWidth = GameServer::getInstance().getConfig()->screenResolution.width;
+    int screenHeigth = GameServer::getInstance().getConfig()->screenResolution.height;
+
+    _levelLimits->getComponent<LevelLimits>()->reset(screenWidth,screenHeigth,currentLevelWidth);
 }
 
+void LevelBuilder::resetPlayers() {
+    LogManager::logDebug("reseteando jugadores");
+
+    Manager *manager = GameServer::getInstance().getManager();
+
+    int screenResolutionWidth = (int)(GameServer::getInstance().getConfig()->screenResolution.width);
+    int screenResolutionHeight = (int)(GameServer::getInstance().getConfig()->screenResolution.height);
+    int amountOfPlayers = manager->getPlayers().size();
+    int offset = screenResolutionWidth/(amountOfPlayers+1);
+
+    int i = 0;
+    for (auto &pj : manager->getPlayers()) {
+
+        int x = offset*(i+1);
+        int y = screenResolutionHeight/2;
+
+        pj->getComponent<PositionComponent>()->setPosition(x,y);
+
+        i++;
+    }
+    LogManager::logDebug("Jugadores resetados: " + std::to_string(amountOfPlayers));
+}
+
+void LevelBuilder::resetCamera() {
+    LogManager::logDebug("reseteando Camara");
+    _camera->getComponent<CameraComponent>()->reset();
+}
+
+
+//DESTROY
+//=========================================================================================
 LevelBuilder::~LevelBuilder(){
     _camera = nullptr;
     _levelLimits = nullptr;
     LogManager::logDebug("Memoria de LevelBuilder liberada");
-}
-
-bool LevelBuilder::levelFinished(){
-    return !levelRunning;
 }

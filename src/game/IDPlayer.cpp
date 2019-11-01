@@ -4,6 +4,8 @@
 
 #include "IDPlayer.h"
 
+//API
+//=========================================================================================
 void IDPlayer::addNewIdPlayer(int id){
     ids.push_back(id);
 }
@@ -13,5 +15,5 @@ int IDPlayer::getNextId(){
     return ids.at(currentIdCounter) % ids.size();
 }
 void IDPlayer::initIDCounter(){
-    currentIdCounter = 1;
+    currentIdCounter = -1;
 }
