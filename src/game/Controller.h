@@ -21,20 +21,22 @@ class Controller {
 public:
     Controller(Game* game);
 
-    ~Controller() {}
-
     std::string processInput();
     void sendUpdate(std::list<ToClientPack> toClientsPackages, Server* server);
     void reconstructInput(std::string action, std::string id);
     void reconstructPackage(vector<string> splitedPackage);
     std::list<std::tuple<Action,int>> getInput();
     std::list<ToClientPack> getPackages();
+    std::string getSuccesfullLoginMessage(int userId);
+    std::string getFailedLoginMessage();
 
 private:
     void init();
     void bind();
     std::string generateSerializedObj(ToClientPack package);
     std::string serializeAction(Action action);
+
+    std::string FAILED_LOGIN_MESSAGE = "0_-1_x" ;
 
     //el input ahora es una tupla (Action, id)
     std::list<std::tuple<Action,int>> currentInput;

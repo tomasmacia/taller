@@ -104,6 +104,14 @@ std::string Controller::generateSerializedObj(ToClientPack package){
     return serializedObject;
 }
 
+std::string Controller::getSuccesfullLoginMessage(int userId){
+    return "0_" + std::to_string(userId) + "_x";
+}
+
+std::string Controller::getFailedLoginMessage() {
+    return FAILED_LOGIN_MESSAGE ;
+}
+
 void Controller::reconstructInput(std::string action, std::string id){ //TODO hacer un map
 
     Action reconstructedAction;
@@ -125,8 +133,8 @@ void Controller::reconstructInput(std::string action, std::string id){ //TODO ha
 void Controller::reconstructPackage(vector<string> splitedPackage){ //header,path,srcw,srch,srcx,srcy,dstw,dsth,dstx,dsty,bool,endcaracter
 
     std::string path = splitedPackage.at(1);
-    SDL_Rect src = {std::stoi(splitedPackage.at(2)),std::stoi(splitedPackage.at(3)),std::stoi(splitedPackage.at(4)),std::stoi(splitedPackage.at(5));
-    SDL_Rect dst = {std::stoi(splitedPackage.at(6)),std::stoi(splitedPackage.at(7)),std::stoi(splitedPackage.at(8)),std::stoi(splitedPackage.at(9));
+    SDL_Rect src = {std::stoi(splitedPackage.at(4)),std::stoi(splitedPackage.at(5)),std::stoi(splitedPackage.at(2)),std::stoi(splitedPackage.at(3))};
+    SDL_Rect dst = {std::stoi(splitedPackage.at(8)),std::stoi(splitedPackage.at(9)),std::stoi(splitedPackage.at(6)),std::stoi(splitedPackage.at(7))};
     bool flip = std::stoi(splitedPackage.at(10));
 
     ToClientPack reconstructedPackage(path,src,dst,flip);

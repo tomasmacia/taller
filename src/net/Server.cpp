@@ -71,7 +71,7 @@ void Server::listenThread(){
         if (listen() >= 0 && connections.size() <= maxConnections){
             auto newUserConnection = accept();
             if (newUserConnection != nullptr){
-                std::thread connection = std::thread(&UserConnection::init, this);
+                std::thread connection = std::thread(&UserConnection::init, newUserConnection);
                 connection.join();
             }
         }

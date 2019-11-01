@@ -18,6 +18,7 @@ Logger* initLogger(string loggerLevel){
 
     LogManager::setStaticLogger(logger);
     LogManager::setStaticLogPath(logfilePath);
+    return logger;
 }
 
 Mode getModeFromCommandLine(int argc, const char** argv){
@@ -59,8 +60,7 @@ int main(int argc, const char** argv) {
         GameClient::getInstance().start();
     }
 
-    //la funcion delete no existe si no es explicitada. delete es un operador primitivo de cpp
-    //delete logger;
+    delete logger;
 
     return 0;
 }

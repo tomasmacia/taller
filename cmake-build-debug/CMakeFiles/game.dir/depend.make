@@ -205,10 +205,21 @@ CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/parser/config/weapons.h
 CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/LogLib/LogManager.h
 CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/LogLib/Logger.h
 CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/Action.h
+CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/CameraComponent.h
 CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/Controller.cpp
 CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/Controller.h
+CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/Game.h
+CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/GameClient.h
+CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/GameServer.h
 CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/IDPlayer.h
+CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/LevelBuilder.h
+CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/LevelLimits.h
+CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/Manager.h
+CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/TextureWrapper.h
+CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/ToClientPack.h
+CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/net/Client.h
+CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/net/Server.h
 CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/parser/config/config.h
 
 CMakeFiles/game.dir/src/game/Game.cpp.o: ../include/tinyxml2.h
@@ -225,9 +236,20 @@ CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/parser/config/weapons.h
 CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/LogLib/LogManager.h
 CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/LogLib/Logger.h
 CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/Action.h
+CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/CameraComponent.h
 CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/Controller.h
+CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/Game.cpp
 CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/Game.h
+CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/GameClient.h
+CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/GameServer.h
+CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/LevelBuilder.h
+CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/LevelLimits.h
+CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/Manager.h
+CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/TextureWrapper.h
+CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/ToClientPack.h
+CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/net/Client.h
+CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/net/Server.h
 CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/parser/CLIArgumentParser.h
 CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/parser/config/config.h
 CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/parser/xmlparser.h
@@ -277,6 +299,7 @@ CMakeFiles/game.dir/src/game/Game.cpp.o: /usr/include/SDL2/SDL_video.h
 CMakeFiles/game.dir/src/game/Game.cpp.o: /usr/include/SDL2/begin_code.h
 CMakeFiles/game.dir/src/game/Game.cpp.o: /usr/include/SDL2/close_code.h
 
+CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../include/tinyxml2.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/parser/config/bindings.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/parser/config/characterxml.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/parser/config/gameplay.h
@@ -290,14 +313,24 @@ CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/parser/config/weapons.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/LogLib/LogManager.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/LogLib/Logger.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/Action.h
+CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/CameraComponent.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/Controller.h
+CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/GameClient.cpp
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/GameClient.h
+CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/GameServer.h
+CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/LevelBuilder.h
+CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/LevelLimits.h
+CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/LoggerMenu.h
+CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/Manager.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/TextureWrapper.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/ToClientPack.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/net/Client.h
+CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/net/Server.h
+CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/parser/CLIArgumentParser.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/parser/config/config.h
+CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/parser/xmlparser.h
 
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/parser/config/bindings.h
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/parser/config/characterxml.h
@@ -316,6 +349,7 @@ CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/CameraComponent.h
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/Controller.h
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/Game.h
+CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/GameClient.h
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/GameServer.cpp
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/GameServer.h
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/IDPlayer.h
@@ -324,6 +358,7 @@ CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/LevelLimits.h
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/Manager.h
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/TextureWrapper.h
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/ToClientPack.h
+CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/net/Client.h
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/net/Server.h
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/parser/config/config.h
 
@@ -357,6 +392,7 @@ CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/CameraComponent.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/Controller.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/Game.h
+CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/GameClient.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/GameServer.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/IDComponent.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/InputComponent.cpp
@@ -367,6 +403,7 @@ CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/Manager.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/StateComponent.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/TextureWrapper.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/ToClientPack.h
+CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/net/Client.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/net/Server.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/parser/config/config.h
 
@@ -1016,7 +1053,6 @@ CMakeFiles/game.dir/src/game/ToClientPack.cpp.o: ../src/game/TextureWrapper.h
 CMakeFiles/game.dir/src/game/ToClientPack.cpp.o: ../src/game/ToClientPack.cpp
 CMakeFiles/game.dir/src/game/ToClientPack.cpp.o: ../src/game/ToClientPack.h
 
-CMakeFiles/game.dir/src/game/main.cpp.o: ../include/tinyxml2.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/parser/config/bindings.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/parser/config/characterxml.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/parser/config/gameplay.h
@@ -1036,7 +1072,6 @@ CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/GameClient.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/GameServer.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/LevelBuilder.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/LevelLimits.h
-CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/LoggerMenu.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/Manager.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/Mode.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/TextureWrapper.h
@@ -1046,14 +1081,28 @@ CMakeFiles/game.dir/src/game/main.cpp.o: ../src/net/Client.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/net/Server.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/parser/CLIArgumentParser.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/parser/config/config.h
-CMakeFiles/game.dir/src/game/main.cpp.o: ../src/parser/xmlparser.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/utils/TimeUtils.h
 
 CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/parser/CLIArgumentParser.h
+CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/parser/config/bindings.h
+CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/parser/config/characterxml.h
+CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/parser/config/gameplay.h
+CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/parser/config/level.h
+CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/parser/config/npc.h
+CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/parser/config/screenresolution.h
+CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/parser/config/utilities.h
+CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/parser/config/utility.h
+CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/parser/config/weapon.h
+CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/parser/config/weapons.h
 CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/LogLib/LogManager.h
 CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/LogLib/Logger.h
+CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/game/Game.h
+CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/game/GameClient.h
+CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/game/TextureWrapper.h
+CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/game/ToClientPack.h
 CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/net/Client.cpp
 CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/net/Client.h
+CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/parser/config/config.h
 
 CMakeFiles/game.dir/src/net/Server.cpp.o: ../src/parser/CLIArgumentParser.h
 CMakeFiles/game.dir/src/net/Server.cpp.o: ../src/parser/config/bindings.h

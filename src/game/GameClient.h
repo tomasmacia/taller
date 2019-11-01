@@ -8,6 +8,9 @@
 #include "Game.h"
 #include "../net/Client.h"
 
+class LoggerMenu;
+class Client;
+
 class GameClient : public  Game{
 public:
     // *************************

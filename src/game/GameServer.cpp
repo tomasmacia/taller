@@ -8,28 +8,26 @@
 
 #include <iostream>
 
-
 bool GameServer::hasInstance = false;
 
 void GameServer::start() {
     LogManager::logInfo("Se inicia Game");
 
-    //INIT SERVER
-    this->server = new Server(this);
-    server->init();
-    std::thread listen = std::thread(&Server::listenThread, server);
-    listen.join();
-    LogManager::logInfo("inicializado Server");
+    initServer();   //thread
     waitUntilAllPlayersAreConected();
 
-    //INIT GAME
-    this->initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
-    levelBuilder = new LevelBuilder();
-    LogManager::logDebug("inicializado LevelBuilder");
-    LogManager::logDebug("inicializado Controller");
-    isRunning = true;
+    initGameModel();
+    gameLoop();
 
-    //GAME LOOP
+    LogManager::logInfo("Juego terminado");
+    LogManager::logInfo("=======================================");
+}
+
+//GAME LOOP
+//=========================================================================================
+
+void GameServer::gameLoop(){
+
     while (isRunning && levelBuilder->hasNextLevel()) {
         levelBuilder->loadNext();
 
@@ -42,8 +40,6 @@ void GameServer::start() {
         LogManager::logInfo("fin de game loop de este nivel");
         LogManager::logInfo("=======================================");
     }
-    LogManager::logInfo("Juego terminado");
-    LogManager::logInfo("=======================================");
 }
 
 void GameServer::update() {
@@ -56,15 +52,19 @@ void GameServer::sendUpdate() {
     std::cout<<"SERVER: mando paquetes a clientes"<<'\n';
 }
 
-void GameServer::endLevel(){
-    LogManager::logInfo("Nivel terminado");
-    this->levelBuilder->endLevel();
+//API
+//=========================================================================================
+
+void GameServer::waitUntilAllPlayersAreConected(){
+    while (server->numberOfConectionsEstablished() <= amountOfConectionsNeeded){
+        continue;
+    }
 }
 
 std::string GameServer::validateLogin(std::string user, std::string pass, int userId){
 
-    std::string failedLoginMessage = "0_-1_x" ;
-    std::string succesLoginMessage = "0_" + std::to_string(userId) + "_x";
+    std::string failedLoginMessage = controller->getFailedLoginMessage();
+    std::string succesfulLoginMessage = controller->getSuccesfullLoginMessage(userId);
 
     if ( validCredentials.find(user) == validCredentials.end() ) {
         return failedLoginMessage;
@@ -73,7 +73,7 @@ std::string GameServer::validateLogin(std::string user, std::string pass, int us
         if (validCredentials.at(user) == pass){
             if (loggedPlayers.find(user) == loggedPlayers.end()){
                 loggedPlayers.insert({ user, pass });
-                return succesLoginMessage;
+                return succesfulLoginMessage;
             }
             else{
                 return failedLoginMessage;
@@ -85,10 +85,9 @@ std::string GameServer::validateLogin(std::string user, std::string pass, int us
     }
 }
 
-void GameServer::waitUntilAllPlayersAreConected(){
-    while (server->numberOfConectionsEstablished() <= amountOfConectionsNeeded){
-        continue;
-    }
+void GameServer::endLevel(){
+    LogManager::logInfo("Nivel terminado");
+    levelBuilder->endLevel();
 }
 
 void GameServer::addNewIDToGame(int id) {
@@ -99,36 +98,40 @@ void GameServer::reconstructInput(std::string action, std::string id){
     controller->reconstructInput(action,id);
 }
 
-
 int GameServer::getCurrentLevelWidth(){
     return levelBuilder->getCurrentLevelWidth();
 }
 
-void GameServer::destroy() {
+//INIT & DEDESTROY
+//=========================================================================================
 
-    delete(levelBuilder);
-    levelBuilder = nullptr;
-    delete(controller);
-    controller = nullptr;
-    delete(manager);
-    manager = nullptr;
-    SDL_DestroyWindow(this->window);
-    SDL_DestroyRenderer(this->renderer);
-    SDL_Quit();
-    LogManager::logDebug("Memoria de GameServer liberada");
+void GameServer::initServer(){
+    server = new Server(this);
+    server->init();
+    std::thread listen = std::thread(&Server::listenThread, server);
+    listen.join();
+    LogManager::logInfo("Server inicializado");
+}
+
+void GameServer::initGameModel() {
+    initGameModel();
+    initECSManager();
+    initController();
+    initLevelBuilder();
+    isRunning = true;
+    LogManager::logDebug("inicializado Manager");
+    LogManager::logDebug("inicializado Controller");
+    LogManager::logDebug("inicializado LevelBuilder");
+    LogManager::logInfo("Modelo inicializado");
 }
 
 void GameServer::init() {
-    this->initConfig();
-    this->initECSManager();
-    this->initSDL();
+    initConfig();
     loadValidCredenctials();
     //amountOfConectionsNeeded = config->gameplay.amountPlayers; TODO
 
-    LogManager::logDebug("cargado credenciales");
     LogManager::logDebug("inicializado Config");
-    LogManager::logDebug("inicializado ECSManager");
-    LogManager::logDebug("inicializado SDL");
+    LogManager::logDebug("cargado credenciales");
     LogManager::logDebug("=======================================");
 }
 
@@ -138,4 +141,19 @@ void GameServer::loadValidCredenctials(){
 
 void GameServer::initECSManager() {
     this->manager = new Manager();
+}
+
+void GameServer::initLevelBuilder() {
+    this->levelBuilder = new LevelBuilder();
+}
+
+void GameServer::destroy() {
+    delete(server);
+    server = nullptr;
+    delete(levelBuilder);
+    levelBuilder = nullptr;
+    delete(manager);
+    manager = nullptr;
+    baseClassFreeMemory();
+    LogManager::logDebug("Memoria de Game Server liberada");
 }

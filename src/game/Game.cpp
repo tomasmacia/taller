@@ -42,3 +42,13 @@ void Game::initSDL() {
         LogManager::logError("SDL no pudo inicializarse");
     }
 }
+
+void Game::baseClassFreeMemory(){
+    delete(controller);
+    controller = nullptr;
+    delete(config);
+    config = nullptr;
+    SDL_DestroyWindow(this->window);
+    SDL_DestroyRenderer(this->renderer);
+    SDL_Quit();
+}

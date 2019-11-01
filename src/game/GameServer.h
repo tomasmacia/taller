@@ -67,10 +67,13 @@ private:
 
     // inits
     void initECSManager();
+    void initLevelBuilder();
     void loadValidCredenctials();   //<user,pass>
+    void initServer();
+    void initGameModel();
 
     // gameloop
-    void pollInput();
+    void gameLoop();
     void update();
     void sendUpdate();
 

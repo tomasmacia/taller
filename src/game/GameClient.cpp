@@ -77,21 +77,18 @@ void GameClient::setPlayerId(int id) {
     playerId = id;
 }
 
-void GameClient::sendAknowledgeToLogerMenu(int id) {}{
+void GameClient::sendAknowledgeToLogerMenu(int id){
     //loggerMenu->sendServerResponse(id); TODO
 }
 
 void GameClient::destroy() {
-
-    delete(controller);
-    controller = nullptr;
     delete(loggerMenu);
-    controller = loggerMenu;
+    loggerMenu = nullptr;
+    delete(client);
+    client = nullptr;
     clearTextureMap();
-    SDL_DestroyWindow(this->window);
-    SDL_DestroyRenderer(this->renderer);
-    SDL_Quit();
-    LogManager::logDebug("Memoria de Game liberada");
+    baseClassFreeMemory();
+    LogManager::logDebug("Memoria de Game Client liberada");
 }
 
 void GameClient::clearTextureMap(){
