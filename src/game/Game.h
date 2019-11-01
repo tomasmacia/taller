@@ -6,24 +6,22 @@
 
 #include "../LogLib/LogManager.h"
 #include "../parser/config/config.h"
+
 class Controller;
 
 class Game {
 public:
 
+    //ENTRY POINT
+    //===============================
     virtual void start() = 0;
 
-    // *************************
-    // ******* METHODS *********
-    // *************************
-
+    //API
+    //===============================
     void end();
-    virtual std::string pollMessage(){}
 
-    // *************************
-    // ******* WRAPPERS ********
-    // *************************
-
+    //GETTERS
+    //===============================
     Config* getConfig() {
         return config;
     }
@@ -42,14 +40,24 @@ public:
 
 protected:
 
-    virtual void init() = 0;
+    //GAME LOOP
+    //===============================
+    virtual void gameLoop() = 0;
+
+    //DESTROY
+    //===============================
     virtual void destroy() = 0;
     void baseClassFreeMemory();
 
+    //INIT
+    //===============================
+    virtual void init() = 0;
     virtual void initController();
     void initConfig();
     void initSDL();
 
+    //ATRIBUTES
+    //===============================
     bool isRunning;
     int playerId = -1;
 

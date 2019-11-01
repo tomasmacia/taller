@@ -13,10 +13,9 @@ class Client;
 
 class GameClient : public  Game{
 public:
-    // *************************
-    // ******* SINGLETON *******
-    // *************************
 
+    //SINGLETON
+    //===============================
     static GameClient &getInstance() {
         static GameClient instance; // Guaranteed to be destroyed.
         // Instantiated on first use.
@@ -26,12 +25,12 @@ public:
     GameClient(GameClient const &) = delete;
     void operator=(GameClient const &) = delete;
 
-
-    // *************************
-    // ******* METHODS *********
-    // *************************
-
+    //ENTRY POINT
+    //===============================
     void start() override;
+
+    //API
+    //===============================
     void reconstructPackage(vector<string> splitedPackage);
     void sendAknowledgeToLogerMenu(int id);
     void setPlayerId(int id);
@@ -40,29 +39,36 @@ public:
         return hasInstance;
     }
 
-    // *************************
-    // ******* WRAPPERS ********
-    // *************************
-
-
-protected:
-    void init() override ;
-    void destroy() override ;
-
 private:
     GameClient() {
         init();
     }
+
+    //DESTROY
+    //===============================
     ~GameClient() {
         destroy();
     }
+    void destroy() override ;
     void clearTextureMap();
 
-    // gameloop
+    //GAME LOOP
+    //===============================
+    void gameLoop() override ;
     void pollAndSendInput();
     void render();
     void renderAllPackages();
 
+    //INIT
+    //===============================
+    void initInputSystem();
+    void initRenderingSystem();
+    void initClient();
+    void initLoggerMenu();
+    void init() override ;
+
+    //ATRIBUTES
+    //===============================
     static bool hasInstance;
 
     LoggerMenu* loggerMenu = nullptr;

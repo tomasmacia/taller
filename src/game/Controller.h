@@ -21,21 +21,46 @@ class Controller {
 public:
     Controller(Game* game);
 
-    std::string processInput();
+    //DATA TRANSFER INTERFACE
+    //===============================
     void sendUpdate(std::list<ToClientPack> toClientsPackages, Server* server);
-    void reconstructInput(std::string action, std::string id);
-    void reconstructPackage(vector<string> splitedPackage);
-    std::list<std::tuple<Action,int>> getInput();
-    std::list<ToClientPack> getPackages();
     std::string getSuccesfullLoginMessage(int userId);
     std::string getFailedLoginMessage();
 
+    //SERIALIZATION
+    //===============================
+    std::string processInput();
+    void reconstructInput(std::string action, std::string id);
+    void reconstructPackage(vector<string> splitedPackage);
+
+    //GETTERS
+    //===============================
+    std::list<std::tuple<Action,int>> getInput() {
+        return currentInput;
+    }
+    std::list<ToClientPack> getPackages(){
+            return currentPackagesToRender;
+    }
+
 private:
+
+    //INPUT PROCESING
+    //===============================
+    template <typename K, typename V>
+    V getWithDefault(const std::map<K,V> &map, const K &key, const V &defaultValue);
+
+    //INIT
+    //===============================
     void init();
     void bind();
+
+    //SERIALIZATION
+    //===============================
     std::string generateSerializedObj(ToClientPack package);
     std::string serializeAction(Action action);
 
+    //ATRIBUTES
+    //===============================
     std::string FAILED_LOGIN_MESSAGE = "0_-1_x" ;
 
     //el input ahora es una tupla (Action, id)
@@ -48,10 +73,6 @@ private:
     std::map<std::string, SDL_Scancode> scancodes;
 
     Game* game = nullptr;
-
-
-    template <typename K, typename V>
-    V getWithDefault(const std::map<K,V> &map, const K &key, const V &defaultValue);
 };
 
 #endif //GAME_CONTROLLER_H

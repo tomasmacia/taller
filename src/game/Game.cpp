@@ -8,10 +8,16 @@
 #include "../parser/xmlparser.h"
 #include "Controller.h"
 
+//API
+//=========================================================================================
+
 void Game::end(){
     isRunning = false;
-    LogManager::logDebug("señal de fin de juego emitida a GameServer");
+    LogManager::logDebug("señal de fin de juego emitida");
 }
+
+//INIT
+//=========================================================================================
 
 void Game::initConfig() {
     string pathToConfigFile = CLIArgumentParser::getInstance().getPathToConfigFileName();
@@ -42,6 +48,9 @@ void Game::initSDL() {
         LogManager::logError("SDL no pudo inicializarse");
     }
 }
+
+//DESTROY
+//=========================================================================================
 
 void Game::baseClassFreeMemory(){
     delete(controller);

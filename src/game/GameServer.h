@@ -12,10 +12,8 @@ class Server;
 class GameServer : public  Game{
 public:
 
-    // *************************
-    // ******* SINGLETON *******
-    // *************************
-
+    //SINGLETON
+    //===============================
     static GameServer &getInstance() {
         static GameServer instance; // Guaranteed to be destroyed.
         // Instantiated on first use.
@@ -25,26 +23,24 @@ public:
     GameServer(GameServer const &) = delete;
     void operator=(GameServer const &) = delete;
 
+    //ENTRY POINT
+    //===============================
+    void start() override;
 
-    // *************************
-    // ******* METHODS *********
-    // *************************
-
-    void start() override ;
+    //API
+    //===============================
     void endLevel();
-    int getCurrentLevelWidth();
     std::string validateLogin(std::string user, std::string pass, int userId);
     void reconstructInput(std::string action, std::string id);
     void addNewIDToGame(int id);
+    int getCurrentLevelWidth();
 
     static bool isActive(){
         return hasInstance;
     }
 
-    // *************************
-    // ******* WRAPPERS ********
-    // *************************
-
+    //GETTERS
+    //===============================
     Manager* getManager() {
         return manager;
     }
@@ -52,31 +48,39 @@ public:
         return server;
     }
 
-protected:
-    void init() override ;
-    void destroy() override ;
-
 private:
     GameServer() {
         init();
     }
+
+    //DESTROY
+    //===============================
     ~GameServer() {
         destroy();
     }
+    void destroy() override ;
+
+    //LOGIN
+    //===============================
     void waitUntilAllPlayersAreConected();
 
-    // inits
+    //GAME LOOP
+    //===============================
+    void gameLoop() override ;
+    void update();
+    void sendUpdate();
+
+    //INIT
+    //===============================
     void initECSManager();
     void initLevelBuilder();
     void loadValidCredenctials();   //<user,pass>
     void initServer();
     void initGameModel();
+    void init() override ;
 
-    // gameloop
-    void gameLoop();
-    void update();
-    void sendUpdate();
-
+    //ATRIBUTES
+    //===============================
     static bool hasInstance;
 
     std::list<ToClientPack> toClientsPackages;

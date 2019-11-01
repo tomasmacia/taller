@@ -6,8 +6,6 @@
 #include "LoggerMenu.h"
 #include <thread>
 
-
-
 #include <iostream>
 
 bool GameClient::hasInstance = false;
@@ -15,32 +13,28 @@ bool GameClient::hasInstance = false;
 void GameClient::start() {
     LogManager::logInfo("Se inicia GameClient");
 
-    //INIT CLIENT
-    this->client = new Client(this);
-    std::thread clientReadSend = std::thread(&Client::init, client);
-    clientReadSend.join();
-    LogManager::logInfo("inicializado Cliente");
+    initClient();   //thread
+    initLoggerMenu();
 
-    //LOGIN
-    loggerMenu = new LoggerMenu();
-    LogManager::logDebug("inicializado LoggerMenu");
     if (loggerMenu->open()){
 
-        //INIT GAME
-        initController(); // instantiate out of constructor, since Controller uses Game::getInstance() and would create a deadlock
-        initSDL();
-        LogManager::logDebug("inicializado SDL");
-        LogManager::logDebug("inicializado Controller");
-        isRunning = true;
+        initInputSystem();
+        initRenderingSystem();
 
-        //GAME LOOP
-        while (isRunning) {
-            pollAndSendInput();//aca se podria cortar el game loop si se lee un ESC o QUIT
-            render();
-        }
+        gameLoop();
     }
     LogManager::logInfo("Juego terminado");
     LogManager::logInfo("=======================================");
+}
+
+//GAME LOOP
+//=========================================================================================
+
+void GameClient::gameLoop() {
+    while (isRunning) {
+        pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
+        render();
+    }
 }
 
 void GameClient::pollAndSendInput() {
@@ -60,14 +54,17 @@ void GameClient::render() {
 void GameClient::renderAllPackages(){
 
     std::list<ToClientPack> packages = controller->getPackages();
-    ToClientPack currenPackage;
+    ToClientPack currentPackage;
 
     while (!packages.empty()){
-        currenPackage = packages.front();
+        currentPackage = packages.front();
         packages.pop_front();
-        currenPackage.render(loadedTexturesMap);
+        currentPackage.render(loadedTexturesMap);
     }
 }
+
+//API
+//=========================================================================================
 
 void GameClient::reconstructPackage(vector<string> splitedPackage){
     controller->reconstructPackage(splitedPackage);
@@ -80,6 +77,42 @@ void GameClient::setPlayerId(int id) {
 void GameClient::sendAknowledgeToLogerMenu(int id){
     //loggerMenu->sendServerResponse(id); TODO
 }
+
+//INIT
+//=========================================================================================
+
+void GameClient::initClient() {
+    client = new Client(this);
+    std::thread clientReadSend = std::thread(&Client::init, client);
+    clientReadSend.join();
+    LogManager::logInfo("inicializado Cliente");
+}
+
+void GameClient::initLoggerMenu(){
+    loggerMenu = new LoggerMenu();
+    LogManager::logDebug("inicializado LoggerMenu");
+}
+
+void GameClient::initInputSystem(){
+    initController();
+    LogManager::logDebug("inicializado Controller");
+}
+
+void GameClient::initRenderingSystem(){
+    initSDL();
+    LogManager::logDebug("inicializado SDL");
+    isRunning = true;
+}
+
+void GameClient::init() {
+    initConfig();
+
+    LogManager::logDebug("inicializado Config");
+    LogManager::logDebug("=======================================");
+}
+
+//DESTROY
+//=========================================================================================
 
 void GameClient::destroy() {
     delete(loggerMenu);
@@ -97,11 +130,4 @@ void GameClient::clearTextureMap(){
     {
         delete itr->second;
     }
-}
-
-void GameClient::init() {
-    this->initConfig();
-
-    LogManager::logDebug("inicializado Config");
-    LogManager::logDebug("=======================================");
 }

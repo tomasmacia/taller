@@ -8,18 +8,29 @@
 #include <utility>
 
 #include "Controller.h"
-#include "Game.h"
 #include "IDPlayer.h"
-#include "ToClientPack.h"
-#include "GameClient.h"
 
-#include <iostream>
+//DATA TRANSFER INTERFACE
+//=========================================================================================
 
-Controller::Controller(Game* game) {
-    this->game = game;
-    init();
-    bind();
+void Controller::sendUpdate(std::list<ToClientPack> toClientsPackages, Server* server) {
+    std::string serializedPackage;
+    for (auto package: toClientsPackages){
+        serializedPackage = generateSerializedObj(package);
+        server->setToBroadcast(serializedPackage);
+    }
 }
+
+std::string Controller::getSuccesfullLoginMessage(int userId){
+    return "0_" + std::to_string(userId) + "_x";
+}
+
+std::string Controller::getFailedLoginMessage() {
+    return FAILED_LOGIN_MESSAGE ;
+}
+
+//SERIALIZATION & PROCESSING
+//=========================================================================================
 
 std::string Controller::processInput() {
     Action action;
@@ -69,15 +80,6 @@ std::string Controller::serializeAction(Action action){//TODO hacer un map
     return serializedAction;
 }
 
-void Controller::sendUpdate(std::list<ToClientPack> toClientsPackages, Server* server) {
-    std::string serializedPackage;
-    for (auto package: toClientsPackages){
-        serializedPackage = generateSerializedObj(package);
-        server->setToBroadcast(serializedPackage);
-    }
-    std::cout<<"CONTROLLER: envio las inputs que tengo almacenadas al server"<<'\n';
-}
-
 std::string Controller::generateSerializedObj(ToClientPack package){
 
     std::string serializedObject;
@@ -102,14 +104,6 @@ std::string Controller::generateSerializedObj(ToClientPack package){
     serializedObject = "1_" + path + "_" + srcW + "_" + srcH + "_" + srcX + "_" + srcY + "_" +
                         dstW + "_" + dstH + "_" + dstX + "_" + dstY + "_" + flipedStr + "_x";
     return serializedObject;
-}
-
-std::string Controller::getSuccesfullLoginMessage(int userId){
-    return "0_" + std::to_string(userId) + "_x";
-}
-
-std::string Controller::getFailedLoginMessage() {
-    return FAILED_LOGIN_MESSAGE ;
 }
 
 void Controller::reconstructInput(std::string action, std::string id){ //TODO hacer un map
@@ -142,31 +136,6 @@ void Controller::reconstructPackage(vector<string> splitedPackage){ //header,pat
     currentPackagesToRender.push_back(reconstructedPackage);
 }
 
-std::list<std::tuple<Action,int>> Controller::getInput() {
-    return currentInput; //obtengo una copia de todos los inputs de todos los clientes
-}
-
-std::list<ToClientPack> Controller::getPackages(){
-    return currentPackagesToRender;
-}
-
-void Controller::bind() {
-    Bindings bindings = game->getConfig()->bindings;
-
-    actions.insert(std::make_pair(scancodes.at(bindings.UP), UP));
-    actions.insert(std::make_pair(scancodes.at(bindings.DOWN), DOWN));
-    actions.insert(std::make_pair(scancodes.at(bindings.RIGHT), RIGHT));
-    actions.insert(std::make_pair(scancodes.at(bindings.LEFT), LEFT));
-
-    actions.insert(std::make_pair(scancodes.at(bindings.JUMP), JUMP));
-    actions.insert(std::make_pair(scancodes.at(bindings.JUMPKICK), JUMP_KICK));
-    actions.insert(std::make_pair(scancodes.at(bindings.ATTACK), PUNCH));
-    actions.insert(std::make_pair(scancodes.at(bindings.CROUCH), CROUCH));
-    actions.insert(std::make_pair(scancodes.at(bindings.KICK), KICK));
-
-    actions.insert(std::make_pair(SDL_SCANCODE_ESCAPE, QUIT));
-}
-
 template <typename K, typename V>
 V Controller::getWithDefault(const std::map<K,V> &map, const K &key, const V &defaultValue) {
     V value;
@@ -178,6 +147,15 @@ V Controller::getWithDefault(const std::map<K,V> &map, const K &key, const V &de
     }
 
     return value;
+}
+
+//INIT & CONSTRUCTOR
+//=========================================================================================
+
+Controller::Controller(Game* game) {
+    this->game = game;
+    init();
+    bind();
 }
 
 void Controller::init() {
@@ -298,5 +276,22 @@ void Controller::init() {
     scancodes.insert(std::make_pair("9", SDL_SCANCODE_KP_9));
     scancodes.insert(std::make_pair("0", SDL_SCANCODE_KP_0));
 
+}
+
+void Controller::bind() {
+    Bindings bindings = game->getConfig()->bindings;
+
+    actions.insert(std::make_pair(scancodes.at(bindings.UP), UP));
+    actions.insert(std::make_pair(scancodes.at(bindings.DOWN), DOWN));
+    actions.insert(std::make_pair(scancodes.at(bindings.RIGHT), RIGHT));
+    actions.insert(std::make_pair(scancodes.at(bindings.LEFT), LEFT));
+
+    actions.insert(std::make_pair(scancodes.at(bindings.JUMP), JUMP));
+    actions.insert(std::make_pair(scancodes.at(bindings.JUMPKICK), JUMP_KICK));
+    actions.insert(std::make_pair(scancodes.at(bindings.ATTACK), PUNCH));
+    actions.insert(std::make_pair(scancodes.at(bindings.CROUCH), CROUCH));
+    actions.insert(std::make_pair(scancodes.at(bindings.KICK), KICK));
+
+    actions.insert(std::make_pair(SDL_SCANCODE_ESCAPE, QUIT));
 }
 

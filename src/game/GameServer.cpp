@@ -102,7 +102,7 @@ int GameServer::getCurrentLevelWidth(){
     return levelBuilder->getCurrentLevelWidth();
 }
 
-//INIT & DEDESTROY
+//INIT
 //=========================================================================================
 
 void GameServer::initServer(){
@@ -146,6 +146,9 @@ void GameServer::initECSManager() {
 void GameServer::initLevelBuilder() {
     this->levelBuilder = new LevelBuilder();
 }
+
+//DESTROY
+//=========================================================================================
 
 void GameServer::destroy() {
     delete(server);
