@@ -14,7 +14,7 @@ void GameServer::start() {
     LogManager::logInfo("Se inicia Game");
 
     initServer();   //thread
-    waitUntilAllPlayersAreConected();
+    //waitUntilAllPlayersAreConected();
 
     initGameModel();
     gameLoop();

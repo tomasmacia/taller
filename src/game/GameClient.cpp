@@ -13,7 +13,9 @@ bool GameClient::hasInstance = false;
 void GameClient::start() {
     LogManager::logInfo("Se inicia GameClient");
 
-    initClient();   //thread
+    initClient();
+    std::thread clientReadSend = std::thread(&Client::init, client);
+    /*
     initLoggerMenu();
 
     if (loggerMenu->open()){
@@ -22,7 +24,12 @@ void GameClient::start() {
         initRenderingSystem();
 
         gameLoop();
-    }
+    }*/
+    initInputSystem();
+    initRenderingSystem();
+
+    gameLoop();
+
     LogManager::logInfo("Juego terminado");
     LogManager::logInfo("=======================================");
 }
@@ -31,6 +38,7 @@ void GameClient::start() {
 //=========================================================================================
 
 void GameClient::gameLoop() {
+    isRunning = true;
     while (isRunning) {
         pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
         render();
@@ -82,8 +90,6 @@ void GameClient::reciveRenderable(ToClientPack package){
 
 void GameClient::initClient() {
     client = new Client(this);
-    std::thread clientReadSend = std::thread(&Client::init, client);
-    clientReadSend.join();
     LogManager::logInfo("inicializado Cliente");
 }
 
@@ -100,7 +106,6 @@ void GameClient::initInputSystem(){
 void GameClient::initRenderingSystem(){
     initSDL();
     LogManager::logDebug("inicializado SDL");
-    isRunning = true;
 }
 
 void GameClient::init() {

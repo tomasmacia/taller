@@ -25,19 +25,6 @@ void Client::setToSend(std::string message){
     mu.unlock();
 }
 
-bool Client::init(){
-
-    if(create() < 0){return false;}
-    if(connectToServer() < 0){return false;}
-
-    std::thread read = std::thread(&Client::readThread, this);
-    std::thread send = std::thread(&Client::sendThread, this);
-    std::thread dispatch = std::thread(&Client::dispatchThread, this);
-    dispatch.join();
-    read.join();
-    send.join();
-}
-
 //THREADS
 //=========================================================================================
 void Client::readThread() {
@@ -175,6 +162,19 @@ Client::Client(GameClient* gameClient) {
     char buf[MAX_BYTES_BUFFER];
     buffer = buf;
     this->gameClient = gameClient;
+}
+
+bool Client::init(){
+
+    if(create() < 0){return false;}
+    if(connectToServer() < 0){return false;}
+
+    std::thread read = std::thread(&Client::readThread, this);
+    std::thread send = std::thread(&Client::sendThread, this);
+    std::thread dispatch = std::thread(&Client::dispatchThread, this);
+    dispatch.join();
+    read.join();
+    send.join();
 }
 
 int Client::create() {

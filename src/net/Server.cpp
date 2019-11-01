@@ -17,12 +17,6 @@
 
 //API
 //=========================================================================================
-bool Server::init(){
-
-    if(create() < 0){return false;}
-    if(bind() < 0){return false;}
-    return true;
-}
 
 int Server::numberOfConectionsEstablished(){
     return connections.size();
@@ -96,6 +90,13 @@ Server::Server(GameServer* gameServer) {
     this->gameServer = gameServer;
 }
 
+bool Server::init(){
+
+    if(create() < 0){return false;}
+    if(bind() < 0){return false;}
+    return true;
+}
+
 int Server::create() {
     socketFD = socket(AF_INET, SOCK_STREAM, 0);
     if (socketFD < 0) {
@@ -111,6 +112,7 @@ int Server::bind() {
 
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_addr.s_addr = INADDR_ANY;
+
     serverAddress.sin_port = htons(stoi(strPort));
 
     if (::bind(socketFD, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) < 0) {
