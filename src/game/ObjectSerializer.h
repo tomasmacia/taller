@@ -57,7 +57,7 @@ public:
 
 private:
     char END_SERIALIZATION_SIMBOL = 'x';
-    char SEPARATOR = '_';
+    char SEPARATOR = '@';
     int FAILURE_AKNOWLEDGE_SIGNAL = -1;
 
 };

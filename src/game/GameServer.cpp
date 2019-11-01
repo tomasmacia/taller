@@ -13,7 +13,8 @@ bool GameServer::hasInstance = false;
 void GameServer::start() {
     LogManager::logInfo("Se inicia Game");
 
-    initServer();   //thread
+    initServer();
+    std::thread listen = std::thread(&Server::listenThread, server);
     //waitUntilAllPlayersAreConected();
 
     initGameModel();
@@ -49,7 +50,7 @@ void GameServer::update() {
 void GameServer::sendUpdate() {
     toClientsPackages = manager->generateRenderables();
     controller->sendUpdate(toClientsPackages,server);
-    std::cout<<"SERVER: mando paquetes a clientes"<<'\n';
+    //std::cout<<"SERVER: mando paquetes a clientes"<<'\n';
 }
 
 //API
@@ -113,16 +114,14 @@ bool GameServer::isActive(){
 void GameServer::initServer(){
     server = new Server(this);
     server->init();
-    std::thread listen = std::thread(&Server::listenThread, server);
-    listen.join();
     LogManager::logInfo("Server inicializado");
 }
 
 void GameServer::initGameModel() {
-    initGameModel();
     initECSManager();
     initController();
     initLevelBuilder();
+    initSDL();
     isRunning = true;
     LogManager::logDebug("inicializado Manager");
     LogManager::logDebug("inicializado Controller");

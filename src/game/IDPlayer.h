@@ -31,7 +31,7 @@ private:
 
     //ATRIBUTES
     //===============================
-    std::vector<int> ids;
+    std::vector<int> ids = {1,2,3,4};
     int currentIdCounter;
 };
 

@@ -115,7 +115,7 @@ string ObjectSerializer::serializeObject(ToClientPack package){
                        srcW + SEPARATOR + srcH + SEPARATOR + srcX + SEPARATOR + srcY + SEPARATOR +
                        dstW + SEPARATOR + dstH + SEPARATOR + dstX + SEPARATOR + dstY + SEPARATOR +
                        flipedStr + SEPARATOR + END_SERIALIZATION_SIMBOL;
-
+    return serializedObject;
 }
 
 string ObjectSerializer::serializeInput(Action action, int id){
