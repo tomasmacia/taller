@@ -95,12 +95,16 @@ void GameServer::addNewIDToGame(int id) {
     IDPlayer::getInstance().addNewIdPlayer(id);
 }
 
-void GameServer::reconstructInput(std::string action, std::string id){
-    controller->reconstructInput(action,id);
-}
-
 int GameServer::getCurrentLevelWidth(){
     return levelBuilder->getCurrentLevelWidth();
+}
+
+void GameServer::reciveNewInput(tuple<Action,int> input){
+    return controller->setInput(input);
+}
+
+bool GameServer::isActive(){
+    return hasInstance;
 }
 
 //INIT

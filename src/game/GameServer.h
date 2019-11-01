@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "ToClientPack.h"
 #include "../net/Server.h"
+#include "Action.h"
 
 class Server;
 
@@ -31,16 +32,14 @@ public:
     //===============================
     void endLevel();
     std::string validateLogin(std::string user, std::string pass, int userId);
-    void reconstructInput(std::string action, std::string id);
     void addNewIDToGame(int id);
+    void reciveNewInput(tuple<Action,int> input);
     int getCurrentLevelWidth();
-
-    static bool isActive(){
-        return hasInstance;
-    }
+    static bool isActive();
 
     //GETTERS
     //===============================
+
     Manager* getManager() {
         return manager;
     }

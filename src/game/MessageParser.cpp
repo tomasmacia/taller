@@ -6,6 +6,7 @@
 #include <string>
 #include <cstring>
 
+#include "Header.h"
 #include "MessageParser.h"
 
 using namespace std;
@@ -16,14 +17,15 @@ void MessageParser::parse(string rawMessage, char separatorCharacter) {
     lastParsedMessage = split(rawMessage,separatorCharacter);
 }
 
-string MessageParser::getHeader() {
-    return lastParsedMessage.at(0);
+Header MessageParser::getHeader() {
+    return (Header)stoi(lastParsedMessage.at(0));
 }
 
-string MessageParser::extractMeaningMessagefulFromStream(char* buffer){ //cleans buffer up
+string MessageParser::extractMeaningfulMessageFromStream(char* buffer, char separator, char endSerializationChar){
+    //cleans buffer up
 
     std::string stringedBuffer = buffer;
-    std::string delimiter = SEPARATOR + END_SERIALIZATION_SIMBOL;
+    std::string delimiter = to_string(separator) + to_string(endSerializationChar);
     std::string message = stringedBuffer.substr(0, stringedBuffer.find(delimiter));
 
     //le quito al buffer lo que acabo de parsear

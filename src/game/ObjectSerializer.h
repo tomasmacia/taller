@@ -6,6 +6,8 @@
 #define GAME_OBJECTSERIALIZER_H
 
 #include <string>
+#include "ToClientPack.h"
+#include "Action.h"
 
 using namespace std;
 
@@ -16,8 +18,28 @@ public:
 
     //API
     //===============================
-    bool validLoginIDFromServerMessage(vector<string> currentParsedMessage);
+    int getIDFrom(vector<string> currentParsedMessage);
+    string getUserFrom(vector<string> currentParsedMessage);
+    string getPassFrom(vector<string> currentParsedMessage);
+    string getSuccesfullLoginMessage(int id);
+    string getFailedLoginMessage();
 
+    //VALIDATE
+    //===============================
+    bool validLoginIDFromServerMessage(vector<string> currentParsedMessage);
+    bool validSerializedObjectMessage(vector<string> currentParsedMessage);
+    bool validLoginFromClientMessage(vector<string> currentParsedMessage);
+    bool validSerializedInputMessage(vector<string> currentParsedMessage);
+
+    //RECONSTRUCT
+    //===============================
+    ToClientPack reconstructRenderable(vector<string> currentParsedMessage);
+    tuple<Action,int> reconstructInput(vector<string> currentParsedMessage);
+
+    //SERIALIZE
+    //===============================
+    string serializeObject(ToClientPack package);
+    string serializeInput(Action action, int id);
 
     //GETTERS
     //===============================
@@ -29,8 +51,12 @@ public:
         return FAILURE_AKNOWLEDGE_SIGNAL;
     }
 
+    char getEndOfSerializationCharacterget(){
+        return END_SERIALIZATION_SIMBOL;
+    }
+
 private:
-    string END_SERIALIZATION_SIMBOL ="x";
+    char END_SERIALIZATION_SIMBOL = 'x';
     char SEPARATOR = '_';
     int FAILURE_AKNOWLEDGE_SIGNAL = -1;
 

@@ -10,29 +10,10 @@
 #include "Controller.h"
 #include "IDPlayer.h"
 
-//DATA TRANSFER INTERFACE
+//PROCESSING
 //=========================================================================================
 
-void Controller::sendUpdate(std::list<ToClientPack> toClientsPackages, Server* server) {
-    std::string serializedPackage;
-    for (auto package: toClientsPackages){
-        serializedPackage = generateSerializedObj(package);
-        server->setToBroadcast(serializedPackage);
-    }
-}
-
-std::string Controller::getSuccesfullLoginMessage(int userId){
-    return "0_" + std::to_string(userId) + "_x";
-}
-
-std::string Controller::getFailedLoginMessage() {
-    return FAILED_LOGIN_MESSAGE ;
-}
-
-//SERIALIZATION & PROCESSING
-//=========================================================================================
-
-std::string Controller::processInput() {
+string Controller::pollAndProcessInput() {
     Action action;
     int playerId = game->getPlayerId(); //cada pc tiene uno asignado al principio y es unico
     std::string serializedInput;
@@ -48,92 +29,18 @@ std::string Controller::processInput() {
         if( (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)){
 
             if (action != NONE) {
-                serializedInput = "1_" + serializeAction(action) + "_" + to_string(playerId) + "_x";
+                serializedInput = objectSerializer.serializeInput(action,playerId);
             }
         }
-        
+
         if ((sdlEvent.type == SDL_KEYUP && sdlEvent.key.repeat == 0 )){
             if (action == UP || action == DOWN || action == LEFT || action == RIGHT ||
                 action == NONE){//no bloqueante
-                serializedInput = "1_NONE_" + to_string(playerId) + "_x";
-            } 
+                serializedInput = objectSerializer.serializeInput(NONE,playerId);
+            }
         }
     }
     return serializedInput;
-}
-
-std::string Controller::serializeAction(Action action){//TODO hacer un map
-
-    std::string  serializedAction;
-
-    if (action == NONE){serializedAction = "NONE";}
-    if (action == UP){serializedAction = "UP";}
-    if (action == DOWN){serializedAction = "DOWN";}
-    if (action == LEFT){serializedAction = "LEFT";}
-    if (action == RIGHT){serializedAction = "RIGHT";}
-    if (action == JUMP){serializedAction = "JUMP";}
-    if (action == PUNCH){serializedAction = "PUNCH";}
-    if (action == KICK){serializedAction = "KICK";}
-    if (action == JUMP_KICK){serializedAction = "JUMP_KICK";}
-    if (action == CROUCH){serializedAction = "CROUCH";}
-
-    return serializedAction;
-}
-
-std::string Controller::generateSerializedObj(ToClientPack package){
-
-    std::string serializedObject;
-
-    std::string path = package.getPath();
-    SDL_Rect src = package.getSrcRect();
-    SDL_Rect dst = package.getDstRect();
-    bool fliped = package.getFliped();
-
-    std::string srcW = to_string(src.w);
-    std::string srcH = to_string(src.h);
-    std::string srcX = to_string(src.x);
-    std::string srcY = to_string(src.y);
-
-    std::string dstW = to_string(dst.w);
-    std::string dstH = to_string(dst.h);
-    std::string dstX = to_string(dst.x);
-    std::string dstY = to_string(dst.y);
-
-    std::string flipedStr = to_string(fliped);
-
-    serializedObject = "1_" + path + "_" + srcW + "_" + srcH + "_" + srcX + "_" + srcY + "_" +
-                        dstW + "_" + dstH + "_" + dstX + "_" + dstY + "_" + flipedStr + "_x";
-    return serializedObject;
-}
-
-void Controller::reconstrucAndStoretInput(std::string action, std::string id){ //TODO hacer un map
-
-    Action reconstructedAction;
-    if (action == "NONE"){reconstructedAction = NONE;}
-    if (action == "UP"){reconstructedAction = UP;}
-    if (action == "DOWN"){reconstructedAction = DOWN;}
-    if (action == "LEFT"){reconstructedAction = LEFT;}
-    if (action == "RIGHT"){reconstructedAction = RIGHT;}
-    if (action == "JUMP"){reconstructedAction = JUMP;}
-    if (action == "PUNCH"){reconstructedAction = PUNCH;}
-    if (action == "KICK"){reconstructedAction = KICK;}
-    if (action == "JUMP_KICK"){reconstructedAction = JUMP_KICK;}
-    if (action == "CROUCH"){reconstructedAction = CROUCH;}
-
-    int reconstructedId = std::stoi(id);
-    currentInput.push_back(std::make_tuple (reconstructedAction,reconstructedId));
-}
-
-void Controller::reconstructAndStorePackage(vector<string> splitedPackage){ //header,path,srcw,srch,srcx,srcy,dstw,dsth,dstx,dsty,bool,endcaracter
-
-    std::string path = splitedPackage.at(1);
-    SDL_Rect src = {std::stoi(splitedPackage.at(4)),std::stoi(splitedPackage.at(5)),std::stoi(splitedPackage.at(2)),std::stoi(splitedPackage.at(3))};
-    SDL_Rect dst = {std::stoi(splitedPackage.at(8)),std::stoi(splitedPackage.at(9)),std::stoi(splitedPackage.at(6)),std::stoi(splitedPackage.at(7))};
-    bool flip = std::stoi(splitedPackage.at(10));
-
-    ToClientPack reconstructedPackage(path,src,dst,flip);
-
-    currentPackagesToRender.push_back(reconstructedPackage);
 }
 
 template <typename K, typename V>
@@ -147,6 +54,25 @@ V Controller::getWithDefault(const std::map<K,V> &map, const K &key, const V &de
     }
 
     return value;
+}
+
+//DATA TRANSFER INTERFACE
+//=========================================================================================
+
+void Controller::sendUpdate(std::list<ToClientPack> toClientsPackages, Server* server) {
+    std::string serializedPackage;
+    for (auto package: toClientsPackages){
+        serializedPackage = objectSerializer.serializeObject(package);
+        server->setToBroadcast(serializedPackage);
+    }
+}
+
+std::string Controller::getSuccesfullLoginMessage(int userId){
+    return objectSerializer.getSuccesfullLoginMessage(userId);
+}
+
+std::string Controller::getFailedLoginMessage() {
+    return objectSerializer.getFailedLoginMessage();
 }
 
 //INIT & CONSTRUCTOR
@@ -294,4 +220,3 @@ void Controller::bind() {
 
     actions.insert(std::make_pair(SDL_SCANCODE_ESCAPE, QUIT));
 }
-

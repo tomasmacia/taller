@@ -7,6 +7,7 @@
 #include "ToClientPack.h"
 #include "Game.h"
 #include "../net/Client.h"
+#include "ToClientPack.h"
 
 class LoggerMenu;
 class Client;
@@ -31,9 +32,9 @@ public:
 
     //API
     //===============================
-    void reciveSerializedObject(vector<string> splitedPackage);
     void sendAknowledgeToLogerMenu(int id);
     void setPlayerId(int id);
+    void reciveRenderable(ToClientPack package);
 
     static bool isActive(){
         return hasInstance;
@@ -73,7 +74,7 @@ private:
 
     LoggerMenu* loggerMenu = nullptr;
     Client* client = nullptr;
-    std::map<std::string, TextureWrapper*> loadedTexturesMap;;
+    std::map<std::string, TextureWrapper*> loadedTexturesMap;
 };
 
 #endif //GAME_GAMECLIENT_H_

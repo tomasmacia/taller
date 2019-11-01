@@ -21,17 +21,25 @@ class Controller {
 public:
     Controller(Game* game);
 
+    //API
+    //===============================
+    string pollAndProcessInput();
+
     //DATA TRANSFER INTERFACE
     //===============================
     void sendUpdate(std::list<ToClientPack> toClientsPackages, Server* server);
     std::string getSuccesfullLoginMessage(int userId);
     std::string getFailedLoginMessage();
 
-    //SERIALIZATION
+    //SETTERS
     //===============================
-    std::string processInput();
-    void reconstrucAndStoretInput(std::string action, std::string id);
-    void reconstructAndStorePackage(vector<string> splitedPackage);
+    void setRenderable(ToClientPack package){
+        currentPackagesToRender.push_back(package);
+    }
+
+    void setInput(tuple<Action,int> input){
+        return currentInput.push_back(input);
+    }
 
     //GETTERS
     //===============================
@@ -54,20 +62,14 @@ private:
     void init();
     void bind();
 
-    //SERIALIZATION
-    //===============================
-    std::string generateSerializedObj(ToClientPack package);
-    std::string serializeAction(Action action);
-
     //ATRIBUTES
     //===============================
-    std::string FAILED_LOGIN_MESSAGE = "0_-1_x" ;
-
     //el input ahora es una tupla (Action, id)
     std::list<std::tuple<Action,int>> currentInput;
     std::list<ToClientPack> currentPackagesToRender;
 
     SDL_Event sdlEvent;
+    ObjectSerializer objectSerializer;
 
     std::map<SDL_Scancode, Action> actions;
     std::map<std::string, SDL_Scancode> scancodes;

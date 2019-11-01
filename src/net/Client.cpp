@@ -1,6 +1,4 @@
-#include "Client.h"
-#include <stdio.h>
-#include <stdlib.h>
+
 #include <vector>
 #include <unistd.h>
 #include <string.h>
@@ -11,6 +9,8 @@
 #include <thread>
 #include "../LogLib/LogManager.h"
 #include "../game/Header.h"
+#include "../game/ToClientPack.h"
+#include "Client.h"
 
 using namespace std;
 
@@ -91,24 +91,28 @@ void Client::dispatchThread() {
 //=========================================================================================
 void Client::processIDFromServer() {
 
-    vector<string> currentParsedMessage = messageParser.getCurren();
+    vector<string> currentParsedMessage = messageParser.getCurrent();
 
     if (objectSerializer.validLoginIDFromServerMessage(currentParsedMessage)){
 
-        gameClient.sendAknowledgeToLogerMenu(id);
-        gameClient.setPlayerId(id);
+        int id = objectSerializer.getIDFrom(currentParsedMessage);
+
+        gameClient->sendAknowledgeToLogerMenu(id);
+        gameClient->setPlayerId(id);
     }
     else{
-        gameClient.sendAknowledgeToLogerMenu(objectSerializer.getFailureAcknowledgeSignal());
+        gameClient->sendAknowledgeToLogerMenu(objectSerializer.getFailureAcknowledgeSignal());
     }
 }
 
-void Client::processRenderableSerializedObject(std::string inputMsg) {
+void Client::processRenderableSerializedObject() {
 
-    vector<string> splited{split(inputMsg, SEPARATOR)};
+    vector<string> currentParsedMessage = messageParser.getCurrent();
 
-    if (splited.size() == 12){//header,path,srcw,srch,srcx,srcy,dstw,dsth,dstx,dsty,bool,endcaracter
-        gameClient.reciveSerializedObject(splited);
+    if (objectSerializer.validSerializedObjectMessage(currentParsedMessage)){
+
+        ToClientPack renderable = objectSerializer.reconstructRenderable(currentParsedMessage);
+        gameClient->reciveRenderable(renderable);
     }
 }
 
@@ -132,7 +136,9 @@ std::string Client::receive() {
     if (n < 0) {
         error("ERROR reading from socket");
     }
-    return messageParser.extractMeaningMessagefulFromStream();
+    return messageParser.extractMeaningfulMessageFromStream(buffer,
+                                                objectSerializer.getSeparatorCharacter(),
+                                                objectSerializer.getEndOfSerializationCharacterget());
 }
 
 //DISCONECTION RELATED

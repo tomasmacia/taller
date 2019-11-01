@@ -8,44 +8,53 @@
 #include "Server.h"
 #include <thread>
 #include <mutex>
+#include "../game/MessageParser.h"
+#include "../game/ObjectSerializer.h"
 
 // UserConnection at Server level
 class UserConnection {
 public:
     UserConnection(int socket, int userId, Server *server,GameServer* gameServer);
 
+    //API
+    //===============================
     void setToSendMessage(std::string message);
     void init();
 
 private:
-    int socketFD;
-    GameServer* gameServer = nullptr;
 
-    int userId;
-    bool connectionIsOn;
-
-
-    char SEPARATOR = '_';
-    std::string END_SERIALIZATION_SIMBOL = "x";
-    std::string incomingMessage;
-    std::string toSendMessage;
-    std::list<std::string> toSendMessagesQueue;
-    std::list<std::string> incomingMessagesQueue;
-    Server *server = nullptr;
-
-    std::mutex mu;
     //THREADS
-    //===============
+    //===============================
     void readThread();
     void sendThread();
     void dispatchThread();
 
+    //DISPATCHING INCOMING MESSAGES
+    //===============================
+    void processLoginFromTheClient(std::string msg);
+    void processInput(std::string msg);
+
+    //DISCONECTION RELATED
+    //===============================
     void connectionLost();
     bool connectionOff();
 
-    void processLoginFromTheClient(std::string msg);
-    void processInput(std::string msg);
-    const vector<string> split(const string& s, const char& c);
+    //ATRIBUTES
+    //===============================
+    std::mutex mu;
+    int socketFD;
+    int userId;
+    bool connectionIsOn;
+
+    Server *server = nullptr;
+    GameServer* gameServer = nullptr;
+    MessageParser messageParser;
+    ObjectSerializer objectSerializer;
+
+    string incomingMessage;
+    string toSendMessage;
+    list<string> toSendMessagesQueue;
+    list<string> incomingMessagesQueue;
 };
 
 

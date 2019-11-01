@@ -10,9 +10,9 @@
 #include <mutex>
 #include "../game/MessageParser.h"
 #include "../game/ObjectSerializer.h"
+#include "../game/GameClient.h"
 
 class GameClient;
-
 class Client {
 public:
     Client(GameClient* gameClient);

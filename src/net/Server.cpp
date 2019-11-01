@@ -15,56 +15,61 @@
 #define MAX_CONNECTIONS 4
 
 
-//NUESTRO CODIGO
-//===============================================================================================
+//API
+//=========================================================================================
+bool Server::init(){
+
+    if(create() < 0){return false;}
+    if(bind() < 0){return false;}
+    return true;
+}
 
 int Server::numberOfConectionsEstablished(){
     return connections.size();
 }
 
-void Server::setToSendToSpecific(std::string message,int connectionID){
+void Server::setToSendToSpecific(string message,int connectionID){
     connections.at(connectionID)->setToSendMessage(message);
 }
 
-void Server::setToBroadcast(std::string message) {
+void Server::setToBroadcast(string message) {
 
     for (std::pair<int, UserConnection*> element : connections) {
         element.second->setToSendMessage(message);
     }
 }
 
+//ACTUAL DATA TRANSFER
+//=========================================================================================
 int Server::send(string msg, int someSocketFD) {
     // TODO REVISAR. Hay que fijarse que someSOcketFD este en la lista de conexiones?
 
     int len = msg.size() + 1;
-    char buf[len];//este buffer tiene que que ser otro distinto al de atributo
-    strcpy(buf, msg.c_str());
+    char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
+    strcpy(bufferSend, msg.c_str());
 
-    if (::send(someSocketFD,buf , len, 0) < 0) { // TODO msg
-        error("ERROR on accept");
+    int n = write(someSocketFD, bufferSend, strlen(buffer));
+    if (n < 0) {
+        error("ERROR writing to socket");
     }
     return someSocketFD;
 }
 
-std::string Server::receive(int someSocketFD) {
+string Server::receive(int someSocketFD) {
     // TODO REVISAR. Hay que fijarse que someSOcketFD este en la lista de conexiones?
+
     int n = read(someSocketFD, buffer, MAX_BYTES_BUFFER);
     if (n < 0) {
         error("ERROR reading from socket");
     }
-    return extractMessageFromStream();
+    return messageParser.extractMeaningfulMessageFromStream(
+            buffer,
+            objectSerializer.getSeparatorCharacter(),
+            objectSerializer.getEndOfSerializationCharacterget());
 }
 
-Server::Server(GameServer* gameServer) {
-    this->serverOn = true;
-    this->maxConnections = MAX_CONNECTIONS; // TODO sacarlo de la config
-    maxBytesBuffer = MAX_BYTES_BUFFER;
-    maxConnections = MAX_CONNECTIONS;
-    char buf[MAX_BYTES_BUFFER];
-    buffer = buf;
-    this->gameServer = gameServer;
-}
-
+//THREADS
+//=========================================================================================
 void Server::listenThread(){
     while (serverOn){
         mu.lock();
@@ -79,48 +84,16 @@ void Server::listenThread(){
     }
 }
 
-std::string Server::extractMessageFromStream(){
-
-    std::string stringedBuffer = buffer;
-    std::string delimiter = "_" + END_SERIALIZATION_SIMBOL;
-    std::string message = stringedBuffer.substr(0, stringedBuffer.find(delimiter));
-
-    //le quito al buffer lo que acabo de parsear
-    int messageLength = message.length();
-    std::string restOfBuffer = stringedBuffer.substr(stringedBuffer.find(delimiter),
-                                                     stringedBuffer.length() - messageLength);
-    //(TODO) QUIZAS SEA COSTOSO A LA LARGA EN RECURSOS PORQUE SE HACE TODO EL TIEMPO ESTO
-    char* cleanedBuf;
-    strcpy(cleanedBuf, restOfBuffer.c_str());
-    buffer = cleanedBuf;
-
-    return message;
-}
-
-bool Server::init(){
-
-    if(create() < 0){return false;}
-    if(bind() < 0){return false;}
-    return true;
-}
-
-Server::~Server() {
-    for(std::map<int, UserConnection*>::iterator itr = connections.begin(); itr != connections.end(); itr++)
-    {
-        delete itr->second;
-    }
-    shutdown();
-    close();
-}
-
-//IMPLEMENTACION STANDART DE SOCKETS
-//===============================================================================================
-
-void Server::error(const char *msg) {   //Cierra el server y en el destructor se cierra las conexiones
-    mu.lock();
-    LogManager::logError(msg);
-    serverOn = false;
-    mu.unlock();
+//INIT & CONSTRUCTOR
+//=========================================================================================
+Server::Server(GameServer* gameServer) {
+    this->serverOn = true;
+    this->maxConnections = MAX_CONNECTIONS; // TODO sacarlo de la config
+    maxBytesBuffer = MAX_BYTES_BUFFER;
+    maxConnections = MAX_CONNECTIONS;
+    char buf[MAX_BYTES_BUFFER];
+    buffer = buf;
+    this->gameServer = gameServer;
 }
 
 int Server::create() {
@@ -172,6 +145,17 @@ UserConnection* Server::accept() {                  //INSTANCIA Y AGREGA CONECCI
     return userConnection;
 }
 
+//ERROR
+//=========================================================================================
+void Server::error(const char *msg) {   //Cierra el server y en el destructor se cierra las conexiones
+    mu.lock();
+    LogManager::logError(msg);
+    serverOn = false;
+    mu.unlock();
+}
+
+//DISCONECTION RELATED
+//=========================================================================================
 int Server::shutdown() {
     int shutResult = ::shutdown(socketFD, SHUT_WR);
     if (shutResult < 0){
@@ -182,6 +166,17 @@ int Server::shutdown() {
 
 int Server::close() {
     return ::close(socketFD);
+}
+
+//DESTROY
+//=========================================================================================
+Server::~Server() {
+    for(std::map<int, UserConnection*>::iterator itr = connections.begin(); itr != connections.end(); itr++)
+    {
+        delete itr->second;
+    }
+    shutdown();
+    close();
 }
 
 

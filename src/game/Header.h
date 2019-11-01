@@ -5,7 +5,7 @@
 #ifndef GAME_HEADER_H
 #define GAME_HEADER_H
 
-enum Header { //ORDER SENSITIVE
+enum Header {
     LOGIN,
     GAME
 };

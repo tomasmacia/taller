@@ -1,10 +1,10 @@
 #include <SDL2/SDL.h>
 
 #include "../LogLib/Logger.h"
-#include "GameClient.h"
+#include <thread>
 #include "Controller.h"
 #include "LoggerMenu.h"
-#include <thread>
+#include "GameClient.h"
 
 #include <iostream>
 
@@ -38,7 +38,7 @@ void GameClient::gameLoop() {
 }
 
 void GameClient::pollAndSendInput() {
-    std::string serializedInput = controller->processInput();
+    std::string serializedInput = controller->pollAndProcessInput();
     client->setToSend(serializedInput);
 }
 
@@ -65,17 +65,16 @@ void GameClient::renderAllPackages(){
 
 //API
 //=========================================================================================
-
-void GameClient::reciveSerializedObject(vector<string> splitedPackage){
-    controller->reconstructAndStorePackage(splitedPackage);
-}
-
 void GameClient::setPlayerId(int id) {
     playerId = id;
 }
 
 void GameClient::sendAknowledgeToLogerMenu(int id){
     //loggerMenu->sendServerResponse(id); TODO
+}
+
+void GameClient::reciveRenderable(ToClientPack package){
+    controller->setRenderable(package);
 }
 
 //INIT
