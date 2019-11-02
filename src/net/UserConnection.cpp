@@ -15,9 +15,10 @@
 //API
 //=========================================================================================
 void UserConnection::setToSendMessage(std::string message){
-    mu.lock();
+    std::cout<<"SERVER: mando paquetes a clientes: "<<message<<'\n';
+    //mu.lock();
     toSendMessagesQueue.push_back(message);
-    mu.unlock();
+    //mu.unlock();
 }
 
 void UserConnection::init() {
@@ -33,16 +34,16 @@ void UserConnection::init() {
 //=========================================================================================
 void UserConnection::readThread() {
     while(connectionIsOn) {
-        mu.lock();
+        //mu.lock();
         incomingMessage = server->receive(socketFD);
         incomingMessagesQueue.push_back(incomingMessage);
-        mu.unlock();
+        //mu.unlock();
     }
 }
 
 void UserConnection::sendThread() {
     while(connectionIsOn) {
-        mu.lock();
+        //mu.lock();
         if (!toSendMessagesQueue.empty()){
             toSendMessage = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
@@ -54,13 +55,13 @@ void UserConnection::sendThread() {
                 break;
             }
         }
-        mu.unlock();
+        //mu.unlock();
     }
 }
 
 void UserConnection::dispatchThread() {
     while(connectionIsOn) {
-        mu.lock();
+        //mu.lock();
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
@@ -74,7 +75,7 @@ void UserConnection::dispatchThread() {
                 processInput(incomingMessage);
             }
         }
-        mu.unlock();
+        //mu.unlock();
     }
 }
 

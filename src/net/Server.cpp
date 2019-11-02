@@ -28,7 +28,6 @@ void Server::setToSendToSpecific(string message,int connectionID){
 }
 
 void Server::setToBroadcast(string message) {
-
     for (std::pair<int, UserConnection*> element : connections) {
         element.second->setToSendMessage(message);
     }

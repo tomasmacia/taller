@@ -18,25 +18,36 @@ void MessageParser::parse(string rawMessage, char separatorCharacter) {
 }
 
 MessageId MessageParser::getHeader() {
-    return (MessageId)stoi(lastParsedMessage.at(0));
+
+    if (!lastParsedMessage.empty()){
+        return (MessageId)stoi(lastParsedMessage.at(0));
+    }
+    else UNDEFINED;
 }
 
 string MessageParser::extractMeaningfulMessageFromStream(char* buffer, char separator, char endSerializationChar){
     //cleans buffer up
 
+    std::string stringSeparator;
+    stringSeparator = separator;
+
+    std::string stringEndSerializationChar;
+    stringEndSerializationChar = endSerializationChar;
+
     std::string stringedBuffer = buffer;
-    std::string delimiter = to_string(separator) + to_string(endSerializationChar);
+    std::string delimiter = stringSeparator + stringEndSerializationChar;
     std::string message = stringedBuffer.substr(0, stringedBuffer.find(delimiter));
 
     //le quito al buffer lo que acabo de parsear
     int messageLength = message.length();
+    /*
     std::string restOfBuffer = stringedBuffer.substr(stringedBuffer.find(delimiter),
                                                      stringedBuffer.length() - messageLength);
 
     //(TODO) QUIZAS SEA COSTOSO A LA LARGA EN RECURSOS PORQUE SE HACE TODO EL TIEMPO ESTO
     char* cleanedBuf;
     strcpy(cleanedBuf, restOfBuffer.c_str());
-    buffer = cleanedBuf;
+    buffer = cleanedBuf;*/
 
     return message;
 }

@@ -20,7 +20,7 @@ public:
     MessageId getHeader();
     string extractMeaningfulMessageFromStream(char *buffer, char separator, char endSerializationChar);
 
-    //API
+    //GETTERS
     //===============================
     vector<string> getCurrent(){
         return lastParsedMessage;

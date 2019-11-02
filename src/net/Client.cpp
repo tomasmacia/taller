@@ -22,25 +22,25 @@ using namespace std;
 //API
 //=========================================================================================
 void Client::setToSend(std::string message){
-    mu.lock();
+    //mu.lock();
     toSendMessagesQueue.push_back(message);
-    mu.unlock();
+    //mu.unlock();
 }
 
 //THREADS
 //=========================================================================================
 void Client::readThread() {
     while(clientOn) {
-        mu.lock();
+        //mu.lock();
         incomingMessage = receive();
         incomingMessagesQueue.push_back(incomingMessage);
-        mu.unlock();
+        //mu.unlock();
     }
 }
 
 void Client::sendThread() {
     while(clientOn) {
-        mu.lock();
+        //mu.lock();
         if (!toSendMessagesQueue.empty()){
             toSendMessage = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
@@ -52,13 +52,13 @@ void Client::sendThread() {
                 break;
             }
         }
-        mu.unlock();
+        //mu.unlock();
     }
 }
 
 void Client::dispatchThread() {
     while(clientOn) {
-        mu.lock();
+        //mu.lock();
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
@@ -74,7 +74,7 @@ void Client::dispatchThread() {
                 processRenderableSerializedObject();
             }
         }
-        mu.unlock();
+        //mu.unlock();
     }
 }
 

@@ -21,7 +21,7 @@ public:
     void setToSendMessage(std::string message);
     void init();
 
-private:
+public:
 
     //THREADS
     //===============================
