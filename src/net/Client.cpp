@@ -12,6 +12,8 @@
 #include "../game/ToClientPack.h"
 #include "Client.h"
 
+#include <iostream>
+
 using namespace std;
 
 #define MAX_BYTES_BUFFER 4096

@@ -10,6 +10,8 @@
 #include "Controller.h"
 #include "IDPlayer.h"
 
+#include <iostream>
+
 //PROCESSING
 //=========================================================================================
 

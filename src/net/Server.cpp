@@ -72,8 +72,6 @@ void Server::listenThread(){
         if (connections.size() < maxConnections && listen() >= 0){
             auto newUserConnection = accept();
             if (newUserConnection != nullptr){
-                //std::thread connection = std::thread(&UserConnection::init, newUserConnection);
-                //connection.detach();
                 newUserConnection->init();
                 cout<<"connection stablished: "<<connections.size()<<endl;
             }
