@@ -4,7 +4,7 @@
 #include <vector>
 #include "ObjectSerializer.h"
 #include "ToClientPack.h"
-#include "Header.h"
+#include "MessageId.h"
 
 using namespace std;
 
@@ -23,16 +23,24 @@ string ObjectSerializer::getPassFrom(vector<string> currentParsedMessage){
 }
 
 string ObjectSerializer::getSuccesfullLoginMessage(int id){
-    return to_string(LOGIN) + SEPARATOR + to_string(id) + SEPARATOR + END_SERIALIZATION_SIMBOL;
+    return to_string(SUCCESS) + SEPARATOR + to_string(id) + SEPARATOR + END_SERIALIZATION_SIMBOL + SEPARATOR;
 }
 
-string ObjectSerializer::getFailedLoginMessage(){
-    return to_string(LOGIN) + SEPARATOR + to_string(FAILURE_AKNOWLEDGE_SIGNAL) + SEPARATOR + to_string(END_SERIALIZATION_SIMBOL);
+string ObjectSerializer::getInvalidCredentialsMessage(){
+    return to_string(INVALID_CREDENTIAL) + SEPARATOR + to_string(FAILURE_AKNOWLEDGE_SIGNAL) + SEPARATOR + to_string(END_SERIALIZATION_SIMBOL) + SEPARATOR;
+}
+
+string ObjectSerializer::getServerFullMessage(){
+    return to_string(SERVER_FULL) + SEPARATOR + to_string(FAILURE_AKNOWLEDGE_SIGNAL) + SEPARATOR + to_string(END_SERIALIZATION_SIMBOL) + SEPARATOR;
+}
+
+string ObjectSerializer::getAlreadyLoggedInMessage(){
+    return to_string(ALREADY_LOGGED_IN_CREDENTIAL) + SEPARATOR + to_string(FAILURE_AKNOWLEDGE_SIGNAL) + SEPARATOR + to_string(END_SERIALIZATION_SIMBOL) + SEPARATOR;
 }
 
 //VALIDATE
 //=========================================================================================
-bool ObjectSerializer::validLoginIDFromServerMessage(vector<string> currentParsedMessage){
+bool ObjectSerializer::validLoginFromServerMessage(vector<string> currentParsedMessage){
     //SERIALIZED LOGIN ID: //header,id,END_SERIALIZATION_SIMBOL
     int id = stoi(currentParsedMessage.at(1));
     return currentParsedMessage.size() == 3 && id != -1;
@@ -111,10 +119,10 @@ string ObjectSerializer::serializeObject(ToClientPack package){
 
     std::string flipedStr = to_string(fliped);
 
-    serializedObject = to_string(GAME) + SEPARATOR + path + SEPARATOR +
+    serializedObject = to_string(RENDERABLE) + SEPARATOR + path + SEPARATOR +
                        srcW + SEPARATOR + srcH + SEPARATOR + srcX + SEPARATOR + srcY + SEPARATOR +
                        dstW + SEPARATOR + dstH + SEPARATOR + dstX + SEPARATOR + dstY + SEPARATOR +
-                       flipedStr + SEPARATOR + END_SERIALIZATION_SIMBOL;
+                       flipedStr + SEPARATOR + END_SERIALIZATION_SIMBOL + SEPARATOR;
     return serializedObject;
 }
 
@@ -133,5 +141,5 @@ string ObjectSerializer::serializeInput(Action action, int id){
     if (action == JUMP_KICK){serializedAction = "JUMP_KICK";}
     if (action == CROUCH){serializedAction = "CROUCH";}
 
-    return "1_" + serializedAction+ "_" + to_string(id) + "_x";;
+    return to_string(INPUT) + SEPARATOR + serializedAction + SEPARATOR + to_string(id) + SEPARATOR + END_SERIALIZATION_SIMBOL + SEPARATOR;
 }

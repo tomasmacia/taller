@@ -32,7 +32,7 @@ public:
 
     //API
     //===============================
-    void sendAknowledgeToLogerMenu(int id);
+    void setServerAknowledgeToLogin(MessageId id);
     void setPlayerId(int id);
     void reciveRenderable(ToClientPack package);
 

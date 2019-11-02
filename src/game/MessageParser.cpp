@@ -6,7 +6,7 @@
 #include <string>
 #include <cstring>
 
-#include "Header.h"
+#include "MessageId.h"
 #include "MessageParser.h"
 
 using namespace std;
@@ -17,8 +17,8 @@ void MessageParser::parse(string rawMessage, char separatorCharacter) {
     lastParsedMessage = split(rawMessage,separatorCharacter);
 }
 
-Header MessageParser::getHeader() {
-    return (Header)stoi(lastParsedMessage.at(0));
+MessageId MessageParser::getHeader() {
+    return (MessageId)stoi(lastParsedMessage.at(0));
 }
 
 string MessageParser::extractMeaningfulMessageFromStream(char* buffer, char separator, char endSerializationChar){

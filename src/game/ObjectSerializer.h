@@ -8,6 +8,7 @@
 #include <string>
 #include "ToClientPack.h"
 #include "Action.h"
+#include "MessageId.h"
 
 using namespace std;
 
@@ -21,12 +22,14 @@ public:
     int getIDFrom(vector<string> currentParsedMessage);
     string getUserFrom(vector<string> currentParsedMessage);
     string getPassFrom(vector<string> currentParsedMessage);
-    string getSuccesfullLoginMessage(int id);
-    string getFailedLoginMessage();
+    std::string getSuccesfullLoginMessage(int userId);
+    std::string getInvalidCredentialsMessage();
+    std::string getServerFullMessage();
+    std::string getAlreadyLoggedInMessage();
 
     //VALIDATE
     //===============================
-    bool validLoginIDFromServerMessage(vector<string> currentParsedMessage);
+    bool validLoginFromServerMessage(vector<string> currentParsedMessage);
     bool validSerializedObjectMessage(vector<string> currentParsedMessage);
     bool validLoginFromClientMessage(vector<string> currentParsedMessage);
     bool validSerializedInputMessage(vector<string> currentParsedMessage);

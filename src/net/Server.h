@@ -24,7 +24,7 @@ public:
 
     //API
     //===============================
-    bool init();
+    void init();
     int numberOfConectionsEstablished();
     void setToSendToSpecific(std::string message,int connectionID);
     void setToBroadcast(std::string message);

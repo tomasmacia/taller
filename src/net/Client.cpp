@@ -8,7 +8,7 @@
 #include <CLIArgumentParser.h>
 #include <thread>
 #include "../LogLib/LogManager.h"
-#include "../game/Header.h"
+#include "../game/MessageId.h"
 #include "../game/ToClientPack.h"
 #include "Client.h"
 
@@ -62,11 +62,13 @@ void Client::dispatchThread() {
             incomingMessagesQueue.pop_front();
 
             messageParser.parse(incomingMessage, objectSerializer.getSeparatorCharacter());
-            Header header = messageParser.getHeader();
-            if (header == LOGIN){
-                processIDFromServer();
+            MessageId header = messageParser.getHeader();
+            if (header == SUCCESS                      || header == INVALID_CREDENTIAL ||
+                header == ALREADY_LOGGED_IN_CREDENTIAL || header == SERVER_FULL){
+
+                processResponseFromServer();
             }
-            if (header == GAME){
+            if (header == RENDERABLE){
                 processRenderableSerializedObject();
             }
         }
@@ -76,19 +78,22 @@ void Client::dispatchThread() {
 
 //DISPATCHING INCOMING MESSAGES
 //=========================================================================================
-void Client::processIDFromServer() {
+void Client::processResponseFromServer() {
 
     vector<string> currentParsedMessage = messageParser.getCurrent();
 
-    if (objectSerializer.validLoginIDFromServerMessage(currentParsedMessage)){
+    if (objectSerializer.validLoginFromServerMessage(currentParsedMessage)){
 
         int id = objectSerializer.getIDFrom(currentParsedMessage);
 
-        gameClient->sendAknowledgeToLogerMenu(id);
-        gameClient->setPlayerId(id);
+        gameClient->setServerAknowledgeToLogin(messageParser.getHeader());
+
+        if (messageParser.getHeader() == SUCCESS){
+            gameClient->setPlayerId(id);
+        }
     }
     else{
-        gameClient->sendAknowledgeToLogerMenu(objectSerializer.getFailureAcknowledgeSignal());
+        gameClient->setServerAknowledgeToLogin(INVALID_CREDENTIAL);
     }
 }
 
@@ -166,15 +171,15 @@ Client::Client(GameClient* gameClient) {
 
 bool Client::init(){
 
-    if(create() < 0){return false;}
-    if(connectToServer() < 0){return false;}
+    create();
+    connectToServer();
 
     std::thread read = std::thread(&Client::readThread, this);
     std::thread send = std::thread(&Client::sendThread, this);
     std::thread dispatch = std::thread(&Client::dispatchThread, this);
-    dispatch.join();
-    read.join();
-    send.join();
+    dispatch.detach();
+    read.detach();
+    send.detach();
 }
 
 int Client::create() {

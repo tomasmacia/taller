@@ -14,6 +14,7 @@
 #define MAX_BYTES_BUFFER 4096
 #define MAX_CONNECTIONS 4
 
+#include <iostream>
 
 //API
 //=========================================================================================
@@ -67,13 +68,19 @@ string Server::receive(int someSocketFD) {
 void Server::listenThread(){
     while (serverOn){
         mu.lock();
-        if (listen() >= 0 && connections.size() <= maxConnections){
+        cout<<"LOCKED AT LISTENING"<<endl;
+        if (connections.size() < maxConnections && listen() >= 0){
             auto newUserConnection = accept();
             if (newUserConnection != nullptr){
-                std::thread connection = std::thread(&UserConnection::init, newUserConnection);
-                connection.join();
+                //std::thread connection = std::thread(&UserConnection::init, newUserConnection);
+                //connection.detach();
+                newUserConnection->init();
+                cout<<"connection stablished: "<<connections.size()<<endl;
             }
         }
+        cout<<"LOOPING BACK TO LISTENING"<<endl;
+        cout<<"=================================="<<endl;
+        cout<<endl;
         mu.unlock();
     }
 }
@@ -90,11 +97,12 @@ Server::Server(GameServer* gameServer) {
     this->gameServer = gameServer;
 }
 
-bool Server::init(){
+void Server::init(){
 
-    if(create() < 0){return false;}
-    if(bind() < 0){return false;}
-    return true;
+    create();
+    bind();
+    std::thread listenThread = std::thread(&Server::listenThread,this);
+    listenThread.detach();
 }
 
 int Server::create() {

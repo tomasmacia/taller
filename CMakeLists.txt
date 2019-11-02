@@ -127,7 +127,7 @@ set(SOURCE_FILES
         src/game/ObjectSerializer.cpp
         src/game/ObjectSerializer.h
 
-        src/game/Header.h src/game/MessageParser.cpp src/game/MessageParser.h)
+        src/game/Header.h src/game/MessageParser.cpp src/game/MessageParser.h src/game/MessageId.h)
 
 # create executable
 add_executable(game ${SOURCE_FILES})

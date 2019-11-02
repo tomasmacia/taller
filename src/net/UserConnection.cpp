@@ -7,7 +7,7 @@
 #include <thread>
 #include <sys/socket.h>
 
-#include "../game/Header.h"
+#include "../game/MessageId.h"
 
 
 //API
@@ -22,9 +22,9 @@ void UserConnection::init() {
     std::thread read = std::thread(&UserConnection::readThread, this);
     std::thread send = std::thread(&UserConnection::sendThread, this);
     std::thread dispatch = std::thread(&UserConnection::dispatchThread, this);
-    dispatch.join();
-    read.join();
-    send.join();
+    dispatch.detach();
+    read.detach();
+    send.detach();
 }
 
 //THREADS
@@ -64,11 +64,11 @@ void UserConnection::dispatchThread() {
             incomingMessagesQueue.pop_front();
 
             messageParser.parse(incomingMessage, objectSerializer.getSeparatorCharacter());
-            Header header = messageParser.getHeader();
-            if (header == LOGIN){
+            MessageId header = messageParser.getHeader();
+            if (header == USER_PASS){
                 processLoginFromTheClient(incomingMessage);
             }
-            if (header == GAME){
+            if (header == INPUT){
                 processInput(incomingMessage);
             }
         }
@@ -89,7 +89,7 @@ void UserConnection::processLoginFromTheClient(std::string loginMsg) {
         toSendMessage = gameServer->validateLogin(user,pass,userId);
     }
     else{
-        toSendMessage = objectSerializer.getFailedLoginMessage();
+        toSendMessage = objectSerializer.getInvalidCredentialMessage();
     }
     server->setToSendToSpecific(toSendMessage,userId);
 }

@@ -38,7 +38,7 @@ private:
 
     //DISPATCHING OF INCOMMING MESSAGES
     //===============================
-    void processIDFromServer();
+    void processResponseFromServer();
     void processRenderableSerializedObject();
 
     //DISCONECTION RELATED

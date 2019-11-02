@@ -71,8 +71,16 @@ std::string Controller::getSuccesfullLoginMessage(int userId){
     return objectSerializer.getSuccesfullLoginMessage(userId);
 }
 
-std::string Controller::getFailedLoginMessage() {
-    return objectSerializer.getFailedLoginMessage();
+std::string Controller::getInvalidCredentialsMessage() {
+    return objectSerializer.getInvalidCredentialsMessage();
+}
+
+std::string Controller::getServerFullMessage(){
+    return objectSerializer.getServerFullMessage();
+}
+
+std::string Controller::getAlreadyLoggedInMessage() {
+    return objectSerializer.getAlreadyLoggedInMessage();
 }
 
 //INIT & CONSTRUCTOR

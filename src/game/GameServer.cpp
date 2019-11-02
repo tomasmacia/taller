@@ -14,7 +14,6 @@ void GameServer::start() {
     LogManager::logInfo("Se inicia Game");
 
     initServer();
-    std::thread listen = std::thread(&Server::listenThread, server);
     //waitUntilAllPlayersAreConected();
 
     initGameModel();
@@ -64,25 +63,33 @@ void GameServer::waitUntilAllPlayersAreConected(){
 
 std::string GameServer::validateLogin(std::string user, std::string pass, int userId){
 
-    std::string failedLoginMessage = controller->getFailedLoginMessage();
+    std::string serverFullMessage = controller->getServerFullMessage();
+    std::string invalidCredentials = controller->getInvalidCredentialsMessage();
+    std::string alreadyLoggedInMessage = controller->getAlreadyLoggedInMessage();
     std::string succesfulLoginMessage = controller->getSuccesfullLoginMessage(userId);
 
-    if ( validCredentials.find(user) == validCredentials.end() ) {
-        return failedLoginMessage;
+    if (loggedPlayers.size() == amountOfConectionsNeeded){              //si esta lleno el server
+        return serverFullMessage;
     }
-    else {
-        if (validCredentials.at(user) == pass){
-            if (loggedPlayers.find(user) == loggedPlayers.end()){
+
+    if ( validCredentials.find(user) == validCredentials.end() ) {      //si no es valido el user
+        return invalidCredentials;
+    }
+    else {                                                              //si es valido el user
+        if (validCredentials.at(user) == pass){                         //si es valido el pass
+            if (loggedPlayers.find(user) == loggedPlayers.end()){       //si no esta ya logeado ese user/pass
+
                 loggedPlayers.insert({ user, pass });
                 addNewIDToGame(userId);
+
                 return succesfulLoginMessage;
             }
-            else{
-                return failedLoginMessage;
+            else{                                                        //si ya esta logeado ese user/pass
+                return alreadyLoggedInMessage;
             }
         }
         else{
-            return failedLoginMessage;
+            return invalidCredentials;                                   //si es no es valido el pass
         }
     }
 }

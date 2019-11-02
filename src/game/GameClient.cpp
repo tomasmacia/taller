@@ -5,6 +5,7 @@
 #include "Controller.h"
 #include "LoggerMenu.h"
 #include "GameClient.h"
+#include "MessageId.h"
 
 #include <iostream>
 
@@ -14,7 +15,6 @@ void GameClient::start() {
     LogManager::logInfo("Se inicia GameClient");
 
     initClient();
-    std::thread clientReadSend = std::thread(&Client::init, client);
     /*
     initLoggerMenu();
 
@@ -56,7 +56,7 @@ void GameClient::render() {
     renderAllPackages();
     SDL_RenderPresent(renderer);
 
-    std::cout<<"CLIENT: renderizo todo lo que me llego"<<'\n';
+    //cout<<"CLIENT: renderizo todo lo que me llego"<<endl;
 }
 
 void GameClient::renderAllPackages(){
@@ -77,8 +77,8 @@ void GameClient::setPlayerId(int id) {
     playerId = id;
 }
 
-void GameClient::sendAknowledgeToLogerMenu(int id){
-    //loggerMenu->sendServerResponse(id); TODO
+void GameClient::setServerAknowledgeToLogin(MessageId id){
+    //loggerMenu->setServerAknowledge(id); TODO
 }
 
 void GameClient::reciveRenderable(ToClientPack package){
@@ -90,6 +90,7 @@ void GameClient::reciveRenderable(ToClientPack package){
 
 void GameClient::initClient() {
     client = new Client(this);
+    client->init();
     LogManager::logInfo("inicializado Cliente");
 }
 

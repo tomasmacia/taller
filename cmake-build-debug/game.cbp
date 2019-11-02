@@ -267,6 +267,9 @@
 		<Unit filename="/home/axel/repositorio_local/taller/src/game/RenderComponent.h">
 			<Option target="game"/>
 		</Unit>
+		<Unit filename="/home/axel/repositorio_local/taller/src/game/ResponseId.h">
+			<Option target="game"/>
+		</Unit>
 		<Unit filename="/home/axel/repositorio_local/taller/src/game/StateComponent.cpp">
 			<Option target="game"/>
 		</Unit>
