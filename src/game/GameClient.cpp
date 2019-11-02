@@ -4,7 +4,6 @@
 #include <thread>
 #include "Controller.h"
 #include "LoggerMenu.h"
-#include "GameClient.h"
 #include "MessageId.h"
 
 #include <iostream>

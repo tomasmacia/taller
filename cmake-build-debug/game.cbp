@@ -168,9 +168,6 @@
 		<Unit filename="/home/axel/repositorio_local/taller/src/game/GameServer.h">
 			<Option target="game"/>
 		</Unit>
-		<Unit filename="/home/axel/repositorio_local/taller/src/game/Header.h">
-			<Option target="game"/>
-		</Unit>
 		<Unit filename="/home/axel/repositorio_local/taller/src/game/IAComponent.cpp">
 			<Option target="game"/>
 		</Unit>
@@ -219,6 +216,9 @@
 		<Unit filename="/home/axel/repositorio_local/taller/src/game/Manager.h">
 			<Option target="game"/>
 		</Unit>
+		<Unit filename="/home/axel/repositorio_local/taller/src/game/MessageId.h">
+			<Option target="game"/>
+		</Unit>
 		<Unit filename="/home/axel/repositorio_local/taller/src/game/MessageParser.cpp">
 			<Option target="game"/>
 		</Unit>
@@ -265,9 +265,6 @@
 			<Option target="game"/>
 		</Unit>
 		<Unit filename="/home/axel/repositorio_local/taller/src/game/RenderComponent.h">
-			<Option target="game"/>
-		</Unit>
-		<Unit filename="/home/axel/repositorio_local/taller/src/game/ResponseId.h">
 			<Option target="game"/>
 		</Unit>
 		<Unit filename="/home/axel/repositorio_local/taller/src/game/StateComponent.cpp">

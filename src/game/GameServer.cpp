@@ -64,7 +64,7 @@ void GameServer::waitUntilAllPlayersAreConected(){
 std::string GameServer::validateLogin(std::string user, std::string pass, int userId){
 
     std::string serverFullMessage = controller->getServerFullMessage();
-    std::string invalidCredentials = controller->getInvalidCredentialsMessage();
+    std::string invalidCredentials = controller->getInvalidCredentialMessage();
     std::string alreadyLoggedInMessage = controller->getAlreadyLoggedInMessage();
     std::string succesfulLoginMessage = controller->getSuccesfullLoginMessage(userId);
 

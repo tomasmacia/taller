@@ -26,7 +26,7 @@ string ObjectSerializer::getSuccesfullLoginMessage(int id){
     return to_string(SUCCESS) + SEPARATOR + to_string(id) + SEPARATOR + END_SERIALIZATION_SIMBOL + SEPARATOR;
 }
 
-string ObjectSerializer::getInvalidCredentialsMessage(){
+string ObjectSerializer::getInvalidCredentialMessage(){
     return to_string(INVALID_CREDENTIAL) + SEPARATOR + to_string(FAILURE_AKNOWLEDGE_SIGNAL) + SEPARATOR + to_string(END_SERIALIZATION_SIMBOL) + SEPARATOR;
 }
 

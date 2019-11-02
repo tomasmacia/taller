@@ -23,7 +23,7 @@ public:
     string getUserFrom(vector<string> currentParsedMessage);
     string getPassFrom(vector<string> currentParsedMessage);
     std::string getSuccesfullLoginMessage(int userId);
-    std::string getInvalidCredentialsMessage();
+    std::string getInvalidCredentialMessage();
     std::string getServerFullMessage();
     std::string getAlreadyLoggedInMessage();
 

@@ -5,7 +5,7 @@
 #ifndef GAME_MESSAGEPARSER_H
 #define GAME_MESSAGEPARSER_H
 
-#include "Header.h"
+#include "MessageId.h"
 
 using namespace std;
 
@@ -17,7 +17,7 @@ public:
     //API
     //===============================
     void parse(string rawMessage, char separatorCharacter);
-    Header getHeader();
+    MessageId getHeader();
     string extractMeaningfulMessageFromStream(char *buffer, char separator, char endSerializationChar);
 
     //API

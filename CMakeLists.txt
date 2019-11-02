@@ -116,6 +116,11 @@ set(SOURCE_FILES
         src/game/IDComponent.h
         src/game/LoggerMenu.cpp
         src/game/LoggerMenu.h
+        src/game/ObjectSerializer.cpp
+        src/game/ObjectSerializer.h
+        src/game/MessageParser.cpp
+        src/game/MessageParser.h
+        src/game/MessageId.h
 
         # net
         src/net/Client.cpp
@@ -124,10 +129,7 @@ set(SOURCE_FILES
         src/net/Server.h
         src/net/UserConnection.cpp 
         src/net/UserConnection.h
-        src/game/ObjectSerializer.cpp
-        src/game/ObjectSerializer.h
-
-        src/game/Header.h src/game/MessageParser.cpp src/game/MessageParser.h src/game/MessageId.h)
+        )
 
 # create executable
 add_executable(game ${SOURCE_FILES})

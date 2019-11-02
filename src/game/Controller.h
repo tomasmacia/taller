@@ -29,7 +29,7 @@ public:
     //===============================
     void sendUpdate(std::list<ToClientPack> toClientsPackages, Server* server);
     std::string getSuccesfullLoginMessage(int userId);
-    std::string getInvalidCredentialsMessage();
+    std::string getInvalidCredentialMessage();
     std::string getServerFullMessage();
     std::string getAlreadyLoggedInMessage();
 

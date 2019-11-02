@@ -105,10 +105,10 @@ CMakeFiles/game.dir/src/game/CameraComponent.cpp.o: ../src/game/CameraComponent.
 CMakeFiles/game.dir/src/game/CameraComponent.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/CameraComponent.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/CameraComponent.cpp.o: ../src/game/GameServer.h
-CMakeFiles/game.dir/src/game/CameraComponent.cpp.o: ../src/game/Header.h
 CMakeFiles/game.dir/src/game/CameraComponent.cpp.o: ../src/game/LevelBuilder.h
 CMakeFiles/game.dir/src/game/CameraComponent.cpp.o: ../src/game/LevelLimits.h
 CMakeFiles/game.dir/src/game/CameraComponent.cpp.o: ../src/game/Manager.h
+CMakeFiles/game.dir/src/game/CameraComponent.cpp.o: ../src/game/MessageId.h
 CMakeFiles/game.dir/src/game/CameraComponent.cpp.o: ../src/game/MessageParser.h
 CMakeFiles/game.dir/src/game/CameraComponent.cpp.o: ../src/game/ObjectSerializer.h
 CMakeFiles/game.dir/src/game/CameraComponent.cpp.o: ../src/game/PhysicsComponent.h
@@ -137,10 +137,10 @@ CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.o: ../src/game/Charact
 CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.o: ../src/game/GameServer.h
-CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.o: ../src/game/Header.h
 CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.o: ../src/game/LevelBuilder.h
 CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.o: ../src/game/LevelLimits.h
 CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.o: ../src/game/Manager.h
+CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.o: ../src/game/MessageId.h
 CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.o: ../src/game/MessageParser.h
 CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.o: ../src/game/MobileRenderComponent.h
 CMakeFiles/game.dir/src/game/CharacterRenderComponent.cpp.o: ../src/game/ObjectSerializer.h
@@ -218,11 +218,11 @@ CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/GameClient.h
 CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/GameServer.h
-CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/Header.h
 CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/IDPlayer.h
 CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/LevelBuilder.h
 CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/LevelLimits.h
 CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/Manager.h
+CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/MessageId.h
 CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/MessageParser.h
 CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/ObjectSerializer.h
 CMakeFiles/game.dir/src/game/Controller.cpp.o: ../src/game/TextureWrapper.h
@@ -252,10 +252,10 @@ CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/Game.cpp
 CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/GameClient.h
 CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/GameServer.h
-CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/Header.h
 CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/LevelBuilder.h
 CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/LevelLimits.h
 CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/Manager.h
+CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/MessageId.h
 CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/MessageParser.h
 CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/ObjectSerializer.h
 CMakeFiles/game.dir/src/game/Game.cpp.o: ../src/game/TextureWrapper.h
@@ -332,11 +332,11 @@ CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/GameClient.cpp
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/GameClient.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/GameServer.h
-CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/Header.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/LevelBuilder.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/LevelLimits.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/LoggerMenu.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/Manager.h
+CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/MessageId.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/MessageParser.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/ObjectSerializer.h
 CMakeFiles/game.dir/src/game/GameClient.cpp.o: ../src/game/TextureWrapper.h
@@ -367,11 +367,11 @@ CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/GameClient.h
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/GameServer.cpp
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/GameServer.h
-CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/Header.h
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/IDPlayer.h
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/LevelBuilder.h
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/LevelLimits.h
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/Manager.h
+CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/MessageId.h
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/MessageParser.h
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/ObjectSerializer.h
 CMakeFiles/game.dir/src/game/GameServer.cpp.o: ../src/game/TextureWrapper.h
@@ -412,13 +412,13 @@ CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/GameClient.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/GameServer.h
-CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/Header.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/IDComponent.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/InputComponent.cpp
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/InputComponent.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/LevelBuilder.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/LevelLimits.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/Manager.h
+CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/MessageId.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/MessageParser.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/ObjectSerializer.h
 CMakeFiles/game.dir/src/game/InputComponent.cpp.o: ../src/game/StateComponent.h
@@ -447,7 +447,6 @@ CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/CharacterRenderComp
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/GameServer.h
-CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/Header.h
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/IAComponent.h
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/IDComponent.h
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/IDPlayer.h
@@ -456,6 +455,7 @@ CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/LevelBuilder.cpp
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/LevelBuilder.h
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/LevelLimits.h
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/Manager.h
+CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/MessageId.h
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/MessageParser.h
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/MobileRenderComponent.h
 CMakeFiles/game.dir/src/game/LevelBuilder.cpp.o: ../src/game/NPCRenderComponent.h
@@ -607,7 +607,7 @@ CMakeFiles/game.dir/src/game/Manager.cpp.o: /usr/include/SDL2/SDL_video.h
 CMakeFiles/game.dir/src/game/Manager.cpp.o: /usr/include/SDL2/begin_code.h
 CMakeFiles/game.dir/src/game/Manager.cpp.o: /usr/include/SDL2/close_code.h
 
-CMakeFiles/game.dir/src/game/MessageParser.cpp.o: ../src/game/Header.h
+CMakeFiles/game.dir/src/game/MessageParser.cpp.o: ../src/game/MessageId.h
 CMakeFiles/game.dir/src/game/MessageParser.cpp.o: ../src/game/MessageParser.cpp
 CMakeFiles/game.dir/src/game/MessageParser.cpp.o: ../src/game/MessageParser.h
 
@@ -686,10 +686,10 @@ CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o: ../src/game/CameraCompone
 CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o: ../src/game/GameServer.h
-CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o: ../src/game/Header.h
 CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o: ../src/game/LevelBuilder.h
 CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o: ../src/game/LevelLimits.h
 CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o: ../src/game/Manager.h
+CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o: ../src/game/MessageId.h
 CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o: ../src/game/MessageParser.h
 CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o: ../src/game/MobileRenderComponent.h
 CMakeFiles/game.dir/src/game/NPCRenderComponent.cpp.o: ../src/game/NPCRenderComponent.cpp
@@ -766,10 +766,10 @@ CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o: ../src/game/CameraC
 CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o: ../src/game/GameServer.h
-CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o: ../src/game/Header.h
 CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o: ../src/game/LevelBuilder.h
 CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o: ../src/game/LevelLimits.h
 CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o: ../src/game/Manager.h
+CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o: ../src/game/MessageId.h
 CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o: ../src/game/MessageParser.h
 CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o: ../src/game/NonMobileRenderComponent.cpp
 CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o: ../src/game/NonMobileRenderComponent.h
@@ -827,7 +827,7 @@ CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o: /usr/include/SDL2/b
 CMakeFiles/game.dir/src/game/NonMobileRenderComponent.cpp.o: /usr/include/SDL2/close_code.h
 
 CMakeFiles/game.dir/src/game/ObjectSerializer.cpp.o: ../src/game/Action.h
-CMakeFiles/game.dir/src/game/ObjectSerializer.cpp.o: ../src/game/Header.h
+CMakeFiles/game.dir/src/game/ObjectSerializer.cpp.o: ../src/game/MessageId.h
 CMakeFiles/game.dir/src/game/ObjectSerializer.cpp.o: ../src/game/ObjectSerializer.cpp
 CMakeFiles/game.dir/src/game/ObjectSerializer.cpp.o: ../src/game/ObjectSerializer.h
 CMakeFiles/game.dir/src/game/ObjectSerializer.cpp.o: ../src/game/TextureWrapper.h
@@ -851,10 +851,10 @@ CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.o: ../src/game/CharacterRender
 CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.o: ../src/game/GameServer.h
-CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.o: ../src/game/Header.h
 CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.o: ../src/game/LevelBuilder.h
 CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.o: ../src/game/LevelLimits.h
 CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.o: ../src/game/Manager.h
+CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.o: ../src/game/MessageId.h
 CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.o: ../src/game/MessageParser.h
 CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.o: ../src/game/MobileRenderComponent.h
 CMakeFiles/game.dir/src/game/PhysicsComponent.cpp.o: ../src/game/NPCRenderComponent.h
@@ -937,10 +937,10 @@ CMakeFiles/game.dir/src/game/RenderComponent.cpp.o: ../src/game/CameraComponent.
 CMakeFiles/game.dir/src/game/RenderComponent.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/RenderComponent.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/RenderComponent.cpp.o: ../src/game/GameServer.h
-CMakeFiles/game.dir/src/game/RenderComponent.cpp.o: ../src/game/Header.h
 CMakeFiles/game.dir/src/game/RenderComponent.cpp.o: ../src/game/LevelBuilder.h
 CMakeFiles/game.dir/src/game/RenderComponent.cpp.o: ../src/game/LevelLimits.h
 CMakeFiles/game.dir/src/game/RenderComponent.cpp.o: ../src/game/Manager.h
+CMakeFiles/game.dir/src/game/RenderComponent.cpp.o: ../src/game/MessageId.h
 CMakeFiles/game.dir/src/game/RenderComponent.cpp.o: ../src/game/MessageParser.h
 CMakeFiles/game.dir/src/game/RenderComponent.cpp.o: ../src/game/ObjectSerializer.h
 CMakeFiles/game.dir/src/game/RenderComponent.cpp.o: ../src/game/PositionComponent.h
@@ -1013,10 +1013,10 @@ CMakeFiles/game.dir/src/game/StateComponent.cpp.o: ../src/game/CameraComponent.h
 CMakeFiles/game.dir/src/game/StateComponent.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/StateComponent.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/StateComponent.cpp.o: ../src/game/GameServer.h
-CMakeFiles/game.dir/src/game/StateComponent.cpp.o: ../src/game/Header.h
 CMakeFiles/game.dir/src/game/StateComponent.cpp.o: ../src/game/LevelBuilder.h
 CMakeFiles/game.dir/src/game/StateComponent.cpp.o: ../src/game/LevelLimits.h
 CMakeFiles/game.dir/src/game/StateComponent.cpp.o: ../src/game/Manager.h
+CMakeFiles/game.dir/src/game/StateComponent.cpp.o: ../src/game/MessageId.h
 CMakeFiles/game.dir/src/game/StateComponent.cpp.o: ../src/game/MessageParser.h
 CMakeFiles/game.dir/src/game/StateComponent.cpp.o: ../src/game/ObjectSerializer.h
 CMakeFiles/game.dir/src/game/StateComponent.cpp.o: ../src/game/PhysicsComponent.h
@@ -1045,10 +1045,10 @@ CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/GameClient.h
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/GameServer.h
-CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/Header.h
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/LevelBuilder.h
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/LevelLimits.h
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/Manager.h
+CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/MessageId.h
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/MessageParser.h
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/ObjectSerializer.h
 CMakeFiles/game.dir/src/game/TextureWrapper.cpp.o: ../src/game/TextureWrapper.cpp
@@ -1125,10 +1125,10 @@ CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/GameClient.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/GameServer.h
-CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/Header.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/LevelBuilder.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/LevelLimits.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/Manager.h
+CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/MessageId.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/MessageParser.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/Mode.h
 CMakeFiles/game.dir/src/game/main.cpp.o: ../src/game/ObjectSerializer.h
@@ -1157,7 +1157,7 @@ CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/LogLib/Logger.h
 CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/game/Action.h
 CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/game/GameClient.h
-CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/game/Header.h
+CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/game/MessageId.h
 CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/game/MessageParser.h
 CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/game/ObjectSerializer.h
 CMakeFiles/game.dir/src/net/Client.cpp.o: ../src/game/TextureWrapper.h
@@ -1184,10 +1184,10 @@ CMakeFiles/game.dir/src/net/Server.cpp.o: ../src/game/CameraComponent.h
 CMakeFiles/game.dir/src/net/Server.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/net/Server.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/net/Server.cpp.o: ../src/game/GameServer.h
-CMakeFiles/game.dir/src/net/Server.cpp.o: ../src/game/Header.h
 CMakeFiles/game.dir/src/net/Server.cpp.o: ../src/game/LevelBuilder.h
 CMakeFiles/game.dir/src/net/Server.cpp.o: ../src/game/LevelLimits.h
 CMakeFiles/game.dir/src/net/Server.cpp.o: ../src/game/Manager.h
+CMakeFiles/game.dir/src/net/Server.cpp.o: ../src/game/MessageId.h
 CMakeFiles/game.dir/src/net/Server.cpp.o: ../src/game/MessageParser.h
 CMakeFiles/game.dir/src/net/Server.cpp.o: ../src/game/ObjectSerializer.h
 CMakeFiles/game.dir/src/net/Server.cpp.o: ../src/game/TextureWrapper.h
@@ -1214,10 +1214,10 @@ CMakeFiles/game.dir/src/net/UserConnection.cpp.o: ../src/game/CameraComponent.h
 CMakeFiles/game.dir/src/net/UserConnection.cpp.o: ../src/game/ECS.h
 CMakeFiles/game.dir/src/net/UserConnection.cpp.o: ../src/game/Game.h
 CMakeFiles/game.dir/src/net/UserConnection.cpp.o: ../src/game/GameServer.h
-CMakeFiles/game.dir/src/net/UserConnection.cpp.o: ../src/game/Header.h
 CMakeFiles/game.dir/src/net/UserConnection.cpp.o: ../src/game/LevelBuilder.h
 CMakeFiles/game.dir/src/net/UserConnection.cpp.o: ../src/game/LevelLimits.h
 CMakeFiles/game.dir/src/net/UserConnection.cpp.o: ../src/game/Manager.h
+CMakeFiles/game.dir/src/net/UserConnection.cpp.o: ../src/game/MessageId.h
 CMakeFiles/game.dir/src/net/UserConnection.cpp.o: ../src/game/MessageParser.h
 CMakeFiles/game.dir/src/net/UserConnection.cpp.o: ../src/game/ObjectSerializer.h
 CMakeFiles/game.dir/src/net/UserConnection.cpp.o: ../src/game/TextureWrapper.h
