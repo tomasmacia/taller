@@ -1,7 +1,6 @@
 /* The port number is passed as an argument */
 #include "Server.h"
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <sys/socket.h>
@@ -9,12 +8,13 @@
 #include <arpa/inet.h>
 #include <CLIArgumentParser.h>
 #include "UserConnection.h"
-#include "../LogLib/LogManager.h"
 
 #define MAX_BYTES_BUFFER 4096
-#define MAX_CONNECTIONS 4
+#define MAX_CONNECTIONS 2
+#define MAX_PENDING_CONNECTIONS 5
 
 #include <iostream>
+
 
 //API
 //=========================================================================================
@@ -42,44 +42,34 @@ int Server::send(string msg, int someSocketFD) {
     char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
     strcpy(bufferSend, msg.c_str());
 
-    int n = write(someSocketFD, bufferSend, strlen(bufferSend));
-    if (n < 0) {
-        error("ERROR writing to socket");
-    }
-    return someSocketFD;
+    return ::send(someSocketFD, bufferSend, strlen(bufferSend),MSG_NOSIGNAL);
 }
 
 string Server::receive(int someSocketFD) {
     // TODO REVISAR. Hay que fijarse que someSocketFD este en la lista de conexiones?
 
     int n = read(someSocketFD, buffer, MAX_BYTES_BUFFER);
-    if (n < 0) {
-        error("ERROR writing to socket");
-    }
 
     char end = objectSerializer.getEndOfSerializationCharacterget();
     return messageParser.extractMeaningfulMessageFromStream(buffer,end);
+
 }
 
 //THREADS
 //=========================================================================================
 void Server::listenThread(){
-    if (listen() >= 0) {
-        while (serverOn) {
-            mu.lock();
-            if (connections.size() < maxConnections) {
-                cout << "LOCKED AT LISTENING" << endl;
-                auto newUserConnection = accept();
-                if (newUserConnection != nullptr) {
-                    newUserConnection->init();
-                    cout << "connection stablished: " << connections.size() << endl;
-                }
+    cout << maxConnections << endl;
+    while (serverOn) {
+        mu.lock();
+        if (connections.size() < maxConnections) {
+            cout<<"LISTEN THREAD: esperando conexion"<<endl;
+            auto newUserConnection = accept();
+            if (newUserConnection != nullptr) {
+                newUserConnection->init();
+                cout << "connection stablished: " << connections.size() << endl;
             }
-            cout << "LOOPING BACK TO LISTENING" << endl;
-            cout << "==================================" << endl;
-            cout << endl;
-            mu.unlock();
         }
+        mu.unlock();
     }
 }
 
@@ -100,14 +90,15 @@ void Server::init(){
 
     create();
     bind();
-    std::thread listenThread = std::thread(&Server::listenThread,this);
+    listen();
+    std::thread listenThread(&Server::listenThread,this);
     listenThread.detach();
 }
 
 int Server::create() {
     socketFD = socket(AF_INET, SOCK_STREAM, 0);
     if (socketFD < 0) {
-        error("ERROR opening socket");
+        //error("ERROR opening socket");
     }
 
     return socketFD;
@@ -123,7 +114,7 @@ int Server::bind() {
     serverAddress.sin_port = htons(stoi(strPort));
 
     if (::bind(socketFD, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) < 0) {
-        error("ERROR on binding");
+        //error("ERROR on binding");
     }
 
     return socketFD;
@@ -131,8 +122,8 @@ int Server::bind() {
 
 int Server::listen() {
 
-    if (::listen(socketFD, MAX_CONNECTIONS) < 0) { // TODO hardcoded MAX connections. Replace with config later
-        error("ERROR on listening");
+    if (::listen(socketFD, MAX_PENDING_CONNECTIONS) < 0) { // TODO hardcoded MAX connections. Replace with config later
+        //error("ERROR on listening");
     }
     return socketFD;
 }
@@ -144,7 +135,7 @@ UserConnection* Server::accept() {                  //INSTANCIA Y AGREGA CONECCI
 
     int newClientSocketFD = ::accept(socketFD, (struct sockaddr *) &clientAddress, &clientAddressSize);
     if (newClientSocketFD < 0) {
-        error("ERROR on accept");
+        //error("ERROR on accept");
     } else {
         printf("[SERVER]: Connection from %s on port %d\n", inet_ntoa(clientAddress.sin_addr), ntohs(clientAddress.sin_port));
         userConnection = new UserConnection(newClientSocketFD, nextConectionIDtoAssign, this,gameServer);
@@ -165,10 +156,18 @@ void Server::error(const char *msg) {   //Cierra el server y en el destructor se
 
 //DISCONECTION RELATED
 //=========================================================================================
+void Server::removeConnection(int id){
+    delete connections.at(id);
+    cout<<"LISTEN THREAD: borro: "<<id<<endl;
+    connections.erase(id);
+}
+
+
+
 int Server::shutdown() {
     int shutResult = ::shutdown(socketFD, SHUT_WR);
     if (shutResult < 0){
-        error("ERROR shutdown conn");
+        //error("ERROR shutdown conn");
     }
     return ::shutdown(socketFD, SHUT_WR);
 }

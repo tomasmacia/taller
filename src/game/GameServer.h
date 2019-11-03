@@ -86,7 +86,7 @@ private:
     std::map<std::string,std::string> validCredentials;
     std::map<std::string,std::string> loggedPlayers;
 
-    int amountOfConectionsNeeded = 4; //HARCODED
+    int amountOfConectionsNeeded = 1; //HARCODED
 
     Server* server = nullptr;
     LevelBuilder* levelBuilder = nullptr;

@@ -8,6 +8,7 @@
 #include <list>
 #include <string>
 #include <mutex>
+#include <thread>
 #include "../game/MessageParser.h"
 #include "../game/ObjectSerializer.h"
 #include "../game/GameClient.h"
@@ -38,7 +39,7 @@ public:
     void setToSend(std::string message);
     bool init();
 
-public:
+private:
     //THREADS
     //===============================
     void readThread();
@@ -74,7 +75,6 @@ public:
     //===============================
     std::mutex mu;
     int socketFD;
-    bool clientOn;
     int maxBytesBuffer;
     char* buffer;
 

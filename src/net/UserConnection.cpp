@@ -4,9 +4,7 @@
 
 #include "UserConnection.h"
 #include <iostream>
-#include <thread>
 #include <sys/socket.h>
-#include "../LogLib/LogManager.h"
 
 #include "../game/MessageId.h"
 
@@ -16,17 +14,18 @@
 //API
 //=========================================================================================
 void UserConnection::setToSendMessage(std::string message){
-    mu.lock();
+    //mu.lock();
     toSendMessagesQueue.push_back(message);
-    mu.unlock();
+    //mu.unlock();
 }
 
 void UserConnection::init() {
-    //std::thread read = std::thread(&UserConnection::readThread, this);
-    //read.detach();
-    std::thread send = std::thread(&UserConnection::sendThread, this);
-    send.detach();
-    //std::thread dispatch = std::thread(&UserConnection::dispatchThread, this);
+
+    std::thread read(&UserConnection::readThread,this);
+    read.detach();
+    //std::thread send(&UserConnection::sendThread,this);
+    //send.detach();
+    //std::thread dispatch(&UserConnection::dispatchThread,this);
     //dispatch.detach();
 }
 
@@ -34,39 +33,45 @@ void UserConnection::init() {
 //=========================================================================================
 void UserConnection::readThread() {
 
-    while(connectionIsOn) {
+    while(!connectionOff()) {
         mu.lock();
         incomingMessage = server->receive(socketFD);
-        incomingMessagesQueue.push_back(incomingMessage);
-        //LogManager::logDebug("SERVER-READ: " + incomingMessage);
-        cout<<"SERVER-READ: "<<incomingMessage<<endl;
-        mu.unlock();
-    }
-}
 
-void UserConnection::sendThread() {
-    while(connectionIsOn) {
-        mu.lock();
-        if (!toSendMessagesQueue.empty()){
-            toSendMessage = toSendMessagesQueue.front();
-            toSendMessagesQueue.pop_front();
-            server->send(toSendMessage,socketFD);
-            //LogManager::logDebug("SERVER-SEND: " + toSendMessage);
-            cout<<"SERVER-SEND: "<<toSendMessage<<endl;
+        if (incomingMessage != objectSerializer.getPingCode()){
 
-            if (connectionOff()) {
-                connectionLost();
-                //server->userConectionLost(userId);  AL FINAL BORRAMOS TODAS LAS CONEXIONES EN EL DESTRUCTOR DE SERVER (MAS PROLIJO)
-                mu.unlock();            //TODO, ojo aca
-                break;
-            }
+            incomingMessagesQueue.push_back(incomingMessage);
+            //cout<<"SERVER-READ: "<<incomingMessage<<endl;
         }
         mu.unlock();
     }
+    kill();
+}
+
+void UserConnection::sendThread() {
+
+    while (!connectionOff()) {
+        mu.lock();
+        /*
+        cout << "THREAD: vacio :" << (toSendMessagesQueue.size() != 0) << endl;
+        cout << "THREAD: amount to send: " << toSendMessagesQueue.size() << endl;
+        cout << "THREAD: connections: " << server->numberOfConectionsEstablished() << endl;
+        cout << "THREAD: ==================================" << endl;
+        cout << endl;*/
+
+        if (toSendMessagesQueue.size() != 0) {
+            toSendMessage = toSendMessagesQueue.front();
+            toSendMessagesQueue.pop_front();
+            server->send(toSendMessage, socketFD);
+            cout << "SERVER-SEND: " << toSendMessage << endl;
+        }
+        mu.unlock();
+    }
+    kill();
 }
 
 void UserConnection::dispatchThread() {
-    while(connectionIsOn) {
+
+    while(!connectionOff()) {
         mu.lock();
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();
@@ -80,11 +85,12 @@ void UserConnection::dispatchThread() {
             if (header == INPUT){
                 processInput(incomingMessage);
             }
-            //LogManager::logDebug("SERVER-DISPATCH: " + incomingMessage);
+
             cout<<"SERVER-DISPATCH: "<<incomingMessage<<endl;
         }
         mu.unlock();
     }
+    kill();
 }
 
 //DISPATCHING INCOMING MESSAGES
@@ -119,16 +125,18 @@ void UserConnection::processInput(std::string inputMsg) {
 //DISCONECTION RELATED
 //=========================================================================================
 bool UserConnection::connectionOff(){
-    int error_code;
-    socklen_t error_code_size = sizeof(error_code);
-    if (getsockopt(socketFD, SOL_SOCKET, SO_ERROR, &error_code, &error_code_size) < 0){
+
+    int n = server->send(objectSerializer.getPingCode(),socketFD);
+    if (n < 0){
+        cout<<"CONEXION MALA"<<endl;
         return true;
     }
+    cout<<"CONEXION BUENA"<<endl;
     return false;
 }
 
-void UserConnection::connectionLost(){
-    connectionIsOn = false;
+void UserConnection::kill(){
+    server->removeConnection(userId);
 }
 
 //CONSTRUCTOR
@@ -137,7 +145,6 @@ UserConnection::UserConnection(int socket, int userId, Server *server,GameServer
     this->socketFD = socket;
     this->userId = userId;
     this->server = server;
-    this->connectionIsOn = true;
     this->gameServer = gameServer;
 }
 

@@ -3,7 +3,7 @@
 #include "../LogLib/Logger.h"
 #include "LevelBuilder.h"
 #include "GameServer.h"
-#include <thread>
+
 #include "IDPlayer.h"
 
 #include <iostream>
@@ -14,7 +14,7 @@ void GameServer::start() {
     LogManager::logInfo("Se inicia Game");
 
     initServer();
-    //waitUntilAllPlayersAreConected();
+    waitUntilAllPlayersAreConected();
 
     initGameModel();
     gameLoop();
@@ -35,7 +35,7 @@ void GameServer::gameLoop(){
         LogManager::logInfo("se inicia game loop de este nivel");
         while (isRunning && !levelBuilder->levelFinished()) {
             update();
-            sendUpdate();
+            //sendUpdate();
         }
         LogManager::logInfo("fin de game loop de este nivel");
         LogManager::logInfo("=======================================");
@@ -49,14 +49,13 @@ void GameServer::update() {
 void GameServer::sendUpdate() {
     toClientsPackages = manager->generateRenderables();
     controller->sendUpdate(toClientsPackages,server);
-    //std::cout<<"SERVER: mando paquetes a clientes"<<'\n';
 }
 
 //API
 //=========================================================================================
 
 void GameServer::waitUntilAllPlayersAreConected(){
-    while (server->numberOfConectionsEstablished() <= amountOfConectionsNeeded){
+    while (server->numberOfConectionsEstablished() < amountOfConectionsNeeded){
         continue;
     }
 }

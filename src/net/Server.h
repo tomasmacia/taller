@@ -9,6 +9,7 @@
 #include <string>
 #include <list>
 #include <map>
+#include <thread>
 #include <mutex>
 #include "../game/GameServer.h"
 #include "../game/MessageParser.h"
@@ -28,6 +29,7 @@ public:
     int numberOfConectionsEstablished();
     void setToSendToSpecific(std::string message,int connectionID);
     void setToBroadcast(std::string message);
+    void removeConnection(int id);
 
     //ACTUAL DATA TRANSFER
     //===============================

@@ -6,8 +6,8 @@
 #define GAME_USERCONNECTION_H
 
 #include "Server.h"
-#include <thread>
 #include <mutex>
+#include <thread>
 #include "../game/MessageParser.h"
 #include "../game/ObjectSerializer.h"
 
@@ -20,6 +20,7 @@ public:
     //===============================
     void setToSendMessage(std::string message);
     void init();
+    bool connectionOff();
 
 private:
 
@@ -36,15 +37,13 @@ private:
 
     //DISCONECTION RELATED
     //===============================
-    void connectionLost();
-    bool connectionOff();
+    void kill();
 
     //ATRIBUTES
     //===============================
     std::mutex mu;
     int socketFD;
     int userId;
-    bool connectionIsOn;
 
     Server *server = nullptr;
     GameServer* gameServer = nullptr;

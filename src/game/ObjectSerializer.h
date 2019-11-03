@@ -46,6 +46,11 @@ public:
 
     //GETTERS
     //===============================
+    string getPingCode(){
+        return PING_CODE;
+    }
+
+
     char getSeparatorCharacter(){
         return SEPARATOR;
     }
@@ -59,6 +64,7 @@ public:
     }
 
 private:
+    string PING_CODE = "###";
     char END_SERIALIZATION_SIMBOL = 'x';
     char SEPARATOR = '@';
     int FAILURE_AKNOWLEDGE_SIGNAL = -1;

@@ -22,53 +22,46 @@ using namespace std;
 //API
 //=========================================================================================
 void Client::setToSend(std::string message){
-    mu.lock();
+    //mu.lock();
     toSendMessagesQueue.push_back(message);
-    mu.unlock();
+    //mu.unlock();
 }
 
 //THREADS
 //=========================================================================================
 void Client::readThread() {
-    /*
-    while(clientOn) {
+
+    while (!connectionOff()) {
         mu.lock();
         incomingMessage = receive();
-        //LogManager::logDebug("CLIENT-READ: " + incomingMessage);
-        cout<<"CLIENT-READ: "<<incomingMessage<<endl;
-        incomingMessagesQueue.push_back(incomingMessage);
-        mu.unlock();
-    }*/
 
-    incomingMessage = receive();
-    //LogManager::logDebug("CLIENT-READ: " + incomingMessage);
-    cout<<"CLIENT-READ: "<<incomingMessage<<endl;
-    incomingMessagesQueue.push_back(incomingMessage);
-}
+        if (incomingMessage != objectSerializer.getPingCode()) {
 
-void Client::sendThread() {
-    while(clientOn) {
-        mu.lock();
-        if (!toSendMessagesQueue.empty()){
-            toSendMessage = toSendMessagesQueue.front();
-            toSendMessagesQueue.pop_front();
-
-            send(toSendMessage);
-            //LogManager::logDebug("CLIENT-SEND: " + toSendMessage);
-            cout<<"CLIENT-SEND: "<<toSendMessage<<endl;
-
-            if (connectionOff()) {
-                disconnectFromServer();
-                mu.unlock();            //TODO, ojo aca
-                break;
-            }
+            incomingMessagesQueue.push_back(incomingMessage);
+            cout << "CLIENT-READ: " << incomingMessage << endl;
         }
         mu.unlock();
+        disconnectFromServer();
     }
 }
 
+void Client::sendThread() {
+
+    while(!connectionOff()) {
+        mu.lock();
+        if (!toSendMessagesQueue.empty()) {
+            toSendMessage = toSendMessagesQueue.front();
+            toSendMessagesQueue.pop_front();
+            send(toSendMessage);
+            cout << "CLIENT-SEND: " << toSendMessage << endl;
+        }
+        mu.unlock();
+    }
+    disconnectFromServer();
+}
+
 void Client::dispatchThread() {
-    while(clientOn) {
+    while(!connectionOff()) {
         mu.lock();
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();
@@ -125,27 +118,19 @@ void Client::processRenderableSerializedObject() {
 
 //ACTUAL DATA TRANSFER
 //=========================================================================================
-int Client::send(std::string msg) {
+int  Client::send(std::string msg) {
 
     int len = msg.size();
     char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
     strcpy(bufferSend, msg.c_str());
 
-    int n = write(socketFD, bufferSend, strlen(bufferSend));
-    if (n < 0) {
-        error("ERROR writing to socket");
-    }
-    return socketFD;
+    return ::send(socketFD, bufferSend, strlen(bufferSend),MSG_NOSIGNAL);
 }
 
 std::string Client::receive() {
 
     int n = read(socketFD, buffer, MAX_BYTES_BUFFER);
-    if (n < 0) {
-        error("ERROR reading from socket");
-    }
 
-    char separator = objectSerializer.getSeparatorCharacter();
     char end = objectSerializer.getEndOfSerializationCharacterget();
     return messageParser.extractMeaningfulMessageFromStream(buffer,end);
 }
@@ -154,10 +139,9 @@ std::string Client::receive() {
 //DISCONECTION RELATED
 //=========================================================================================
 bool Client::connectionOff(){
-    int error_code;
-    socklen_t error_code_size = sizeof(error_code);
-    if (getsockopt(socketFD, SOL_SOCKET, SO_ERROR, &error_code, &error_code_size) < 0){
-        clientOn = false;
+
+    int n = send(objectSerializer.getPingCode());
+    if (n < 0){
         return true;
     }
     return false;
@@ -173,14 +157,12 @@ int Client::disconnectFromServer() {
 void Client::error(const char *msg) {
     mu.lock();
     LogManager::logError(msg);
-    clientOn = false;
     mu.unlock();
 }
 
 //INIT & CONSTRUCTOR
 //=========================================================================================
 Client::Client(GameClient* gameClient) {
-    clientOn = true;
     maxBytesBuffer = MAX_BYTES_BUFFER;
     char buf[MAX_BYTES_BUFFER];
     buffer = buf;
@@ -192,18 +174,18 @@ bool Client::init(){
     create();
     connectToServer();
 
-    //std::thread read = std::thread(&Client::readThread, this);
+    //std::thread read(&Client::readThread,this);
     //read.detach();
-    //std::thread send = std::thread(&Client::sendThread, this);
-    //send.detach();
-    //std::thread dispatch = std::thread(&Client::dispatchThread, this);
+    std::thread send(&Client::sendThread,this);
+    send.detach();
+    //std::thread dispatch(&Client::dispatchThread,this);
     //dispatch.detach();
 }
 
 int Client::create() {
     socketFD = socket(AF_INET, SOCK_STREAM, 0);
     if (socketFD < 0) {
-        error("ERROR opening socket");
+        //error("ERROR opening socket");
     }
 
     return socketFD;
@@ -220,10 +202,9 @@ int Client::connectToServer() {
     serverAddress.sin_port = htons(stoi(strPort));
 
     if (connect(socketFD, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) < 0) {
-        error("ERROR connecting");
+        //error("ERROR connecting");
         socketFD = -1;
     }
-
     return socketFD;
 }
 

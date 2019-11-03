@@ -13,7 +13,7 @@ bool GameClient::hasInstance = false;
 void GameClient::start() {
     LogManager::logInfo("Se inicia GameClient");
 
-    //initClient();
+    initClient();
     /*
     initLoggerMenu();
 
@@ -39,9 +39,10 @@ void GameClient::start() {
 
 void GameClient::gameLoop() {
     isRunning = true;
+    initClient();
     while (isRunning) {
         pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
-        render();
+        //render();
     }
 }
 
@@ -50,6 +51,7 @@ void GameClient::pollAndSendInput() {
     if (serializedInput != ""){
         client->setToSend(serializedInput);
     }
+    cout<<serializedInput<<endl;
 }
 
 void GameClient::render() {
@@ -60,12 +62,9 @@ void GameClient::render() {
 }
 
 void GameClient::renderAllPackages(){
-    client = new Client(this);
-    client->init();
-    client->readThread();
-    //mu.lock();
+    mu.lock();
     std::list<ToClientPack> packages = controller->getPackages(client);
-    //mu.unlock();
+    mu.unlock();
     ToClientPack currentPackage;
     while (!packages.empty()){
         currentPackage = packages.front();
