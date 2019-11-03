@@ -128,7 +128,7 @@ bool UserConnection::connectionOff(){
 
     int n = server->send(objectSerializer.getPingCode(),socketFD);
     if (n < 0){
-        cout<<"CONEXION MALA"<<endl;
+        //cout<<"CONEXION MALA"<<endl;
         return true;
     }
     //cout<<"CONEXION BUENA"<<endl;

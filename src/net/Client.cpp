@@ -17,14 +17,15 @@
 using namespace std;
 
 #define MAX_BYTES_BUFFER 4096
+#define MSG_NOSIGNAL 0
 
 
 //API
 //=========================================================================================
 void Client::setToSend(std::string message){
-    //mu.lock();
+    sendQueueMutex.lock();
     toSendMessagesQueue.push_back(message);
-    //mu.unlock();
+    sendQueueMutex.unlock();
 }
 
 //THREADS
@@ -32,15 +33,14 @@ void Client::setToSend(std::string message){
 void Client::readThread() {
 
     while (!connectionOff()) {
-        mu.lock();
         incomingMessage = receive();
 
         if (incomingMessage != objectSerializer.getPingCode()) {
-
+            incomingQueueMutex.lock();
             incomingMessagesQueue.push_back(incomingMessage);
             cout << "CLIENT-READ: " << incomingMessage << endl;
+            incomingQueueMutex.unlock();
         }
-        mu.unlock();
         disconnectFromServer();
     }
 }
@@ -48,21 +48,21 @@ void Client::readThread() {
 void Client::sendThread() {
 
     while(!connectionOff()) {
-        mu.lock();
+        sendQueueMutex.lock();
         if (!toSendMessagesQueue.empty()) {
             toSendMessage = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
             send(toSendMessage);
             cout << "CLIENT-SEND: " << toSendMessage << endl;
         }
-        mu.unlock();
+        sendQueueMutex.unlock();
     }
     disconnectFromServer();
 }
 
 void Client::dispatchThread() {
     while(!connectionOff()) {
-        mu.lock();
+        incomingQueueMutex.lock();
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
@@ -80,7 +80,7 @@ void Client::dispatchThread() {
             //LogManager::logDebug("CLIENT-DISPATCH: " + incomingMessage);
             cout<<"CLIENT-DISPATCH: "<<incomingMessage<<endl;
         }
-        mu.unlock();
+        incomingQueueMutex.unlock();
     }
 }
 
@@ -120,19 +120,24 @@ void Client::processRenderableSerializedObject() {
 //=========================================================================================
 int  Client::send(std::string msg) {
 
-    int len = msg.size();
-    char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
-    strcpy(bufferSend, msg.c_str());
+    char buff[MAX_BYTES_BUFFER]{0};
 
-    return ::send(socketFD, bufferSend, strlen(bufferSend),MSG_NOSIGNAL);
+    strncpy(buff, msg.c_str(), sizeof(buff));
+    buff[sizeof(buff) - 1] = 0;
+
+    return ::send(socketFD, buff, strlen(buff), MSG_NOSIGNAL);
 }
 
 std::string Client::receive() {
+    char buff[MAX_BYTES_BUFFER]{0};
 
-    int n = read(socketFD, buffer, MAX_BYTES_BUFFER);
+    //strncpy(buff, msg.c_str(), sizeof(buff));
+    //buff[sizeof(buff) - 1] = 0;
+
+    int n = read(socketFD, buff, MAX_BYTES_BUFFER);
 
     char end = objectSerializer.getEndOfSerializationCharacterget();
-    return messageParser.extractMeaningfulMessageFromStream(buffer,end);
+    return messageParser.extractMeaningfulMessageFromStream(buff, end);
 }
 
 
@@ -155,17 +160,17 @@ int Client::disconnectFromServer() {
 //ERROR
 //=========================================================================================
 void Client::error(const char *msg) {
-    mu.lock();
+    //mu.lock();
     LogManager::logError(msg);
-    mu.unlock();
+    //mu.unlock();
 }
 
 //INIT & CONSTRUCTOR
 //=========================================================================================
 Client::Client(GameClient* gameClient) {
     maxBytesBuffer = MAX_BYTES_BUFFER;
-    char buf[MAX_BYTES_BUFFER];
-    buffer = buf;
+    //char buf[MAX_BYTES_BUFFER];
+    //buffer = buf;
     this->gameClient = gameClient;
 }
 
@@ -185,7 +190,7 @@ bool Client::init(){
 int Client::create() {
     socketFD = socket(AF_INET, SOCK_STREAM, 0);
     if (socketFD < 0) {
-        //error("ERROR opening socket");
+        error("ERROR opening socket");
     }
 
     return socketFD;
@@ -202,8 +207,8 @@ int Client::connectToServer() {
     serverAddress.sin_port = htons(stoi(strPort));
 
     if (connect(socketFD, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) < 0) {
-        //error("ERROR connecting");
-        socketFD = -1;
+        error("ERROR connecting");
+        //socketFD = -1;
     }
     return socketFD;
 }
