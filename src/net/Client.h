@@ -18,12 +18,27 @@ public:
     Client(GameClient* gameClient);
     ~Client();
 
+
+
+
+    list<string> getIncomingMessagesQueue(){
+        return incomingMessagesQueue;
+    }
+
+
+
+
+
+
+
+
+
     //API
     //===============================
     void setToSend(std::string message);
     bool init();
 
-private:
+public:
     //THREADS
     //===============================
     void readThread();

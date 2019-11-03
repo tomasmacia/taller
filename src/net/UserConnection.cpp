@@ -22,13 +22,12 @@ void UserConnection::setToSendMessage(std::string message){
 }
 
 void UserConnection::init() {
-    std::thread read = std::thread(&UserConnection::readThread, this);
-    read.detach();
-    /*
+    //std::thread read = std::thread(&UserConnection::readThread, this);
+    //read.detach();
     std::thread send = std::thread(&UserConnection::sendThread, this);
     send.detach();
-    std::thread dispatch = std::thread(&UserConnection::dispatchThread, this);
-    dispatch.detach();*/
+    //std::thread dispatch = std::thread(&UserConnection::dispatchThread, this);
+    //dispatch.detach();
 }
 
 //THREADS

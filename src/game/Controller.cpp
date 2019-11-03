@@ -12,17 +12,6 @@
 
 #include <iostream>
 
-/*
-bool Controller::hasNewInput(){
-
-    SDL_Event* e;
-    if (SDL_PeepEvents(e, 0, SDL_PEEKEVENT, 0, 0) >= 0){
-        return true;
-    }
-    else{
-        return  false;
-    }
-}*/
 
 
 //PROCESSING
@@ -243,3 +232,25 @@ void Controller::bind() {
 
     actions.insert(std::make_pair(SDL_SCANCODE_ESCAPE, QUIT));
 }
+
+
+
+
+
+
+
+
+
+
+
+/*
+bool Controller::hasNewInput(){
+
+    SDL_Event* e;
+    if (SDL_PeepEvents(e, 0, SDL_PEEKEVENT, 0, 0) >= 0){
+        return true;
+    }
+    else{
+        return  false;
+    }
+}*/

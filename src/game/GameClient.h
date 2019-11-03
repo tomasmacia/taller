@@ -72,6 +72,8 @@ private:
     //===============================
     static bool hasInstance;
 
+    std::mutex mu;
+
     LoggerMenu* loggerMenu = nullptr;
     Client* client = nullptr;
     std::map<std::string, TextureWrapper*> loadedTexturesMap;

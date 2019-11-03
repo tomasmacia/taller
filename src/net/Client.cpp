@@ -30,6 +30,7 @@ void Client::setToSend(std::string message){
 //THREADS
 //=========================================================================================
 void Client::readThread() {
+    /*
     while(clientOn) {
         mu.lock();
         incomingMessage = receive();
@@ -37,7 +38,12 @@ void Client::readThread() {
         cout<<"CLIENT-READ: "<<incomingMessage<<endl;
         incomingMessagesQueue.push_back(incomingMessage);
         mu.unlock();
-    }
+    }*/
+
+    incomingMessage = receive();
+    //LogManager::logDebug("CLIENT-READ: " + incomingMessage);
+    cout<<"CLIENT-READ: "<<incomingMessage<<endl;
+    incomingMessagesQueue.push_back(incomingMessage);
 }
 
 void Client::sendThread() {
@@ -47,14 +53,6 @@ void Client::sendThread() {
             toSendMessage = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
 
-            /*
-            string s;
-            for (auto c: toSendMessage){
-                s = c;
-                cout<<s<<endl;
-                send(s);
-            }
-             */
             send(toSendMessage);
             //LogManager::logDebug("CLIENT-SEND: " + toSendMessage);
             cout<<"CLIENT-SEND: "<<toSendMessage<<endl;
@@ -194,15 +192,12 @@ bool Client::init(){
     create();
     connectToServer();
 
-    /*
-    std::thread read = std::thread(&Client::readThread, this);
-    read.detach();*/
-
-    std::thread send = std::thread(&Client::sendThread, this);
-    send.detach();
-    /*
-    std::thread dispatch = std::thread(&Client::dispatchThread, this);
-    dispatch.detach();*/
+    //std::thread read = std::thread(&Client::readThread, this);
+    //read.detach();
+    //std::thread send = std::thread(&Client::sendThread, this);
+    //send.detach();
+    //std::thread dispatch = std::thread(&Client::dispatchThread, this);
+    //dispatch.detach();
 }
 
 int Client::create() {

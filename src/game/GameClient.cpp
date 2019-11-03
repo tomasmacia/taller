@@ -13,7 +13,7 @@ bool GameClient::hasInstance = false;
 void GameClient::start() {
     LogManager::logInfo("Se inicia GameClient");
 
-    initClient();
+    //initClient();
     /*
     initLoggerMenu();
 
@@ -46,15 +46,8 @@ void GameClient::gameLoop() {
 }
 
 void GameClient::pollAndSendInput() {
-    /*if(controller->hasNewInput()){
-        std::string serializedInput = controller->pollAndProcessInput();
-        cout<<"CLIENT-INPUT: "<<serializedInput<<endl;
-        client->setToSend(serializedInput);
-    }*/
     std::string serializedInput = controller->pollAndProcessInput();
-
     if (serializedInput != ""){
-        //cout<<"CLIENT-INPUT: "<<serializedInput<<endl;
         client->setToSend(serializedInput);
     }
 }
@@ -64,13 +57,15 @@ void GameClient::render() {
     SDL_RenderClear(renderer);
     renderAllPackages();
     SDL_RenderPresent(renderer);
-
-    //cout<<"CLIENT: renderizo todo lo que me llego"<<endl;
 }
 
 void GameClient::renderAllPackages(){
-
-    std::list<ToClientPack> packages = controller->getPackages();
+    client = new Client(this);
+    client->init();
+    client->readThread();
+    //mu.lock();
+    std::list<ToClientPack> packages = controller->getPackages(client);
+    //mu.unlock();
     ToClientPack currentPackage;
     while (!packages.empty()){
         currentPackage = packages.front();
