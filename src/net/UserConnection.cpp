@@ -34,6 +34,7 @@ void UserConnection::init() {
 //THREADS
 //=========================================================================================
 void UserConnection::readThread() {
+
     while(connectionIsOn) {
         mu.lock();
         incomingMessage = server->receive(socketFD);

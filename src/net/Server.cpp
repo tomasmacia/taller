@@ -38,11 +38,11 @@ void Server::setToBroadcast(string message) {
 int Server::send(string msg, int someSocketFD) {
     // TODO REVISAR. Hay que fijarse que someSOcketFD este en la lista de conexiones?
 
-    int len = msg.size() + 1;
+    int len = msg.size();
     char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
     strcpy(bufferSend, msg.c_str());
 
-    int n = write(someSocketFD, bufferSend, strlen(buffer));
+    int n = write(someSocketFD, bufferSend, strlen(bufferSend));
     if (n < 0) {
         error("ERROR writing to socket");
     }
@@ -50,16 +50,15 @@ int Server::send(string msg, int someSocketFD) {
 }
 
 string Server::receive(int someSocketFD) {
-    // TODO REVISAR. Hay que fijarse que someSOcketFD este en la lista de conexiones?
+    // TODO REVISAR. Hay que fijarse que someSocketFD este en la lista de conexiones?
 
     int n = read(someSocketFD, buffer, MAX_BYTES_BUFFER);
     if (n < 0) {
-        error("ERROR reading from socket");
+        error("ERROR writing to socket");
     }
-    return messageParser.extractMeaningfulMessageFromStream(
-            buffer,
-            objectSerializer.getSeparatorCharacter(),
-            objectSerializer.getEndOfSerializationCharacterget());
+
+    char end = objectSerializer.getEndOfSerializationCharacterget();
+    return messageParser.extractMeaningfulMessageFromStream(buffer,end);
 }
 
 //THREADS

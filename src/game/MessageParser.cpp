@@ -25,31 +25,17 @@ MessageId MessageParser::getHeader() {
     else UNDEFINED;
 }
 
-string MessageParser::extractMeaningfulMessageFromStream(char* buffer, char separator, char endSerializationChar){
-    //cleans buffer up
+string MessageParser::extractMeaningfulMessageFromStream(char *buffer, char endSerializationChar){
 
-    std::string stringSeparator;
-    stringSeparator = separator;
+    string extractedMessage = "";
+    int i = 0;
+    while (buffer[i] != endSerializationChar){
+        extractedMessage += buffer[i];
+        i++;
+    }
+    extractedMessage += buffer[i];
 
-    std::string stringEndSerializationChar;
-    stringEndSerializationChar = endSerializationChar;
-
-    std::string stringedBuffer = buffer;
-    std::string delimiter = stringSeparator + stringEndSerializationChar;
-    std::string message = stringedBuffer.substr(0, stringedBuffer.find(delimiter));
-
-    //le quito al buffer lo que acabo de parsear
-    int messageLength = message.length();
-    /*
-    std::string restOfBuffer = stringedBuffer.substr(stringedBuffer.find(delimiter),
-                                                     stringedBuffer.length() - messageLength);
-
-    //(TODO) QUIZAS SEA COSTOSO A LA LARGA EN RECURSOS PORQUE SE HACE TODO EL TIEMPO ESTO
-    char* cleanedBuf;
-    strcpy(cleanedBuf, restOfBuffer.c_str());
-    buffer = cleanedBuf;*/
-
-    return message;
+    return extractedMessage;
 }
 
 //SPLIT
@@ -68,3 +54,64 @@ const vector<string> MessageParser::split(const string& s, const char& c)
 
     return v;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+string MessageParser::extractMeaningfulMessageFromStream(char* buffer, char separator, char endSerializationChar){
+    //cleans buffer up
+
+    std::string stringSeparator;
+    stringSeparator = separator;
+
+    std::string stringEndSerializationChar;
+    stringEndSerializationChar = endSerializationChar;
+
+    std::string stringedBuffer = buffer;
+    std::string delimiter = stringSeparator + stringEndSerializationChar;
+    std::string message = stringedBuffer.substr(0, stringedBuffer.find(delimiter));
+
+    //le quito al buffer lo que acabo de parsear
+    int messageLength = message.length();
+
+    std::string restOfBuffer = stringedBuffer.substr(stringedBuffer.find(delimiter),
+                                                     stringedBuffer.length() - messageLength);
+
+    //(TODO) QUIZAS SEA COSTOSO A LA LARGA EN RECURSOS PORQUE SE HACE TODO EL TIEMPO ESTO
+    char* cleanedBuf;
+    strcpy(cleanedBuf, restOfBuffer.c_str());
+    buffer = cleanedBuf;
+
+    return message;
+}*/

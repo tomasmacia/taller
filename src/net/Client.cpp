@@ -46,6 +46,15 @@ void Client::sendThread() {
         if (!toSendMessagesQueue.empty()){
             toSendMessage = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
+
+            /*
+            string s;
+            for (auto c: toSendMessage){
+                s = c;
+                cout<<s<<endl;
+                send(s);
+            }
+             */
             send(toSendMessage);
             //LogManager::logDebug("CLIENT-SEND: " + toSendMessage);
             cout<<"CLIENT-SEND: "<<toSendMessage<<endl;
@@ -120,11 +129,11 @@ void Client::processRenderableSerializedObject() {
 //=========================================================================================
 int Client::send(std::string msg) {
 
-    int len = msg.size() + 1;
+    int len = msg.size();
     char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
     strcpy(bufferSend, msg.c_str());
 
-    int n = write(socketFD, bufferSend, strlen(buffer));
+    int n = write(socketFD, bufferSend, strlen(bufferSend));
     if (n < 0) {
         error("ERROR writing to socket");
     }
@@ -132,14 +141,17 @@ int Client::send(std::string msg) {
 }
 
 std::string Client::receive() {
+
     int n = read(socketFD, buffer, MAX_BYTES_BUFFER);
     if (n < 0) {
         error("ERROR reading from socket");
     }
-    return messageParser.extractMeaningfulMessageFromStream(buffer,
-                                                objectSerializer.getSeparatorCharacter(),
-                                                objectSerializer.getEndOfSerializationCharacterget());
+
+    char separator = objectSerializer.getSeparatorCharacter();
+    char end = objectSerializer.getEndOfSerializationCharacterget();
+    return messageParser.extractMeaningfulMessageFromStream(buffer,end);
 }
+
 
 //DISCONECTION RELATED
 //=========================================================================================

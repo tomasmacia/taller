@@ -24,6 +24,7 @@ void GameClient::start() {
 
         gameLoop();
     }*/
+
     initInputSystem();
     initRenderingSystem();
 
@@ -53,7 +54,7 @@ void GameClient::pollAndSendInput() {
     std::string serializedInput = controller->pollAndProcessInput();
 
     if (serializedInput != ""){
-        cout<<"CLIENT-INPUT: "<<serializedInput<<endl;
+        //cout<<"CLIENT-INPUT: "<<serializedInput<<endl;
         client->setToSend(serializedInput);
     }
 }

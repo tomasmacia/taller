@@ -22,22 +22,6 @@ string ObjectSerializer::getPassFrom(vector<string> currentParsedMessage){
     return currentParsedMessage.at(2);
 }
 
-string ObjectSerializer::getSuccesfullLoginMessage(int id){
-    return to_string(SUCCESS) + SEPARATOR + to_string(id) + SEPARATOR + END_SERIALIZATION_SIMBOL + SEPARATOR;
-}
-
-string ObjectSerializer::getInvalidCredentialMessage(){
-    return to_string(INVALID_CREDENTIAL) + SEPARATOR + to_string(FAILURE_AKNOWLEDGE_SIGNAL) + SEPARATOR + to_string(END_SERIALIZATION_SIMBOL) + SEPARATOR;
-}
-
-string ObjectSerializer::getServerFullMessage(){
-    return to_string(SERVER_FULL) + SEPARATOR + to_string(FAILURE_AKNOWLEDGE_SIGNAL) + SEPARATOR + to_string(END_SERIALIZATION_SIMBOL) + SEPARATOR;
-}
-
-string ObjectSerializer::getAlreadyLoggedInMessage(){
-    return to_string(ALREADY_LOGGED_IN_CREDENTIAL) + SEPARATOR + to_string(FAILURE_AKNOWLEDGE_SIGNAL) + SEPARATOR + to_string(END_SERIALIZATION_SIMBOL) + SEPARATOR;
-}
-
 //VALIDATE
 //=========================================================================================
 bool ObjectSerializer::validLoginFromServerMessage(vector<string> currentParsedMessage){
@@ -98,6 +82,23 @@ tuple<Action,int> ObjectSerializer::reconstructInput(vector<string> currentParse
 
 //SERIALIZE
 //=========================================================================================
+
+string ObjectSerializer::getSuccesfullLoginMessage(int id){
+    return to_string(SUCCESS) + SEPARATOR + to_string(id) + SEPARATOR + END_SERIALIZATION_SIMBOL;
+}
+
+string ObjectSerializer::getInvalidCredentialMessage(){
+    return to_string(INVALID_CREDENTIAL) + SEPARATOR + to_string(FAILURE_AKNOWLEDGE_SIGNAL) + SEPARATOR + to_string(END_SERIALIZATION_SIMBOL);
+}
+
+string ObjectSerializer::getServerFullMessage(){
+    return to_string(SERVER_FULL) + SEPARATOR + to_string(FAILURE_AKNOWLEDGE_SIGNAL) + SEPARATOR + to_string(END_SERIALIZATION_SIMBOL);
+}
+
+string ObjectSerializer::getAlreadyLoggedInMessage(){
+    return to_string(ALREADY_LOGGED_IN_CREDENTIAL) + SEPARATOR + to_string(FAILURE_AKNOWLEDGE_SIGNAL) + SEPARATOR + to_string(END_SERIALIZATION_SIMBOL);
+}
+
 string ObjectSerializer::serializeObject(ToClientPack package){
 
     std::string serializedObject;
@@ -122,7 +123,7 @@ string ObjectSerializer::serializeObject(ToClientPack package){
     serializedObject = to_string(RENDERABLE) + SEPARATOR + path + SEPARATOR +
                        srcW + SEPARATOR + srcH + SEPARATOR + srcX + SEPARATOR + srcY + SEPARATOR +
                        dstW + SEPARATOR + dstH + SEPARATOR + dstX + SEPARATOR + dstY + SEPARATOR +
-                       flipedStr + SEPARATOR + END_SERIALIZATION_SIMBOL + SEPARATOR;
+                       flipedStr + SEPARATOR + END_SERIALIZATION_SIMBOL;
     return serializedObject;
 }
 
@@ -141,5 +142,5 @@ string ObjectSerializer::serializeInput(Action action, int id){
     if (action == JUMP_KICK){serializedAction = "JUMP_KICK";}
     if (action == CROUCH){serializedAction = "CROUCH";}
 
-    return to_string(INPUT) + SEPARATOR + serializedAction + SEPARATOR + to_string(id) + SEPARATOR + END_SERIALIZATION_SIMBOL + SEPARATOR;
+    return to_string(INPUT) + SEPARATOR + serializedAction + SEPARATOR + to_string(id) + SEPARATOR + END_SERIALIZATION_SIMBOL;
 }
