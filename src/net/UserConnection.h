@@ -22,6 +22,12 @@ public:
     void init();
     bool connectionOff();
 
+    //GETTERS
+    //===============================
+    int getId(){
+        return  userId;
+    }
+
 private:
 
     //THREADS

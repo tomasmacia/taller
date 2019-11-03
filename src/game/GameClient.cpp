@@ -39,7 +39,6 @@ void GameClient::start() {
 
 void GameClient::gameLoop() {
     isRunning = true;
-    initClient();
     while (isRunning) {
         pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
         //render();
@@ -51,7 +50,7 @@ void GameClient::pollAndSendInput() {
     if (serializedInput != ""){
         client->setToSend(serializedInput);
     }
-    cout<<serializedInput<<endl;
+    //cout<<serializedInput<<endl;
 }
 
 void GameClient::render() {

@@ -15,7 +15,6 @@
 
 #include <iostream>
 
-
 //API
 //=========================================================================================
 
@@ -52,23 +51,25 @@ string Server::receive(int someSocketFD) {
 
     char end = objectSerializer.getEndOfSerializationCharacterget();
     return messageParser.extractMeaningfulMessageFromStream(buffer,end);
-
 }
 
 //THREADS
 //=========================================================================================
 void Server::listenThread(){
+
     cout << maxConnections << endl;
     while (serverOn) {
         mu.lock();
-        if (connections.size() < maxConnections) {
-            cout<<"LISTEN THREAD: esperando conexion"<<endl;
+        if (connections.size() < maxConnections && listen() >= 0) {
+            cout << "LISTEN THREAD: esperando conexion" << endl;
             auto newUserConnection = accept();
             if (newUserConnection != nullptr) {
                 newUserConnection->init();
-                cout << "connection stablished: " << connections.size() << endl;
+                cout << "LISTEN THREAD: connection stablished: " << newUserConnection->getId()<< endl;
+                cout << "LISTEN THREAD: tengo "<< connections.size()<<" conecciones"<<endl;
             }
         }
+        checkAndRemoveLostConnections();
         mu.unlock();
     }
 }
@@ -77,6 +78,7 @@ void Server::listenThread(){
 //INIT & CONSTRUCTOR
 //=========================================================================================
 Server::Server(GameServer* gameServer) {
+
     this->serverOn = true;
     this->maxConnections = MAX_CONNECTIONS; // TODO sacarlo de la config
     maxBytesBuffer = MAX_BYTES_BUFFER;
@@ -90,21 +92,18 @@ void Server::init(){
 
     create();
     bind();
-    listen();
     std::thread listenThread(&Server::listenThread,this);
     listenThread.detach();
 }
 
 int Server::create() {
-    socketFD = socket(AF_INET, SOCK_STREAM, 0);
-    if (socketFD < 0) {
-        //error("ERROR opening socket");
-    }
 
+    socketFD = socket(AF_INET, SOCK_STREAM, 0);
     return socketFD;
 }
 
 int Server::bind() {
+
     struct sockaddr_in serverAddress{};
     string strPort = CLIArgumentParser::getInstance().getServerPort();
 
@@ -122,13 +121,12 @@ int Server::bind() {
 
 int Server::listen() {
 
-    if (::listen(socketFD, MAX_PENDING_CONNECTIONS) < 0) { // TODO hardcoded MAX connections. Replace with config later
-        //error("ERROR on listening");
-    }
+    ::listen(socketFD, MAX_PENDING_CONNECTIONS); // TODO hardcoded MAX connections. Replace with config later
     return socketFD;
 }
 
 UserConnection* Server::accept() {                  //INSTANCIA Y AGREGA CONECCION AL MAP
+
     struct sockaddr_in clientAddress{};
     socklen_t clientAddressSize = sizeof(clientAddress);
     UserConnection* userConnection = nullptr;
@@ -156,19 +154,28 @@ void Server::error(const char *msg) {   //Cierra el server y en el destructor se
 
 //DISCONECTION RELATED
 //=========================================================================================
+void Server::checkAndRemoveLostConnections(){
+
+    for (auto c: connections){
+        if (c.second->connectionOff()){
+            if(c.second != nullptr){
+                delete c.second;
+                connections.erase(c.first);
+            }
+            cout<<"LISTEN THREAD: borre la connection:"<<c.first<<endl;
+            cout << "LISTEN THREAD: tengo "<< connections.size()<<" conecciones"<<endl;
+        }
+    }
+}
+
 void Server::removeConnection(int id){
     delete connections.at(id);
-    cout<<"LISTEN THREAD: borro: "<<id<<endl;
+    cout<<"LISTEN THREAD: borre la connection: "<<id<<endl;
     connections.erase(id);
 }
 
-
-
 int Server::shutdown() {
     int shutResult = ::shutdown(socketFD, SHUT_WR);
-    if (shutResult < 0){
-        //error("ERROR shutdown conn");
-    }
     return ::shutdown(socketFD, SHUT_WR);
 }
 

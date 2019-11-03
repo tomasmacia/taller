@@ -54,6 +54,7 @@ private:
 
     //DISCONECTION RELATED
     //===============================
+    void checkAndRemoveLostConnections();
     int shutdown();
     int close();
 
