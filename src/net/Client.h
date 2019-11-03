@@ -73,10 +73,11 @@ private:
 
     //ATRIBUTES
     //===============================
-    std::mutex mu;
+    std::mutex sendQueueMutex;
+    std::mutex incomingQueueMutex;
     int socketFD;
     int maxBytesBuffer;
-    char* buffer;
+    //char* buffer;
 
     MessageParser messageParser;
     ObjectSerializer objectSerializer;

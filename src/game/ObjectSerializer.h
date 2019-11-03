@@ -47,7 +47,7 @@ public:
     //GETTERS
     //===============================
     string getPingCode(){
-        return PING_CODE;
+        return PING_CODE + END_SERIALIZATION_SIMBOL;
     }
 
 

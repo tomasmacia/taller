@@ -12,6 +12,7 @@
 #define MAX_BYTES_BUFFER 4096
 #define MAX_CONNECTIONS 2
 #define MAX_PENDING_CONNECTIONS 5
+#define MSG_NOSIGNAL 0
 
 #include <iostream>
 
@@ -38,20 +39,26 @@ void Server::setToBroadcast(string message) {
 int Server::send(string msg, int someSocketFD) {
     // TODO REVISAR. Hay que fijarse que someSOcketFD este en la lista de conexiones?
 
-    int len = msg.size();
-    char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
-    strcpy(bufferSend, msg.c_str());
+    char buff[MAX_BYTES_BUFFER]{0};
 
-    return ::send(someSocketFD, bufferSend, strlen(bufferSend),MSG_NOSIGNAL);
+    strncpy(buff, msg.c_str(), sizeof(buff));
+    buff[sizeof(buff) - 1] = 0;
+
+//    int len = msg.size();
+//    char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
+//    strcpy(bufferSend, msg.c_str());
+
+    return ::send(someSocketFD, buff, strlen(buff), MSG_NOSIGNAL);
 }
 
 string Server::receive(int someSocketFD) {
     // TODO REVISAR. Hay que fijarse que someSocketFD este en la lista de conexiones?
+    char buff[MAX_BYTES_BUFFER]{0};
 
-    int n = read(someSocketFD, buffer, MAX_BYTES_BUFFER);
+    int n = read(someSocketFD, buff, MAX_BYTES_BUFFER);// ###x###x###x
 
     char end = objectSerializer.getEndOfSerializationCharacterget();
-    return messageParser.extractMeaningfulMessageFromStream(buffer,end);
+    return messageParser.extractMeaningfulMessageFromStream(buff, end);
 
 }
 
@@ -61,7 +68,7 @@ void Server::listenThread(){
     cout << maxConnections << endl;
     while (serverOn) {
         mu.lock();
-        if (connections.size() < maxConnections) {
+        if (connections.size() < maxConnections && listen() > 0) {
             cout<<"LISTEN THREAD: esperando conexion"<<endl;
             auto newUserConnection = accept();
             if (newUserConnection != nullptr) {
@@ -90,7 +97,7 @@ void Server::init(){
 
     create();
     bind();
-    listen();
+
     std::thread listenThread(&Server::listenThread,this);
     listenThread.detach();
 }
@@ -148,10 +155,10 @@ UserConnection* Server::accept() {                  //INSTANCIA Y AGREGA CONECCI
 //ERROR
 //=========================================================================================
 void Server::error(const char *msg) {   //Cierra el server y en el destructor se cierra las conexiones
-    mu.lock();
+    //mu.lock();
     LogManager::logError(msg);
     serverOn = false;
-    mu.unlock();
+    //mu.unlock();
 }
 
 //DISCONECTION RELATED
@@ -179,8 +186,7 @@ int Server::close() {
 //DESTROY
 //=========================================================================================
 Server::~Server() {
-    for(std::map<int, UserConnection*>::iterator itr = connections.begin(); itr != connections.end(); itr++)
-    {
+    for(std::map<int, UserConnection*>::iterator itr = connections.begin(); itr != connections.end(); itr++) {
         delete itr->second;
     }
     shutdown();
