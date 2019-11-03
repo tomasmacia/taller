@@ -59,7 +59,7 @@ private:
     //===============================
     std::mutex mu;
     bool serverOn;
-    char* buffer;
+    //char* buffer;
 
     int maxBytesBuffer;
     int maxConnections;

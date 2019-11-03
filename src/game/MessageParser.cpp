@@ -25,13 +25,16 @@ string MessageParser::extractMeaningfulMessageFromStream(char* buffer, char sepa
     //cleans buffer up
 
     std::string stringedBuffer = buffer;
-    std::string delimiter = to_string(separator) + to_string(endSerializationChar);
+
+    if (stringedBuffer.empty()) {
+        return stringedBuffer;
+    }
+    std::string delimiter = std::string(1, separator) + std::string(1, endSerializationChar);
     std::string message = stringedBuffer.substr(0, stringedBuffer.find(delimiter));
 
     //le quito al buffer lo que acabo de parsear
     int messageLength = message.length();
-    std::string restOfBuffer = stringedBuffer.substr(stringedBuffer.find(delimiter),
-                                                     stringedBuffer.length() - messageLength);
+    std::string restOfBuffer = stringedBuffer.substr(stringedBuffer.find(delimiter),stringedBuffer.length() - messageLength);
 
     //(TODO) QUIZAS SEA COSTOSO A LA LARGA EN RECURSOS PORQUE SE HACE TODO EL TIEMPO ESTO
     char* cleanedBuf;

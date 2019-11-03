@@ -23,15 +23,18 @@ int Server::numberOfConectionsEstablished(){
     return connections.size();
 }
 
-void Server::setToSendToSpecific(string message,int connectionID){
+void Server::setToSendToSpecific(string message, int connectionID){
+    //mu.lock();
     connections.at(connectionID)->setToSendMessage(message);
+    //mu.unlock();
 }
 
 void Server::setToBroadcast(string message) {
-
+    //mu.lock();
     for (std::pair<int, UserConnection*> element : connections) {
         element.second->setToSendMessage(message);
     }
+    //mu.unlock();
 }
 
 //ACTUAL DATA TRANSFER
@@ -39,11 +42,16 @@ void Server::setToBroadcast(string message) {
 int Server::send(string msg, int someSocketFD) {
     // TODO REVISAR. Hay que fijarse que someSOcketFD este en la lista de conexiones?
 
-    int len = msg.size() + 1;
-    char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
-    strcpy(bufferSend, msg.c_str());
+    char buff[MAX_BYTES_BUFFER]{0};
 
-    int n = write(someSocketFD, bufferSend, strlen(buffer));
+    strncpy(buff, msg.c_str(), sizeof(buff));
+    buff[sizeof(buff) - 1] = 0;
+
+    //int len = msg.length() + 1;
+    //char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
+    //strcpy(bufferSend, msg.c_str());
+
+    int n = write(someSocketFD, buff, strlen(buff));
     if (n < 0) {
         error("ERROR writing to socket");
     }
@@ -52,13 +60,14 @@ int Server::send(string msg, int someSocketFD) {
 
 string Server::receive(int someSocketFD) {
     // TODO REVISAR. Hay que fijarse que someSOcketFD este en la lista de conexiones?
+    char buff[MAX_BYTES_BUFFER]{0};
 
-    int n = read(someSocketFD, buffer, MAX_BYTES_BUFFER);
+    int n = read(someSocketFD, buff, MAX_BYTES_BUFFER);
     if (n < 0) {
         error("ERROR reading from socket");
     }
     return messageParser.extractMeaningfulMessageFromStream(
-            buffer,
+            buff,
             objectSerializer.getSeparatorCharacter(),
             objectSerializer.getEndOfSerializationCharacterget());
 }
@@ -67,21 +76,24 @@ string Server::receive(int someSocketFD) {
 //=========================================================================================
 void Server::listenThread(){
     while (serverOn){
-        mu.lock();
+        //mu.lock();
         cout<<"LOCKED AT LISTENING"<<endl;
-        if (connections.size() < maxConnections && listen() >= 0){
-            auto newUserConnection = accept();
-            if (newUserConnection != nullptr){
-                //std::thread connection = std::thread(&UserConnection::init, newUserConnection);
-                //connection.detach();
-                newUserConnection->init();
-                cout<<"connection stablished: "<<connections.size()<<endl;
+        if (connections.size() < maxConnections){
+            cout << "CONNECTION SIZE " << connections.size() << endl;
+            if (listen() >= 0) {
+                auto newUserConnection = accept();
+                if (newUserConnection != nullptr) {
+                    //std::thread connection = std::thread(&UserConnection::init, newUserConnection);
+                    //connection.detach();
+                    newUserConnection->init();
+                    cout << "connection established: " << connections.size() << endl;
+                }
             }
         }
         cout<<"LOOPING BACK TO LISTENING"<<endl;
         cout<<"=================================="<<endl;
         cout<<endl;
-        mu.unlock();
+        //mu.unlock();
     }
 }
 
@@ -92,8 +104,8 @@ Server::Server(GameServer* gameServer) {
     this->maxConnections = MAX_CONNECTIONS; // TODO sacarlo de la config
     maxBytesBuffer = MAX_BYTES_BUFFER;
     maxConnections = MAX_CONNECTIONS;
-    char buf[MAX_BYTES_BUFFER];
-    buffer = buf;
+//    char buf[MAX_BYTES_BUFFER];
+//    buffer = buf;
     this->gameServer = gameServer;
 }
 
@@ -132,10 +144,12 @@ int Server::bind() {
 
 int Server::listen() {
 
-    if (::listen(socketFD, MAX_CONNECTIONS) < 0) { // TODO hardcoded MAX connections. Replace with config later
+    int listenResult = ::listen(socketFD, MAX_CONNECTIONS);
+
+    if (listenResult < 0) { // TODO hardcoded MAX connections. Replace with config later
         error("ERROR on listening");
     }
-    return socketFD;
+    return listenResult;
 }
 
 UserConnection* Server::accept() {                  //INSTANCIA Y AGREGA CONECCION AL MAP
@@ -149,7 +163,7 @@ UserConnection* Server::accept() {                  //INSTANCIA Y AGREGA CONECCI
     } else {
         printf("[SERVER]: Connection from %s on port %d\n", inet_ntoa(clientAddress.sin_addr), ntohs(clientAddress.sin_port));
         userConnection = new UserConnection(newClientSocketFD, nextConectionIDtoAssign, this,gameServer);
-        this->connections.insert({ nextConectionIDtoAssign, userConnection });
+        this->connections.emplace(nextConectionIDtoAssign, userConnection);
         nextConectionIDtoAssign++; //esto asegura que la ID sea unica
     }
     return userConnection;
@@ -158,10 +172,10 @@ UserConnection* Server::accept() {                  //INSTANCIA Y AGREGA CONECCI
 //ERROR
 //=========================================================================================
 void Server::error(const char *msg) {   //Cierra el server y en el destructor se cierra las conexiones
-    mu.lock();
-    LogManager::logError(msg);
+    //mu.lock();
+    //LogManager::logError(msg);
     serverOn = false;
-    mu.unlock();
+    //mu.unlock();
 }
 
 //DISCONECTION RELATED

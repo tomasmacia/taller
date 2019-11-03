@@ -2,6 +2,7 @@
 #include <vector>
 #include <unistd.h>
 #include <string.h>
+#include <iostream>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h> // for inet_pton -> string to in_addr
@@ -20,43 +21,50 @@ using namespace std;
 //API
 //=========================================================================================
 void Client::setToSend(std::string message){
-    mu.lock();
+    mutexSend.lock();
     toSendMessagesQueue.push_back(message);
-    mu.unlock();
+    mutexSend.unlock();
 }
 
 //THREADS
 //=========================================================================================
 void Client::readThread() {
     while(clientOn) {
-        mu.lock();
+        mutexReceive.lock();
+        cout << "read thread" << endl;
         incomingMessage = receive();
         incomingMessagesQueue.push_back(incomingMessage);
-        mu.unlock();
+        cout << "read thread end" << endl;
+        mutexReceive.unlock();
     }
 }
 
 void Client::sendThread() {
     while(clientOn) {
-        mu.lock();
+        mutexSend.lock();
+        cout << "send thread " << endl;
         if (!toSendMessagesQueue.empty()){
+            cout << "send thread entro if " << endl;
             toSendMessage = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
             send(toSendMessage);
 
             if (connectionOff()) {
                 disconnectFromServer();
-                mu.unlock();            //TODO, ojo aca
+                cout << "send thread off" << endl;
+                mutexSend.unlock();            //TODO, ojo aca
                 break;
             }
         }
-        mu.unlock();
+        cout << "send thread end" << endl;
+        mutexSend.unlock();
     }
 }
 
 void Client::dispatchThread() {
     while(clientOn) {
-        mu.lock();
+        mutexReceive.lock();
+        cout << "dispatch thread " << endl;
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
@@ -72,7 +80,8 @@ void Client::dispatchThread() {
                 processRenderableSerializedObject();
             }
         }
-        mu.unlock();
+        cout << "dispatch thread end " << endl;
+        mutexReceive.unlock();
     }
 }
 
@@ -112,11 +121,16 @@ void Client::processRenderableSerializedObject() {
 //=========================================================================================
 int Client::send(std::string msg) {
 
-    int len = msg.size() + 1;
-    char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
-    strcpy(bufferSend, msg.c_str());
+    char buff[MAX_BYTES_BUFFER]{0};
 
-    int n = write(socketFD, bufferSend, strlen(buffer));
+    strncpy(buff, msg.c_str(), sizeof(buff));
+    buff[sizeof(buff) - 1] = 0;
+
+//    int len = msg.size() + 1;
+//    char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
+//    strcpy(bufferSend, msg.c_str());
+
+    int n = write(socketFD, buff, strlen(buff));
     if (n < 0) {
         error("ERROR writing to socket");
     }
@@ -124,11 +138,13 @@ int Client::send(std::string msg) {
 }
 
 std::string Client::receive() {
-    int n = read(socketFD, buffer, MAX_BYTES_BUFFER);
+    char buff[MAX_BYTES_BUFFER]{0};
+
+    int n = read(socketFD, buff, MAX_BYTES_BUFFER);
     if (n < 0) {
         error("ERROR reading from socket");
     }
-    return messageParser.extractMeaningfulMessageFromStream(buffer,
+    return messageParser.extractMeaningfulMessageFromStream(buff,
                                                 objectSerializer.getSeparatorCharacter(),
                                                 objectSerializer.getEndOfSerializationCharacterget());
 }
@@ -153,10 +169,10 @@ int Client::disconnectFromServer() {
 //ERROR
 //=========================================================================================
 void Client::error(const char *msg) {
-    mu.lock();
-    LogManager::logError(msg);
+    //mu.lock();
+    //LogManager::logError(msg);
     clientOn = false;
-    mu.unlock();
+    //mu.unlock();
 }
 
 //INIT & CONSTRUCTOR
@@ -164,8 +180,8 @@ void Client::error(const char *msg) {
 Client::Client(GameClient* gameClient) {
     clientOn = true;
     maxBytesBuffer = MAX_BYTES_BUFFER;
-    char buf[MAX_BYTES_BUFFER];
-    buffer = buf;
+    //char buf[MAX_BYTES_BUFFER];
+    //buffer = buf;
     this->gameClient = gameClient;
 }
 
@@ -177,9 +193,9 @@ bool Client::init(){
     std::thread read = std::thread(&Client::readThread, this);
     std::thread send = std::thread(&Client::sendThread, this);
     std::thread dispatch = std::thread(&Client::dispatchThread, this);
-    dispatch.detach();
     read.detach();
-    send.detach();
+    send.join();
+    dispatch.join();
 }
 
 int Client::create() {

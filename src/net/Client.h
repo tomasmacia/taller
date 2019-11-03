@@ -57,11 +57,12 @@ private:
 
     //ATRIBUTES
     //===============================
-    std::mutex mu;
+    std::mutex mutexSend;
+    std::mutex mutexReceive;
     int socketFD;
     bool clientOn;
     int maxBytesBuffer;
-    char* buffer;
+    //char* buffer;
 
     MessageParser messageParser;
     ObjectSerializer objectSerializer;

@@ -41,7 +41,8 @@ private:
 
     //ATRIBUTES
     //===============================
-    std::mutex mu;
+    std::mutex mutexSend;
+    std::mutex mutexReceive;
     int socketFD;
     int userId;
     bool connectionIsOn;
