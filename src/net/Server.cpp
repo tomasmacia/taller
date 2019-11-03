@@ -59,7 +59,7 @@ string Server::receive(int someSocketFD) {
     char end = objectSerializer.getEndOfSerializationCharacterget();
 
     return messageParser.extractMeaningfulMessageFromStream(buff, end);
-    
+
 }
 
 //THREADS

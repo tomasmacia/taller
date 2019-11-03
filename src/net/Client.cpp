@@ -32,7 +32,7 @@ void Client::setToSend(std::string message){
 //=========================================================================================
 void Client::readThread() {
 
-    while (!connectionOff()) {
+    while (true) {
         incomingMessage = receive();
 
         if (incomingMessage != objectSerializer.getPingCode()) {
@@ -47,7 +47,7 @@ void Client::readThread() {
 
 void Client::sendThread() {
 
-    while(!connectionOff()) {
+    while(true) {
         sendQueueMutex.lock();
         if (!toSendMessagesQueue.empty()) {
             toSendMessage = toSendMessagesQueue.front();

@@ -50,7 +50,6 @@ void GameClient::pollAndSendInput() {
     if (serializedInput != ""){
         client->setToSend(serializedInput);
     }
-    //cout<<serializedInput<<endl;
 }
 
 void GameClient::render() {
