@@ -44,30 +44,6 @@ public:
         return currentInput.push_back(input);
     }
 
-
-
-
-
-    list<ToClientPack> getPackages(Client* client){
-        list<string> messages = client->getIncomingMessagesQueue();
-        MessageParser parser;
-        for (auto m: messages){
-            parser.parse(m,objectSerializer.getSeparatorCharacter());
-            currentPackagesToRender.push_back(objectSerializer.reconstructRenderable(parser.getCurrent()));
-        }
-        return currentPackagesToRender;
-    }
-
-
-
-
-
-
-
-
-
-
-
     //GETTERS
     //===============================
     std::list<std::tuple<Action,int>> getInput() {

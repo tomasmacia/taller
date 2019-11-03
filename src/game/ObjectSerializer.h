@@ -46,6 +46,10 @@ public:
 
     //GETTERS
     //===============================
+    string getFailure(){
+        return FAILURE;
+    }
+
     string getPingCode(){
         return PING_CODE + END_SERIALIZATION_SIMBOL;
     }
@@ -68,6 +72,7 @@ private:
     char END_SERIALIZATION_SIMBOL = 'x';
     char SEPARATOR = '@';
     int FAILURE_AKNOWLEDGE_SIGNAL = -1;
+    string FAILURE = "-1";
 
 };
 

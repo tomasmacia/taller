@@ -30,12 +30,14 @@ void GameServer::gameLoop(){
 
     while (isRunning && levelBuilder->hasNextLevel()) {
         levelBuilder->loadNext();
-
+        string s;
         LogManager::logInfo("=======================================");
         LogManager::logInfo("se inicia game loop de este nivel");
         while (isRunning && !levelBuilder->levelFinished()) {
             update();
-            //sendUpdate();
+            sendUpdate();
+            //cout << "Press Enter to Continue";
+            //cin.ignore();
         }
         LogManager::logInfo("fin de game loop de este nivel");
         LogManager::logInfo("=======================================");

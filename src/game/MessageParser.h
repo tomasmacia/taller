@@ -19,6 +19,7 @@ public:
     void parse(string rawMessage, char separatorCharacter);
     MessageId getHeader();
     string extractMeaningfulMessageFromStream(char *buffer, char endSerializationChar);
+    void clear();
 
     //GETTERS
     //===============================

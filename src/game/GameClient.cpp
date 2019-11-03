@@ -40,8 +40,8 @@ void GameClient::start() {
 void GameClient::gameLoop() {
     isRunning = true;
     while (isRunning) {
-        pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
-        //render();
+        //pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
+        render();
     }
 }
 
@@ -61,7 +61,7 @@ void GameClient::render() {
 
 void GameClient::renderAllPackages(){
     mu.lock();
-    std::list<ToClientPack> packages = controller->getPackages(client);
+    std::list<ToClientPack> packages = controller->getPackages();
     mu.unlock();
     ToClientPack currentPackage;
     while (!packages.empty()){

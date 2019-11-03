@@ -2,6 +2,7 @@
 // Created by axel on 1/11/19.
 //
 #include <vector>
+#include <iostream>
 #include "ObjectSerializer.h"
 #include "ToClientPack.h"
 #include "MessageId.h"
@@ -26,13 +27,12 @@ string ObjectSerializer::getPassFrom(vector<string> currentParsedMessage){
 //=========================================================================================
 bool ObjectSerializer::validLoginFromServerMessage(vector<string> currentParsedMessage){
     //SERIALIZED LOGIN ID: //header,id,END_SERIALIZATION_SIMBOL
-    int id = stoi(currentParsedMessage.at(1));
-    return currentParsedMessage.size() == 3 && id != -1;
+    return currentParsedMessage.size() == 3;
 }
 
 bool ObjectSerializer::validSerializedObjectMessage(vector<string> currentParsedMessage){
     //SERIALIZED OBJECT: header,path,srcw,srch,srcx,srcy,dstw,dsth,dstx,dsty,bool,END_SERIALIZATION_SIMBOL
-    return currentParsedMessage.size() == 12;
+    return currentParsedMessage.at(0) == to_string(RENDERABLE) && currentParsedMessage.size() == 12;
 }
 
 bool ObjectSerializer::validLoginFromClientMessage(vector<string> currentParsedMessage){

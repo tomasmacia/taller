@@ -38,6 +38,11 @@ string MessageParser::extractMeaningfulMessageFromStream(char *buffer, char endS
     return extractedMessage;
 }
 
+void MessageParser::clear(){
+    vector<string> v;
+    lastParsedMessage = v;
+}
+
 //SPLIT
 //=========================================================================================
 const vector<string> MessageParser::split(const string& s, const char& c)

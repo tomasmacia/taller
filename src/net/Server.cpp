@@ -12,7 +12,6 @@
 #define MAX_BYTES_BUFFER 4096
 #define MAX_CONNECTIONS 2
 #define MAX_PENDING_CONNECTIONS 5
-#define MSG_NOSIGNAL 0
 
 #include <iostream>
 
@@ -38,21 +37,21 @@ void Server::setToBroadcast(string message) {
 int Server::send(string msg, int someSocketFD) {
     // TODO REVISAR. Hay que fijarse que someSOcketFD este en la lista de conexiones?
 
-    char buff[MAX_BYTES_BUFFER]{0};
+    //char buff[MAX_BYTES_BUFFER]{0};
 
-    strncpy(buff, msg.c_str(), sizeof(buff));
-    buff[sizeof(buff) - 1] = 0;
+    //strncpy(buff, msg.c_str(), sizeof(buff));
+    //buff[sizeof(buff) - 1] = 0;
 
-//    int len = msg.size();
-//    char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
-//    strcpy(bufferSend, msg.c_str());
+    int len = msg.size();
+    char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
+    strcpy(bufferSend, msg.c_str());
 
-    return ::send(someSocketFD, buff, strlen(buff), MSG_NOSIGNAL);
+    return ::send(someSocketFD, bufferSend, strlen(bufferSend), MSG_NOSIGNAL);
 }
 
 string Server::receive(int someSocketFD) {
     // TODO REVISAR. Hay que fijarse que someSocketFD este en la lista de conexiones?
-    char buff[MAX_BYTES_BUFFER]{0};
+    char buff[60]{4};
 
     int n = read(someSocketFD, buff, MAX_BYTES_BUFFER);// ###x###x###x
 
@@ -78,7 +77,7 @@ void Server::listenThread(){
                 cout << "LISTEN THREAD: tengo "<< connections.size()<<" conecciones"<<endl;
             }
         }
-        checkAndRemoveLostConnections();
+        //checkAndRemoveLostConnections();
         mu.unlock();
     }
 }
@@ -163,6 +162,7 @@ void Server::error(const char *msg) {   //Cierra el server y en el destructor se
 
 //DISCONECTION RELATED
 //=========================================================================================
+/*
 void Server::checkAndRemoveLostConnections(){
 
     for (auto c: connections){
@@ -175,7 +175,7 @@ void Server::checkAndRemoveLostConnections(){
             cout << "LISTEN THREAD: tengo "<< connections.size()<<" conecciones"<<endl;
         }
     }
-}
+}*/
 
 void Server::removeConnection(int id){
     delete connections.at(id);

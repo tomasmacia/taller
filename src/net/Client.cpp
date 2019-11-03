@@ -17,7 +17,6 @@
 using namespace std;
 
 #define MAX_BYTES_BUFFER 4096
-#define MSG_NOSIGNAL 0
 
 
 //API
@@ -32,16 +31,21 @@ void Client::setToSend(std::string message){
 //=========================================================================================
 void Client::readThread() {
 
-    while (true) {
-        incomingMessage = receive();
+    while (!connectionOff()) {
 
-        if (incomingMessage != objectSerializer.getPingCode()) {
-            incomingQueueMutex.lock();
+        incomingQueueMutex.lock();
+        incomingMessage = receive();
+        if (incomingMessage == objectSerializer.getFailure()){ continue;}
+        if (incomingMessage == objectSerializer.getPingCode()){ continue;}
+        else{
+
             incomingMessagesQueue.push_back(incomingMessage);
             cout << "CLIENT-READ: " << incomingMessage << endl;
             incomingQueueMutex.unlock();
         }
-        disconnectFromServer();
+        //if (incomingMessage != objectSerializer.getPingCode()) {
+        //}
+        //disconnectFromServer();
     }
 }
 
@@ -57,28 +61,40 @@ void Client::sendThread() {
         }
         sendQueueMutex.unlock();
     }
-    disconnectFromServer();
+    //disconnectFromServer();
 }
 
 void Client::dispatchThread() {
-    while(!connectionOff()) {
+    while(true) {
         incomingQueueMutex.lock();
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
 
             messageParser.parse(incomingMessage, objectSerializer.getSeparatorCharacter());
-            MessageId header = messageParser.getHeader();
-            if (header == SUCCESS                      || header == INVALID_CREDENTIAL ||
-                header == ALREADY_LOGGED_IN_CREDENTIAL || header == SERVER_FULL){
 
-                processResponseFromServer();
-            }
-            if (header == RENDERABLE){
+
+            if (objectSerializer.validSerializedObjectMessage(messageParser.getCurrent())){
+
+                cout<<"CLIENT-DISPATCH: "<<incomingMessage<<endl;
                 processRenderableSerializedObject();
+
+                /*
+                MessageId header = messageParser.getHeader();
+                if (header == SUCCESS                      || header == INVALID_CREDENTIAL ||
+                    header == ALREADY_LOGGED_IN_CREDENTIAL || header == SERVER_FULL){
+
+                    processResponseFromServer();
+                }
+                if (header == RENDERABLE){
+                    processRenderableSerializedObject();
+                }*/
+                //LogManager::logDebug("CLIENT-DISPATCH: " + incomingMessage);
+
             }
-            //LogManager::logDebug("CLIENT-DISPATCH: " + incomingMessage);
-            cout<<"CLIENT-DISPATCH: "<<incomingMessage<<endl;
+            messageParser.clear();
+
+
         }
         incomingQueueMutex.unlock();
     }
@@ -90,42 +106,32 @@ void Client::processResponseFromServer() {
 
     vector<string> currentParsedMessage = messageParser.getCurrent();
 
-    if (objectSerializer.validLoginFromServerMessage(currentParsedMessage)){
+    int id = objectSerializer.getIDFrom(currentParsedMessage);
 
-        int id = objectSerializer.getIDFrom(currentParsedMessage);
+    gameClient->setServerAknowledgeToLogin(messageParser.getHeader());
 
-        gameClient->setServerAknowledgeToLogin(messageParser.getHeader());
-
-        if (messageParser.getHeader() == SUCCESS){
-            gameClient->setPlayerId(id);
-        }
-    }
-    else{
-        gameClient->setServerAknowledgeToLogin(INVALID_CREDENTIAL);
+    if (messageParser.getHeader() == SUCCESS){
+        gameClient->setPlayerId(id);
     }
 }
 
 void Client::processRenderableSerializedObject() {
-
-    vector<string> currentParsedMessage = messageParser.getCurrent();
-
-    if (objectSerializer.validSerializedObjectMessage(currentParsedMessage)){
-
-        ToClientPack renderable = objectSerializer.reconstructRenderable(currentParsedMessage);
-        gameClient->reciveRenderable(renderable);
-    }
+    gameClient->reciveRenderable(objectSerializer.reconstructRenderable(messageParser.getCurrent()));
 }
 
 //ACTUAL DATA TRANSFER
 //=========================================================================================
 int  Client::send(std::string msg) {
 
-    char buff[MAX_BYTES_BUFFER]{0};
+    //char buff[MAX_BYTES_BUFFER]{0};
 
-    strncpy(buff, msg.c_str(), sizeof(buff));
-    buff[sizeof(buff) - 1] = 0;
+    //strncpy(buff, msg.c_str(), sizeof(buff));
+    //buff[sizeof(buff) - 1] = 0;
 
-    return ::send(socketFD, buff, strlen(buff), MSG_NOSIGNAL);
+    int len = msg.size();
+    char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
+
+    return ::send(socketFD, bufferSend, strlen(bufferSend), MSG_NOSIGNAL);
 }
 
 std::string Client::receive() {
@@ -135,6 +141,10 @@ std::string Client::receive() {
     //buff[sizeof(buff) - 1] = 0;
 
     int n = read(socketFD, buff, MAX_BYTES_BUFFER);
+
+    if ( n < 0){
+        return objectSerializer.getFailure();
+    }
 
     char end = objectSerializer.getEndOfSerializationCharacterget();
     return messageParser.extractMeaningfulMessageFromStream(buff, end);
@@ -179,12 +189,12 @@ bool Client::init(){
     create();
     connectToServer();
 
-    //std::thread read(&Client::readThread,this);
-    //read.detach();
-    std::thread send(&Client::sendThread,this);
-    send.detach();
-    //std::thread dispatch(&Client::dispatchThread,this);
-    //dispatch.detach();
+    std::thread read(&Client::readThread,this);
+    read.detach();
+    //std::thread send(&Client::sendThread,this);
+    //send.detach();
+    std::thread dispatch(&Client::dispatchThread,this);
+    dispatch.detach();
 }
 
 int Client::create() {

@@ -21,10 +21,10 @@ void UserConnection::setToSendMessage(std::string message){
 
 void UserConnection::init() {
 
-    std::thread read(&UserConnection::readThread,this);
-    read.detach();
-    //std::thread send(&UserConnection::sendThread,this);
-    //send.detach();
+    //std::thread read(&UserConnection::readThread,this);
+    //read.detach();
+    std::thread send(&UserConnection::sendThread,this);
+    send.detach();
     //std::thread dispatch(&UserConnection::dispatchThread,this);
     //dispatch.detach();
 }
@@ -44,12 +44,11 @@ void UserConnection::readThread() {
         }
         mu.unlock();
     }
-    kill();
 }
 
 void UserConnection::sendThread() {
 
-    while (!connectionOff()) {
+    while (true) {
         mu.lock();
         /*
         cout << "THREAD: vacio :" << (toSendMessagesQueue.size() != 0) << endl;
@@ -66,12 +65,11 @@ void UserConnection::sendThread() {
         }
         mu.unlock();
     }
-    kill();
 }
 
 void UserConnection::dispatchThread() {
 
-    while(!connectionOff()) {
+    while(true) {
         mu.lock();
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();
@@ -90,7 +88,7 @@ void UserConnection::dispatchThread() {
         }
         mu.unlock();
     }
-    kill();
+    //kill();
 }
 
 //DISPATCHING INCOMING MESSAGES
@@ -124,6 +122,7 @@ void UserConnection::processInput(std::string inputMsg) {
 
 //DISCONECTION RELATED
 //=========================================================================================
+/*
 bool UserConnection::connectionOff(){
 
     int n = server->send(objectSerializer.getPingCode(),socketFD);
@@ -137,7 +136,7 @@ bool UserConnection::connectionOff(){
 
 void UserConnection::kill(){
     server->removeConnection(userId);
-}
+}*/
 
 //CONSTRUCTOR
 //=========================================================================================
