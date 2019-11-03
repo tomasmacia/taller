@@ -22,29 +22,33 @@ using namespace std;
 //API
 //=========================================================================================
 void Client::setToSend(std::string message){
-    //mu.lock();
+    mu.lock();
     toSendMessagesQueue.push_back(message);
-    //mu.unlock();
+    mu.unlock();
 }
 
 //THREADS
 //=========================================================================================
 void Client::readThread() {
     while(clientOn) {
-        //mu.lock();
+        mu.lock();
         incomingMessage = receive();
+        //LogManager::logDebug("CLIENT-READ: " + incomingMessage);
+        cout<<"CLIENT-READ: "<<incomingMessage<<endl;
         incomingMessagesQueue.push_back(incomingMessage);
-        //mu.unlock();
+        mu.unlock();
     }
 }
 
 void Client::sendThread() {
     while(clientOn) {
-        //mu.lock();
+        mu.lock();
         if (!toSendMessagesQueue.empty()){
             toSendMessage = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
             send(toSendMessage);
+            //LogManager::logDebug("CLIENT-SEND: " + toSendMessage);
+            cout<<"CLIENT-SEND: "<<toSendMessage<<endl;
 
             if (connectionOff()) {
                 disconnectFromServer();
@@ -52,13 +56,13 @@ void Client::sendThread() {
                 break;
             }
         }
-        //mu.unlock();
+        mu.unlock();
     }
 }
 
 void Client::dispatchThread() {
     while(clientOn) {
-        //mu.lock();
+        mu.lock();
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
@@ -73,8 +77,10 @@ void Client::dispatchThread() {
             if (header == RENDERABLE){
                 processRenderableSerializedObject();
             }
+            //LogManager::logDebug("CLIENT-DISPATCH: " + incomingMessage);
+            cout<<"CLIENT-DISPATCH: "<<incomingMessage<<endl;
         }
-        //mu.unlock();
+        mu.unlock();
     }
 }
 
@@ -176,12 +182,15 @@ bool Client::init(){
     create();
     connectToServer();
 
+    /*
     std::thread read = std::thread(&Client::readThread, this);
+    read.detach();*/
+
     std::thread send = std::thread(&Client::sendThread, this);
-    std::thread dispatch = std::thread(&Client::dispatchThread, this);
-    dispatch.detach();
-    read.detach();
     send.detach();
+    /*
+    std::thread dispatch = std::thread(&Client::dispatchThread, this);
+    dispatch.detach();*/
 }
 
 int Client::create() {

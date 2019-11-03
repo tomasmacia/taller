@@ -65,22 +65,25 @@ string Server::receive(int someSocketFD) {
 //THREADS
 //=========================================================================================
 void Server::listenThread(){
-    while (serverOn){
-        mu.lock();
-        cout<<"LOCKED AT LISTENING"<<endl;
-        if (connections.size() < maxConnections && listen() >= 0){
-            auto newUserConnection = accept();
-            if (newUserConnection != nullptr){
-                newUserConnection->init();
-                cout<<"connection stablished: "<<connections.size()<<endl;
+    if (listen() >= 0) {
+        while (serverOn) {
+            mu.lock();
+            if (connections.size() < maxConnections) {
+                cout << "LOCKED AT LISTENING" << endl;
+                auto newUserConnection = accept();
+                if (newUserConnection != nullptr) {
+                    newUserConnection->init();
+                    cout << "connection stablished: " << connections.size() << endl;
+                }
             }
+            cout << "LOOPING BACK TO LISTENING" << endl;
+            cout << "==================================" << endl;
+            cout << endl;
+            mu.unlock();
         }
-        cout<<"LOOPING BACK TO LISTENING"<<endl;
-        cout<<"=================================="<<endl;
-        cout<<endl;
-        mu.unlock();
     }
 }
+
 
 //INIT & CONSTRUCTOR
 //=========================================================================================

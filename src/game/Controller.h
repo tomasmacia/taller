@@ -24,6 +24,7 @@ public:
     //API
     //===============================
     string pollAndProcessInput();
+    bool hasNewInput();
 
     //DATA TRANSFER INTERFACE
     //===============================

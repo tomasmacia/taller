@@ -45,8 +45,17 @@ void GameClient::gameLoop() {
 }
 
 void GameClient::pollAndSendInput() {
+    /*if(controller->hasNewInput()){
+        std::string serializedInput = controller->pollAndProcessInput();
+        cout<<"CLIENT-INPUT: "<<serializedInput<<endl;
+        client->setToSend(serializedInput);
+    }*/
     std::string serializedInput = controller->pollAndProcessInput();
-    client->setToSend(serializedInput);
+
+    if (serializedInput != ""){
+        cout<<"CLIENT-INPUT: "<<serializedInput<<endl;
+        client->setToSend(serializedInput);
+    }
 }
 
 void GameClient::render() {
@@ -62,7 +71,6 @@ void GameClient::renderAllPackages(){
 
     std::list<ToClientPack> packages = controller->getPackages();
     ToClientPack currentPackage;
-
     while (!packages.empty()){
         currentPackage = packages.front();
         packages.pop_front();

@@ -6,6 +6,7 @@
 #include <iostream>
 #include <thread>
 #include <sys/socket.h>
+#include "../LogLib/LogManager.h"
 
 #include "../game/MessageId.h"
 
@@ -15,39 +16,44 @@
 //API
 //=========================================================================================
 void UserConnection::setToSendMessage(std::string message){
-    std::cout<<"SERVER: mando paquetes a clientes: "<<message<<'\n';
-    //mu.lock();
+    mu.lock();
     toSendMessagesQueue.push_back(message);
-    //mu.unlock();
+    mu.unlock();
 }
 
 void UserConnection::init() {
     std::thread read = std::thread(&UserConnection::readThread, this);
-    std::thread send = std::thread(&UserConnection::sendThread, this);
-    std::thread dispatch = std::thread(&UserConnection::dispatchThread, this);
-    dispatch.detach();
     read.detach();
+    /*
+    std::thread send = std::thread(&UserConnection::sendThread, this);
     send.detach();
+    std::thread dispatch = std::thread(&UserConnection::dispatchThread, this);
+    dispatch.detach();*/
 }
 
 //THREADS
 //=========================================================================================
 void UserConnection::readThread() {
     while(connectionIsOn) {
-        //mu.lock();
+        mu.lock();
         incomingMessage = server->receive(socketFD);
         incomingMessagesQueue.push_back(incomingMessage);
-        //mu.unlock();
+        //LogManager::logDebug("SERVER-READ: " + incomingMessage);
+        cout<<"SERVER-READ: "<<incomingMessage<<endl;
+        mu.unlock();
     }
 }
 
 void UserConnection::sendThread() {
     while(connectionIsOn) {
-        //mu.lock();
+        mu.lock();
         if (!toSendMessagesQueue.empty()){
             toSendMessage = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
             server->send(toSendMessage,socketFD);
+            //LogManager::logDebug("SERVER-SEND: " + toSendMessage);
+            cout<<"SERVER-SEND: "<<toSendMessage<<endl;
+
             if (connectionOff()) {
                 connectionLost();
                 //server->userConectionLost(userId);  AL FINAL BORRAMOS TODAS LAS CONEXIONES EN EL DESTRUCTOR DE SERVER (MAS PROLIJO)
@@ -55,13 +61,13 @@ void UserConnection::sendThread() {
                 break;
             }
         }
-        //mu.unlock();
+        mu.unlock();
     }
 }
 
 void UserConnection::dispatchThread() {
     while(connectionIsOn) {
-        //mu.lock();
+        mu.lock();
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
@@ -74,8 +80,10 @@ void UserConnection::dispatchThread() {
             if (header == INPUT){
                 processInput(incomingMessage);
             }
+            //LogManager::logDebug("SERVER-DISPATCH: " + incomingMessage);
+            cout<<"SERVER-DISPATCH: "<<incomingMessage<<endl;
         }
-        //mu.unlock();
+        mu.unlock();
     }
 }
 
