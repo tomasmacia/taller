@@ -9,7 +9,7 @@
 #include <CLIArgumentParser.h>
 #include "UserConnection.h"
 
-#define MAX_BYTES_BUFFER 300
+#define MAX_BYTES_BUFFER 1000
 #define MAX_CONNECTIONS 2
 #define MAX_PENDING_CONNECTIONS 5
 

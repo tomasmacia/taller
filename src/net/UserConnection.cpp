@@ -36,7 +36,10 @@ void UserConnection::readThread() {
     string incomingMessage;
 
     while(true) {
+
         incomingQueueMutex.lock();
+        cout<<"SERVER-READ"<<endl;
+        /*
         incomingMessage = server->receive(socketFD);
         if (incomingMessage == objectSerializer.getFailure()){ continue;}
         if (incomingMessage == objectSerializer.getPingCode()){ continue;}
@@ -44,7 +47,7 @@ void UserConnection::readThread() {
 
             incomingMessagesQueue.push_back(incomingMessage);
             cout<<"SERVER-READ: "<<incomingMessage<<endl;
-        }
+        }*/
         incomingQueueMutex.unlock();
     }
 }
@@ -54,14 +57,17 @@ void UserConnection::sendThread() {
     string toSendMessage;
 
     while (true) {
+
         sendQueueMutex.lock();
+        cout<<"SERVER-SEND"<<endl;
+
         /*
         cout << "THREAD: vacio :" << (toSendMessagesQueue.size() != 0) << endl;
         cout << "THREAD: amount to send: " << toSendMessagesQueue.size() << endl;
         cout << "THREAD: connections: " << server->numberOfConectionsEstablished() << endl;
         cout << "THREAD: ==================================" << endl;
         cout << endl;
-         */
+
 
         if (toSendMessagesQueue.size() != 0) {
             toSendMessage = toSendMessagesQueue.front();
@@ -69,7 +75,7 @@ void UserConnection::sendThread() {
             server->send(toSendMessage, socketFD);
             //cout << "SERVER-SEND: " << toSendMessage << endl;
         }
-        //cout<<"SERVER: cantidad de paquetes: "<<toSendMessagesQueue.size()<<endl;
+        //cout<<"SERVER: cantidad de paquetes: "<<toSendMessagesQueue.size()<<endl;*/
         sendQueueMutex.unlock();
     }
 }
@@ -80,6 +86,8 @@ void UserConnection::dispatchThread() {
 
     while(true) {
         incomingQueueMutex.lock();
+        cout<<"SERVER-DISPATCH"<<endl;
+        /*
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
@@ -94,7 +102,7 @@ void UserConnection::dispatchThread() {
             }
 
             cout<<"SERVER-DISPATCH: "<<incomingMessage<<endl;
-        }
+        }*/
         incomingQueueMutex.unlock();
     }
     //kill();

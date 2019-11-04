@@ -16,7 +16,7 @@
 
 using namespace std;
 
-#define MAX_BYTES_BUFFER 300
+#define MAX_BYTES_BUFFER 1000
 
 
 //API
@@ -47,6 +47,8 @@ void Client::readThread() {
     while (!connectionOff()) {
 
         incomingQueueMutex.lock();
+        cout<<"CLIENT-READ"<<endl;
+        /*
         incomingMessage = receive();
         if (incomingMessage == objectSerializer.getFailure()){ continue;}
         if (incomingMessage == objectSerializer.getPingCode()){ continue;}
@@ -55,6 +57,7 @@ void Client::readThread() {
             incomingMessagesQueue.push_back(incomingMessage);
             //cout << "CLIENT-READ: " << incomingMessage << endl;
         }
+         */
         incomingQueueMutex.unlock();
         //disconnectFromServer();
     }
@@ -64,12 +67,14 @@ void Client::sendThread() {
 
     while(true) {
         sendQueueMutex.lock();
+        cout<<"CLIENT-SEND"<<endl;
+        /*
         if (!toSendMessagesQueue.empty()) {
             toSendMessage = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
             send(toSendMessage);
             cout << "CLIENT-SEND: " << toSendMessage << endl;
-        }
+        }*/
         sendQueueMutex.unlock();
     }
     //disconnectFromServer();
@@ -78,6 +83,8 @@ void Client::sendThread() {
 void Client::dispatchThread() {
     while(true) {
         incomingQueueMutex.lock();
+        cout<<"CLIENT-DISPATCH"<<endl;
+        /*
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
@@ -90,7 +97,7 @@ void Client::dispatchThread() {
                 //cout<<"CLIENT-DISPATCH: "<<incomingMessage<<endl;
                 processRenderableSerializedObject();
 
-                /*
+
                 MessageId header = messageParser.getHeader();
                 if (header == SUCCESS                      || header == INVALID_CREDENTIAL ||
                     header == ALREADY_LOGGED_IN_CREDENTIAL || header == SERVER_FULL){
@@ -99,11 +106,10 @@ void Client::dispatchThread() {
                 }
                 if (header == RENDERABLE){
                     processRenderableSerializedObject();
-                }*/
-                //LogManager::logDebug("CLIENT-DISPATCH: " + incomingMessage);
+                }
 
             }
-        }
+        }*/
         incomingQueueMutex.unlock();
     }
 }
