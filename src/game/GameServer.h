@@ -36,6 +36,9 @@ public:
     void reciveNewInput(tuple<Action,int> input);
     int getCurrentLevelWidth();
     static bool isActive();
+    int getMaxPlayers() {
+        return maxPlayers;
+    }
 
     //GETTERS
     //===============================
@@ -97,7 +100,7 @@ private:
     std::map<std::string,std::string> validCredentials;
     std::map<std::string,std::string> loggedPlayers;
 
-    int amountOfConectionsNeeded = 2; //HARCODED
+    int maxPlayers;
 
     Server* server = nullptr;
     LevelBuilder* levelBuilder = nullptr;

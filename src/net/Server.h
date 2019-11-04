@@ -61,7 +61,6 @@ private:
     //ATRIBUTE
     //===============================
     bool serverOn;
-    char* buffer;
 
     int maxBytesBuffer;
     int maxConnections;

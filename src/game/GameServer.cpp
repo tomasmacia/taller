@@ -23,7 +23,7 @@ void GameServer::start() {
     initGameModel();
     gameLoop();
 
-    //closeServer();        //se cierra el thread se server y (previamente se cierran los 4 threads child)
+    closeServer();        //se cierra el thread se server y (previamente se cierran los 4 threads child)
     closeController();      //se cierra el thread del teclado y la crucecita de la window
 
     LogManager::logInfo("Juego terminado");
@@ -158,7 +158,7 @@ void GameServer::initGameModel() {
 void GameServer::init() {
     initConfig();
     loadValidCredenctials();
-    amountOfConectionsNeeded = this->config->serverMaxPlayers;
+    maxPlayers = config->serverMaxPlayers;
 
     LogManager::logDebug("inicializado Config");
     LogManager::logDebug("cargado credenciales");
