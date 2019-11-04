@@ -13,6 +13,11 @@
 #define MAX_CONNECTIONS 2
 #define MAX_PENDING_CONNECTIONS 5
 
+#if __APPLE__
+#define MSG_NOSIGNAL 0x2000 /* don't raise SIGPIPE */
+#endif	// __APPLE__
+
+
 #include <iostream>
 
 //API

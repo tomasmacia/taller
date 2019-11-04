@@ -69,6 +69,7 @@
                 <crouch>resources/sprites/players/blue/crouch.png</crouch>
                 <jumpkick>resources/sprites/players/blue/jumpkick.png</jumpkick>
                 <kick>resources/sprites/players/blue/kick.png</kick>
+                <disconnected>resources/sprites/players/gray/stand.png</disconnected>
             </character1>
         </characters>
         <npcs>
