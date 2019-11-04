@@ -1,0 +1,86 @@
+//****************** LOGGER ******************//
+28-10-2019 02:59:08 [INFO] : configs/custom.xml is the path to the config file.
+28-10-2019 02:59:08 [DEBUG] : inicializado Config
+28-10-2019 02:59:08 [DEBUG] : inicializado LogManager
+28-10-2019 02:59:08 [DEBUG] : inicializado SDL
+28-10-2019 02:59:08 [DEBUG] : inicializado ECSManager
+28-10-2019 02:59:08 [DEBUG] : =======================================
+28-10-2019 02:59:08 [INFO] : Se inicia Game
+28-10-2019 02:59:08 [DEBUG] : cantidad de niveles cargados: 3
+28-10-2019 02:59:08 [DEBUG] : inicializado LevelBuilder
+28-10-2019 02:59:08 [DEBUG] : inicializado Controller
+28-10-2019 02:59:08 [INFO] : se chequea si hay siguiente nivel
+28-10-2019 02:59:08 [INFO] : cargando primer nivel
+28-10-2019 02:59:08 [INFO] : =======================================
+28-10-2019 02:59:08 [INFO] : inicializando NIVEL 1
+28-10-2019 02:59:08 [DEBUG] : Inicializando Camara
+28-10-2019 02:59:08 [DEBUG] : Inicializando Fondos
+28-10-2019 02:59:08 [DEBUG] : Fondos inicializados
+28-10-2019 02:59:08 [DEBUG] : Inicializando limites de pantalla
+28-10-2019 02:59:08 [DEBUG] : Inicializando PJ
+28-10-2019 02:59:08 [DEBUG] : Jugadores inicializados: 1
+28-10-2019 02:59:08 [DEBUG] : Inicializando enemigos
+28-10-2019 02:59:08 [DEBUG] : Enemigos inicializados: 5
+28-10-2019 02:59:08 [DEBUG] : Inicializando armas
+28-10-2019 02:59:08 [DEBUG] : Armas inicializadas: 5
+28-10-2019 02:59:08 [DEBUG] : Tubos de metal inicializados: 10
+28-10-2019 02:59:08 [DEBUG] : Inicializando cajas y barriles
+28-10-2019 02:59:08 [DEBUG] : Cajas inicializadas: 1
+28-10-2019 02:59:08 [DEBUG] : Barriles inicializados: 3
+28-10-2019 02:59:08 [INFO] : =======================================
+28-10-2019 02:59:08 [INFO] : se inicia game loop de este nivel
+28-10-2019 03:00:59 [INFO] : Nivel terminado
+28-10-2019 03:00:59 [INFO] : fin de game loop de este nivel
+28-10-2019 03:00:59 [INFO] : =======================================
+28-10-2019 03:00:59 [INFO] : se chequea si hay siguiente nivel
+28-10-2019 03:00:59 [INFO] : cargando siguiente nivel
+28-10-2019 03:00:59 [INFO] : =======================================
+28-10-2019 03:00:59 [INFO] : icializando NIVEL 
+28-10-2019 03:00:59 [DEBUG] : reseteando Camara
+28-10-2019 03:00:59 [DEBUG] : Inicializando Fondos
+28-10-2019 03:00:59 [DEBUG] : Fondos inicializados
+28-10-2019 03:00:59 [DEBUG] : reseteando limites de pantalla
+28-10-2019 03:00:59 [DEBUG] : reseteando jugadores
+28-10-2019 03:00:59 [DEBUG] : Jugadores resetados: 1
+28-10-2019 03:00:59 [DEBUG] : Inicializando enemigos
+28-10-2019 03:00:59 [DEBUG] : Enemigos inicializados: 5
+28-10-2019 03:00:59 [DEBUG] : Inicializando armas
+28-10-2019 03:00:59 [DEBUG] : Armas inicializadas: 5
+28-10-2019 03:00:59 [DEBUG] : Tubos de metal inicializados: 10
+28-10-2019 03:00:59 [DEBUG] : Inicializando cajas y barriles
+28-10-2019 03:00:59 [DEBUG] : Cajas inicializadas: 1
+28-10-2019 03:00:59 [DEBUG] : Barriles inicializados: 3
+28-10-2019 03:00:59 [INFO] : =======================================
+28-10-2019 03:00:59 [INFO] : se inicia game loop de este nivel
+28-10-2019 03:01:23 [INFO] : Nivel terminado
+28-10-2019 03:01:23 [INFO] : fin de game loop de este nivel
+28-10-2019 03:01:23 [INFO] : =======================================
+28-10-2019 03:01:23 [INFO] : se chequea si hay siguiente nivel
+28-10-2019 03:01:23 [INFO] : cargando siguiente nivel
+28-10-2019 03:01:23 [INFO] : =======================================
+28-10-2019 03:01:23 [INFO] : cializando NIVEL 
+28-10-2019 03:01:23 [DEBUG] : reseteando Camara
+28-10-2019 03:01:23 [DEBUG] : Inicializando Fondos
+28-10-2019 03:01:23 [DEBUG] : Fondos inicializados
+28-10-2019 03:01:23 [DEBUG] : reseteando limites de pantalla
+28-10-2019 03:01:23 [DEBUG] : reseteando jugadores
+28-10-2019 03:01:23 [DEBUG] : Jugadores resetados: 1
+28-10-2019 03:01:23 [DEBUG] : Inicializando enemigos
+28-10-2019 03:01:23 [DEBUG] : Enemigos inicializados: 5
+28-10-2019 03:01:23 [DEBUG] : Inicializando armas
+28-10-2019 03:01:23 [DEBUG] : Armas inicializadas: 5
+28-10-2019 03:01:23 [DEBUG] : Tubos de metal inicializados: 10
+28-10-2019 03:01:23 [DEBUG] : Inicializando cajas y barriles
+28-10-2019 03:01:23 [DEBUG] : Cajas inicializadas: 1
+28-10-2019 03:01:23 [DEBUG] : Barriles inicializados: 3
+28-10-2019 03:01:23 [INFO] : =======================================
+28-10-2019 03:01:23 [INFO] : se inicia game loop de este nivel
+28-10-2019 03:01:54 [INFO] : Nivel terminado
+28-10-2019 03:01:54 [INFO] : fin de game loop de este nivel
+28-10-2019 03:01:54 [INFO] : =======================================
+28-10-2019 03:01:54 [INFO] : se chequea si hay siguiente nivel
+28-10-2019 03:01:54 [INFO] : Juego terminado
+28-10-2019 03:01:54 [INFO] : =======================================
+28-10-2019 03:01:54 [DEBUG] : Memoria de LevelBuilder liberada
+28-10-2019 03:01:54 [DEBUG] : Memoria de Manager liberada
+28-10-2019 03:01:54 [DEBUG] : Memoria de Game liberada

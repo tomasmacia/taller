@@ -2,6 +2,7 @@
 #include "../utils/TimeUtils.h"
 #include "../parser/CLIArgumentParser.h"
 #include "../LogLib/LogManager.h"
+#include "LoggerMenu.h"
 #include "GameServer.h"
 #include "GameClient.h"
 #include "Mode.h"
@@ -57,7 +58,10 @@ int main(int argc, const char** argv) {
     }
 
     if (mode == CLIENT){
-        GameClient::getInstance().start();
+        LoggerMenu *loggerMenu = new LoggerMenu(nullptr);
+        loggerMenu->open();
+
+        // GameClient::getInstance().start();
     }
     return 0;
 }

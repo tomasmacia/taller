@@ -103,7 +103,7 @@ void GameClient::closeClient() {
 //=========================================================================================
 
 void GameClient::initLoggerMenu(){
-    loggerMenu = new LoggerMenu();
+    loggerMenu = new LoggerMenu(this);
     LogManager::logDebug("inicializado LoggerMenu");
 }
 

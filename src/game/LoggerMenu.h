@@ -12,19 +12,21 @@
 #include "../parser/CLIArgumentParser.h"
 #include "../parser/config/config.h"
 #include "../parser/xmlparser.h"
+#include "../net/Client.h"
+#include "GameClient.h"
 
 
 class LoggerMenu {
 typedef std::pair<std::string, std::string> componente;
 public:
-    LoggerMenu();
-    bool open();
+
+    LoggerMenu(GameClient* client);
+    Client* open();
 private:
     void setPositionToText();
-    void agregar();
     void OnEvent(SDL_Event* Event);
     void Nombre_de_Usuario_Estatico();
-    void typing();
+    void render();
     void Fondo();
     void Update();
     void initSDL();
@@ -32,6 +34,7 @@ private:
     void ValidarCredenciales();
     void cursorBlip();
     void MensajeEmergente(std::string path);
+    void serverAcknowledge(MessageId id);
 
 
 private:
@@ -61,6 +64,11 @@ private:
     SDL_Texture* msjEmergente = nullptr;
     SDL_Rect msjEmrgnte;
 
+    //Cliente
+    Client* client_ = nullptr;
+    GameClient* _game = nullptr;
+    MessageId response;
+    bool serverAcknowledgeReceived = false;
     
 };
 

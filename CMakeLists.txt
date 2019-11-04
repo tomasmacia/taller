@@ -67,6 +67,8 @@ set(SOURCE_FILES
         src/game/main.cpp
 
         # game
+        src/game/LoggerMenu.cpp
+        src/game/LoggerMenu.h
         src/game/Game.h
         src/game/Game.cpp
         src/game/GameServer.h
@@ -137,5 +139,4 @@ set(SOURCE_FILES
 add_executable(game ${SOURCE_FILES})
 
 # link libraries
-
-target_link_libraries(game ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARIES} ${XMLPARSER} ${SDL2_TTF_LIBRARIES})
+target_link_libraries(game ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARIES} ${SDL2_TTF_LIBRARIES} ${XMLPARSER})

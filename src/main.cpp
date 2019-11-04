@@ -1,5 +1,8 @@
 #include "game/Game.h"
 #include "parser/CLIArgumentParser.h"
+<<<<<<< HEAD
+#include "game/LoggerMenu.h"
+=======
 #include "server/Client.h"
 #include "server/Server.h"
 #include <thread>
@@ -10,10 +13,18 @@ void accept_connections(Server* server) {
         server->accept();
     }
 }
+>>>>>>> origin/develop
 
 
 int main(int argc, const char** argv) {
     CLIArgumentParser::getInstance().init(argc, argv);
+<<<<<<< HEAD
+    LoggerMenu* login = new LoggerMenu();
+    
+    if(login->open()){
+        Game::getInstance().start();
+    }
+=======
 
     std::string mode = CLIArgumentParser::getInstance().getModeType();
 
@@ -42,6 +53,7 @@ int main(int argc, const char** argv) {
     }
 
     //Game::getInstance().start();
+>>>>>>> origin/develop
 
     return 0;
 }
