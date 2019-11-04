@@ -19,10 +19,8 @@ void GameServer::start() {
     initGameModel();
     gameLoop();
 
-    cout<<"tlalaa!"<<endl;
-    listenConnectionsThread.join();
+    //listenConnectionsThread.join();
     lisentToInputForClosing.join();
-    cout<<"olololololo!"<<endl;
 
     LogManager::logInfo("Juego terminado");
     LogManager::logInfo("=======================================");

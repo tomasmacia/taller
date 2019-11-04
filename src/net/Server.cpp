@@ -4,6 +4,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/socket.h>
+#include <unistd.h>
+#include <fcntl.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <CLIArgumentParser.h>
@@ -82,19 +84,15 @@ void Server::listenThread(){
             }
         }
     }
-    cout<<"3333333333333333333333333333"<<endl;
+
     UserConnection* userConnection;
     for (auto c: connections){
         userConnection = c.second;
         userConnection->shutdown();
-        cout<<" userConnection->shutdown();!"<<endl;
     }
-    cout<<"asdasdasd"<<endl;
     for (std::thread &t: connectionThreads){
         t.join();
-        cout<<"t.join();"<<endl;
     }
-    cout<<"xxxxxxxxxxxxxxxx"<<endl;
 }
 
 //INIT & CONSTRUCTOR
@@ -134,8 +132,11 @@ int Server::bind() {
     if (::bind(socketFD, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) < 0) {
         //error("ERROR on binding");
     }
-
     return socketFD;
+}
+
+void Server::setToNonBlocking(){
+    fcntl(socketFD, F_SETFD, O_NONBLOCK);
 }
 
 int Server::listen() {
