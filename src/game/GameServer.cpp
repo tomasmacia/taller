@@ -146,7 +146,7 @@ void GameServer::initGameModel() {
 void GameServer::init() {
     initConfig();
     loadValidCredenctials();
-    //amountOfConectionsNeeded = config->gameplay.amountPlayers; TODO
+    amountOfConectionsNeeded = config->serverMaxPlayers;
 
     LogManager::logDebug("inicializado Config");
     LogManager::logDebug("cargado credenciales");
