@@ -13,15 +13,21 @@ bool GameServer::hasInstance = false;
 void GameServer::start() {
     LogManager::logInfo("Se inicia Game");
 
-    startServer();
-    waitUntilAllPlayersAreConected();
+    initController();       //1 thread para escuchar teclado y la crucecita de la window
+    startServer();          //1 thread de listen de conexiones nuevas y 4 threads por cliente nuevo
 
     initGameModel();
     gameLoop();
 
-    closeServer();
+    cout<<"tlalaa!"<<endl;
+    listenConnectionsThread.join();
+    lisentToInputForClosing.join();
+    cout<<"olololololo!"<<endl;
+
     LogManager::logInfo("Juego terminado");
     LogManager::logInfo("=======================================");
+
+    cout<<"everything endded up nicely :D"<<endl;
 }
 
 //GAME LOOP
@@ -53,12 +59,6 @@ void GameServer::sendUpdate() {
 
 //API
 //=========================================================================================
-
-void GameServer::waitUntilAllPlayersAreConected(){
-    while (server->numberOfConectionsEstablished() < amountOfConectionsNeeded){
-        continue;
-    }
-}
 
 std::string GameServer::validateLogin(std::string user, std::string pass, int userId){
 
@@ -119,25 +119,28 @@ bool GameServer::isActive(){
 void GameServer::startServer(){
     server = new Server(this);
     server->init();
-    listenThread = std::thread(&Server::listenThread,server);
-    checkingConnectionsThread = std::thread(&Server::checkingConnectionsThread,server);
+    listenConnectionsThread = std::thread(&Server::listenThread,server);
     LogManager::logInfo("Server inicializado");
 }
 
-void GameServer::closeServer() {
-    listenThread.join();
-    checkingConnectionsThread.join();
+
+//CONTROLLER RELATED
+//=========================================================================================
+
+void GameServer::initController() {
+    initSDL();
+    controller = new Controller(this);
+    lisentToInputForClosing = std::thread(&Controller::lisentToInputForClosing,controller);
+    LogManager::logDebug("inicializado SDL");
+    LogManager::logDebug("inicializado Controller");
 }
 
 //INIT
 //=========================================================================================
 void GameServer::initGameModel() {
     initECSManager();
-    initController();
     initLevelBuilder();
-    initSDL();
     LogManager::logDebug("inicializado Manager");
-    LogManager::logDebug("inicializado Controller");
     LogManager::logDebug("inicializado LevelBuilder");
     LogManager::logInfo("Modelo inicializado");
 }

@@ -19,8 +19,9 @@ public:
     //API
     //===============================
     void setToSendMessage(std::string message);
-    void init();
+    void start();
     bool connectionOff();
+    void shutdown();
 
     //GETTERS
     //===============================
@@ -35,6 +36,7 @@ private:
     void readThread();
     void sendThread();
     void dispatchThread();
+    //start tambien es un thread
 
     //DISPATCHING INCOMING MESSAGES
     //===============================
@@ -43,10 +45,13 @@ private:
 
     //DISCONECTION RELATED
     //===============================
+    void checkConnection();
     void kill();
 
     //ATRIBUTES
     //===============================
+    bool connectionOn = true;
+
     std::mutex sendQueueMutex;
     std::mutex incomingQueueMutex;
     int socketFD;

@@ -31,7 +31,7 @@ void Game::initConfig() {
 }
 
 void Game::initController() {
-    this->controller = new Controller(this);
+    controller = new Controller(this);
 }
 
 void Game::initSDL() {

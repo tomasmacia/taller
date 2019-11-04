@@ -19,14 +19,27 @@ void UserConnection::setToSendMessage(std::string message){
     sendQueueMutex.unlock();
 }
 
-void UserConnection::init() {
+void UserConnection::start() {
 
     std::thread read(&UserConnection::readThread,this);
-    read.detach();
     std::thread send(&UserConnection::sendThread,this);
-    send.detach();
     std::thread dispatch(&UserConnection::dispatchThread,this);
-    dispatch.detach();
+
+    checkConnection();
+    cout<<"checkConnection();"<<endl;
+    read.join();
+    cout<<"read.join();"<<endl;
+    send.join();
+    cout<<"send.join();"<<endl;
+    dispatch.join();
+    cout<<"dispatch.join();"<<endl;
+
+    kill();
+    cout<<"kill"<<endl;
+}
+
+void UserConnection::shutdown() {
+    connectionOn = false;
 }
 
 //THREADS
@@ -35,7 +48,7 @@ void UserConnection::readThread() {
 
     string incomingMessage;
 
-    while(true) {
+    while(connectionOn) {
 
         incomingQueueMutex.lock();
         //cout<<"SERVER-READ"<<endl;
@@ -50,13 +63,14 @@ void UserConnection::readThread() {
         }*/
         incomingQueueMutex.unlock();
     }
+    cout<<"readThread"<<endl;
 }
 
 void UserConnection::sendThread() {
 
     string toSendMessage;
 
-    while (true) {
+    while (connectionOn) {
 
         sendQueueMutex.lock();
         //cout<<"SERVER-SEND"<<endl;
@@ -78,13 +92,14 @@ void UserConnection::sendThread() {
         //cout<<"SERVER: cantidad de paquetes: "<<toSendMessagesQueue.size()<<endl;*/
         sendQueueMutex.unlock();
     }
+    cout<<"sendThread"<<endl;
 }
 
 void UserConnection::dispatchThread() {
 
     string incomingMessage;
 
-    while(true) {
+    while(connectionOn) {
         incomingQueueMutex.lock();
         //cout<<"SERVER-DISPATCH"<<endl;
         /*
@@ -105,7 +120,7 @@ void UserConnection::dispatchThread() {
         }*/
         incomingQueueMutex.unlock();
     }
-    //kill();
+    cout<<"dispatchThread"<<endl;
 }
 
 //DISPATCHING INCOMING MESSAGES
@@ -138,14 +153,23 @@ void UserConnection::processInput(std::string inputMsg) {//TODO HEAVY IN PERFORM
 //DISCONECTION RELATED
 //=========================================================================================
 
+void UserConnection::checkConnection(){
+
+    //aca pongo connectionOn en el while porque me podrian poner
+    //connectionOn = false desde el server
+
+    while (connectionOn && !connectionOff()){
+        continue;
+    }
+    connectionOn = false;
+}
+
 bool UserConnection::connectionOff(){
 
     int n = server->send(objectSerializer.getPingCode(),socketFD);
     if (n < 0){
-        //cout<<"CONEXION MALA"<<endl;
         return true;
     }
-    //cout<<"CONEXION BUENA"<<endl;
     return false;
 }
 

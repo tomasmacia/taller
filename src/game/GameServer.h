@@ -61,7 +61,7 @@ private:
 
     //LOGIN
     //===============================
-    void waitUntilAllPlayersAreConected();
+
 
     //GAME LOOP
     //===============================
@@ -80,14 +80,17 @@ private:
     //SERVER RELATED
     //===============================
     void startServer();
-    void closeServer();
+
+    //CONTROLLER RELATED
+    //===============================
+    void initController() override ;
 
     //ATRIBUTES
     //===============================
     static bool hasInstance;
 
-    std::thread listenThread;
-    std::thread checkingConnectionsThread;
+    std::thread listenConnectionsThread;
+    std::thread lisentToInputForClosing;
 
     std::map<std::string,std::string> validCredentials;
     std::map<std::string,std::string> loggedPlayers;

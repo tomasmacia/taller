@@ -39,7 +39,6 @@ public:
     //THREADS
     //===============================
     void listenThread();
-    void checkingConnectionsThread();
 
 private:
     //INIT
@@ -55,7 +54,6 @@ private:
 
     //DISCONECTION RELATED
     //===============================
-    void checkAndRemoveLostConnections();
     int shutdown();
     int close();
 
@@ -71,9 +69,10 @@ private:
     MessageParser messageParser;
     ObjectSerializer objectSerializer;
 
-    int socketFD;
-    std::map<int,UserConnection*> connections;
     int nextConectionIDtoAssign = 0;
+    int socketFD;
+    std::vector<std::thread> connectionThreads;
+    std::map<int,UserConnection*> connections;
 
 };
 

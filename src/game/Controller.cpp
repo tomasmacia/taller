@@ -12,10 +12,27 @@
 
 #include <iostream>
 
-
+//THREADS
+//=========================================================================================
+void Controller::lisentToInputForClosing(){
+    while(game->isOn()){
+        checkIfCloseRelatedInputWasPulsed();
+    }
+}
 
 //PROCESSING
 //=========================================================================================
+
+void Controller::checkIfCloseRelatedInputWasPulsed(){
+    Action action;
+    while (SDL_PollEvent(&sdlEvent)) {
+        action = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
+        if ((sdlEvent.type == SDL_QUIT) || action == QUIT){
+            game->end();
+        }
+    }
+}
+
 
 string Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
     Action action;

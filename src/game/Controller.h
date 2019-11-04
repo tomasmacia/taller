@@ -27,6 +27,7 @@ public:
     string pollAndProcessInput();
     //bool hasNewInput();
     void clearAllInputs();
+    void checkIfCloseRelatedInputWasPulsed();
 
     //DATA TRANSFER INTERFACE
     //===============================
@@ -35,6 +36,10 @@ public:
     std::string getInvalidCredentialMessage();
     std::string getServerFullMessage();
     std::string getAlreadyLoggedInMessage();
+
+    //THREADS
+    //===============================
+    void lisentToInputForClosing();
 
     //SETTERS
     //===============================
