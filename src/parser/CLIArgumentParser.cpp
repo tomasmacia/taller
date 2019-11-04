@@ -34,6 +34,10 @@ string CLIArgumentParser::getServerPort() {
     return getParamHelper("-p", "--port");
 }
 
+string CLIArgumentParser::getPathToUserCredentialsFileName() {
+    return getParamHelper("-u", "--users");
+}
+
 string CLIArgumentParser::getParamHelper(string shortCommand, string descriptiveCommand) {
     for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];

@@ -1,8 +1,10 @@
-#include "../LogLib/LogManager.h"
-#include "Controller.h"
-#include "../LogLib/Logger.h"
-#include "LevelBuilder.h"
 #include "GameServer.h"
+#include "Controller.h"
+#include "LevelBuilder.h"
+#include "../LogLib/Logger.h"
+#include "../LogLib/LogManager.h"
+#include "../parser/CLIArgumentParser.h"
+#include "../parser/xmlparser.h"
 
 #include "IDPlayer.h"
 
@@ -12,6 +14,8 @@ bool GameServer::hasInstance = false;
 
 void GameServer::start() {
     LogManager::logInfo("Se inicia Game");
+
+    cout << validCredentials.size() << " credenciales levantadas" << endl;
 
     initController();       //1 thread para escuchar teclado y la crucecita de la window
     startServer();          //1 thread de listen de conexiones nuevas y 4 threads por cliente nuevo
@@ -148,7 +152,7 @@ void GameServer::initGameModel() {
 void GameServer::init() {
     initConfig();
     loadValidCredenctials();
-    //amountOfConectionsNeeded = config->gameplay.amountPlayers; TODO
+    amountOfConectionsNeeded = this->config->serverMaxPlayers;
 
     LogManager::logDebug("inicializado Config");
     LogManager::logDebug("cargado credenciales");
@@ -156,6 +160,17 @@ void GameServer::init() {
 }
 
 void GameServer::loadValidCredenctials(){
+    string pathToConfigFile = CLIArgumentParser::getInstance().getPathToUserCredentialsFileName();
+
+    XMLParser xmlParser;
+    Credentials *credentials = xmlParser.parseCredentials(pathToConfigFile);
+
+    for (auto &userCredentials : credentials->users) {
+        this->validCredentials.insert(std::make_pair(userCredentials.username, userCredentials.password));
+    }
+
+    delete(credentials);
+    credentials = nullptr;
 
 }
 

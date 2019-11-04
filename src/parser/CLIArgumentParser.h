@@ -25,6 +25,7 @@ public:
     string getModeType();
     string getServerAddress();
     string getServerPort();
+    string getPathToUserCredentialsFileName();
 
 
     CLIArgumentParser(CLIArgumentParser const&) = delete;
