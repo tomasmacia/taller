@@ -60,12 +60,18 @@ V Controller::getWithDefault(const std::map<K,V> &map, const K &key, const V &de
     return value;
 }
 
+
+void Controller::clearPackages(){
+    currentPackagesToRender.clear();
+    cout<<"MODELO: cantidad de paquetes: "<<currentPackagesToRender.size()<<endl;
+}
+
 //DATA TRANSFER INTERFACE
 //=========================================================================================
 
-void Controller::sendUpdate(std::list<ToClientPack> toClientsPackages, Server* server) {
+void Controller::sendUpdate(std::list<ToClientPack>* toClientsPackages, Server* server) {
     std::string serializedPackage;
-    for (auto package: toClientsPackages){
+    for (auto package: *toClientsPackages){
         serializedPackage = objectSerializer.serializeObject(package);
         server->setToBroadcast(serializedPackage);
     }

@@ -19,40 +19,40 @@ void Manager::update() {//se updatean todas seguro porque updateo las listas que
     for(auto* e : specialEntities) e->update();
 }
 
-std::list<ToClientPack> Manager::generateRenderables() {
+std::list<ToClientPack>* Manager::generateRenderables() {
     //Estoy al tanto de que overall no es la mejor implementacion posible
     //pero dentro del tiempo que tenemos es la mas elegante que se me ocurre sin hacer cambios estructurales profundos
 
-    std::list<ToClientPack> packages;
+    std::list<ToClientPack>* packages = new list<ToClientPack>;
 
     for(auto* e : backLayerBackgrounds){
         ToClientPack renderable = e->getComponent<BackgroundRenderComponent>()->emitRenderable();
         if (renderable.getPath() != "NULL"){
-            packages.push_back(renderable);
+            packages->push_back(renderable);
         }
     }
     for(auto* e : nonMobileEntities){
         ToClientPack renderable = e->getComponent<NonMobileRenderComponent>()->emitRenderable();
         if (renderable.getPath() != "NULL"){
-            packages.push_back(renderable);
+            packages->push_back(renderable);
         }
     }
     for(auto* e : npcs){
         ToClientPack renderable = e->getComponent<NPCRenderComponent>()->emitRenderable();
         if (renderable.getPath() != "NULL"){
-            packages.push_back(renderable);
+            packages->push_back(renderable);
         }
     }
     for(auto* e : players){
         ToClientPack renderable = e->getComponent<CharacterRenderComponent>()->emitRenderable();
         if (renderable.getPath() != "NULL"){
-            packages.push_back(renderable);
+            packages->push_back(renderable);
         }
     }
     for(auto* e : fronLayerBackgrounds){
         ToClientPack renderable = e->getComponent<BackgroundRenderComponent>()->emitRenderable();
         if (renderable.getPath() != "NULL"){
-            packages.push_back(renderable);
+            packages->push_back(renderable);
         }
     }
     return packages;

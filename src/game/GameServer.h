@@ -82,7 +82,7 @@ private:
     //===============================
     static bool hasInstance;
 
-    std::list<ToClientPack> toClientsPackages;
+    std::list<ToClientPack>* toClientsPackages = nullptr;
     std::map<std::string,std::string> validCredentials;
     std::map<std::string,std::string> loggedPlayers;
 

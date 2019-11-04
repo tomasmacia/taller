@@ -65,7 +65,6 @@ string Server::receive(int someSocketFD) {
 //=========================================================================================
 void Server::listenThread(){
 
-    cout << maxConnections << endl;
     while (serverOn) {
         mu.lock();
         if (connections.size() < maxConnections && listen() > 0) {

@@ -14,9 +14,9 @@
 //API
 //=========================================================================================
 void UserConnection::setToSendMessage(std::string message){
-    //mu.lock();
+    mu.lock();
     toSendMessagesQueue.push_back(message);
-    //mu.unlock();
+    mu.unlock();
 }
 
 void UserConnection::init() {
@@ -55,14 +55,16 @@ void UserConnection::sendThread() {
         cout << "THREAD: amount to send: " << toSendMessagesQueue.size() << endl;
         cout << "THREAD: connections: " << server->numberOfConectionsEstablished() << endl;
         cout << "THREAD: ==================================" << endl;
-        cout << endl;*/
+        cout << endl;
+         */
 
-        if (toSendMessagesQueue.size() != 0) {
+        while (toSendMessagesQueue.size() != 0) {
             toSendMessage = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
             server->send(toSendMessage, socketFD);
             cout << "SERVER-SEND: " << toSendMessage << endl;
         }
+        //cout<<"SERVER: cantidad de paquetes: "<<toSendMessagesQueue.size()<<endl;
         mu.unlock();
     }
 }

@@ -21,7 +21,7 @@ public:
     //API
     //===============================
     void update();
-    std::list<ToClientPack> generateRenderables();
+    std::list<ToClientPack>* generateRenderables();
     void prepareForNextLevel();
 
     //ADDING NEW ENTITIES

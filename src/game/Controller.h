@@ -25,10 +25,11 @@ public:
     //===============================
     string pollAndProcessInput();
     //bool hasNewInput();
+    void clearPackages();
 
     //DATA TRANSFER INTERFACE
     //===============================
-    void sendUpdate(std::list<ToClientPack> toClientsPackages, Server* server);
+    void sendUpdate(std::list<ToClientPack>* toClientsPackages, Server* server);
     std::string getSuccesfullLoginMessage(int userId);
     std::string getInvalidCredentialMessage();
     std::string getServerFullMessage();
@@ -50,7 +51,7 @@ public:
         return currentInput;
     }
     std::list<ToClientPack> getPackages(){
-            return currentPackagesToRender;
+        return currentPackagesToRender;
     }
 
 private:

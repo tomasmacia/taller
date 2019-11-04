@@ -43,8 +43,6 @@ void Client::readThread() {
             cout << "CLIENT-READ: " << incomingMessage << endl;
             incomingQueueMutex.unlock();
         }
-        //if (incomingMessage != objectSerializer.getPingCode()) {
-        //}
         //disconnectFromServer();
     }
 }

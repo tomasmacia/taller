@@ -30,14 +30,11 @@ void GameServer::gameLoop(){
 
     while (isRunning && levelBuilder->hasNextLevel()) {
         levelBuilder->loadNext();
-        string s;
         LogManager::logInfo("=======================================");
         LogManager::logInfo("se inicia game loop de este nivel");
         while (isRunning && !levelBuilder->levelFinished()) {
             update();
             sendUpdate();
-            //cout << "Press Enter to Continue";
-            //cin.ignore();
         }
         LogManager::logInfo("fin de game loop de este nivel");
         LogManager::logInfo("=======================================");
@@ -51,6 +48,7 @@ void GameServer::update() {
 void GameServer::sendUpdate() {
     toClientsPackages = manager->generateRenderables();
     controller->sendUpdate(toClientsPackages,server);
+   controller->clearPackages();
 }
 
 //API
@@ -169,6 +167,8 @@ void GameServer::destroy() {
     levelBuilder = nullptr;
     delete(manager);
     manager = nullptr;
+    delete(toClientsPackages);
+    toClientsPackages = nullptr;
     baseClassFreeMemory();
     LogManager::logDebug("Memoria de Game Server liberada");
 }

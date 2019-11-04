@@ -40,7 +40,7 @@ void GameClient::start() {
 void GameClient::gameLoop() {
     isRunning = true;
     while (isRunning) {
-        //pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
+        pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
         render();
     }
 }
