@@ -262,6 +262,7 @@ CharacterXML XMLParser::mapCharacter(XMLElement *characters, const string curren
     character.crouch = getSafeValueFromElement(characters, {currentChildName.c_str(), "crouch"}, charArrayToString, "characters");
     character.kick = getSafeValueFromElement(characters, {currentChildName.c_str(), "kick"}, charArrayToString, "characters");
     character.jumpkick = getSafeValueFromElement(characters, {currentChildName.c_str(), "jumpkick"}, charArrayToString, "characters");
+    character.disconnected = getSafeValueFromElement(characters, {currentChildName.c_str(), "disconnected"}, charArrayToString, "characters");
 
     return character;
 }

@@ -19,6 +19,12 @@ using namespace std;
 #define MAX_BYTES_BUFFER 1000
 
 
+#if __APPLE__
+#define MSG_NOSIGNAL 0x2000 /* don't raise SIGPIPE */
+#endif	// __APPLE__
+
+
+
 //API
 //=========================================================================================
 void Client::setToSend(std::string message){

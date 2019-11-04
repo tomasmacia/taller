@@ -88,6 +88,7 @@
                 <crouch>resources/sprites/players/blue/crouch.png</crouch>
                 <jumpkick>resources/sprites/players/blue/jumpkick.png</jumpkick>
                 <kick>resources/sprites/players/blue/kick.png</kick>
+                <disconnected>resources/sprites/players/gray/stand.png</disconnected>
             </character1>
             <character2>
                 <name>Cody Red</name>
@@ -98,6 +99,7 @@
                 <crouch>resources/sprites/players/red/crouch.png</crouch>
                 <jumpkick>resources/sprites/players/red/jumpkick.png</jumpkick>
                 <kick>resources/sprites/players/red/kick.png</kick>
+                <disconnected>resources/sprites/players/gray/stand.png</disconnected>
             </character2>
             <character3>
                 <name>Cody Green</name>
@@ -108,6 +110,7 @@
                 <crouch>resources/sprites/players/green/crouch.png</crouch>
                 <jumpkick>resources/sprites/players/green/jumpkick.png</jumpkick>
                 <kick>resources/sprites/players/green/kick.png</kick>
+                <disconnected>resources/sprites/players/gray/stand.png</disconnected>
             </character3>
             <character4>
                 <name>Cody Yellow</name>
@@ -118,6 +121,7 @@
                 <crouch>resources/sprites/players/yellow/crouch.png</crouch>
                 <jumpkick>resources/sprites/players/yellow/jumpkick.png</jumpkick>
                 <kick>resources/sprites/players/yellow/kick.png</kick>
+                <disconnected>resources/sprites/players/gray/stand.png</disconnected>
             </character4>
         </characters>
         <npcs>
