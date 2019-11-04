@@ -16,7 +16,7 @@
 
 using namespace std;
 
-#define MAX_BYTES_BUFFER 4096
+#define MAX_BYTES_BUFFER 300
 
 
 //API
@@ -129,15 +129,14 @@ void Client::processRenderableSerializedObject() {//TODO HEAVY IN PERFORMANCE
 //=========================================================================================
 int  Client::send(std::string msg) {
 
-    //char buff[MAX_BYTES_BUFFER]{0};
+    char buff[MAX_BYTES_BUFFER]{0};
+    strncpy(buff, msg.c_str(), sizeof(buff));
+    buff[sizeof(buff) - 1] = 0;
 
-    //strncpy(buff, msg.c_str(), sizeof(buff));
-    //buff[sizeof(buff) - 1] = 0;
+    //int len = msg.size();
+    //char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
 
-    int len = msg.size();
-    char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
-
-    return ::send(socketFD, bufferSend, strlen(bufferSend), MSG_NOSIGNAL);
+    return ::send(socketFD, buff, strlen(buff), MSG_NOSIGNAL);
 }
 
 std::string Client::receive() {
