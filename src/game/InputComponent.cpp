@@ -9,11 +9,11 @@
 
 
 void InputComponent::update() {
-    inputs = GameServer::getInstance().getController()->getInput(); //obtengo una copia de todos los inputs de todos los clientes
+    std::list<std::tuple<Action,int>> inputs = GameServer::getInstance().getController()->getACopyOfNewInputs(); //obtengo una copia de todos los inputs de todos los clientes
 
     std::tuple<Action,int> currentInput;
-    Action currentInputAction;
     int currentInputPlayerId;
+    Action currentInputAction;
     int thisPlayerId = entity->getComponent<IDComponent>()->getId();
 
     while (!inputs.empty()){

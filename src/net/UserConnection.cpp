@@ -14,9 +14,9 @@
 //API
 //=========================================================================================
 void UserConnection::setToSendMessage(std::string message){
-    mu.lock();
+    sendQueueMutex.lock();
     toSendMessagesQueue.push_back(message);
-    mu.unlock();
+    sendQueueMutex.unlock();
 }
 
 void UserConnection::init() {
@@ -33,23 +33,27 @@ void UserConnection::init() {
 //=========================================================================================
 void UserConnection::readThread() {
 
+    string incomingMessage;
+
     while(true) {
-        mu.lock();
+        incomingQueueMutex.lock();
         incomingMessage = server->receive(socketFD);
 
         if (incomingMessage != objectSerializer.getPingCode()){
 
-            //incomingMessagesQueue.push_back(incomingMessage);
+            incomingMessagesQueue.push_back(incomingMessage);
             cout<<"SERVER-READ: "<<incomingMessage<<endl;
         }
-        mu.unlock();
+        incomingQueueMutex.unlock();
     }
 }
 
 void UserConnection::sendThread() {
 
+    string toSendMessage;
+
     while (true) {
-        mu.lock();
+        sendQueueMutex.lock();
         /*
         cout << "THREAD: vacio :" << (toSendMessagesQueue.size() != 0) << endl;
         cout << "THREAD: amount to send: " << toSendMessagesQueue.size() << endl;
@@ -58,21 +62,23 @@ void UserConnection::sendThread() {
         cout << endl;
          */
 
-        while (toSendMessagesQueue.size() != 0) {
+        if (toSendMessagesQueue.size() != 0) {
             toSendMessage = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
             server->send(toSendMessage, socketFD);
-            cout << "SERVER-SEND: " << toSendMessage << endl;
+            //cout << "SERVER-SEND: " << toSendMessage << endl;
         }
         //cout<<"SERVER: cantidad de paquetes: "<<toSendMessagesQueue.size()<<endl;
-        mu.unlock();
+        sendQueueMutex.unlock();
     }
 }
 
 void UserConnection::dispatchThread() {
 
+    string incomingMessage;
+
     while(true) {
-        mu.lock();
+        incomingQueueMutex.lock();
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
@@ -88,7 +94,7 @@ void UserConnection::dispatchThread() {
 
             cout<<"SERVER-DISPATCH: "<<incomingMessage<<endl;
         }
-        mu.unlock();
+        incomingQueueMutex.unlock();
     }
     //kill();
 }
@@ -97,12 +103,12 @@ void UserConnection::dispatchThread() {
 //=========================================================================================
 void UserConnection::processLoginFromTheClient(std::string loginMsg) {
 
-    vector<string> currentParsedMessage = messageParser.getCurrent();
+    string toSendMessage;
 
-    if (objectSerializer.validLoginFromClientMessage(currentParsedMessage)){
+    if (objectSerializer.validLoginFromClientMessage(messageParser.getCurrent())){
 
-        string user = objectSerializer.getUserFrom(currentParsedMessage);
-        string pass = objectSerializer.getPassFrom(currentParsedMessage);
+        string user = objectSerializer.getUserFrom(messageParser.getCurrent());
+        string pass = objectSerializer.getPassFrom(messageParser.getCurrent());
         toSendMessage = gameServer->validateLogin(user,pass,userId);
     }
     else{
@@ -111,13 +117,11 @@ void UserConnection::processLoginFromTheClient(std::string loginMsg) {
     server->setToSendToSpecific(toSendMessage,userId);
 }
 
-void UserConnection::processInput(std::string inputMsg) {
+void UserConnection::processInput(std::string inputMsg) {//TODO HEAVY IN PERFORMANCE
 
-    vector<string> currentParsedMessage = messageParser.getCurrent();
+    if (objectSerializer.validSerializedInputMessage(messageParser.getCurrent())){
 
-    if (objectSerializer.validSerializedInputMessage(currentParsedMessage)){
-
-        auto input = objectSerializer.reconstructInput(currentParsedMessage);
+        auto input = objectSerializer.reconstructInput(messageParser.getCurrent());
         gameServer->reciveNewInput(input);
     }
 }

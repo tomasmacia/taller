@@ -16,12 +16,13 @@
 
 class Manager {
 public:
+    Manager();
     ~Manager();
 
     //API
     //===============================
     void update();
-    std::list<ToClientPack>* generateRenderables();
+    std::list<ToClientPack*>* generateRenderables();
     void prepareForNextLevel();
 
     //ADDING NEW ENTITIES
@@ -65,5 +66,9 @@ private:
     std::list<Entity*> entitiesWithPosition;        //only utilities, weapons, npcs and players
     std::list<Entity*> backLayerBackgrounds;
     std::list<Entity*> fronLayerBackgrounds;
+
+    //for performance
+    std::list<ToClientPack*>* packagesToClients = nullptr;
+    ToClientPack* renderable = nullptr;
 };
 #endif //GAME_MANAGER_H

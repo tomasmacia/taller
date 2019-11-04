@@ -8,10 +8,15 @@
 #include "CharacterRenderComponent.h"
 #include "NPCRenderComponent.h"
 
+//CONSTRUCTOR
+//=========================================================================================
+Manager::Manager(){
+    packagesToClients = new list<ToClientPack*>;
+}
+
 //API
 //=========================================================================================
 void Manager::update() {//se updatean todas seguro porque updateo las listas que formaban una particion de las entities
-    sortEntitiesByY();
 
     for(auto* e : backLayerBackgrounds) e->update();
     for(auto* e : entitiesWithPosition) e->update();
@@ -19,43 +24,52 @@ void Manager::update() {//se updatean todas seguro porque updateo las listas que
     for(auto* e : specialEntities) e->update();
 }
 
-std::list<ToClientPack>* Manager::generateRenderables() {
-    //Estoy al tanto de que overall no es la mejor implementacion posible
-    //pero dentro del tiempo que tenemos es la mas elegante que se me ocurre sin hacer cambios estructurales profundos
+std::list<ToClientPack*>* Manager::generateRenderables() {
 
-    std::list<ToClientPack>* packages = new list<ToClientPack>;
+    for (auto package: *packagesToClients){
+        delete package;
+        package = nullptr;
+    }
+    packagesToClients->clear();
+
+    sortEntitiesByY(); //sorteo aca porque es al render al que le importa el orden en la lista
 
     for(auto* e : backLayerBackgrounds){
-        ToClientPack renderable = e->getComponent<BackgroundRenderComponent>()->emitRenderable();
-        if (renderable.getPath() != "NULL"){
-            packages->push_back(renderable);
+        renderable = e->getComponent<BackgroundRenderComponent>()->emitRenderable();
+
+        if (renderable != nullptr && renderable->getPath() != "NULL"){
+            packagesToClients->push_back(renderable);
         }
     }
-    for(auto* e : nonMobileEntities){
-        ToClientPack renderable = e->getComponent<NonMobileRenderComponent>()->emitRenderable();
-        if (renderable.getPath() != "NULL"){
-            packages->push_back(renderable);
+
+    for(auto* e : entitiesWithPosition){
+
+        if (e->hasComponent<NonMobileRenderComponent>()){
+            renderable = e->getComponent<NonMobileRenderComponent>()->emitRenderable();
+        }
+
+        if (e->hasComponent<NPCRenderComponent>()){
+            renderable = e->getComponent<NPCRenderComponent>()->emitRenderable();
+        }
+
+        if (e->hasComponent<CharacterRenderComponent>()){
+            renderable = e->getComponent<CharacterRenderComponent>()->emitRenderable();
+        }
+
+        if (renderable != nullptr && renderable->getPath() != "NULL"){
+            packagesToClients->push_back(renderable);
         }
     }
-    for(auto* e : npcs){
-        ToClientPack renderable = e->getComponent<NPCRenderComponent>()->emitRenderable();
-        if (renderable.getPath() != "NULL"){
-            packages->push_back(renderable);
-        }
-    }
-    for(auto* e : players){
-        ToClientPack renderable = e->getComponent<CharacterRenderComponent>()->emitRenderable();
-        if (renderable.getPath() != "NULL"){
-            packages->push_back(renderable);
-        }
-    }
+
     for(auto* e : fronLayerBackgrounds){
-        ToClientPack renderable = e->getComponent<BackgroundRenderComponent>()->emitRenderable();
-        if (renderable.getPath() != "NULL"){
-            packages->push_back(renderable);
+        renderable = e->getComponent<BackgroundRenderComponent>()->emitRenderable();
+        if (renderable != nullptr && renderable->getPath() != "NULL"){
+            packagesToClients->push_back(renderable);
         }
     }
-    return packages;
+    renderable = nullptr;
+
+    return packagesToClients;
 }
 
 void Manager::prepareForNextLevel(){
@@ -164,6 +178,16 @@ Manager::~Manager() {
     players.clear();
     backLayerBackgrounds.clear();
     fronLayerBackgrounds.clear();
+
+    for (auto package: *packagesToClients){
+        delete package;
+    }
+    packagesToClients->clear();
+    delete packagesToClients;
+    packagesToClients = nullptr;
+
+    delete renderable;
+    renderable = nullptr;
     LogManager::logDebug("Memoria de Manager liberada");
 }
 

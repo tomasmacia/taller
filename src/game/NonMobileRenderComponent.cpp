@@ -25,8 +25,8 @@ void NonMobileRenderComponent::update() {
     updatePosition();
 }
 
-ToClientPack NonMobileRenderComponent::generateRenderable() {
-    return ToClientPack(currentSprite,srcRect,destRect,false);
+ToClientPack* NonMobileRenderComponent::generateRenderable() {
+    return new ToClientPack(currentSprite,srcRect,destRect,false);
 }
 
 /*

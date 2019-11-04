@@ -27,6 +27,19 @@ void Client::setToSend(std::string message){
     sendQueueMutex.unlock();
 }
 
+bool Client::init(){
+
+    create();
+    connectToServer();
+
+    std::thread read(&Client::readThread,this);
+    read.detach();
+    //std::thread send(&Client::sendThread,this);
+    //send.detach();
+    std::thread dispatch(&Client::dispatchThread,this);
+    dispatch.detach();
+}
+
 //THREADS
 //=========================================================================================
 void Client::readThread() {
@@ -40,9 +53,9 @@ void Client::readThread() {
         else{
 
             incomingMessagesQueue.push_back(incomingMessage);
-            cout << "CLIENT-READ: " << incomingMessage << endl;
-            incomingQueueMutex.unlock();
+            //cout << "CLIENT-READ: " << incomingMessage << endl;
         }
+        incomingQueueMutex.unlock();
         //disconnectFromServer();
     }
 }
@@ -74,7 +87,7 @@ void Client::dispatchThread() {
 
             if (objectSerializer.validSerializedObjectMessage(messageParser.getCurrent())){
 
-                cout<<"CLIENT-DISPATCH: "<<incomingMessage<<endl;
+                //cout<<"CLIENT-DISPATCH: "<<incomingMessage<<endl;
                 processRenderableSerializedObject();
 
                 /*
@@ -90,9 +103,6 @@ void Client::dispatchThread() {
                 //LogManager::logDebug("CLIENT-DISPATCH: " + incomingMessage);
 
             }
-            messageParser.clear();
-
-
         }
         incomingQueueMutex.unlock();
     }
@@ -102,9 +112,7 @@ void Client::dispatchThread() {
 //=========================================================================================
 void Client::processResponseFromServer() {
 
-    vector<string> currentParsedMessage = messageParser.getCurrent();
-
-    int id = objectSerializer.getIDFrom(currentParsedMessage);
+    int id = objectSerializer.getIDFrom(messageParser.getCurrent());
 
     gameClient->setServerAknowledgeToLogin(messageParser.getHeader());
 
@@ -113,7 +121,7 @@ void Client::processResponseFromServer() {
     }
 }
 
-void Client::processRenderableSerializedObject() {
+void Client::processRenderableSerializedObject() {//TODO HEAVY IN PERFORMANCE
     gameClient->reciveRenderable(objectSerializer.reconstructRenderable(messageParser.getCurrent()));
 }
 
@@ -180,19 +188,6 @@ Client::Client(GameClient* gameClient) {
     //char buf[MAX_BYTES_BUFFER];
     //buffer = buf;
     this->gameClient = gameClient;
-}
-
-bool Client::init(){
-
-    create();
-    connectToServer();
-
-    std::thread read(&Client::readThread,this);
-    read.detach();
-    //std::thread send(&Client::sendThread,this);
-    //send.detach();
-    std::thread dispatch(&Client::dispatchThread,this);
-    dispatch.detach();
 }
 
 int Client::create() {

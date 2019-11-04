@@ -13,6 +13,8 @@ using namespace std;
 class MessageParser {
 
 public:
+    MessageParser();
+    ~MessageParser();
 
     //API
     //===============================
@@ -23,19 +25,19 @@ public:
 
     //GETTERS
     //===============================
-    vector<string> getCurrent(){
+    vector<string>* getCurrent(){
         return lastParsedMessage;
     }
 
 private:
     //SPLIT
     //===============================
-    const vector<string> split(const string &s, const char &c);
+    vector<string>* split(const string &s, const char &c);
 
 
     //ATRIBUTES
     //===============================
-    vector<string> lastParsedMessage;
+    vector<string>* lastParsedMessage = nullptr;
 };
 
 

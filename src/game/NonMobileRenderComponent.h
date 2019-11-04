@@ -14,7 +14,7 @@ public:
 
 protected:
     void loadNextImage() override{} //Como es non moving no tiene next image
-    ToClientPack generateRenderable() override;
+    ToClientPack* generateRenderable() override;
     //void renderInOwnWay() override;
 };
 #endif //NON_MOBILE_RENDER_COMPONENT_H

@@ -12,7 +12,7 @@ public:
     
 protected:
     virtual void handleIncomingAction() = 0;
-    ToClientPack generateRenderable() override;
+    ToClientPack* generateRenderable() override;
     //void renderInOwnWay() override;
 
     void loadNextImage() override;

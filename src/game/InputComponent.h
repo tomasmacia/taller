@@ -13,9 +13,6 @@
 class InputComponent : public Component {
 public:
     void update() override;
-
-private:
-    std::list<std::tuple<Action,int>> inputs;
 };
 
 

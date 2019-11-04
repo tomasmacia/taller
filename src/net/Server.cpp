@@ -66,7 +66,6 @@ string Server::receive(int someSocketFD) {
 void Server::listenThread(){
 
     while (serverOn) {
-        mu.lock();
         if (connections.size() < maxConnections && listen() > 0) {
             cout<<"LISTEN THREAD: esperando conexion"<<endl;
             auto newUserConnection = accept();
@@ -77,7 +76,6 @@ void Server::listenThread(){
             }
         }
         //checkAndRemoveLostConnections();
-        mu.unlock();
     }
 }
 

@@ -19,9 +19,9 @@ public:
 
     //API
     //===============================
-    int getIDFrom(vector<string> currentParsedMessage);
-    string getUserFrom(vector<string> currentParsedMessage);
-    string getPassFrom(vector<string> currentParsedMessage);
+    int getIDFrom(vector<string>* currentParsedMessage);
+    string getUserFrom(vector<string>* currentParsedMessage);
+    string getPassFrom(vector<string>* currentParsedMessage);
     std::string getSuccesfullLoginMessage(int userId);
     std::string getInvalidCredentialMessage();
     std::string getServerFullMessage();
@@ -29,23 +29,30 @@ public:
 
     //VALIDATE
     //===============================
-    bool validLoginFromServerMessage(vector<string> currentParsedMessage);
-    bool validSerializedObjectMessage(vector<string> currentParsedMessage);
-    bool validLoginFromClientMessage(vector<string> currentParsedMessage);
-    bool validSerializedInputMessage(vector<string> currentParsedMessage);
+    bool validLoginFromServerMessage(vector<string>* currentParsedMessage);
+    bool validSerializedObjectMessage(vector<string>* currentParsedMessage);
+    bool validLoginFromClientMessage(vector<string>* currentParsedMessage);
+    bool validSerializedInputMessage(vector<string>* currentParsedMessage);
 
     //RECONSTRUCT
     //===============================
-    ToClientPack reconstructRenderable(vector<string> currentParsedMessage);
-    tuple<Action,int> reconstructInput(vector<string> currentParsedMessage);
+    ToClientPack* reconstructRenderable(vector<string>* currentParsedMessage);
+    tuple<Action,int> reconstructInput(vector<string>* currentParsedMessage);
 
-    //SERIALIZE
+    //SERIALIZATION
     //===============================
-    string serializeObject(ToClientPack package);
+    std::string serializedSuccesfullLoginMessage(int userId);
+    std::string serializedInvalidCredentialMessage();
+    std::string serializedServerFullMessage();
+    std::string serializedAlreadyLoggedInMessage();
+    string serializeObject(ToClientPack* package);
     string serializeInput(Action action, int id);
 
     //GETTERS
     //===============================
+
+
+
     string getFailure(){
         return FAILURE;
     }

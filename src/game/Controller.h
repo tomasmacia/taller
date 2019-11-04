@@ -20,16 +20,17 @@
 class Controller {
 public:
     Controller(Game* game);
+    ~Controller();
 
     //API
     //===============================
     string pollAndProcessInput();
     //bool hasNewInput();
-    void clearPackages();
+    void clearAllInputs();
 
     //DATA TRANSFER INTERFACE
     //===============================
-    void sendUpdate(std::list<ToClientPack>* toClientsPackages, Server* server);
+    void sendUpdate(std::list<ToClientPack*>* toClientsPackages, Server* server);
     std::string getSuccesfullLoginMessage(int userId);
     std::string getInvalidCredentialMessage();
     std::string getServerFullMessage();
@@ -37,20 +38,20 @@ public:
 
     //SETTERS
     //===============================
-    void setRenderable(ToClientPack package){
-        currentPackagesToRender.push_back(package);
+    void setRenderable(ToClientPack* package){
+        currentPackagesToRender->push_back(package);
     }
 
     void setInput(tuple<Action,int> input){
-        return currentInput.push_back(input);
+        return currentInput->push_back(input);
     }
 
     //GETTERS
     //===============================
-    std::list<std::tuple<Action,int>> getInput() {
-        return currentInput;
+    std::list<std::tuple<Action,int>> getACopyOfNewInputs() {
+        return *currentInput;
     }
-    std::list<ToClientPack> getPackages(){
+    std::list<ToClientPack*>* getPackages(){
         return currentPackagesToRender;
     }
 
@@ -68,17 +69,16 @@ private:
 
     //ATRIBUTES
     //===============================
-    //el input ahora es una tupla (Action, id)
-    std::list<std::tuple<Action,int>> currentInput;
-    std::list<ToClientPack> currentPackagesToRender;
 
+    std::list<std::tuple<Action,int>>* currentInput = nullptr;
+    std::list<ToClientPack*>* currentPackagesToRender = nullptr;
     SDL_Event sdlEvent;
-    ObjectSerializer objectSerializer;
-
-    std::map<SDL_Scancode, Action> actions;
-    std::map<std::string, SDL_Scancode> scancodes;
-
     Game* game = nullptr;
+
+    ObjectSerializer objectSerializer;
+    std::map<SDL_Scancode, Action> actions;
+
+    std::map<std::string, SDL_Scancode> scancodes;
 };
 
 #endif //GAME_CONTROLLER_H

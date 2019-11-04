@@ -15,11 +15,11 @@ class RenderComponent : public Component {
 public:
     virtual void update() = 0;
 
-    ToClientPack emitRenderable();
+    ToClientPack* emitRenderable();
     
 protected:
     virtual void loadNextImage() = 0;
-    virtual ToClientPack generateRenderable() = 0;
+    virtual ToClientPack* generateRenderable() = 0;
     //virtual void renderInOwnWay() = 0;
 
     void getCurrentSpriteDimentions();

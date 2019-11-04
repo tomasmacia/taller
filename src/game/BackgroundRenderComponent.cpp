@@ -45,8 +45,8 @@ void BackgroundRenderComponent::loadNextImage(){
     }
 }
 
-ToClientPack BackgroundRenderComponent::generateRenderable() {
-    return ToClientPack(currentSprite,srcRect,destRect,false);
+ToClientPack* BackgroundRenderComponent::generateRenderable() {
+    return new ToClientPack(currentSprite,srcRect,destRect,false);
 }
 
 /*

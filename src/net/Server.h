@@ -60,7 +60,6 @@ private:
 
     //ATRIBUTE
     //===============================
-    std::mutex mu;
     bool serverOn;
     char* buffer;
 

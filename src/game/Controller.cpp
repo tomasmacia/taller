@@ -17,7 +17,7 @@
 //PROCESSING
 //=========================================================================================
 
-string Controller::pollAndProcessInput() {
+string Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
     Action action;
     int playerId = game->getPlayerId(); //cada pc tiene uno asignado al principio y es unico
     std::string serializedInput;
@@ -60,20 +60,20 @@ V Controller::getWithDefault(const std::map<K,V> &map, const K &key, const V &de
     return value;
 }
 
-
-void Controller::clearPackages(){
-    currentPackagesToRender.clear();
-    cout<<"MODELO: cantidad de paquetes: "<<currentPackagesToRender.size()<<endl;
+void Controller::clearAllInputs(){
+    currentInput->clear();
 }
 
 //DATA TRANSFER INTERFACE
 //=========================================================================================
 
-void Controller::sendUpdate(std::list<ToClientPack>* toClientsPackages, Server* server) {
+void Controller::sendUpdate(std::list<ToClientPack*>* toClientsPackages, Server* server) {
     std::string serializedPackage;
     for (auto package: *toClientsPackages){
-        serializedPackage = objectSerializer.serializeObject(package);
-        server->setToBroadcast(serializedPackage);
+        if(package != nullptr){
+            serializedPackage = objectSerializer.serializeObject(package); //TODO HEAVY IN PERFORMANCE
+            server->setToBroadcast(serializedPackage);
+        }
     }
 }
 
@@ -98,6 +98,8 @@ std::string Controller::getAlreadyLoggedInMessage() {
 
 Controller::Controller(Game* game) {
     this->game = game;
+    currentInput = new std::list<std::tuple<Action,int>>();
+    currentPackagesToRender = new std::list<ToClientPack*>();
     init();
     bind();
 }
@@ -237,6 +239,23 @@ void Controller::bind() {
     actions.insert(std::make_pair(scancodes.at(bindings.KICK), KICK));
 
     actions.insert(std::make_pair(SDL_SCANCODE_ESCAPE, QUIT));
+}
+
+//DESTROY
+//=========================================================================================
+Controller::~Controller() {
+    game = nullptr;
+
+    for (auto package: *currentPackagesToRender){
+        delete package;
+    }
+    currentPackagesToRender->clear();
+    delete  currentPackagesToRender;
+    currentPackagesToRender = nullptr;
+
+    currentInput->clear();
+    delete  currentInput;
+    currentInput = nullptr;
 }
 
 

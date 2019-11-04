@@ -16,7 +16,7 @@ public:
 protected:
     void loadNextImage() override;
     //void renderInOwnWay() override;
-    ToClientPack generateRenderable() override;
+    ToClientPack* generateRenderable() override;
 
 private:
     float _parallaxSpeed;

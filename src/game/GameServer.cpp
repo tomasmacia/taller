@@ -28,6 +28,7 @@ void GameServer::start() {
 
 void GameServer::gameLoop(){
 
+    isRunning = true;
     while (isRunning && levelBuilder->hasNextLevel()) {
         levelBuilder->loadNext();
         LogManager::logInfo("=======================================");
@@ -43,12 +44,11 @@ void GameServer::gameLoop(){
 
 void GameServer::update() {
     manager->update();
+    controller->clearAllInputs();
 }
 
 void GameServer::sendUpdate() {
-    toClientsPackages = manager->generateRenderables();
-    controller->sendUpdate(toClientsPackages,server);
-   controller->clearPackages();
+    controller->sendUpdate(manager->generateRenderables(),server);
 }
 
 //API
@@ -128,7 +128,6 @@ void GameServer::initGameModel() {
     initController();
     initLevelBuilder();
     initSDL();
-    isRunning = true;
     LogManager::logDebug("inicializado Manager");
     LogManager::logDebug("inicializado Controller");
     LogManager::logDebug("inicializado LevelBuilder");
@@ -167,8 +166,6 @@ void GameServer::destroy() {
     levelBuilder = nullptr;
     delete(manager);
     manager = nullptr;
-    delete(toClientsPackages);
-    toClientsPackages = nullptr;
     baseClassFreeMemory();
     LogManager::logDebug("Memoria de Game Server liberada");
 }

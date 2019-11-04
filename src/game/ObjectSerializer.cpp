@@ -11,61 +11,75 @@ using namespace std;
 
 //API
 //=========================================================================================
-int ObjectSerializer::getIDFrom(vector<string> currentParsedMessage){
-    return stoi(currentParsedMessage.at(1));
+int ObjectSerializer::getIDFrom(vector<string>* currentParsedMessage){
+    return stoi(currentParsedMessage->at(1));
 }
 
-string ObjectSerializer::getUserFrom(vector<string> currentParsedMessage){
-    return currentParsedMessage.at(1);
+string ObjectSerializer::getUserFrom(vector<string>* currentParsedMessage){
+    return currentParsedMessage->at(1);
 }
 
-string ObjectSerializer::getPassFrom(vector<string> currentParsedMessage){
-    return currentParsedMessage.at(2);
+string ObjectSerializer::getPassFrom(vector<string>* currentParsedMessage){
+    return currentParsedMessage->at(2);
+}
+
+string ObjectSerializer::getSuccesfullLoginMessage(int id){
+    return serializedSuccesfullLoginMessage(id);
+}
+
+string ObjectSerializer::getInvalidCredentialMessage(){
+    return serializedInvalidCredentialMessage();
+}
+
+string ObjectSerializer::getServerFullMessage(){
+    return serializedServerFullMessage();
+}
+
+string ObjectSerializer::getAlreadyLoggedInMessage() {
+    return serializedAlreadyLoggedInMessage();
 }
 
 //VALIDATE
 //=========================================================================================
-bool ObjectSerializer::validLoginFromServerMessage(vector<string> currentParsedMessage){
+bool ObjectSerializer::validLoginFromServerMessage(vector<string>* currentParsedMessage){
     //SERIALIZED LOGIN ID: //header,id,END_SERIALIZATION_SIMBOL
-    return currentParsedMessage.size() == 3;
+    return currentParsedMessage->size() == 3;
 }
 
-bool ObjectSerializer::validSerializedObjectMessage(vector<string> currentParsedMessage){
+bool ObjectSerializer::validSerializedObjectMessage(vector<string>* currentParsedMessage){
     //SERIALIZED OBJECT: header,path,srcw,srch,srcx,srcy,dstw,dsth,dstx,dsty,bool,END_SERIALIZATION_SIMBOL
-    return currentParsedMessage.at(0) == to_string(RENDERABLE) && currentParsedMessage.size() == 12;
+    return currentParsedMessage->at(0) == to_string(RENDERABLE) && currentParsedMessage->size() == 12;
 }
 
-bool ObjectSerializer::validLoginFromClientMessage(vector<string> currentParsedMessage){
+bool ObjectSerializer::validLoginFromClientMessage(vector<string>* currentParsedMessage){
     //SERIALIZED LOGIN ID: header,user,pass,END_SERIALIZATION_SIMBOL
-    return currentParsedMessage.size() == 4;
+    return currentParsedMessage->size() == 4;
 }
 
-bool ObjectSerializer::validSerializedInputMessage(vector<string> currentParsedMessage){
+bool ObjectSerializer::validSerializedInputMessage(vector<string>* currentParsedMessage){
     //SERIALIZED OBJECT: header,action,id,END_SERIALIZATION_SIMBOL
-    return currentParsedMessage.size() == 4;
+    return currentParsedMessage->size() == 4;
 }
 
 //RECONSTRUCT
 //=========================================================================================
 
-ToClientPack ObjectSerializer::reconstructRenderable(vector<string> currentParsedMessage) {
+ToClientPack* ObjectSerializer::reconstructRenderable(vector<string>* currentParsedMessage) {
 
-    std::string path = currentParsedMessage.at(1);
-    SDL_Rect src = {std::stoi(currentParsedMessage.at(4)), std::stoi(currentParsedMessage.at(5)), std::stoi(currentParsedMessage.at(2)),
-                    std::stoi(currentParsedMessage.at(3))};
-    SDL_Rect dst = {std::stoi(currentParsedMessage.at(8)), std::stoi(currentParsedMessage.at(9)), std::stoi(currentParsedMessage.at(6)),
-                    std::stoi(currentParsedMessage.at(7))};
-    bool flip = std::stoi(currentParsedMessage.at(10));
+    std::string path = currentParsedMessage->at(1);
+    SDL_Rect src = {std::stoi(currentParsedMessage->at(4)), std::stoi(currentParsedMessage->at(5)), std::stoi(currentParsedMessage->at(2)),
+                    std::stoi(currentParsedMessage->at(3))};
+    SDL_Rect dst = {std::stoi(currentParsedMessage->at(8)), std::stoi(currentParsedMessage->at(9)), std::stoi(currentParsedMessage->at(6)),
+                    std::stoi(currentParsedMessage->at(7))};
+    bool flip = std::stoi(currentParsedMessage->at(10));
 
-    ToClientPack reconstructedPackage(path, src, dst, flip);
-
-    return  reconstructedPackage;
+    return  new ToClientPack(path, src, dst, flip);;
 }
 
-tuple<Action,int> ObjectSerializer::reconstructInput(vector<string> currentParsedMessage) {
+tuple<Action,int> ObjectSerializer::reconstructInput(vector<string>* currentParsedMessage) {
 
-    string action = currentParsedMessage.at(1);
-    int reconstructedId = std::stoi(currentParsedMessage.at(2));
+    string action = currentParsedMessage->at(1);
+    int reconstructedId = std::stoi(currentParsedMessage->at(2));
 
     Action reconstructedAction;
     if (action == "NONE"){reconstructedAction = NONE;}
@@ -82,33 +96,33 @@ tuple<Action,int> ObjectSerializer::reconstructInput(vector<string> currentParse
     return make_tuple (reconstructedAction,reconstructedId);
 }
 
-//SERIALIZE
+//SERIALIZATION
 //=========================================================================================
 
-string ObjectSerializer::getSuccesfullLoginMessage(int id){
+string ObjectSerializer::serializedSuccesfullLoginMessage(int id){
     return to_string(SUCCESS) + SEPARATOR + to_string(id) + SEPARATOR + END_SERIALIZATION_SIMBOL;
 }
 
-string ObjectSerializer::getInvalidCredentialMessage(){
+string ObjectSerializer::serializedInvalidCredentialMessage(){
     return to_string(INVALID_CREDENTIAL) + SEPARATOR + to_string(FAILURE_AKNOWLEDGE_SIGNAL) + SEPARATOR + to_string(END_SERIALIZATION_SIMBOL);
 }
 
-string ObjectSerializer::getServerFullMessage(){
+string ObjectSerializer::serializedServerFullMessage(){
     return to_string(SERVER_FULL) + SEPARATOR + to_string(FAILURE_AKNOWLEDGE_SIGNAL) + SEPARATOR + to_string(END_SERIALIZATION_SIMBOL);
 }
 
-string ObjectSerializer::getAlreadyLoggedInMessage(){
+string ObjectSerializer::serializedAlreadyLoggedInMessage(){
     return to_string(ALREADY_LOGGED_IN_CREDENTIAL) + SEPARATOR + to_string(FAILURE_AKNOWLEDGE_SIGNAL) + SEPARATOR + to_string(END_SERIALIZATION_SIMBOL);
 }
 
-string ObjectSerializer::serializeObject(ToClientPack package){
+string ObjectSerializer::serializeObject(ToClientPack* package){
 
     std::string serializedObject;
 
-    std::string path = package.getPath();
-    SDL_Rect src = package.getSrcRect();
-    SDL_Rect dst = package.getDstRect();
-    bool fliped = package.getFliped();
+    std::string path = package->getPath();
+    SDL_Rect src = package->getSrcRect();
+    SDL_Rect dst = package->getDstRect();
+    bool fliped = package->getFliped();
 
     std::string srcW = to_string(src.w);
     std::string srcH = to_string(src.h);

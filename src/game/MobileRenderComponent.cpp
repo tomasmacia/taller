@@ -37,8 +37,8 @@ void MobileRenderComponent::flip() {
     entity->getComponent<StateComponent>()->setFliped();
 }
 
-ToClientPack MobileRenderComponent::generateRenderable() {
-    return ToClientPack(currentSprite,srcRect,destRect,isFliped());
+ToClientPack* MobileRenderComponent::generateRenderable() {
+    return new ToClientPack(currentSprite,srcRect,destRect,isFliped());
 }
 
 /*

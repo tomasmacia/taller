@@ -2,12 +2,12 @@
 #include "RenderComponent.h"
 #include "CameraComponent.h"
 
-ToClientPack RenderComponent::emitRenderable() {
+ToClientPack* RenderComponent::emitRenderable() {
     if (onScreen()){
         return generateRenderable();
     }
     else{
-        return ToClientPack(); //NULL PATTERN
+        return new ToClientPack(); //NULL PATTERN
     }
 }
 

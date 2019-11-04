@@ -34,7 +34,7 @@ public:
     //===============================
     void setServerAknowledgeToLogin(MessageId id);
     void setPlayerId(int id);
-    void reciveRenderable(ToClientPack package);
+    void reciveRenderable(ToClientPack* package);
 
     static bool isActive(){
         return hasInstance;

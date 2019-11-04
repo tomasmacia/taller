@@ -47,7 +47,8 @@ private:
 
     //ATRIBUTES
     //===============================
-    std::mutex mu;
+    std::mutex sendQueueMutex;
+    std::mutex incomingQueueMutex;
     int socketFD;
     int userId;
 
@@ -56,8 +57,6 @@ private:
     MessageParser messageParser;
     ObjectSerializer objectSerializer;
 
-    string incomingMessage;
-    string toSendMessage;
     list<string> toSendMessagesQueue;
     list<string> incomingMessagesQueue;
 };

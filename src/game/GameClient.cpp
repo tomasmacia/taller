@@ -43,6 +43,7 @@ void GameClient::gameLoop() {
         pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
         render();
     }
+
 }
 
 void GameClient::pollAndSendInput() {
@@ -60,14 +61,12 @@ void GameClient::render() {
 }
 
 void GameClient::renderAllPackages(){
-    mu.lock();
-    std::list<ToClientPack> packages = controller->getPackages();
-    mu.unlock();
-    ToClientPack currentPackage;
-    while (!packages.empty()){
-        currentPackage = packages.front();
-        packages.pop_front();
-        currentPackage.render(&loadedTexturesMap);
+    std::list<ToClientPack*>* packages = controller->getPackages();
+    ToClientPack* currentPackage;
+    while (!packages->empty()){
+        currentPackage = packages->front();
+        packages->pop_front();
+        currentPackage->render(&loadedTexturesMap);
     }
 }
 
@@ -81,7 +80,7 @@ void GameClient::setServerAknowledgeToLogin(MessageId id){
     //loggerMenu->setServerAknowledge(id); TODO
 }
 
-void GameClient::reciveRenderable(ToClientPack package){
+void GameClient::reciveRenderable(ToClientPack* package){
     controller->setRenderable(package);
 }
 
