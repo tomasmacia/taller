@@ -12,8 +12,6 @@
 #include "UserConnection.h"
 
 #define MAX_BYTES_BUFFER 1000
-#define MAX_CONNECTIONS 2
-#define MAX_PENDING_CONNECTIONS 5
 
 #if __APPLE__
 #define MSG_NOSIGNAL 0x2000 /* don't raise SIGPIPE */
@@ -105,11 +103,8 @@ void Server::listenThread(){
 Server::Server(GameServer* gameServer) {
 
     this->serverOn = true;
-    this->maxConnections = MAX_CONNECTIONS; // TODO sacarlo de la config
+    this->maxConnections = gameServer->getMaxPlayers();
     maxBytesBuffer = MAX_BYTES_BUFFER;
-    maxConnections = MAX_CONNECTIONS;
-    char buf[MAX_BYTES_BUFFER];
-    buffer = buf;
     this->gameServer = gameServer;
 }
 
@@ -146,7 +141,7 @@ void Server::setToNonBlocking(){
 
 int Server::listen() {
 
-    ::listen(socketFD, MAX_PENDING_CONNECTIONS); // TODO hardcoded MAX connections. Replace with config later
+    ::listen(socketFD, this->maxConnections);
     return socketFD;
 }
 
@@ -190,7 +185,6 @@ void Server::removeConnection(int id){
 }
 
 int Server::shutdown() {
-    int shutResult = ::shutdown(socketFD, SHUT_WR);
     return ::shutdown(socketFD, SHUT_WR);
 }
 
