@@ -1,3 +1,6 @@
+#ifndef LOGGERMENU_H
+#define LOGGERMENU_H
+
 #include <utility>
 #include<iostream>
 #include<string>
@@ -9,21 +12,21 @@
 #include "../parser/CLIArgumentParser.h"
 #include "../parser/config/config.h"
 #include "../parser/xmlparser.h"
-#ifndef LOGGERMENU_H
-#define LOGGERMENU_H
+#include "../net/Client.h"
+#include "GameClient.h"
 
 
 class LoggerMenu {
 typedef std::pair<std::string, std::string> componente;
 public:
-    LoggerMenu();
-    bool open();
+
+    LoggerMenu(GameClient* client);
+    Client* open();
 private:
     void setPositionToText();
-    void agregar();
     void OnEvent(SDL_Event* Event);
     void Nombre_de_Usuario_Estatico();
-    void typing();
+    void render();
     void Fondo();
     void Update();
     void initSDL();
@@ -31,6 +34,7 @@ private:
     void ValidarCredenciales();
     void cursorBlip();
     void MensajeEmergente(std::string path);
+    void serverAknoeledge(MessageId id);
 
 
 private:
@@ -60,6 +64,11 @@ private:
     SDL_Texture* msjEmergente = nullptr;
     SDL_Rect msjEmrgnte;
 
+    //Cliente
+    Client* client_ = nullptr;
+    GameClient* _game = nullptr;
+    MessageId response;
+    bool serverAknoeledgeRecived = false;
     
 };
 

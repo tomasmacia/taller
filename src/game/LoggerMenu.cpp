@@ -1,13 +1,12 @@
 #include "LoggerMenu.h"
 #include <SDL2/SDL_image.h>
-#include "TextureWrapper.h"
+#include <SDL2/SDL_ttf.h>
 #include "Game.h"
-#include<iostream>
 #include<string>
 
-LoggerMenu::LoggerMenu(){
-   // initSDL();
-  agregar();
+LoggerMenu::LoggerMenu(GameClient* game){
+  _game = game;
+
   enter = 0;
   cursor=0;
   initSDL();
@@ -38,19 +37,7 @@ void LoggerMenu::setPositionToText(){
 }
 
 
-
-void LoggerMenu::agregar()
-{
-    directorio.insert( componente ("BLANCA", "111") );
-    directorio.insert( componente("OSCAR", "222"));
-    directorio.insert( componente("TERESA", "333"));
-    directorio.insert( componente("CARLOS", "444"));
-    directorio.insert( componente("JUAN", "555"));
-    directorio.insert( componente("RUBEN", "666"));
-    directorio.insert( componente("ANDREA", "777"));
-}
-
-bool LoggerMenu::open(){
+Client* LoggerMenu::open(){
   Fondo();
   setPositionToText();
   SDL_ShowWindow(window);
@@ -64,9 +51,9 @@ bool LoggerMenu::open(){
   SDL_Delay(1000);
   this->destroy();
   if (quit){
-    return false;
+    return nullptr;
   }
-  return true;
+  return client_;
 }
 
 
@@ -212,7 +199,10 @@ void LoggerMenu::OnEvent(SDL_Event* Event) {
             case SDLK_BACKSPACE:
               if (!input.empty()){
                   input.pop_back();
-                  this->typing();
+                  if (!password.empty()){
+                    password.pop_back();
+                  }
+                  this->render();
                 }
               break;
             case SDLK_ESCAPE:
@@ -223,11 +213,13 @@ void LoggerMenu::OnEvent(SDL_Event* Event) {
             //Solo 10 caracteres para no salirse de su espacio
               if(input.size()<10){
                 input = input + SDL_GetScancodeName(Event->key.keysym.scancode);
-                this->typing();
+                if (enter ==1){
+                   password += "*";
                 }
+                this->render();
+              }
               break;
-        }
-        
+        } 
     }
 }
 
@@ -244,19 +236,32 @@ void LoggerMenu::Nombre_de_Usuario_Estatico(){
 
 void LoggerMenu::ValidarCredenciales(){
   
-  std::map<std::string, std::string>::iterator p = directorio.find(user);
-  if(p != directorio.end()){
-    if(p->second == input){
-      MensajeEmergente("User y Password aceptados");
-      running=false;
-    }
-    else{
-      MensajeEmergente("Password incorrecto");
-    }
+  client_ = new Client(_game);
+  client_->SendCredencial(user, input)
+
+  while(!serverAknoeledgeRecived){
+      continue;
   }
-  else {
-    MensajeEmergente("Usuario no existente");
+
+  if (response ==SUCCESS){
+    MensajeEmergente("User y Passwors Aceptados");
+      running = false;
   }
+  if (response ==INVALID_CREDENTIAL){
+    MensajeEmergente("User y Passwors no existentes");
+    client_ = nullptr;
+  }
+  if (response ==ALREADY_LOGGED_IN_CREDENTIAL){
+      MensajeEmergente("User logeado");
+      client_ = nullptr;
+  }
+  if (response ==SERVER_FULL){
+    MensajeEmergente("Server Completo");
+    quit = true;
+    running = false;
+    client_ = nullptr;
+  }
+
 
   SDL_DestroyTexture(text);
   SDL_DestroyTexture(Usuario_completo);
@@ -267,11 +272,10 @@ void LoggerMenu::ValidarCredenciales(){
   input.clear();
 }
 
-void LoggerMenu::typing(){
+void LoggerMenu::render(){
     int w=0,h=0;
     SDL_DestroyTexture(text);
     if (enter == 1){
-      password += "*";
       message = TTF_RenderText_Solid( font, password.c_str(), textColor );
     }
     else {
@@ -295,6 +299,9 @@ void LoggerMenu::MensajeEmergente(std::string path){
     msjEmrgnte.h=h;msjEmrgnte.w=w;
     SDL_FreeSurface(_image);
     
+}
 
-
+void LoggerMenu::serverAknoeledge(MessageId ServerResponse){
+    response = ServerResponse;
+    serverAknoeledgeRecived = true;
 }
