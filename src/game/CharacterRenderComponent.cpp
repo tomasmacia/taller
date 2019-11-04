@@ -1,5 +1,5 @@
 #include "CharacterRenderComponent.h"
-#include "Game.h"
+#include "GameServer.h"
 #include "StateComponent.h"
 
 CharacterRenderComponent::CharacterRenderComponent(Entity* camera, CharacterXML characterConfig) {
@@ -15,7 +15,7 @@ void CharacterRenderComponent::init() {
     currentSprite = characterConfig.stand;
     _imageAmount  = STAND_IMAGE_AMOUNT;
     _imageCounter = 0;
-    loadTexture();
+    getCurrentSpriteDimentions();
 }
 
 void CharacterRenderComponent::handleIncomingAction(){
@@ -64,9 +64,6 @@ void CharacterRenderComponent::handleIncomingAction(){
         case CROUCH:
             currentSprite = characterConfig.crouch;
             _imageAmount  = CROUCH_IMAGE_AMOUNT;
-            break;
-        default:
-            LogManager::logError("Default Render Switch Action"); // TODO poner un log mejor
             break;
     }
 }

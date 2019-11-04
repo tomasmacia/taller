@@ -1,20 +1,14 @@
-#include "Game.h"
+#include "GameServer.h"
 #include "RenderComponent.h"
 #include "CameraComponent.h"
 
-
-RenderComponent::~RenderComponent() {
-    texture.free();
-}
-
-void RenderComponent::render() {
-    if (onScreen())
-        renderInOwnWay();
-}
-
-void RenderComponent::loadTexture() {
-    texture.setWidthAndHeight(destRect.w, destRect.h);
-    texture.loadFromFile(currentSprite);
+ToClientPack* RenderComponent::emitRenderable() {
+    if (onScreen()){
+        return generateRenderable();
+    }
+    else{
+        return new ToClientPack(); //NULL PATTERN
+    }
 }
 
 void RenderComponent::updatePosition(){
@@ -39,4 +33,6 @@ void RenderComponent::setDimentions(){
     destRect.y = (int)entity->getComponent<PositionComponent>()->getY();
 }
 
-
+void RenderComponent::getCurrentSpriteDimentions() {
+    TextureWrapper::measureWidthAndHeighthOf(currentSprite,&currentSpriteWidth,&currentSpriteHight);
+}

@@ -44,6 +44,8 @@ set(SOURCE_FILES
         src/parser/config/screenresolution.h
         src/parser/config/utility.h
         src/parser/config/weapon.h
+        src/parser/credentials/Credentials.h
+        src/parser/credentials/UserCredentials.h
 
         # logger module
         src/LogLib/Logger.h
@@ -62,13 +64,17 @@ set(SOURCE_FILES
         src/utils/TimeUtils.h
 
         #main
-        src/main.cpp
+        src/game/main.cpp
 
         # game
         src/game/LoggerMenu.cpp
         src/game/LoggerMenu.h
         src/game/Game.h
         src/game/Game.cpp
+        src/game/GameServer.h
+        src/game/GameServer.cpp
+        src/game/GameClient.h
+        src/game/GameClient.cpp
         src/game/Controller.cpp
         src/game/Controller.h
         src/game/ECS.h
@@ -106,7 +112,28 @@ set(SOURCE_FILES
         src/game/LevelLimits.h
         src/game/LevelLimits.cpp
 
-)
+        src/game/ToClientPack.h
+        src/game/ToClientPack.cpp
+        src/game/IDPlayer.cpp 
+        src/game/IDPlayer.h 
+        src/game/IDComponent.cpp 
+        src/game/IDComponent.h
+        src/game/LoggerMenu.cpp
+        src/game/LoggerMenu.h
+        src/game/ObjectSerializer.cpp
+        src/game/ObjectSerializer.h
+        src/game/MessageParser.cpp
+        src/game/MessageParser.h
+        src/game/MessageId.h
+
+        # net
+        src/net/Client.cpp
+        src/net/Client.h
+        src/net/Server.cpp
+        src/net/Server.h
+        src/net/UserConnection.cpp 
+        src/net/UserConnection.h
+        )
 
 # create executable
 add_executable(game ${SOURCE_FILES})

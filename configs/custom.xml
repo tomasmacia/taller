@@ -14,9 +14,12 @@
         <jumpkick>S</jumpkick>
     </bindings>
     <screen>
-        <width>800</width>
-        <height>600</height>
+        <width>1333</width>
+        <height>1000</height>
     </screen>
+    <server>
+        <players>4</players>
+    </server>
     <gameplay>
         <levels>
             <amount>3</amount>
@@ -69,23 +72,57 @@
                     <far1>resources/sprites/stages/desert/far/mountain.png</far1>
                 </far>
                 <overlay>
-                    <amount>3</amount>
+                    <amount>1</amount>
                     <overlay1>resources/sprites/stages/desert/overlay/postes.png</overlay1>
                 </overlay>
             </level3>
         </levels>
         <characters>
-            <amount>1</amount>
+            <amount>4</amount>
             <character1>
-                <name>Cody</name>
-                <stand>resources/sprites/players/cody/stand.png</stand>
-                <walk>resources/sprites/players/cody/walk.png</walk>
-                <punch>resources/sprites/players/cody/punch.png</punch>
-                <jump>resources/sprites/players/cody/jump.png</jump>
-                <crouch>resources/sprites/players/cody/crouch.png</crouch>
-                <jumpkick>resources/sprites/players/cody/jumpkick.png</jumpkick>
-                <kick>resources/sprites/players/cody/kick.png</kick>
+                <name>Cody Blue</name>
+                <stand>resources/sprites/players/blue/stand.png</stand>
+                <walk>resources/sprites/players/blue/walk.png</walk>
+                <punch>resources/sprites/players/blue/punch.png</punch>
+                <jump>resources/sprites/players/blue/jump.png</jump>
+                <crouch>resources/sprites/players/blue/crouch.png</crouch>
+                <jumpkick>resources/sprites/players/blue/jumpkick.png</jumpkick>
+                <kick>resources/sprites/players/blue/kick.png</kick>
+                <disconnected>resources/sprites/players/gray/stand.png</disconnected>
             </character1>
+            <character2>
+                <name>Cody Red</name>
+                <stand>resources/sprites/players/red/stand.png</stand>
+                <walk>resources/sprites/players/red/walk.png</walk>
+                <punch>resources/sprites/players/red/punch.png</punch>
+                <jump>resources/sprites/players/red/jump.png</jump>
+                <crouch>resources/sprites/players/red/crouch.png</crouch>
+                <jumpkick>resources/sprites/players/red/jumpkick.png</jumpkick>
+                <kick>resources/sprites/players/red/kick.png</kick>
+                <disconnected>resources/sprites/players/gray/stand.png</disconnected>
+            </character2>
+            <character3>
+                <name>Cody Green</name>
+                <stand>resources/sprites/players/green/stand.png</stand>
+                <walk>resources/sprites/players/green/walk.png</walk>
+                <punch>resources/sprites/players/green/punch.png</punch>
+                <jump>resources/sprites/players/green/jump.png</jump>
+                <crouch>resources/sprites/players/green/crouch.png</crouch>
+                <jumpkick>resources/sprites/players/green/jumpkick.png</jumpkick>
+                <kick>resources/sprites/players/green/kick.png</kick>
+                <disconnected>resources/sprites/players/gray/stand.png</disconnected>
+            </character3>
+            <character4>
+                <name>Cody Yellow</name>
+                <stand>resources/sprites/players/yellow/stand.png</stand>
+                <walk>resources/sprites/players/yellow/walk.png</walk>
+                <punch>resources/sprites/players/yellow/punch.png</punch>
+                <jump>resources/sprites/players/yellow/jump.png</jump>
+                <crouch>resources/sprites/players/yellow/crouch.png</crouch>
+                <jumpkick>resources/sprites/players/yellow/jumpkick.png</jumpkick>
+                <kick>resources/sprites/players/yellow/kick.png</kick>
+                <disconnected>resources/sprites/players/gray/stand.png</disconnected>
+            </character4>
         </characters>
         <npcs>
             <amount>5</amount>

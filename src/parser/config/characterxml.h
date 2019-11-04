@@ -19,6 +19,7 @@ public:
     string crouch;
     string kick;
     string jumpkick;
+    string disconnected;
 };
 
 #endif //GAME_CHARACTERXML_H

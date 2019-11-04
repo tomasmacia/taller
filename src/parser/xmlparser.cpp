@@ -13,10 +13,10 @@ using namespace tinyxml2;
 Config* XMLParser::parse(string pathToConfig) {
     LogManager::logInfo(pathToConfig + " is the path to the config file.");
     XMLDocument doc;
-    loadFile(&doc, pathToConfig);
+    loadFile(&doc, pathToConfig, DEFAULT_CONFIG_PATH, "config");
 
     XMLDocument docDefault;
-    loadFile(&docDefault, DEFAULT_CONFIG_PATH);
+    loadFile(&docDefault, DEFAULT_CONFIG_PATH, DEFAULT_CONFIG_PATH, "config");
 
     Config* config = nullptr;
 
@@ -29,27 +29,27 @@ Config* XMLParser::parse(string pathToConfig) {
     return config;
 }
 
-XMLError XMLParser::loadFile(XMLDocument *doc, string pathToConfig) {
-    vector<char> chars(pathToConfig.c_str(), pathToConfig.c_str() + pathToConfig.size() + 1);
+XMLError XMLParser::loadFile(XMLDocument *doc, string path, string defaultPath, string type) {
+    vector<char> chars(path.c_str(), path.c_str() + path.size() + 1);
     XMLError eResult = doc->LoadFile(&chars[0]);
 
 
     if (eResult != XML_SUCCESS) {
         int specifiedDocErrorLineNumber = doc->ErrorLineNum();
 
-        XMLError defaultResult = doc->LoadFile(DEFAULT_CONFIG_PATH);
+        XMLError defaultResult = doc->LoadFile(defaultPath.c_str());
 
         if (defaultResult != XML_SUCCESS) { // TODO what should we do here?
-            LogManager::logError("Default config file located in " + string(DEFAULT_CONFIG_PATH) + " could not be loaded");
+            LogManager::logError("Default " + type + " file located in " + defaultPath + " could not be loaded");
             return defaultResult;
         }
 
-        if (pathToConfig.empty()) {
-            LogManager::logError("Default config file not specified, using default config located in " + string(DEFAULT_CONFIG_PATH));
+        if (path.empty()) {
+            LogManager::logError("Default " + type + " file not specified, using default " + type + " located in " + defaultPath);
         } else {
-            LogManager::logError(getErrorMessageFromFile(pathToConfig, specifiedDocErrorLineNumber));
-            LogManager::logError("Config file specified located in " + pathToConfig +
-            " could not be loaded. Using default config located in " + string(DEFAULT_CONFIG_PATH));
+            LogManager::logError(getErrorMessageFromFile(path, specifiedDocErrorLineNumber));
+            LogManager::logError(type + " file specified located in " + path +
+            " could not be loaded. Using default " + type + " located in " + defaultPath);
         }
     }
 
@@ -81,6 +81,7 @@ Config* XMLParser::mapXMLDocumentToConfig(XMLDocument *doc, XMLDocument *docDefa
     config->loggerLevel = wrapperLoggerModule(configElement, defaultConfigElement);
     config->bindings = wrapperBindingsModule(configElement, defaultConfigElement);
     config->screenResolution = wrapperScreenResolutionModule(configElement, defaultConfigElement);
+    config->serverMaxPlayers = wrapperServerModule(configElement, defaultConfigElement);
     config->gameplay = wrapperGameplayModule(configElement, defaultConfigElement);
 
 
@@ -101,6 +102,22 @@ string XMLParser::wrapperLoggerModule(XMLElement *config, XMLElement *defaultCon
 
 string XMLParser::getLoggerLevel(XMLElement *config) {
     return getSafeValueFromElement(config, {"logger", "level"}, charArrayToString, "logger");
+}
+
+int XMLParser::wrapperServerModule(XMLElement *config, XMLElement *defaultConfig) {
+    int serverMaxPlayers;
+    try {
+        serverMaxPlayers = getServerMaxPlayers(config);
+    } catch(string& msg) {
+        LogManager::logError(msg);
+        serverMaxPlayers = getServerMaxPlayers(defaultConfig);
+    }
+
+    return serverMaxPlayers;
+}
+
+int XMLParser::getServerMaxPlayers(XMLElement *config) {
+    return getSafeValueFromElement(config, {"server", "players"}, atoi, "server");
 }
 
 Bindings XMLParser::wrapperBindingsModule(XMLElement *config, XMLElement *defaultConfig) {
@@ -245,6 +262,7 @@ CharacterXML XMLParser::mapCharacter(XMLElement *characters, const string curren
     character.crouch = getSafeValueFromElement(characters, {currentChildName.c_str(), "crouch"}, charArrayToString, "characters");
     character.kick = getSafeValueFromElement(characters, {currentChildName.c_str(), "kick"}, charArrayToString, "characters");
     character.jumpkick = getSafeValueFromElement(characters, {currentChildName.c_str(), "jumpkick"}, charArrayToString, "characters");
+    character.disconnected = getSafeValueFromElement(characters, {currentChildName.c_str(), "disconnected"}, charArrayToString, "characters");
 
     return character;
 }
@@ -444,4 +462,90 @@ string XMLParser::getPathToElement(XMLElement *genericElement, vector<string> na
     }
 
     return pathToElement;
+}
+
+
+// ***********************************************
+// ************** CREDENTIALS PARSE **************
+// ***********************************************
+Credentials *XMLParser::parseCredentials(string pathToCredentials) {
+
+    LogManager::logInfo(pathToCredentials + " is the path to the credentials file.");
+    XMLDocument doc;
+    loadFile(&doc, pathToCredentials, DEFAULT_CREDENTIALS_PATH, "credentials");
+
+    XMLDocument docDefault;
+    loadFile(&docDefault, DEFAULT_CREDENTIALS_PATH, DEFAULT_CREDENTIALS_PATH, "credentials");
+
+    Credentials* credentials = nullptr;
+
+    try {
+        credentials = mapXMLDocumentToCredentials(&doc, &docDefault);
+    } catch(string& msg) {
+        LogManager::logError("There was an error loading default credentials --> " + msg);
+    }
+
+    return credentials;
+}
+
+Credentials* XMLParser::mapXMLDocumentToCredentials(XMLDocument *doc, XMLDocument *docDefault) {
+    XMLElement *credentialsElement = nullptr;
+    XMLElement *defaultCredentialsElement = nullptr;
+    if (doc == nullptr && docDefault == nullptr) {
+        throw string("Error reading XML"); // to be catched in XMLParser::parse try-catch
+    }
+
+    if (doc != nullptr) {
+        credentialsElement = doc->FirstChildElement("credentials");
+    }
+
+    if (docDefault != nullptr) {
+        defaultCredentialsElement = docDefault->FirstChildElement("credentials");
+    }
+
+    if (credentialsElement == nullptr) {
+        LogManager::logError("Error reading credentials from XML. Using default credentials");
+        credentialsElement = defaultCredentialsElement; // do not try to create modules later from null, use default directly
+    }
+
+    auto* credentials = new Credentials();
+
+    credentials->users = wrapperUsersModule(credentialsElement, defaultCredentialsElement);
+
+
+    return credentials;
+}
+
+vector<UserCredentials> XMLParser::wrapperUsersModule(XMLElement *credentials, XMLElement *defaultCredentials) {
+    vector<UserCredentials> users;
+    try {
+        users = getUserCredentials(credentials);
+    } catch (string& msg) {
+        LogManager::logError(msg);
+        users = getUserCredentials(defaultCredentials);
+    }
+
+    return users;
+}
+
+vector<UserCredentials> XMLParser::getUserCredentials(XMLElement *credentials) {
+    vector<UserCredentials> users;
+    XMLElement *user = nullptr;
+
+    if (credentials != nullptr) {
+        user = credentials->FirstChildElement("user");
+    }
+
+    while(user != nullptr) {
+        UserCredentials userCredentials;
+
+        userCredentials.username = getSafeValueFromElement(user, {"username"}, charArrayToString, "user");
+        userCredentials.password = getSafeValueFromElement(user, {"password"}, charArrayToString, "user");
+
+        users.push_back(userCredentials);
+
+        user = user->NextSiblingElement("user");
+    }
+
+    return users;
 }

@@ -31,89 +31,92 @@ void LoggerMenu::initSDL() {
 }
 
 void LoggerMenu::setPositionToText(){
-
-  UserRect.x=475;UserRect.y=180;
-  textRect.x=475;textRect.y=180;
+    UserRect.x=475;
+    UserRect.y=180;
+    textRect.x=475;
+    textRect.y=180;
 }
 
 
-Client* LoggerMenu::open(){
-  Fondo();
-  setPositionToText();
-  SDL_ShowWindow(window);
-  SDL_Event Event;
+Client* LoggerMenu::open() {
+    Fondo();
+    setPositionToText();
+    SDL_ShowWindow(window);
+    SDL_Event Event;
     while(running){
-      while(SDL_PollEvent(&Event)){ 
-        OnEvent(&Event);
-      }
-      Update();
+        while(SDL_PollEvent(&Event)){
+            OnEvent(&Event);
+        }
+        Update();
     }
-  SDL_Delay(1000);
-  this->destroy();
-  if (quit){
-    return nullptr;
-  }
-  return client_;
+    SDL_Delay(1000);
+    this->destroy();
+
+    if (quit) {
+        return nullptr;
+    }
+
+    return client_;
 }
 
 
 void LoggerMenu::Fondo(){
-  SDL_Surface*_image = IMG_Load("resources/sprites/Menu/logo.png");
-  _texture = SDL_CreateTextureFromSurface( _render, _image );
-  SDL_FreeSurface(_image);
+    SDL_Surface*_image = IMG_Load("resources/sprites/Menu/logo.png");
+    _texture = SDL_CreateTextureFromSurface( _render, _image );
+    SDL_FreeSurface(_image);
 
-  int w=0,h=0;
-  font =TTF_OpenFont("resources/sprites/Menu/reve.ttf",20);
-  textColor.r=textColor.g=textColor.b=0;
+    int w=0,h=0;
+    font =TTF_OpenFont("resources/sprites/Menu/reve.ttf",20);
+    textColor.r=textColor.g=textColor.b=0;
 
-  _image = TTF_RenderText_Solid(font,"User: ",textColor);
-  Usuario= SDL_CreateTextureFromSurface(_render,_image);
-  SDL_QueryTexture(Usuario,NULL,NULL,&w,&h);
-  _usuario.x=550;_usuario.y=150;
-  _usuario.h=h;_usuario.w=w;
-  SDL_FreeSurface(_image);
+    _image = TTF_RenderText_Solid(font,"User: ",textColor);
+    Usuario= SDL_CreateTextureFromSurface(_render,_image);
+    SDL_QueryTexture(Usuario,NULL,NULL,&w,&h);
+    _usuario.x=550;_usuario.y=150;
+    _usuario.h=h;_usuario.w=w;
+    SDL_FreeSurface(_image);
 
-  _image = TTF_RenderText_Solid(font,"Password: ",textColor);
-  pass= SDL_CreateTextureFromSurface(_render,_image);
-  SDL_QueryTexture(pass,NULL,NULL,&w,&h);
-  _pass.x=525;_pass.y=250;
-  _pass.h=h;_pass.w=w;
-  SDL_FreeSurface(_image);
+    _image = TTF_RenderText_Solid(font,"Password: ",textColor);
+    pass= SDL_CreateTextureFromSurface(_render,_image);
+    SDL_QueryTexture(pass,NULL,NULL,&w,&h);
+    _pass.x=525;_pass.y=250;
+    _pass.h=h;_pass.w=w;
+    SDL_FreeSurface(_image);
 
     _image = TTF_RenderText_Solid(font,"l",textColor);
-  _cursor= SDL_CreateTextureFromSurface(_render,_image);
-  SDL_QueryTexture(_cursor,NULL,NULL,&w,&h);
-  destCursor.x=475;destCursor.y=180;
-  destCursor.h=h;destCursor.w=w;
-  SDL_FreeSurface(_image);
+    _cursor= SDL_CreateTextureFromSurface(_render,_image);
+    SDL_QueryTexture(_cursor,NULL,NULL,&w,&h);
+    destCursor.x=475;destCursor.y=180;
+    destCursor.h=h;destCursor.w=w;
+    SDL_FreeSurface(_image);
 
 }
 
 
-  void LoggerMenu::Update(){
-        cursorBlip();
-        SDL_RenderClear(_render);
-        SDL_RenderCopy( _render, _texture, NULL, NULL );
-        SDL_RenderCopy(_render,Usuario,NULL,&_usuario);
-        SDL_RenderCopy(_render,pass,NULL,&_pass);
-        if(text!=nullptr){
-          SDL_RenderCopy(_render, text, NULL, &textRect);
-        }
-        if(Usuario_completo!=nullptr){
-            SDL_RenderCopy(_render, Usuario_completo, NULL, &UserRect);
-        }
-        if(msjEmergente!=nullptr){
-            SDL_RenderCopy(_render,msjEmergente, NULL, &msjEmrgnte);   
-        }
-        if(cursosrInTxt){
-          SDL_RenderCopy(_render,_cursor, NULL, &destCursor);
-        }
-        SDL_RenderPresent(_render);
+void LoggerMenu::Update(){
+    cursorBlip();
+    SDL_RenderClear(_render);
+    SDL_RenderCopy( _render, _texture, NULL, NULL );
+    SDL_RenderCopy(_render,Usuario,NULL,&_usuario);
+    SDL_RenderCopy(_render,pass,NULL,&_pass);
+    if(text!=nullptr){
+      SDL_RenderCopy(_render, text, NULL, &textRect);
+    }
+    if(Usuario_completo!=nullptr){
+        SDL_RenderCopy(_render, Usuario_completo, NULL, &UserRect);
+    }
+    if(msjEmergente!=nullptr){
+        SDL_RenderCopy(_render,msjEmergente, NULL, &msjEmrgnte);
+    }
+    if(cursosrInTxt){
+      SDL_RenderCopy(_render,_cursor, NULL, &destCursor);
+    }
+    SDL_RenderPresent(_render);
 
 
-  }
+}
 
-  void LoggerMenu::destroy(){
+void LoggerMenu::destroy() {
     SDL_DestroyTexture(_texture);
     SDL_DestroyTexture(Usuario);
     SDL_DestroyTexture(pass);
@@ -128,17 +131,19 @@ void LoggerMenu::Fondo(){
     IMG_Quit();
     SDL_Quit();
 
-  }
+}
 
 
 void LoggerMenu::cursorBlip(){
-  if (cursor ==30){
-    cursosrInTxt=(!cursosrInTxt);
-    cursor=0;
-  }
-  cursor++;
+    if (cursor ==30) {
+        cursosrInTxt=(!cursosrInTxt);
+        cursor=0;
+    }
+    cursor++;
 
 }
+
+
 void LoggerMenu::OnEvent(SDL_Event* Event) {
     //handle window close
     if(Event->type == SDL_QUIT) {
@@ -147,10 +152,8 @@ void LoggerMenu::OnEvent(SDL_Event* Event) {
     }
 
     //handle key press
-    if(Event->type == SDL_KEYDOWN)
-    {
-        switch(Event->key.keysym.sym)
-        {
+    if(Event->type == SDL_KEYDOWN) {
+        switch(Event->key.keysym.sym) {
             case SDLK_TAB:break;
             case SDLK_LSHIFT:break;
             case SDLK_RSHIFT:break;
@@ -181,7 +184,7 @@ void LoggerMenu::OnEvent(SDL_Event* Event) {
               if (enter == 1){
                 enter=0;
                 textRect.y = 180;
-                ValidarCredenciales();
+                //ValidarCredenciales();
               }
               else
               {
@@ -219,7 +222,7 @@ void LoggerMenu::OnEvent(SDL_Event* Event) {
                 this->render();
               }
               break;
-        } 
+        }
     }
 }
 
@@ -234,48 +237,48 @@ void LoggerMenu::Nombre_de_Usuario_Estatico(){
 
 }
 
-void LoggerMenu::ValidarCredenciales(){
-  
-  client_ = new Client(_game);
-  client_->SendCredencial(user, input)
+void LoggerMenu::ValidarCredenciales() {
+    //client_ = new Client(_game);
+    //client_->SendCredencial(user, input);
 
-  while(!serverAknoeledgeRecived){
+    while(!serverAcknowledgeReceived) {
       continue;
-  }
+    }
 
-  if (response ==SUCCESS){
-    MensajeEmergente("User y Passwors Aceptados");
-      running = false;
-  }
-  if (response ==INVALID_CREDENTIAL){
-    MensajeEmergente("User y Passwors no existentes");
-    client_ = nullptr;
-  }
-  if (response ==ALREADY_LOGGED_IN_CREDENTIAL){
-      MensajeEmergente("User logeado");
-      client_ = nullptr;
-  }
-  if (response ==SERVER_FULL){
-    MensajeEmergente("Server Completo");
-    quit = true;
-    running = false;
-    client_ = nullptr;
-  }
+    if (response == SUCCESS){
+        MensajeEmergente("User y Passwors Aceptados");
+        running = false;
+    }
+    if (response == INVALID_CREDENTIAL){
+        MensajeEmergente("User y Passwors no existentes");
+        client_ = nullptr;
+    }
+    if (response ==ALREADY_LOGGED_IN_CREDENTIAL){
+        MensajeEmergente("User logeado");
+        client_ = nullptr;
+    }
+    if (response ==SERVER_FULL){
+        MensajeEmergente("Server Completo");
+        quit = true;
+        running = false;
+        client_ = nullptr;
+    }
 
 
-  SDL_DestroyTexture(text);
-  SDL_DestroyTexture(Usuario_completo);
-  Usuario_completo=nullptr;
-  text=nullptr;
-  user.clear();
-  password.clear();
-  input.clear();
+    SDL_DestroyTexture(text);
+    SDL_DestroyTexture(Usuario_completo);
+    Usuario_completo=nullptr;
+    text=nullptr;
+    user.clear();
+    password.clear();
+    input.clear();
 }
+
 
 void LoggerMenu::render(){
     int w=0,h=0;
     SDL_DestroyTexture(text);
-    if (enter == 1){
+    if (enter == 1) {
       message = TTF_RenderText_Solid( font, password.c_str(), textColor );
     }
     else {
@@ -298,10 +301,10 @@ void LoggerMenu::MensajeEmergente(std::string path){
     msjEmrgnte.x=475;msjEmrgnte.y=350;
     msjEmrgnte.h=h;msjEmrgnte.w=w;
     SDL_FreeSurface(_image);
-    
+
 }
 
-void LoggerMenu::serverAknoeledge(MessageId ServerResponse){
+void LoggerMenu::serverAcknowledge(MessageId ServerResponse){
     response = ServerResponse;
-    serverAknoeledgeRecived = true;
+    serverAcknowledgeReceived = true;
 }

@@ -11,7 +11,7 @@ public:
 
     bool currentIsNotBlockingAction();
     Action current();
-    bool isFlipped();
+    bool isFliped();
     void setFliped();
     bool facingRight();
     bool facingLeft();

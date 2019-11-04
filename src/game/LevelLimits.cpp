@@ -1,5 +1,6 @@
 #include <time.h>
 #include <stdlib.h>
+#include <iostream>
 
 #include "LevelLimits.h"
 #include "CameraComponent.h"
@@ -11,7 +12,6 @@ LevelLimits::LevelLimits(int windowWidth, int windowHeight, int levelWidth, Came
 }
 
 void LevelLimits::initialize(int windowWidth, int windowHeight, int levelWidth, CameraComponent* camera){
-    srand (time(NULL));
 
     _camera = camera;
 
@@ -20,9 +20,9 @@ void LevelLimits::initialize(int windowWidth, int windowHeight, int levelWidth, 
     _levelWidth = levelWidth;
 
     _rangeOfMovementY = windowHeight * 0.2;
-    _offsetY = windowHeight * 0.3;
+    _offsetY = windowHeight * 0.25;
 
-    _toleranceY = _windowHeight * 0.1;
+    _toleranceY = _windowHeight * 0.15;
     _toleranceX = _windowWidth * 0.1;
 
     _minY = _offsetY;
@@ -41,10 +41,12 @@ void LevelLimits::update(){
 }
 
 int LevelLimits::generateValidInScreenX(){
+    srand (std::clock() - start);
     return rand() % _levelWidth;
 }
 
 int LevelLimits::generateValidInScreenY(){
+    srand (std::clock() - start);
     return (rand() % _rangeOfMovementY) + _offsetY;
 }
 
@@ -53,5 +55,9 @@ bool LevelLimits::newPositionOutOfRange(int x, int y){
     return (x >= _maxX || x <= _minX) 
             ||
            (y >= _maxY || y <= _minY);
+}
+
+bool LevelLimits::newXOutOfRange(int x){
+    return (x >= _maxX || x <= _minX);
 }
 

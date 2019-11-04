@@ -17,6 +17,9 @@
         <width>1333</width>
         <height>1000</height>
     </screen>
+    <server>
+        <players>1</players>
+    </server>
     <gameplay>
         <levels>
             <amount>2</amount>
@@ -58,14 +61,15 @@
         <characters>
             <amount>1</amount>
             <character1>
-                <name>Cody</name>
-                <stand>resources/sprites/players/cody/stand.png</stand>
-                <walk>resources/sprites/players/cody/walk.png</walk>
-                <punch>resources/sprites/players/cody/punch.png</punch>
-                <jump>resources/sprites/players/cody/jump.png</jump>
-                <crouch>resources/sprites/players/cody/crouch.png</crouch>
-                <jumpkick>resources/sprites/players/cody/jumpkick.png</jumpkick>
-                <kick>resources/sprites/players/cody/kick.png</kick>
+                <name>Cody Blue</name>
+                <stand>resources/sprites/players/blue/stand.png</stand>
+                <walk>resources/sprites/players/blue/walk.png</walk>
+                <punch>resources/sprites/players/blue/punch.png</punch>
+                <jump>resources/sprites/players/blue/jump.png</jump>
+                <crouch>resources/sprites/players/blue/crouch.png</crouch>
+                <jumpkick>resources/sprites/players/blue/jumpkick.png</jumpkick>
+                <kick>resources/sprites/players/blue/kick.png</kick>
+                <disconnected>resources/sprites/players/gray/stand.png</disconnected>
             </character1>
         </characters>
         <npcs>

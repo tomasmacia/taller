@@ -2,60 +2,66 @@
 // Created by Tomás Macía on 04/10/2019.
 //
 
-#include "Controller.h"
-#include "Game.h"
 #include <SDL2/SDL_scancode.h>
 #include <map>
+#include <tuple>
 #include <utility>
 
-void Controller::processInput() {
-    currentInput.clear();
+#include "Controller.h"
+#include "IDPlayer.h"
+
+#include <iostream>
+
+//THREADS
+//=========================================================================================
+void Controller::lisentToInputForClosing(){
+    while(game->isOn()){
+        checkIfCloseRelatedInputWasPulsed();
+    }
+}
+
+//PROCESSING
+//=========================================================================================
+
+void Controller::checkIfCloseRelatedInputWasPulsed(){
     Action action;
+    while (SDL_PollEvent(&sdlEvent)) {
+        action = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
+        if ((sdlEvent.type == SDL_QUIT) || action == QUIT){
+            game->end();
+        }
+    }
+}
+
+
+string Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
+    Action action;
+    int playerId = game->getPlayerId(); //cada pc tiene uno asignado al principio y es unico
+    std::string serializedInput;
 
     while (SDL_PollEvent(&sdlEvent)) {
 
         action = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
 
         if ((sdlEvent.type == SDL_QUIT) || action == QUIT){
-            Game::getInstance().end();
+            game->end();
         }
 
         if( (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)){
 
             if (action != NONE) {
-                currentInput.push_back(action);
+                serializedInput = objectSerializer.serializeInput(action,playerId);
             }
         }
-        
+
         if ((sdlEvent.type == SDL_KEYUP && sdlEvent.key.repeat == 0 )){
             if (action == UP || action == DOWN || action == LEFT || action == RIGHT ||
                 action == NONE){//no bloqueante
-                    currentInput.push_back(NONE); //para anular la accion anterior
-            } 
+                serializedInput = objectSerializer.serializeInput(NONE,playerId);
+            }
         }
     }
-}
-
-std::list<Action> Controller::getInput() {
-    return currentInput;
-}
-
-
-void Controller::bind() {
-    Bindings bindings = Game::getInstance().getConfig()->bindings;
-
-    actions.insert(std::make_pair(scancodes.at(bindings.UP), UP));
-    actions.insert(std::make_pair(scancodes.at(bindings.DOWN), DOWN));
-    actions.insert(std::make_pair(scancodes.at(bindings.RIGHT), RIGHT));
-    actions.insert(std::make_pair(scancodes.at(bindings.LEFT), LEFT));
-
-    actions.insert(std::make_pair(scancodes.at(bindings.JUMP), JUMP));
-    actions.insert(std::make_pair(scancodes.at(bindings.JUMPKICK), JUMP_KICK));
-    actions.insert(std::make_pair(scancodes.at(bindings.ATTACK), PUNCH));
-    actions.insert(std::make_pair(scancodes.at(bindings.CROUCH), CROUCH));
-    actions.insert(std::make_pair(scancodes.at(bindings.KICK), KICK));
-
-    actions.insert(std::make_pair(SDL_SCANCODE_ESCAPE, QUIT));
+    return serializedInput;
 }
 
 template <typename K, typename V>
@@ -69,6 +75,50 @@ V Controller::getWithDefault(const std::map<K,V> &map, const K &key, const V &de
     }
 
     return value;
+}
+
+void Controller::clearAllInputs(){
+    currentInput->clear();
+}
+
+//DATA TRANSFER INTERFACE
+//=========================================================================================
+
+void Controller::sendUpdate(std::list<ToClientPack*>* toClientsPackages, Server* server) {
+    std::string serializedPackage;
+    for (auto package: *toClientsPackages){
+        if(package != nullptr){
+            serializedPackage = objectSerializer.serializeObject(package); //TODO HEAVY IN PERFORMANCE
+            server->setToBroadcast(serializedPackage);
+        }
+    }
+}
+
+std::string Controller::getSuccesfullLoginMessage(int userId){
+    return objectSerializer.getSuccesfullLoginMessage(userId);
+}
+
+std::string Controller::getInvalidCredentialMessage() {
+    return objectSerializer.getInvalidCredentialMessage();
+}
+
+std::string Controller::getServerFullMessage(){
+    return objectSerializer.getServerFullMessage();
+}
+
+std::string Controller::getAlreadyLoggedInMessage() {
+    return objectSerializer.getAlreadyLoggedInMessage();
+}
+
+//INIT & CONSTRUCTOR
+//=========================================================================================
+
+Controller::Controller(Game* game) {
+    this->game = game;
+    currentInput = new std::list<std::tuple<Action,int>>();
+    currentPackagesToRender = new std::list<ToClientPack*>();
+    init();
+    bind();
 }
 
 void Controller::init() {
@@ -191,3 +241,58 @@ void Controller::init() {
 
 }
 
+void Controller::bind() {
+    Bindings bindings = game->getConfig()->bindings;
+
+    actions.insert(std::make_pair(scancodes.at(bindings.UP), UP));
+    actions.insert(std::make_pair(scancodes.at(bindings.DOWN), DOWN));
+    actions.insert(std::make_pair(scancodes.at(bindings.RIGHT), RIGHT));
+    actions.insert(std::make_pair(scancodes.at(bindings.LEFT), LEFT));
+
+    actions.insert(std::make_pair(scancodes.at(bindings.JUMP), JUMP));
+    actions.insert(std::make_pair(scancodes.at(bindings.JUMPKICK), JUMP_KICK));
+    actions.insert(std::make_pair(scancodes.at(bindings.ATTACK), PUNCH));
+    actions.insert(std::make_pair(scancodes.at(bindings.CROUCH), CROUCH));
+    actions.insert(std::make_pair(scancodes.at(bindings.KICK), KICK));
+
+    actions.insert(std::make_pair(SDL_SCANCODE_ESCAPE, QUIT));
+}
+
+//DESTROY
+//=========================================================================================
+Controller::~Controller() {
+    game = nullptr;
+
+    for (auto package: *currentPackagesToRender){
+        delete package;
+    }
+    currentPackagesToRender->clear();
+    delete  currentPackagesToRender;
+    currentPackagesToRender = nullptr;
+
+    currentInput->clear();
+    delete  currentInput;
+    currentInput = nullptr;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+bool Controller::hasNewInput(){
+
+    SDL_Event* e;
+    if (SDL_PeepEvents(e, 0, SDL_PEEKEVENT, 0, 0) >= 0){
+        return true;
+    }
+    else{
+        return  false;
+    }
+}*/

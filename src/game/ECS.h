@@ -11,7 +11,6 @@
 #include <memory>
 #include <cassert>
 
-
 class Entity;
 class Component {
     public:
@@ -20,6 +19,7 @@ class Component {
         virtual void init() {}
 
         virtual void update() {}
+
         virtual void render() {}
 
         virtual ~Component() {}
@@ -58,9 +58,11 @@ public:
     void update() {
         for(auto& c : components) c->update();
     }
+
     void render() {
-        for(auto& c : components) c->render();
+        for (auto &c : components) c->render();
     }
+
 
     bool isAlive() const { return alive; }
     void destroy() { alive = false; }

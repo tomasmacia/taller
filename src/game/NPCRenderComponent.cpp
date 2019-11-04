@@ -1,5 +1,5 @@
 #include "NPCRenderComponent.h"
-#include "Game.h"
+#include "GameServer.h"
 #include "StateComponent.h"
 
 #include <iostream>
@@ -17,7 +17,7 @@ void NPCRenderComponent::init() {
     currentSprite = npcConfig.walk;
     _imageAmount  = WALK_IMAGE_AMOUNT;
     _imageCounter = 0;
-    loadTexture();
+    getCurrentSpriteDimentions();
 }
 
 void NPCRenderComponent::handleIncomingAction(){
@@ -46,9 +46,6 @@ void NPCRenderComponent::handleIncomingAction(){
             if (state->facingLeft()) flip();
             currentSprite = npcConfig.walk;
             _imageAmount  = WALK_IMAGE_AMOUNT;
-            break;
-        default:
-            LogManager::logError("Default Render Switch Action"); // TODO poner un log mejor
             break;
     }
 }

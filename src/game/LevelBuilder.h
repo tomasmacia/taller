@@ -15,45 +15,57 @@ public:
     LevelBuilder();
     ~LevelBuilder();
 
+
+    //API
+    //===============================
     void loadNext();
     bool hasNextLevel();
+    bool levelFinished();
+    void endLevel();
 
-    int getCurrentLevelWidth();
+    //GETTERS
+    //===============================
+    int getCurrentLevelWidth(){
+        return currentLevelWidth;
+    }
 
 private:
+    //INITIALIZING
+    //===============================
     void initialize();
     void initializeNextLevel();
     void initializeCamera();
     void initializeLevelLimits();
     void initializeWorld();
-    void initializeApropiateParallaxSpeeds(Level currentLevelSprites);
+    void initializeLevelWidth(std::string floorSpritePath);
     void initializePlayers();
     void initializeEnemies();
     void initializeUtilities();
     void initializeWeapons();
-
     void resetCamera();
     void resetLevelLimits();
     void resetPlayers();
-    void destroyUselessEntities();
 
-    int generateX();
-    int generateY();
+    //MANAGING OWN STATE
+    //===============================
+    void prepareForNextLevel();
 
-    std::vector<float> getParallaxSpeedPerLevel();
+    //ATRIBUTES
+    //===============================
     Entity* _camera = nullptr;
-    TextureWrapper* _texture = nullptr;
     Entity* _levelLimits = nullptr;
 
     int currentLevel;
     int totalLevels;
+    bool levelRunning;
 
-    int currentLevelWidth;
+    int currentLevelWidth = 10000; //ONLY USED ON ERROR
 
-    float _overlaySpeedRatio;
-    float _floorSpeedRatio;
-    float _middleSpeedRatio;
-    float _farSpeedRatio;
+    //un numero entre 0 y 1. 1 significa nada de parallax y 0 es quieto
+    float OVERLAY_SPEED_RATIO = 1; //este TIENE que ser 1
+    float FLOOR_SPEED_RATIO = 1;   //este TIENE que ser 1
+    float MIDDLE_SPEED_RATIO = 0.6;
+    float FAR_SPEED_RATIO = 0.4;
 };
 
 

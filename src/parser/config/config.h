@@ -15,6 +15,7 @@ using namespace std;
 class Config {
 public:
     string loggerLevel;
+    int serverMaxPlayers;
     Bindings bindings;
     ScreenResolution screenResolution;
     Gameplay gameplay;

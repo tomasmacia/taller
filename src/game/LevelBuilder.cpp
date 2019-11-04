@@ -2,12 +2,10 @@
 // Created by Tomás Macía on 21/09/2019.
 //
 
-#include <vector>
-#include <algorithm>
 #include "../parser/config/level.h"
 #include "../parser/config/npc.h"
 #include "LevelBuilder.h"
-#include "Game.h"
+#include "GameServer.h"
 #include "PositionComponent.h"
 #include "InputComponent.h"
 #include "PhysicsComponent.h"
@@ -17,39 +15,65 @@
 #include "CharacterRenderComponent.h"
 #include "BackgroundRenderComponent.h"
 #include "NonMobileRenderComponent.h"
-#include "MobileRenderComponent.h"
 #include "RenderComponent.h"
 #include "CameraComponent.h"
-
-
-#include <iostream>
+#include "IDComponent.h"
+#include "IDPlayer.h"
 
 using namespace std;
 
+//CONSTRUCTOR
+//=========================================================================================
 LevelBuilder::LevelBuilder() {
     currentLevel = 0;
-    totalLevels = Game::getInstance().getConfig()->gameplay.levels.size();
+    levelRunning = false;
+    totalLevels = GameServer::getInstance().getConfig()->gameplay.levels.size();
+    LogManager::logDebug("Cantidad de niveles cargados: " + std::to_string(totalLevels));
 }
 
-bool LevelBuilder::hasNextLevel(){
-    return currentLevel < totalLevels;
-}
-
+//API
+//=========================================================================================
 void LevelBuilder::loadNext() {
 
     if (currentLevel == 0){
+        LogManager::logInfo("cargando primer nivel");
         initialize();
+        levelRunning = true;
     }
     else{
-        destroyUselessEntities();
+        LogManager::logInfo("cargando siguiente nivel");
+        prepareForNextLevel();
         initializeNextLevel();
+        levelRunning = true;
     }
 }
 
+bool LevelBuilder::hasNextLevel(){
+    LogManager::logInfo("se chequea si hay siguiente nivel");
+    return currentLevel < totalLevels;
+}
+
+bool LevelBuilder::levelFinished(){
+    return !levelRunning;
+}
+
+void LevelBuilder::endLevel(){
+    levelRunning = false;
+}
+
+//MANAGING OWN STATE
+//=========================================================================================
+void LevelBuilder::prepareForNextLevel(){
+    GameServer::getInstance().getManager()->prepareForNextLevel();
+}
+
+//INITIALIZING LEVEL
+//=========================================================================================
 void LevelBuilder::initialize() {
 
     currentLevel = 1;
-    LogManager::logDebug(&"Incializando NIVEL " [currentLevel]);
+    LogManager::logInfo("=======================================");
+    LogManager::logInfo("Inicializando NIVEL " + std::to_string(currentLevel));
 
     initializeCamera();
     initializeWorld();
@@ -63,7 +87,8 @@ void LevelBuilder::initialize() {
 void LevelBuilder::initializeNextLevel() {
 
     currentLevel++;
-    LogManager::logDebug(&"Incializando NIVEL " [currentLevel]);
+    LogManager::logInfo("=======================================");
+    LogManager::logInfo("Inicializando NIVEL " + std::to_string(currentLevel));
 
     resetCamera();
     initializeWorld();
@@ -74,156 +99,93 @@ void LevelBuilder::initializeNextLevel() {
     initializeUtilities();
 }
 
-void LevelBuilder::resetCamera() {
-    LogManager::logDebug("reseteando Camara");
-    _camera->getComponent<CameraComponent>()->reset();
-}
-
 void LevelBuilder::initializeCamera() {
     LogManager::logDebug("Inicializando Camara");
 
-    Manager *manager = Game::getInstance().getManager();
+    Manager *manager = GameServer::getInstance().getManager();
 
-    _camera = manager->addEntity();
+    _camera = manager->addSpecialEntity();
     _camera->addComponent<CameraComponent>();
-}
-
-void LevelBuilder::resetLevelLimits() {
-    LogManager::logDebug("reseteando limites de pantalla");
-
-    int screenWidth = Game::getInstance().getConfig()->screenResolution.width;
-    int screenHeigth = Game::getInstance().getConfig()->screenResolution.height;
-
-    _levelLimits->getComponent<LevelLimits>()->reset(screenWidth,screenHeigth,currentLevelWidth);
 }
 
 void LevelBuilder::initializeLevelLimits() {
     LogManager::logDebug("Inicializando limites de pantalla");
 
-    Manager *manager = Game::getInstance().getManager();
+    Manager *manager = GameServer::getInstance().getManager();
 
-    int screenWidth = Game::getInstance().getConfig()->screenResolution.width;
-    int screenHeigth = Game::getInstance().getConfig()->screenResolution.height;
+    int screenWidth = GameServer::getInstance().getConfig()->screenResolution.width;
+    int screenHeigth = GameServer::getInstance().getConfig()->screenResolution.height;
 
-    _levelLimits = manager->addEntity();
+    _levelLimits = manager->addSpecialEntity();
     _levelLimits->addComponent<LevelLimits>(screenWidth,screenHeigth,currentLevelWidth,_camera->getComponent<CameraComponent>());
 }
 
 void LevelBuilder::initializeWorld() {
     LogManager::logDebug("Inicializando Fondos");
 
-    Manager *manager = Game::getInstance().getManager();
-    Level currentLevelSprites = Game::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
+    Manager *manager = GameServer::getInstance().getManager();
+    Level currentLevelSprites = GameServer::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
 
-    initializeApropiateParallaxSpeeds(currentLevelSprites);
+    initializeLevelWidth(currentLevelSprites.floor.front());
 
     if (!currentLevelSprites.far.empty()){
-        auto *far = manager->addBackground();
-        far->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.far.front(),_farSpeedRatio);
+        auto *far = manager->addBackLayerBackgrounds();
+        far->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.far.front(), FAR_SPEED_RATIO);
     }
 
     if (!currentLevelSprites.middle.empty()){
-        auto *middle = manager->addBackground();
-        middle->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.middle.front(),_middleSpeedRatio);
+        auto *middle = manager->addBackLayerBackgrounds();
+        middle->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.middle.front(), MIDDLE_SPEED_RATIO);
     }
 
     if (!currentLevelSprites.floor.empty()){
-        auto *floor = manager->addBackground();
-        floor->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.floor.front(),_floorSpeedRatio);
+        auto *floor = manager->addBackLayerBackgrounds();
+        floor->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.floor.front(), FLOOR_SPEED_RATIO);
     }
 
     if (!currentLevelSprites.overlay.empty()){
-        auto *overlay = manager->addBackground();
-        overlay->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.overlay.front(),_overlaySpeedRatio);
+        auto *overlay = manager->addFrontLayerBackgrounds();
+        overlay->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.overlay.front(), OVERLAY_SPEED_RATIO);
     }
 
     LogManager::logDebug("Fondos inicializados");
 }
 
-void LevelBuilder::initializeApropiateParallaxSpeeds(Level currentLevelSprites){
+void LevelBuilder::initializeLevelWidth(std::string floorSpritePath){
 
-    _texture = new TextureWrapper(); 
+    int floorSpriteWidth;
+    int floorSpriteHeight;
+    TextureWrapper::measureWidthAndHeighthOf(floorSpritePath, &floorSpriteWidth, &floorSpriteHeight);
 
-    float screenResolutionWidth = (int)(Game::getInstance().getConfig()->screenResolution.width);
-    float screenResolutionHeight = (int)(Game::getInstance().getConfig()->screenResolution.height);
+    int screenResolutionWidth = GameServer::getInstance().getConfig()->screenResolution.width;
+    int screenResolutionHeight = GameServer::getInstance().getConfig()->screenResolution.height;
+    float aspectRatio = (float)(screenResolutionWidth)/(float)(screenResolutionHeight);
 
-    float aspectRatio = screenResolutionWidth/screenResolutionHeight;
-    _floorSpeedRatio = 0.2;
-    float floorWidth = 10000; //HARCODED BUT USED ONLY ON ERROR
+    float scaleFactor =  (aspectRatio * (float)floorSpriteHeight)/screenResolutionWidth;
 
-    if (!currentLevelSprites.far.empty()){
-        _texture->loadFromFile(currentLevelSprites.far.front());
-        float farWidth = _texture->getWidth();
-        float farHeigth = _texture->getHeight();
-        _farSpeedRatio = (farWidth - aspectRatio*farHeigth)/(floorWidth - screenResolutionWidth)*_floorSpeedRatio;
-    }
-
-    if (!currentLevelSprites.middle.empty()){
-        _texture->loadFromFile(currentLevelSprites.middle.front());
-        float middleWidth = _texture->getWidth();
-        float middleHeigth = _texture->getHeight();
-        _middleSpeedRatio = (middleWidth - aspectRatio*middleHeigth)/(floorWidth - screenResolutionWidth)*_floorSpeedRatio;
-    }
-
-    if (!currentLevelSprites.floor.empty()){
-        _texture->loadFromFile(currentLevelSprites.floor.front());
-        floorWidth = _texture->getWidth();
-        float floorHeigth = _texture->getHeight();
-    }
-
-    if (!currentLevelSprites.overlay.empty()){
-        _texture->loadFromFile(currentLevelSprites.overlay.front());
-        float overlayWidth = _texture->getWidth();
-        float overlayHeigth = _texture->getHeight();
-        _overlaySpeedRatio = _floorSpeedRatio;
-        //aca en el overlay la logica es distinta porque nosotros tapamos el background de floor con otro en vez de editarlo
-    }
-    currentLevelWidth = floorWidth/_floorSpeedRatio;
-
-    _texture->free();
-    delete(_texture);
-    _texture = nullptr;
-}
-
-void LevelBuilder::resetPlayers() {
-    LogManager::logDebug("reseteando jugadores");
-
-    Manager *manager = Game::getInstance().getManager();
-
-    int screenResolutionWidth = (int)(Game::getInstance().getConfig()->screenResolution.width);
-    int screenResolutionHeight = (int)(Game::getInstance().getConfig()->screenResolution.height);
-    int amountOfPlayers = manager->getPlayers().size();
-    int offset = screenResolutionWidth/(amountOfPlayers+1);
-
-    int i = 0;
-    for (auto &pj : manager->getPlayers()) {
-        
-        int x = offset*(i+1);
-        int y = screenResolutionHeight/2;
-
-        pj->getComponent<PositionComponent>()->setPosition(x,y);
-
-        LogManager::logDebug("Jugador reseteado");
-        i++;
-    }
+    currentLevelWidth = (float)floorSpriteWidth/ scaleFactor;
 }
 
 void LevelBuilder::initializePlayers() {
     LogManager::logDebug("Inicializando PJ");
 
-    Manager *manager = Game::getInstance().getManager();
+    Manager *manager = GameServer::getInstance().getManager();
 
-    int screenResolutionWidth = (int)(Game::getInstance().getConfig()->screenResolution.width);
-    int screenResolutionHeight = (int)(Game::getInstance().getConfig()->screenResolution.height);
-    int amountOfPlayers = Game::getInstance().getConfig()->gameplay.characters.size();
+    int screenResolutionWidth = (int)(GameServer::getInstance().getConfig()->screenResolution.width);
+    int screenResolutionHeight = (int)(GameServer::getInstance().getConfig()->screenResolution.height);
+    int amountOfPlayers = GameServer::getInstance().getConfig()->gameplay.characters.size();
     int offset = screenResolutionWidth/(amountOfPlayers + 1);
     int i = 0;
-    for (auto &pj : Game::getInstance().getConfig()->gameplay.characters) {
+
+    IDPlayer::getInstance().initIDCounter();
+    for (auto &pj : GameServer::getInstance().getConfig()->gameplay.characters) {
         
         int x = offset*(i+1);
         int y = screenResolutionHeight/2;
+
         auto *player = manager->addPlayer();
         _camera->getComponent<CameraComponent>()->setPlayer(player);
+        player->addComponent<IDComponent>(IDPlayer::getInstance().getNextId());
         player->addComponent<InputComponent>();
         player->addComponent<PhysicsComponent>(_levelLimits->getComponent<LevelLimits>());
         player->addComponent<PositionComponent>(x,y);
@@ -231,7 +193,7 @@ void LevelBuilder::initializePlayers() {
         player->addComponent<StateComponent>();
         //es imporante cuidar el orden de update (ESTE ES)
 
-        LogManager::logDebug("Jugador inicializado");
+        LogManager::logDebug("Jugadores inicializados: " + std::to_string(amountOfPlayers));
         i++;
     }
 }
@@ -239,19 +201,18 @@ void LevelBuilder::initializePlayers() {
 void LevelBuilder::initializeEnemies() {
     LogManager::logDebug("Inicializando enemigos");
 
-    Manager *manager = Game::getInstance().getManager();
+    Manager *manager = GameServer::getInstance().getManager();
 
-    int screenResolutionWidth = (int)(Game::getInstance().getConfig()->screenResolution.width);
-    int screenResolutionHeight = (int)(Game::getInstance().getConfig()->screenResolution.height);
+    int screenResolutionWidth = (int)(GameServer::getInstance().getConfig()->screenResolution.width);
+    int screenResolutionHeight = (int)(GameServer::getInstance().getConfig()->screenResolution.height);
 
-    auto npcs = Game::getInstance().getConfig()->gameplay.npcs;
+    auto npcs = GameServer::getInstance().getConfig()->gameplay.npcs;
     int amountOfEnemies = npcs.size();
-    int offset = screenResolutionWidth/(amountOfEnemies+1);
 
     for (int i = 0; i < npcs.size();i++) {
 
         auto npcConfig = npcs.at(i);
-        auto *npc = manager->addNonPersistentEntity();
+        auto *npc = manager->addNPC();
 
         int x = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenX();
         int y = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenY();
@@ -261,35 +222,35 @@ void LevelBuilder::initializeEnemies() {
         npc->addComponent<PositionComponent>(x,y);
         npc->addComponent<NPCRenderComponent>(_camera, &npcConfig);
         npc->addComponent<StateComponent>();
-    } 
+    }
 
-    LogManager::logDebug("enemigos inicializados");
+    LogManager::logDebug("Enemigos inicializados: " + std::to_string(amountOfEnemies));
 }
 
 void LevelBuilder::initializeWeapons() {
     LogManager::logDebug("Inicializando armas");
 
-    Manager *manager = Game::getInstance().getManager();
+    Manager *manager = GameServer::getInstance().getManager();
 
-    auto weapons = Game::getInstance().getConfig()->gameplay.weapons;
+    auto weapons = GameServer::getInstance().getConfig()->gameplay.weapons;
 
     for (int i = 0; i < weapons.knife.amount;i++) {
 
         auto knifeConfig = weapons.knife;
-        auto *knife = manager->addNonPersistentEntity();
+        auto *knife = manager->addWeapon();
 
         int x = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenX();
         int y = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenY();
 
         knife->addComponent<PositionComponent>(x,y);
         knife->addComponent<NonMobileRenderComponent>(_camera, knifeConfig.sprite);
-    } 
-    LogManager::logDebug("cuchillos inicializados");
+    }
+    LogManager::logDebug("Armas inicializadas: " + std::to_string(weapons.knife.amount));
 
     for (int i = 0; i < weapons.tube.amount;i++) {
 
         auto tubeConfig = weapons.tube;
-        auto *tube = manager->addNonPersistentEntity();
+        auto *tube = manager->addWeapon();
 
         int x = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenX();
         int y = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenY();
@@ -297,20 +258,20 @@ void LevelBuilder::initializeWeapons() {
         tube->addComponent<PositionComponent>(x,y);
         tube->addComponent<NonMobileRenderComponent>(_camera, tubeConfig.sprite);
     }    
-    LogManager::logDebug("tubos de metal inicializados");
+    LogManager::logDebug("Tubos de metal inicializados: " + std::to_string(weapons.tube.amount));
 }
 
 void LevelBuilder::initializeUtilities() {
     LogManager::logDebug("Inicializando cajas y barriles");
 
-    Manager *manager = Game::getInstance().getManager();
+    Manager *manager = GameServer::getInstance().getManager();
 
-    auto utilities = Game::getInstance().getConfig()->gameplay.utilities;
+    auto utilities = GameServer::getInstance().getConfig()->gameplay.utilities;
 
     for (int i = 0; i < utilities.box.amount;i++) {
 
         auto boxConfig = utilities.box;
-        auto *box = manager->addNonPersistentEntity();
+        auto *box = manager->addUtilitie();
 
         int x = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenX();
         int y = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenY();
@@ -318,12 +279,12 @@ void LevelBuilder::initializeUtilities() {
         box->addComponent<PositionComponent>(x,y);
         box->addComponent<NonMobileRenderComponent>(_camera, boxConfig.sprite);
     } 
-    LogManager::logDebug("cajas inicializadas");
+    LogManager::logDebug("Cajas inicializadas: " + std::to_string(utilities.box.amount));
 
     for (int i = 0; i < utilities.barrel.amount;i++) {
 
         auto barrelConfig = utilities.barrel;
-        auto *barrel = manager->addNonPersistentEntity();
+        auto *barrel = manager->addUtilitie();
 
         int x = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenX();
         int y = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenY();
@@ -331,19 +292,51 @@ void LevelBuilder::initializeUtilities() {
         barrel->addComponent<PositionComponent>(x,y);
         barrel->addComponent<NonMobileRenderComponent>(_camera, barrelConfig.sprite);
     }
-    LogManager::logDebug("barriles inicializados");
+    LogManager::logDebug("Barriles inicializados: " + std::to_string(utilities.barrel.amount));
 }
 
-int LevelBuilder::getCurrentLevelWidth(){
-    return currentLevelWidth;
+void LevelBuilder::resetLevelLimits() {
+    LogManager::logDebug("reseteando limites de pantalla");
+
+    int screenWidth = GameServer::getInstance().getConfig()->screenResolution.width;
+    int screenHeigth = GameServer::getInstance().getConfig()->screenResolution.height;
+
+    _levelLimits->getComponent<LevelLimits>()->reset(screenWidth,screenHeigth,currentLevelWidth);
 }
 
-void LevelBuilder::destroyUselessEntities(){
-    Game::getInstance().getManager()->destroyNonLevelPersistentEntities();
+void LevelBuilder::resetPlayers() {
+    LogManager::logDebug("reseteando jugadores");
+
+    Manager *manager = GameServer::getInstance().getManager();
+
+    int screenResolutionWidth = (int)(GameServer::getInstance().getConfig()->screenResolution.width);
+    int screenResolutionHeight = (int)(GameServer::getInstance().getConfig()->screenResolution.height);
+    int amountOfPlayers = manager->getPlayers().size();
+    int offset = screenResolutionWidth/(amountOfPlayers+1);
+
+    int i = 0;
+    for (auto &pj : manager->getPlayers()) {
+
+        int x = offset*(i+1);
+        int y = screenResolutionHeight/2;
+
+        pj->getComponent<PositionComponent>()->setPosition(x,y);
+
+        i++;
+    }
+    LogManager::logDebug("Jugadores resetados: " + std::to_string(amountOfPlayers));
 }
 
+void LevelBuilder::resetCamera() {
+    LogManager::logDebug("reseteando Camara");
+    _camera->getComponent<CameraComponent>()->reset();
+}
+
+
+//DESTROY
+//=========================================================================================
 LevelBuilder::~LevelBuilder(){
-    Game::getInstance().getManager()->destroyAllEntities();
-    delete(_texture);
-    _texture = nullptr;
+    _camera = nullptr;
+    _levelLimits = nullptr;
+    LogManager::logDebug("Memoria de LevelBuilder liberada");
 }

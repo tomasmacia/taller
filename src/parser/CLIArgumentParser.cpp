@@ -15,25 +15,36 @@ void CLIArgumentParser::init(int argc, const char **args) {
 }
 
 string CLIArgumentParser::getPathToConfigFileName() {
-    string pathToConfigFile;
-    for (int i = 1; i < argc; ++i) {
-        std::string arg = argv[i];
-        if (((arg == "-c") || (arg == "--config")) && (i + 1 < argc)) {
-            pathToConfigFile = argv[i + 1];
-        }
-    }
-
-    return pathToConfigFile;
+    return getParamHelper("-c", "--config");
 }
 
 string CLIArgumentParser::getDefaultLoggerLevel() {
-    string defaultLoggerLevel;
+    return getParamHelper("-l", "--logger");
+}
+
+string CLIArgumentParser::getModeType() {
+    return getParamHelper("-m", "--mode");
+}
+
+string CLIArgumentParser::getServerAddress() {
+    return getParamHelper("-a", "--address");
+}
+
+string CLIArgumentParser::getServerPort() {
+    return getParamHelper("-p", "--port");
+}
+
+string CLIArgumentParser::getPathToUserCredentialsFileName() {
+    return getParamHelper("-u", "--users");
+}
+
+string CLIArgumentParser::getParamHelper(string shortCommand, string descriptiveCommand) {
     for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
-        if (((arg == "-l") || (arg == "--logger")) && (i + 1 < argc)) {
-            defaultLoggerLevel = argv[i + 1];
+        if (((arg == shortCommand) || (arg == descriptiveCommand)) && (i + 1 < argc)) {
+            return argv[i + 1];
         }
     }
 
-    return defaultLoggerLevel;
+    return "";
 }

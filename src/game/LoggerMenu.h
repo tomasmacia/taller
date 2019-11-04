@@ -34,7 +34,7 @@ private:
     void ValidarCredenciales();
     void cursorBlip();
     void MensajeEmergente(std::string path);
-    void serverAknoeledge(MessageId id);
+    void serverAcknowledge(MessageId id);
 
 
 private:
@@ -68,7 +68,7 @@ private:
     Client* client_ = nullptr;
     GameClient* _game = nullptr;
     MessageId response;
-    bool serverAknoeledgeRecived = false;
+    bool serverAcknowledgeReceived = false;
     
 };
 

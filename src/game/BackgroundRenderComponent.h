@@ -15,10 +15,10 @@ public:
 
 protected:
     void loadNextImage() override;
-    void renderInOwnWay() override;
+    //void renderInOwnWay() override;
+    ToClientPack* generateRenderable() override;
 
 private:
-    void loadErrorBackgroundImage();
     float _parallaxSpeed;
 };
 #endif //BACKGROUND_RENDER_COMPONENT_H

@@ -12,27 +12,24 @@
 
 class TextureWrapper {
 public:
-    // Initializes variables
     TextureWrapper();
-
-    // Deallocates memory
     ~TextureWrapper();
 
-    // Loads image at specified path
+    //API
+    //===============================
     bool loadFromFile(std::string path, std::vector<int> rgb = std::vector<int>{88,184,248}); // light blue default
-
-    // Deallocates texture
-    void free();
-
-    // Renders texture at given point
     void render(SDL_Rect* srcRect, SDL_Rect* destRect, bool flip);
+    static void measureWidthAndHeighthOf(std::string spritePath,int* width, int* hegith); //si habias iniciado SDL antes en este thread, este metodo lo corta
 
+    //SETTERS
+    //===============================
     void setWidthAndHeight(int w, int h) {
         mWidth = w;
         mHeight = h;
     }
 
-    // Gets image dimensions
+    //GETTERS
+    //===============================
     int getWidth() {
         return mWidth;
     }
@@ -41,11 +38,20 @@ public:
         return mHeight;
     }
 
-    void drawErrorColor();
-
 private:
+    //MANAGING RENDERER
+    //===============================
+    void getRenderer();
+    static SDL_Renderer* staticGetRenderer();
+
+    //DESTROY
+    //===============================
+    void free();
+
+    //ATRIBUTES
+    //===============================
     // The actual hardware texture
-    SDL_Texture* mTexture;
+    SDL_Texture* mTexture = nullptr;
 
     // Image dimensions
     int mWidth;
@@ -53,6 +59,5 @@ private:
 
     SDL_Renderer* renderer = nullptr;
 };
-
 
 #endif //GAME_TEXTUREWRAPPER_H
