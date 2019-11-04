@@ -51,7 +51,7 @@ private:
     std::string input,user,password;
     TTF_Font *font;
     SDL_Surface *message;
-    SDL_Texture *text;
+    SDL_Texture *text = nullptr;
     SDL_Color textColor;
     SDL_Rect textRect,UserRect;
 

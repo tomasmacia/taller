@@ -184,7 +184,7 @@ void LoggerMenu::OnEvent(SDL_Event* Event) {
               if (enter == 1){
                 enter=0;
                 textRect.y = 180;
-                //ValidarCredenciales();
+                ValidarCredenciales();
               }
               else
               {
@@ -241,9 +241,11 @@ void LoggerMenu::ValidarCredenciales() {
     //client_ = new Client(_game);
     //client_->SendCredencial(user, input);
 
+
     while(!serverAcknowledgeReceived) {
-      continue;
+        continue;
     }
+    /*
 
     if (response == SUCCESS){
         MensajeEmergente("User y Passwors Aceptados");
@@ -263,7 +265,7 @@ void LoggerMenu::ValidarCredenciales() {
         running = false;
         client_ = nullptr;
     }
-
+    */
 
     SDL_DestroyTexture(text);
     SDL_DestroyTexture(Usuario_completo);

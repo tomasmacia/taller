@@ -47,6 +47,7 @@ public:
     std::string serializedAlreadyLoggedInMessage();
     string serializeObject(ToClientPack* package);
     string serializeInput(Action action, int id);
+    string serializeCredentials(string user, string pass);
 
     //GETTERS
     //===============================

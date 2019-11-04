@@ -115,6 +115,12 @@ string ObjectSerializer::serializedAlreadyLoggedInMessage(){
     return to_string(ALREADY_LOGGED_IN_CREDENTIAL) + SEPARATOR + to_string(FAILURE_AKNOWLEDGE_SIGNAL) + SEPARATOR + to_string(END_SERIALIZATION_SIMBOL);
 }
 
+string ObjectSerializer::serializeCredentials(string user, string pass){
+    return to_string(USER_PASS) + SEPARATOR + user + SEPARATOR + pass + to_string(END_SERIALIZATION_SIMBOL);
+}
+
+string serializeCredentials(string user, string pass);
+
 string ObjectSerializer::serializeObject(ToClientPack* package){
 
     std::string serializedObject;

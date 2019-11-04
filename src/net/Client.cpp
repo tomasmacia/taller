@@ -27,6 +27,10 @@ using namespace std;
 
 //API
 //=========================================================================================
+void Client::sendCredentials(string user, string pass){
+    setToSend(objectSerializer.serializeCredentials(user,pass));
+}
+
 void Client::setToSend(std::string message){
     sendQueueMutex.lock();
     toSendMessagesQueue.push_back(message);

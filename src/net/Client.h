@@ -23,6 +23,7 @@ public:
     //===============================
     void setToSend(std::string message);
     bool start();
+    void sendCredentials(string user, string pass);
 
 private:
     //THREADS
