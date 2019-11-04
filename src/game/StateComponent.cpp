@@ -69,7 +69,7 @@ void StateComponent::setFliped(){
     _facingLeft = !_facingLeft;
 }
 
-bool StateComponent::isFlipped(){
+bool StateComponent::isFliped(){
     return _facingLeft;
 }
 

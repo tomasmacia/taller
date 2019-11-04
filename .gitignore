@@ -33,6 +33,8 @@
 # folders
 build/
 bin/
+cmake-build-debug/
+cmake-build-default/
 
 # logs
 logs/*.txt

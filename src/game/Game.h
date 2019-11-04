@@ -1,42 +1,28 @@
 #ifndef GAME_H_
 #define GAME_H_
 
-#include <vector>
-#include "Controller.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
 #include "../LogLib/LogManager.h"
 #include "../parser/config/config.h"
-#include "Manager.h"
-#include "LevelBuilder.h"
+
+class Controller;
 
 class Game {
 public:
-    // *************************
-    // ******* SINGLETON *******
-    // *************************
-    static Game& getInstance() {
-        static Game instance; // Guaranteed to be destroyed.
-                              // Instantiated on first use.
-        return instance;
-    }
 
-    Game(Game const&) = delete;
-    void operator=(Game const&) = delete;
+    //ENTRY POINT
+    //===============================
+    virtual void start() = 0;
 
-    // *************************
-    // ****** ENTRYPOINT *******
-    // *************************
-    void start();
+    //API
+    //===============================
     void end();
-    void endLevel();
-    int getCurrentLevelWidth();
+    bool isOn();
 
-    bool isRunning = true;
-    bool levelFinished = false;
-
-    // *************************
-    // ******* WRAPPERS ********
-    // *************************
-
+    //GETTERS
+    //===============================
     Config* getConfig() {
         return config;
     }
@@ -45,60 +31,42 @@ public:
         return controller;
     }
 
-    Manager* getManager() {
-        return manager;
-    }
-
-    SDL_Window* getWindow() {
-        return window;
-    }
-
-    SDL_Renderer* getRenderer() {
+    SDL_Renderer* getRenderer(){
         return renderer;
     }
 
-private:
-    Game() {
-        init();
+    int getPlayerId(){
+        return playerId;
     }
 
-    ~Game() {
-        destroy();
-    }
+protected:
 
-    // inits
-    void init();
+    //GAME LOOP
+    //===============================
+    virtual void gameLoop() = 0;
+
+    //DESTROY
+    //===============================
+    virtual void destroy() = 0;
+    void baseClassFreeMemory();
+
+    //INIT
+    //===============================
+    virtual void init() = 0;
+    virtual void initController();
     void initConfig();
-    void initLogManager(string loggerLevel);
     void initSDL();
-    void initController();
-    void initECSManager();
 
-    // free memory
-    void destroy();
+    //ATRIBUTES
+    //===============================
+    bool on = true;
+    int playerId = -1;
 
-
-    // gameloop
-    void processInput();
-    void update();
-    void render();
-
-    void setWindowTitleWithFPS(int fps);
-
-    bool isGameRunning();
-
-
-    bool hasNextLevel = false;
-
-    // wrappers
-    Logger *logger = nullptr; // since its a pointer allocating memory, we need to delete it later
-    LevelBuilder* levelBuilder = nullptr;
     Controller *controller = nullptr;
-    Manager* manager = nullptr;
-    SDL_Window *window = nullptr;
-    SDL_Renderer *renderer = nullptr;
     Config *config = nullptr;
 
+    SDL_Window *window = nullptr;
+    SDL_Renderer *renderer = nullptr;
 };
 
 #endif
