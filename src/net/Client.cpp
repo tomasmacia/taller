@@ -34,8 +34,8 @@ bool Client::init(){
 
     std::thread read(&Client::readThread,this);
     read.detach();
-    //std::thread send(&Client::sendThread,this);
-    //send.detach();
+    std::thread send(&Client::sendThread,this);
+    send.detach();
     std::thread dispatch(&Client::dispatchThread,this);
     dispatch.detach();
 }
@@ -141,12 +141,10 @@ int  Client::send(std::string msg) {
 }
 
 std::string Client::receive() {
-    char buff[MAX_BYTES_BUFFER]{0};
 
-    //strncpy(buff, msg.c_str(), sizeof(buff));
-    //buff[sizeof(buff) - 1] = 0;
-
-    int n = read(socketFD, buff, MAX_BYTES_BUFFER);
+    char buff[MAX_BYTES_BUFFER];
+    size_t size = MAX_BYTES_BUFFER;
+    int n = recv(socketFD, buff, size,MSG_WAITALL);
 
     if ( n < 0){
         return objectSerializer.getFailure();

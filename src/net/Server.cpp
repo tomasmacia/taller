@@ -51,9 +51,10 @@ int Server::send(string msg, int someSocketFD) {
 
 string Server::receive(int someSocketFD) {
     // TODO REVISAR. Hay que fijarse que someSocketFD este en la lista de conexiones?
-    char buff[60]{4};
+    char buff[MAX_BYTES_BUFFER];
+    size_t size = MAX_BYTES_BUFFER;
 
-    int n = read(someSocketFD, buff, MAX_BYTES_BUFFER);// ###x###x###x
+    int n = recv(someSocketFD, buff, size,MSG_WAITALL);
 
     char end = objectSerializer.getEndOfSerializationCharacterget();
 

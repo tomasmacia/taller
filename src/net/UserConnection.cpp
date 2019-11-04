@@ -21,12 +21,12 @@ void UserConnection::setToSendMessage(std::string message){
 
 void UserConnection::init() {
 
-    //std::thread read(&UserConnection::readThread,this);
-    //read.detach();
+    std::thread read(&UserConnection::readThread,this);
+    read.detach();
     std::thread send(&UserConnection::sendThread,this);
     send.detach();
-    //std::thread dispatch(&UserConnection::dispatchThread,this);
-    //dispatch.detach();
+    std::thread dispatch(&UserConnection::dispatchThread,this);
+    dispatch.detach();
 }
 
 //THREADS
@@ -38,8 +38,9 @@ void UserConnection::readThread() {
     while(true) {
         incomingQueueMutex.lock();
         incomingMessage = server->receive(socketFD);
-
-        if (incomingMessage != objectSerializer.getPingCode()){
+        if (incomingMessage == objectSerializer.getFailure()){ continue;}
+        if (incomingMessage == objectSerializer.getPingCode()){ continue;}
+        else{
 
             incomingMessagesQueue.push_back(incomingMessage);
             cout<<"SERVER-READ: "<<incomingMessage<<endl;
