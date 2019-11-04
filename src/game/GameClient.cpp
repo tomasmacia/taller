@@ -13,7 +13,8 @@ bool GameClient::hasInstance = false;
 void GameClient::start() {
     LogManager::logInfo("Se inicia GameClient");
 
-    initClient();
+    startClient();          //1 thread de listen de conexiones nuevas y 3 threads para read, send y dispatch
+
     /*
     initLoggerMenu();
 
@@ -29,6 +30,8 @@ void GameClient::start() {
     initRenderingSystem();
 
     gameLoop();
+
+    closeClient();
 
     LogManager::logInfo("Juego terminado");
     LogManager::logInfo("=======================================");
@@ -83,14 +86,21 @@ void GameClient::reciveRenderable(ToClientPack* package){
     controller->setRenderable(package);
 }
 
-//INIT
-//=========================================================================================
 
-void GameClient::initClient() {
+//CLIENT RELATED
+//=========================================================================================
+void GameClient::startClient() {
     client = new Client(this);
-    client->init();
+    clientConnectionThread = std::thread(&Client::start,client);
     LogManager::logInfo("inicializado Cliente");
 }
+
+void GameClient::closeClient() {
+    clientConnectionThread.join();
+}
+
+//INIT
+//=========================================================================================
 
 void GameClient::initLoggerMenu(){
     loggerMenu = new LoggerMenu();

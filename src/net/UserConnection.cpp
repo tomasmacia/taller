@@ -26,6 +26,7 @@ void UserConnection::start() {
     std::thread dispatch(&UserConnection::dispatchThread,this);
 
     checkConnection();
+
     read.join();
     send.join();
     dispatch.join();
@@ -46,7 +47,7 @@ void UserConnection::readThread() {
     while(connectionOn) {
 
         incomingQueueMutex.lock();
-        //cout<<"SERVER-READ"<<endl;
+        cout<<"SERVER-READ"<<endl;
         /*
         incomingMessage = server->receive(socketFD);
         if (incomingMessage == objectSerializer.getFailure()){ continue;}
@@ -67,7 +68,7 @@ void UserConnection::sendThread() {
     while (connectionOn) {
 
         sendQueueMutex.lock();
-        //cout<<"SERVER-SEND"<<endl;
+        cout<<"SERVER-SEND"<<endl;
 
         /*
         cout << "THREAD: vacio :" << (toSendMessagesQueue.size() != 0) << endl;
@@ -94,7 +95,7 @@ void UserConnection::dispatchThread() {
 
     while(connectionOn) {
         incomingQueueMutex.lock();
-        //cout<<"SERVER-DISPATCH"<<endl;
+        cout<<"SERVER-DISPATCH"<<endl;
         /*
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();

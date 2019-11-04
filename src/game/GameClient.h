@@ -60,11 +60,15 @@ private:
     void render();
     void renderAllPackages();
 
+    //CLIENT RELATED
+    //===============================
+    void startClient();
+    void closeClient();
+
     //INIT
     //===============================
     void initInputSystem();
     void initRenderingSystem();
-    void initClient();
     void initLoggerMenu();
     void init() override ;
 
@@ -73,6 +77,7 @@ private:
     static bool hasInstance;
 
     std::mutex mu;
+    std::thread clientConnectionThread;
 
     LoggerMenu* loggerMenu = nullptr;
     Client* client = nullptr;
