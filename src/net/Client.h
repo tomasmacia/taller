@@ -19,25 +19,10 @@ public:
     Client(GameClient* gameClient);
     ~Client();
 
-
-
-
-    list<string> getIncomingMessagesQueue(){
-        return incomingMessagesQueue;
-    }
-
-
-
-
-
-
-
-
-
     //API
     //===============================
     void setToSend(std::string message);
-    bool init();
+    bool start();
 
 private:
     //THREADS
@@ -59,6 +44,7 @@ private:
 
     //DISCONECTION RELATED
     //===============================
+    void checkConnection();
     bool connectionOff();
     int disconnectFromServer();
 
@@ -78,6 +64,8 @@ private:
     int socketFD;
     int maxBytesBuffer;
     //char* buffer;
+
+    bool connectionOn = true;
 
     MessageParser messageParser;
     ObjectSerializer objectSerializer;

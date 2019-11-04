@@ -33,17 +33,20 @@ void Client::setToSend(std::string message){
     sendQueueMutex.unlock();
 }
 
-bool Client::init(){
+bool Client::start(){
 
     create();
     connectToServer();
 
     std::thread read(&Client::readThread,this);
-    read.detach();
     std::thread send(&Client::sendThread,this);
-    send.detach();
     std::thread dispatch(&Client::dispatchThread,this);
-    dispatch.detach();
+
+    checkConnection();
+
+    read.join();
+    send.join();
+    dispatch.join();
 }
 
 //THREADS
@@ -53,7 +56,7 @@ void Client::readThread() {
     while (!connectionOff()) {
 
         incomingQueueMutex.lock();
-        //cout<<"CLIENT-READ"<<endl;
+        cout<<"CLIENT-READ"<<endl;
         /*
         incomingMessage = receive();
         if (incomingMessage == objectSerializer.getFailure()){ continue;}
@@ -71,9 +74,9 @@ void Client::readThread() {
 
 void Client::sendThread() {
 
-    while(true) {
+    while(!connectionOff()) {
         sendQueueMutex.lock();
-        //cout<<"CLIENT-SEND"<<endl;
+        cout<<"CLIENT-SEND"<<endl;
         /*
         if (!toSendMessagesQueue.empty()) {
             toSendMessage = toSendMessagesQueue.front();
@@ -87,9 +90,9 @@ void Client::sendThread() {
 }
 
 void Client::dispatchThread() {
-    while(true) {
+    while(!connectionOff()) {
         incomingQueueMutex.lock();
-        //cout<<"CLIENT-DISPATCH"<<endl;
+        cout<<"CLIENT-DISPATCH"<<endl;
         /*
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();
@@ -168,6 +171,17 @@ std::string Client::receive() {
 
 //DISCONECTION RELATED
 //=========================================================================================
+void Client::checkConnection(){
+
+    //aca pongo connectionOn en el while porque me podrian poner
+    //connectionOn = false desde el server
+
+    while (connectionOn && !connectionOff()){
+        continue;
+    }
+    connectionOn = false;
+}
+
 bool Client::connectionOff(){
 
     int n = send(objectSerializer.getPingCode());

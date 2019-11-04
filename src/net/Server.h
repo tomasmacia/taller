@@ -45,6 +45,7 @@ private:
     //===============================
     int create();
     int bind();
+    void setToNonBlocking();
     int listen();
     UserConnection* accept();
 

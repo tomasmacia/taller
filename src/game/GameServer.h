@@ -80,10 +80,12 @@ private:
     //SERVER RELATED
     //===============================
     void startServer();
+    void closeServer();
 
     //CONTROLLER RELATED
     //===============================
     void initController() override ;
+    void closeController();
 
     //ATRIBUTES
     //===============================

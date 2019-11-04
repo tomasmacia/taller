@@ -23,10 +23,8 @@ void GameServer::start() {
     initGameModel();
     gameLoop();
 
-    cout<<"tlalaa!"<<endl;
-    listenConnectionsThread.join();
-    lisentToInputForClosing.join();
-    cout<<"olololololo!"<<endl;
+    //closeServer();        //se cierra el thread se server y (previamente se cierran los 4 threads child)
+    closeController();      //se cierra el thread del teclado y la crucecita de la window
 
     LogManager::logInfo("Juego terminado");
     LogManager::logInfo("=======================================");
@@ -127,6 +125,10 @@ void GameServer::startServer(){
     LogManager::logInfo("Server inicializado");
 }
 
+void GameServer::closeServer(){
+    lisentToInputForClosing.join();
+}
+
 
 //CONTROLLER RELATED
 //=========================================================================================
@@ -137,6 +139,10 @@ void GameServer::initController() {
     lisentToInputForClosing = std::thread(&Controller::lisentToInputForClosing,controller);
     LogManager::logDebug("inicializado SDL");
     LogManager::logDebug("inicializado Controller");
+}
+
+void GameServer::closeController(){
+    lisentToInputForClosing.join();
 }
 
 //INIT

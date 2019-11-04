@@ -59,8 +59,5 @@ int main(int argc, const char** argv) {
     if (mode == CLIENT){
         GameClient::getInstance().start();
     }
-
-    delete logger;
-
     return 0;
 }

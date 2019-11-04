@@ -26,16 +26,12 @@ void UserConnection::start() {
     std::thread dispatch(&UserConnection::dispatchThread,this);
 
     checkConnection();
-    cout<<"checkConnection();"<<endl;
+
     read.join();
-    cout<<"read.join();"<<endl;
     send.join();
-    cout<<"send.join();"<<endl;
     dispatch.join();
-    cout<<"dispatch.join();"<<endl;
 
     kill();
-    cout<<"kill"<<endl;
 }
 
 void UserConnection::shutdown() {
@@ -51,7 +47,7 @@ void UserConnection::readThread() {
     while(connectionOn) {
 
         incomingQueueMutex.lock();
-        //cout<<"SERVER-READ"<<endl;
+        cout<<"SERVER-READ"<<endl;
         /*
         incomingMessage = server->receive(socketFD);
         if (incomingMessage == objectSerializer.getFailure()){ continue;}
@@ -63,7 +59,6 @@ void UserConnection::readThread() {
         }*/
         incomingQueueMutex.unlock();
     }
-    cout<<"readThread"<<endl;
 }
 
 void UserConnection::sendThread() {
@@ -73,7 +68,7 @@ void UserConnection::sendThread() {
     while (connectionOn) {
 
         sendQueueMutex.lock();
-        //cout<<"SERVER-SEND"<<endl;
+        cout<<"SERVER-SEND"<<endl;
 
         /*
         cout << "THREAD: vacio :" << (toSendMessagesQueue.size() != 0) << endl;
@@ -92,7 +87,6 @@ void UserConnection::sendThread() {
         //cout<<"SERVER: cantidad de paquetes: "<<toSendMessagesQueue.size()<<endl;*/
         sendQueueMutex.unlock();
     }
-    cout<<"sendThread"<<endl;
 }
 
 void UserConnection::dispatchThread() {
@@ -101,7 +95,7 @@ void UserConnection::dispatchThread() {
 
     while(connectionOn) {
         incomingQueueMutex.lock();
-        //cout<<"SERVER-DISPATCH"<<endl;
+        cout<<"SERVER-DISPATCH"<<endl;
         /*
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();
@@ -120,7 +114,6 @@ void UserConnection::dispatchThread() {
         }*/
         incomingQueueMutex.unlock();
     }
-    cout<<"dispatchThread"<<endl;
 }
 
 //DISPATCHING INCOMING MESSAGES
