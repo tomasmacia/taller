@@ -44,6 +44,8 @@ set(SOURCE_FILES
         src/parser/config/screenresolution.h
         src/parser/config/utility.h
         src/parser/config/weapon.h
+        src/parser/credentials/Credentials.h
+        src/parser/credentials/UserCredentials.h
 
         # logger module
         src/LogLib/Logger.h
