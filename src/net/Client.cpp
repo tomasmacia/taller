@@ -47,7 +47,7 @@ void Client::readThread() {
     while (!connectionOff()) {
 
         incomingQueueMutex.lock();
-        cout<<"CLIENT-READ"<<endl;
+        //cout<<"CLIENT-READ"<<endl;
         /*
         incomingMessage = receive();
         if (incomingMessage == objectSerializer.getFailure()){ continue;}
@@ -67,7 +67,7 @@ void Client::sendThread() {
 
     while(true) {
         sendQueueMutex.lock();
-        cout<<"CLIENT-SEND"<<endl;
+        //cout<<"CLIENT-SEND"<<endl;
         /*
         if (!toSendMessagesQueue.empty()) {
             toSendMessage = toSendMessagesQueue.front();
@@ -83,7 +83,7 @@ void Client::sendThread() {
 void Client::dispatchThread() {
     while(true) {
         incomingQueueMutex.lock();
-        cout<<"CLIENT-DISPATCH"<<endl;
+        //cout<<"CLIENT-DISPATCH"<<endl;
         /*
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();

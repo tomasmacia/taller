@@ -38,7 +38,7 @@ void UserConnection::readThread() {
     while(true) {
 
         incomingQueueMutex.lock();
-        cout<<"SERVER-READ"<<endl;
+        //cout<<"SERVER-READ"<<endl;
         /*
         incomingMessage = server->receive(socketFD);
         if (incomingMessage == objectSerializer.getFailure()){ continue;}
@@ -59,7 +59,7 @@ void UserConnection::sendThread() {
     while (true) {
 
         sendQueueMutex.lock();
-        cout<<"SERVER-SEND"<<endl;
+        //cout<<"SERVER-SEND"<<endl;
 
         /*
         cout << "THREAD: vacio :" << (toSendMessagesQueue.size() != 0) << endl;
@@ -86,7 +86,7 @@ void UserConnection::dispatchThread() {
 
     while(true) {
         incomingQueueMutex.lock();
-        cout<<"SERVER-DISPATCH"<<endl;
+        //cout<<"SERVER-DISPATCH"<<endl;
         /*
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();
@@ -137,7 +137,7 @@ void UserConnection::processInput(std::string inputMsg) {//TODO HEAVY IN PERFORM
 
 //DISCONECTION RELATED
 //=========================================================================================
-/*
+
 bool UserConnection::connectionOff(){
 
     int n = server->send(objectSerializer.getPingCode(),socketFD);
@@ -151,7 +151,7 @@ bool UserConnection::connectionOff(){
 
 void UserConnection::kill(){
     server->removeConnection(userId);
-}*/
+}
 
 //CONSTRUCTOR
 //=========================================================================================
@@ -161,4 +161,3 @@ UserConnection::UserConnection(int socket, int userId, Server *server,GameServer
     this->server = server;
     this->gameServer = gameServer;
 }
-

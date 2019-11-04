@@ -12,8 +12,12 @@
 //=========================================================================================
 
 void Game::end(){
-    isRunning = false;
-    LogManager::logDebug("señal de fin de juego emitida");
+    on = false;
+    LogManager::logDebug("señal de fin de programa emitida");
+}
+
+bool Game::isOn(){
+    return on;
 }
 
 //INIT
@@ -44,7 +48,7 @@ void Game::initSDL() {
     }
 
     if (this->window == nullptr || this->renderer == nullptr) {
-        this->isRunning = false;
+        this->on = false;
         LogManager::logError("SDL no pudo inicializarse");
     }
 }

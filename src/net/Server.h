@@ -39,6 +39,7 @@ public:
     //THREADS
     //===============================
     void listenThread();
+    void checkingConnectionsThread();
 
 private:
     //INIT

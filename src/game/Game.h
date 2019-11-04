@@ -19,6 +19,7 @@ public:
     //API
     //===============================
     void end();
+    bool isOn();
 
     //GETTERS
     //===============================
@@ -58,7 +59,7 @@ protected:
 
     //ATRIBUTES
     //===============================
-    bool isRunning;
+    bool on = true;
     int playerId = -1;
 
     Controller *controller = nullptr;

@@ -68,20 +68,28 @@ string Server::receive(int someSocketFD) {
 //=========================================================================================
 void Server::listenThread(){
 
-    while (serverOn) {
+    while (gameServer->isOn()) {
         if (connections.size() < maxConnections && listen() > 0) {
             cout<<"LISTEN THREAD: esperando conexion"<<endl;
+            cout << "================================================================"<<endl;
+            cout<<endl;
             auto newUserConnection = accept();
             if (newUserConnection != nullptr) {
                 newUserConnection->init();
                 cout << "LISTEN THREAD: connection stablished: " << newUserConnection->getId()<< endl;
-                cout << "LISTEN THREAD: tengo "<< connections.size()<<" conecciones"<<endl;
+                cout << "================================================================"<<endl;
+                cout<<endl;
             }
         }
-        //checkAndRemoveLostConnections();
     }
 }
 
+void Server::checkingConnectionsThread(){
+
+    while (gameServer->isOn()) {
+        checkAndRemoveLostConnections();
+    }
+}
 
 //INIT & CONSTRUCTOR
 //=========================================================================================
@@ -97,11 +105,8 @@ Server::Server(GameServer* gameServer) {
 }
 
 void Server::init(){
-
     create();
     bind();
-    std::thread listenThread(&Server::listenThread,this);
-    listenThread.detach();
 }
 
 int Server::create() {
@@ -162,7 +167,7 @@ void Server::error(const char *msg) {   //Cierra el server y en el destructor se
 
 //DISCONECTION RELATED
 //=========================================================================================
-/*
+
 void Server::checkAndRemoveLostConnections(){
 
     for (auto c: connections){
@@ -171,11 +176,13 @@ void Server::checkAndRemoveLostConnections(){
                 delete c.second;
                 connections.erase(c.first);
             }
-            cout<<"LISTEN THREAD: borre la connection:"<<c.first<<endl;
-            cout << "LISTEN THREAD: tengo "<< connections.size()<<" conecciones"<<endl;
+            cout<<"CHECKING THREAD: borre la connection:"<<c.first<<endl;
+            cout << "CHECKING THREAD: tengo "<< connections.size()<<" conecciones"<<endl;
+            cout << "================================================================"<<endl;
+            cout<<endl;
         }
     }
-}*/
+}
 
 void Server::removeConnection(int id){
     delete connections.at(id);

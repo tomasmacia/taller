@@ -74,18 +74,25 @@ private:
     void initECSManager();
     void initLevelBuilder();
     void loadValidCredenctials();   //<user,pass>
-    void initServer();
     void initGameModel();
     void init() override ;
+
+    //SERVER RELATED
+    //===============================
+    void startServer();
+    void closeServer();
 
     //ATRIBUTES
     //===============================
     static bool hasInstance;
 
+    std::thread listenThread;
+    std::thread checkingConnectionsThread;
+
     std::map<std::string,std::string> validCredentials;
     std::map<std::string,std::string> loggedPlayers;
 
-    int amountOfConectionsNeeded = 1; //HARCODED
+    int amountOfConectionsNeeded = 2; //HARCODED
 
     Server* server = nullptr;
     LevelBuilder* levelBuilder = nullptr;

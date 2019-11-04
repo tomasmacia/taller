@@ -13,12 +13,13 @@ bool GameServer::hasInstance = false;
 void GameServer::start() {
     LogManager::logInfo("Se inicia Game");
 
-    initServer();
+    startServer();
     waitUntilAllPlayersAreConected();
 
     initGameModel();
     gameLoop();
 
+    closeServer();
     LogManager::logInfo("Juego terminado");
     LogManager::logInfo("=======================================");
 }
@@ -28,12 +29,11 @@ void GameServer::start() {
 
 void GameServer::gameLoop(){
 
-    isRunning = true;
-    while (isRunning && levelBuilder->hasNextLevel()) {
+    while (isOn() && levelBuilder->hasNextLevel()) {
         levelBuilder->loadNext();
         LogManager::logInfo("=======================================");
         LogManager::logInfo("se inicia game loop de este nivel");
-        while (isRunning && !levelBuilder->levelFinished()) {
+        while (isOn() && !levelBuilder->levelFinished()) {
             update();
             sendUpdate();
         }
@@ -114,15 +114,23 @@ bool GameServer::isActive(){
     return hasInstance;
 }
 
-//INIT
+//SERVER RELATED
 //=========================================================================================
-
-void GameServer::initServer(){
+void GameServer::startServer(){
     server = new Server(this);
     server->init();
+    listenThread = std::thread(&Server::listenThread,server);
+    checkingConnectionsThread = std::thread(&Server::checkingConnectionsThread,server);
     LogManager::logInfo("Server inicializado");
 }
 
+void GameServer::closeServer() {
+    listenThread.join();
+    checkingConnectionsThread.join();
+}
+
+//INIT
+//=========================================================================================
 void GameServer::initGameModel() {
     initECSManager();
     initController();
