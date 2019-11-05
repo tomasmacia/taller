@@ -6,6 +6,7 @@
 #include <string>
 #include <cstring>
 #include <list>
+#include <iostream>
 
 #include "MessageId.h"
 #include "MessageParser.h"
@@ -19,33 +20,55 @@ vector<string> MessageParser::extractMeaningfulMessagesFromStream(char *buffer, 
     vector<string> partialMessages = getPartialMessagesFrom(buffer,objectSerializer);
     vector<string> completeMessages;
 
-    if (!partialMessages.empty()){
-        string firstIncompleteMessage = partialMessages.at(0);
-
-        if (!isACompleteMessage(partialMessages.at(0),objectSerializer)){
-            if (isACompleteMessage(lastPreviousIncompleteMessage + firstIncompleteMessage,objectSerializer)){
-                completeMessages.push_back(lastPreviousIncompleteMessage + firstIncompleteMessage);
-            }
-            else{
-                lastPreviousIncompleteMessage = "";
-            }
-        }
+    for (auto a: partialMessages){
+        cout<<"parseado: "<<a<<endl;
     }
 
-    for (auto partialMessage : partialMessages){
-        if (isACompleteMessage(partialMessage,objectSerializer)){
-            completeMessages.push_back(partialMessage);
-        }
+    if (partialMessages.size() == 0){
+        return partialMessages;
     }
 
-    if (!partialMessages.empty()){
-        if (!isACompleteMessage( partialMessages.at(partialMessages.size() - 1),objectSerializer)){
-            lastPreviousIncompleteMessage = partialMessages.at(partialMessages.size() - 1);
+    if (partialMessages.size() == 1){
+        string message =  partialMessages.at(0);
+
+        if (isACompleteMessage(message,objectSerializer)){
+            completeMessages.push_back(message);
         }
         else{
-            lastPreviousIncompleteMessage = "";
+            if(isACompleteMessage(lastPreviousIncompleteMessage + message,objectSerializer)){
+                cout << "pruebo con: " << (lastPreviousIncompleteMessage + message) << endl;
+                completeMessages.push_back((lastPreviousIncompleteMessage + message));
+            }
+            else{
+                lastPreviousIncompleteMessage = message;
+            }
         }
     }
+
+    else{
+
+        string firstMessage = partialMessages.at(0);
+
+        if (!isACompleteMessage(firstMessage,objectSerializer)){
+            if (isACompleteMessage(lastPreviousIncompleteMessage + firstMessage,objectSerializer)){
+                cout << "pruebo con: " << (lastPreviousIncompleteMessage + firstMessage) << endl;
+                completeMessages.push_back((lastPreviousIncompleteMessage + firstMessage));
+            }
+        }
+
+        for (auto partialMessage : partialMessages){
+            if (isACompleteMessage(partialMessage,objectSerializer)){
+                completeMessages.push_back(partialMessage);
+            }
+        }
+
+        string lastMessage = partialMessages.at(partialMessages.size() -1);
+
+        if (!isACompleteMessage(lastMessage,objectSerializer)){
+            lastPreviousIncompleteMessage = lastMessage;
+        }
+    }
+    cout << "ahora mi ultimo es: " << (lastPreviousIncompleteMessage) << endl;
 
     return completeMessages;
 }
@@ -97,7 +120,7 @@ vector<string> MessageParser::getPartialMessagesFrom(char* buffer, ObjectSeriali
     char padding = objectSerializer.getPaddingSymbol();
     int buffLen = strlen(buffer);
 
-    for (int i = 0; i < buffLen; i++){
+    for (int i = 0; i < buffLen - 6; i++){
         if (buffer[i] != padding){
             if (prevCharRead != padding){
                 partialMessageWithoutPadding += buffer[i];
@@ -116,6 +139,8 @@ vector<string> MessageParser::getPartialMessagesFrom(char* buffer, ObjectSeriali
         }
         prevCharRead = buffer[i];
     }
+    partialMessagesWithoutPadding.push_back(partialMessageWithoutPadding);
+
     return partialMessagesWithoutPadding;
 }
 
