@@ -43,9 +43,9 @@ void Client::sendCredentials(string user, string pass){
 }
 
 void Client::setToSend(std::string message){
-    sendQueueMutex.lock();
+    //sendQueueMutex.lock();
     toSendMessagesQueue.push_back(message);
-    sendQueueMutex.unlock();
+    //sendQueueMutex.unlock();
 }
 
 bool Client::start(){
@@ -78,11 +78,11 @@ void Client::readThread() {
         if (incomingMessage == objectSerializer.getFailure()){ continue;}
         if (incomingMessage == objectSerializer.getPingCode()){ continue;}
         else{
-            incomingQueueMutex.lock();
+            //incomingQueueMutex.lock();
             incomingMessagesQueue.push_back(message);
-            incomingQueueMutex.unlock();
+            //incomingQueueMutex.unlock();
 
-            cout << "CLIENT-READ: " << incomingMessage << endl;
+            //cout << "CLIENT-READ: " << incomingMessage << endl;
         }
     }
     cout<<"CLIENT-READ-DONE"<<endl;
@@ -92,14 +92,14 @@ void Client::sendThread() {
 
     while(connectionOn) {
         std::string message;
-        sendQueueMutex.lock();
+        //sendQueueMutex.lock();
         //cout<<"CLIENT-SEND"<<endl;
 
         if (!toSendMessagesQueue.empty()) {
             message = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
         }
-        sendQueueMutex.unlock();
+        //sendQueueMutex.unlock();
 
         if (!message.empty()) {
             toSendMessage = message;
@@ -113,14 +113,14 @@ void Client::sendThread() {
 void Client::dispatchThread() {
     while(connectionOn) {
         std::string message;
-        incomingQueueMutex.lock();
+        //incomingQueueMutex.lock();
         //cout<<"CLIENT-DISPATCH"<<endl;
 
         if (!incomingMessagesQueue.empty()){
             message = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
         }
-        incomingQueueMutex.unlock();
+        //incomingQueueMutex.unlock();
 
         if (!message.empty()) {
             incomingMessage = message;
@@ -169,23 +169,81 @@ int  Client::send(std::string msg) {
 
 std::string Client::receive() {
 
+    //INIT
+    //=================================
     char buff[MAX_BYTES_BUFFER];
     size_t size = MAX_BYTES_BUFFER;
 
-    int bytesRead = 0;
+    string parsedMessage;
+    //=================================
 
-    while (bytesRead < MAX_BYTES_BUFFER) {
-        int n = recv(socketFD, buff, size, 0);
-        if (n < 0) {
-            cout << "ERROR READ" << endl;
-            return objectSerializer.getFailure();
+    recv(socketFD, buff, size, 0);
+    cout << buff << endl;
+    /*
+    cout <<"primer leida: " << buff << endl;
+    parsedMessage = messageParser.removePadding(buff,objectSerializer.getPaddingSymbol());
+
+    //busco los simbolos de start y fin
+    //================================
+    int startSymbolIndex = 0;
+    int endSymbolIndex = 0;
+    bool hasStartSymbol = false;
+    bool hasEndSymbol = false;
+    for (int i = 0; i < strlen(parsedMessage.c_str()); i++){
+        if (parsedMessage[i] == objectSerializer.getStartSerializationSymbol()){
+            hasStartSymbol = true;
+            startSymbolIndex = i;
         }
-
-        bytesRead += n;
+        if (parsedMessage[i] == objectSerializer.getEndOfSerializationSymbol()){
+            hasEndSymbol = true;
+            endSymbolIndex = i;
+        }
     }
 
-    char end = objectSerializer.getEndOfSerializationCharacterget();
-    return messageParser.extractMeaningfulMessageFromStream(buff, end);
+    if (hasStartSymbol && hasEndSymbol && startSymbolIndex < endSymbolIndex){
+
+        parsedMessage = parsedMessage.substr(startSymbolIndex, endSymbolIndex + 1);
+        cout <<"resultado leida: " << parsedMessage << endl;
+        cout << "==========================" << endl;
+        cout << endl;
+        return  parsedMessage;
+    }
+
+    if (hasStartSymbol && !hasEndSymbol){
+
+        recv(socketFD, buff, size, 0);
+        cout <<"segunda leida: " << buff << endl;
+        string secondParsedMessage = messageParser.removePadding(buff,objectSerializer.getPaddingSymbol());
+
+        for (int i = 0; i < strlen(secondParsedMessage.c_str()); i++){
+            if (secondParsedMessage[i] != objectSerializer.getEndOfSerializationSymbol()){
+                parsedMessage += secondParsedMessage[i];
+            }
+            else{
+                parsedMessage += secondParsedMessage[i];
+                break;
+            }
+        }
+        cout <<"resultado leida: " << parsedMessage << endl;
+        cout << "==========================" << endl;
+        cout << endl;
+        return  parsedMessage;
+    }
+
+    if (!hasStartSymbol && hasEndSymbol){
+        cout <<"resultado leida: " << objectSerializer.getFailure() << endl;
+        cout << "==========================" << endl;
+        cout << endl;
+        return  objectSerializer.getFailure();
+    }
+
+    if (!hasStartSymbol && !hasEndSymbol){
+        cout <<"resultado leida: " << objectSerializer.getFailure() << endl;
+        cout << "==========================" << endl;
+        cout << endl;
+        return  objectSerializer.getFailure();
+    }*/
+    return "";
 }
 
 

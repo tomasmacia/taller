@@ -52,26 +52,78 @@ int Server::send(string msg, int someSocketFD) {
 string Server::receive(int someSocketFD) {
     // TODO REVISAR. Hay que fijarse que someSocketFD este en la lista de conexiones?
 
-
+    //INIT
+    //=================================
     char buff[MAX_BYTES_BUFFER];
     size_t size = MAX_BYTES_BUFFER;
 
-    int bytesRead = 0;
+    string parsedMessage;
+    //=================================
 
-    while (bytesRead < MAX_BYTES_BUFFER) {
-        int n = recv(someSocketFD, buff, size, 0);
-        if (n < 0) {
-            cout << "ERROR READ" << endl;
-            exit(1);
+    recv(someSocketFD, buff, size, 0);
+    cout <<"primer leida: " << buff << endl;
+    parsedMessage = messageParser.removePadding(buff,objectSerializer.getPaddingSymbol());
+
+    //busco los simbolos de start y fin
+    //================================
+    int startSymbolIndex = 0;
+    int endSymbolIndex = 0;
+    bool hasStartSymbol = false;
+    bool hasEndSymbol = false;
+    for (int i = 0; i < strlen(parsedMessage.c_str()); i++){
+        if (parsedMessage[i] == objectSerializer.getStartSerializationSymbol()){
+            hasStartSymbol = true;
+            startSymbolIndex = i;
         }
-
-        bytesRead += n;
+        if (parsedMessage[i] == objectSerializer.getEndOfSerializationSymbol()){
+            hasEndSymbol = true;
+            endSymbolIndex = i;
+        }
     }
 
-    char end = objectSerializer.getEndOfSerializationCharacterget();
+    if (hasStartSymbol && hasEndSymbol && startSymbolIndex < endSymbolIndex){
 
-    return messageParser.extractMeaningfulMessageFromStream(buff, end);
+        parsedMessage = parsedMessage.substr(startSymbolIndex, endSymbolIndex + 1);
+        cout <<"resultado leida: " << parsedMessage << endl;
+        cout << "==========================" << endl;
+        cout << endl;
+        return  parsedMessage;
+    }
 
+    if (hasStartSymbol && !hasEndSymbol){
+
+        recv(someSocketFD, buff, size, 0);
+        cout <<"segunda leida: " << buff << endl;
+        string secondParsedMessage = messageParser.removePadding(buff,objectSerializer.getPaddingSymbol());
+
+        for (int i = 0; i < strlen(secondParsedMessage.c_str()); i++){
+            if (secondParsedMessage[i] != objectSerializer.getEndOfSerializationSymbol()){
+                parsedMessage += secondParsedMessage[i];
+            }
+            else{
+                parsedMessage += secondParsedMessage[i];
+                break;
+            }
+        }
+        cout <<"resultado leida: " << parsedMessage << endl;
+        cout << "==========================" << endl;
+        cout << endl;
+        return  parsedMessage;
+    }
+
+    if (!hasStartSymbol && hasEndSymbol){
+        cout <<"resultado leida: " << objectSerializer.getFailure() << endl;
+        cout << "==========================" << endl;
+        cout << endl;
+        return  objectSerializer.getFailure();
+    }
+
+    if (!hasStartSymbol && !hasEndSymbol){
+        cout <<"resultado leida: " << objectSerializer.getFailure() << endl;
+        cout << "==========================" << endl;
+        cout << endl;
+        return  objectSerializer.getFailure();
+    }
 }
 
 //THREADS

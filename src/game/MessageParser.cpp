@@ -28,15 +28,18 @@ MessageId MessageParser::getHeader() {
     }
 }
 
-string MessageParser::extractMeaningfulMessageFromStream(char *buffer, char endSerializationChar){
+string MessageParser::removePadding(char *buffer, char padding){
 
+    int rawMessagelength = strlen(buffer);
     string extractedMessage = "";
-    int i = 0;
-    while (buffer[i] != endSerializationChar){
-        extractedMessage += buffer[i];
-        i++;
+
+    //limpio el padding
+    //================================
+    for (int i = 0; i < rawMessagelength; i++){
+        if (buffer[i] != padding){
+            extractedMessage += buffer[i];
+        }
     }
-    extractedMessage += buffer[i];
 
     return extractedMessage;
 }

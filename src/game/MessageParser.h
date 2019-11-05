@@ -6,6 +6,7 @@
 #define GAME_MESSAGEPARSER_H
 
 #include "MessageId.h"
+#include "ObjectSerializer.h"
 
 using namespace std;
 
@@ -20,7 +21,8 @@ public:
     //===============================
     void parse(string rawMessage, char separatorCharacter);
     MessageId getHeader();
-    string extractMeaningfulMessageFromStream(char *buffer, char endSerializationChar);
+    string extractMeaningfulMessageFromStream(char *buffer, ObjectSerializer objectSerializer);
+    string removePadding(char *buffer, char padding);
     void clear();
 
     //GETTERS

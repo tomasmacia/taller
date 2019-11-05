@@ -14,23 +14,27 @@
 //API
 //=========================================================================================
 void UserConnection::setToSendMessage(std::string message){
-    sendQueueMutex.lock();
+    //sendQueueMutex.lock();
     toSendMessagesQueue.push_back(message);
+    cout<<"SERVER-FROM MODEL: "<<message<<endl;
     cout<<"AMOUNT: "<<toSendMessagesQueue.size()<<endl;
-    sendQueueMutex.unlock();
+    if (toSendMessagesQueue.size() > QUEUE_AMOUNT_THRESHOLD){
+        toSendMessagesQueue.clear();
+    }
+    //sendQueueMutex.unlock();
 }
 
 void UserConnection::start() {
 
-    std::thread read(&UserConnection::readThread,this);
+    //std::thread read(&UserConnection::readThread,this);
     std::thread send(&UserConnection::sendThread,this);
-    std::thread dispatch(&UserConnection::dispatchThread,this);
+    //std::thread dispatch(&UserConnection::dispatchThread,this);
 
     checkConnection();
 
-    read.join();
+    //read.join();
     send.join();
-    dispatch.join();
+    //dispatch.join();
 
     kill();
 }
@@ -51,10 +55,10 @@ void UserConnection::readThread() {
         if (incomingMessage == objectSerializer.getFailure()){ continue;}
         if (incomingMessage == objectSerializer.getPingCode()){ continue;}
         else{
-            incomingQueueMutex.lock();
+            //incomingQueueMutex.lock();
             incomingMessagesQueue.push_back(incomingMessage);
             cout<<"SERVER-READ: "<<incomingMessage<<endl;
-            incomingQueueMutex.unlock();
+            //incomingQueueMutex.unlock();
         }
     }
     cout<<"SERVER-READ-DONE"<<endl;
@@ -67,12 +71,13 @@ void UserConnection::sendThread() {
 
         //cout<<"SERVER-SEND"<<endl;
 
-        sendQueueMutex.lock();
+        //sendQueueMutex.lock();
         if (toSendMessagesQueue.size() != 0) {
             message = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
+
         }
-        sendQueueMutex.unlock();
+        //sendQueueMutex.unlock();
 
         if (!message.empty()) {
             server->send(message, socketFD);
@@ -87,14 +92,14 @@ void UserConnection::dispatchThread() {
 
     while(connectionOn) {
         string incomingMessage;
-        incomingQueueMutex.lock();
+        //incomingQueueMutex.lock();
         //cout<<"SERVER-DISPATCH"<<endl;
 
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
         }
-        incomingQueueMutex.unlock();
+        //incomingQueueMutex.unlock();
 
         if (!incomingMessage.empty()) {
             messageParser.parse(incomingMessage, objectSerializer.getSeparatorCharacter());
