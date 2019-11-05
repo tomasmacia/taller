@@ -24,6 +24,7 @@ public:
     void setToSend(std::string message);
     bool start();
     void sendCredentials(string user, string pass);
+    bool hasAchievedConnectionAttempt();
 
 private:
     //THREADS
@@ -67,6 +68,7 @@ private:
     //char* buffer;
 
     bool connectionOn = true;
+    bool connectionAttemptMade = false;
 
     MessageParser messageParser;
     ObjectSerializer objectSerializer;

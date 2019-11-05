@@ -23,6 +23,7 @@ public:
 
     LoggerMenu(Client* client);
     bool open();
+    void serverAcknowledge(MessageId id);
 private:
     void setPositionToText();
     void OnEvent(SDL_Event* Event);
@@ -35,7 +36,6 @@ private:
     void ValidarCredenciales();
     void cursorBlip();
     void MensajeEmergente(std::string path);
-    void serverAcknowledge(MessageId id);
 
 
     void init();

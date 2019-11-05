@@ -6,7 +6,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h> // for inet_pton -> string to in_addr
 #include <CLIArgumentParser.h>
-#include <thread>
+
 #include "../LogLib/LogManager.h"
 #include "../game/MessageId.h"
 #include "../game/ToClientPack.h"
@@ -27,6 +27,10 @@ using namespace std;
 
 //API
 //=========================================================================================
+bool Client::hasAchievedConnectionAttempt() {
+    return connectionAttemptMade;
+}
+
 void Client::sendCredentials(string user, string pass){
     setToSend(objectSerializer.serializeCredentials(user,pass));
 }
@@ -41,6 +45,7 @@ bool Client::start(){
 
     create();
     connectToServer();
+    gameClient->notifyAboutClientConectionToServerAttemptDone();
 
     std::thread read(&Client::readThread,this);
     std::thread send(&Client::sendThread,this);
@@ -203,9 +208,8 @@ int Client::disconnectFromServer() {
 //ERROR
 //=========================================================================================
 void Client::error(const char *msg) {
-    //mu.lock();
     LogManager::logError(msg);
-    //mu.unlock();
+
 }
 
 //INIT & CONSTRUCTOR
@@ -238,8 +242,11 @@ int Client::connectToServer() {
 
     if (connect(socketFD, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) < 0) {
         error("ERROR connecting");
-        //socketFD = -1;
+        gameClient->end();
     }
+
+    connectionAttemptMade = true;
+
     return socketFD;
 }
 

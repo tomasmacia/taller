@@ -3,6 +3,9 @@
 
 #include <map>
 #include "list"
+#include <thread>
+#include <condition_variable>
+#include <mutex>
 
 #include "ToClientPack.h"
 #include "Game.h"
@@ -35,6 +38,7 @@ public:
     void setServerAknowledgeToLogin(MessageId id);
     void setPlayerId(int id);
     void reciveRenderable(ToClientPack* package);
+    void notifyAboutClientConectionToServerAttemptDone();
 
     static bool isActive(){
         return hasInstance;
@@ -64,6 +68,8 @@ private:
     //===============================
     void startClient();
     void closeClient();
+    bool hasClientAttemptedConection();
+    void waitUntilConnectionStablished();
 
     //INIT
     //===============================
@@ -76,7 +82,8 @@ private:
     //===============================
     static bool hasInstance;
 
-    std::mutex mu;
+    std::condition_variable waitForConnection;
+    std:: mutex mu;
     std::thread clientConnectionThread;
 
     LoggerMenu* loggerMenu = nullptr;

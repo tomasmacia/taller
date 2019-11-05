@@ -36,12 +36,12 @@ public:
     void reciveNewInput(tuple<Action,int> input);
     int getCurrentLevelWidth();
     static bool isActive();
-    int getMaxPlayers() {
-        return maxPlayers;
-    }
 
     //GETTERS
     //===============================
+    int getMaxPlayers() {
+        return maxPlayers;
+    }
 
     Manager* getManager() {
         return manager;

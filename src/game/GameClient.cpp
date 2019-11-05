@@ -1,7 +1,6 @@
 #include <SDL2/SDL.h>
 
 #include "../LogLib/Logger.h"
-#include <thread>
 #include "Controller.h"
 #include "LoggerMenu.h"
 #include "MessageId.h"
@@ -10,27 +9,34 @@
 
 bool GameClient::hasInstance = false;
 
+
 void GameClient::start() {
     LogManager::logInfo("Se inicia GameClient");
 
     startClient();          //1 thread de listen de conexiones nuevas y 3 threads para read, send y dispatch
-
-
     initLoggerMenu();
 
-    if (loggerMenu->open()){
+    waitUntilConnectionStablished();
+    if (isOn()){
+        if (loggerMenu->open()){
+            initInputSystem();
+            initRenderingSystem();
 
-        initInputSystem();
-        initRenderingSystem();
-
-        gameLoop();
+            gameLoop();
+        }
     }
-/*
+    else{
+        LogManager::logInfo("No se pudo conectar al servidor");
+        cout<<"No se pudo conectar al servidor"<<endl;
+    }
+
+    /*
     initInputSystem();
     initRenderingSystem();
 
     gameLoop();
-*/
+    */
+
     closeClient();
 
     LogManager::logInfo("Juego terminado");
@@ -79,11 +85,15 @@ void GameClient::setPlayerId(int id) {
 }
 
 void GameClient::setServerAknowledgeToLogin(MessageId id){
-    //loggerMenu->setServerAknowledge(id); TODO
+    loggerMenu->serverAcknowledge(id);
 }
 
 void GameClient::reciveRenderable(ToClientPack* package){
     controller->setRenderable(package);
+}
+
+void GameClient::notifyAboutClientConectionToServerAttemptDone(){
+    waitForConnection.notify_one();
 }
 
 
@@ -97,6 +107,16 @@ void GameClient::startClient() {
 
 void GameClient::closeClient() {
     clientConnectionThread.join();
+}
+
+bool GameClient::hasClientAttemptedConection(){
+    return client->hasAchievedConnectionAttempt();
+}
+
+void GameClient::waitUntilConnectionStablished(){
+    //para que no llegue antes el main que el intento de conexion de client
+    std::unique_lock<std::mutex> lck (mu);
+    waitForConnection.wait(lck, [this]{ return hasClientAttemptedConection();});
 }
 
 //INIT
