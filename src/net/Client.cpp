@@ -122,7 +122,7 @@ void Client::dispatchThread() {
                 cout<<"CLIENT-DISPATCH: "<<incomingMessage<<endl;
                 processRenderableSerializedObject();
 
-
+                /*
                 MessageId header = messageParser.getHeader();
                 if (header == SUCCESS                      || header == INVALID_CREDENTIAL ||
                     header == ALREADY_LOGGED_IN_CREDENTIAL || header == SERVER_FULL){
@@ -131,7 +131,7 @@ void Client::dispatchThread() {
                 }
                 if (header == RENDERABLE){
                     processRenderableSerializedObject();
-                }
+                }*/
 
             }
         }
