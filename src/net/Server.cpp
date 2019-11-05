@@ -49,7 +49,7 @@ int Server::send(string msg, int someSocketFD) {
     int bytesSent = 0;
 
     while (bytesSent < MAX_BYTES_BUFFER - 1) {
-        int n = ::send(someSocketFD, buff, strlen(buff), MSG_NOSIGNAL);
+        int n = ::send(someSocketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
         if (n < 0) {
             cout << "ERROR SEND" << endl;
             exit(1);
@@ -65,13 +65,13 @@ string Server::receive(int someSocketFD) {
     // TODO REVISAR. Hay que fijarse que someSocketFD este en la lista de conexiones?
 
 
-    char buff[MAX_BYTES_BUFFER];
-    size_t size = MAX_BYTES_BUFFER;
+    char buff[MAX_BYTES_BUFFER]{0};
+    //size_t size = MAX_BYTES_BUFFER;
 
     int bytesRead = 0;
 
     while (bytesRead < MAX_BYTES_BUFFER - 1) {
-        int n = recv(someSocketFD, buff, size, 0);
+        int n = recv(someSocketFD, buff, MAX_BYTES_BUFFER - 1, 0);
         if (n < 0) {
             cout << "ERROR READ" << endl;
             exit(1);

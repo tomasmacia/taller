@@ -168,7 +168,7 @@ int Client::send(std::string msg) {
     int bytesSent = 0;
 
     while (bytesSent < MAX_BYTES_BUFFER - 1) {
-        int n = ::send(socketFD, buff, strlen(buff), MSG_NOSIGNAL);
+        int n = ::send(socketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
         if (n < 0) {
             cout << "ERROR SEND" << endl;
             exit(1);
@@ -183,12 +183,12 @@ int Client::send(std::string msg) {
 std::string Client::receive() {
 
     char buff[MAX_BYTES_BUFFER]{0};
-    size_t size = MAX_BYTES_BUFFER;
+    //size_t size = MAX_BYTES_BUFFER;
 
     int bytesRead = 0;
 
     while (bytesRead < MAX_BYTES_BUFFER - 1) {
-        int n = recv(socketFD, buff, size, 0);
+        int n = recv(socketFD, buff, MAX_BYTES_BUFFER - 1, 0);
         if (n < 0) {
             cout << "ERROR READ" << endl;
             return objectSerializer.getFailure();
