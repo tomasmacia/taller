@@ -16,7 +16,8 @@
 void UserConnection::setToSendMessage(std::string message){
     sendQueueMutex.lock();
     toSendMessagesQueue.push_back(message);
-    cout<<"AMOUNT: "<<toSendMessagesQueue.size()<<endl;
+//    cout<<"AMOUNT: "<<toSendMessagesQueue.size()<<endl;
+    cout<< "Push message: " << message << endl;
     sendQueueMutex.unlock();
 }
 
@@ -36,7 +37,7 @@ void UserConnection::start() {
 }
 
 void UserConnection::shutdown() {
-    connectionOn = false;
+    setConnectionOff();
 }
 
 //THREADS
@@ -45,7 +46,7 @@ void UserConnection::readThread() {
 
     string incomingMessage;
 
-    while(connectionOn) {
+    while(isConnected()) {
         incomingMessage = server->receive(socketFD);
         //cout<<"SERVER-READ"<<endl;
         if (incomingMessage == objectSerializer.getFailure()){ continue;}
@@ -62,22 +63,25 @@ void UserConnection::readThread() {
 
 void UserConnection::sendThread() {
 
-    while (connectionOn) {
+    while (isConnected()) {
         std::string message;
 
-        //cout<<"SERVER-SEND"<<endl;
-
         sendQueueMutex.lock();
+        cout<<"SERVER-SEND-mutex"<<endl;
         if (toSendMessagesQueue.size() != 0) {
             message = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
+            cout << "SEND QUEUE POP" << endl;
+
+            if (!message.empty()) {
+                int n = server->send(message, socketFD);
+                cout << "SERVER-SENT " << n << " bytes" << endl;
+                cout << "SERVER-SEND: " << message << endl;
+            }
         }
         sendQueueMutex.unlock();
 
-        if (!message.empty()) {
-            server->send(message, socketFD);
-            cout << "SERVER-SEND: " << message << endl;
-        }
+
     }
     cout<<"SERVER-SEND-DONE"<<endl;
 }
@@ -85,7 +89,7 @@ void UserConnection::sendThread() {
 void UserConnection::dispatchThread() {
 
 
-    while(connectionOn) {
+    while(isConnected()) {
         string incomingMessage;
         incomingQueueMutex.lock();
         //cout<<"SERVER-DISPATCH"<<endl;
@@ -144,24 +148,38 @@ void UserConnection::processInput(std::string inputMsg) {//TODO HEAVY IN PERFORM
 
 void UserConnection::checkConnection(){
 
-    while (!connectionOff()){
+    while (true){
         continue;
     }
+    setConnectionOff();
+}
+
+bool UserConnection::isConnected() {
+    bool isConnected;
+
+    isConnectedMutex.lock();
+    isConnected = connectionOn;
+    isConnectedMutex.unlock();
+
+    return isConnected;
+}
+
+void UserConnection::setConnectionOff() {
+    isConnectedMutex.lock();
     connectionOn = false;
+    isConnectedMutex.unlock();
 }
 
 bool UserConnection::connectionOff(){
 
-    if (!connectionOn){
+    if (!isConnected()){
         cout<<"mala conexion"<<endl;
         return true;
-    }
-    else {
+    } else {
         if (server->send(objectSerializer.getPingCode(),socketFD) < 0) {
             cout << "mala conexion" << endl;
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

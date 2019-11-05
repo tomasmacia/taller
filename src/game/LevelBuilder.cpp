@@ -4,6 +4,7 @@
 
 #include "../parser/config/level.h"
 #include "../parser/config/npc.h"
+#include "../utils/ImageUtils.h"
 #include "LevelBuilder.h"
 #include "GameServer.h"
 #include "PositionComponent.h"
@@ -153,9 +154,10 @@ void LevelBuilder::initializeWorld() {
 
 void LevelBuilder::initializeLevelWidth(std::string floorSpritePath){
 
-    int floorSpriteWidth;
-    int floorSpriteHeight;
-    TextureWrapper::measureWidthAndHeighthOf(floorSpritePath, &floorSpriteWidth, &floorSpriteHeight);
+    ImageSize imageSize = ImageUtils::getImageSize(floorSpritePath);
+    int floorSpriteWidth = imageSize.width;
+    int floorSpriteHeight = imageSize.height;
+    //TextureWrapper::measureWidthAndHeighthOf(floorSpritePath, &floorSpriteWidth, &floorSpriteHeight);
 
     int screenResolutionWidth = GameServer::getInstance().getConfig()->screenResolution.width;
     int screenResolutionHeight = GameServer::getInstance().getConfig()->screenResolution.height;

@@ -46,7 +46,19 @@ int Server::send(string msg, int someSocketFD) {
     strncpy(buff, msg.c_str(), sizeof(buff));
     buff[sizeof(buff) - 1] = 0;
 
-    return ::send(someSocketFD, buff, strlen(buff), MSG_NOSIGNAL);
+    int bytesSent = 0;
+
+    while (bytesSent < MAX_BYTES_BUFFER - 1) {
+        int n = ::send(someSocketFD, buff, strlen(buff), MSG_NOSIGNAL);
+        if (n < 0) {
+            cout << "ERROR SEND" << endl;
+            exit(1);
+        }
+
+        bytesSent += n;
+    }
+
+    return bytesSent;
 }
 
 string Server::receive(int someSocketFD) {
@@ -58,7 +70,7 @@ string Server::receive(int someSocketFD) {
 
     int bytesRead = 0;
 
-    while (bytesRead < MAX_BYTES_BUFFER) {
+    while (bytesRead < MAX_BYTES_BUFFER - 1) {
         int n = recv(someSocketFD, buff, size, 0);
         if (n < 0) {
             cout << "ERROR READ" << endl;

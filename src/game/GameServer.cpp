@@ -156,13 +156,13 @@ void GameServer::connectionLostWith(int id){
 void GameServer::initController() {
     //initSDL();
     controller = new Controller(this);
-    lisentToInputForClosing = std::thread(&Controller::lisentToInputForClosing,controller);
-    LogManager::logDebug("inicializado SDL");
+    //lisentToInputForClosing = std::thread(&Controller::lisentToInputForClosing,controller);
+    //LogManager::logDebug("inicializado SDL");
     LogManager::logDebug("inicializado Controller");
 }
 
 void GameServer::closeController(){
-    lisentToInputForClosing.join();
+    //lisentToInputForClosing.join();
 }
 
 //LOGIN RELATED

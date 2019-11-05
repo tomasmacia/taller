@@ -70,7 +70,7 @@ bool Client::start(){
 void Client::readThread() {
 
     while (connectionOn) {
-
+        incomingQueueMutex.lock();
         incomingMessage = receive();
         std::string message = incomingMessage;
         //cout<<"CLIENT-READ"<<endl;
@@ -78,12 +78,13 @@ void Client::readThread() {
         if (incomingMessage == objectSerializer.getFailure()){ continue;}
         if (incomingMessage == objectSerializer.getPingCode()){ continue;}
         else{
-            incomingQueueMutex.lock();
+
             incomingMessagesQueue.push_back(message);
-            incomingQueueMutex.unlock();
+
 
             cout << "CLIENT-READ: " << incomingMessage << endl;
         }
+        incomingQueueMutex.unlock();
     }
     cout<<"CLIENT-READ-DONE"<<endl;
 }
@@ -155,7 +156,7 @@ void Client::processRenderableSerializedObject() {//TODO HEAVY IN PERFORMANCE
 
 //ACTUAL DATA TRANSFER
 //=========================================================================================
-int  Client::send(std::string msg) {
+int Client::send(std::string msg) {
 
     char buff[MAX_BYTES_BUFFER]{0};
     strncpy(buff, msg.c_str(), sizeof(buff));
@@ -164,17 +165,29 @@ int  Client::send(std::string msg) {
     //int len = msg.size();
     //char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
 
-    return ::send(socketFD, buff, strlen(buff), MSG_NOSIGNAL);
+    int bytesSent = 0;
+
+    while (bytesSent < MAX_BYTES_BUFFER - 1) {
+        int n = ::send(socketFD, buff, strlen(buff), MSG_NOSIGNAL);
+        if (n < 0) {
+            cout << "ERROR SEND" << endl;
+            exit(1);
+        }
+
+        bytesSent += n;
+    }
+
+    return bytesSent;
 }
 
 std::string Client::receive() {
 
-    char buff[MAX_BYTES_BUFFER];
+    char buff[MAX_BYTES_BUFFER]{0};
     size_t size = MAX_BYTES_BUFFER;
 
     int bytesRead = 0;
 
-    while (bytesRead < MAX_BYTES_BUFFER) {
+    while (bytesRead < MAX_BYTES_BUFFER - 1) {
         int n = recv(socketFD, buff, size, 0);
         if (n < 0) {
             cout << "ERROR READ" << endl;
@@ -193,7 +206,7 @@ std::string Client::receive() {
 //=========================================================================================
 void Client::checkConnection(){
 
-    while (!connectionOff()){
+    while (true){
         continue;
     }
     connectionOn = false;

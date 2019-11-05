@@ -66,11 +66,13 @@ void GameClient::render() {
 
 void GameClient::renderAllPackages(){
     std::list<ToClientPack*>* packages = controller->getPackages();
-    ToClientPack* currentPackage;
+    ToClientPack* currentPackage = nullptr;
     while (!packages->empty()){
         currentPackage = packages->front();
         packages->pop_front();
         currentPackage->render(&loadedTexturesMap);
+        delete(currentPackage);
+        currentPackage = nullptr;
     }
 }
 

@@ -61,7 +61,7 @@ public:
     }
 
     string getPingCode(){
-        return PING_CODE + END_SERIALIZATION_SIMBOL;
+        return PING_CODE + string(totalMessageLength - PING_CODE.length(),END_SERIALIZATION_SIMBOL);
     }
 
 

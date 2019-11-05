@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "../LogLib/LogManager.h"
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <SDL_image.h>
 
 #include <algorithm>
 #include "../parser/CLIArgumentParser.h"

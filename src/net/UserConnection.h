@@ -47,6 +47,7 @@ private:
     //===============================
     void checkConnection();
     void kill();
+    bool isConnected();
 
     //ATRIBUTES
     //===============================
@@ -54,6 +55,7 @@ private:
 
     std::mutex sendQueueMutex;
     std::mutex incomingQueueMutex;
+    std::mutex isConnectedMutex;
     int socketFD;
     int userId;
 
@@ -64,6 +66,8 @@ private:
 
     list<string> toSendMessagesQueue;
     list<string> incomingMessagesQueue;
+
+    void setConnectionOff();
 };
 
 
