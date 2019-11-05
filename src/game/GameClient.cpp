@@ -9,7 +9,6 @@
 
 bool GameClient::hasInstance = false;
 
-
 void GameClient::start() {
     LogManager::logInfo("Se inicia GameClient");
 
@@ -19,7 +18,7 @@ void GameClient::start() {
     waitUntilConnectionStablished();
 
     if (isOn()){                //pregunto porque el Client lo podria haber cerrado al no conectarse
-        loggerMenu->open();
+        //loggerMenu->open();
 
         if (isOn()){            //pregunto porque el loggerMenu lo podria haber cerrado al tocar ESC o QUIT
             initInputSystem();
@@ -54,6 +53,7 @@ void GameClient::pollAndSendInput() {
     std::string serializedInput = controller->pollAndProcessInput();
     if (serializedInput != ""){
         client->setToSend(serializedInput);
+        cout<<"CLIENT-FROM MODEL: "<<serializedInput<<endl;
     }
 }
 

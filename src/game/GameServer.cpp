@@ -21,7 +21,7 @@ void GameServer::start() {
     initController();       //1 thread para escuchar teclado y la crucecita de la window
     startServer();          //1 thread de listen de conexiones nuevas y 4 threads por cliente nuevo
 
-    waitUnitAtLeasOnePlayerConnected();
+    //waitUnitAtLeasOnePlayerConnected();
 
     initGameModel();
     gameLoop();

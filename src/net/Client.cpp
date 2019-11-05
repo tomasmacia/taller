@@ -71,7 +71,7 @@ void Client::readThread() {
 
     while (connectionOn) {
 
-        incomingQueueMutex.lock();
+        //incomingQueueMutex.lock();
         //cout<<"CLIENT-READ"<<endl;
 
         incomingMessage = receive();
@@ -83,7 +83,7 @@ void Client::readThread() {
             cout << "CLIENT-READ: " << incomingMessage << endl;
         }
 
-        incomingQueueMutex.unlock();
+        //incomingQueueMutex.unlock();
     }
     cout<<"CLIENT-READ-DONE"<<endl;
 }
@@ -107,7 +107,7 @@ void Client::sendThread() {
 
 void Client::dispatchThread() {
     while(connectionOn) {
-        incomingQueueMutex.lock();
+        //incomingQueueMutex.lock();
         //cout<<"CLIENT-DISPATCH"<<endl;
 
         if (!incomingMessagesQueue.empty()){
@@ -135,7 +135,7 @@ void Client::dispatchThread() {
 
             }
         }
-        incomingQueueMutex.unlock();
+        //incomingQueueMutex.unlock();
     }
     cout<<"CLIENT-DISPATCH-DONE"<<endl;
 }
