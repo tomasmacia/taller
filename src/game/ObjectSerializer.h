@@ -74,7 +74,7 @@ public:
 
 
     char getSeparatorCharacter(){
-        return SEPARATOR;
+        return SEPARATOR.c_str()[0];
     }
 
     int getFailureAcknowledgeSignal(){
@@ -89,7 +89,7 @@ private:
     string PING_CODE = "*";
     char END_OF_SERIALIZATION_SYMBOL = '&';
     char PADDING_SYMBOL = '*';
-    char SEPARATOR = '@';
+    string SEPARATOR = "@";
     int FAILURE_AKNOWLEDGE_SIGNAL = -1;
     char START_SYMBOL = '=';
     string FAILURE = "-1";

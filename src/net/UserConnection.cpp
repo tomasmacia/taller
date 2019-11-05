@@ -16,8 +16,8 @@
 void UserConnection::setToSendMessage(std::string message){
     sendQueueMutex.lock();
     toSendMessagesQueue.push_back(message);
-    cout<<"SERVER-FROM MODEL: "<<message<<endl;
-    cout<<"AMOUNT: "<<toSendMessagesQueue.size()<<endl;
+    //cout<<"SERVER-FROM MODEL: "<<message<<endl;
+    //cout<<"AMOUNT: "<<toSendMessagesQueue.size()<<endl;
     if (toSendMessagesQueue.size() > QUEUE_AMOUNT_THRESHOLD){
         toSendMessagesQueue.clear();
     }
@@ -26,15 +26,15 @@ void UserConnection::setToSendMessage(std::string message){
 
 void UserConnection::start() {
 
-    //std::thread read(&UserConnection::readThread,this);
+    std::thread read(&UserConnection::readThread,this);
     std::thread send(&UserConnection::sendThread,this);
-    //std::thread dispatch(&UserConnection::dispatchThread,this);
+    std::thread dispatch(&UserConnection::dispatchThread,this);
 
     checkConnection();
 
-    //read.join();
+    read.join();
     send.join();
-    //dispatch.join();
+    dispatch.join();
 
     kill();
 }
@@ -50,14 +50,15 @@ void UserConnection::readThread() {
     vector<string> newMessages;
     while (connectionOn) {
 
-        cout<<"SERVER-READ"<<endl;
+        //cout<<"SERVER-READ"<<endl;
+
         newMessages = server->receive(socketFD);
-        //incomingQueueMutex.lock();
+        incomingQueueMutex.lock();
         for (auto message : newMessages) {
             incomingMessagesQueue.push_back(message);
+            cout << "SERVER-READ: " << message << endl;
         }
         incomingQueueMutex.unlock();
-        //cout << "SERVER-READ: " << incomingMessage << endl;
     }
     cout<<"SERVER-READ-DONE"<<endl;
 }
@@ -67,7 +68,7 @@ void UserConnection::sendThread() {
     while (connectionOn) {
         std::string message;
 
-        cout<<"SERVER-SEND"<<endl;
+        //cout<<"SERVER-SEND"<<endl;
 
         sendQueueMutex.lock();
         if (toSendMessagesQueue.size() != 0) {
@@ -91,6 +92,7 @@ void UserConnection::dispatchThread() {
     while(connectionOn) {
         string incomingMessage;
         incomingQueueMutex.lock();
+
         //cout<<"SERVER-DISPATCH"<<endl;
 
         if (!incomingMessagesQueue.empty()){
@@ -102,6 +104,7 @@ void UserConnection::dispatchThread() {
         if (!incomingMessage.empty()) {
             messageParser.parse(incomingMessage, objectSerializer.getSeparatorCharacter());
             MessageId header = messageParser.getHeader();
+
             if (header == USER_PASS){
                 processLoginFromTheClient(incomingMessage);
             }

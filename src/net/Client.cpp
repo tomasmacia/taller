@@ -43,9 +43,9 @@ void Client::sendCredentials(string user, string pass){
 }
 
 void Client::setToSend(std::string message){
-    //sendQueueMutex.lock();
+    sendQueueMutex.lock();
     toSendMessagesQueue.push_back(message);
-    //sendQueueMutex.unlock();
+    sendQueueMutex.unlock();
 }
 
 bool Client::start(){
@@ -74,11 +74,11 @@ void Client::readThread() {
 
         //cout<<"CLIENT-READ"<<endl;
         newMessages = receive();
-        //incomingQueueMutex.lock();
+        incomingQueueMutex.lock();
         for (auto message : newMessages) {
             incomingMessagesQueue.push_back(message);
         }
-        //incomingQueueMutex.unlock();
+        incomingQueueMutex.unlock();
         //cout << "CLIENT-READ: " << incomingMessage << endl;
         }
     cout<<"CLIENT-READ-DONE"<<endl;
@@ -88,14 +88,14 @@ void Client::sendThread() {
 
     while(connectionOn) {
         std::string message;
-        //sendQueueMutex.lock();
+        sendQueueMutex.lock();
         //cout<<"CLIENT-SEND"<<endl;
 
         if (!toSendMessagesQueue.empty()) {
             message = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
         }
-        //sendQueueMutex.unlock();
+        sendQueueMutex.unlock();
 
         if (!message.empty()) {
             toSendMessage = message;
@@ -109,14 +109,14 @@ void Client::sendThread() {
 void Client::dispatchThread() {
     while(connectionOn) {
         std::string message;
-        //incomingQueueMutex.lock();
+        incomingQueueMutex.lock();
         //cout<<"CLIENT-DISPATCH"<<endl;
 
         if (!incomingMessagesQueue.empty()){
             message = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
         }
-        //incomingQueueMutex.unlock();
+        incomingQueueMutex.unlock();
 
         if (!incomingMessage.empty()) {
             messageParser.parse(incomingMessage, objectSerializer.getSeparatorCharacter());
