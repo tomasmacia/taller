@@ -34,7 +34,7 @@ public:
     //ACTUAL DATA TRANSFER
     //===============================
     int send(std::string, int someSocketFD);
-    std::string receive(int someSocketFD);
+    vector<string> receive(int someSocketFD);
 
     //THREADS
     //===============================

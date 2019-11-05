@@ -49,81 +49,26 @@ int Server::send(string msg, int someSocketFD) {
     return ::send(someSocketFD, buff, strlen(buff), MSG_NOSIGNAL);
 }
 
-string Server::receive(int someSocketFD) {
+vector<string> Server::receive(int someSocketFD) {
     // TODO REVISAR. Hay que fijarse que someSocketFD este en la lista de conexiones?
 
     //INIT
     //=================================
     char buff[MAX_BYTES_BUFFER];
     size_t size = MAX_BYTES_BUFFER;
-
-    string parsedMessage;
     //=================================
 
     recv(someSocketFD, buff, size, 0);
-    cout <<"primer leida: " << buff << endl;
-    parsedMessage = messageParser.removePadding(buff,objectSerializer.getPaddingSymbol());
+    cout <<"leido: "<< buff << endl;
 
-    //busco los simbolos de start y fin
-    //================================
-    int startSymbolIndex = 0;
-    int endSymbolIndex = 0;
-    bool hasStartSymbol = false;
-    bool hasEndSymbol = false;
-    for (int i = 0; i < strlen(parsedMessage.c_str()); i++){
-        if (parsedMessage[i] == objectSerializer.getStartSerializationSymbol()){
-            hasStartSymbol = true;
-            startSymbolIndex = i;
-        }
-        if (parsedMessage[i] == objectSerializer.getEndOfSerializationSymbol()){
-            hasEndSymbol = true;
-            endSymbolIndex = i;
-        }
+    vector<string> m = messageParser.extractMeaningfulMessagesFromStream(buff,objectSerializer);
+
+    for (auto a: m){
+        cout<<"resultado: "<<a<<endl;
     }
-
-    if (hasStartSymbol && hasEndSymbol && startSymbolIndex < endSymbolIndex){
-
-        parsedMessage = parsedMessage.substr(startSymbolIndex, endSymbolIndex + 1);
-        cout <<"resultado leida: " << parsedMessage << endl;
-        cout << "==========================" << endl;
-        cout << endl;
-        return  parsedMessage;
-    }
-
-    if (hasStartSymbol && !hasEndSymbol){
-
-        recv(someSocketFD, buff, size, 0);
-        cout <<"segunda leida: " << buff << endl;
-        string secondParsedMessage = messageParser.removePadding(buff,objectSerializer.getPaddingSymbol());
-
-        for (int i = 0; i < strlen(secondParsedMessage.c_str()); i++){
-            if (secondParsedMessage[i] != objectSerializer.getEndOfSerializationSymbol()){
-                parsedMessage += secondParsedMessage[i];
-            }
-            else{
-                parsedMessage += secondParsedMessage[i];
-                break;
-            }
-        }
-        cout <<"resultado leida: " << parsedMessage << endl;
-        cout << "==========================" << endl;
-        cout << endl;
-        return  parsedMessage;
-    }
-
-    if (!hasStartSymbol && hasEndSymbol){
-        cout <<"resultado leida: " << objectSerializer.getFailure() << endl;
-        cout << "==========================" << endl;
-        cout << endl;
-        return  objectSerializer.getFailure();
-    }
-
-    if (!hasStartSymbol && !hasEndSymbol){
-        cout <<"resultado leida: " << objectSerializer.getFailure() << endl;
-        cout << "==========================" << endl;
-        cout << endl;
-        return  objectSerializer.getFailure();
-    }
+    cout<<"========================="<<endl;
+    cout<<endl;
+    return m;
 }
 
 //THREADS

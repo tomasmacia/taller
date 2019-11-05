@@ -39,7 +39,7 @@ private:
     //ACTUAL DATA TRANSFER
     //===============================
     int send(std::string msg);
-    string receive();
+    vector<string> receive();
 
     //DISPATCHING OF INCOMMING MESSAGES
     //===============================

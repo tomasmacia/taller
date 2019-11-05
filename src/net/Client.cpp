@@ -1,5 +1,5 @@
 
-#include <vector>
+#include <list>
 #include <unistd.h>
 #include <string.h>
 #include <sys/socket.h>
@@ -69,22 +69,18 @@ bool Client::start(){
 //=========================================================================================
 void Client::readThread() {
 
+    vector<string> newMessages;
     while (connectionOn) {
 
-        incomingMessage = receive();
-        std::string message = incomingMessage;
         //cout<<"CLIENT-READ"<<endl;
-
-        if (incomingMessage == objectSerializer.getFailure()){ continue;}
-        if (incomingMessage == objectSerializer.getPingCode()){ continue;}
-        else{
-            //incomingQueueMutex.lock();
+        newMessages = receive();
+        //incomingQueueMutex.lock();
+        for (auto message : newMessages) {
             incomingMessagesQueue.push_back(message);
-            //incomingQueueMutex.unlock();
-
-            //cout << "CLIENT-READ: " << incomingMessage << endl;
         }
-    }
+        //incomingQueueMutex.unlock();
+        //cout << "CLIENT-READ: " << incomingMessage << endl;
+        }
     cout<<"CLIENT-READ-DONE"<<endl;
 }
 
@@ -167,83 +163,25 @@ int  Client::send(std::string msg) {
     return ::send(socketFD, buff, strlen(buff), MSG_NOSIGNAL);
 }
 
-std::string Client::receive() {
+vector<string> Client::receive() {
 
     //INIT
     //=================================
     char buff[MAX_BYTES_BUFFER];
     size_t size = MAX_BYTES_BUFFER;
-
-    string parsedMessage;
     //=================================
 
     recv(socketFD, buff, size, 0);
-    cout << buff << endl;
-    /*
-    cout <<"primer leida: " << buff << endl;
-    parsedMessage = messageParser.removePadding(buff,objectSerializer.getPaddingSymbol());
+    cout <<"leido: "<< buff << endl;
 
-    //busco los simbolos de start y fin
-    //================================
-    int startSymbolIndex = 0;
-    int endSymbolIndex = 0;
-    bool hasStartSymbol = false;
-    bool hasEndSymbol = false;
-    for (int i = 0; i < strlen(parsedMessage.c_str()); i++){
-        if (parsedMessage[i] == objectSerializer.getStartSerializationSymbol()){
-            hasStartSymbol = true;
-            startSymbolIndex = i;
-        }
-        if (parsedMessage[i] == objectSerializer.getEndOfSerializationSymbol()){
-            hasEndSymbol = true;
-            endSymbolIndex = i;
-        }
+    vector<string> m = messageParser.extractMeaningfulMessagesFromStream(buff,objectSerializer);
+    cout << "cantidad completos: "<<m.size()<<endl;
+    for (auto a: m){
+        cout<<"resultado: "<<a<<endl;
     }
-
-    if (hasStartSymbol && hasEndSymbol && startSymbolIndex < endSymbolIndex){
-
-        parsedMessage = parsedMessage.substr(startSymbolIndex, endSymbolIndex + 1);
-        cout <<"resultado leida: " << parsedMessage << endl;
-        cout << "==========================" << endl;
-        cout << endl;
-        return  parsedMessage;
-    }
-
-    if (hasStartSymbol && !hasEndSymbol){
-
-        recv(socketFD, buff, size, 0);
-        cout <<"segunda leida: " << buff << endl;
-        string secondParsedMessage = messageParser.removePadding(buff,objectSerializer.getPaddingSymbol());
-
-        for (int i = 0; i < strlen(secondParsedMessage.c_str()); i++){
-            if (secondParsedMessage[i] != objectSerializer.getEndOfSerializationSymbol()){
-                parsedMessage += secondParsedMessage[i];
-            }
-            else{
-                parsedMessage += secondParsedMessage[i];
-                break;
-            }
-        }
-        cout <<"resultado leida: " << parsedMessage << endl;
-        cout << "==========================" << endl;
-        cout << endl;
-        return  parsedMessage;
-    }
-
-    if (!hasStartSymbol && hasEndSymbol){
-        cout <<"resultado leida: " << objectSerializer.getFailure() << endl;
-        cout << "==========================" << endl;
-        cout << endl;
-        return  objectSerializer.getFailure();
-    }
-
-    if (!hasStartSymbol && !hasEndSymbol){
-        cout <<"resultado leida: " << objectSerializer.getFailure() << endl;
-        cout << "==========================" << endl;
-        cout << endl;
-        return  objectSerializer.getFailure();
-    }*/
-    return "";
+    cout<<"========================="<<endl;
+    cout<<endl;
+    return m;
 }
 
 

@@ -14,14 +14,14 @@
 //API
 //=========================================================================================
 void UserConnection::setToSendMessage(std::string message){
-    //sendQueueMutex.lock();
+    sendQueueMutex.lock();
     toSendMessagesQueue.push_back(message);
     cout<<"SERVER-FROM MODEL: "<<message<<endl;
     cout<<"AMOUNT: "<<toSendMessagesQueue.size()<<endl;
     if (toSendMessagesQueue.size() > QUEUE_AMOUNT_THRESHOLD){
         toSendMessagesQueue.clear();
     }
-    //sendQueueMutex.unlock();
+    sendQueueMutex.unlock();
 }
 
 void UserConnection::start() {
@@ -47,19 +47,17 @@ void UserConnection::shutdown() {
 //=========================================================================================
 void UserConnection::readThread() {
 
-    string incomingMessage;
+    vector<string> newMessages;
+    while (connectionOn) {
 
-    while(connectionOn) {
-        incomingMessage = server->receive(socketFD);
         //cout<<"SERVER-READ"<<endl;
-        if (incomingMessage == objectSerializer.getFailure()){ continue;}
-        if (incomingMessage == objectSerializer.getPingCode()){ continue;}
-        else{
-            //incomingQueueMutex.lock();
-            incomingMessagesQueue.push_back(incomingMessage);
-            cout<<"SERVER-READ: "<<incomingMessage<<endl;
-            //incomingQueueMutex.unlock();
+        newMessages = server->receive(socketFD);
+        //incomingQueueMutex.lock();
+        for (auto message : newMessages) {
+            incomingMessagesQueue.push_back(message);
         }
+        //incomingQueueMutex.unlock();
+        //cout << "SERVER-READ: " << incomingMessage << endl;
     }
     cout<<"SERVER-READ-DONE"<<endl;
 }
@@ -69,7 +67,7 @@ void UserConnection::sendThread() {
     while (connectionOn) {
         std::string message;
 
-        //cout<<"SERVER-SEND"<<endl;
+        cout<<"SERVER-SEND"<<endl;
 
         //sendQueueMutex.lock();
         if (toSendMessagesQueue.size() != 0) {
@@ -77,7 +75,7 @@ void UserConnection::sendThread() {
             toSendMessagesQueue.pop_front();
 
         }
-        //sendQueueMutex.unlock();
+        sendQueueMutex.unlock();
 
         if (!message.empty()) {
             server->send(message, socketFD);

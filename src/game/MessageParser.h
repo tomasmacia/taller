@@ -21,7 +21,7 @@ public:
     //===============================
     void parse(string rawMessage, char separatorCharacter);
     MessageId getHeader();
-    string extractMeaningfulMessageFromStream(char *buffer, ObjectSerializer objectSerializer);
+    vector<string> extractMeaningfulMessagesFromStream(char *buffer, ObjectSerializer objectSerializer);
     string removePadding(char *buffer, char padding);
     void clear();
 
@@ -35,11 +35,15 @@ private:
     //SPLIT
     //===============================
     vector<string>* split(const string &s, const char &c);
+    vector<string> getPartialMessagesFrom(char* buffer, ObjectSerializer objectSerializer);
+    bool isACompleteMessage(string message, ObjectSerializer objectSerializer);
 
 
     //ATRIBUTES
     //===============================
     vector<string>* lastParsedMessage = nullptr;
+
+    string lastPreviousIncompleteMessage = "";
 };
 
 
