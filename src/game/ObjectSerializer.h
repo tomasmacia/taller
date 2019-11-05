@@ -85,6 +85,9 @@ private:
     string FAILURE = "-1";
     int totalMessageLength = 128;
 
+    static int contador;
+    static int contadorFail;
+
 };
 
 

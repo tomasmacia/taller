@@ -1,6 +1,7 @@
 #include "GameServer.h"
 #include "RenderComponent.h"
 #include "CameraComponent.h"
+#include "../utils/ImageUtils.h"
 
 ToClientPack* RenderComponent::emitRenderable() {
     if (onScreen()){
@@ -34,5 +35,8 @@ void RenderComponent::setDimentions(){
 }
 
 void RenderComponent::getCurrentSpriteDimentions() {
-    TextureWrapper::measureWidthAndHeighthOf(currentSprite,&currentSpriteWidth,&currentSpriteHight);
+    ImageSize imgSize = ImageUtils::getImageSize(currentSprite);
+    currentSpriteWidth = imgSize.width;
+    currentSpriteHight = imgSize.height;
+    //TextureWrapper::measureWidthAndHeighthOf(currentSprite,&currentSpriteWidth,&currentSpriteHight);
 }

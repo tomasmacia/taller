@@ -9,6 +9,9 @@
 
 using namespace std;
 
+int ObjectSerializer::contador = 0;
+int ObjectSerializer::contadorFail = 0;
+
 //API
 //=========================================================================================
 int ObjectSerializer::getIDFrom(vector<string>* currentParsedMessage){
@@ -48,7 +51,12 @@ bool ObjectSerializer::validLoginFromServerMessage(vector<string>* currentParsed
 
 bool ObjectSerializer::validSerializedObjectMessage(vector<string>* currentParsedMessage){
     //SERIALIZED OBJECT: header,path,srcw,srch,srcx,srcy,dstw,dsth,dstx,dsty,bool,END_SERIALIZATION_SIMBOL
-    return currentParsedMessage->at(0) == to_string(RENDERABLE) && currentParsedMessage->size() == 12;
+    bool result = currentParsedMessage->at(0) == to_string(RENDERABLE) && currentParsedMessage->size() == 12;
+
+    contador += 1;
+    contadorFail += 1 - result;
+
+    return result;
 }
 
 bool ObjectSerializer::validLoginFromClientMessage(vector<string>* currentParsedMessage){
