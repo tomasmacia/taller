@@ -21,7 +21,7 @@ vector<string> MessageParser::extractMeaningfulMessagesFromStream(char *buffer, 
     vector<string> completeMessages;
 
     for (auto a: partialMessages){
-        cout<<"parseado: "<<a<<endl;
+        //cout<<"parseado: "<<a<<endl;
     }
 
     if (partialMessages.size() == 0){
@@ -36,7 +36,7 @@ vector<string> MessageParser::extractMeaningfulMessagesFromStream(char *buffer, 
         }
         else{
             if(isACompleteMessage(lastPreviousIncompleteMessage + message,objectSerializer)){
-                cout << "pruebo con: " << (lastPreviousIncompleteMessage + message) << endl;
+                //cout << "pruebo con: " << (lastPreviousIncompleteMessage + message) << endl;
                 completeMessages.push_back((lastPreviousIncompleteMessage + message));
             }
             else{
@@ -51,7 +51,7 @@ vector<string> MessageParser::extractMeaningfulMessagesFromStream(char *buffer, 
 
         if (!isACompleteMessage(firstMessage,objectSerializer)){
             if (isACompleteMessage(lastPreviousIncompleteMessage + firstMessage,objectSerializer)){
-                cout << "pruebo con: " << (lastPreviousIncompleteMessage + firstMessage) << endl;
+                //cout << "pruebo con: " << (lastPreviousIncompleteMessage + firstMessage) << endl;
                 completeMessages.push_back((lastPreviousIncompleteMessage + firstMessage));
             }
         }
@@ -68,7 +68,7 @@ vector<string> MessageParser::extractMeaningfulMessagesFromStream(char *buffer, 
             lastPreviousIncompleteMessage = lastMessage;
         }
     }
-    cout << "ahora mi ultimo es: " << (lastPreviousIncompleteMessage) << endl;
+    //cout << "ahora mi ultimo es: " << (lastPreviousIncompleteMessage) << endl;
 
     return completeMessages;
 }
@@ -81,7 +81,7 @@ void MessageParser::parse(string rawMessage, char separatorCharacter) {
 MessageId MessageParser::getHeader() {
 
     if (lastParsedMessage != nullptr && !lastParsedMessage->empty()){
-        return (MessageId)stoi(lastParsedMessage->at(0));
+        return (MessageId)stoi(lastParsedMessage->at(1));
     }
     else {
         return UNDEFINED;

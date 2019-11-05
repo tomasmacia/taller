@@ -59,15 +59,15 @@ vector<string> Server::receive(int someSocketFD) {
     //=================================
 
     recv(someSocketFD, buff, size, 0);
-    cout <<"leido: "<< buff << endl;
+    //cout <<"leido: "<< buff << endl;
 
-    vector<string> m = messageParser.extractMeaningfulMessagesFromStream(buff,objectSerializer);
-
-    for (auto a: m){
-        cout<<"resultado: "<<a<<endl;
-    }
-    cout<<"========================="<<endl;
-    cout<<endl;
+    vector<string> m = messageParser.extractMeaningfulMessagesFromStream(buff, objectSerializer);
+    //cout << "cantidad completos: "<<m.size()<<endl;
+    //for (auto a: m){
+    //cout<<"resultado: "<<a<<endl;
+    //}
+    //cout<<"========================="<<endl;
+    //cout<<endl;
     return m;
 }
 

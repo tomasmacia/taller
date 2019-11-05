@@ -118,15 +118,21 @@ void Client::dispatchThread() {
         }
         //incomingQueueMutex.unlock();
 
-        if (!message.empty()) {
-            incomingMessage = message;
+        if (!incomingMessage.empty()) {
             messageParser.parse(incomingMessage, objectSerializer.getSeparatorCharacter());
+            MessageId header = messageParser.getHeader();
 
-            if (objectSerializer.validSerializedObjectMessage(messageParser.getCurrent())){
-                cout<<"CLIENT-DISPATCH: "<< incomingMessage <<endl;
-                processRenderableSerializedObject();
+            if ((header == SUCCESS) || (header == INVALID_CREDENTIAL)
+                ||
+                (header == ALREADY_LOGGED_IN_CREDENTIAL) || (header == SERVER_FULL)){
 
+                processResponseFromServer();
             }
+            if (header == RENDERABLE){
+                processRenderableSerializedObject();
+            }
+
+            cout<<"CLIENT-DISPATCH: "<< incomingMessage <<endl;
         }
     }
     cout<<"CLIENT-DISPATCH-DONE"<<endl;
@@ -172,15 +178,15 @@ vector<string> Client::receive() {
     //=================================
 
     recv(socketFD, buff, size, 0);
-    cout <<"leido: "<< buff << endl;
+    //cout <<"leido: "<< buff << endl;
 
     vector<string> m = messageParser.extractMeaningfulMessagesFromStream(buff,objectSerializer);
-    cout << "cantidad completos: "<<m.size()<<endl;
-    for (auto a: m){
-        cout<<"resultado: "<<a<<endl;
-    }
-    cout<<"========================="<<endl;
-    cout<<endl;
+    //cout << "cantidad completos: "<<m.size()<<endl;
+    //for (auto a: m){
+        //cout<<"resultado: "<<a<<endl;
+    //}
+    //cout<<"========================="<<endl;
+    //cout<<endl;
     return m;
 }
 

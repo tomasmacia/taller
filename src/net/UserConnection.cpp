@@ -50,13 +50,13 @@ void UserConnection::readThread() {
     vector<string> newMessages;
     while (connectionOn) {
 
-        //cout<<"SERVER-READ"<<endl;
+        cout<<"SERVER-READ"<<endl;
         newMessages = server->receive(socketFD);
         //incomingQueueMutex.lock();
         for (auto message : newMessages) {
             incomingMessagesQueue.push_back(message);
         }
-        //incomingQueueMutex.unlock();
+        incomingQueueMutex.unlock();
         //cout << "SERVER-READ: " << incomingMessage << endl;
     }
     cout<<"SERVER-READ-DONE"<<endl;
@@ -69,7 +69,7 @@ void UserConnection::sendThread() {
 
         cout<<"SERVER-SEND"<<endl;
 
-        //sendQueueMutex.lock();
+        sendQueueMutex.lock();
         if (toSendMessagesQueue.size() != 0) {
             message = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
@@ -90,14 +90,14 @@ void UserConnection::dispatchThread() {
 
     while(connectionOn) {
         string incomingMessage;
-        //incomingQueueMutex.lock();
+        incomingQueueMutex.lock();
         //cout<<"SERVER-DISPATCH"<<endl;
 
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
         }
-        //incomingQueueMutex.unlock();
+        incomingQueueMutex.unlock();
 
         if (!incomingMessage.empty()) {
             messageParser.parse(incomingMessage, objectSerializer.getSeparatorCharacter());
