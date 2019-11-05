@@ -18,7 +18,7 @@ public:
 
     //API
     //===============================
-    void end();
+    virtual void end();
     bool isOn();
 
     //GETTERS

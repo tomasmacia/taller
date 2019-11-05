@@ -1,6 +1,10 @@
 #ifndef GAME_GAMESERVER_H_
 #define GAME_GAMESERVER_H_
 
+#include <thread>
+#include <condition_variable>
+#include <mutex>
+
 #include "Manager.h"
 #include "LevelBuilder.h"
 #include "Game.h"
@@ -36,6 +40,8 @@ public:
     void reciveNewInput(tuple<Action,int> input);
     int getCurrentLevelWidth();
     static bool isActive();
+    bool playersCanMove();
+    void connectionLostWith(int id);
 
     //GETTERS
     //===============================
@@ -84,11 +90,23 @@ private:
     //===============================
     void startServer();
     void closeServer();
+    void waitUnitAtLeasOnePlayerConnected();
+    bool notAllPlayersDisconnected();
 
     //CONTROLLER RELATED
     //===============================
     void initController() override ;
     void closeController();
+
+    //LOGIN RELATED
+    //===============================
+    bool serverFull();
+    bool userInValidCredentials(string user);
+    bool passInValidCredentials(string user,string pass);
+    bool userInLoggedPlayers(string user);
+    bool IDInDisconnectedPlayers(int id);
+    string processConectionAndEmitSuccesMessage(string user, string pass, int id);
+    string processReconectionAndEmitSuccesMessage(int id);
 
     //ATRIBUTES
     //===============================
@@ -97,8 +115,11 @@ private:
     std::thread listenConnectionsThread;
     std::thread lisentToInputForClosing;
 
-    std::map<std::string,std::string> validCredentials;
-    std::map<std::string,std::string> loggedPlayers;
+    std::map<std::string,std::string> validCredentials; //<user,pass>
+    std::map<std::string,std::string> loggedPlayers;    //<user,pass>
+    std::map<int,std::string> loggedPlayersID;          //<id,user>
+    std::map<int,std::string> disconectedPlayers;       //<id,user>   se asume que el user es unico, sino no se podria
+                                                                    // usar de key en los otros maps
 
     int maxPlayers;
 

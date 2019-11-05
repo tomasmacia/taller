@@ -4,6 +4,8 @@
 
 CharacterRenderComponent::CharacterRenderComponent(Entity* camera, CharacterXML characterConfig) {
     this->characterConfig = characterConfig;
+    realSpritePath = characterConfig.stand;
+    disconnectedSpritePath = characterConfig.disconnected;
     setCamera(camera);
 }
 
@@ -70,6 +72,14 @@ void CharacterRenderComponent::handleIncomingAction(){
 
 int CharacterRenderComponent::getJumpDuration(){
     return DELAY * JUMP_IMAGE_AMOUNT;
+}
+
+void CharacterRenderComponent::setDisconnected() {
+    currentSprite = disconnectedSpritePath;
+}
+
+void CharacterRenderComponent::setConnected() {
+    currentSprite = realSpritePath;
 }
 
  

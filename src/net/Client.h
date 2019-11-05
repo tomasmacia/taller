@@ -7,8 +7,9 @@
 
 #include <list>
 #include <string>
-#include <mutex>
 #include <thread>
+#include <condition_variable>
+#include <mutex>
 #include "../game/MessageParser.h"
 #include "../game/ObjectSerializer.h"
 #include "../game/GameClient.h"
@@ -25,6 +26,7 @@ public:
     bool start();
     void sendCredentials(string user, string pass);
     bool hasAchievedConnectionAttempt();
+    void notifyGameStoppedRunning();
 
 private:
     //THREADS
@@ -61,6 +63,7 @@ private:
 
     //ATRIBUTES
     //===============================
+    std::mutex mu;
     std::mutex sendQueueMutex;
     std::mutex incomingQueueMutex;
     int socketFD;

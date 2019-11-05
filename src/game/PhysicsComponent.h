@@ -15,6 +15,7 @@ public:
     void init() override;
 
     int getWalkingSpeed();
+    void drag();
 
 protected:
     void handleIncomingAction();

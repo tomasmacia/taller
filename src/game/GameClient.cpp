@@ -13,12 +13,15 @@ bool GameClient::hasInstance = false;
 void GameClient::start() {
     LogManager::logInfo("Se inicia GameClient");
 
-    startClient();          //1 thread de listen de conexiones nuevas y 3 threads para read, send y dispatch
+    startClient();               //1 thread de listen de conexiones nuevas y 3 threads para read, send y dispatch
     initLoggerMenu();
 
     waitUntilConnectionStablished();
-    if (isOn()){
-        if (loggerMenu->open()){
+
+    if (isOn()){                //pregunto porque el Client lo podria haber cerrado al no conectarse
+        loggerMenu->open();
+
+        if (isOn()){            //pregunto porque el loggerMenu lo podria haber cerrado al tocar ESC o QUIT
             initInputSystem();
             initRenderingSystem();
 
@@ -29,13 +32,6 @@ void GameClient::start() {
         LogManager::logInfo("No se pudo conectar al servidor");
         cout<<"No se pudo conectar al servidor"<<endl;
     }
-
-    /*
-    initInputSystem();
-    initRenderingSystem();
-
-    gameLoop();
-    */
 
     closeClient();
 
@@ -96,6 +92,12 @@ void GameClient::notifyAboutClientConectionToServerAttemptDone(){
     waitForConnection.notify_one();
 }
 
+void GameClient::end() {
+    on = false;
+    client->notifyGameStoppedRunning();
+    LogManager::logDebug("señal de fin de programa emitida");
+}
+
 
 //CLIENT RELATED
 //=========================================================================================
@@ -106,7 +108,9 @@ void GameClient::startClient() {
 }
 
 void GameClient::closeClient() {
+    cout<<"1"<<endl;
     clientConnectionThread.join();
+    cout<<"2"<<endl;
 }
 
 bool GameClient::hasClientAttemptedConection(){
@@ -123,7 +127,7 @@ void GameClient::waitUntilConnectionStablished(){
 //=========================================================================================
 
 void GameClient::initLoggerMenu(){
-    loggerMenu = new LoggerMenu(client);
+    loggerMenu = new LoggerMenu(client,this);
     LogManager::logDebug("inicializado LoggerMenu");
 }
 

@@ -27,6 +27,13 @@ using namespace std;
 
 //API
 //=========================================================================================
+void Client::notifyGameStoppedRunning(){
+    //cout<<"entre"<<endl;
+    //std::lock_guard<std::mutex> guard(mu);
+    //cout<<"entre entre"<<endl;
+    connectionOn = false;
+}
+
 bool Client::hasAchievedConnectionAttempt() {
     return connectionAttemptMade;
 }
@@ -52,7 +59,7 @@ bool Client::start(){
     std::thread dispatch(&Client::dispatchThread,this);
 
     checkConnection();
-
+    cout<<"termine check"<<endl;
     read.join();
     send.join();
     dispatch.join();
@@ -62,7 +69,7 @@ bool Client::start(){
 //=========================================================================================
 void Client::readThread() {
 
-    while (!connectionOff()) {
+    while (connectionOn) {
 
         incomingQueueMutex.lock();
         cout<<"CLIENT-READ"<<endl;
@@ -77,13 +84,13 @@ void Client::readThread() {
         }
          */
         incomingQueueMutex.unlock();
-        //disconnectFromServer();
     }
+    cout<<"CLIENT-READ-DONE"<<endl;
 }
 
 void Client::sendThread() {
 
-    while(!connectionOff()) {
+    while(connectionOn) {
         sendQueueMutex.lock();
         cout<<"CLIENT-SEND"<<endl;
         /*
@@ -95,11 +102,11 @@ void Client::sendThread() {
         }*/
         sendQueueMutex.unlock();
     }
-    //disconnectFromServer();
+    cout<<"CLIENT-SEND-DONE"<<endl;
 }
 
 void Client::dispatchThread() {
-    while(!connectionOff()) {
+    while(connectionOn) {
         incomingQueueMutex.lock();
         cout<<"CLIENT-DISPATCH"<<endl;
         /*
@@ -130,6 +137,7 @@ void Client::dispatchThread() {
         }*/
         incomingQueueMutex.unlock();
     }
+    cout<<"CLIENT-DISPATCH-DONE"<<endl;
 }
 
 //DISPATCHING INCOMING MESSAGES
@@ -182,10 +190,7 @@ std::string Client::receive() {
 //=========================================================================================
 void Client::checkConnection(){
 
-    //aca pongo connectionOn en el while porque me podrian poner
-    //connectionOn = false desde el server
-
-    while (connectionOn && !connectionOff()){
+    while (!connectionOff()){
         continue;
     }
     connectionOn = false;
@@ -193,11 +198,21 @@ void Client::checkConnection(){
 
 bool Client::connectionOff(){
 
-    int n = send(objectSerializer.getPingCode());
-    if (n < 0){
+    std::lock_guard<std::mutex> guard(mu);
+
+    if (!connectionOn){
+        cout<<"mala conexion"<<endl;
         return true;
     }
-    return false;
+    else {
+        if (send(objectSerializer.getPingCode()) < 0) {
+            cout << "mala conexion" << endl;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
 
 int Client::disconnectFromServer() {

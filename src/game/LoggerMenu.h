@@ -21,8 +21,8 @@ class LoggerMenu {
 typedef std::pair<std::string, std::string> componente;
 public:
 
-    LoggerMenu(Client* client);
-    bool open();
+    LoggerMenu(Client* client, GameClient* gameClient);
+    void open();
     void serverAcknowledge(MessageId id);
 private:
     void setPositionToText();
@@ -75,6 +75,7 @@ private:
 
     //Cliente
     Client* client_ = nullptr;
+    GameClient* gameClient = nullptr;
     MessageId response;
     bool serverAcknowledgeReceived = false;
     

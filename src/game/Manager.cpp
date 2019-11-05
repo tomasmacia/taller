@@ -7,6 +7,8 @@
 #include "NonMobileRenderComponent.h"
 #include "CharacterRenderComponent.h"
 #include "NPCRenderComponent.h"
+#include "IDComponent.h"
+#include "StateComponent.h"
 
 //CONSTRUCTOR
 //=========================================================================================
@@ -83,6 +85,24 @@ void Manager::prepareForNextLevel(){
 
     for (auto* e : players){
         entitiesWithPosition.push_back(e);
+    }
+}
+
+void Manager::reconectPlayerByID(int id) {
+    for (auto player : players){
+        if (player->getComponent<IDComponent>()->getId() == id){
+            player->getComponent<StateComponent>()->setConnected();
+            player->getComponent<CharacterRenderComponent>()->setConnected();
+        }
+    }
+}
+
+void Manager::disconectPlayerByID(int id){
+    for (auto player : players){
+        if (player->getComponent<IDComponent>()->getId() == id){
+            player->getComponent<StateComponent>()->setDisconnected();
+            player->getComponent<CharacterRenderComponent>()->setDisconnected();
+        }
     }
 }
 

@@ -4,8 +4,9 @@
 #include "Game.h"
 #include<string>
 
-LoggerMenu::LoggerMenu(Client* client){
-    client_ = client;
+LoggerMenu::LoggerMenu(Client* client, GameClient* gameClient){
+    this->client_ = client;
+    this->gameClient = gameClient;
     enter = 0;
     cursor=0;
 }
@@ -48,7 +49,7 @@ void LoggerMenu::close(){
 }
 
 
-bool LoggerMenu::open() {
+void LoggerMenu::open() {
 
     init();
 
@@ -67,8 +68,6 @@ bool LoggerMenu::open() {
     }
 
     close();
-
-    return succesfulLogin;
 }
 
 void LoggerMenu::processResponse(){
@@ -181,6 +180,7 @@ void LoggerMenu::OnEvent(SDL_Event* Event) {
     //handle window close
     if(Event->type == SDL_QUIT) {
         running = false;
+        gameClient->end();
     }
 
     //handle key press
@@ -247,6 +247,7 @@ void LoggerMenu::OnEvent(SDL_Event* Event) {
               break;
             case SDLK_ESCAPE:
               running=false;
+                gameClient->end();
               break;
             default:
             //Solo 10 caracteres para no salirse de su espacio

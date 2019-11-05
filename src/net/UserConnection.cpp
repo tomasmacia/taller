@@ -148,10 +148,7 @@ void UserConnection::processInput(std::string inputMsg) {//TODO HEAVY IN PERFORM
 
 void UserConnection::checkConnection(){
 
-    //aca pongo connectionOn en el while porque me podrian poner
-    //connectionOn = false desde el server
-
-    while (connectionOn && !connectionOff()){
+    while (!connectionOff()){
         continue;
     }
     connectionOn = false;
@@ -159,11 +156,19 @@ void UserConnection::checkConnection(){
 
 bool UserConnection::connectionOff(){
 
-    int n = server->send(objectSerializer.getPingCode(),socketFD);
-    if (n < 0){
+    if (!connectionOn){
+        cout<<"mala conexion"<<endl;
         return true;
     }
-    return false;
+    else {
+        if (server->send(objectSerializer.getPingCode(),socketFD) < 0) {
+            cout << "mala conexion" << endl;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
 
 void UserConnection::kill(){

@@ -39,6 +39,7 @@ public:
     void setPlayerId(int id);
     void reciveRenderable(ToClientPack* package);
     void notifyAboutClientConectionToServerAttemptDone();
+    void end() override ;
 
     static bool isActive(){
         return hasInstance;
@@ -82,8 +83,8 @@ private:
     //===============================
     static bool hasInstance;
 
-    std::condition_variable waitForConnection;
     std:: mutex mu;
+    std::condition_variable waitForConnection;
     std::thread clientConnectionThread;
 
     LoggerMenu* loggerMenu = nullptr;

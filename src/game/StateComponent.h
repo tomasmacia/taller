@@ -24,12 +24,18 @@ public:
     void setJumping();
     bool changed();
 
+    void setConnected();
+    void setDisconnected();
+    bool isDisconnected();
+
 private:
     Action _currentState = NONE;
     Action _prevState = NONE;
     bool _facingLeft = false;
     bool _jumping = false;
     bool _requestForStateChange = false;
+
+    bool disconnected = false;
 
 };
 

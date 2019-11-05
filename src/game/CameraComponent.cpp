@@ -7,6 +7,7 @@
 #include "PositionComponent.h"
 #include "PhysicsComponent.h"
 #include "GameServer.h"
+#include "StateComponent.h"
 
 #include <iostream>
 
@@ -35,14 +36,23 @@ void CameraComponent::update() {
 }
 
 bool CameraComponent::shouldMoveCamera() {
-    return (noPlayerInLeftLimit() && marginSurpased() && notAtTheEnd());
+    return (noConnectedPlayerInLeftLimit() && marginSurpased() && notAtTheEnd());
 }
 
-bool CameraComponent::noPlayerInLeftLimit() {
+bool CameraComponent::noConnectedPlayerInLeftLimit() {
     for (auto* player : _players){
-        if (inLeftLimit(player)){return false;}
+
+        if (playerIsConnected(player)){
+            if (inLeftLimit(player) ){
+                return false;
+            }
+        }
     }
     return true;
+}
+
+bool CameraComponent::playerIsConnected(Entity* player) {
+    return !player->getComponent<StateComponent>()->isDisconnected();
 }
 
 bool CameraComponent::inLeftLimit(Entity* player) {
@@ -86,6 +96,12 @@ bool CameraComponent::touchingMargin(Entity* player) {
 
 void CameraComponent::scroll() {
     this->currentX += (int)(_players.front()->getComponent<PhysicsComponent>()->getWalkingSpeed());
+
+    for (auto player: _players){
+        if (!playerIsConnected(player)){
+            player->getComponent<PhysicsComponent>()->drag();
+        }
+    }
 }
 
 void CameraComponent::setPlayer(Entity* player){

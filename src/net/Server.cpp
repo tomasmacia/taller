@@ -46,11 +46,6 @@ int Server::send(string msg, int someSocketFD) {
     strncpy(buff, msg.c_str(), sizeof(buff));
     buff[sizeof(buff) - 1] = 0;
 
-    //int len = msg.size();
-    //char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
-    //strcpy(buff, msg.c_str());
-
-
     return ::send(someSocketFD, buff, strlen(buff), MSG_NOSIGNAL);
 }
 
@@ -135,10 +130,6 @@ int Server::bind() {
     return socketFD;
 }
 
-void Server::setToNonBlocking(){
-    fcntl(socketFD, F_SETFD, O_NONBLOCK);
-}
-
 int Server::listen() {
 
     ::listen(socketFD, this->maxConnections);
@@ -166,10 +157,8 @@ UserConnection* Server::accept() {                  //INSTANCIA Y AGREGA CONECCI
 //ERROR
 //=========================================================================================
 void Server::error(const char *msg) {   //Cierra el server y en el destructor se cierra las conexiones
-    //mu.lock();
     LogManager::logError(msg);
     serverOn = false;
-    //mu.unlock();
 }
 
 //DISCONECTION RELATED
@@ -182,6 +171,7 @@ void Server::removeConnection(int id){
     cout << "================================================================"<<endl;
     cout<<endl;
     connections.erase(id);
+    gameServer->connectionLostWith(id);
 }
 
 int Server::shutdown() {

@@ -174,7 +174,7 @@ void LevelBuilder::initializePlayers() {
     int screenResolutionWidth = (int)(GameServer::getInstance().getConfig()->screenResolution.width);
     int screenResolutionHeight = (int)(GameServer::getInstance().getConfig()->screenResolution.height);
     int amountOfPlayers = GameServer::getInstance().getConfig()->gameplay.characters.size();
-    int offset = screenResolutionWidth/(amountOfPlayers + 1);
+    int offset = (screenResolutionWidth - _camera->getComponent<CameraComponent>()->getMargin())/(amountOfPlayers + 1);
     int i = 0;
 
     IDPlayer::getInstance().initIDCounter();
