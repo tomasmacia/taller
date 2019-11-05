@@ -16,7 +16,7 @@
 
 using namespace std;
 
-#define MAX_BYTES_BUFFER 1000
+#define MAX_BYTES_BUFFER 128
 
 
 #if __APPLE__
@@ -71,19 +71,19 @@ void Client::readThread() {
 
     while (connectionOn) {
 
-        //incomingQueueMutex.lock();
+        incomingMessage = receive();
+        std::string message = incomingMessage;
         //cout<<"CLIENT-READ"<<endl;
 
-        incomingMessage = receive();
         if (incomingMessage == objectSerializer.getFailure()){ continue;}
         if (incomingMessage == objectSerializer.getPingCode()){ continue;}
         else{
+            incomingQueueMutex.lock();
+            incomingMessagesQueue.push_back(message);
+            incomingQueueMutex.unlock();
 
-            incomingMessagesQueue.push_back(incomingMessage);
             cout << "CLIENT-READ: " << incomingMessage << endl;
         }
-
-        //incomingQueueMutex.unlock();
     }
     cout<<"CLIENT-READ-DONE"<<endl;
 }
@@ -91,51 +91,47 @@ void Client::readThread() {
 void Client::sendThread() {
 
     while(connectionOn) {
+        std::string message;
         sendQueueMutex.lock();
         //cout<<"CLIENT-SEND"<<endl;
 
         if (!toSendMessagesQueue.empty()) {
-            toSendMessage = toSendMessagesQueue.front();
+            message = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
+        }
+        sendQueueMutex.unlock();
+
+        if (!message.empty()) {
+            toSendMessage = message;
             send(toSendMessage);
             cout << "CLIENT-SEND: " << toSendMessage << endl;
         }
-        sendQueueMutex.unlock();
     }
     cout<<"CLIENT-SEND-DONE"<<endl;
 }
 
 void Client::dispatchThread() {
     while(connectionOn) {
-        //incomingQueueMutex.lock();
+        std::string message;
+        incomingQueueMutex.lock();
         //cout<<"CLIENT-DISPATCH"<<endl;
 
         if (!incomingMessagesQueue.empty()){
-            incomingMessage = incomingMessagesQueue.front();
+            message = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
+        }
+        incomingQueueMutex.unlock();
 
+        if (!message.empty()) {
+            incomingMessage = message;
             messageParser.parse(incomingMessage, objectSerializer.getSeparatorCharacter());
 
-
             if (objectSerializer.validSerializedObjectMessage(messageParser.getCurrent())){
-
-                cout<<"CLIENT-DISPATCH: "<<incomingMessage<<endl;
+                cout<<"CLIENT-DISPATCH: "<< incomingMessage <<endl;
                 processRenderableSerializedObject();
-
-                /*
-                MessageId header = messageParser.getHeader();
-                if (header == SUCCESS                      || header == INVALID_CREDENTIAL ||
-                    header == ALREADY_LOGGED_IN_CREDENTIAL || header == SERVER_FULL){
-
-                    processResponseFromServer();
-                }
-                if (header == RENDERABLE){
-                    processRenderableSerializedObject();
-                }*/
 
             }
         }
-        //incomingQueueMutex.unlock();
     }
     cout<<"CLIENT-DISPATCH-DONE"<<endl;
 }
@@ -175,10 +171,17 @@ std::string Client::receive() {
 
     char buff[MAX_BYTES_BUFFER];
     size_t size = MAX_BYTES_BUFFER;
-    int n = recv(socketFD, buff, size,MSG_WAITALL);
 
-    if ( n < 0){
-        return objectSerializer.getFailure();
+    int bytesRead = 0;
+
+    while (bytesRead < MAX_BYTES_BUFFER) {
+        int n = recv(socketFD, buff, size, 0);
+        if (n < 0) {
+            cout << "ERROR READ" << endl;
+            return objectSerializer.getFailure();
+        }
+
+        bytesRead += n;
     }
 
     char end = objectSerializer.getEndOfSerializationCharacterget();

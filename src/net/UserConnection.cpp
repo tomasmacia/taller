@@ -15,8 +15,8 @@
 //=========================================================================================
 void UserConnection::setToSendMessage(std::string message){
     sendQueueMutex.lock();
-    toSendMessagesQueue->push_back(message);
-    cout<<"AMOUNT: "<<toSendMessagesQueue->size()<<endl;
+    toSendMessagesQueue.push_back(message);
+    cout<<"AMOUNT: "<<toSendMessagesQueue.size()<<endl;
     sendQueueMutex.unlock();
 }
 
@@ -46,56 +46,57 @@ void UserConnection::readThread() {
     string incomingMessage;
 
     while(connectionOn) {
-
-        //incomingQueueMutex.lock();
-        //cout<<"SERVER-READ"<<endl;
-
         incomingMessage = server->receive(socketFD);
+        //cout<<"SERVER-READ"<<endl;
         if (incomingMessage == objectSerializer.getFailure()){ continue;}
         if (incomingMessage == objectSerializer.getPingCode()){ continue;}
         else{
-
-            incomingMessagesQueue->push_back(incomingMessage);
+            incomingQueueMutex.lock();
+            incomingMessagesQueue.push_back(incomingMessage);
             cout<<"SERVER-READ: "<<incomingMessage<<endl;
+            incomingQueueMutex.unlock();
         }
-        //incomingQueueMutex.unlock();
     }
     cout<<"SERVER-READ-DONE"<<endl;
 }
 
 void UserConnection::sendThread() {
 
-    string toSendMessage;
-
     while (connectionOn) {
+        std::string message;
 
-        sendQueueMutex.lock();
         //cout<<"SERVER-SEND"<<endl;
 
-        if (toSendMessagesQueue->size() != 0) {
-            toSendMessage = toSendMessagesQueue->front();
-            toSendMessagesQueue->pop_front();
-            server->send(toSendMessage, socketFD);
-            toSendMessagesQueue->clear();
-            cout << "SERVER-SEND: " << toSendMessage << endl;
+        sendQueueMutex.lock();
+        if (toSendMessagesQueue.size() != 0) {
+            message = toSendMessagesQueue.front();
+            toSendMessagesQueue.pop_front();
         }
         sendQueueMutex.unlock();
+
+        if (!message.empty()) {
+            server->send(message, socketFD);
+            cout << "SERVER-SEND: " << message << endl;
+        }
     }
     cout<<"SERVER-SEND-DONE"<<endl;
 }
 
 void UserConnection::dispatchThread() {
 
-    string incomingMessage;
 
     while(connectionOn) {
-        //incomingQueueMutex.lock();
+        string incomingMessage;
+        incomingQueueMutex.lock();
         //cout<<"SERVER-DISPATCH"<<endl;
 
-        if (!incomingMessagesQueue->empty()){
-            incomingMessage = incomingMessagesQueue->front();
-            incomingMessagesQueue->pop_front();
+        if (!incomingMessagesQueue.empty()){
+            incomingMessage = incomingMessagesQueue.front();
+            incomingMessagesQueue.pop_front();
+        }
+        incomingQueueMutex.unlock();
 
+        if (!incomingMessage.empty()) {
             messageParser.parse(incomingMessage, objectSerializer.getSeparatorCharacter());
             MessageId header = messageParser.getHeader();
             if (header == USER_PASS){
@@ -105,9 +106,8 @@ void UserConnection::dispatchThread() {
                 processInput(incomingMessage);
             }
 
-            cout<<"SERVER-DISPATCH: "<<incomingMessage<<endl;
+            cout<<"SERVER-DISPATCH: "<< incomingMessage <<endl;
         }
-        //incomingQueueMutex.unlock();
     }
     cout<<"SERVER-DISPATCH-DONE"<<endl;
 }
@@ -175,8 +175,8 @@ void UserConnection::kill(){
 //=========================================================================================
 UserConnection::UserConnection(int socket, int userId, Server *server,GameServer* gameServer) {
 
-    incomingMessagesQueue = new list<string>();
-    toSendMessagesQueue = new list<string>();
+    //incomingMessagesQueue = new list<string>();
+    //toSendMessagesQueue = new list<string>();
 
     this->socketFD = socket;
     this->userId = userId;

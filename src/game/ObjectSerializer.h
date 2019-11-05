@@ -83,7 +83,7 @@ private:
     char SEPARATOR = '@';
     int FAILURE_AKNOWLEDGE_SIGNAL = -1;
     string FAILURE = "-1";
-    int totalMessageLength = 256;
+    int totalMessageLength = 128;
 
 };
 

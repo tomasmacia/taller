@@ -11,7 +11,7 @@
 #include <CLIArgumentParser.h>
 #include "UserConnection.h"
 
-#define MAX_BYTES_BUFFER 1000
+#define MAX_BYTES_BUFFER 128
 
 #if __APPLE__
 #define MSG_NOSIGNAL 0x2000 /* don't raise SIGPIPE */
@@ -56,7 +56,17 @@ string Server::receive(int someSocketFD) {
     char buff[MAX_BYTES_BUFFER];
     size_t size = MAX_BYTES_BUFFER;
 
-    int n = recv(someSocketFD, buff, size,MSG_WAITALL);
+    int bytesRead = 0;
+
+    while (bytesRead < MAX_BYTES_BUFFER) {
+        int n = recv(someSocketFD, buff, size, 0);
+        if (n < 0) {
+            cout << "ERROR READ" << endl;
+            exit(1);
+        }
+
+        bytesRead += n;
+    }
 
     char end = objectSerializer.getEndOfSerializationCharacterget();
 

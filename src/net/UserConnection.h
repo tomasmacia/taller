@@ -62,8 +62,8 @@ private:
     MessageParser messageParser;
     ObjectSerializer objectSerializer;
 
-    list<string>* toSendMessagesQueue;
-    list<string>* incomingMessagesQueue;
+    list<string> toSendMessagesQueue;
+    list<string> incomingMessagesQueue;
 };
 
 
