@@ -100,26 +100,24 @@ tuple<Action,int> ObjectSerializer::reconstructInput(vector<string>* currentPars
 //=========================================================================================
 
 string ObjectSerializer::serializedSuccesfullLoginMessage(int id){
-    return to_string(SUCCESS) + SEPARATOR + to_string(id) + SEPARATOR + END_SERIALIZATION_SIMBOL;
+    return addPadding(to_string(SUCCESS) + SEPARATOR + to_string(id) + SEPARATOR + END_SERIALIZATION_SIMBOL);
 }
 
 string ObjectSerializer::serializedInvalidCredentialMessage(){
-    return to_string(INVALID_CREDENTIAL) + SEPARATOR + to_string(FAILURE_AKNOWLEDGE_SIGNAL) + SEPARATOR + to_string(END_SERIALIZATION_SIMBOL);
+    return addPadding(to_string(INVALID_CREDENTIAL) + SEPARATOR + to_string(FAILURE_AKNOWLEDGE_SIGNAL) + SEPARATOR + to_string(END_SERIALIZATION_SIMBOL));
 }
 
 string ObjectSerializer::serializedServerFullMessage(){
-    return to_string(SERVER_FULL) + SEPARATOR + to_string(FAILURE_AKNOWLEDGE_SIGNAL) + SEPARATOR + to_string(END_SERIALIZATION_SIMBOL);
+    return addPadding(to_string(SERVER_FULL) + SEPARATOR + to_string(FAILURE_AKNOWLEDGE_SIGNAL) + SEPARATOR + to_string(END_SERIALIZATION_SIMBOL));
 }
 
 string ObjectSerializer::serializedAlreadyLoggedInMessage(){
-    return to_string(ALREADY_LOGGED_IN_CREDENTIAL) + SEPARATOR + to_string(FAILURE_AKNOWLEDGE_SIGNAL) + SEPARATOR + to_string(END_SERIALIZATION_SIMBOL);
+    return addPadding(to_string(ALREADY_LOGGED_IN_CREDENTIAL) + SEPARATOR + to_string(FAILURE_AKNOWLEDGE_SIGNAL) + SEPARATOR + to_string(END_SERIALIZATION_SIMBOL));
 }
 
 string ObjectSerializer::serializeCredentials(string user, string pass){
-    return to_string(USER_PASS) + SEPARATOR + user + SEPARATOR + pass + to_string(END_SERIALIZATION_SIMBOL);
+    return addPadding(to_string(USER_PASS) + SEPARATOR + user + SEPARATOR + pass + to_string(END_SERIALIZATION_SIMBOL));
 }
-
-string serializeCredentials(string user, string pass);
 
 string ObjectSerializer::serializeObject(ToClientPack* package){
 
@@ -146,7 +144,8 @@ string ObjectSerializer::serializeObject(ToClientPack* package){
                        srcW + SEPARATOR + srcH + SEPARATOR + srcX + SEPARATOR + srcY + SEPARATOR +
                        dstW + SEPARATOR + dstH + SEPARATOR + dstX + SEPARATOR + dstY + SEPARATOR +
                        flipedStr + SEPARATOR + END_SERIALIZATION_SIMBOL;
-    return serializedObject;
+
+    return addPadding(serializedObject);
 }
 
 string ObjectSerializer::serializeInput(Action action, int id){
@@ -164,5 +163,18 @@ string ObjectSerializer::serializeInput(Action action, int id){
     if (action == JUMP_KICK){serializedAction = "JUMP_KICK";}
     if (action == CROUCH){serializedAction = "CROUCH";}
 
-    return to_string(INPUT) + SEPARATOR + serializedAction + SEPARATOR + to_string(id) + SEPARATOR + END_SERIALIZATION_SIMBOL;
+    return addPadding(to_string(INPUT) + SEPARATOR + serializedAction + SEPARATOR + to_string(id) + SEPARATOR + END_SERIALIZATION_SIMBOL);
+}
+
+string ObjectSerializer::addPadding(string message){
+
+    string messageToSend = message;
+    int messageLength = strlen(message.c_str());
+    int amountOfPaddingToAdd = totalMessageLength - messageLength;
+
+    for (int i = 0; i < amountOfPaddingToAdd; i++){
+        messageToSend += END_SERIALIZATION_SIMBOL;
+    }
+
+    return messageToSend;
 }

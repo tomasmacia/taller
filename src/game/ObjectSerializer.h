@@ -48,11 +48,13 @@ public:
     string serializeObject(ToClientPack* package);
     string serializeInput(Action action, int id);
     string serializeCredentials(string user, string pass);
+    string addPadding(string message);
 
     //GETTERS
     //===============================
-
-
+    int getTotalMessageLength(){
+        return totalMessageLength;
+    }
 
     string getFailure(){
         return FAILURE;
@@ -77,10 +79,11 @@ public:
 
 private:
     string PING_CODE = "###";
-    char END_SERIALIZATION_SIMBOL = 'x';
+    char END_SERIALIZATION_SIMBOL = '*';
     char SEPARATOR = '@';
     int FAILURE_AKNOWLEDGE_SIGNAL = -1;
     string FAILURE = "-1";
+    int totalMessageLength = 256;
 
 };
 
