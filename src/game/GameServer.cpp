@@ -23,7 +23,7 @@ void GameServer::start() {
     initGameModel();
     gameLoop();
 
-    closeServer();        //se cierra el thread se server y (previamente se cierran los 4 threads child)
+    closeServer();          //se cierra el thread se server y (previamente se cierran los 4 threads child)
     closeController();      //se cierra el thread del teclado y la crucecita de la window
 
     LogManager::logInfo("Juego terminado");
@@ -69,7 +69,7 @@ std::string GameServer::validateLogin(std::string user, std::string pass, int us
     std::string alreadyLoggedInMessage = controller->getAlreadyLoggedInMessage();
     std::string succesfulLoginMessage = controller->getSuccesfullLoginMessage(userId);
 
-    if (loggedPlayers.size() == amountOfConectionsNeeded){              //si esta lleno el server
+    if (loggedPlayers.size() == maxPlayers){              //si esta lleno el server
         return serverFullMessage;
     }
 
@@ -174,10 +174,6 @@ void GameServer::loadValidCredenctials(){
     for (auto &userCredentials : credentials->users) {
         this->validCredentials.insert(std::make_pair(userCredentials.username, userCredentials.password));
     }
-
-    delete(credentials);
-    credentials = nullptr;
-
 }
 
 void GameServer::initECSManager() {
