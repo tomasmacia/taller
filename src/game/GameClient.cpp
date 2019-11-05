@@ -15,7 +15,7 @@ void GameClient::start() {
 
     startClient();          //1 thread de listen de conexiones nuevas y 3 threads para read, send y dispatch
 
-    /*
+
     initLoggerMenu();
 
     if (loggerMenu->open()){
@@ -24,13 +24,13 @@ void GameClient::start() {
         initRenderingSystem();
 
         gameLoop();
-    }*/
-
+    }
+/*
     initInputSystem();
     initRenderingSystem();
 
     gameLoop();
-
+*/
     closeClient();
 
     LogManager::logInfo("Juego terminado");
@@ -103,7 +103,7 @@ void GameClient::closeClient() {
 //=========================================================================================
 
 void GameClient::initLoggerMenu(){
-    loggerMenu = new LoggerMenu(this);
+    loggerMenu = new LoggerMenu(client);
     LogManager::logDebug("inicializado LoggerMenu");
 }
 

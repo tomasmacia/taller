@@ -12,6 +12,7 @@
 #include "../parser/CLIArgumentParser.h"
 #include "../parser/config/config.h"
 #include "../parser/xmlparser.h"
+#include "../LogLib/LogManager.h"
 #include "../net/Client.h"
 #include "GameClient.h"
 
@@ -20,8 +21,8 @@ class LoggerMenu {
 typedef std::pair<std::string, std::string> componente;
 public:
 
-    LoggerMenu(GameClient* client);
-    Client* open();
+    LoggerMenu(Client* client);
+    bool open();
 private:
     void setPositionToText();
     void OnEvent(SDL_Event* Event);
@@ -37,6 +38,11 @@ private:
     void serverAcknowledge(MessageId id);
 
 
+    void init();
+    void close();
+    void processResponse();
+
+
 private:
     std::map<std::string, std::string> directorio;
     SDL_Texture* _texture = nullptr;
@@ -46,7 +52,10 @@ private:
     SDL_Window *window = nullptr;
     SDL_Texture* Usuario=nullptr, *Usuario_completo=nullptr;
     SDL_Texture* pass =nullptr;
-    bool running=true, cursosrInTxt=false, quit = false;
+    bool succesfulLogin=false, cursosrInTxt=false, running=true;
+
+    string inputed_password;
+    bool waitingForServerAknowledge = false;
     
     std::string input,user,password;
     TTF_Font *font;
@@ -66,7 +75,6 @@ private:
 
     //Cliente
     Client* client_ = nullptr;
-    GameClient* _game = nullptr;
     MessageId response;
     bool serverAcknowledgeReceived = false;
     

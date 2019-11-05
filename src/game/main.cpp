@@ -58,10 +58,7 @@ int main(int argc, const char** argv) {
     }
 
     if (mode == CLIENT){
-        LoggerMenu *loggerMenu = new LoggerMenu(nullptr);
-        loggerMenu->open();
-
-        // GameClient::getInstance().start();
+        GameClient::getInstance().start();
     }
     return 0;
 }

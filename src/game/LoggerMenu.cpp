@@ -4,12 +4,10 @@
 #include "Game.h"
 #include<string>
 
-LoggerMenu::LoggerMenu(GameClient* game){
-  _game = game;
-
-  enter = 0;
-  cursor=0;
-  initSDL();
+LoggerMenu::LoggerMenu(Client* client){
+    client_ = client;
+    enter = 0;
+    cursor=0;
 }
 
 void LoggerMenu::initSDL() {
@@ -38,25 +36,60 @@ void LoggerMenu::setPositionToText(){
 }
 
 
-Client* LoggerMenu::open() {
+void LoggerMenu::init(){
+    initSDL();
     Fondo();
     setPositionToText();
     SDL_ShowWindow(window);
+}
+
+void LoggerMenu::close(){
+    destroy();
+}
+
+
+bool LoggerMenu::open() {
+
+    init();
+
     SDL_Event Event;
-    while(running){
+    while(!succesfulLogin && running){
+
         while(SDL_PollEvent(&Event)){
             OnEvent(&Event);
         }
+
+        if (serverAcknowledgeReceived){
+            processResponse();
+        }
+
         Update();
     }
-    SDL_Delay(1000);
-    this->destroy();
 
-    if (quit) {
-        return nullptr;
+    close();
+
+    return succesfulLogin;
+}
+
+void LoggerMenu::processResponse(){
+
+    if (response == SUCCESS){
+        MensajeEmergente("User y Passwors Aceptados");
+        LogManager::logInfo("User y Passwors Aceptados");
+        succesfulLogin = true;
     }
-
-    return client_;
+    if (response == INVALID_CREDENTIAL){
+        MensajeEmergente("User y Passwors no existentes");
+        LogManager::logInfo("User y Passwors no existentes");
+    }
+    if (response ==ALREADY_LOGGED_IN_CREDENTIAL){
+        MensajeEmergente("User ya logeado");
+        LogManager::logInfo("User ya logeado");
+    }
+    if (response ==SERVER_FULL){
+        MensajeEmergente("Server Completo");
+        LogManager::logInfo("Server Completo");
+    }
 }
 
 
@@ -147,7 +180,6 @@ void LoggerMenu::cursorBlip(){
 void LoggerMenu::OnEvent(SDL_Event* Event) {
     //handle window close
     if(Event->type == SDL_QUIT) {
-        quit = true;
         running = false;
     }
 
@@ -181,23 +213,28 @@ void LoggerMenu::OnEvent(SDL_Event* Event) {
             case SDLK_KP_MINUS:break;
             case SDLK_KP_PLUS:break;
             case SDLK_RETURN:
-              if (enter == 1){
-                enter=0;
-                textRect.y = 180;
-                ValidarCredenciales();
-              }
-              else
-              {
-                enter++;
-                user=input;
-                input.clear();
-                Nombre_de_Usuario_Estatico();
-                textRect.y = 280;
 
-              }
-              destCursor.x = textRect.x;
-              destCursor.y = textRect.y;
-              break;
+                if (!waitingForServerAknowledge){
+
+                    if (enter == 1){
+                        enter=0;
+                        textRect.y = 180;
+                        inputed_password = input;
+                        ValidarCredenciales();
+                    }
+                    else
+                    {
+                        enter++;
+                        user=input;
+                        input.clear();
+                        Nombre_de_Usuario_Estatico();
+                        textRect.y = 280;
+
+                    }
+                    destCursor.x = textRect.x;
+                    destCursor.y = textRect.y;
+                }
+                break;
             
             case SDLK_BACKSPACE:
               if (!input.empty()){
@@ -209,7 +246,6 @@ void LoggerMenu::OnEvent(SDL_Event* Event) {
                 }
               break;
             case SDLK_ESCAPE:
-              quit = true;
               running=false;
               break;
             default:
@@ -238,34 +274,12 @@ void LoggerMenu::Nombre_de_Usuario_Estatico(){
 }
 
 void LoggerMenu::ValidarCredenciales() {
-    //client_ = new Client(_game);
-    //client_->SendCredencial(user, input);
 
+    client_->sendCredentials(user,inputed_password);
 
-    while(!serverAcknowledgeReceived) {
-        continue;
-    }
-    /*
-
-    if (response == SUCCESS){
-        MensajeEmergente("User y Passwors Aceptados");
-        running = false;
-    }
-    if (response == INVALID_CREDENTIAL){
-        MensajeEmergente("User y Passwors no existentes");
-        client_ = nullptr;
-    }
-    if (response ==ALREADY_LOGGED_IN_CREDENTIAL){
-        MensajeEmergente("User logeado");
-        client_ = nullptr;
-    }
-    if (response ==SERVER_FULL){
-        MensajeEmergente("Server Completo");
-        quit = true;
-        running = false;
-        client_ = nullptr;
-    }
-    */
+    waitingForServerAknowledge = true;
+    MensajeEmergente("Esperando respuesta del server");
+    LogManager::logInfo("Esperando respuesta del server");
 
     SDL_DestroyTexture(text);
     SDL_DestroyTexture(Usuario_completo);
