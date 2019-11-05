@@ -47,8 +47,8 @@ void UserConnection::readThread() {
     while(connectionOn) {
 
         incomingQueueMutex.lock();
-        cout<<"SERVER-READ"<<endl;
-        /*
+        //cout<<"SERVER-READ"<<endl;
+
         incomingMessage = server->receive(socketFD);
         if (incomingMessage == objectSerializer.getFailure()){ continue;}
         if (incomingMessage == objectSerializer.getPingCode()){ continue;}
@@ -56,9 +56,10 @@ void UserConnection::readThread() {
 
             incomingMessagesQueue.push_back(incomingMessage);
             cout<<"SERVER-READ: "<<incomingMessage<<endl;
-        }*/
+        }
         incomingQueueMutex.unlock();
     }
+    cout<<"SERVER-READ-DONE"<<endl;
 }
 
 void UserConnection::sendThread() {
@@ -68,25 +69,17 @@ void UserConnection::sendThread() {
     while (connectionOn) {
 
         sendQueueMutex.lock();
-        cout<<"SERVER-SEND"<<endl;
-
-        /*
-        cout << "THREAD: vacio :" << (toSendMessagesQueue.size() != 0) << endl;
-        cout << "THREAD: amount to send: " << toSendMessagesQueue.size() << endl;
-        cout << "THREAD: connections: " << server->numberOfConectionsEstablished() << endl;
-        cout << "THREAD: ==================================" << endl;
-        cout << endl;
-
+        //cout<<"SERVER-SEND"<<endl;
 
         if (toSendMessagesQueue.size() != 0) {
             toSendMessage = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
             server->send(toSendMessage, socketFD);
-            //cout << "SERVER-SEND: " << toSendMessage << endl;
+            cout << "SERVER-SEND: " << toSendMessage << endl;
         }
-        //cout<<"SERVER: cantidad de paquetes: "<<toSendMessagesQueue.size()<<endl;*/
         sendQueueMutex.unlock();
     }
+    cout<<"SERVER-SEND-DONE"<<endl;
 }
 
 void UserConnection::dispatchThread() {
@@ -95,8 +88,8 @@ void UserConnection::dispatchThread() {
 
     while(connectionOn) {
         incomingQueueMutex.lock();
-        cout<<"SERVER-DISPATCH"<<endl;
-        /*
+        //cout<<"SERVER-DISPATCH"<<endl;
+
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
@@ -111,9 +104,10 @@ void UserConnection::dispatchThread() {
             }
 
             cout<<"SERVER-DISPATCH: "<<incomingMessage<<endl;
-        }*/
+        }
         incomingQueueMutex.unlock();
     }
+    cout<<"SERVER-DISPATCH-DONE"<<endl;
 }
 
 //DISPATCHING INCOMING MESSAGES

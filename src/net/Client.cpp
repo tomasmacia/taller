@@ -72,17 +72,17 @@ void Client::readThread() {
     while (connectionOn) {
 
         incomingQueueMutex.lock();
-        cout<<"CLIENT-READ"<<endl;
-        /*
+        //cout<<"CLIENT-READ"<<endl;
+
         incomingMessage = receive();
         if (incomingMessage == objectSerializer.getFailure()){ continue;}
         if (incomingMessage == objectSerializer.getPingCode()){ continue;}
         else{
 
             incomingMessagesQueue.push_back(incomingMessage);
-            //cout << "CLIENT-READ: " << incomingMessage << endl;
+            cout << "CLIENT-READ: " << incomingMessage << endl;
         }
-         */
+
         incomingQueueMutex.unlock();
     }
     cout<<"CLIENT-READ-DONE"<<endl;
@@ -92,14 +92,14 @@ void Client::sendThread() {
 
     while(connectionOn) {
         sendQueueMutex.lock();
-        cout<<"CLIENT-SEND"<<endl;
-        /*
+        //cout<<"CLIENT-SEND"<<endl;
+
         if (!toSendMessagesQueue.empty()) {
             toSendMessage = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
             send(toSendMessage);
             cout << "CLIENT-SEND: " << toSendMessage << endl;
-        }*/
+        }
         sendQueueMutex.unlock();
     }
     cout<<"CLIENT-SEND-DONE"<<endl;
@@ -108,8 +108,8 @@ void Client::sendThread() {
 void Client::dispatchThread() {
     while(connectionOn) {
         incomingQueueMutex.lock();
-        cout<<"CLIENT-DISPATCH"<<endl;
-        /*
+        //cout<<"CLIENT-DISPATCH"<<endl;
+
         if (!incomingMessagesQueue.empty()){
             incomingMessage = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
@@ -119,7 +119,7 @@ void Client::dispatchThread() {
 
             if (objectSerializer.validSerializedObjectMessage(messageParser.getCurrent())){
 
-                //cout<<"CLIENT-DISPATCH: "<<incomingMessage<<endl;
+                cout<<"CLIENT-DISPATCH: "<<incomingMessage<<endl;
                 processRenderableSerializedObject();
 
 
@@ -134,7 +134,7 @@ void Client::dispatchThread() {
                 }
 
             }
-        }*/
+        }
         incomingQueueMutex.unlock();
     }
     cout<<"CLIENT-DISPATCH-DONE"<<endl;
