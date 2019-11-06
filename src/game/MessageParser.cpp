@@ -18,6 +18,11 @@ void MessageParser::parse(string rawMessage, char separatorCharacter) {
     lastParsedMessage = split(rawMessage,separatorCharacter);
 }
 
+vector<string>* MessageParser::parseWithCopy(string rawMessage, char separatorCharacter){
+
+    return split(rawMessage,separatorCharacter);
+}
+
 MessageId MessageParser::getHeader() {
 
     if (lastParsedMessage != nullptr && !lastParsedMessage->empty()){

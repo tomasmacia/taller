@@ -81,18 +81,27 @@ void Controller::clearAllInputs(){
     currentInput->clear();
 }
 
+
+void Controller::reciveRenderables(string serializedPagackes){
+    objectSerializer.reconstructRenderables(serializedPagackes,currentPackagesToRender);
+}
+
 //DATA TRANSFER INTERFACE
 //=========================================================================================
 
 void Controller::sendUpdate(std::list<ToClientPack*>* toClientsPackages, Server* server) {
-    std::string serializedPackage;
-    for (auto package: *toClientsPackages){
-        if(package != nullptr){
-            serializedPackage = objectSerializer.serializeObject(package); //TODO HEAVY IN PERFORMANCE
-            server->setToBroadcast(serializedPackage);
+    //std::string serializedPackage;
+    string serializedPackages = objectSerializer.serializeObjects(toClientsPackages); //TODO HEAVY IN PERFORMANCE
+    server->setToBroadcast(serializedPackages);
+    //cout<<serializedPackages<<endl;
+
+
+    //for (auto package: *toClientsPackages){
+    //if(package != nullptr){
+           // server->setToBroadcast(serializedPackages);
             //cout<<"SERVER-FROM MODEL: "<<serializedPackage<<endl;
-        }
-    }
+       // }
+    //}
 }
 
 std::string Controller::getSuccesfullLoginMessage(int userId){

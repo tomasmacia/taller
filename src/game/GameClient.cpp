@@ -99,6 +99,10 @@ void GameClient::end() {
     LogManager::logDebug("señal de fin de programa emitida");
 }
 
+void GameClient::reciveRenderables(string serializedPages){
+    controller->reciveRenderables(serializedPages);
+}
+
 
 //CLIENT RELATED
 //=========================================================================================

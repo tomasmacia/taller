@@ -16,7 +16,7 @@
 
 using namespace std;
 
-#define MAX_BYTES_BUFFER 128
+#define MAX_BYTES_BUFFER 3000
 
 
 #if __APPLE__
@@ -72,14 +72,13 @@ void Client::readThread() {
     while (connectionOn) {
         incomingQueueMutex.lock();
         incomingMessage = receive();
-        std::string message = incomingMessage;
         //cout<<"CLIENT-READ"<<endl;
 
         if (incomingMessage == objectSerializer.getFailure()){ continue;}
         if (incomingMessage == objectSerializer.getPingCode()){ continue;}
         else{
 
-            incomingMessagesQueue.push_back(message);
+            incomingMessagesQueue.push_back(incomingMessage);
 
 
             cout << "CLIENT-READ: " << incomingMessage << endl;
@@ -130,7 +129,7 @@ void Client::dispatchThread() {
 
             if (objectSerializer.validSerializedObjectMessage(messageParser.getCurrent())){
                 //cout<<"CLIENT-DISPATCH: "<< incomingMessage <<endl;
-                processRenderableSerializedObject();
+                processRenderableSerializedObject(message);
 
             }
         }
@@ -152,8 +151,9 @@ void Client::processResponseFromServer() {
     }
 }
 
-void Client::processRenderableSerializedObject() {//TODO HEAVY IN PERFORMANCE
-    gameClient->reciveRenderable(objectSerializer.reconstructRenderable(messageParser.getCurrent()));
+void Client::processRenderableSerializedObject(string serializedPackages) {//TODO HEAVY IN PERFORMANCE
+    gameClient->reciveRenderables(serializedPackages);
+    //gameClient->reciveRenderable(objectSerializer.reconstructRenderable(messageParser.getCurrent()));
 }
 
 //ACTUAL DATA TRANSFER

@@ -6,6 +6,7 @@
 #define GAME_OBJECTSERIALIZER_H
 
 #include <string>
+#include <list>
 #include "ToClientPack.h"
 #include "Action.h"
 #include "MessageId.h"
@@ -26,6 +27,7 @@ public:
     std::string getInvalidCredentialMessage();
     std::string getServerFullMessage();
     std::string getAlreadyLoggedInMessage();
+    std::string serializeObjects(std::list<ToClientPack*>* packages);
 
     //VALIDATE
     //===============================
@@ -38,6 +40,7 @@ public:
     //===============================
     ToClientPack* reconstructRenderable(vector<string>* currentParsedMessage);
     tuple<Action,int> reconstructInput(vector<string>* currentParsedMessage);
+    void reconstructRenderables(string serializedPackages, std::list<ToClientPack*>* renderables);
 
     //SERIALIZATION
     //===============================
@@ -80,10 +83,11 @@ public:
 private:
     string PING_CODE = "###";
     char END_SERIALIZATION_SIMBOL = '*';
+    char OBJECT_SEPARATOR_SYMBOL = '%';
     char SEPARATOR = '@';
     int FAILURE_AKNOWLEDGE_SIGNAL = -1;
     string FAILURE = "-1";
-    int totalMessageLength = 128;
+    int totalMessageLength = 3000;
 
     static int contador;
     static int contadorFail;

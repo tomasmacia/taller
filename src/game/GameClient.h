@@ -40,6 +40,7 @@ public:
     void reciveRenderable(ToClientPack* package);
     void notifyAboutClientConectionToServerAttemptDone();
     void end() override ;
+    void reciveRenderables(string serializedPages);
 
     static bool isActive(){
         return hasInstance;
