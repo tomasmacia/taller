@@ -47,6 +47,7 @@ void GameClient::gameLoop() {
         render();
     }
 
+
 }
 
 void GameClient::pollAndSendInput() {
