@@ -76,6 +76,7 @@ void LoggerMenu::processResponse(){
         MensajeEmergente("User y Passwors Aceptados");
         LogManager::logInfo("User y Passwors Aceptados");
         succesfulLogin = true;
+        gameClient->setLogged();
     }
     if (response == INVALID_CREDENTIAL){
         MensajeEmergente("User y Passwors no existentes");
@@ -89,6 +90,8 @@ void LoggerMenu::processResponse(){
         MensajeEmergente("Server Completo");
         LogManager::logInfo("Server Completo");
     }
+    serverAcknowledgeReceived = false;
+    waitingForServerAknowledge = false;
 }
 
 

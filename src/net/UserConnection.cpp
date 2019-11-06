@@ -2,6 +2,12 @@
 // Created by Tomás Macía on 27/10/2019.
 //
 
+#include <unistd.h>
+#include <sys/socket.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 #include "UserConnection.h"
 #include <iostream>
 #include <sys/socket.h>
@@ -41,6 +47,12 @@ void UserConnection::start() {
 
 void UserConnection::shutdown() {
     connectionOn = false;
+    ::close(socketFD);
+    ::shutdown(socketFD, SHUT_WR);
+}
+
+bool UserConnection::hasPassedLogin(){
+    return gameServer->isIDLogged(userId);
 }
 
 //THREADS

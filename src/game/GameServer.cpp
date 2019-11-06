@@ -32,7 +32,7 @@ void GameServer::start() {
     LogManager::logInfo("Juego terminado");
     LogManager::logInfo("=======================================");
 
-    cout<<"everything endded up nicely :D"<<endl;
+    cout << "everything endded up nicely :D" << endl;
 }
 
 //GAME LOOP
@@ -118,6 +118,10 @@ bool GameServer::isActive(){
 
 bool GameServer::playersCanMove(){
     return loggedPlayers.size() == maxPlayers;
+}
+
+bool GameServer::isIDLogged(int ID){
+    return loggedPlayersID.count( ID );
 }
 
 //SERVER RELATED

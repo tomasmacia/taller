@@ -105,6 +105,10 @@ void GameClient::end() {
     LogManager::logDebug("señal de fin de programa emitida");
 }
 
+bool GameClient::alreadyLoggedIn(){
+    return loggedIn;
+}
+
 
 //CLIENT RELATED
 //=========================================================================================

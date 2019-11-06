@@ -47,7 +47,8 @@ private:
     int bind();
     void setToNonBlocking();
     int listen();
-    UserConnection* accept();
+    int accept();
+    UserConnection* addNewConnection(int newSocketFD);
 
     //ERROR
     //===============================
@@ -64,6 +65,8 @@ private:
 
     int maxBytesBuffer;
     int maxConnections;
+
+    int MAX_PENDING_CONNECTIONS = 6;
 
     GameServer* gameServer = nullptr;
     MessageParser messageParser;

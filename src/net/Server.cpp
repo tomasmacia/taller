@@ -32,8 +32,13 @@ void Server::setToSendToSpecific(string message,int connectionID){
 }
 
 void Server::setToBroadcast(string message) {
+    UserConnection* userConnection;
     for (std::pair<int, UserConnection*> element : connections) {
-        element.second->setToSendMessage(message);
+        userConnection = element.second;
+
+        if (userConnection->hasPassedLogin()){
+            userConnection->setToSendMessage(message);
+        }
     }
 }
 
@@ -76,19 +81,21 @@ vector<string> Server::receive(int someSocketFD) {
 void Server::listenThread(){
 
     while (gameServer->isOn()) {
-        if (connections.size() < maxConnections && listen() > 0) {
-            cout<<"LISTEN THREAD: esperando conexion"<<endl;
+        listen();
+        cout<<"LISTEN THREAD: esperando conexion"<<endl;
+        cout << "================================================================"<<endl;
+        cout<<endl;
+        int newConnectionSocketFD = accept();
+        auto newUserConnection = addNewConnection(newConnectionSocketFD);
+        if (newUserConnection != nullptr) {
+
+            connectionThreads.push_back(std::thread(&UserConnection::start,newUserConnection));
+            cout << "LISTEN THREAD: connection stablished: " << newUserConnection->getId()<< endl;
             cout << "================================================================"<<endl;
             cout<<endl;
-            auto newUserConnection = accept();
-            if (newUserConnection != nullptr) {
-                connectionThreads.push_back(std::thread(&UserConnection::start,newUserConnection));
-                cout << "LISTEN THREAD: connection stablished: " << newUserConnection->getId()<< endl;
-                cout << "================================================================"<<endl;
-                cout<<endl;
-            }
         }
     }
+
 
     UserConnection* userConnection;
     for (auto c: connections){
@@ -139,11 +146,11 @@ int Server::bind() {
 
 int Server::listen() {
 
-    ::listen(socketFD, this->maxConnections);
+    ::listen(socketFD, MAX_PENDING_CONNECTIONS);
     return socketFD;
 }
 
-UserConnection* Server::accept() {                  //INSTANCIA Y AGREGA CONECCION AL MAP
+int Server::accept() {                  //INSTANCIA Y AGREGA CONECCION AL MAP
 
     struct sockaddr_in clientAddress{};
     socklen_t clientAddressSize = sizeof(clientAddress);
@@ -154,10 +161,17 @@ UserConnection* Server::accept() {                  //INSTANCIA Y AGREGA CONECCI
         //error("ERROR on accept");
     } else {
         printf("[SERVER]: Connection from %s on port %d\n", inet_ntoa(clientAddress.sin_addr), ntohs(clientAddress.sin_port));
-        userConnection = new UserConnection(newClientSocketFD, nextConectionIDtoAssign, this,gameServer);
-        this->connections.insert({ nextConectionIDtoAssign, userConnection });
-        nextConectionIDtoAssign++; //esto asegura que la ID sea unica
+
     }
+    return newClientSocketFD;
+}
+
+
+UserConnection* Server::addNewConnection(int newSocketFD){
+    auto userConnection = new UserConnection(newSocketFD, nextConectionIDtoAssign, this,gameServer);
+    this->connections.insert({ nextConectionIDtoAssign, userConnection });
+    nextConectionIDtoAssign++; //esto asegura que la ID sea unica
+
     return userConnection;
 }
 

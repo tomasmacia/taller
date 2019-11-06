@@ -165,6 +165,10 @@ void Client::processRenderableSerializedObject() {//TODO HEAVY IN PERFORMANCE
     gameClient->reciveRenderable(objectSerializer.reconstructRenderable(messageParser.getCurrent()));
 }
 
+bool Client::alreadyLoggedIn() {
+    return gameClient->alreadyLoggedIn();
+}
+
 //ACTUAL DATA TRANSFER
 //=========================================================================================
 int  Client::send(std::string msg) {

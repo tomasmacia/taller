@@ -45,6 +45,7 @@ private:
     //===============================
     void processResponseFromServer();
     void processRenderableSerializedObject();
+    bool alreadyLoggedIn();
 
     //DISCONECTION RELATED
     //===============================

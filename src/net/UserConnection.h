@@ -22,6 +22,7 @@ public:
     void start();
     bool connectionOff();
     void shutdown();
+    bool hasPassedLogin();
 
     //GETTERS
     //===============================

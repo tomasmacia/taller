@@ -42,6 +42,7 @@ public:
     static bool isActive();
     bool playersCanMove();
     void connectionLostWith(int id);
+    bool isIDLogged(int ID);
 
     //GETTERS
     //===============================
