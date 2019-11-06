@@ -88,11 +88,12 @@ void Manager::prepareForNextLevel(){
     }
 }
 
-void Manager::reconectPlayerByID(int id) {
+void Manager::reconectPlayerByID(int id,  int newID) {
     for (auto player : players){
         if (player->getComponent<IDComponent>()->getId() == id){
             player->getComponent<StateComponent>()->setConnected();
             player->getComponent<CharacterRenderComponent>()->setConnected();
+            player->getComponent<IDComponent>()->setNewID(newID);
         }
     }
 }

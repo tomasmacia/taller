@@ -105,9 +105,9 @@ private:
     bool userInValidCredentials(string user);
     bool passInValidCredentials(string user,string pass);
     bool userInLoggedPlayers(string user);
-    bool IDInDisconnectedPlayers(int id);
+    bool IDInDisconnectedPlayers(string user);
     string processConectionAndEmitSuccesMessage(string user, string pass, int id);
-    string processReconectionAndEmitSuccesMessage(int id);
+    string processReconectionAndEmitSuccesMessage(string user, int newId);
 
     //ATRIBUTES
     //===============================
@@ -116,11 +116,11 @@ private:
     std::thread listenConnectionsThread;
     std::thread lisentToInputForClosing;
 
-    std::map<std::string,std::string> validCredentials; //<user,pass>
-    std::map<std::string,std::string> loggedPlayers;    //<user,pass>
-    std::map<int,std::string> loggedPlayersID;          //<id,user>
-    std::map<int,std::string> disconectedPlayers;       //<id,user>   se asume que el user es unico, sino no se podria
-                                                                    // usar de key en los otros maps
+    std::map<std::string,std::string> validCredentials;             //<user,pass>
+    std::map<std::string,std::string> loggedPlayersPassByUser;      //<user,pass>
+    std::map<std::string,int> loggedPlayersIDbyUser;                //<id,user>
+    std::map<int,std::string> loggedPlayersUserByID;                //<user,id>
+    std::map<std::string,int> disconectedPlayers;                   //<user,id>
 
     int maxPlayers;
 
