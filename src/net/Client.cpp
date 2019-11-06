@@ -72,13 +72,12 @@ void Client::readThread() {
     while (connectionOn) {
         incomingQueueMutex.lock();
         incomingMessage = receive();
-        std::string message = incomingMessage;
 
         if (incomingMessage == objectSerializer.getFailure()){ continue;}
         if (incomingMessage == objectSerializer.getPingCode()){ continue;}
         else{
 
-            incomingMessagesQueue.push_back(message);
+            incomingMessagesQueue.push_back(incomingMessage);
 
 
             cout << "CLIENT-READ: " << incomingMessage << endl;
