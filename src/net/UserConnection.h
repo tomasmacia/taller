@@ -23,6 +23,7 @@ public:
     bool connectionOff();
     void shutdown();
     bool hasPassedLogin();
+    void directSend(string message);
 
     //GETTERS
     //===============================
@@ -51,7 +52,7 @@ private:
 
     //ATRIBUTES
     //===============================
-    int QUEUE_AMOUNT_THRESHOLD = 200;
+    int QUEUE_AMOUNT_THRESHOLD = 100;
 
     bool connectionOn = true;
 

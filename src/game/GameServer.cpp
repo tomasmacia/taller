@@ -41,12 +41,18 @@ void GameServer::start() {
 void GameServer::gameLoop(){
 
     while (isOn() && levelBuilder->hasNextLevel() && notAllPlayersDisconnected()) {
+
+        int i = 0;
         levelBuilder->loadNext();
         LogManager::logInfo("=======================================");
         LogManager::logInfo("se inicia game loop de este nivel");
         while (isOn() && !levelBuilder->levelFinished() && notAllPlayersDisconnected()) {
             update();
-            sendUpdate();
+
+            if (i % 3 == 0){
+                sendUpdate();
+            }
+            i++;
         }
         LogManager::logInfo("fin de game loop de este nivel");
         LogManager::logInfo("=======================================");

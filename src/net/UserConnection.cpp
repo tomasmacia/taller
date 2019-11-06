@@ -30,6 +30,10 @@ void UserConnection::setToSendMessage(std::string message){
     sendQueueMutex.unlock();
 }
 
+void UserConnection::directSend(string message){
+    server->send(message,socketFD);
+}
+
 void UserConnection::start() {
 
     std::thread read(&UserConnection::readThread,this);
