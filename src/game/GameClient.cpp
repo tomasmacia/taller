@@ -18,7 +18,7 @@ void GameClient::start() {
     waitUntilConnectionStablished();
 
     if (isOn()){                //pregunto porque el Client lo podria haber cerrado al no conectarse
-        //loggerMenu->open();
+        loggerMenu->open();
 
         if (isOn()){            //pregunto porque el loggerMenu lo podria haber cerrado al tocar ESC o QUIT
             initInputSystem();
@@ -47,14 +47,17 @@ void GameClient::gameLoop() {
         render();
     }
 
+
 }
 
 void GameClient::pollAndSendInput() {
+    mu.lock();
     std::string serializedInput = controller->pollAndProcessInput();
     if (serializedInput != ""){
         client->setToSend(serializedInput);
         cout<<"CLIENT-FROM MODEL: "<<serializedInput<<endl;
     }
+    mu.unlock();
 }
 
 void GameClient::render() {
@@ -65,6 +68,7 @@ void GameClient::render() {
 }
 
 void GameClient::renderAllPackages(){
+    mu.lock();
     std::list<ToClientPack*>* packages = controller->getPackages();
     //ToClientPack* currentPackage = nullptr;
     for (auto package : *packages) {
@@ -73,6 +77,7 @@ void GameClient::renderAllPackages(){
         package = nullptr;
     }
     packages->clear();
+    mu.unlock();
 }
 
 //API
@@ -86,7 +91,11 @@ void GameClient::setServerAknowledgeToLogin(MessageId id){
 }
 
 void GameClient::reciveRenderable(ToClientPack* package){
-    controller->setRenderable(package);
+    mu.lock();
+    if (controller != nullptr){
+        controller->setRenderable(package);
+    }
+    mu.unlock();
 }
 
 void GameClient::notifyAboutClientConectionToServerAttemptDone(){
@@ -97,6 +106,10 @@ void GameClient::end() {
     on = false;
     client->notifyGameStoppedRunning();
     LogManager::logDebug("señal de fin de programa emitida");
+}
+
+bool GameClient::alreadyLoggedIn(){
+    return loggedIn;
 }
 
 

@@ -98,7 +98,7 @@ void CameraComponent::scroll() {
     this->currentX += (int)(_players.front()->getComponent<PhysicsComponent>()->getWalkingSpeed());
 
     for (auto player: _players){
-        if (!playerIsConnected(player)){
+        if (!playerIsConnected(player) && inLeftLimit(player)){
             player->getComponent<PhysicsComponent>()->drag();
         }
     }

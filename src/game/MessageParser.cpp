@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 #include <cstring>
+#include <list>
+#include <iostream>
 
 #include "MessageId.h"
 #include "MessageParser.h"
@@ -21,7 +23,7 @@ void MessageParser::parse(string rawMessage, char separatorCharacter) {
 MessageId MessageParser::getHeader() {
 
     if (lastParsedMessage != nullptr && !lastParsedMessage->empty()){
-        return (MessageId)stoi(lastParsedMessage->at(0));
+        return (MessageId)stoi(lastParsedMessage->at(1));
     }
     else {
         return UNDEFINED;
@@ -37,6 +39,22 @@ string MessageParser::extractMeaningfulMessageFromStream(char *buffer, char endS
         i++;
     }
     extractedMessage += buffer[i];
+
+    return extractedMessage;
+}
+
+string MessageParser::removePadding(char *buffer, char padding){
+
+    int rawMessagelength = strlen(buffer);
+    string extractedMessage = "";
+
+    //limpio el padding
+    //================================
+    for (int i = 0; i < rawMessagelength; i++){
+        if (buffer[i] != padding){
+            extractedMessage += buffer[i];
+        }
+    }
 
     return extractedMessage;
 }

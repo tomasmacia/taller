@@ -178,9 +178,13 @@ void LevelBuilder::initializePlayers() {
     int amountOfPlayers = GameServer::getInstance().getConfig()->gameplay.characters.size();
     int offset = (screenResolutionWidth - _camera->getComponent<CameraComponent>()->getMargin())/(amountOfPlayers + 1);
     int i = 0;
+    auto charactersConfigs = GameServer::getInstance().getConfig()->gameplay.characters;
+
 
     IDPlayer::getInstance().initIDCounter();
-    for (auto &pj : GameServer::getInstance().getConfig()->gameplay.characters) {
+    for (int i = 0; i < GameServer::getInstance().getMaxPlayers(); i++) {
+
+        auto characterConfig = charactersConfigs[i];
         
         int x = offset*(i+1);
         int y = screenResolutionHeight/2;
@@ -191,12 +195,11 @@ void LevelBuilder::initializePlayers() {
         player->addComponent<InputComponent>();
         player->addComponent<PhysicsComponent>(_levelLimits->getComponent<LevelLimits>());
         player->addComponent<PositionComponent>(x,y);
-        player->addComponent<CharacterRenderComponent>(_camera, pj);
+        player->addComponent<CharacterRenderComponent>(_camera, characterConfig);
         player->addComponent<StateComponent>();
         //es imporante cuidar el orden de update (ESTE ES)
 
         LogManager::logDebug("Jugadores inicializados: " + std::to_string(amountOfPlayers));
-        i++;
     }
 }
 

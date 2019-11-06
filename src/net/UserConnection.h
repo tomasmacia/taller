@@ -22,6 +22,8 @@ public:
     void start();
     bool connectionOff();
     void shutdown();
+    bool hasPassedLogin();
+    void directSend(string message);
 
     //GETTERS
     //===============================
@@ -40,8 +42,8 @@ private:
 
     //DISPATCHING INCOMING MESSAGES
     //===============================
-    void processLoginFromTheClient(std::string msg);
-    void processInput(std::string msg);
+    void processLoginFromTheClient(std::string);
+    void processInput(std::string);
 
     //DISCONECTION RELATED
     //===============================
@@ -51,6 +53,8 @@ private:
 
     //ATRIBUTES
     //===============================
+    int QUEUE_AMOUNT_THRESHOLD = 100;
+
     bool connectionOn = true;
 
     std::mutex sendQueueMutex;

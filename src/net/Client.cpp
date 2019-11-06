@@ -1,5 +1,5 @@
 
-#include <vector>
+#include <list>
 #include <unistd.h>
 #include <string.h>
 #include <sys/socket.h>
@@ -73,7 +73,6 @@ void Client::readThread() {
         incomingQueueMutex.lock();
         incomingMessage = receive();
         std::string message = incomingMessage;
-        //cout<<"CLIENT-READ"<<endl;
 
         if (incomingMessage == objectSerializer.getFailure()){ continue;}
         if (incomingMessage == objectSerializer.getPingCode()){ continue;}
@@ -83,6 +82,7 @@ void Client::readThread() {
 
 
             cout << "CLIENT-READ: " << incomingMessage << endl;
+
         }
         incomingQueueMutex.unlock();
     }
@@ -99,20 +99,16 @@ void Client::sendThread() {
         if (!toSendMessagesQueue.empty()) {
             message = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
+            send(message);
+            cout << "CLIENT-SEND: " << message << endl;
         }
-
-        if (!message.empty()) {
-            toSendMessage = message;
-            send(toSendMessage);
-            cout << "CLIENT-SEND: " << toSendMessage << endl;
-        }
-
         sendQueueMutex.unlock();
     }
     cout<<"CLIENT-SEND-DONE"<<endl;
 }
 
 void Client::dispatchThread() {
+
     while(connectionOn) {
         incomingQueueMutex.lock();
         std::string message;
@@ -128,16 +124,33 @@ void Client::dispatchThread() {
             incomingMessage = message;
             messageParser.parse(incomingMessage, objectSerializer.getSeparatorCharacter());
 
-            if (objectSerializer.validSerializedObjectMessage(messageParser.getCurrent())){
-                //cout<<"CLIENT-DISPATCH: "<< incomingMessage <<endl;
+            if (objectSerializer.validLoginFromServerMessage(messageParser.getCurrent())
+                ||
+                objectSerializer.validSerializedObjectMessage(messageParser.getCurrent())){
+                cout<<"CLIENT-DISPATCH: "<< incomingMessage <<endl;
                 processRenderableSerializedObject();
+                //cout<<"CLIENT-DISPATCH: "<< message <<endl;
 
+                // TODO REVISAR
+                MessageId header = messageParser.getHeader();
+
+                if ((header == SUCCESS) || (header == INVALID_CREDENTIAL)
+                    ||
+                    (header == ALREADY_LOGGED_IN_CREDENTIAL) || (header == SERVER_FULL)){
+
+                    processResponseFromServer();
+                }
+                if (header == RENDERABLE){
+                    processRenderableSerializedObject();
+                }
             }
         }
+
         incomingQueueMutex.unlock();
     }
     cout<<"CLIENT-DISPATCH-DONE"<<endl;
 }
+
 
 //DISPATCHING INCOMING MESSAGES
 //=========================================================================================
@@ -154,6 +167,10 @@ void Client::processResponseFromServer() {
 
 void Client::processRenderableSerializedObject() {//TODO HEAVY IN PERFORMANCE
     gameClient->reciveRenderable(objectSerializer.reconstructRenderable(messageParser.getCurrent()));
+}
+
+bool Client::alreadyLoggedIn() {
+    return gameClient->alreadyLoggedIn();
 }
 
 //ACTUAL DATA TRANSFER
@@ -199,7 +216,7 @@ std::string Client::receive() {
         bytesRead += n;
     }
 
-    char end = objectSerializer.getEndOfSerializationCharacterget();
+    char end = objectSerializer.getEndOfSerializationSymbol();
     std::string parsed = messageParser.extractMeaningfulMessageFromStream(buff, end);
 
 //    cout << "buffer: " << buff << endl;

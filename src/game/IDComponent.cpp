@@ -11,3 +11,7 @@ IDComponent::IDComponent(int id) {
 int IDComponent::getId() {
     return id;
 }
+
+void IDComponent::setNewID(int newID){
+    id = newID;
+}

@@ -90,7 +90,6 @@ void Controller::sendUpdate(std::list<ToClientPack*>* toClientsPackages, Server*
         if(package != nullptr){
             serializedPackage = objectSerializer.serializeObject(package); //TODO HEAVY IN PERFORMANCE
             server->setToBroadcast(serializedPackage);
-            //cout<<"SERVER-FROM MODEL: "<<serializedPackage<<endl;
         }
     }
 }

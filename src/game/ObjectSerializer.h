@@ -52,6 +52,14 @@ public:
 
     //GETTERS
     //===============================
+    char getStartSerializationSymbol(){
+        return START_SYMBOL.c_str()[0];
+    }
+
+    char getPaddingSymbol(){
+        return PADDING_SYMBOL;
+    }
+
     int getTotalMessageLength(){
         return totalMessageLength;
     }
@@ -61,27 +69,29 @@ public:
     }
 
     string getPingCode(){
-        return PING_CODE + string(totalMessageLength - PING_CODE.length(),END_SERIALIZATION_SIMBOL);
+        return PING_CODE + string(totalMessageLength - PING_CODE.length(),'&'); // TODO HARDCODE
     }
 
 
     char getSeparatorCharacter(){
-        return SEPARATOR;
+        return SEPARATOR.c_str()[0];
     }
 
     int getFailureAcknowledgeSignal(){
         return FAILURE_AKNOWLEDGE_SIGNAL;
     }
 
-    char getEndOfSerializationCharacterget(){
-        return END_SERIALIZATION_SIMBOL;
+    char getEndOfSerializationSymbol(){
+        return END_OF_SERIALIZATION_SYMBOL.c_str()[0];
     }
 
 private:
-    string PING_CODE = "###";
-    char END_SERIALIZATION_SIMBOL = '*';
-    char SEPARATOR = '@';
+    string PING_CODE = "*";
+    string END_OF_SERIALIZATION_SYMBOL = "&";
+    char PADDING_SYMBOL = '*';
+    string SEPARATOR = "@";
     int FAILURE_AKNOWLEDGE_SIGNAL = -1;
+    string START_SYMBOL = "=";
     string FAILURE = "-1";
     int totalMessageLength = 128;
 

@@ -21,7 +21,7 @@ void GameServer::start() {
     initController();       //1 thread para escuchar teclado y la crucecita de la window
     startServer();          //1 thread de listen de conexiones nuevas y 4 threads por cliente nuevo
 
-    //waitUnitAtLeasOnePlayerConnected();
+    waitUnitAllPlayersConnected();
 
     initGameModel();
     gameLoop();
@@ -32,7 +32,7 @@ void GameServer::start() {
     LogManager::logInfo("Juego terminado");
     LogManager::logInfo("=======================================");
 
-    cout<<"everything endded up nicely :D"<<endl;
+    cout << "everything endded up nicely :D" << endl;
 }
 
 //GAME LOOP
@@ -41,12 +41,18 @@ void GameServer::start() {
 void GameServer::gameLoop(){
 
     while (isOn() && levelBuilder->hasNextLevel() && notAllPlayersDisconnected()) {
+
+        int i = 0;
         levelBuilder->loadNext();
         LogManager::logInfo("=======================================");
         LogManager::logInfo("se inicia game loop de este nivel");
         while (isOn() && !levelBuilder->levelFinished() && notAllPlayersDisconnected()) {
             update();
-            sendUpdate();
+
+            if (i % 3 == 0){
+                sendUpdate();
+            }
+            i++;
         }
         LogManager::logInfo("fin de game loop de este nivel");
         LogManager::logInfo("=======================================");
@@ -67,15 +73,15 @@ void GameServer::sendUpdate() {
 
 std::string GameServer::validateLogin(std::string user, std::string pass, int userId){
 
-    if (serverFull()){
+    if (serverFull() && !userInLoggedPlayers(user)){
         return controller->getServerFullMessage();
     }
     else{
         if (userInValidCredentials(user)){
             if (passInValidCredentials(user,pass)){
                 if(userInLoggedPlayers(user)){
-                    if(IDInDisconnectedPlayers(userId)){
-                        return processReconectionAndEmitSuccesMessage(userId);
+                    if(IDInDisconnectedPlayers(user)){
+                        return processReconectionAndEmitSuccesMessage(user,userId);
                     }
                     else{
                         return controller->getAlreadyLoggedInMessage();
@@ -117,7 +123,11 @@ bool GameServer::isActive(){
 }
 
 bool GameServer::playersCanMove(){
-    return loggedPlayers.size() == maxPlayers;
+    return loggedPlayersPassByUser.size() == maxPlayers;
+}
+
+bool GameServer::isIDLogged(int ID){
+    return loggedPlayersUserByID.count( ID );
 }
 
 //SERVER RELATED
@@ -133,9 +143,11 @@ void GameServer::closeServer(){
     lisentToInputForClosing.join();
 }
 
-void GameServer::waitUnitAtLeasOnePlayerConnected(){
+void GameServer::waitUnitAllPlayersConnected(){
 
-    while (!(loggedPlayers.size() > 0)){
+    while ((loggedPlayersPassByUser.size() != maxPlayers) ||
+            (disconectedPlayers.size() != 0)){
+
         continue;
     }
 }
@@ -146,8 +158,14 @@ bool GameServer::notAllPlayersDisconnected(){
 
 void GameServer::connectionLostWith(int id){
 
-    disconectedPlayers.insert({ id, loggedPlayersID.at(id) });
-    manager->disconectPlayerByID(id);
+    if (loggedPlayersUserByID.count(id)){
+
+        string user = loggedPlayersUserByID.at(id);
+        disconectedPlayers.insert({user,id});
+    }
+    if (manager != nullptr){
+        manager->disconectPlayerByID(id);
+    }
 }
 
 //CONTROLLER RELATED
@@ -168,7 +186,7 @@ void GameServer::closeController(){
 //LOGIN RELATED
 //=========================================================================================
 bool GameServer::serverFull(){
-    return loggedPlayers.size() == maxPlayers;
+    return loggedPlayersPassByUser.size() == maxPlayers;
 }
 
 bool GameServer::userInValidCredentials(string user){
@@ -180,28 +198,37 @@ bool GameServer::passInValidCredentials(string user,string pass){
 }
 
 bool GameServer::userInLoggedPlayers(string user){
-    return loggedPlayers.find(user) != loggedPlayers.end();
+    return loggedPlayersPassByUser.find(user) != loggedPlayersPassByUser.end();
 }
 
-bool GameServer::IDInDisconnectedPlayers(int id){
-    return disconectedPlayers.find(id) != disconectedPlayers.end();
+bool GameServer::IDInDisconnectedPlayers(string user){
+    return disconectedPlayers.find(user) != disconectedPlayers.end();
 }
 
 string GameServer::processConectionAndEmitSuccesMessage(string user, string pass, int id){
 
-    loggedPlayers.insert({ user, pass });
-    loggedPlayersID.insert({ id, user });
+    loggedPlayersPassByUser.insert({ user, pass });
+    loggedPlayersUserByID.insert({ id, user });
+    loggedPlayersIDbyUser.insert({user,id});
     addNewIDToGame(id);
 
     return controller->getSuccesfullLoginMessage(id);
 }
 
-string GameServer::processReconectionAndEmitSuccesMessage(int id){
+string GameServer::processReconectionAndEmitSuccesMessage(string user, int newID){
 
-    disconectedPlayers.erase(id);
-    manager->reconectPlayerByID(id);
+    int oldID = loggedPlayersIDbyUser.at(user);
+    loggedPlayersUserByID.erase(oldID);
+    loggedPlayersUserByID.insert({newID,user});
 
-    return controller->getSuccesfullLoginMessage(id);
+    loggedPlayersIDbyUser.at(user) = newID;
+
+    disconectedPlayers.erase(user);
+    if (manager != nullptr){
+        manager->reconectPlayerByID(oldID, newID);
+    }
+
+    return controller->getSuccesfullLoginMessage(newID);
 }
 
 

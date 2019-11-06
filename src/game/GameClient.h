@@ -40,9 +40,16 @@ public:
     void reciveRenderable(ToClientPack* package);
     void notifyAboutClientConectionToServerAttemptDone();
     void end() override ;
+    bool alreadyLoggedIn();
 
     static bool isActive(){
         return hasInstance;
+    }
+
+    //SETTERS
+    //===============================
+    void setLogged(){
+        loggedIn = true;
     }
 
 private:
@@ -82,6 +89,7 @@ private:
     //ATRIBUTES
     //===============================
     static bool hasInstance;
+    bool loggedIn = false;
 
     std:: mutex mu;
     std::condition_variable waitForConnection;

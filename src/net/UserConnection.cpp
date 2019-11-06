@@ -2,6 +2,12 @@
 // Created by Tomás Macía on 27/10/2019.
 //
 
+#include <unistd.h>
+#include <sys/socket.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 #include "UserConnection.h"
 #include <iostream>
 #include <sys/socket.h>
@@ -22,6 +28,10 @@ void UserConnection::setToSendMessage(std::string message){
     sendQueueMutex.unlock();
 }
 
+void UserConnection::directSend(string message){
+    server->send(message,socketFD);
+}
+
 void UserConnection::start() {
 
     std::thread read(&UserConnection::readThread,this);
@@ -39,6 +49,13 @@ void UserConnection::start() {
 
 void UserConnection::shutdown() {
     setConnectionOff();
+    connectionOn = false;
+    ::close(socketFD);
+    ::shutdown(socketFD, SHUT_WR);
+}
+
+bool UserConnection::hasPassedLogin(){
+    return gameServer->isIDLogged(userId);
 }
 
 //THREADS
@@ -104,12 +121,22 @@ void UserConnection::dispatchThread() {
 
         if (!incomingMessage.empty()) {
             messageParser.parse(incomingMessage, objectSerializer.getSeparatorCharacter());
-            MessageId header = messageParser.getHeader();
-            if (header == USER_PASS){
-                processLoginFromTheClient(incomingMessage);
-            }
-            if (header == INPUT){
-                processInput(incomingMessage);
+
+            if (objectSerializer.validLoginFromClientMessage(messageParser.getCurrent())
+                ||
+                objectSerializer.validSerializedInputMessage(messageParser.getCurrent())){
+
+                cout<<"SERVER-DISPATCH: "<< incomingMessage <<endl;
+
+                MessageId header = messageParser.getHeader();
+
+                if (header == USER_PASS){
+
+                    processLoginFromTheClient(incomingMessage);
+                }
+                if (header == INPUT){
+                    processInput(incomingMessage);
+                }
             }
 
             cout<<"SERVER-DISPATCH: "<< incomingMessage <<endl;

@@ -13,6 +13,7 @@ public:
     IDComponent(int id);
 
     int getId();
+    void setNewID(int newID);
 
 private:
     int id = 0;
