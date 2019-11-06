@@ -28,12 +28,15 @@ public:
     bool hasAchievedConnectionAttempt();
     void notifyGameStoppedRunning();
 
+    std::thread allTogether;
+
 private:
     //THREADS
     //===============================
     void readThread();
     void sendThread();
     void dispatchThread();
+    void allTogetherThread();
 
 
     //ACTUAL DATA TRANSFER

@@ -54,19 +54,72 @@ bool Client::start(){
     connectToServer();
     gameClient->notifyAboutClientConectionToServerAttemptDone();
 
-    std::thread read(&Client::readThread,this);
-    std::thread send(&Client::sendThread,this);
-    std::thread dispatch(&Client::dispatchThread,this);
+//    std::thread read(&Client::readThread,this);
+//    std::thread send(&Client::sendThread,this);
+//    std::thread dispatch(&Client::dispatchThread,this);
+    allTogether = std::thread(&Client::allTogetherThread,this);
 
-    checkConnection();
+    //checkConnection();
     cout<<"termine check"<<endl;
-    read.join();
-    send.join();
-    dispatch.join();
+//    read.join();
+//    send.join();
+//    dispatch.join();
 }
 
 //THREADS
 //=========================================================================================
+
+void Client::allTogetherThread() {
+    while (connectionOn) {
+        incomingQueueMutex.lock();
+        incomingMessage = receive();
+        //cout<<"CLIENT-READ"<<endl;
+
+        if (incomingMessage == objectSerializer.getFailure()){ continue;}
+        if (incomingMessage == objectSerializer.getPingCode()){ continue;}
+        else{
+
+            if (!incomingMessage.empty()) {
+                //incomingMessage = ms;
+                messageParser.parse(incomingMessage, objectSerializer.getSeparatorCharacter());
+
+                if (objectSerializer.validSerializedObjectMessage(messageParser.getCurrent())){
+                    //cout<<"CLIENT-DISPATCH: "<< incomingMessage <<endl;
+                    processRenderableSerializedObject(incomingMessage);
+                    {
+                        std::lock_guard<std::mutex> lk(gameClient->renderM);
+                        gameClient->setRenderReady(true);
+                    }
+                    gameClient->cv.notify_one();
+                }
+            }
+            cout << "CLIENT-READ: " << incomingMessage << endl;
+        }
+        incomingQueueMutex.unlock();
+
+        sendQueueMutex.lock();
+        std::string message;
+        //cout<<"CLIENT-SEND"<<endl;
+
+        if (!toSendMessagesQueue.empty()) {
+            message = toSendMessagesQueue.front();
+            toSendMessagesQueue.pop_front();
+        }
+
+        if (!message.empty()) {
+            toSendMessage = message;
+            send(toSendMessage);
+            cout << "CLIENT-SEND: " << toSendMessage << endl;
+        }
+
+        sendQueueMutex.unlock();
+
+
+    }
+    cout<<"CLIENT-READ-DONE"<<endl;
+}
+
+
 void Client::readThread() {
 
     while (connectionOn) {

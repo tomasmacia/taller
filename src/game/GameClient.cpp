@@ -67,12 +67,18 @@ void GameClient::render() {
 void GameClient::renderAllPackages(){
     std::list<ToClientPack*>* packages = controller->getPackages();
     //ToClientPack* currentPackage = nullptr;
+    std::unique_lock<std::mutex> lk(renderM);
+    cv.wait(lk, [this]{return this->renderReady;});
     for (auto package : *packages) {
         package->render(&loadedTexturesMap);
+        cout << "Render: " << package->getPath() << endl;
         delete(package);
         package = nullptr;
     }
     packages->clear();
+    renderReady = false;
+    lk.unlock();
+    cv.notify_one();
 }
 
 //API
@@ -159,6 +165,7 @@ void GameClient::init() {
 void GameClient::destroy() {
     delete(loggerMenu);
     loggerMenu = nullptr;
+    client->allTogether.join();
     delete(client);
     client = nullptr;
     clearTextureMap();

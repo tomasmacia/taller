@@ -46,6 +46,14 @@ public:
         return hasInstance;
     }
 
+    std::mutex renderM;
+    std::condition_variable cv;
+    bool renderReady = false;
+
+    void setRenderReady(bool value) {
+        renderReady = value;
+    }
+
 private:
     GameClient() {
         init();
