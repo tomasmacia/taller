@@ -52,8 +52,13 @@ void UserConnection::readThread() {
 
         //cout<<"SERVER-READ"<<endl;
 
-        newMessages = server->receive(socketFD);
         incomingQueueMutex.lock();
+        newMessages = server->receive(socketFD);
+
+        for (auto message : newMessages){
+            incomingMessagesQueue.push_back((message));
+        }
+
         for (auto message : newMessages) {
             incomingMessagesQueue.push_back(message);
             cout << "SERVER-READ: " << message << endl;
@@ -66,61 +71,59 @@ void UserConnection::readThread() {
 void UserConnection::sendThread() {
 
     while (connectionOn) {
-        std::string message;
 
         //cout<<"SERVER-SEND"<<endl;
 
         sendQueueMutex.lock();
-        if (toSendMessagesQueue.size() != 0) {
-            message = toSendMessagesQueue.front();
-            toSendMessagesQueue.pop_front();
 
-        }
-        sendQueueMutex.unlock();
+        for (auto message : toSendMessagesQueue){
 
-        if (!message.empty()) {
             server->send(message, socketFD);
             cout << "SERVER-SEND: " << message << endl;
         }
+        sendQueueMutex.unlock();
     }
     cout<<"SERVER-SEND-DONE"<<endl;
 }
 
 void UserConnection::dispatchThread() {
 
-
     while(connectionOn) {
-        string incomingMessage;
-        incomingQueueMutex.lock();
 
         //cout<<"SERVER-DISPATCH"<<endl;
 
-        if (!incomingMessagesQueue.empty()){
-            incomingMessage = incomingMessagesQueue.front();
-            incomingMessagesQueue.pop_front();
+        incomingQueueMutex.lock();
+
+        for (auto message: incomingMessagesQueue){
+
+            messageParser.parse(message, objectSerializer.getSeparatorCharacter());
+
+            if (objectSerializer.validLoginFromClientMessage(messageParser.getCurrent())
+                ||
+                objectSerializer.validSerializedInputMessage(messageParser.getCurrent())){
+
+                cout<<"SERVER-DISPATCH: "<< message <<endl;
+
+                MessageId header = messageParser.getHeader();
+
+                if (header == USER_PASS){
+
+                    processLoginFromTheClient();
+                }
+                if (header == INPUT){
+                    processInput();
+                }
+            }
         }
         incomingQueueMutex.unlock();
-
-        if (!incomingMessage.empty()) {
-            messageParser.parse(incomingMessage, objectSerializer.getSeparatorCharacter());
-            MessageId header = messageParser.getHeader();
-
-            if (header == USER_PASS){
-                processLoginFromTheClient(incomingMessage);
-            }
-            if (header == INPUT){
-                processInput(incomingMessage);
-            }
-
-            cout<<"SERVER-DISPATCH: "<< incomingMessage <<endl;
-        }
     }
     cout<<"SERVER-DISPATCH-DONE"<<endl;
 }
 
+
 //DISPATCHING INCOMING MESSAGES
 //=========================================================================================
-void UserConnection::processLoginFromTheClient(std::string loginMsg) {
+void UserConnection::processLoginFromTheClient() {
 
     string toSendMessage;
 
@@ -136,7 +139,7 @@ void UserConnection::processLoginFromTheClient(std::string loginMsg) {
     server->setToSendToSpecific(toSendMessage,userId);
 }
 
-void UserConnection::processInput(std::string inputMsg) {//TODO HEAVY IN PERFORMANCE
+void UserConnection::processInput() {//TODO HEAVY IN PERFORMANCE
 
     if (objectSerializer.validSerializedInputMessage(messageParser.getCurrent())){
 

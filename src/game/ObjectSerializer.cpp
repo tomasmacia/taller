@@ -42,34 +42,38 @@ string ObjectSerializer::getAlreadyLoggedInMessage() {
 //VALIDATE
 //=========================================================================================
 bool ObjectSerializer::validLoginFromServerMessage(vector<string>* currentParsedMessage){
-    //SERIALIZED LOGIN ID: //header,id,END
-    return currentParsedMessage->at(0) == to_string(START_SYMBOL)
+    //SERIALIZED LOGIN ID: //START,header,id,END
+    return currentParsedMessage->size() == 4 &&
+            currentParsedMessage->at(0) == START_SYMBOL
            && (stoi(currentParsedMessage->at(1)) == SUCCESS
            ||   stoi(currentParsedMessage->at(1)) == INVALID_CREDENTIAL
            ||   stoi(currentParsedMessage->at(1)) == ALREADY_LOGGED_IN_CREDENTIAL
            ||   stoi(currentParsedMessage->at(1)) == SERVER_FULL)
-           && currentParsedMessage->at(currentParsedMessage->size() - 1) == to_string(START_SYMBOL);
+           && currentParsedMessage->at(currentParsedMessage->size() - 1) == END_OF_SERIALIZATION_SYMBOL;
 }
 
 bool ObjectSerializer::validSerializedObjectMessage(vector<string>* currentParsedMessage){
-    //SERIALIZED OBJECT: header,path,srcw,srch,srcx,srcy,dstw,dsth,dstx,dsty,bool,END
-    return currentParsedMessage->at(0) == to_string(START_SYMBOL)
+    //SERIALIZED OBJECT: START,header,path,srcw,srch,srcx,srcy,dstw,dsth,dstx,dsty,bool,END
+    return currentParsedMessage->size() == 13 &&
+            currentParsedMessage->at(0) == START_SYMBOL
            && stoi(currentParsedMessage->at(1)) == RENDERABLE
-           && currentParsedMessage->at(currentParsedMessage->size() - 1) == to_string(START_SYMBOL);
+           && currentParsedMessage->at(currentParsedMessage->size() - 1) == END_OF_SERIALIZATION_SYMBOL;
 }
 
-bool ObjectSerializer::validLoginFromClientMessage(vector<string>* currentParsedMessage){
-    //SERIALIZED LOGIN ID: header,user,pass,END
-    return currentParsedMessage->at(0) == to_string(START_SYMBOL)
+bool ObjectSerializer::validLoginFromClientMessage(vector<string>* currentParsedMessage) {
+    //SERIALIZED LOGIN ID: START, header,user,pass,END
+    return currentParsedMessage->size() == 5 &&
+            currentParsedMessage->at(0) == START_SYMBOL
            && stoi(currentParsedMessage->at(1)) == USER_PASS
-           && currentParsedMessage->at(currentParsedMessage->size() - 1) == to_string(START_SYMBOL);
+           && currentParsedMessage->at(currentParsedMessage->size() - 1) == END_OF_SERIALIZATION_SYMBOL;
 }
 
 bool ObjectSerializer::validSerializedInputMessage(vector<string>* currentParsedMessage){
-    //SERIALIZED OBJECT: header,action,id,END
-    return currentParsedMessage->at(0) == to_string(START_SYMBOL)
+    //SERIALIZED OBJECT: START,header,action,id,END
+    return  currentParsedMessage->size() == 5 &&
+            currentParsedMessage->at(0) == START_SYMBOL
             && stoi(currentParsedMessage->at(1)) == INPUT
-            && currentParsedMessage->at(currentParsedMessage->size() - 1) == to_string(START_SYMBOL);
+            && currentParsedMessage->at(currentParsedMessage->size() - 1) == END_OF_SERIALIZATION_SYMBOL;
 }
 
 //RECONSTRUCT

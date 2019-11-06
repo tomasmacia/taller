@@ -20,9 +20,9 @@ vector<string> MessageParser::extractMeaningfulMessagesFromStream(char *buffer, 
     vector<string> partialMessages = getPartialMessagesFrom(buffer,objectSerializer);
     vector<string> completeMessages;
 
-    for (auto a: partialMessages){
+   //for (auto a: partialMessages){
         //cout<<"parseado: "<<a<<endl;
-    }
+    //}
 
     if (partialMessages.size() == 0){
         return partialMessages;

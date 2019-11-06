@@ -75,68 +75,84 @@ void Client::readThread() {
         //cout<<"CLIENT-READ"<<endl;
         newMessages = receive();
         incomingQueueMutex.lock();
-        for (auto message : newMessages) {
+
+        for (auto message : newMessages){
+            incomingMessagesQueue.push_back((message));
+        }
+
+        //for (auto message : newMessages) {
+
+        if (!incomingMessagesQueue.empty()){
+
+            string message = incomingMessagesQueue.front();
+            incomingMessagesQueue.pop_front();
+
             incomingMessagesQueue.push_back(message);
+            cout << "CLIENT-READ: " << message << endl;
         }
         incomingQueueMutex.unlock();
-        //cout << "CLIENT-READ: " << incomingMessage << endl;
         }
     cout<<"CLIENT-READ-DONE"<<endl;
 }
 
 void Client::sendThread() {
 
-    while(connectionOn) {
-        std::string message;
-        sendQueueMutex.lock();
+    while (connectionOn) {
+
         //cout<<"CLIENT-SEND"<<endl;
 
-        if (!toSendMessagesQueue.empty()) {
-            message = toSendMessagesQueue.front();
-            toSendMessagesQueue.pop_front();
+        sendQueueMutex.lock();
+
+        for (auto message : toSendMessagesQueue){
+
+            send(message);
+            cout << "CLIENT-SEND: " << message << endl;
         }
         sendQueueMutex.unlock();
-
-        if (!message.empty()) {
-            toSendMessage = message;
-            send(toSendMessage);
-            cout << "CLIENT-SEND: " << toSendMessage << endl;
-        }
     }
     cout<<"CLIENT-SEND-DONE"<<endl;
 }
 
 void Client::dispatchThread() {
+
     while(connectionOn) {
-        std::string message;
-        incomingQueueMutex.lock();
+
         //cout<<"CLIENT-DISPATCH"<<endl;
 
+        incomingQueueMutex.lock();
+
+        //for (auto message: incomingMessagesQueue){
         if (!incomingMessagesQueue.empty()){
-            message = incomingMessagesQueue.front();
+
+            string message = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
+
+            messageParser.parse(message, objectSerializer.getSeparatorCharacter());
+
+            if (objectSerializer.validLoginFromServerMessage(messageParser.getCurrent())
+                ||
+                objectSerializer.validSerializedObjectMessage(messageParser.getCurrent())){
+
+                cout<<"CLIENT-DISPATCH: "<< message <<endl;
+
+                MessageId header = messageParser.getHeader();
+
+                if ((header == SUCCESS) || (header == INVALID_CREDENTIAL)
+                    ||
+                    (header == ALREADY_LOGGED_IN_CREDENTIAL) || (header == SERVER_FULL)){
+
+                    processResponseFromServer();
+                }
+                if (header == RENDERABLE){
+                    processRenderableSerializedObject();
+                }
+            }
         }
         incomingQueueMutex.unlock();
-
-        if (!incomingMessage.empty()) {
-            messageParser.parse(incomingMessage, objectSerializer.getSeparatorCharacter());
-            MessageId header = messageParser.getHeader();
-
-            if ((header == SUCCESS) || (header == INVALID_CREDENTIAL)
-                ||
-                (header == ALREADY_LOGGED_IN_CREDENTIAL) || (header == SERVER_FULL)){
-
-                processResponseFromServer();
-            }
-            if (header == RENDERABLE){
-                processRenderableSerializedObject();
-            }
-
-            cout<<"CLIENT-DISPATCH: "<< incomingMessage <<endl;
-        }
     }
     cout<<"CLIENT-DISPATCH-DONE"<<endl;
 }
+
 
 //DISPATCHING INCOMING MESSAGES
 //=========================================================================================
