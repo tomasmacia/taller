@@ -21,9 +21,13 @@
 //=========================================================================================
 void UserConnection::setToSendMessage(std::string message){
     sendQueueMutex.lock();
-    toSendMessagesQueue.push_back(message);
+
+    //for (int i = 0 ; i < DATA_REDUNDANCY ; i++){
+     //   toSendMessagesQueue.push_back(message);
+    //}
     //cout<<"SERVER-FROM MODEL: "<<message<<endl;
-    //cout<<"AMOUNT: "<<toSendMessagesQueue.size()<<endl;
+    cout<<"AMOUNT: "<<toSendMessagesQueue.size()<<endl;
+
     if (toSendMessagesQueue.size() > QUEUE_AMOUNT_THRESHOLD){
         toSendMessagesQueue.clear();
     }
@@ -88,7 +92,7 @@ void UserConnection::sendThread() {
         for (auto message : toSendMessagesQueue){
 
             server->send(message, socketFD);
-            cout << "SERVER-SEND: " << message << endl;
+            //cout << "SERVER-SEND: " << message << endl;
         }
         toSendMessagesQueue.clear();
         sendQueueMutex.unlock();

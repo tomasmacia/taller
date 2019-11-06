@@ -51,14 +51,17 @@ private:
 
     //ATRIBUTES
     //===============================
-    int QUEUE_AMOUNT_THRESHOLD = 200;
 
     bool connectionOn = true;
 
     std::mutex sendQueueMutex;
+
     std::mutex incomingQueueMutex;
     int socketFD;
     int userId;
+
+    int QUEUE_AMOUNT_THRESHOLD = 300;
+    int DATA_REDUNDANCY = 3;
 
     Server *server = nullptr;
     GameServer* gameServer = nullptr;

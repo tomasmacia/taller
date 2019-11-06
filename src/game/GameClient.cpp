@@ -134,6 +134,7 @@ void GameClient::waitUntilConnectionStablished(){
     //para que no llegue antes el main que el intento de conexion de client
     std::unique_lock<std::mutex> lck (mu);
     waitForConnection.wait(lck, [this]{ return hasClientAttemptedConection();});
+    LogManager::logInfo("conexion establecida con el server");
 }
 
 //INIT

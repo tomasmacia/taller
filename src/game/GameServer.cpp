@@ -75,21 +75,26 @@ std::string GameServer::validateLogin(std::string user, std::string pass, int us
             if (passInValidCredentials(user,pass)){
                 if(userInLoggedPlayers(user)){
                     if(IDInDisconnectedPlayers(user)){
+                        LogManager::logInfo("reconexion exitosa con cliente");
                         return processReconectionAndEmitSuccesMessage(user,userId);
                     }
                     else{
+                        LogManager::logInfo("intento de logeo a credencial ya logeada");
                         return controller->getAlreadyLoggedInMessage();
                     }
                 }
                 else{
+                    LogManager::logInfo("conexion establecida con cliente");
                     return processConectionAndEmitSuccesMessage(user, pass, userId);
                 }
             }
             else{
+                LogManager::logInfo("intento de logeo con credenciales invalidas");
                 return controller->getInvalidCredentialMessage();
             }
         }
         else{
+            LogManager::logInfo("intento de logeo con credenciales invalidas");
             return controller->getInvalidCredentialMessage();
         }
     }
