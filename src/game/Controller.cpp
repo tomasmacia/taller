@@ -85,14 +85,15 @@ void Controller::clearAllInputs(){
 //=========================================================================================
 
 void Controller::sendUpdate(std::list<ToClientPack*>* toClientsPackages, Server* server) {
-    std::string serializedPackage;
-    for (auto package: *toClientsPackages){
-        if(package != nullptr){
-            serializedPackage = objectSerializer.serializeObject(package); //TODO HEAVY IN PERFORMANCE
-            server->setToBroadcast(serializedPackage);
-            //cout<<"SERVER-FROM MODEL: "<<serializedPackage<<endl;
-        }
-    }
+    //std::string serializedPackage;
+    std::string serializedPackage = objectSerializer.serializeObjects(*toClientsPackages);
+//    for (auto package: *toClientsPackages){
+//        if(package != nullptr){
+//            serializedPackage = objectSerializer.serializeObject(package); //TODO HEAVY IN PERFORMANCE
+//            server->setToBroadcast(serializedPackage);
+//            //cout<<"SERVER-FROM MODEL: "<<serializedPackage<<endl;
+//        }
+//    }
 }
 
 std::string Controller::getSuccesfullLoginMessage(int userId){

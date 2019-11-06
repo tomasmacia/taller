@@ -28,6 +28,8 @@ public:
     bool hasAchievedConnectionAttempt();
     void notifyGameStoppedRunning();
 
+    std::thread allTogether;
+
 private:
     //THREADS
     //===============================
@@ -81,6 +83,8 @@ private:
     string toSendMessage;
     list<string> toSendMessagesQueue;
     list<string> incomingMessagesQueue;
+
+    void allTogetherThread();
 };
 
 #endif //GAME_CLIENT_H

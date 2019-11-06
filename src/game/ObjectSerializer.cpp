@@ -127,6 +127,16 @@ string ObjectSerializer::serializeCredentials(string user, string pass){
     return addPadding(to_string(USER_PASS) + SEPARATOR + user + SEPARATOR + pass + to_string(END_SERIALIZATION_SIMBOL));
 }
 
+string ObjectSerializer::serializeObjects(list<ToClientPack*> packages) {
+    string serializedObjects;
+    for (auto package : packages) {
+        serializedObjects += serializeObject(package);
+    }
+
+    serializedObjects += END_SERIALIZATION_SIMBOL;
+
+    return addPadding(serializedObjects);
+}
 string ObjectSerializer::serializeObject(ToClientPack* package){
 
     std::string serializedObject;
@@ -148,12 +158,18 @@ string ObjectSerializer::serializeObject(ToClientPack* package){
 
     std::string flipedStr = to_string(fliped);
 
+//    serializedObject = to_string(RENDERABLE) + SEPARATOR + path + SEPARATOR +
+//                       srcW + SEPARATOR + srcH + SEPARATOR + srcX + SEPARATOR + srcY + SEPARATOR +
+//                       dstW + SEPARATOR + dstH + SEPARATOR + dstX + SEPARATOR + dstY + SEPARATOR +
+//                       flipedStr + SEPARATOR + END_SERIALIZATION_SIMBOL;
+
     serializedObject = to_string(RENDERABLE) + SEPARATOR + path + SEPARATOR +
                        srcW + SEPARATOR + srcH + SEPARATOR + srcX + SEPARATOR + srcY + SEPARATOR +
                        dstW + SEPARATOR + dstH + SEPARATOR + dstX + SEPARATOR + dstY + SEPARATOR +
-                       flipedStr + SEPARATOR + END_SERIALIZATION_SIMBOL;
+                       flipedStr + SEPARATOR + OBJECT_SEPARATOR;
 
-    return addPadding(serializedObject);
+    //return addPadding(serializedObject);
+    return serializedObject;
 }
 
 string ObjectSerializer::serializeInput(Action action, int id){

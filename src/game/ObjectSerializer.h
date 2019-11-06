@@ -6,6 +6,7 @@
 #define GAME_OBJECTSERIALIZER_H
 
 #include <string>
+#include <list>
 #include "ToClientPack.h"
 #include "Action.h"
 #include "MessageId.h"
@@ -45,6 +46,7 @@ public:
     std::string serializedInvalidCredentialMessage();
     std::string serializedServerFullMessage();
     std::string serializedAlreadyLoggedInMessage();
+    string serializeObjects(std::list<ToClientPack*> package);
     string serializeObject(ToClientPack* package);
     string serializeInput(Action action, int id);
     string serializeCredentials(string user, string pass);
@@ -80,10 +82,11 @@ public:
 private:
     string PING_CODE = "###";
     char END_SERIALIZATION_SIMBOL = '*';
+    char OBJECT_SEPARATOR = '|';
     char SEPARATOR = '@';
     int FAILURE_AKNOWLEDGE_SIGNAL = -1;
     string FAILURE = "-1";
-    int totalMessageLength = 128;
+    int totalMessageLength = 2048;
 
     static int contador;
     static int contadorFail;

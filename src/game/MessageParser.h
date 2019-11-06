@@ -19,8 +19,10 @@ public:
     //API
     //===============================
     void parse(string rawMessage, char separatorCharacter);
+    void parseModel(string rawMessage, char separatorCharacter, char separatorGameObjectCharacter);
     MessageId getHeader();
     string extractMeaningfulMessageFromStream(char *buffer, char endSerializationChar);
+    vector<string> extractMeaningfulMessagesFromStream(char *buffer, char endSerializationChar);
     void clear();
 
     //GETTERS
@@ -28,6 +30,8 @@ public:
     vector<string>* getCurrent(){
         return lastParsedMessage;
     }
+
+    vector<vector<string>>* lastParsedMessages = nullptr;
 
 private:
     //SPLIT

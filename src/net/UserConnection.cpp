@@ -103,14 +103,14 @@ void UserConnection::dispatchThread() {
         incomingQueueMutex.unlock();
 
         if (!incomingMessage.empty()) {
-            messageParser.parse(incomingMessage, objectSerializer.getSeparatorCharacter());
-            MessageId header = messageParser.getHeader();
-            if (header == USER_PASS){
-                processLoginFromTheClient(incomingMessage);
-            }
-            if (header == INPUT){
-                processInput(incomingMessage);
-            }
+            messageParser.parseModel(incomingMessage, objectSerializer.getSeparatorCharacter(), '|');
+//            MessageId header = messageParser.getHeader();
+//            if (header == USER_PASS){
+//                processLoginFromTheClient(incomingMessage);
+//            }
+//            if (header == INPUT){
+//                processInput(incomingMessage);
+//            }
 
             cout<<"SERVER-DISPATCH: "<< incomingMessage <<endl;
         }

@@ -18,6 +18,23 @@ void MessageParser::parse(string rawMessage, char separatorCharacter) {
     lastParsedMessage = split(rawMessage,separatorCharacter);
 }
 
+void MessageParser::parseModel(string rawMessage, char separatorCharacter, char separatorGameObjectCharacter) {
+    for (auto vector : *lastParsedMessages) {
+        vector.clear();
+    }
+    delete(lastParsedMessages);
+    lastParsedMessages = nullptr;
+    lastParsedMessages = new vector<vector<string>>();
+
+    string messageWithoutPadding = split(rawMessage, '*')->at(0); // TODO REMOVE PADDING;
+
+    vector<string> gameObjects = *split(messageWithoutPadding, separatorGameObjectCharacter);
+
+    for (auto &gameObject : gameObjects) {
+        lastParsedMessages->push_back(*split(gameObject, separatorCharacter));
+    }
+}
+
 MessageId MessageParser::getHeader() {
 
     if (lastParsedMessage != nullptr && !lastParsedMessage->empty()){
@@ -26,6 +43,26 @@ MessageId MessageParser::getHeader() {
     else {
         return UNDEFINED;
     }
+}
+
+vector<string> MessageParser::extractMeaningfulMessagesFromStream(char *buffer, char endSerializationChar) {
+    vector<string> messages;
+
+    char OBJECT_SEPARATOR = '|'; // TODO REMOVE HARDCODING;
+    int i = 0;
+    string extractedMessage;
+    while (buffer[i] != endSerializationChar) {
+        if (buffer[i] == OBJECT_SEPARATOR) {
+            messages.push_back(extractedMessage);
+            extractedMessage.clear();
+        } else {
+            extractedMessage += buffer[i];
+        }
+
+        i++;
+    }
+
+    return messages;
 }
 
 string MessageParser::extractMeaningfulMessageFromStream(char *buffer, char endSerializationChar){
