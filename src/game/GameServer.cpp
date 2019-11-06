@@ -67,7 +67,7 @@ void GameServer::sendUpdate() {
 
 std::string GameServer::validateLogin(std::string user, std::string pass, int userId){
 
-    if (serverFull()){
+    if (serverFull() && !userInLoggedPlayers(user)){
         return controller->getServerFullMessage();
     }
     else{
@@ -139,7 +139,9 @@ void GameServer::closeServer(){
 
 void GameServer::waitUnitAllPlayersConnected(){
 
-    while (!(loggedPlayersPassByUser.size() == maxPlayers)){
+    while ((loggedPlayersPassByUser.size() != maxPlayers) ||
+            (disconectedPlayers.size() != 0)){
+
         continue;
     }
 }

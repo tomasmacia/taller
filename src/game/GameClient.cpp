@@ -91,7 +91,9 @@ void GameClient::setServerAknowledgeToLogin(MessageId id){
 
 void GameClient::reciveRenderable(ToClientPack* package){
     mu.lock();
-    controller->setRenderable(package);
+    if (controller != nullptr){
+        controller->setRenderable(package);
+    }
     mu.unlock();
 }
 

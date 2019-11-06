@@ -51,7 +51,7 @@ private:
 
     //ATRIBUTES
     //===============================
-    int QUEUE_AMOUNT_THRESHOLD = 400;
+    int QUEUE_AMOUNT_THRESHOLD = 200;
 
     bool connectionOn = true;
 

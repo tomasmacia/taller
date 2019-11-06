@@ -51,7 +51,6 @@ int LevelLimits::generateValidInScreenY(){
 }
 
 bool LevelLimits::newPositionOutOfRange(int x, int y){
-
     return (x >= _maxX || x <= _minX) 
             ||
            (y >= _maxY || y <= _minY);
