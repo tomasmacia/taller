@@ -51,7 +51,7 @@ bool ObjectSerializer::validLoginFromServerMessage(vector<string>* currentParsed
 
 bool ObjectSerializer::validSerializedObjectMessage(vector<string>* currentParsedMessage){
     //SERIALIZED OBJECT: header,path,srcw,srch,srcx,srcy,dstw,dsth,dstx,dsty,bool,END_SERIALIZATION_SIMBOL
-    bool result = currentParsedMessage->at(0) == to_string(RENDERABLE) && currentParsedMessage->size() == 12;
+    bool result = currentParsedMessage->size() == 12 && currentParsedMessage->at(0) == to_string(RENDERABLE);
 
     contador += 1;
     contadorFail += 1 - result;

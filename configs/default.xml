@@ -14,8 +14,8 @@
         <jumpkick>X</jumpkick>
     </bindings>
     <screen>
-        <width>1333</width>
-        <height>1000</height>
+        <width>800</width>
+        <height>600</height>
     </screen>
     <server>
         <players>1</players>

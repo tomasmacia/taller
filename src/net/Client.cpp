@@ -92,47 +92,49 @@ void Client::readThread() {
 void Client::sendThread() {
 
     while(connectionOn) {
-        std::string message;
         sendQueueMutex.lock();
+        std::string message;
         //cout<<"CLIENT-SEND"<<endl;
 
         if (!toSendMessagesQueue.empty()) {
             message = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
         }
-        sendQueueMutex.unlock();
 
         if (!message.empty()) {
             toSendMessage = message;
             send(toSendMessage);
             cout << "CLIENT-SEND: " << toSendMessage << endl;
         }
+
+        sendQueueMutex.unlock();
     }
     cout<<"CLIENT-SEND-DONE"<<endl;
 }
 
 void Client::dispatchThread() {
     while(connectionOn) {
-        std::string message;
         incomingQueueMutex.lock();
+        std::string message;
         //cout<<"CLIENT-DISPATCH"<<endl;
 
         if (!incomingMessagesQueue.empty()){
             message = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
         }
-        incomingQueueMutex.unlock();
+
 
         if (!message.empty()) {
             incomingMessage = message;
             messageParser.parse(incomingMessage, objectSerializer.getSeparatorCharacter());
 
             if (objectSerializer.validSerializedObjectMessage(messageParser.getCurrent())){
-                cout<<"CLIENT-DISPATCH: "<< incomingMessage <<endl;
+                //cout<<"CLIENT-DISPATCH: "<< incomingMessage <<endl;
                 processRenderableSerializedObject();
 
             }
         }
+        incomingQueueMutex.unlock();
     }
     cout<<"CLIENT-DISPATCH-DONE"<<endl;
 }
@@ -198,7 +200,17 @@ std::string Client::receive() {
     }
 
     char end = objectSerializer.getEndOfSerializationCharacterget();
-    return messageParser.extractMeaningfulMessageFromStream(buff, end);
+    std::string parsed = messageParser.extractMeaningfulMessageFromStream(buff, end);
+
+//    cout << "buffer: " << buff << endl;
+//
+//    cout << "parsed: " << parsed << endl;
+//
+//    cout << "===========" << endl;
+//
+//    cout << endl;
+
+    return parsed;
 }
 
 

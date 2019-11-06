@@ -25,7 +25,7 @@ ToClientPack::ToClientPack(){
 //=========================================================================================
 void ToClientPack::render(std::map<std::string, TextureWrapper*>* loadedTexturesMap){
 
-    TextureWrapper* textureAsociatedToSpritePath;
+    TextureWrapper* textureAsociatedToSpritePath = nullptr;
 
     //sintaxis estandar para chequear si la key esta en el diccionario
     if (loadedTexturesMap != nullptr) {
@@ -40,7 +40,10 @@ void ToClientPack::render(std::map<std::string, TextureWrapper*>* loadedTextures
             loadedTexturesMap->insert({ path, textureAsociatedToSpritePath });
         }
     }
-    textureAsociatedToSpritePath->render(&srcRect,&destRect,fliped);
+
+    if (textureAsociatedToSpritePath != nullptr) {
+        textureAsociatedToSpritePath->render(&srcRect,&destRect,fliped);
+    }
 }
 
 

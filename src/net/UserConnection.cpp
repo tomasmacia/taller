@@ -18,6 +18,7 @@ void UserConnection::setToSendMessage(std::string message){
     toSendMessagesQueue.push_back(message);
 //    cout<<"AMOUNT: "<<toSendMessagesQueue.size()<<endl;
     cout<< "Push message: " << message << endl;
+    packageCount += 1;
     sendQueueMutex.unlock();
 }
 
@@ -64,9 +65,9 @@ void UserConnection::readThread() {
 void UserConnection::sendThread() {
 
     while (isConnected()) {
-        std::string message;
 
         sendQueueMutex.lock();
+        std::string message;
         cout<<"SERVER-SEND-mutex"<<endl;
         if (toSendMessagesQueue.size() != 0) {
             message = toSendMessagesQueue.front();
@@ -75,6 +76,7 @@ void UserConnection::sendThread() {
 
             if (!message.empty()) {
                 int n = server->send(message, socketFD);
+                packageSent += 1;
                 cout << "SERVER-SENT " << n << " bytes" << endl;
                 cout << "SERVER-SEND: " << message << endl;
             }
@@ -90,8 +92,8 @@ void UserConnection::dispatchThread() {
 
 
     while(isConnected()) {
-        string incomingMessage;
         incomingQueueMutex.lock();
+        string incomingMessage;
         //cout<<"SERVER-DISPATCH"<<endl;
 
         if (!incomingMessagesQueue.empty()){
@@ -200,4 +202,6 @@ UserConnection::UserConnection(int socket, int userId, Server *server,GameServer
     this->userId = userId;
     this->server = server;
     this->gameServer = gameServer;
+    this->packageCount = 0;
+    this->packageSent = 0;
 }
