@@ -198,7 +198,6 @@ void LevelBuilder::initializePlayers() {
         //es imporante cuidar el orden de update (ESTE ES)
 
         LogManager::logDebug("Jugadores inicializados: " + std::to_string(amountOfPlayers));
-        i++;
     }
 }
 
