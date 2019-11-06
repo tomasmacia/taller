@@ -28,6 +28,7 @@ public:
     //bool hasNewInput();
     void clearAllInputs();
     void checkIfCloseRelatedInputWasPulsed();
+    void reciveRenderables(string serializedPagackes);
 
     //DATA TRANSFER INTERFACE
     //===============================

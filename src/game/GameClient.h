@@ -41,6 +41,7 @@ public:
     void notifyAboutClientConectionToServerAttemptDone();
     void end() override ;
     bool alreadyLoggedIn();
+    void reciveRenderables(string serializedPages);
 
     static bool isActive(){
         return hasInstance;

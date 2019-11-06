@@ -19,6 +19,7 @@ public:
 
     //API
     //===============================
+    vector<string>* parseWithCopy(string rawMessage, char separatorCharacter);
     void parse(string rawMessage, char separatorCharacter);
     MessageId getHeader();
     string extractMeaningfulMessageFromStream(char *buffer, char endSerializationChar);

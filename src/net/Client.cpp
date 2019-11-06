@@ -16,7 +16,7 @@
 
 using namespace std;
 
-#define MAX_BYTES_BUFFER 128
+#define MAX_BYTES_BUFFER 3000
 
 
 #if __APPLE__
@@ -71,12 +71,11 @@ void Client::readThread() {
 
     string newMessage;
     while (connectionOn) {
-
         //cout<<"CLIENT-READ"<<endl;
         newMessage = receive();
         incomingQueueMutex.lock();
 
-        incomingMessagesQueue.push_back((newMessage));
+        incomingMessagesQueue.push_back(newMessage);
         cout << "CLIENT-READ: " << newMessage << endl;
         incomingQueueMutex.unlock();
     }
@@ -90,8 +89,6 @@ void Client::sendThread() {
         //cout<<"CLIENT-SEND"<<endl;
 
         sendQueueMutex.lock();
-
-        //for (auto message : toSendMessagesQueue){
 
         if (!toSendMessagesQueue.empty()){
             string message = toSendMessagesQueue.front();
@@ -136,7 +133,7 @@ void Client::dispatchThread() {
                     processResponseFromServer();
                 }
                 if (header == RENDERABLE){
-                    processRenderableSerializedObject();
+                    processRenderableSerializedObject(message);
                 }
             }
         }
@@ -158,8 +155,9 @@ void Client::processResponseFromServer() {
     }
 }
 
-void Client::processRenderableSerializedObject() {//TODO HEAVY IN PERFORMANCE
-    gameClient->reciveRenderable(objectSerializer.reconstructRenderable(messageParser.getCurrent()));
+void Client::processRenderableSerializedObject(string serializedPackages) {//TODO HEAVY IN PERFORMANCE
+    gameClient->reciveRenderables(serializedPackages);
+    //gameClient->reciveRenderable(objectSerializer.reconstructRenderable(messageParser.getCurrent()));
 }
 
 bool Client::alreadyLoggedIn() {

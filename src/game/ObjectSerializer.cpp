@@ -6,6 +6,7 @@
 #include "ObjectSerializer.h"
 #include "ToClientPack.h"
 #include "MessageId.h"
+#include "MessageParser.h"
 
 using namespace std;
 
@@ -57,10 +58,7 @@ bool ObjectSerializer::validLoginFromServerMessage(vector<string>* currentParsed
 
 bool ObjectSerializer::validSerializedObjectMessage(vector<string>* currentParsedMessage){
     //SERIALIZED OBJECT: header,path,srcw,srch,srcx,srcy,dstw,dsth,dstx,dsty,bool,END_SERIALIZATION_SIMBOL
-    bool result = currentParsedMessage->size() == 13 &&
-                  currentParsedMessage->at(0) == START_SYMBOL
-                  && (currentParsedMessage->at(1)) == to_string(RENDERABLE)
-                  && currentParsedMessage->at(currentParsedMessage->size() - 1) == END_OF_SERIALIZATION_SYMBOL;
+    bool result = currentParsedMessage->at(0) == to_string(RENDERABLE);
 
     contador += 1;
     contadorFail += 1 - result;
@@ -119,6 +117,20 @@ tuple<Action,int> ObjectSerializer::reconstructInput(vector<string>* currentPars
     return make_tuple (reconstructedAction,reconstructedId);
 }
 
+void ObjectSerializer::reconstructRenderables(string serializedPackages, std::list<ToClientPack*>* renderables){
+
+    MessageParser parser = MessageParser();
+
+    vector<string>* stringObjects = parser.parseWithCopy(serializedPackages,OBJECT_SEPARATOR_SYMBOL);
+
+    for (auto stringObject : *stringObjects){
+        parser.parse(stringObject,SEPARATOR.c_str()[0]);
+        if (validSerializedObjectMessage(parser.getCurrent())){
+            renderables->push_back(reconstructRenderable(parser.getCurrent()));
+        }
+    }
+}
+
 //SERIALIZATION
 //=========================================================================================
 
@@ -167,9 +179,9 @@ string ObjectSerializer::serializeObject(ToClientPack* package){
     serializedObject = START_SYMBOL + SEPARATOR + to_string(RENDERABLE) + SEPARATOR + path + SEPARATOR +
                        srcW + SEPARATOR + srcH + SEPARATOR + srcX + SEPARATOR + srcY + SEPARATOR +
                        dstW + SEPARATOR + dstH + SEPARATOR + dstX + SEPARATOR + dstY + SEPARATOR +
-                       flipedStr + SEPARATOR + END_OF_SERIALIZATION_SYMBOL;
+                       flipedStr;
 
-    return addPadding(serializedObject);
+    return serializedObject;
 }
 
 string ObjectSerializer::serializeInput(Action action, int id){
@@ -188,6 +200,16 @@ string ObjectSerializer::serializeInput(Action action, int id){
     if (action == CROUCH){serializedAction = "CROUCH";}
 
     return addPadding(START_SYMBOL + SEPARATOR  + to_string(INPUT) + SEPARATOR + serializedAction + SEPARATOR + to_string(id) + SEPARATOR + END_OF_SERIALIZATION_SYMBOL);
+}
+
+std::string ObjectSerializer::serializeObjects(std::list<ToClientPack*>* packages){
+
+    string serializedPackages = "";
+
+    for (auto package : *packages){
+        serializedPackages +=  serializeObject(package) + OBJECT_SEPARATOR_SYMBOL;
+    }
+    return addPadding(serializedPackages + END_OF_SERIALIZATION_SYMBOL);
 }
 
 string ObjectSerializer::addPadding(string message){

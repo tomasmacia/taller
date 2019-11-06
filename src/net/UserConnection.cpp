@@ -23,7 +23,7 @@ void UserConnection::setToSendMessage(std::string message){
     sendQueueMutex.lock();
     toSendMessagesQueue.push_back(message);
 //    cout<<"AMOUNT: "<<toSendMessagesQueue.size()<<endl;
-    cout<< "Push message: " << message << endl;
+    //cout<< "Push message: " << message << endl;
     packageCount += 1;
     sendQueueMutex.unlock();
 }
@@ -72,7 +72,7 @@ void UserConnection::readThread() {
         else{
             incomingQueueMutex.lock();
             incomingMessagesQueue.push_back(incomingMessage);
-            cout<<"SERVER-READ: "<<incomingMessage<<endl;
+            //cout<<"SERVER-READ: "<<incomingMessage<<endl;
             incomingQueueMutex.unlock();
         }
     }
@@ -85,17 +85,21 @@ void UserConnection::sendThread() {
 
         sendQueueMutex.lock();
         std::string message;
-        cout<<"SERVER-SEND-mutex"<<endl;
+        //cout<<"SERVER-SEND-mutex"<<endl;
         if (toSendMessagesQueue.size() != 0) {
             message = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
-            cout << "SEND QUEUE POP" << endl;
+            //cout << "SEND QUEUE POP" << endl;
 
             if (!message.empty()) {
                 int n = server->send(message, socketFD);
                 packageSent += 1;
                 cout << "SERVER-SENT " << n << " bytes" << endl;
                 cout << "SERVER-SEND: " << message << endl;
+                cout<<endl;
+                cout<<endl;
+                cout<<endl;
+                cout<<endl;
             }
         }
         sendQueueMutex.unlock();
@@ -139,7 +143,7 @@ void UserConnection::dispatchThread() {
                 }
             }
 
-            cout<<"SERVER-DISPATCH: "<< incomingMessage <<endl;
+            //cout<<"SERVER-DISPATCH: "<< incomingMessage <<endl;
         }
     }
     cout<<"SERVER-DISPATCH-DONE"<<endl;

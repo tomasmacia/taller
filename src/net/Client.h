@@ -44,8 +44,8 @@ private:
     //DISPATCHING OF INCOMMING MESSAGES
     //===============================
     void processResponseFromServer();
-    void processRenderableSerializedObject();
     bool alreadyLoggedIn();
+    void processRenderableSerializedObject(string serializedPagackes);
 
     //DISCONECTION RELATED
     //===============================

@@ -108,8 +108,12 @@ void GameClient::end() {
     LogManager::logDebug("señal de fin de programa emitida");
 }
 
-bool GameClient::alreadyLoggedIn(){
+bool GameClient::alreadyLoggedIn() {
     return loggedIn;
+}
+
+void GameClient::reciveRenderables(string serializedPages){
+    controller->reciveRenderables(serializedPages);
 }
 
 
