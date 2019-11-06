@@ -90,7 +90,7 @@ private:
     //===============================
     void startServer();
     void closeServer();
-    void waitUnitAtLeasOnePlayerConnected();
+    void waitUnitAllPlayersConnected();
     bool notAllPlayersDisconnected();
 
     //CONTROLLER RELATED

@@ -103,7 +103,11 @@ void Client::sendThread() {
 
         sendQueueMutex.lock();
 
-        for (auto message : toSendMessagesQueue){
+        //for (auto message : toSendMessagesQueue){
+
+        if (!toSendMessagesQueue.empty()){
+            string message = toSendMessagesQueue.front();
+            toSendMessagesQueue.pop_front();
 
             send(message);
             cout << "CLIENT-SEND: " << message << endl;

@@ -12,15 +12,15 @@ using namespace std;
 //API
 //=========================================================================================
 int ObjectSerializer::getIDFrom(vector<string>* currentParsedMessage){
-    return stoi(currentParsedMessage->at(1));
+    return stoi(currentParsedMessage->at(2));
 }
 
 string ObjectSerializer::getUserFrom(vector<string>* currentParsedMessage){
-    return currentParsedMessage->at(1);
+    return currentParsedMessage->at(2);
 }
 
 string ObjectSerializer::getPassFrom(vector<string>* currentParsedMessage){
-    return currentParsedMessage->at(2);
+    return currentParsedMessage->at(3);
 }
 
 string ObjectSerializer::getSuccesfullLoginMessage(int id){
@@ -45,10 +45,10 @@ bool ObjectSerializer::validLoginFromServerMessage(vector<string>* currentParsed
     //SERIALIZED LOGIN ID: //START,header,id,END
     return currentParsedMessage->size() == 4 &&
             currentParsedMessage->at(0) == START_SYMBOL
-           && (stoi(currentParsedMessage->at(1)) == SUCCESS
-           ||   stoi(currentParsedMessage->at(1)) == INVALID_CREDENTIAL
-           ||   stoi(currentParsedMessage->at(1)) == ALREADY_LOGGED_IN_CREDENTIAL
-           ||   stoi(currentParsedMessage->at(1)) == SERVER_FULL)
+           && (currentParsedMessage->at(1) == to_string(SUCCESS)
+           ||   currentParsedMessage->at(1) == to_string(INVALID_CREDENTIAL)
+           ||   currentParsedMessage->at(1) == to_string(ALREADY_LOGGED_IN_CREDENTIAL)
+           ||   currentParsedMessage->at(1) == to_string(SERVER_FULL))
            && currentParsedMessage->at(currentParsedMessage->size() - 1) == END_OF_SERIALIZATION_SYMBOL;
 }
 
@@ -56,7 +56,7 @@ bool ObjectSerializer::validSerializedObjectMessage(vector<string>* currentParse
     //SERIALIZED OBJECT: START,header,path,srcw,srch,srcx,srcy,dstw,dsth,dstx,dsty,bool,END
     return currentParsedMessage->size() == 13 &&
             currentParsedMessage->at(0) == START_SYMBOL
-           && stoi(currentParsedMessage->at(1)) == RENDERABLE
+           && (currentParsedMessage->at(1)) == to_string(RENDERABLE)
            && currentParsedMessage->at(currentParsedMessage->size() - 1) == END_OF_SERIALIZATION_SYMBOL;
 }
 
@@ -64,7 +64,7 @@ bool ObjectSerializer::validLoginFromClientMessage(vector<string>* currentParsed
     //SERIALIZED LOGIN ID: START, header,user,pass,END
     return currentParsedMessage->size() == 5 &&
             currentParsedMessage->at(0) == START_SYMBOL
-           && stoi(currentParsedMessage->at(1)) == USER_PASS
+           && (currentParsedMessage->at(1)) == to_string(USER_PASS)
            && currentParsedMessage->at(currentParsedMessage->size() - 1) == END_OF_SERIALIZATION_SYMBOL;
 }
 
@@ -72,7 +72,7 @@ bool ObjectSerializer::validSerializedInputMessage(vector<string>* currentParsed
     //SERIALIZED OBJECT: START,header,action,id,END
     return  currentParsedMessage->size() == 5 &&
             currentParsedMessage->at(0) == START_SYMBOL
-            && stoi(currentParsedMessage->at(1)) == INPUT
+            && (currentParsedMessage->at(1)) == to_string(INPUT)
             && currentParsedMessage->at(currentParsedMessage->size() - 1) == END_OF_SERIALIZATION_SYMBOL;
 }
 
@@ -132,7 +132,7 @@ string ObjectSerializer::serializedAlreadyLoggedInMessage(){
 }
 
 string ObjectSerializer::serializeCredentials(string user, string pass){
-    return addPadding(START_SYMBOL + SEPARATOR + to_string(USER_PASS) + SEPARATOR + user + SEPARATOR + pass + END_OF_SERIALIZATION_SYMBOL);
+    return addPadding(START_SYMBOL + SEPARATOR + to_string(USER_PASS) + SEPARATOR + user + SEPARATOR + pass + SEPARATOR +END_OF_SERIALIZATION_SYMBOL);
 }
 
 string ObjectSerializer::serializeObject(ToClientPack* package){

@@ -18,7 +18,7 @@ void GameClient::start() {
     waitUntilConnectionStablished();
 
     if (isOn()){                //pregunto porque el Client lo podria haber cerrado al no conectarse
-        //loggerMenu->open();
+        loggerMenu->open();
 
         if (isOn()){            //pregunto porque el loggerMenu lo podria haber cerrado al tocar ESC o QUIT
             initInputSystem();

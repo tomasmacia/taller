@@ -21,7 +21,7 @@ void GameServer::start() {
     initController();       //1 thread para escuchar teclado y la crucecita de la window
     startServer();          //1 thread de listen de conexiones nuevas y 4 threads por cliente nuevo
 
-    //waitUnitAtLeasOnePlayerConnected();
+    waitUnitAllPlayersConnected();
 
     initGameModel();
     gameLoop();
@@ -133,9 +133,9 @@ void GameServer::closeServer(){
     lisentToInputForClosing.join();
 }
 
-void GameServer::waitUnitAtLeasOnePlayerConnected(){
+void GameServer::waitUnitAllPlayersConnected(){
 
-    while (!(loggedPlayers.size() > 0)){
+    while (!(loggedPlayers.size() == maxPlayers)){
         continue;
     }
 }
