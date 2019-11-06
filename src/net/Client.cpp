@@ -69,20 +69,15 @@ bool Client::start(){
 //=========================================================================================
 void Client::readThread() {
 
+    string newMessage;
     while (connectionOn) {
+
+        //cout<<"CLIENT-READ"<<endl;
+        newMessage = receive();
         incomingQueueMutex.lock();
-        incomingMessage = receive();
 
-        if (incomingMessage == objectSerializer.getFailure()){ continue;}
-        if (incomingMessage == objectSerializer.getPingCode()){ continue;}
-        else{
-
-            incomingMessagesQueue.push_back(incomingMessage);
-
-
-            cout << "CLIENT-READ: " << incomingMessage << endl;
-
-        }
+        incomingMessagesQueue.push_back((newMessage));
+        cout << "CLIENT-READ: " << newMessage << endl;
         incomingQueueMutex.unlock();
     }
     cout<<"CLIENT-READ-DONE"<<endl;
@@ -90,14 +85,18 @@ void Client::readThread() {
 
 void Client::sendThread() {
 
-    while(connectionOn) {
-        sendQueueMutex.lock();
-        std::string message;
+    while (connectionOn) {
+
         //cout<<"CLIENT-SEND"<<endl;
 
-        if (!toSendMessagesQueue.empty()) {
-            message = toSendMessagesQueue.front();
+        sendQueueMutex.lock();
+
+        //for (auto message : toSendMessagesQueue){
+
+        if (!toSendMessagesQueue.empty()){
+            string message = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
+
             send(message);
             cout << "CLIENT-SEND: " << message << endl;
         }
@@ -109,28 +108,25 @@ void Client::sendThread() {
 void Client::dispatchThread() {
 
     while(connectionOn) {
-        incomingQueueMutex.lock();
-        std::string message;
+
         //cout<<"CLIENT-DISPATCH"<<endl;
 
+        incomingQueueMutex.lock();
+
+        //for (auto message: incomingMessagesQueue){
         if (!incomingMessagesQueue.empty()){
-            message = incomingMessagesQueue.front();
+
+            string message = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
-        }
 
-
-        if (!message.empty()) {
-            incomingMessage = message;
-            messageParser.parse(incomingMessage, objectSerializer.getSeparatorCharacter());
+            messageParser.parse(message, objectSerializer.getSeparatorCharacter());
 
             if (objectSerializer.validLoginFromServerMessage(messageParser.getCurrent())
                 ||
                 objectSerializer.validSerializedObjectMessage(messageParser.getCurrent())){
-                cout<<"CLIENT-DISPATCH: "<< incomingMessage <<endl;
-                processRenderableSerializedObject();
-                //cout<<"CLIENT-DISPATCH: "<< message <<endl;
 
-                // TODO REVISAR
+                cout<<"CLIENT-DISPATCH: "<< message <<endl;
+
                 MessageId header = messageParser.getHeader();
 
                 if ((header == SUCCESS) || (header == INVALID_CREDENTIAL)
@@ -144,12 +140,10 @@ void Client::dispatchThread() {
                 }
             }
         }
-
         incomingQueueMutex.unlock();
     }
     cout<<"CLIENT-DISPATCH-DONE"<<endl;
 }
-
 
 //DISPATCHING INCOMING MESSAGES
 //=========================================================================================
