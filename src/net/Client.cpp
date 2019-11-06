@@ -76,22 +76,12 @@ void Client::readThread() {
         newMessages = receive();
         incomingQueueMutex.lock();
 
-        for (auto message : newMessages){
+        for (auto message : newMessages) {
             incomingMessagesQueue.push_back((message));
-        }
-
-        //for (auto message : newMessages) {
-
-        if (!incomingMessagesQueue.empty()){
-
-            string message = incomingMessagesQueue.front();
-            incomingMessagesQueue.pop_front();
-
-            incomingMessagesQueue.push_back(message);
             cout << "CLIENT-READ: " << message << endl;
         }
         incomingQueueMutex.unlock();
-        }
+    }
     cout<<"CLIENT-READ-DONE"<<endl;
 }
 

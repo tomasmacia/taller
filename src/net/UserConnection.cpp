@@ -55,14 +55,11 @@ void UserConnection::readThread() {
         incomingQueueMutex.lock();
         newMessages = server->receive(socketFD);
 
-        for (auto message : newMessages){
-            incomingMessagesQueue.push_back((message));
-        }
-
         for (auto message : newMessages) {
             incomingMessagesQueue.push_back(message);
             cout << "SERVER-READ: " << message << endl;
         }
+        newMessages.clear();
         incomingQueueMutex.unlock();
     }
     cout<<"SERVER-READ-DONE"<<endl;
@@ -81,6 +78,7 @@ void UserConnection::sendThread() {
             server->send(message, socketFD);
             cout << "SERVER-SEND: " << message << endl;
         }
+        toSendMessagesQueue.clear();
         sendQueueMutex.unlock();
     }
     cout<<"SERVER-SEND-DONE"<<endl;
@@ -115,6 +113,7 @@ void UserConnection::dispatchThread() {
                 }
             }
         }
+        incomingMessagesQueue.clear();
         incomingQueueMutex.unlock();
     }
     cout<<"SERVER-DISPATCH-DONE"<<endl;
