@@ -22,9 +22,6 @@
 void UserConnection::setToSendMessage(std::string message){
     sendQueueMutex.lock();
     toSendMessagesQueue.push_back(message);
-//    cout<<"AMOUNT: "<<toSendMessagesQueue.size()<<endl;
-    //cout<< "Push message: " << message << endl;
-    packageCount += 1;
     sendQueueMutex.unlock();
 }
 

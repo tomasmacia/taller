@@ -53,8 +53,6 @@ private:
 
     //ATRIBUTES
     //===============================
-    int QUEUE_AMOUNT_THRESHOLD = 100;
-
     bool connectionOn = true;
 
     std::mutex sendQueueMutex;

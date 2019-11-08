@@ -15,10 +15,7 @@ bool GameServer::hasInstance = false;
 void GameServer::start() {
     LogManager::logInfo("Se inicia Game");
 
-    cout << validCredentials.size() << " credenciales levantadas" << endl;
-
-    //VER DE SACAR ESTO AL FINAL
-    initController();       //1 thread para escuchar teclado y la crucecita de la window
+    initController();
     startServer();          //1 thread de listen de conexiones nuevas y 4 threads por cliente nuevo
 
     waitUnitAllPlayersConnected();
@@ -27,7 +24,6 @@ void GameServer::start() {
     gameLoop();
 
     closeServer();          //se cierra el thread se server y (previamente se cierran los 4 threads child)
-    closeController();      //se cierra el thread del teclado y la crucecita de la window
 
     LogManager::logInfo("Juego terminado");
     LogManager::logInfo("=======================================");
@@ -40,7 +36,6 @@ void GameServer::start() {
 
 void GameServer::gameLoop(){
 
-    int i = 1;
     while (isOn() && levelBuilder->hasNextLevel() && notAllPlayersDisconnected()) {
 
         levelBuilder->loadNext();
@@ -48,13 +43,8 @@ void GameServer::gameLoop(){
         LogManager::logInfo("se inicia game loop de este nivel");
 
         while (isOn() && !levelBuilder->levelFinished() && notAllPlayersDisconnected()) {
-
             update();
             sendUpdate();
-            if (i > 10){
-                break;
-            }
-            i++;
         }
         LogManager::logInfo("fin de game loop de este nivel");
         LogManager::logInfo("=======================================");
@@ -142,7 +132,7 @@ void GameServer::startServer(){
 }
 
 void GameServer::closeServer(){
-    lisentToInputForClosing.join();
+    listenConnectionsThread.join();
 }
 
 void GameServer::waitUnitAllPlayersConnected(){
@@ -174,10 +164,7 @@ void GameServer::connectionLostWith(int id){
 //=========================================================================================
 
 void GameServer::initController() {
-    //initSDL();
     controller = new Controller(this);
-    //lisentToInputForClosing = std::thread(&Controller::lisentToInputForClosing,controller);
-    //LogManager::logDebug("inicializado SDL");
     LogManager::logDebug("inicializado Controller");
 }
 

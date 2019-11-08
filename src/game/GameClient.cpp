@@ -70,7 +70,6 @@ void GameClient::render() {
 void GameClient::renderAllPackages(){
     mu.lock();
     std::list<ToClientPack*>* packages = controller->getPackages();
-    //ToClientPack* currentPackage = nullptr;
     for (auto package : *packages) {
         package->render(&loadedTexturesMap);
         delete(package);
@@ -105,7 +104,9 @@ bool GameClient::alreadyLoggedIn() {
 }
 
 void GameClient::reciveRenderables(vector<string>& serializedPages){
-    controller->reciveRenderables(serializedPages);
+    if (controller != nullptr){
+        controller->reciveRenderables(serializedPages);
+    }
 }
 
 

@@ -114,11 +114,13 @@ void Client::dispatchThread() {
             if (objectSerializer.validLoginFromServerMessage(messageParser.getCurrent())){
                 processResponseFromServer();
             }
-
-            messageParser.parse(message, objectSerializer.getObjectSeparator());
-            if (objectSerializer.validSerializedSetOfObjectsMessage(messageParser.getCurrent())){
-                processRenderableSerializedObject();
+            else{
+                messageParser.parse(message, objectSerializer.getObjectSeparator());
+                if (objectSerializer.validSerializedSetOfObjectsMessage(messageParser.getCurrent())){
+                    processRenderableSerializedObject();
+                }
             }
+
             //cout<<"CLIENT-DISPATCH: "<< message <<endl;
         }
         incomingQueueMutex.unlock();

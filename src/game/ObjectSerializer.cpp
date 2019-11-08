@@ -47,12 +47,24 @@ string ObjectSerializer::getAlreadyLoggedInMessage() {
 //=========================================================================================
 bool ObjectSerializer::validLoginFromServerMessage(vector<string>& currentParsedMessage){
     //SERIALIZED LOGIN ID: //START,header,id
+
+    bool a = currentParsedMessage.at(0) == START_SYMBOL;
+    bool b = (currentParsedMessage.at(1) == to_string(SUCCESS));
+    bool c = (currentParsedMessage.at(1) == to_string(SUCCESS) ||
+              currentParsedMessage.at(1) == to_string(INVALID_CREDENTIAL) ||
+              currentParsedMessage.at(1) == to_string(ALREADY_LOGGED_IN_CREDENTIAL) ||
+              currentParsedMessage.at(1) == to_string(SERVER_FULL));
+    bool d = (currentParsedMessage.at(1) == to_string(SUCCESS)
+            || currentParsedMessage.at(1) == to_string(INVALID_CREDENTIAL)
+            || currentParsedMessage.at(1) == to_string(ALREADY_LOGGED_IN_CREDENTIAL)
+            || currentParsedMessage.at(1) == to_string(SERVER_FULL));
+
     return  currentParsedMessage.size() == 3 &&
             currentParsedMessage.at(0) == START_SYMBOL &&
-           (currentParsedMessage.at(1) == to_string(SUCCESS)
-           ||   currentParsedMessage.at(1) == to_string(INVALID_CREDENTIAL)
-           ||   currentParsedMessage.at(1) == to_string(ALREADY_LOGGED_IN_CREDENTIAL)
-           ||   currentParsedMessage.at(1) == to_string(SERVER_FULL));
+            (currentParsedMessage.at(1) == to_string(SUCCESS)
+             || currentParsedMessage.at(1) == to_string(INVALID_CREDENTIAL)
+             || currentParsedMessage.at(1) == to_string(ALREADY_LOGGED_IN_CREDENTIAL)
+             || currentParsedMessage.at(1) == to_string(SERVER_FULL));
 }
 
 bool ObjectSerializer::validSerializedObjectMessage(vector<string>& currentParsedMessage){
@@ -62,10 +74,8 @@ bool ObjectSerializer::validSerializedObjectMessage(vector<string>& currentParse
             currentParsedMessage.at(1) == to_string(RENDERABLE);
 }
 
-bool ObjectSerializer::validSerializedSetOfObjectsMessage(vector<string>& currentParsedMessage){
-    return currentParsedMessage.size() > 2 &&
-            currentParsedMessage.at(0) == START_SYMBOL &&
-            currentParsedMessage.at(1) == to_string(RENDERABLE);
+bool ObjectSerializer::validSerializedSetOfObjectsMessage(vector<string>& serializedObjects){
+    return !serializedObjects.empty();
 }
 
 bool ObjectSerializer::validLoginFromClientMessage(vector<string>& currentParsedMessage) {

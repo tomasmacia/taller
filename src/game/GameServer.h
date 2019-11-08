@@ -114,7 +114,6 @@ private:
     static bool hasInstance;
 
     std::thread listenConnectionsThread;
-    std::thread lisentToInputForClosing;
 
     std::map<std::string,std::string> validCredentials;             //<user,pass>
     std::map<std::string,std::string> loggedPlayersPassByUser;      //<user,pass>
