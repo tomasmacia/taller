@@ -45,7 +45,7 @@ private:
     //===============================
     void processResponseFromServer();
     bool alreadyLoggedIn();
-    void processRenderableSerializedObject(string serializedPagackes);
+    void processRenderableSerializedObject();
 
     //DISCONECTION RELATED
     //===============================
@@ -78,8 +78,6 @@ private:
     ObjectSerializer objectSerializer;
     GameClient* gameClient = nullptr;
 
-    string incomingMessage;
-    string toSendMessage;
     list<string> toSendMessagesQueue;
     list<string> incomingMessagesQueue;
 };

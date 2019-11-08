@@ -20,9 +20,9 @@ public:
 
     //API
     //===============================
-    int getIDFrom(vector<string>* currentParsedMessage);
-    string getUserFrom(vector<string>* currentParsedMessage);
-    string getPassFrom(vector<string>* currentParsedMessage);
+    int getIDFrom(vector<string>& currentParsedMessage);
+    string getUserFrom(vector<string>& currentParsedMessage);
+    string getPassFrom(vector<string>& currentParsedMessage);
     std::string getSuccesfullLoginMessage(int userId);
     std::string getInvalidCredentialMessage();
     std::string getServerFullMessage();
@@ -31,16 +31,17 @@ public:
 
     //VALIDATE
     //===============================
-    bool validLoginFromServerMessage(vector<string>* currentParsedMessage);
-    bool validSerializedObjectMessage(vector<string>* currentParsedMessage);
-    bool validLoginFromClientMessage(vector<string>* currentParsedMessage);
-    bool validSerializedInputMessage(vector<string>* currentParsedMessage);
+    bool validLoginFromServerMessage(vector<string>& currentParsedMessage);
+    bool validSerializedObjectMessage(vector<string>& currentParsedMessage);
+    bool validSerializedSetOfObjectsMessage(vector<string>& currentParsedMessage);
+    bool validLoginFromClientMessage(vector<string>& currentParsedMessage);
+    bool validSerializedInputMessage(vector<string>& currentParsedMessage);
 
     //RECONSTRUCT
     //===============================
-    ToClientPack* reconstructRenderable(vector<string>* currentParsedMessage);
-    tuple<Action,int> reconstructInput(vector<string>* currentParsedMessage);
-    void reconstructRenderables(string serializedPackages, std::list<ToClientPack*>* renderables);
+    ToClientPack* reconstructRenderable(vector<string>& currentParsedMessage);
+    tuple<Action,int> reconstructInput(vector<string>& currentParsedMessage);
+    void reconstructRenderables(vector<string>& serializedPackages, std::list<ToClientPack*>* renderables);
 
     //SERIALIZATION
     //===============================
@@ -55,6 +56,10 @@ public:
 
     //GETTERS
     //===============================
+    char getObjectSeparator(){
+        return OBJECT_SEPARATOR_SYMBOL;
+    }
+
     char getStartSerializationSymbol(){
         return START_SYMBOL.c_str()[0];
     }
@@ -97,7 +102,7 @@ private:
     int FAILURE_AKNOWLEDGE_SIGNAL = -1;
     string START_SYMBOL = "=";
     string FAILURE = "-1";
-    int totalMessageLength = 3000;
+    int totalMessageLength = 1500;
 
     static int contador;
     static int contadorFail;

@@ -20,21 +20,6 @@ void MessageParser::parse(string rawMessage, char separatorCharacter) {
     lastParsedMessage = split(rawMessage,separatorCharacter);
 }
 
-vector<string>* MessageParser::parseWithCopy(string rawMessage, char separatorCharacter){
-
-    return split(rawMessage,separatorCharacter);
-}
-
-MessageId MessageParser::getHeader() {
-
-    if (lastParsedMessage != nullptr && !lastParsedMessage->empty()){
-        return (MessageId)stoi(lastParsedMessage->at(1));
-    }
-    else {
-        return UNDEFINED;
-    }
-}
-
 string MessageParser::extractMeaningfulMessageFromStream(char *buffer, char endSerializationChar){
 
     string extractedMessage = "";
@@ -43,44 +28,36 @@ string MessageParser::extractMeaningfulMessageFromStream(char *buffer, char endS
         extractedMessage += buffer[i];
         i++;
     }
-    extractedMessage += buffer[i];
-
-    return extractedMessage;
-}
-
-string MessageParser::removePadding(char *buffer, char padding){
-
-    int rawMessagelength = strlen(buffer);
-    string extractedMessage = "";
-
-    //limpio el padding
-    //================================
-    for (int i = 0; i < rawMessagelength; i++){
-        if (buffer[i] != padding){
-            extractedMessage += buffer[i];
-        }
-    }
 
     return extractedMessage;
 }
 
 void MessageParser::clear(){
-    lastParsedMessage->clear();
+    lastParsedMessage.clear();
+}
+
+MessageId MessageParser::getHeader(){
+   if (lastParsedMessage.size() > 2){
+       return (MessageId)std::stoi(lastParsedMessage.at(1));
+   }
+   else{
+       return UNDEFINED;
+   }
 }
 
 //SPLIT
 //=========================================================================================
-vector<string>* MessageParser::split(const string& s, const char& c)
+vector<string> MessageParser::split(const string& s, const char& c)
 {
     string buff{""};
-    vector<string>* v = new vector<string>();
+    vector<string> v = vector<string>();
 
     for(auto n:s)
     {
         if(n != c) buff+=n; else
-        if(n == c && buff != "") { v->push_back(buff); buff = ""; }
+        if(n == c && buff != "") { v.push_back(buff); buff = ""; }
     }
-    if(buff != "") v->push_back(buff);
+    if(buff != "") v.push_back(buff);
 
     return v;
 }
@@ -88,15 +65,13 @@ vector<string>* MessageParser::split(const string& s, const char& c)
 //CONSTRUCTOR
 //=========================================================================================
 MessageParser::MessageParser() {
-    lastParsedMessage = new vector<string>;
+    lastParsedMessage = vector<string>();
 }
 
 //DESTROY
 //=========================================================================================
 MessageParser::~MessageParser() {
     clear();
-    delete lastParsedMessage;
-    lastParsedMessage = nullptr;
 }
 
 

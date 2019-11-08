@@ -99,59 +99,41 @@ void UserConnection::sendThread() {
                 cout<<endl;
                 cout<<endl;
                 cout<<endl;
-                cout<<endl;
             }
         }
         sendQueueMutex.unlock();
-
-
     }
     cout<<"SERVER-SEND-DONE"<<endl;
 }
 
 void UserConnection::dispatchThread() {
 
-
-    while(isConnected()) {
+    while(connectionOn) {
         incomingQueueMutex.lock();
-        string incomingMessage;
-        //cout<<"SERVER-DISPATCH"<<endl;
-
         if (!incomingMessagesQueue.empty()){
-            incomingMessage = incomingMessagesQueue.front();
+
+            string message = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
-        }
-        incomingQueueMutex.unlock();
 
-        if (!incomingMessage.empty()) {
-            messageParser.parse(incomingMessage, objectSerializer.getSeparatorCharacter());
+            messageParser.parse(message, objectSerializer.getSeparatorCharacter());
 
-            if (objectSerializer.validLoginFromClientMessage(messageParser.getCurrent())
-                ||
-                objectSerializer.validSerializedInputMessage(messageParser.getCurrent())){
-
-                cout<<"SERVER-DISPATCH: "<< incomingMessage <<endl;
-
-                MessageId header = messageParser.getHeader();
-
-                if (header == USER_PASS){
-
-                    processLoginFromTheClient(incomingMessage);
-                }
-                if (header == INPUT){
-                    processInput(incomingMessage);
-                }
+            if (objectSerializer.validLoginFromClientMessage(messageParser.getCurrent())){
+                processLoginFromTheClient();
             }
 
-            //cout<<"SERVER-DISPATCH: "<< incomingMessage <<endl;
+            else if (objectSerializer.validSerializedInputMessage(messageParser.getCurrent())){
+                processInput();
+            }
+            //cout<<"SERVER-DISPATCH: "<< message <<endl;
         }
+        incomingQueueMutex.unlock();
     }
     cout<<"SERVER-DISPATCH-DONE"<<endl;
 }
 
 //DISPATCHING INCOMING MESSAGES
 //=========================================================================================
-void UserConnection::processLoginFromTheClient(std::string loginMsg) {
+void UserConnection::processLoginFromTheClient() {
 
     string toSendMessage;
 
@@ -167,7 +149,7 @@ void UserConnection::processLoginFromTheClient(std::string loginMsg) {
     server->setToSendToSpecific(toSendMessage,userId);
 }
 
-void UserConnection::processInput(std::string inputMsg) {//TODO HEAVY IN PERFORMANCE
+void UserConnection::processInput() {//TODO HEAVY IN PERFORMANCE
 
     if (objectSerializer.validSerializedInputMessage(messageParser.getCurrent())){
 

@@ -90,14 +90,6 @@ void GameClient::setServerAknowledgeToLogin(MessageId id){
     loggerMenu->serverAcknowledge(id);
 }
 
-void GameClient::reciveRenderable(ToClientPack* package){
-    mu.lock();
-    if (controller != nullptr){
-        controller->setRenderable(package);
-    }
-    mu.unlock();
-}
-
 void GameClient::notifyAboutClientConectionToServerAttemptDone(){
     waitForConnection.notify_one();
 }
@@ -112,7 +104,7 @@ bool GameClient::alreadyLoggedIn() {
     return loggedIn;
 }
 
-void GameClient::reciveRenderables(string serializedPages){
+void GameClient::reciveRenderables(vector<string>& serializedPages){
     controller->reciveRenderables(serializedPages);
 }
 

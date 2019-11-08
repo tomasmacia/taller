@@ -37,11 +37,10 @@ public:
     //===============================
     void setServerAknowledgeToLogin(MessageId id);
     void setPlayerId(int id);
-    void reciveRenderable(ToClientPack* package);
     void notifyAboutClientConectionToServerAttemptDone();
     void end() override ;
     bool alreadyLoggedIn();
-    void reciveRenderables(string serializedPages);
+    void reciveRenderables(vector<string>& serializedPages);
 
     static bool isActive(){
         return hasInstance;

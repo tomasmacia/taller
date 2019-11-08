@@ -16,7 +16,7 @@
 
 using namespace std;
 
-#define MAX_BYTES_BUFFER 3000
+#define MAX_BYTES_BUFFER 1500
 
 
 #if __APPLE__
@@ -71,12 +71,14 @@ void Client::readThread() {
 
     string newMessage;
     while (connectionOn) {
-        //cout<<"CLIENT-READ"<<endl;
         newMessage = receive();
         incomingQueueMutex.lock();
 
         incomingMessagesQueue.push_back(newMessage);
         cout << "CLIENT-READ: " << newMessage << endl;
+        cout<<endl;
+        cout<<endl;
+        cout<<endl;
         incomingQueueMutex.unlock();
     }
     cout<<"CLIENT-READ-DONE"<<endl;
@@ -85,9 +87,6 @@ void Client::readThread() {
 void Client::sendThread() {
 
     while (connectionOn) {
-
-        //cout<<"CLIENT-SEND"<<endl;
-
         sendQueueMutex.lock();
 
         if (!toSendMessagesQueue.empty()){
@@ -105,37 +104,22 @@ void Client::sendThread() {
 void Client::dispatchThread() {
 
     while(connectionOn) {
-
-        //cout<<"CLIENT-DISPATCH"<<endl;
-
         incomingQueueMutex.lock();
-
-        //for (auto message: incomingMessagesQueue){
         if (!incomingMessagesQueue.empty()){
 
             string message = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
 
             messageParser.parse(message, objectSerializer.getSeparatorCharacter());
-
-            if (objectSerializer.validLoginFromServerMessage(messageParser.getCurrent())
-                ||
-                objectSerializer.validSerializedObjectMessage(messageParser.getCurrent())){
-
-                cout<<"CLIENT-DISPATCH: "<< message <<endl;
-
-                MessageId header = messageParser.getHeader();
-
-                if ((header == SUCCESS) || (header == INVALID_CREDENTIAL)
-                    ||
-                    (header == ALREADY_LOGGED_IN_CREDENTIAL) || (header == SERVER_FULL)){
-
-                    processResponseFromServer();
-                }
-                if (header == RENDERABLE){
-                    processRenderableSerializedObject(message);
-                }
+            if (objectSerializer.validLoginFromServerMessage(messageParser.getCurrent())){
+                processResponseFromServer();
             }
+
+            messageParser.parse(message, objectSerializer.getObjectSeparator());
+            if (objectSerializer.validSerializedSetOfObjectsMessage(messageParser.getCurrent())){
+                processRenderableSerializedObject();
+            }
+            //cout<<"CLIENT-DISPATCH: "<< message <<endl;
         }
         incomingQueueMutex.unlock();
     }
@@ -155,9 +139,8 @@ void Client::processResponseFromServer() {
     }
 }
 
-void Client::processRenderableSerializedObject(string serializedPackages) {//TODO HEAVY IN PERFORMANCE
-    gameClient->reciveRenderables(serializedPackages);
-    //gameClient->reciveRenderable(objectSerializer.reconstructRenderable(messageParser.getCurrent()));
+void Client::processRenderableSerializedObject() {//TODO HEAVY IN PERFORMANCE
+    gameClient->reciveRenderables(messageParser.getCurrent());
 }
 
 bool Client::alreadyLoggedIn() {

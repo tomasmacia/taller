@@ -42,8 +42,8 @@ private:
 
     //DISPATCHING INCOMING MESSAGES
     //===============================
-    void processLoginFromTheClient(std::string);
-    void processInput(std::string);
+    void processLoginFromTheClient();
+    void processInput();
 
     //DISCONECTION RELATED
     //===============================

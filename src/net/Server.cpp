@@ -4,14 +4,12 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/socket.h>
-#include <unistd.h>
-#include <fcntl.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <CLIArgumentParser.h>
 #include "UserConnection.h"
 
-#define MAX_BYTES_BUFFER 3000
+#define MAX_BYTES_BUFFER 1500
 
 #if __APPLE__
 #define MSG_NOSIGNAL 0x2000 /* don't raise SIGPIPE */

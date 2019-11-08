@@ -82,7 +82,7 @@ void Controller::clearAllInputs(){
 }
 
 
-void Controller::reciveRenderables(string serializedPagackes){
+void Controller::reciveRenderables(vector<string>& serializedPagackes){
     objectSerializer.reconstructRenderables(serializedPagackes,currentPackagesToRender);
 }
 
