@@ -91,11 +91,7 @@ void UserConnection::sendThread() {
             if (!message.empty()) {
                 int n = server->send(message, socketFD);
                 packageSent += 1;
-                cout << "SERVER-SENT " << n << " bytes" << endl;
                 cout << "SERVER-SEND: " << message << endl;
-                cout<<endl;
-                cout<<endl;
-                cout<<endl;
             }
         }
         sendQueueMutex.unlock();

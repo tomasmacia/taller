@@ -9,7 +9,6 @@
 #include "LevelBuilder.h"
 #include "Game.h"
 #include "ToClientPack.h"
-#include "../net/Server.h"
 #include "Action.h"
 
 class Server;

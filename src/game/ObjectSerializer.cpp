@@ -92,7 +92,7 @@ ToClientPack* ObjectSerializer::reconstructRenderable(vector<string>& currentPar
                     std::stoi(currentParsedMessage.at(8))};
     bool flip = std::stoi(currentParsedMessage.at(11));
 
-    return  new ToClientPack(path, src, dst, flip);;
+    return  new ToClientPack(path, src, dst, flip);
 }
 
 tuple<Action,int> ObjectSerializer::reconstructInput(vector<string>& currentParsedMessage) {

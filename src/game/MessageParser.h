@@ -20,7 +20,7 @@ public:
     //API
     //===============================
     vector<string>& parse(string rawMessage, char separatorCharacter);
-    string extractMeaningfulMessageFromStream(char *buffer, char endSerializationChar);
+    string extractMeaningfulMessageFromStream(char *buffer, char endSerializationChar, char padding);
     void clear();
     MessageId getHeader();
 

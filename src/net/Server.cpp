@@ -84,9 +84,9 @@ string Server::receive(int someSocketFD) {
     }
 
     char end = objectSerializer.getEndOfSerializationSymbol();
-
-    return messageParser.extractMeaningfulMessageFromStream(buff, end);
-
+    char padding = objectSerializer.getPaddingSymbol();
+    std::string parsed = messageParser.extractMeaningfulMessageFromStream(buff, end,padding);
+    return parsed;
 }
 
 //THREADS
