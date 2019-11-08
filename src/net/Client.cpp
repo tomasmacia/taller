@@ -58,7 +58,7 @@ bool Client::start(){
     std::thread send(&Client::sendThread,this);
     std::thread dispatch(&Client::dispatchThread,this);
 
-    checkConnection();
+    //checkConnection();
     cout<<"termine check"<<endl;
     read.join();
     send.join();
@@ -110,17 +110,13 @@ void Client::dispatchThread() {
             string message = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
 
-            messageParser.parse(message, objectSerializer.getSeparatorCharacter());
-            if (objectSerializer.validLoginFromServerMessage(messageParser.getCurrent())){
-                processResponseFromServer();
-            }
-            else{
-                messageParser.parse(message, objectSerializer.getObjectSeparator());
-                if (objectSerializer.validSerializedSetOfObjectsMessage(messageParser.getCurrent())){
-                    processRenderableSerializedObject();
-                }
+            if (objectSerializer.validSerializedSetOfObjectsMessage(messageParser.parse(message, objectSerializer.getObjectSeparator()))){
+                processRenderableSerializedObject();
             }
 
+            else if (objectSerializer.validLoginFromServerMessage(messageParser.parse(message, objectSerializer.getSeparatorCharacter()))){
+                processResponseFromServer();
+            }
             //cout<<"CLIENT-DISPATCH: "<< message <<endl;
         }
         incomingQueueMutex.unlock();

@@ -75,7 +75,6 @@ private:
 
     //ATRIBUTES
     //===============================
-
     std::list<std::tuple<Action,int>>* currentInput = nullptr;
     std::list<ToClientPack*>* currentPackagesToRender = nullptr;
     SDL_Event sdlEvent;

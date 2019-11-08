@@ -47,18 +47,6 @@ string ObjectSerializer::getAlreadyLoggedInMessage() {
 //=========================================================================================
 bool ObjectSerializer::validLoginFromServerMessage(vector<string>& currentParsedMessage){
     //SERIALIZED LOGIN ID: //START,header,id
-
-    bool a = currentParsedMessage.at(0) == START_SYMBOL;
-    bool b = (currentParsedMessage.at(1) == to_string(SUCCESS));
-    bool c = (currentParsedMessage.at(1) == to_string(SUCCESS) ||
-              currentParsedMessage.at(1) == to_string(INVALID_CREDENTIAL) ||
-              currentParsedMessage.at(1) == to_string(ALREADY_LOGGED_IN_CREDENTIAL) ||
-              currentParsedMessage.at(1) == to_string(SERVER_FULL));
-    bool d = (currentParsedMessage.at(1) == to_string(SUCCESS)
-            || currentParsedMessage.at(1) == to_string(INVALID_CREDENTIAL)
-            || currentParsedMessage.at(1) == to_string(ALREADY_LOGGED_IN_CREDENTIAL)
-            || currentParsedMessage.at(1) == to_string(SERVER_FULL));
-
     return  currentParsedMessage.size() == 3 &&
             currentParsedMessage.at(0) == START_SYMBOL &&
             (currentParsedMessage.at(1) == to_string(SUCCESS)
@@ -75,7 +63,7 @@ bool ObjectSerializer::validSerializedObjectMessage(vector<string>& currentParse
 }
 
 bool ObjectSerializer::validSerializedSetOfObjectsMessage(vector<string>& serializedObjects){
-    return !serializedObjects.empty();
+    return !serializedObjects.empty() && serializedObjects.at(0) == to_string(SET_OF_RENDERABLES);
 }
 
 bool ObjectSerializer::validLoginFromClientMessage(vector<string>& currentParsedMessage) {
@@ -131,8 +119,8 @@ void ObjectSerializer::reconstructRenderables(vector<string>& serializedPackages
 
     MessageParser parser = MessageParser();
 
-    for (auto stringObject : serializedPackages){
-        parser.parse(stringObject,SEPARATOR.c_str()[0]);
+    for (int i = 1; i < serializedPackages.size(); i++){                            // i empieza en 1 porque el 0 contiene el header
+        parser.parse(serializedPackages[i],SEPARATOR.c_str()[0]);
         if (validSerializedObjectMessage(parser.getCurrent())){
             renderables->push_back(reconstructRenderable(parser.getCurrent()));
         }
@@ -216,7 +204,7 @@ std::string ObjectSerializer::serializeObjects(std::list<ToClientPack*>* package
     for (auto package : *packages){
         serializedPackages +=  serializeObject(package) + OBJECT_SEPARATOR_SYMBOL;
     }
-    return addPadding(serializedPackages + END_OF_SERIALIZATION_SYMBOL);
+    return addPadding(to_string(SET_OF_RENDERABLES) + OBJECT_SEPARATOR_SYMBOL + serializedPackages + END_OF_SERIALIZATION_SYMBOL);
 }
 
 string ObjectSerializer::addPadding(string message){

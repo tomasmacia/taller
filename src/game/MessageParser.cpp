@@ -15,9 +15,10 @@ using namespace std;
 
 //API
 //=========================================================================================
-void MessageParser::parse(string rawMessage, char separatorCharacter) {
+vector<string>& MessageParser::parse(string rawMessage, char separatorCharacter) {
     clear();
     lastParsedMessage = split(rawMessage,separatorCharacter);
+    return lastParsedMessage;
 }
 
 string MessageParser::extractMeaningfulMessageFromStream(char *buffer, char endSerializationChar){
