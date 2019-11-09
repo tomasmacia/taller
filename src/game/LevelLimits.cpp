@@ -19,14 +19,13 @@ void LevelLimits::initialize(int windowWidth, int windowHeight, int levelWidth, 
     _windowHeight = windowHeight;
     _levelWidth = levelWidth;
 
-    _rangeOfMovementY = windowHeight * 0.2;
-    _offsetY = windowHeight * 0.25;
+    _offsetY = windowHeight * 0.35;
 
-    _toleranceY = _windowHeight * 0.15;
+    _toleranceY = _windowHeight * 0.35;
     _toleranceX = _windowWidth * 0.1;
 
     _minY = _offsetY;
-    _maxY = _minY + _rangeOfMovementY + _toleranceY;
+    _maxY = _windowHeight - _toleranceY;
     _minX = 0 - _toleranceX;
     _maxX = _windowWidth;
 }

@@ -262,6 +262,7 @@ int Client::connectToServer() {
 
     if (connect(socketFD, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) < 0) {
         error("ERROR connecting");
+        cout<<"Connection to server failed"<<endl;
         gameClient->end();
     }
 
