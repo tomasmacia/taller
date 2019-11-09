@@ -15,16 +15,16 @@ int ObjectSerializer::contadorFail = 0;
 
 //API
 //=========================================================================================
-int ObjectSerializer::getIDFrom(vector<string>& currentParsedMessage){
-    return stoi(currentParsedMessage.at(2));
+int ObjectSerializer::getIDFrom(vector<string>* currentParsedMessage){
+    return stoi(currentParsedMessage->at(2));
 }
 
-string ObjectSerializer::getUserFrom(vector<string>& currentParsedMessage){
-    return currentParsedMessage.at(2);
+string ObjectSerializer::getUserFrom(vector<string>* currentParsedMessage){
+    return currentParsedMessage->at(2);
 }
 
-string ObjectSerializer::getPassFrom(vector<string>& currentParsedMessage){
-    return currentParsedMessage.at(3);
+string ObjectSerializer::getPassFrom(vector<string>* currentParsedMessage){
+    return currentParsedMessage->at(3);
 }
 
 string ObjectSerializer::getSuccesfullLoginMessage(int id){
@@ -45,60 +45,60 @@ string ObjectSerializer::getAlreadyLoggedInMessage() {
 
 //VALIDATE
 //=========================================================================================
-bool ObjectSerializer::validLoginFromServerMessage(vector<string>& currentParsedMessage){
+bool ObjectSerializer::validLoginFromServerMessage(vector<string>* currentParsedMessage){
     //SERIALIZED LOGIN ID: //START,header,id
-    return  currentParsedMessage.size() == 3 &&
-            currentParsedMessage.at(0) == START_SYMBOL &&
-            (currentParsedMessage.at(1) == to_string(SUCCESS)
-             || currentParsedMessage.at(1) == to_string(INVALID_CREDENTIAL)
-             || currentParsedMessage.at(1) == to_string(ALREADY_LOGGED_IN_CREDENTIAL)
-             || currentParsedMessage.at(1) == to_string(SERVER_FULL));
+    return  currentParsedMessage->size() == 3 &&
+            currentParsedMessage->at(0) == START_SYMBOL &&
+            (currentParsedMessage->at(1) == to_string(SUCCESS)
+             || currentParsedMessage->at(1) == to_string(INVALID_CREDENTIAL)
+             || currentParsedMessage->at(1) == to_string(ALREADY_LOGGED_IN_CREDENTIAL)
+             || currentParsedMessage->at(1) == to_string(SERVER_FULL));
 }
 
-bool ObjectSerializer::validSerializedObjectMessage(vector<string>& currentParsedMessage){
+bool ObjectSerializer::validSerializedObjectMessage(vector<string>* currentParsedMessage){
     //SERIALIZED OBJECT: START, header,path,srcw,srch,srcx,srcy,dstw,dsth,dstx,dsty,bool
-    return currentParsedMessage.size() == 12 &&
-            currentParsedMessage.at(0) == START_SYMBOL &&
-            currentParsedMessage.at(1) == to_string(RENDERABLE);
+    return currentParsedMessage->size() == 12 &&
+            currentParsedMessage->at(0) == START_SYMBOL &&
+            currentParsedMessage->at(1) == to_string(RENDERABLE);
 }
 
-bool ObjectSerializer::validSerializedSetOfObjectsMessage(vector<string>& serializedObjects){
-    return !serializedObjects.empty() && serializedObjects.at(0) == to_string(SET_OF_RENDERABLES);
+bool ObjectSerializer::validSerializedSetOfObjectsMessage(vector<string>* serializedObjects){
+    return !serializedObjects->empty() && serializedObjects->at(0) == to_string(SET_OF_RENDERABLES);
 }
 
-bool ObjectSerializer::validLoginFromClientMessage(vector<string>& currentParsedMessage) {
+bool ObjectSerializer::validLoginFromClientMessage(vector<string>* currentParsedMessage) {
     //SERIALIZED LOGIN ID: START, header,user,pass
-    return currentParsedMessage.size() == 4 &&
-        currentParsedMessage.at(0) == START_SYMBOL &&
-           (currentParsedMessage.at(1)) == to_string(USER_PASS);
+    return currentParsedMessage->size() == 4 &&
+        currentParsedMessage->at(0) == START_SYMBOL &&
+           (currentParsedMessage->at(1)) == to_string(USER_PASS);
 }
 
-bool ObjectSerializer::validSerializedInputMessage(vector<string>& currentParsedMessage){
+bool ObjectSerializer::validSerializedInputMessage(vector<string>* currentParsedMessage){
     //SERIALIZED OBJECT: START,header,action,id
-    return currentParsedMessage.size() == 4 &&
-            currentParsedMessage.at(0) == START_SYMBOL &&
-           (currentParsedMessage.at(1)) == to_string(INPUT);
+    return currentParsedMessage->size() == 4 &&
+            currentParsedMessage->at(0) == START_SYMBOL &&
+           (currentParsedMessage->at(1)) == to_string(INPUT);
 }
 
 //RECONSTRUCT
 //=========================================================================================
 
-ToClientPack* ObjectSerializer::reconstructRenderable(vector<string>& currentParsedMessage) {
+ToClientPack* ObjectSerializer::reconstructRenderable(vector<string>* currentParsedMessage) {
 
-    std::string path = currentParsedMessage.at(2);
-    SDL_Rect src = {std::stoi(currentParsedMessage.at(5)), std::stoi(currentParsedMessage.at(6)), std::stoi(currentParsedMessage.at(3)),
-                    std::stoi(currentParsedMessage.at(4))};
-    SDL_Rect dst = {std::stoi(currentParsedMessage.at(9)), std::stoi(currentParsedMessage.at(10)), std::stoi(currentParsedMessage.at(7)),
-                    std::stoi(currentParsedMessage.at(8))};
-    bool flip = std::stoi(currentParsedMessage.at(11));
+    std::string path = currentParsedMessage->at(2);
+    SDL_Rect src = {std::stoi(currentParsedMessage->at(5)), std::stoi(currentParsedMessage->at(6)), std::stoi(currentParsedMessage->at(3)),
+                    std::stoi(currentParsedMessage->at(4))};
+    SDL_Rect dst = {std::stoi(currentParsedMessage->at(9)), std::stoi(currentParsedMessage->at(10)), std::stoi(currentParsedMessage->at(7)),
+                    std::stoi(currentParsedMessage->at(8))};
+    bool flip = std::stoi(currentParsedMessage->at(11));
 
     return  new ToClientPack(path, src, dst, flip);
 }
 
-tuple<Action,int> ObjectSerializer::reconstructInput(vector<string>& currentParsedMessage) {
+tuple<Action,int> ObjectSerializer::reconstructInput(vector<string>* currentParsedMessage) {
 
-    string action = currentParsedMessage.at(2);
-    int reconstructedId = std::stoi(currentParsedMessage.at(3));
+    string action = currentParsedMessage->at(2);
+    int reconstructedId = std::stoi(currentParsedMessage->at(3));
 
     Action reconstructedAction;
     if (action == "NONE"){reconstructedAction = NONE;}
@@ -115,12 +115,12 @@ tuple<Action,int> ObjectSerializer::reconstructInput(vector<string>& currentPars
     return make_tuple (reconstructedAction,reconstructedId);
 }
 
-void ObjectSerializer::reconstructRenderables(vector<string>& serializedPackages, std::list<ToClientPack*>* renderables){
+void ObjectSerializer::reconstructRenderables(vector<string>* serializedPackages, std::list<ToClientPack*>* renderables){
 
     MessageParser parser = MessageParser();
 
-    for (int i = 1; i < serializedPackages.size(); i++){                            // i empieza en 1 porque el 0 contiene el header
-        parser.parse(serializedPackages[i],SEPARATOR.c_str()[0]);
+    for (int i = 1; i < serializedPackages->size(); i++){                            // i empieza en 1 porque el 0 contiene el header
+        parser.parse(serializedPackages->at(i),SEPARATOR.c_str()[0]);
         if (validSerializedObjectMessage(parser.getCurrent())){
             renderables->push_back(reconstructRenderable(parser.getCurrent()));
         }

@@ -103,7 +103,7 @@ bool GameClient::alreadyLoggedIn() {
     return loggedIn;
 }
 
-void GameClient::reciveRenderables(vector<string>& serializedPages){
+void GameClient::reciveRenderables(vector<string>* serializedPages){
     if (controller != nullptr){
         controller->reciveRenderables(serializedPages);
     }

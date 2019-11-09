@@ -40,7 +40,7 @@ public:
     void notifyAboutClientConectionToServerAttemptDone();
     void end() override ;
     bool alreadyLoggedIn();
-    void reciveRenderables(vector<string>& serializedPages);
+    void reciveRenderables(vector<string>* serializedPages);
 
     static bool isActive(){
         return hasInstance;

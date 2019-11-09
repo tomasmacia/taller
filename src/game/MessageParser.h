@@ -19,26 +19,26 @@ public:
 
     //API
     //===============================
-    vector<string>& parse(string rawMessage, char separatorCharacter);
+    vector<string>* parse(string rawMessage, char separatorCharacter);
     string extractMeaningfulMessageFromStream(char *buffer, char endSerializationChar, char padding);
     void clear();
     MessageId getHeader();
 
     //GETTERS
     //===============================
-    vector<string>& getCurrent(){
+    vector<string>* getCurrent(){
         return lastParsedMessage;
     }
 
 private:
     //SPLIT
     //===============================
-    vector<string> split(const string &s, const char &c);
+    vector<string>* split(const string &s, const char &c);
 
 
     //ATRIBUTES
     //===============================
-    vector<string> lastParsedMessage;
+    vector<string>* lastParsedMessage = nullptr;
 };
 
 

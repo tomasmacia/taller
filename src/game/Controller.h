@@ -28,7 +28,7 @@ public:
     //bool hasNewInput();
     void clearAllInputs();
     void checkIfCloseRelatedInputWasPulsed();
-    void reciveRenderables(vector<string>& serializedPagackes);
+    void reciveRenderables(vector<string>* serializedPagackes);
 
     //DATA TRANSFER INTERFACE
     //===============================

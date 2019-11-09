@@ -15,7 +15,7 @@ using namespace std;
 
 //API
 //=========================================================================================
-vector<string>& MessageParser::parse(string rawMessage, char separatorCharacter) {
+vector<string>* MessageParser::parse(string rawMessage, char separatorCharacter) {
     clear();
     lastParsedMessage = split(rawMessage,separatorCharacter);
     return lastParsedMessage;
@@ -36,12 +36,12 @@ string MessageParser::extractMeaningfulMessageFromStream(char *buffer, char endS
 }
 
 void MessageParser::clear(){
-    lastParsedMessage.clear();
+    lastParsedMessage->clear();
 }
 
 MessageId MessageParser::getHeader(){
-   if (lastParsedMessage.size() > 2){
-       return (MessageId)std::stoi(lastParsedMessage.at(1));
+   if (lastParsedMessage != nullptr && lastParsedMessage->size() > 2){
+       return (MessageId)std::stoi(lastParsedMessage->at(1));
    }
    else{
        return UNDEFINED;
@@ -50,17 +50,17 @@ MessageId MessageParser::getHeader(){
 
 //SPLIT
 //=========================================================================================
-vector<string> MessageParser::split(const string& s, const char& c)
+vector<string>* MessageParser::split(const string& s, const char& c)
 {
     string buff{""};
-    vector<string> v = vector<string>();
+    vector<string>* v = new vector<string>();
 
     for(auto n:s)
     {
         if(n != c) buff+=n; else
-        if(n == c && buff != "") { v.push_back(buff); buff = ""; }
+        if(n == c && buff != "") { v->push_back(buff); buff = ""; }
     }
-    if(buff != "") v.push_back(buff);
+    if(buff != "") v->push_back(buff);
 
     return v;
 }
@@ -68,13 +68,15 @@ vector<string> MessageParser::split(const string& s, const char& c)
 //CONSTRUCTOR
 //=========================================================================================
 MessageParser::MessageParser() {
-    lastParsedMessage = vector<string>();
+    lastParsedMessage = new vector<string>();
 }
 
 //DESTROY
 //=========================================================================================
 MessageParser::~MessageParser() {
     clear();
+    delete lastParsedMessage;
+    lastParsedMessage = nullptr;
 }
 
 
