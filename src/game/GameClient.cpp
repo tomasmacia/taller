@@ -68,16 +68,23 @@ void GameClient::render() {
 void GameClient::renderAllPackages(){
     if (controller != nullptr){
         std::list<ToClientPack*>* packages = controller->getPackages();
-        cout<<endl;
-        cout << "CLIENT-RENDER:" <<endl;
-        //cout << "CLIENT-RENDER: amount: " << packages->size() << endl;
-        for (auto package : *packages) {
-            package->render(&loadedTexturesMap);
-            //cout << "CLIENT-RENDER: " << package->getPath() << endl;
-            delete(package);
-            package = nullptr;
+
+        if (packages->empty()){
+            cout<<endl;
+            cout << "CLIENT-RENDER: EMPTY!!!!" <<endl;
         }
-        packages->clear();
+        else{
+            cout<<endl;
+            cout << "CLIENT-RENDER:" <<endl;
+            //cout << "CLIENT-RENDER: amount: " << packages->size() << endl;
+            for (auto package : *packages) {
+                package->render(&loadedTexturesMap);
+                //cout << "CLIENT-RENDER: " << package->getPath() << endl;
+                delete(package);
+                package = nullptr;
+            }
+            packages->clear();
+        }
     }
 }
 

@@ -94,8 +94,8 @@ void Client::sendThread() {
 
             send(message);
             cout<<endl;
-            cout<<"CLIENT-SEND: "<<endl;
-            //cout << "CLIENT-SEND: " << message << endl;
+            //cout<<"CLIENT-SEND: "<<endl;
+            cout << "CLIENT-SEND: " << message << endl;
         }
         sendQueueMutex.unlock();
     }
