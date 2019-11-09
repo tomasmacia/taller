@@ -92,6 +92,7 @@ private:
     bool loggedIn = false;
 
     std:: mutex mu;
+    std:: mutex controllerMutex;
     std::condition_variable waitForConnection;
     std::thread clientConnectionThread;
 

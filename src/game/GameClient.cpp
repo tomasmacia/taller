@@ -66,6 +66,7 @@ void GameClient::render() {
 
 void GameClient::renderAllPackages(){
     if (controller != nullptr){
+        controllerMutex.lock();
         std::list<ToClientPack*>* packages = controller->getPackages();
 
         if (packages->empty()){
@@ -83,6 +84,7 @@ void GameClient::renderAllPackages(){
             }
             packages->clear();
         }
+        controllerMutex.unlock();
     }
 }
 
@@ -112,7 +114,9 @@ bool GameClient::alreadyLoggedIn() {
 
 void GameClient::reciveRenderables(vector<string>* serializedPages){
     if (controller != nullptr){
+        controllerMutex.lock();
         controller->reciveRenderables(serializedPages);
+        controllerMutex.unlock();
     }
 }
 
