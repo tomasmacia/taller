@@ -246,7 +246,7 @@ int Client::create() {
     if (socketFD < 0) {
         error("ERROR opening socket");
     }
-
+ 
     return socketFD;
 }
 
