@@ -75,8 +75,7 @@ void GameClient::renderAllPackages(){
         }
         else{
             cout<<endl;
-            cout << "CLIENT-RENDER:" <<endl;
-            //cout << "CLIENT-RENDER: amount: " << packages->size() << endl;
+            cout << "CLIENT-RENDER: amount: " << packages->size() << endl;
             for (auto package : *packages) {
                 package->render(&loadedTexturesMap);
                 //cout << "CLIENT-RENDER: " << package->getPath() << endl;
