@@ -76,7 +76,7 @@ void Client::readThread() {
 
         incomingMessagesQueue.push_back(newMessage);
         cout<<endl;
-        cout<<"CLIENT-SEND: "<<endl;
+        cout<<"CLIENT-READ: "<<endl;
         //cout << "CLIENT-READ: " << newMessage << endl;
         incomingQueueMutex.unlock();
     }
@@ -104,25 +104,30 @@ void Client::sendThread() {
 
 void Client::dispatchThread() {
 
+    int totalDispatched = 0;
+    int validRenderablesPackDispatched = 0;
     while(connectionOn) {
         incomingQueueMutex.lock();
         if (!incomingMessagesQueue.empty()){
 
             string message = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
+            totalDispatched++;
 
             if (objectSerializer.validSerializedSetOfObjectsMessage(messageParser.parse(message, objectSerializer.getObjectSeparator()))){
                 processRenderableSerializedObject();
+                validRenderablesPackDispatched++;
                 cout<<endl;
-                cout<<"CLIENT-DISPATCH: "<<endl;
+                cout<<"CLIENT-DISPATCH: "<<validRenderablesPackDispatched<<endl;
+                cout<<"CLIENT-DISPATCH: "<<totalDispatched<<endl;
+                cout<<"CLIENT-DISPATCH: "<<(float)validRenderablesPackDispatched/(float)totalDispatched*100<<"%"<<endl;
                 //cout<<"CLIENT-DISPATCH: "<< message <<endl;
             }
 
             else if (objectSerializer.validLoginFromServerMessage(messageParser.parse(message, objectSerializer.getSeparatorCharacter()))){
                 processResponseFromServer();
                 cout<<endl;
-                cout<<"CLIENT-DISPATCH: "<<endl;
-                //cout<<"CLIENT-DISPATCH: "<< message <<endl;
+                cout<<"CLIENT-DISPATCH: "<< message <<endl;
             }
         }
         incomingQueueMutex.unlock();
