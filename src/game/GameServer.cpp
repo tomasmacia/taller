@@ -46,7 +46,7 @@ void GameServer::gameLoop(){
         while (isOn() && !levelBuilder->levelFinished() && notAllPlayersDisconnected()) {
             update();
             sendUpdate();
-            usleep(16000);
+            usleep(13000);
         }
         LogManager::logInfo("fin de game loop de este nivel");
         LogManager::logInfo("=======================================");

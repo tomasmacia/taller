@@ -83,6 +83,7 @@ void Controller::clearAllInputs(){
 
 
 void Controller::reciveRenderables(vector<string>* serializedPagackes){
+    cleanUpRenderables();
     objectSerializer.reconstructRenderables(serializedPagackes,currentPackagesToRender);
 }
 
@@ -260,13 +261,17 @@ void Controller::bind() {
 
 //DESTROY
 //=========================================================================================
-Controller::~Controller() {
-    game = nullptr;
-
+void Controller::cleanUpRenderables() {
     for (auto package: *currentPackagesToRender){
         delete package;
     }
     currentPackagesToRender->clear();
+}
+
+Controller::~Controller() {
+    game = nullptr;
+
+    cleanUpRenderables();
     delete  currentPackagesToRender;
     currentPackagesToRender = nullptr;
 

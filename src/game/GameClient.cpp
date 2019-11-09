@@ -79,10 +79,7 @@ void GameClient::renderAllPackages(){
             for (auto package : *packages) {
                 package->render(&loadedTexturesMap);
                 //cout << "CLIENT-RENDER: " << package->getPath() << endl;
-                delete(package);
-                package = nullptr;
             }
-            packages->clear();
         }
         controllerMutex.unlock();
     }

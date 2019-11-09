@@ -73,6 +73,10 @@ private:
     void init();
     void bind();
 
+    //DESTROY
+    //===============================
+    void cleanUpRenderables();
+
     //ATRIBUTES
     //===============================
     std::list<std::tuple<Action,int>>* currentInput = nullptr;
