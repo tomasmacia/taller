@@ -101,8 +101,11 @@ private:
     //LOGIN RELATED
     //===============================
     bool serverFull();
-    bool userInValidCredentials(string user);
-    bool passInValidCredentials(string user,string pass);
+    bool credentialsAreValid(string user, string pass);
+    bool userAlreadyLoggedIn(string user);
+    bool userIsDisconnected(string user);
+    bool validUser(string user);
+    bool validPass(string user, string pass);
     bool userInLoggedPlayers(string user);
     bool IDInDisconnectedPlayers(string user);
     string processConectionAndEmitSuccesMessage(string user, string pass, int id);

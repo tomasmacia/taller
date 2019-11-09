@@ -67,31 +67,27 @@ void GameServer::sendUpdate() {
 
 std::string GameServer::validateLogin(std::string user, std::string pass, int userId){
 
-    if (serverFull() && !userInLoggedPlayers(user)){
-        return controller->getServerFullMessage();
-    }
-    else{
-        if (userInValidCredentials(user)){
-            if (passInValidCredentials(user,pass)){
-                if(userInLoggedPlayers(user)){
-                    if(IDInDisconnectedPlayers(user)){
-                        return processReconectionAndEmitSuccesMessage(user,userId);
-                    }
-                    else{
-                        return controller->getAlreadyLoggedInMessage();
-                    }
-                }
-                else{
-                    return processConectionAndEmitSuccesMessage(user, pass, userId);
-                }
+
+    if (credentialsAreValid(user,pass)){
+        if (userAlreadyLoggedIn(user)){
+            if (userIsDisconnected(user)){
+                return processReconectionAndEmitSuccesMessage(user,userId);
             }
             else{
-                return controller->getInvalidCredentialMessage();
+                return controller->getAlreadyLoggedInMessage();
             }
         }
         else{
-            return controller->getInvalidCredentialMessage();
+            if (serverFull()){
+                return controller->getServerFullMessage();
+            }
+            else{
+                return processConectionAndEmitSuccesMessage(user, pass, userId);
+            }
         }
+    }
+    else{
+        return controller->getInvalidCredentialMessage();
     }
 }
 
@@ -180,11 +176,23 @@ bool GameServer::serverFull(){
     return loggedPlayersPassByUser.size() == maxPlayers;
 }
 
-bool GameServer::userInValidCredentials(string user){
+bool GameServer::credentialsAreValid(string user, string pass){
+    return validUser(user) && validPass(user,pass);
+}
+
+bool GameServer::userAlreadyLoggedIn(string user){
+    return userInLoggedPlayers(user);
+}
+
+bool GameServer::userIsDisconnected(string user){
+    return IDInDisconnectedPlayers(user);
+}
+
+bool GameServer::validUser(string user){
     return validCredentials.find(user) != validCredentials.end();
 }
 
-bool GameServer::passInValidCredentials(string user,string pass){
+bool GameServer::validPass(string user, string pass){
     return validCredentials.at(user) == pass;
 }
 

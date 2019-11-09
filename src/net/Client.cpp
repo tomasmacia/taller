@@ -28,9 +28,6 @@ using namespace std;
 //API
 //=========================================================================================
 void Client::notifyGameStoppedRunning(){
-    //cout<<"entre"<<endl;
-    //std::lock_guard<std::mutex> guard(mu);
-    //cout<<"entre entre"<<endl;
     connectionOn = false;
 }
 
@@ -58,7 +55,7 @@ bool Client::start(){
     std::thread send(&Client::sendThread,this);
     std::thread dispatch(&Client::dispatchThread,this);
 
-    //checkConnection();
+    checkConnection();
 
     read.join();
     send.join();
@@ -75,12 +72,11 @@ void Client::readThread() {
         incomingQueueMutex.lock();
 
         incomingMessagesQueue.push_back(newMessage);
-        cout<<endl;
-        cout<<"CLIENT-READ: "<<endl;
+        //cout<<endl;
+        //cout<<"CLIENT-READ: "<<endl;
         //cout << "CLIENT-READ: " << newMessage << endl;
         incomingQueueMutex.unlock();
     }
-    cout<<"CLIENT-READ-DONE"<<endl;
 }
 
 void Client::sendThread() {
@@ -95,11 +91,10 @@ void Client::sendThread() {
             send(message);
             cout<<endl;
             //cout<<"CLIENT-SEND: "<<endl;
-            cout << "CLIENT-SEND: " << message << endl;
+            //cout << "CLIENT-SEND: " << message << endl;
         }
         sendQueueMutex.unlock();
     }
-    cout<<"CLIENT-SEND-DONE"<<endl;
 }
 
 void Client::dispatchThread() {
@@ -117,22 +112,21 @@ void Client::dispatchThread() {
             if (objectSerializer.validSerializedSetOfObjectsMessage(messageParser.parse(message, objectSerializer.getObjectSeparator()))){
                 processRenderableSerializedObject();
                 validRenderablesPackDispatched++;
-                cout<<endl;
-                cout<<"CLIENT-DISPATCH: "<<validRenderablesPackDispatched<<endl;
-                cout<<"CLIENT-DISPATCH: "<<totalDispatched<<endl;
-                cout<<"CLIENT-DISPATCH: "<<(float)validRenderablesPackDispatched/(float)totalDispatched*100<<"%"<<endl;
+                //cout<<endl;
+                //cout<<"CLIENT-DISPATCH: "<<validRenderablesPackDispatched<<endl;
+                //cout<<"CLIENT-DISPATCH: "<<totalDispatched<<endl;
+                //cout<<"CLIENT-DISPATCH: "<<(float)validRenderablesPackDispatched/(float)totalDispatched*100<<"%"<<endl;
                 //cout<<"CLIENT-DISPATCH: "<< message <<endl;
             }
 
             else if (objectSerializer.validLoginFromServerMessage(messageParser.parse(message, objectSerializer.getSeparatorCharacter()))){
                 processResponseFromServer();
-                cout<<endl;
-                cout<<"CLIENT-DISPATCH: "<< message <<endl;
+                //cout<<endl;
+                //cout<<"CLIENT-DISPATCH: "<< message <<endl;
             }
         }
         incomingQueueMutex.unlock();
     }
-    cout<<"CLIENT-DISPATCH-DONE"<<endl;
 }
 
 //DISPATCHING INCOMING MESSAGES
@@ -173,8 +167,7 @@ int Client::send(std::string msg) {
     while (bytesSent < MAX_BYTES_BUFFER - 1) {
         int n = ::send(socketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
         if (n < 0) {
-            cout << "ERROR SEND" << endl;
-            exit(1);
+            error("ERROR sending");
         }
 
         bytesSent += n;
@@ -211,27 +204,19 @@ std::string Client::receive() {
 //=========================================================================================
 void Client::checkConnection(){
 
-    while (true){
-        cout << "CLIENT-CHECK:" <<endl;
-        continue;
-    }
+    while (!connectionOff()){
+        usleep(100000);
+   }
     connectionOn = false;
 }
 
 bool Client::connectionOff(){
 
-    std::lock_guard<std::mutex> guard(mu);
-
     if (!connectionOn){
         return true;
     }
     else {
-        if (send(objectSerializer.getPingCode()) < 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return send(objectSerializer.getPingCode()) < 0;
     }
 }
 

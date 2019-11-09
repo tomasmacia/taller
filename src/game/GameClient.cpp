@@ -29,7 +29,6 @@ void GameClient::start() {
     }
     else{
         LogManager::logInfo("No se pudo conectar al servidor");
-        cout<<"No se pudo conectar al servidor"<<endl;
     }
 
     closeClient();
@@ -127,9 +126,7 @@ void GameClient::startClient() {
 }
 
 void GameClient::closeClient() {
-    cout<<"1"<<endl;
     clientConnectionThread.join();
-    cout<<"2"<<endl;
 }
 
 bool GameClient::hasClientAttemptedConection(){

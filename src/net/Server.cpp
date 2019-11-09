@@ -54,8 +54,7 @@ int Server::send(string msg, int someSocketFD) {
     while (bytesSent < MAX_BYTES_BUFFER - 1) {
         int n = ::send(someSocketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
         if (n < 0) {
-            cout << "ERROR SEND" << endl;
-            exit(1);
+            error("ERROR sending");
         }
 
         bytesSent += n;
@@ -76,8 +75,7 @@ string Server::receive(int someSocketFD) {
     while (bytesRead < MAX_BYTES_BUFFER - 1) {
         int n = recv(someSocketFD, buff, MAX_BYTES_BUFFER - 1, 0);
         if (n < 0) {
-            cout << "ERROR READ" << endl;
-            exit(1);
+            error("ERROR sending");
         }
 
         bytesRead += n;
@@ -200,8 +198,8 @@ void Server::error(const char *msg) {   //Cierra el server y en el destructor se
 
 void Server::removeConnection(int id){
     delete connections.at(id);
-    cout<<"CHECKING THREAD: borre la connection:"<<id<<endl;
-    cout << "CHECKING THREAD: tengo "<< connections.size()<<" conecciones"<<endl;
+    cout<<"CHECKING THREAD: borre la userConnection:"<<id<<endl;
+    cout << "CHECKING THREAD: tengo "<< connections.size()<<" conexiones"<<endl;
     cout << "================================================================"<<endl;
     cout<<endl;
     connections.erase(id);
@@ -225,102 +223,3 @@ Server::~Server() {
     shutdown();
     close();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//int main(int argc, char *argv[]) {
-//    char buffer[256];
-//    struct sockaddr_in serv_addr;
-//    int n;
-//    if (argc < 2) {
-//        fprintf(stderr,"ERROR, no port provided\n");
-//        exit(1);
-//    }
-//    // create a socket
-//    int sockfd =  socket(AF_INET, SOCK_STREAM, 0);
-//    if (sockfd < 0)
-//        error("ERROR opening socket");
-//
-//    // clear address structure
-//    bzero((char *) &serv_addr, sizeof(serv_addr));
-//
-//    int portNumber = atoi(argv[1]);
-//
-//    /* setup the host_addr structure for use in bind call */
-//    serv_addr.sin_family = AF_INET;
-//    serv_addr.sin_addr.s_addr = INADDR_ANY;
-//    serv_addr.sin_port = htons(portNumber);
-//
-//    if (::bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-//        error("ERROR on binding");
-//    }
-//
-//
-//    // This listen() call tells the socket to listen to the incoming connections.
-//    // The listen() function places all incoming connection into a backlog queue
-//    // until accept() call accepts the connection.
-//    // Here, we set the maximum size for the backlog queue to 5.
-//    listen(sockfd,5);
-//
-//    // The accept() call actually accepts an incoming connection
-//    struct sockaddr_in clientAddress;
-//    socklen_t clientAddressSize = sizeof(clientAddress);
-//
-//    // This accept() function will write the connecting client's address info
-//    // into the the address structure and the size of that structure is clilen.
-//    // The accept() returns a new socket file descriptor for the accepted connection.
-//    // So, the original socket file descriptor can continue to be used
-//    // for accepting new connections while the new socker file descriptor is used for
-//    // communicating with the connected client.
-//    int newSockfd = accept(sockfd, (struct sockaddr *) &clientAddress, &clientAddressSize);
-//    if (newSockfd < 0) {
-//        error("ERROR on accept");
-//    }
-//
-//    printf("server: got connection from %s port %d\n", inet_ntoa(clientAddress.sin_addr), ntohs(clientAddress.sin_port));
-//
-//
-//    // This send() function sends the 13 bytes of the string to the new socket
-//    send(newSockfd, "Hello, world!\n", 13, 0);
-//
-//    bzero(buffer, 256);
-//
-//    n = read(newSockfd, buffer, 255);
-//    if (n < 0) error("ERROR reading from socket");
-//    printf("Here is the message: %s\n", buffer);
-//
-//    close(newSockfd);
-//    close(sockfd);
-//    return 0;
-//}

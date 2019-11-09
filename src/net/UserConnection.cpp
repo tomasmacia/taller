@@ -46,7 +46,6 @@ void UserConnection::start() {
 
 void UserConnection::shutdown() {
     setConnectionOff();
-    connectionOn = false;
     ::close(socketFD);
     ::shutdown(socketFD, SHUT_WR);
 }
@@ -73,7 +72,6 @@ void UserConnection::readThread() {
             incomingQueueMutex.unlock();
         }
     }
-    cout<<"SERVER-READ-DONE"<<endl;
 }
 
 void UserConnection::sendThread() {
@@ -91,12 +89,11 @@ void UserConnection::sendThread() {
             if (!message.empty()) {
                 int n = server->send(message, socketFD);
                 packageSent += 1;
-                cout << "SERVER-SEND: " << message << endl;
+                //cout << "SERVER-SEND: " << message << endl;
             }
         }
         sendQueueMutex.unlock();
     }
-    cout<<"SERVER-SEND-DONE"<<endl;
 }
 
 void UserConnection::dispatchThread() {
@@ -121,7 +118,6 @@ void UserConnection::dispatchThread() {
         }
         incomingQueueMutex.unlock();
     }
-    cout<<"SERVER-DISPATCH-DONE"<<endl;
 }
 
 //DISPATCHING INCOMING MESSAGES
@@ -156,8 +152,8 @@ void UserConnection::processInput() {//TODO HEAVY IN PERFORMANCE
 
 void UserConnection::checkConnection(){
 
-    while (true){
-        continue;
+    while (!connectionOff()){
+        usleep(100000);
     }
     setConnectionOff();
 }
@@ -181,15 +177,9 @@ void UserConnection::setConnectionOff() {
 bool UserConnection::connectionOff(){
 
     if (!isConnected()){
-        cout<<"mala conexion"<<endl;
         return true;
     } else {
-        if (server->send(objectSerializer.getPingCode(),socketFD) < 0) {
-            cout << "mala conexion" << endl;
-            return true;
-        } else {
-            return false;
-        }
+        return server->send(objectSerializer.getPingCode(), socketFD) < 0;
     }
 }
 
@@ -200,9 +190,6 @@ void UserConnection::kill(){
 //CONSTRUCTOR
 //=========================================================================================
 UserConnection::UserConnection(int socket, int userId, Server *server,GameServer* gameServer) {
-
-    //incomingMessagesQueue = new list<string>();
-    //toSendMessagesQueue = new list<string>();
 
     this->socketFD = socket;
     this->userId = userId;
