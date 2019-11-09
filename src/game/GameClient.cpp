@@ -51,13 +51,11 @@ void GameClient::gameLoop() {
 }
 
 void GameClient::pollAndSendInput() {
-    mu.lock();
     std::string serializedInput = controller->pollAndProcessInput();
     if (serializedInput != ""){
         client->setToSend(serializedInput);
         cout<<"CLIENT-FROM MODEL: "<<serializedInput<<endl;
     }
-    mu.unlock();
 }
 
 void GameClient::render() {
@@ -68,15 +66,18 @@ void GameClient::render() {
 }
 
 void GameClient::renderAllPackages(){
-    mu.lock();
-    std::list<ToClientPack*>* packages = controller->getPackages();
-    for (auto package : *packages) {
-        package->render(&loadedTexturesMap);
-        delete(package);
-        package = nullptr;
+    if (controller != nullptr){
+        std::list<ToClientPack*>* packages = controller->getPackages();
+        cout << "CLIENT-RENDER:" <<endl;
+        //cout << "CLIENT-RENDER: amount: " << packages->size() << endl;
+        for (auto package : *packages) {
+            package->render(&loadedTexturesMap);
+            //cout << "CLIENT-RENDER: " << package->getPath() << endl;
+            delete(package);
+            package = nullptr;
+        }
+        packages->clear();
     }
-    packages->clear();
-    mu.unlock();
 }
 
 //API

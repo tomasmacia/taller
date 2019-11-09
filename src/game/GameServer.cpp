@@ -5,6 +5,7 @@
 #include "../LogLib/LogManager.h"
 #include "../parser/CLIArgumentParser.h"
 #include "../parser/xmlparser.h"
+#include <unistd.h>
 
 #include "IDPlayer.h"
 
@@ -45,6 +46,7 @@ void GameServer::gameLoop(){
         while (isOn() && !levelBuilder->levelFinished() && notAllPlayersDisconnected()) {
             update();
             sendUpdate();
+            usleep(1000);
         }
         LogManager::logInfo("fin de game loop de este nivel");
         LogManager::logInfo("=======================================");

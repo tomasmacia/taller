@@ -58,8 +58,8 @@ bool Client::start(){
     std::thread send(&Client::sendThread,this);
     std::thread dispatch(&Client::dispatchThread,this);
 
-    checkConnection();
-    cout<<"termine check"<<endl;
+    //checkConnection();
+
     read.join();
     send.join();
     dispatch.join();
@@ -75,7 +75,7 @@ void Client::readThread() {
         incomingQueueMutex.lock();
 
         incomingMessagesQueue.push_back(newMessage);
-        //cout << "CLIENT-READ: " << newMessage << endl;
+        cout << "CLIENT-READ: " << newMessage << endl;
         incomingQueueMutex.unlock();
     }
     cout<<"CLIENT-READ-DONE"<<endl;
@@ -108,12 +108,13 @@ void Client::dispatchThread() {
             incomingMessagesQueue.pop_front();
 
             if (objectSerializer.validSerializedSetOfObjectsMessage(messageParser.parse(message, objectSerializer.getObjectSeparator()))){
-                cout<<"CLIENT-DISPATCH: "<< message <<endl;
                 processRenderableSerializedObject();
+                cout<<"CLIENT-DISPATCH: "<< message <<endl;
             }
 
             else if (objectSerializer.validLoginFromServerMessage(messageParser.parse(message, objectSerializer.getSeparatorCharacter()))){
                 processResponseFromServer();
+                cout<<"CLIENT-DISPATCH: "<< message <<endl;
             }
         }
         incomingQueueMutex.unlock();
@@ -136,6 +137,7 @@ void Client::processResponseFromServer() {
 
 void Client::processRenderableSerializedObject() {//TODO HEAVY IN PERFORMANCE
     gameClient->reciveRenderables(messageParser.getCurrent());
+    //gameClient->render();
 }
 
 bool Client::alreadyLoggedIn() {
@@ -197,6 +199,7 @@ std::string Client::receive() {
 void Client::checkConnection(){
 
     while (true){
+        cout << "CLIENT-CHECK:" <<endl;
         continue;
     }
     connectionOn = false;
@@ -207,12 +210,10 @@ bool Client::connectionOff(){
     std::lock_guard<std::mutex> guard(mu);
 
     if (!connectionOn){
-        cout<<"mala conexion"<<endl;
         return true;
     }
     else {
         if (send(objectSerializer.getPingCode()) < 0) {
-            cout << "mala conexion" << endl;
             return true;
         }
         else {

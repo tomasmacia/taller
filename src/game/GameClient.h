@@ -40,6 +40,8 @@ public:
     void notifyAboutClientConectionToServerAttemptDone();
     void end() override ;
     bool alreadyLoggedIn();
+    void render();
+
     void reciveRenderables(vector<string>* serializedPages);
 
     static bool isActive(){
@@ -51,25 +53,23 @@ public:
     void setLogged(){
         loggedIn = true;
     }
-
 private:
+
     GameClient() {
         init();
     }
-
     //DESTROY
     //===============================
     ~GameClient() {
         destroy();
     }
     void destroy() override ;
-    void clearTextureMap();
 
+    void clearTextureMap();
     //GAME LOOP
     //===============================
     void gameLoop() override ;
     void pollAndSendInput();
-    void render();
     void renderAllPackages();
 
     //CLIENT RELATED
