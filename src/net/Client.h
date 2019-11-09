@@ -7,8 +7,9 @@
 
 #include <list>
 #include <string>
-#include <mutex>
 #include <thread>
+#include <condition_variable>
+#include <mutex>
 #include "../game/MessageParser.h"
 #include "../game/ObjectSerializer.h"
 #include "../game/GameClient.h"
@@ -23,6 +24,9 @@ public:
     //===============================
     void setToSend(std::string message);
     bool start();
+    void sendCredentials(string user, string pass);
+    bool hasAchievedConnectionAttempt();
+    void notifyGameStoppedRunning();
 
 private:
     //THREADS
@@ -40,6 +44,7 @@ private:
     //DISPATCHING OF INCOMMING MESSAGES
     //===============================
     void processResponseFromServer();
+    bool alreadyLoggedIn();
     void processRenderableSerializedObject();
 
     //DISCONECTION RELATED
@@ -66,13 +71,12 @@ private:
     //char* buffer;
 
     bool connectionOn = true;
+    bool connectionAttemptMade = false;
 
     MessageParser messageParser;
     ObjectSerializer objectSerializer;
     GameClient* gameClient = nullptr;
 
-    string incomingMessage;
-    string toSendMessage;
     list<string> toSendMessagesQueue;
     list<string> incomingMessagesQueue;
 };

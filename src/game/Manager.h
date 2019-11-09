@@ -24,6 +24,8 @@ public:
     void update();
     std::list<ToClientPack*>* generateRenderables();
     void prepareForNextLevel();
+    void disconectPlayerByID(int id);
+    void reconectPlayerByID(int oldID, int newID);
 
     //ADDING NEW ENTITIES
     //===============================

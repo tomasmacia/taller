@@ -28,6 +28,7 @@ public:
     //bool hasNewInput();
     void clearAllInputs();
     void checkIfCloseRelatedInputWasPulsed();
+    void reciveRenderables(vector<string>* serializedPagackes);
 
     //DATA TRANSFER INTERFACE
     //===============================
@@ -72,9 +73,12 @@ private:
     void init();
     void bind();
 
+    //DESTROY
+    //===============================
+    void cleanUpRenderables();
+
     //ATRIBUTES
     //===============================
-
     std::list<std::tuple<Action,int>>* currentInput = nullptr;
     std::list<ToClientPack*>* currentPackagesToRender = nullptr;
     SDL_Event sdlEvent;

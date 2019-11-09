@@ -3,6 +3,9 @@
 
 #include <map>
 #include "list"
+#include <thread>
+#include <condition_variable>
+#include <mutex>
 
 #include "ToClientPack.h"
 #include "Game.h"
@@ -34,36 +37,47 @@ public:
     //===============================
     void setServerAknowledgeToLogin(MessageId id);
     void setPlayerId(int id);
-    void reciveRenderable(ToClientPack* package);
+    void notifyAboutClientConectionToServerAttemptDone();
+    void end() override ;
+    bool alreadyLoggedIn();
+    void render();
+
+    void reciveRenderables(vector<string>* serializedPages);
 
     static bool isActive(){
         return hasInstance;
     }
 
+    //SETTERS
+    //===============================
+    void setLogged(){
+        loggedIn = true;
+    }
 private:
+
     GameClient() {
         init();
     }
-
     //DESTROY
     //===============================
     ~GameClient() {
         destroy();
     }
     void destroy() override ;
-    void clearTextureMap();
 
+    void clearTextureMap();
     //GAME LOOP
     //===============================
     void gameLoop() override ;
     void pollAndSendInput();
-    void render();
     void renderAllPackages();
 
     //CLIENT RELATED
     //===============================
     void startClient();
     void closeClient();
+    bool hasClientAttemptedConection();
+    void waitUntilConnectionStablished();
 
     //INIT
     //===============================
@@ -75,8 +89,11 @@ private:
     //ATRIBUTES
     //===============================
     static bool hasInstance;
+    bool loggedIn = false;
 
-    std::mutex mu;
+    std:: mutex mu;
+    std:: mutex controllerMutex;
+    std::condition_variable waitForConnection;
     std::thread clientConnectionThread;
 
     LoggerMenu* loggerMenu = nullptr;

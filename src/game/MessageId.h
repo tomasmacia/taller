@@ -8,6 +8,7 @@
 enum MessageId {
     INPUT,
     USER_PASS,
+    SET_OF_RENDERABLES,
     RENDERABLE,
     SUCCESS,
     INVALID_CREDENTIAL,

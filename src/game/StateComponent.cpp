@@ -84,3 +84,15 @@ bool StateComponent::facingLeft(){
 Action StateComponent::current(){
     return _currentState;
 }
+
+void StateComponent::setDisconnected() {
+    disconnected = true;
+}
+
+void StateComponent::setConnected() {
+    disconnected = false;
+}
+
+bool StateComponent::isDisconnected() {
+    return disconnected;
+}

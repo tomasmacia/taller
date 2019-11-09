@@ -12,11 +12,16 @@ public:
 
     int getJumpDuration() override;
 
+    void setConnected();
+    void setDisconnected();
+
 protected:
     void handleIncomingAction() override;
 
 private:
     CharacterXML characterConfig;
+    string disconnectedSpritePath;
+    string realSpritePath;
 
     int STAND_IMAGE_AMOUNT = 1;
     int WALK_IMAGE_AMOUNT = 9;

@@ -4,6 +4,7 @@
 
 #include "../parser/config/level.h"
 #include "../parser/config/npc.h"
+#include "../utils/ImageUtils.h"
 #include "LevelBuilder.h"
 #include "GameServer.h"
 #include "PositionComponent.h"
@@ -153,9 +154,10 @@ void LevelBuilder::initializeWorld() {
 
 void LevelBuilder::initializeLevelWidth(std::string floorSpritePath){
 
-    int floorSpriteWidth;
-    int floorSpriteHeight;
-    TextureWrapper::measureWidthAndHeighthOf(floorSpritePath, &floorSpriteWidth, &floorSpriteHeight);
+    ImageSize imageSize = ImageUtils::getImageSize(floorSpritePath);
+    int floorSpriteWidth = imageSize.width;
+    int floorSpriteHeight = imageSize.height;
+    //TextureWrapper::measureWidthAndHeighthOf(floorSpritePath, &floorSpriteWidth, &floorSpriteHeight);
 
     int screenResolutionWidth = GameServer::getInstance().getConfig()->screenResolution.width;
     int screenResolutionHeight = GameServer::getInstance().getConfig()->screenResolution.height;
@@ -174,11 +176,15 @@ void LevelBuilder::initializePlayers() {
     int screenResolutionWidth = (int)(GameServer::getInstance().getConfig()->screenResolution.width);
     int screenResolutionHeight = (int)(GameServer::getInstance().getConfig()->screenResolution.height);
     int amountOfPlayers = GameServer::getInstance().getConfig()->gameplay.characters.size();
-    int offset = screenResolutionWidth/(amountOfPlayers + 1);
+    int offset = (screenResolutionWidth - _camera->getComponent<CameraComponent>()->getMargin())/(amountOfPlayers + 1);
     int i = 0;
+    auto charactersConfigs = GameServer::getInstance().getConfig()->gameplay.characters;
+
 
     IDPlayer::getInstance().initIDCounter();
-    for (auto &pj : GameServer::getInstance().getConfig()->gameplay.characters) {
+    for (int i = 0; i < GameServer::getInstance().getMaxPlayers(); i++) {
+
+        auto characterConfig = charactersConfigs[i];
         
         int x = offset*(i+1);
         int y = screenResolutionHeight/2;
@@ -189,12 +195,11 @@ void LevelBuilder::initializePlayers() {
         player->addComponent<InputComponent>();
         player->addComponent<PhysicsComponent>(_levelLimits->getComponent<LevelLimits>());
         player->addComponent<PositionComponent>(x,y);
-        player->addComponent<CharacterRenderComponent>(_camera, pj);
+        player->addComponent<CharacterRenderComponent>(_camera, characterConfig);
         player->addComponent<StateComponent>();
         //es imporante cuidar el orden de update (ESTE ES)
 
         LogManager::logDebug("Jugadores inicializados: " + std::to_string(amountOfPlayers));
-        i++;
     }
 }
 

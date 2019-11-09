@@ -4,14 +4,12 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/socket.h>
-#include <unistd.h>
-#include <fcntl.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <CLIArgumentParser.h>
 #include "UserConnection.h"
 
-#define MAX_BYTES_BUFFER 1000
+#define MAX_BYTES_BUFFER 1500
 
 #if __APPLE__
 #define MSG_NOSIGNAL 0x2000 /* don't raise SIGPIPE */
@@ -32,8 +30,13 @@ void Server::setToSendToSpecific(string message,int connectionID){
 }
 
 void Server::setToBroadcast(string message) {
+    UserConnection* userConnection;
     for (std::pair<int, UserConnection*> element : connections) {
-        element.second->setToSendMessage(message);
+        userConnection = element.second;
+
+        if (userConnection->hasPassedLogin()){
+            userConnection->setToSendMessage(message);
+        }
     }
 }
 
@@ -46,27 +49,42 @@ int Server::send(string msg, int someSocketFD) {
     strncpy(buff, msg.c_str(), sizeof(buff));
     buff[sizeof(buff) - 1] = 0;
 
-    //int len = msg.size();
-    //char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
-    //strcpy(buff, msg.c_str());
+    int bytesSent = 0;
 
+    while (bytesSent < MAX_BYTES_BUFFER - 1) {
+        int n = ::send(someSocketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
+        if (n < 0) {
+            error("ERROR sending");
+        }
 
-    return ::send(someSocketFD, buff, strlen(buff), MSG_NOSIGNAL);
+        bytesSent += n;
+    }
+
+    return bytesSent;
 }
 
 string Server::receive(int someSocketFD) {
     // TODO REVISAR. Hay que fijarse que someSocketFD este en la lista de conexiones?
 
 
-    char buff[MAX_BYTES_BUFFER];
-    size_t size = MAX_BYTES_BUFFER;
+    char buff[MAX_BYTES_BUFFER]{0};
+    //size_t size = MAX_BYTES_BUFFER;
 
-    int n = recv(someSocketFD, buff, size,MSG_WAITALL);
+    int bytesRead = 0;
 
-    char end = objectSerializer.getEndOfSerializationCharacterget();
+    while (bytesRead < MAX_BYTES_BUFFER - 1) {
+        int n = recv(someSocketFD, buff, MAX_BYTES_BUFFER - 1, 0);
+        if (n < 0) {
+            error("ERROR sending");
+        }
 
-    return messageParser.extractMeaningfulMessageFromStream(buff, end);
+        bytesRead += n;
+    }
 
+    char end = objectSerializer.getEndOfSerializationSymbol();
+    char padding = objectSerializer.getPaddingSymbol();
+    std::string parsed = messageParser.extractMeaningfulMessageFromStream(buff, end,padding);
+    return parsed;
 }
 
 //THREADS
@@ -74,19 +92,21 @@ string Server::receive(int someSocketFD) {
 void Server::listenThread(){
 
     while (gameServer->isOn()) {
-        if (connections.size() < maxConnections && listen() > 0) {
-            cout<<"LISTEN THREAD: esperando conexion"<<endl;
+        listen();
+        cout<<"LISTEN THREAD: esperando conexion"<<endl;
+        cout << "================================================================"<<endl;
+        cout<<endl;
+        int newConnectionSocketFD = accept();
+        auto newUserConnection = addNewConnection(newConnectionSocketFD);
+        if (newUserConnection != nullptr) {
+
+            connectionThreads.push_back(std::thread(&UserConnection::start,newUserConnection));
+            cout << "LISTEN THREAD: connection stablished: " << newUserConnection->getId()<< endl;
             cout << "================================================================"<<endl;
             cout<<endl;
-            auto newUserConnection = accept();
-            if (newUserConnection != nullptr) {
-                connectionThreads.push_back(std::thread(&UserConnection::start,newUserConnection));
-                cout << "LISTEN THREAD: connection stablished: " << newUserConnection->getId()<< endl;
-                cout << "================================================================"<<endl;
-                cout<<endl;
-            }
         }
     }
+
 
     UserConnection* userConnection;
     for (auto c: connections){
@@ -135,17 +155,13 @@ int Server::bind() {
     return socketFD;
 }
 
-void Server::setToNonBlocking(){
-    fcntl(socketFD, F_SETFD, O_NONBLOCK);
-}
-
 int Server::listen() {
 
-    ::listen(socketFD, this->maxConnections);
+    ::listen(socketFD, MAX_PENDING_CONNECTIONS);
     return socketFD;
 }
 
-UserConnection* Server::accept() {                  //INSTANCIA Y AGREGA CONECCION AL MAP
+int Server::accept() {                  //INSTANCIA Y AGREGA CONECCION AL MAP
 
     struct sockaddr_in clientAddress{};
     socklen_t clientAddressSize = sizeof(clientAddress);
@@ -156,20 +172,25 @@ UserConnection* Server::accept() {                  //INSTANCIA Y AGREGA CONECCI
         //error("ERROR on accept");
     } else {
         printf("[SERVER]: Connection from %s on port %d\n", inet_ntoa(clientAddress.sin_addr), ntohs(clientAddress.sin_port));
-        userConnection = new UserConnection(newClientSocketFD, nextConectionIDtoAssign, this,gameServer);
-        this->connections.insert({ nextConectionIDtoAssign, userConnection });
-        nextConectionIDtoAssign++; //esto asegura que la ID sea unica
+
     }
+    return newClientSocketFD;
+}
+
+
+UserConnection* Server::addNewConnection(int newSocketFD){
+    auto userConnection = new UserConnection(newSocketFD, nextConectionIDtoAssign, this,gameServer);
+    this->connections.insert({ nextConectionIDtoAssign, userConnection });
+    nextConectionIDtoAssign++; //esto asegura que la ID sea unica
+
     return userConnection;
 }
 
 //ERROR
 //=========================================================================================
 void Server::error(const char *msg) {   //Cierra el server y en el destructor se cierra las conexiones
-    //mu.lock();
     LogManager::logError(msg);
     serverOn = false;
-    //mu.unlock();
 }
 
 //DISCONECTION RELATED
@@ -177,11 +198,12 @@ void Server::error(const char *msg) {   //Cierra el server y en el destructor se
 
 void Server::removeConnection(int id){
     delete connections.at(id);
-    cout<<"CHECKING THREAD: borre la connection:"<<id<<endl;
-    cout << "CHECKING THREAD: tengo "<< connections.size()<<" conecciones"<<endl;
+    cout<<"CHECKING THREAD: borre la userConnection:"<<id<<endl;
+    cout << "CHECKING THREAD: tengo "<< connections.size()<<" conexiones"<<endl;
     cout << "================================================================"<<endl;
     cout<<endl;
     connections.erase(id);
+    gameServer->connectionLostWith(id);
 }
 
 int Server::shutdown() {
@@ -201,102 +223,3 @@ Server::~Server() {
     shutdown();
     close();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//int main(int argc, char *argv[]) {
-//    char buffer[256];
-//    struct sockaddr_in serv_addr;
-//    int n;
-//    if (argc < 2) {
-//        fprintf(stderr,"ERROR, no port provided\n");
-//        exit(1);
-//    }
-//    // create a socket
-//    int sockfd =  socket(AF_INET, SOCK_STREAM, 0);
-//    if (sockfd < 0)
-//        error("ERROR opening socket");
-//
-//    // clear address structure
-//    bzero((char *) &serv_addr, sizeof(serv_addr));
-//
-//    int portNumber = atoi(argv[1]);
-//
-//    /* setup the host_addr structure for use in bind call */
-//    serv_addr.sin_family = AF_INET;
-//    serv_addr.sin_addr.s_addr = INADDR_ANY;
-//    serv_addr.sin_port = htons(portNumber);
-//
-//    if (::bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-//        error("ERROR on binding");
-//    }
-//
-//
-//    // This listen() call tells the socket to listen to the incoming connections.
-//    // The listen() function places all incoming connection into a backlog queue
-//    // until accept() call accepts the connection.
-//    // Here, we set the maximum size for the backlog queue to 5.
-//    listen(sockfd,5);
-//
-//    // The accept() call actually accepts an incoming connection
-//    struct sockaddr_in clientAddress;
-//    socklen_t clientAddressSize = sizeof(clientAddress);
-//
-//    // This accept() function will write the connecting client's address info
-//    // into the the address structure and the size of that structure is clilen.
-//    // The accept() returns a new socket file descriptor for the accepted connection.
-//    // So, the original socket file descriptor can continue to be used
-//    // for accepting new connections while the new socker file descriptor is used for
-//    // communicating with the connected client.
-//    int newSockfd = accept(sockfd, (struct sockaddr *) &clientAddress, &clientAddressSize);
-//    if (newSockfd < 0) {
-//        error("ERROR on accept");
-//    }
-//
-//    printf("server: got connection from %s port %d\n", inet_ntoa(clientAddress.sin_addr), ntohs(clientAddress.sin_port));
-//
-//
-//    // This send() function sends the 13 bytes of the string to the new socket
-//    send(newSockfd, "Hello, world!\n", 13, 0);
-//
-//    bzero(buffer, 256);
-//
-//    n = read(newSockfd, buffer, 255);
-//    if (n < 0) error("ERROR reading from socket");
-//    printf("Here is the message: %s\n", buffer);
-//
-//    close(newSockfd);
-//    close(sockfd);
-//    return 0;
-//}

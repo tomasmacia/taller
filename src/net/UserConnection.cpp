@@ -2,6 +2,12 @@
 // Created by Tomás Macía on 27/10/2019.
 //
 
+#include <unistd.h>
+#include <sys/socket.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 #include "UserConnection.h"
 #include <iostream>
 #include <sys/socket.h>
@@ -17,6 +23,10 @@ void UserConnection::setToSendMessage(std::string message){
     sendQueueMutex.lock();
     toSendMessagesQueue.push_back(message);
     sendQueueMutex.unlock();
+}
+
+void UserConnection::directSend(string message){
+    server->send(message,socketFD);
 }
 
 void UserConnection::start() {
@@ -35,7 +45,13 @@ void UserConnection::start() {
 }
 
 void UserConnection::shutdown() {
-    connectionOn = false;
+    setConnectionOff();
+    ::close(socketFD);
+    ::shutdown(socketFD, SHUT_WR);
+}
+
+bool UserConnection::hasPassedLogin(){
+    return gameServer->isIDLogged(userId);
 }
 
 //THREADS
@@ -44,81 +60,69 @@ void UserConnection::readThread() {
 
     string incomingMessage;
 
-    while(connectionOn) {
-
-        incomingQueueMutex.lock();
-        cout<<"SERVER-READ"<<endl;
-        /*
+    while(isConnected()) {
         incomingMessage = server->receive(socketFD);
+        //cout<<"SERVER-READ"<<endl;
         if (incomingMessage == objectSerializer.getFailure()){ continue;}
         if (incomingMessage == objectSerializer.getPingCode()){ continue;}
         else{
-
+            incomingQueueMutex.lock();
             incomingMessagesQueue.push_back(incomingMessage);
-            cout<<"SERVER-READ: "<<incomingMessage<<endl;
-        }*/
-        incomingQueueMutex.unlock();
+            //cout<<"SERVER-READ: "<<incomingMessage<<endl;
+            incomingQueueMutex.unlock();
+        }
     }
 }
 
 void UserConnection::sendThread() {
 
-    string toSendMessage;
-
-    while (connectionOn) {
+    while (isConnected()) {
 
         sendQueueMutex.lock();
-        cout<<"SERVER-SEND"<<endl;
-
-        /*
-        cout << "THREAD: vacio :" << (toSendMessagesQueue.size() != 0) << endl;
-        cout << "THREAD: amount to send: " << toSendMessagesQueue.size() << endl;
-        cout << "THREAD: connections: " << server->numberOfConectionsEstablished() << endl;
-        cout << "THREAD: ==================================" << endl;
-        cout << endl;
-
-
+        std::string message;
+        //cout<<"SERVER-SEND-mutex"<<endl;
         if (toSendMessagesQueue.size() != 0) {
-            toSendMessage = toSendMessagesQueue.front();
+            message = toSendMessagesQueue.front();
             toSendMessagesQueue.pop_front();
-            server->send(toSendMessage, socketFD);
-            //cout << "SERVER-SEND: " << toSendMessage << endl;
+            //cout << "SEND QUEUE POP" << endl;
+
+            if (!message.empty()) {
+                int n = server->send(message, socketFD);
+                packageSent += 1;
+                //cout << "SERVER-SEND: " << message << endl;
+            }
         }
-        //cout<<"SERVER: cantidad de paquetes: "<<toSendMessagesQueue.size()<<endl;*/
         sendQueueMutex.unlock();
     }
 }
 
 void UserConnection::dispatchThread() {
 
-    string incomingMessage;
-
     while(connectionOn) {
         incomingQueueMutex.lock();
-        cout<<"SERVER-DISPATCH"<<endl;
-        /*
         if (!incomingMessagesQueue.empty()){
-            incomingMessage = incomingMessagesQueue.front();
+
+            string message = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
 
-            messageParser.parse(incomingMessage, objectSerializer.getSeparatorCharacter());
-            MessageId header = messageParser.getHeader();
-            if (header == USER_PASS){
-                processLoginFromTheClient(incomingMessage);
-            }
-            if (header == INPUT){
-                processInput(incomingMessage);
+            messageParser.parse(message, objectSerializer.getSeparatorCharacter());
+
+            if (objectSerializer.validLoginFromClientMessage(messageParser.getCurrent())){
+                processLoginFromTheClient();
             }
 
-            cout<<"SERVER-DISPATCH: "<<incomingMessage<<endl;
-        }*/
+            else if (objectSerializer.validSerializedInputMessage(messageParser.getCurrent())){
+                processInput();
+            }
+            //cout<<"SERVER-DISPATCH: "<< message <<endl;
+        }
         incomingQueueMutex.unlock();
     }
 }
 
 //DISPATCHING INCOMING MESSAGES
 //=========================================================================================
-void UserConnection::processLoginFromTheClient(std::string loginMsg) {
+void UserConnection::processLoginFromTheClient() {
 
     string toSendMessage;
 
@@ -134,7 +138,7 @@ void UserConnection::processLoginFromTheClient(std::string loginMsg) {
     server->setToSendToSpecific(toSendMessage,userId);
 }
 
-void UserConnection::processInput(std::string inputMsg) {//TODO HEAVY IN PERFORMANCE
+void UserConnection::processInput() {//TODO HEAVY IN PERFORMANCE
 
     if (objectSerializer.validSerializedInputMessage(messageParser.getCurrent())){
 
@@ -148,22 +152,35 @@ void UserConnection::processInput(std::string inputMsg) {//TODO HEAVY IN PERFORM
 
 void UserConnection::checkConnection(){
 
-    //aca pongo connectionOn en el while porque me podrian poner
-    //connectionOn = false desde el server
-
-    while (connectionOn && !connectionOff()){
-        continue;
+    while (!connectionOff()){
+        usleep(100000);
     }
+    setConnectionOff();
+}
+
+bool UserConnection::isConnected() {
+    bool isConnected;
+
+    isConnectedMutex.lock();
+    isConnected = connectionOn;
+    isConnectedMutex.unlock();
+
+    return isConnected;
+}
+
+void UserConnection::setConnectionOff() {
+    isConnectedMutex.lock();
     connectionOn = false;
+    isConnectedMutex.unlock();
 }
 
 bool UserConnection::connectionOff(){
 
-    int n = server->send(objectSerializer.getPingCode(),socketFD);
-    if (n < 0){
+    if (!isConnected()){
         return true;
+    } else {
+        return server->send(objectSerializer.getPingCode(), socketFD) < 0;
     }
-    return false;
 }
 
 void UserConnection::kill(){
@@ -173,8 +190,11 @@ void UserConnection::kill(){
 //CONSTRUCTOR
 //=========================================================================================
 UserConnection::UserConnection(int socket, int userId, Server *server,GameServer* gameServer) {
+
     this->socketFD = socket;
     this->userId = userId;
     this->server = server;
     this->gameServer = gameServer;
+    this->packageCount = 0;
+    this->packageSent = 0;
 }

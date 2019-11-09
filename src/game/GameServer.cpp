@@ -5,6 +5,7 @@
 #include "../LogLib/LogManager.h"
 #include "../parser/CLIArgumentParser.h"
 #include "../parser/xmlparser.h"
+#include <unistd.h>
 
 #include "IDPlayer.h"
 
@@ -15,21 +16,20 @@ bool GameServer::hasInstance = false;
 void GameServer::start() {
     LogManager::logInfo("Se inicia Game");
 
-    cout << validCredentials.size() << " credenciales levantadas" << endl;
-
-    initController();       //1 thread para escuchar teclado y la crucecita de la window
+    initController();
     startServer();          //1 thread de listen de conexiones nuevas y 4 threads por cliente nuevo
+
+    waitUnitAllPlayersConnected();
 
     initGameModel();
     gameLoop();
 
-    closeServer();        //se cierra el thread se server y (previamente se cierran los 4 threads child)
-    closeController();      //se cierra el thread del teclado y la crucecita de la window
+    closeServer();          //se cierra el thread se server y (previamente se cierran los 4 threads child)
 
     LogManager::logInfo("Juego terminado");
     LogManager::logInfo("=======================================");
 
-    cout<<"everything endded up nicely :D"<<endl;
+    cout << "everything endded up nicely :D" << endl;
 }
 
 //GAME LOOP
@@ -37,13 +37,16 @@ void GameServer::start() {
 
 void GameServer::gameLoop(){
 
-    while (isOn() && levelBuilder->hasNextLevel()) {
+    while (isOn() && levelBuilder->hasNextLevel() && notAllPlayersDisconnected()) {
+
         levelBuilder->loadNext();
         LogManager::logInfo("=======================================");
         LogManager::logInfo("se inicia game loop de este nivel");
-        while (isOn() && !levelBuilder->levelFinished()) {
+
+        while (isOn() && !levelBuilder->levelFinished() && notAllPlayersDisconnected()) {
             update();
             sendUpdate();
+            usleep(13000);
         }
         LogManager::logInfo("fin de game loop de este nivel");
         LogManager::logInfo("=======================================");
@@ -64,34 +67,27 @@ void GameServer::sendUpdate() {
 
 std::string GameServer::validateLogin(std::string user, std::string pass, int userId){
 
-    std::string serverFullMessage = controller->getServerFullMessage();
-    std::string invalidCredentials = controller->getInvalidCredentialMessage();
-    std::string alreadyLoggedInMessage = controller->getAlreadyLoggedInMessage();
-    std::string succesfulLoginMessage = controller->getSuccesfullLoginMessage(userId);
 
-    if (loggedPlayers.size() == amountOfConectionsNeeded){              //si esta lleno el server
-        return serverFullMessage;
-    }
-
-    if ( validCredentials.find(user) == validCredentials.end() ) {      //si no es valido el user
-        return invalidCredentials;
-    }
-    else {                                                              //si es valido el user
-        if (validCredentials.at(user) == pass){                         //si es valido el pass
-            if (loggedPlayers.find(user) == loggedPlayers.end()){       //si no esta ya logeado ese user/pass
-
-                loggedPlayers.insert({ user, pass });
-                addNewIDToGame(userId);
-
-                return succesfulLoginMessage;
+    if (credentialsAreValid(user,pass)){
+        if (userAlreadyLoggedIn(user)){
+            if (userIsDisconnected(user)){
+                return processReconectionAndEmitSuccesMessage(user,userId);
             }
-            else{                                                        //si ya esta logeado ese user/pass
-                return alreadyLoggedInMessage;
+            else{
+                return controller->getAlreadyLoggedInMessage();
             }
         }
         else{
-            return invalidCredentials;                                   //si es no es valido el pass
+            if (serverFull()){
+                return controller->getServerFullMessage();
+            }
+            else{
+                return processConectionAndEmitSuccesMessage(user, pass, userId);
+            }
         }
+    }
+    else{
+        return controller->getInvalidCredentialMessage();
     }
 }
 
@@ -116,6 +112,14 @@ bool GameServer::isActive(){
     return hasInstance;
 }
 
+bool GameServer::playersCanMove(){
+    return loggedPlayersPassByUser.size() == maxPlayers;
+}
+
+bool GameServer::isIDLogged(int ID){
+    return loggedPlayersUserByID.count( ID );
+}
+
 //SERVER RELATED
 //=========================================================================================
 void GameServer::startServer(){
@@ -126,24 +130,106 @@ void GameServer::startServer(){
 }
 
 void GameServer::closeServer(){
-    lisentToInputForClosing.join();
+    listenConnectionsThread.join();
 }
 
+void GameServer::waitUnitAllPlayersConnected(){
+
+    while ((loggedPlayersPassByUser.size() != maxPlayers) ||
+            (disconectedPlayers.size() != 0)){
+
+        continue;
+    }
+}
+
+bool GameServer::notAllPlayersDisconnected(){
+    return disconectedPlayers.size() < maxPlayers;
+}
+
+void GameServer::connectionLostWith(int id){
+
+    if (loggedPlayersUserByID.count(id)){
+
+        string user = loggedPlayersUserByID.at(id);
+        disconectedPlayers.insert({user,id});
+    }
+    if (manager != nullptr){
+        manager->disconectPlayerByID(id);
+    }
+}
 
 //CONTROLLER RELATED
 //=========================================================================================
 
 void GameServer::initController() {
-    initSDL();
     controller = new Controller(this);
-    lisentToInputForClosing = std::thread(&Controller::lisentToInputForClosing,controller);
-    LogManager::logDebug("inicializado SDL");
     LogManager::logDebug("inicializado Controller");
 }
 
 void GameServer::closeController(){
-    lisentToInputForClosing.join();
+    //lisentToInputForClosing.join();
 }
+
+//LOGIN RELATED
+//=========================================================================================
+bool GameServer::serverFull(){
+    return loggedPlayersPassByUser.size() == maxPlayers;
+}
+
+bool GameServer::credentialsAreValid(string user, string pass){
+    return validUser(user) && validPass(user,pass);
+}
+
+bool GameServer::userAlreadyLoggedIn(string user){
+    return userInLoggedPlayers(user);
+}
+
+bool GameServer::userIsDisconnected(string user){
+    return IDInDisconnectedPlayers(user);
+}
+
+bool GameServer::validUser(string user){
+    return validCredentials.find(user) != validCredentials.end();
+}
+
+bool GameServer::validPass(string user, string pass){
+    return validCredentials.at(user) == pass;
+}
+
+bool GameServer::userInLoggedPlayers(string user){
+    return loggedPlayersPassByUser.find(user) != loggedPlayersPassByUser.end();
+}
+
+bool GameServer::IDInDisconnectedPlayers(string user){
+    return disconectedPlayers.find(user) != disconectedPlayers.end();
+}
+
+string GameServer::processConectionAndEmitSuccesMessage(string user, string pass, int id){
+
+    loggedPlayersPassByUser.insert({ user, pass });
+    loggedPlayersUserByID.insert({ id, user });
+    loggedPlayersIDbyUser.insert({user,id});
+    addNewIDToGame(id);
+
+    return controller->getSuccesfullLoginMessage(id);
+}
+
+string GameServer::processReconectionAndEmitSuccesMessage(string user, int newID){
+
+    int oldID = loggedPlayersIDbyUser.at(user);
+    loggedPlayersUserByID.erase(oldID);
+    loggedPlayersUserByID.insert({newID,user});
+
+    loggedPlayersIDbyUser.at(user) = newID;
+
+    disconectedPlayers.erase(user);
+    if (manager != nullptr){
+        manager->reconectPlayerByID(oldID, newID);
+    }
+
+    return controller->getSuccesfullLoginMessage(newID);
+}
+
 
 //INIT
 //=========================================================================================
@@ -174,10 +260,6 @@ void GameServer::loadValidCredenctials(){
     for (auto &userCredentials : credentials->users) {
         this->validCredentials.insert(std::make_pair(userCredentials.username, userCredentials.password));
     }
-
-    delete(credentials);
-    credentials = nullptr;
-
 }
 
 void GameServer::initECSManager() {

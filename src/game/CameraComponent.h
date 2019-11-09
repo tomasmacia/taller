@@ -27,6 +27,10 @@ public:
     int getWindowHeight(){return windowHeight;}
     float getLevelPercentageCovered();
 
+    int getMargin(){
+        return marginWidth;
+    }
+
     int currentX = 0;
 
 private:
@@ -41,7 +45,8 @@ private:
     bool marginSurpased();
     bool notAtTheEnd();
     bool atTheEnd();
-    bool noPlayerInLeftLimit();
+    bool noConnectedPlayerInLeftLimit();
+    bool playerIsConnected(Entity* player);
     bool inLeftLimit(Entity* player);
     bool touchingMargin(Entity* player);
     bool surpasedRightLimit(Entity* player);

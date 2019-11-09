@@ -12,7 +12,8 @@ void IDPlayer::addNewIdPlayer(int id){
 
 int IDPlayer::getNextId(){
     currentIdCounter ++;
-    return ids.at(currentIdCounter) % ids.size();
+    currentIdCounter = currentIdCounter % ids.size();
+    return ids.at(currentIdCounter);
 }
 void IDPlayer::initIDCounter(){
     currentIdCounter = -1;

@@ -62,6 +62,8 @@ set(SOURCE_FILES
         # utils
         src/utils/TimeUtils.cpp
         src/utils/TimeUtils.h
+        src/utils/ImageUtils.cpp
+        src/utils/ImageUtils.h
 
         #main
         src/game/main.cpp

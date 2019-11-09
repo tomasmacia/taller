@@ -22,6 +22,8 @@ public:
     void start();
     bool connectionOff();
     void shutdown();
+    bool hasPassedLogin();
+    void directSend(string message);
 
     //GETTERS
     //===============================
@@ -40,13 +42,14 @@ private:
 
     //DISPATCHING INCOMING MESSAGES
     //===============================
-    void processLoginFromTheClient(std::string msg);
-    void processInput(std::string msg);
+    void processLoginFromTheClient();
+    void processInput();
 
     //DISCONECTION RELATED
     //===============================
     void checkConnection();
     void kill();
+    bool isConnected();
 
     //ATRIBUTES
     //===============================
@@ -54,6 +57,7 @@ private:
 
     std::mutex sendQueueMutex;
     std::mutex incomingQueueMutex;
+    std::mutex isConnectedMutex;
     int socketFD;
     int userId;
 
@@ -64,6 +68,10 @@ private:
 
     list<string> toSendMessagesQueue;
     list<string> incomingMessagesQueue;
+
+    void setConnectionOff();
+    int packageCount;
+    int packageSent;
 };
 
 

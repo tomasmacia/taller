@@ -1,11 +1,14 @@
 #ifndef GAME_GAMESERVER_H_
 #define GAME_GAMESERVER_H_
 
+#include <thread>
+#include <condition_variable>
+#include <mutex>
+
 #include "Manager.h"
 #include "LevelBuilder.h"
 #include "Game.h"
 #include "ToClientPack.h"
-#include "../net/Server.h"
 #include "Action.h"
 
 class Server;
@@ -36,12 +39,15 @@ public:
     void reciveNewInput(tuple<Action,int> input);
     int getCurrentLevelWidth();
     static bool isActive();
-    int getMaxPlayers() {
-        return maxPlayers;
-    }
+    bool playersCanMove();
+    void connectionLostWith(int id);
+    bool isIDLogged(int ID);
 
     //GETTERS
     //===============================
+    int getMaxPlayers() {
+        return maxPlayers;
+    }
 
     Manager* getManager() {
         return manager;
@@ -84,21 +90,38 @@ private:
     //===============================
     void startServer();
     void closeServer();
+    void waitUnitAllPlayersConnected();
+    bool notAllPlayersDisconnected();
 
     //CONTROLLER RELATED
     //===============================
     void initController() override ;
     void closeController();
 
+    //LOGIN RELATED
+    //===============================
+    bool serverFull();
+    bool credentialsAreValid(string user, string pass);
+    bool userAlreadyLoggedIn(string user);
+    bool userIsDisconnected(string user);
+    bool validUser(string user);
+    bool validPass(string user, string pass);
+    bool userInLoggedPlayers(string user);
+    bool IDInDisconnectedPlayers(string user);
+    string processConectionAndEmitSuccesMessage(string user, string pass, int id);
+    string processReconectionAndEmitSuccesMessage(string user, int newId);
+
     //ATRIBUTES
     //===============================
     static bool hasInstance;
 
     std::thread listenConnectionsThread;
-    std::thread lisentToInputForClosing;
 
-    std::map<std::string,std::string> validCredentials;
-    std::map<std::string,std::string> loggedPlayers;
+    std::map<std::string,std::string> validCredentials;             //<user,pass>
+    std::map<std::string,std::string> loggedPlayersPassByUser;      //<user,pass>
+    std::map<std::string,int> loggedPlayersIDbyUser;                //<id,user>
+    std::map<int,std::string> loggedPlayersUserByID;                //<user,id>
+    std::map<std::string,int> disconectedPlayers;                   //<user,id>
 
     int maxPlayers;
 

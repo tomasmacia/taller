@@ -1,7 +1,6 @@
 #include <SDL2/SDL.h>
 
 #include "../LogLib/Logger.h"
-#include <thread>
 #include "Controller.h"
 #include "LoggerMenu.h"
 #include "MessageId.h"
@@ -13,23 +12,24 @@ bool GameClient::hasInstance = false;
 void GameClient::start() {
     LogManager::logInfo("Se inicia GameClient");
 
-    startClient();          //1 thread de listen de conexiones nuevas y 3 threads para read, send y dispatch
-
-    /*
+    startClient();               //1 thread de listen de conexiones nuevas y 3 threads para read, send y dispatch
     initLoggerMenu();
 
-    if (loggerMenu->open()){
+    waitUntilConnectionStablished();
 
-        initInputSystem();
-        initRenderingSystem();
+    if (isOn()){                //pregunto porque el Client lo podria haber cerrado al no conectarse
+        loggerMenu->open();
 
-        gameLoop();
-    }*/
+        if (isOn()){            //pregunto porque el loggerMenu lo podria haber cerrado al tocar ESC o QUIT
+            initInputSystem();
+            initRenderingSystem();
 
-    initInputSystem();
-    initRenderingSystem();
-
-    gameLoop();
+            gameLoop();
+        }
+    }
+    else{
+        LogManager::logInfo("No se pudo conectar al servidor");
+    }
 
     closeClient();
 
@@ -46,12 +46,14 @@ void GameClient::gameLoop() {
         render();
     }
 
+
 }
 
 void GameClient::pollAndSendInput() {
     std::string serializedInput = controller->pollAndProcessInput();
     if (serializedInput != ""){
         client->setToSend(serializedInput);
+        cout<<"CLIENT-FROM MODEL: "<<serializedInput<<endl;
     }
 }
 
@@ -63,12 +65,23 @@ void GameClient::render() {
 }
 
 void GameClient::renderAllPackages(){
-    std::list<ToClientPack*>* packages = controller->getPackages();
-    ToClientPack* currentPackage;
-    while (!packages->empty()){
-        currentPackage = packages->front();
-        packages->pop_front();
-        currentPackage->render(&loadedTexturesMap);
+    if (controller != nullptr){
+        controllerMutex.lock();
+        std::list<ToClientPack*>* packages = controller->getPackages();
+
+        if (packages->empty()){
+            cout<<endl;
+            cout << "CLIENT-RENDER: EMPTY!!!!" <<endl;
+        }
+        else{
+            cout<<endl;
+            cout << "CLIENT-RENDER: amount: " << packages->size() << endl;
+            for (auto package : *packages) {
+                package->render(&loadedTexturesMap);
+                //cout << "CLIENT-RENDER: " << package->getPath() << endl;
+            }
+        }
+        controllerMutex.unlock();
     }
 }
 
@@ -79,11 +92,29 @@ void GameClient::setPlayerId(int id) {
 }
 
 void GameClient::setServerAknowledgeToLogin(MessageId id){
-    //loggerMenu->setServerAknowledge(id); TODO
+    loggerMenu->serverAcknowledge(id);
 }
 
-void GameClient::reciveRenderable(ToClientPack* package){
-    controller->setRenderable(package);
+void GameClient::notifyAboutClientConectionToServerAttemptDone(){
+    waitForConnection.notify_one();
+}
+
+void GameClient::end() {
+    on = false;
+    client->notifyGameStoppedRunning();
+    LogManager::logDebug("señal de fin de programa emitida");
+}
+
+bool GameClient::alreadyLoggedIn() {
+    return loggedIn;
+}
+
+void GameClient::reciveRenderables(vector<string>* serializedPages){
+    if (controller != nullptr){
+        controllerMutex.lock();
+        controller->reciveRenderables(serializedPages);
+        controllerMutex.unlock();
+    }
 }
 
 
@@ -99,11 +130,21 @@ void GameClient::closeClient() {
     clientConnectionThread.join();
 }
 
+bool GameClient::hasClientAttemptedConection(){
+    return client->hasAchievedConnectionAttempt();
+}
+
+void GameClient::waitUntilConnectionStablished(){
+    //para que no llegue antes el main que el intento de conexion de client
+    std::unique_lock<std::mutex> lck (mu);
+    waitForConnection.wait(lck, [this]{ return hasClientAttemptedConection();});
+}
+
 //INIT
 //=========================================================================================
 
 void GameClient::initLoggerMenu(){
-    loggerMenu = new LoggerMenu(this);
+    loggerMenu = new LoggerMenu(client,this);
     LogManager::logDebug("inicializado LoggerMenu");
 }
 

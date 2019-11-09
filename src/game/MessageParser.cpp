@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 #include <cstring>
+#include <list>
+#include <iostream>
 
 #include "MessageId.h"
 #include "MessageParser.h"
@@ -13,36 +15,37 @@ using namespace std;
 
 //API
 //=========================================================================================
-void MessageParser::parse(string rawMessage, char separatorCharacter) {
+vector<string>* MessageParser::parse(string rawMessage, char separatorCharacter) {
     clear();
     lastParsedMessage = split(rawMessage,separatorCharacter);
+    return lastParsedMessage;
 }
 
-MessageId MessageParser::getHeader() {
-
-    if (lastParsedMessage != nullptr && !lastParsedMessage->empty()){
-        return (MessageId)stoi(lastParsedMessage->at(0));
-    }
-    else {
-        return UNDEFINED;
-    }
-}
-
-string MessageParser::extractMeaningfulMessageFromStream(char *buffer, char endSerializationChar){
+string MessageParser::extractMeaningfulMessageFromStream(char *buffer, char endSerializationChar, char padding){
 
     string extractedMessage = "";
     int i = 0;
     while (buffer[i] != endSerializationChar){
-        extractedMessage += buffer[i];
+        if (buffer[i] != padding){
+            extractedMessage += buffer[i];
+        }
         i++;
     }
-    extractedMessage += buffer[i];
 
     return extractedMessage;
 }
 
 void MessageParser::clear(){
     lastParsedMessage->clear();
+}
+
+MessageId MessageParser::getHeader(){
+   if (lastParsedMessage != nullptr && lastParsedMessage->size() > 2){
+       return (MessageId)std::stoi(lastParsedMessage->at(1));
+   }
+   else{
+       return UNDEFINED;
+   }
 }
 
 //SPLIT
@@ -65,7 +68,7 @@ vector<string>* MessageParser::split(const string& s, const char& c)
 //CONSTRUCTOR
 //=========================================================================================
 MessageParser::MessageParser() {
-    lastParsedMessage = new vector<string>;
+    lastParsedMessage = new vector<string>();
 }
 
 //DESTROY

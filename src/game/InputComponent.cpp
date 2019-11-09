@@ -10,6 +10,7 @@
 
 void InputComponent::update() {
     std::list<std::tuple<Action,int>> inputs = GameServer::getInstance().getController()->getACopyOfNewInputs(); //obtengo una copia de todos los inputs de todos los clientes
+    bool freezed = !GameServer::getInstance().playersCanMove();
 
     std::tuple<Action,int> currentInput;
     int currentInputPlayerId;
@@ -22,7 +23,7 @@ void InputComponent::update() {
         currentInputAction = std::get<0>(currentInput);
         currentInputPlayerId = std::get<1>(currentInput);
 
-        if (currentInputPlayerId == thisPlayerId){
+        if ((currentInputPlayerId == thisPlayerId) && !freezed) {
             entity->getComponent<StateComponent>()->setIncomingAction(currentInputAction);
         }
         inputs.pop_front();

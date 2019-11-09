@@ -6,6 +6,7 @@
 #define GAME_OBJECTSERIALIZER_H
 
 #include <string>
+#include <list>
 #include "ToClientPack.h"
 #include "Action.h"
 #include "MessageId.h"
@@ -26,11 +27,13 @@ public:
     std::string getInvalidCredentialMessage();
     std::string getServerFullMessage();
     std::string getAlreadyLoggedInMessage();
+    std::string serializeObjects(std::list<ToClientPack*>* packages);
 
     //VALIDATE
     //===============================
     bool validLoginFromServerMessage(vector<string>* currentParsedMessage);
     bool validSerializedObjectMessage(vector<string>* currentParsedMessage);
+    bool validSerializedSetOfObjectsMessage(vector<string>* currentParsedMessage);
     bool validLoginFromClientMessage(vector<string>* currentParsedMessage);
     bool validSerializedInputMessage(vector<string>* currentParsedMessage);
 
@@ -38,6 +41,7 @@ public:
     //===============================
     ToClientPack* reconstructRenderable(vector<string>* currentParsedMessage);
     tuple<Action,int> reconstructInput(vector<string>* currentParsedMessage);
+    void reconstructRenderables(vector<string>* serializedPackages, std::list<ToClientPack*>* renderables);
 
     //SERIALIZATION
     //===============================
@@ -47,39 +51,61 @@ public:
     std::string serializedAlreadyLoggedInMessage();
     string serializeObject(ToClientPack* package);
     string serializeInput(Action action, int id);
+    string serializeCredentials(string user, string pass);
+    string addPadding(string message);
 
     //GETTERS
     //===============================
+    char getObjectSeparator(){
+        return OBJECT_SEPARATOR_SYMBOL;
+    }
 
+    char getStartSerializationSymbol(){
+        return START_SYMBOL.c_str()[0];
+    }
 
+    char getPaddingSymbol(){
+        return PADDING_SYMBOL;
+    }
+
+    int getTotalMessageLength(){
+        return totalMessageLength;
+    }
 
     string getFailure(){
         return FAILURE;
     }
 
     string getPingCode(){
-        return PING_CODE + END_SERIALIZATION_SIMBOL;
+        return PING_CODE + string(totalMessageLength - PING_CODE.length(),'&'); // TODO HARDCODE
     }
 
 
     char getSeparatorCharacter(){
-        return SEPARATOR;
+        return SEPARATOR.c_str()[0];
     }
 
     int getFailureAcknowledgeSignal(){
         return FAILURE_AKNOWLEDGE_SIGNAL;
     }
 
-    char getEndOfSerializationCharacterget(){
-        return END_SERIALIZATION_SIMBOL;
+    char getEndOfSerializationSymbol(){
+        return END_OF_SERIALIZATION_SYMBOL.c_str()[0];
     }
 
 private:
+    string END_OF_SERIALIZATION_SYMBOL = "&";
     string PING_CODE = "###";
-    char END_SERIALIZATION_SIMBOL = 'x';
-    char SEPARATOR = '@';
+    char OBJECT_SEPARATOR_SYMBOL = '%';
+    char PADDING_SYMBOL = '*';
+    string SEPARATOR = "@";
     int FAILURE_AKNOWLEDGE_SIGNAL = -1;
+    string START_SYMBOL = "=";
     string FAILURE = "-1";
+    int totalMessageLength = 1500;
+
+    static int contador;
+    static int contadorFail;
 
 };
 
