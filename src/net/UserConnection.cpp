@@ -51,7 +51,6 @@ bool UserConnection::hasPassedLogin(){
 void UserConnection::readThread() {
 
     string incomingMessage;
-
     while(isConnected()) {
         incomingMessage = server->receive(socketFD);
         //cout<<"SERVER-READ"<<endl;
@@ -90,7 +89,7 @@ void UserConnection::sendThread() {
 
 void UserConnection::dispatchThread() {
 
-    while(connectionOn) {
+    while(isConnected()) {
         incomingQueueMutex.lock();
         if (!incomingMessagesQueue.empty()){
 
@@ -148,7 +147,7 @@ void UserConnection::checkConnection(){
         usleep(100000);
     }
     setConnectionOff();
-    LogManager::logError("[SERVER]: conexion perdida");
+    LogManager::logError("[SERVER]: conexion con " + to_string(userId) + " perdida");
 }
 
 bool UserConnection::isConnected() {

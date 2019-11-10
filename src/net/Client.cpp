@@ -63,22 +63,24 @@ bool Client::start(){
 //=========================================================================================
 void Client::readThread() {
 
-    string newMessage;
-    while (connectionOn) {
-        newMessage = receive();
-        incomingQueueMutex.lock();
-
-        incomingMessagesQueue.push_back(newMessage);
-        //cout<<endl;
-        //cout<<"CLIENT-READ: "<<endl;
-        //cout << "CLIENT-READ: " << newMessage << endl;
-        incomingQueueMutex.unlock();
+    string incomingMessage;
+    while(isConnected()) {
+        incomingMessage = receive();
+        //cout<<"CLIENT-READ"<<endl;
+        if (incomingMessage == objectSerializer.getFailure()){ continue;}
+        if (incomingMessage == objectSerializer.getPingCode()){ continue;}
+        else{
+            incomingQueueMutex.lock();
+            incomingMessagesQueue.push_back(incomingMessage);
+            //cout<<"CLIENT-READ: "<<incomingMessage<<endl;
+            incomingQueueMutex.unlock();
+        }
     }
 }
 
 void Client::sendThread() {
 
-    while (connectionOn) {
+    while (isConnected()) {
         sendQueueMutex.lock();
 
         if (!toSendMessagesQueue.empty()){
@@ -98,7 +100,7 @@ void Client::dispatchThread() {
 
     int totalDispatched = 0;
     int validRenderablesPackDispatched = 0;
-    while(connectionOn) {
+    while(isConnected()) {
         incomingQueueMutex.lock();
         if (!incomingMessagesQueue.empty()){
 
@@ -163,9 +165,12 @@ int Client::send(std::string msg) {
 
     while (bytesSent < MAX_BYTES_BUFFER - 1) {
         int n = ::send(socketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
-        //if (n < 0) {
-           //error("ERROR sending");
-        //}
+        if (n < 0) {
+            error("ERROR sending");
+        }
+        if (n == 0) {
+            return n;
+        }
 
         bytesSent += n;
     }
@@ -183,7 +188,10 @@ std::string Client::receive() {
     while (bytesRead < MAX_BYTES_BUFFER - 1) {
         int n = recv(socketFD, buff, MAX_BYTES_BUFFER - 1, 0);
         if (n < 0) {
-            //error("ERROR sending");
+            error("ERROR reading");
+            return objectSerializer.getFailure();
+        }
+        if (n == 0) {
             return objectSerializer.getFailure();
         }
 
@@ -208,6 +216,22 @@ void Client::checkConnection(){
     LogManager::logError("[CLIENT]: conexion perdida");
 }
 
+bool Client::isConnected() {
+    bool isConnected;
+
+    connectionMutex.lock();
+    isConnected = connectionOn;
+    connectionMutex.unlock();
+
+    return isConnected;
+}
+
+void Client::setConnectionOff() {
+    connectionMutex.lock();
+    connectionOn = false;
+    connectionMutex.unlock();
+}
+
 bool Client::connectionOff(){
 
     if (!connectionOn){
@@ -227,7 +251,7 @@ int Client::disconnectFromServer() {
 //=========================================================================================
 void Client::error(const char *msg) {
     LogManager::logError(msg);
-
+    setConnectionOff();
 }
 
 //INIT & CONSTRUCTOR

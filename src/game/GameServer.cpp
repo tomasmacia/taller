@@ -51,6 +51,8 @@ void GameServer::gameLoop(){
         LogManager::logInfo("[GAME]: fin de game loop de este nivel");
         LogManager::logInfo("=======================================");
     }
+    on = false;
+    server->stopListening();
 }
 
 void GameServer::update() {
@@ -136,10 +138,7 @@ void GameServer::closeServer(){
 void GameServer::waitUnitAllPlayersConnected(){
 
     while ((loggedPlayersPassByUser.size() != maxPlayers) ||
-            (disconectedPlayers.size() != 0)){
-
-        continue;
-    }
+            (!disconectedPlayers.empty())){}
 }
 
 bool GameServer::notAllPlayersDisconnected(){

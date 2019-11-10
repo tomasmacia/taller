@@ -40,6 +40,11 @@ void Server::setToBroadcast(string message) {
     }
 }
 
+void Server::stopListening(){
+    close();
+    shutdown();
+}
+
 //ACTUAL DATA TRANSFER
 //=========================================================================================
 int Server::send(string msg, int someSocketFD) {
@@ -53,9 +58,13 @@ int Server::send(string msg, int someSocketFD) {
 
     while (bytesSent < MAX_BYTES_BUFFER - 1) {
         int n = ::send(someSocketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
-        //if (n < 0) {
-            //error("ERROR sending");
-        //}
+        if (n < 0) {
+            error("ERROR sending");
+            return n;
+        }
+        if (n == 0) {
+            return n;
+        }
 
         bytesSent += n;
     }
@@ -74,9 +83,13 @@ string Server::receive(int someSocketFD) {
 
     while (bytesRead < MAX_BYTES_BUFFER - 1) {
         int n = recv(someSocketFD, buff, MAX_BYTES_BUFFER - 1, 0);
-        //if (n < 0) {
-            //error("ERROR leyenendo");
-       //}
+        if (n < 0) {
+            error("ERROR reading");
+            return objectSerializer.getFailure();
+        }
+        if (n == 0) {
+            return objectSerializer.getFailure();
+        }
 
         bytesRead += n;
     }
@@ -101,7 +114,7 @@ void Server::listenThread(){
         if (newUserConnection != nullptr) {
 
             connectionThreads.push_back(std::thread(&UserConnection::start,newUserConnection));
-            cout << "LISTEN THREAD: connection stablished: " << newUserConnection->getId()<< endl;
+            cout << "LISTEN THREAD: connection stablished with ID: " << newUserConnection->getId()<< endl;
             cout << "================================================================"<<endl;
             cout<<endl;
         }
@@ -150,7 +163,7 @@ int Server::bind() {
     serverAddress.sin_port = htons(stoi(strPort));
 
     if (::bind(socketFD, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) < 0) {
-        //error("ERROR on binding");
+        error("ERROR on binding");
     }
     return socketFD;
 }
@@ -169,11 +182,11 @@ int Server::accept() {                  //INSTANCIA Y AGREGA CONECCION AL MAP
 
     int newClientSocketFD = ::accept(socketFD, (struct sockaddr *) &clientAddress, &clientAddressSize);
     if (newClientSocketFD < 0) {
-        //error("ERROR on accept");
-    } else {
+        error("ERROR on accept");
+    }
+    else {
         LogManager::logInfo("[SERVER]: Conexion establecida");
         printf("[SERVER]: Connection from %s on port %d\n", inet_ntoa(clientAddress.sin_addr), ntohs(clientAddress.sin_port));
-
     }
     return newClientSocketFD;
 }
@@ -191,7 +204,6 @@ UserConnection* Server::addNewConnection(int newSocketFD){
 //=========================================================================================
 void Server::error(string msg) {   //Cierra el server y en el destructor se cierra las conexiones
     LogManager::logError("[SERVER]: " + msg);
-    serverOn = false;
 }
 
 //DISCONECTION RELATED
@@ -199,12 +211,12 @@ void Server::error(string msg) {   //Cierra el server y en el destructor se cier
 
 void Server::removeConnection(int id){
     delete connections.at(id);
-    cout<<"CHECKING THREAD: borre la userConnection:"<<id<<endl;
+    connections.erase(id);
+    gameServer->connectionLostWith(id);
+    cout<<"CHECKING THREAD: borre la userConnection: "<<id<<endl;
     cout << "CHECKING THREAD: tengo "<< connections.size()<<" conexiones"<<endl;
     cout << "================================================================"<<endl;
     cout<<endl;
-    connections.erase(id);
-    gameServer->connectionLostWith(id);
 }
 
 int Server::shutdown() {
@@ -221,6 +233,6 @@ Server::~Server() {
     for(std::map<int, UserConnection*>::iterator itr = connections.begin(); itr != connections.end(); itr++) {
         delete itr->second;
     }
-    shutdown();
     close();
+    shutdown();
 }

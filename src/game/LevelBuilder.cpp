@@ -199,8 +199,8 @@ void LevelBuilder::initializePlayers() {
         player->addComponent<StateComponent>();
         //es imporante cuidar el orden de update (ESTE ES)
 
-        LogManager::logDebug("[LEVEL]: Jugadores inicializados: " + std::to_string(amountOfPlayers));
     }
+    LogManager::logDebug("[LEVEL]: Jugadores inicializados: " + std::to_string(amountOfPlayers));
 }
 
 void LevelBuilder::initializeEnemies() {
@@ -228,7 +228,6 @@ void LevelBuilder::initializeEnemies() {
         npc->addComponent<NPCRenderComponent>(_camera, &npcConfig);
         npc->addComponent<StateComponent>();
     }
-
     LogManager::logDebug("[LEVEL]: Enemigos inicializados: " + std::to_string(amountOfEnemies));
 }
 

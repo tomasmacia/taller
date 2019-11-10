@@ -52,7 +52,7 @@ void LoggerMenu::close(){
 void LoggerMenu::open() {
 
     init();
-
+    LogManager::logInfo("[LOGIN]: abriendo ventana de login");
     SDL_Event Event;
     while(!succesfulLogin && running){
 

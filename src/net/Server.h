@@ -30,6 +30,7 @@ public:
     void setToSendToSpecific(std::string message,int connectionID);
     void setToBroadcast(std::string message);
     void removeConnection(int id);
+    void stopListening();
 
     //ACTUAL DATA TRANSFER
     //===============================
