@@ -119,8 +119,8 @@ private:
 
     std::map<std::string,std::string> validCredentials;             //<user,pass>
     std::map<std::string,std::string> loggedPlayersPassByUser;      //<user,pass>
-    std::map<std::string,int> loggedPlayersIDbyUser;                //<id,user>
-    std::map<int,std::string> loggedPlayersUserByID;                //<user,id>
+    std::map<std::string,int> loggedPlayersIDbyUser;                //<user,id>
+    std::map<int,std::string> loggedPlayersUserByID;                //<id,user>
     std::map<std::string,int> disconectedPlayers;                   //<user,id>
 
     int maxPlayers;
