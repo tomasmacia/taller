@@ -57,6 +57,8 @@ bool Client::start(){
     read.join();
     send.join();
     dispatch.join();
+
+    gameClient->end();
 }
 
 //THREADS
