@@ -10,7 +10,7 @@
 bool GameClient::hasInstance = false;
 
 void GameClient::start() {
-    LogManager::logInfo("Se inicia GameClient");
+    LogManager::logInfo("[GAME]: Se inicia GameClient");
 
     startClient();               //1 thread de listen de conexiones nuevas y 3 threads para read, send y dispatch
     initLoggerMenu();
@@ -28,12 +28,12 @@ void GameClient::start() {
         }
     }
     else{
-        LogManager::logInfo("No se pudo conectar al servidor");
+        LogManager::logInfo("[GAME]: No se pudo conectar al servidor");
     }
 
     closeClient();
 
-    LogManager::logInfo("Juego terminado");
+    LogManager::logInfo("[GAME]: Juego terminado");
     LogManager::logInfo("=======================================");
 }
 
@@ -102,7 +102,7 @@ void GameClient::notifyAboutClientConectionToServerAttemptDone(){
 void GameClient::end() {
     on = false;
     client->notifyGameStoppedRunning();
-    LogManager::logDebug("señal de fin de programa emitida");
+    LogManager::logDebug("[GAME]: señal de fin de programa emitida");
 }
 
 bool GameClient::alreadyLoggedIn() {
@@ -123,7 +123,7 @@ void GameClient::reciveRenderables(vector<string>* serializedPages){
 void GameClient::startClient() {
     client = new Client(this);
     clientConnectionThread = std::thread(&Client::start,client);
-    LogManager::logInfo("inicializado Cliente");
+    LogManager::logInfo("[INIT]: inicializado Cliente");
 }
 
 void GameClient::closeClient() {
@@ -145,23 +145,23 @@ void GameClient::waitUntilConnectionStablished(){
 
 void GameClient::initLoggerMenu(){
     loggerMenu = new LoggerMenu(client,this);
-    LogManager::logDebug("inicializado LoggerMenu");
+    LogManager::logDebug("[INIT]: inicializado LoggerMenu");
 }
 
 void GameClient::initInputSystem(){
     initController();
-    LogManager::logDebug("inicializado Controller");
+    LogManager::logDebug("[INIT]: inicializado Controller");
 }
 
 void GameClient::initRenderingSystem(){
     initSDL();
-    LogManager::logDebug("inicializado SDL");
+    LogManager::logDebug("[INIT]: inicializado SDL");
 }
 
 void GameClient::init() {
     initConfig();
 
-    LogManager::logDebug("inicializado Config");
+    LogManager::logDebug("[INIT]: inicializado Config");
     LogManager::logDebug("=======================================");
 }
 

@@ -1,5 +1,3 @@
-
-#include <list>
 #include <unistd.h>
 #include <string.h>
 #include <sys/socket.h>
@@ -9,7 +7,6 @@
 
 #include "../LogLib/LogManager.h"
 #include "../game/MessageId.h"
-#include "../game/ToClientPack.h"
 #include "Client.h"
 
 #include <iostream>
@@ -166,9 +163,9 @@ int Client::send(std::string msg) {
 
     while (bytesSent < MAX_BYTES_BUFFER - 1) {
         int n = ::send(socketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
-        if (n < 0) {
-            error("ERROR sending");
-        }
+        //if (n < 0) {
+           //error("ERROR sending");
+        //}
 
         bytesSent += n;
     }
@@ -186,7 +183,7 @@ std::string Client::receive() {
     while (bytesRead < MAX_BYTES_BUFFER - 1) {
         int n = recv(socketFD, buff, MAX_BYTES_BUFFER - 1, 0);
         if (n < 0) {
-            cout << "ERROR READ" << endl;
+            //error("ERROR sending");
             return objectSerializer.getFailure();
         }
 
@@ -208,6 +205,7 @@ void Client::checkConnection(){
         usleep(100000);
    }
     connectionOn = false;
+    LogManager::logError("[CLIENT]: conexion perdida");
 }
 
 bool Client::connectionOff(){
@@ -265,7 +263,7 @@ int Client::connectToServer() {
         cout<<"Connection to server failed"<<endl;
         gameClient->end();
     }
-    LogManager::logInfo("Conexion establecida");
+    LogManager::logInfo("[CLIENT]: Conexion establecida");
     connectionAttemptMade = true;
 
     return socketFD;

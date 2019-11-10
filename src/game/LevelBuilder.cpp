@@ -29,7 +29,7 @@ LevelBuilder::LevelBuilder() {
     currentLevel = 0;
     levelRunning = false;
     totalLevels = GameServer::getInstance().getConfig()->gameplay.levels.size();
-    LogManager::logDebug("Cantidad de niveles cargados: " + std::to_string(totalLevels));
+    LogManager::logDebug("[LEVEL]: Cantidad de niveles cargados: " + std::to_string(totalLevels));
 }
 
 //API
@@ -37,12 +37,12 @@ LevelBuilder::LevelBuilder() {
 void LevelBuilder::loadNext() {
 
     if (currentLevel == 0){
-        LogManager::logInfo("cargando primer nivel");
+        LogManager::logInfo("[LEVEL]: cargando primer nivel");
         initialize();
         levelRunning = true;
     }
     else{
-        LogManager::logInfo("cargando siguiente nivel");
+        LogManager::logInfo("[LEVEL]: cargando siguiente nivel");
         prepareForNextLevel();
         initializeNextLevel();
         levelRunning = true;
@@ -50,7 +50,7 @@ void LevelBuilder::loadNext() {
 }
 
 bool LevelBuilder::hasNextLevel(){
-    LogManager::logInfo("se chequea si hay siguiente nivel");
+    LogManager::logInfo("[LEVEL]: se chequea si hay siguiente nivel");
     return currentLevel < totalLevels;
 }
 
@@ -74,7 +74,7 @@ void LevelBuilder::initialize() {
 
     currentLevel = 1;
     LogManager::logInfo("=======================================");
-    LogManager::logInfo("Inicializando NIVEL " + std::to_string(currentLevel));
+    LogManager::logInfo("[LEVEL]: Inicializando NIVEL " + std::to_string(currentLevel));
 
     initializeCamera();
     initializeWorld();
@@ -89,7 +89,7 @@ void LevelBuilder::initializeNextLevel() {
 
     currentLevel++;
     LogManager::logInfo("=======================================");
-    LogManager::logInfo("Inicializando NIVEL " + std::to_string(currentLevel));
+    LogManager::logInfo("[LEVEL]: Inicializando NIVEL " + std::to_string(currentLevel));
 
     resetCamera();
     initializeWorld();
@@ -101,7 +101,7 @@ void LevelBuilder::initializeNextLevel() {
 }
 
 void LevelBuilder::initializeCamera() {
-    LogManager::logDebug("Inicializando Camara");
+    LogManager::logDebug("[LEVEL]: Inicializando Camara");
 
     Manager *manager = GameServer::getInstance().getManager();
 
@@ -110,7 +110,7 @@ void LevelBuilder::initializeCamera() {
 }
 
 void LevelBuilder::initializeLevelLimits() {
-    LogManager::logDebug("Inicializando limites de pantalla");
+    LogManager::logDebug("[LEVEL]: Inicializando limites de pantalla");
 
     Manager *manager = GameServer::getInstance().getManager();
 
@@ -122,7 +122,7 @@ void LevelBuilder::initializeLevelLimits() {
 }
 
 void LevelBuilder::initializeWorld() {
-    LogManager::logDebug("Inicializando Fondos");
+    LogManager::logDebug("[LEVEL]: Inicializando Fondos");
 
     Manager *manager = GameServer::getInstance().getManager();
     Level currentLevelSprites = GameServer::getInstance().getConfig()->gameplay.levels.at(currentLevel - 1);
@@ -149,7 +149,7 @@ void LevelBuilder::initializeWorld() {
         overlay->addComponent<BackgroundRenderComponent>(_camera, currentLevelSprites.overlay.front(), OVERLAY_SPEED_RATIO);
     }
 
-    LogManager::logDebug("Fondos inicializados");
+    LogManager::logDebug("[LEVEL]: Fondos inicializados");
 }
 
 void LevelBuilder::initializeLevelWidth(std::string floorSpritePath){
@@ -169,7 +169,7 @@ void LevelBuilder::initializeLevelWidth(std::string floorSpritePath){
 }
 
 void LevelBuilder::initializePlayers() {
-    LogManager::logDebug("Inicializando PJ");
+    LogManager::logDebug("[LEVEL]: Inicializando PJ");
 
     Manager *manager = GameServer::getInstance().getManager();
 
@@ -199,12 +199,12 @@ void LevelBuilder::initializePlayers() {
         player->addComponent<StateComponent>();
         //es imporante cuidar el orden de update (ESTE ES)
 
-        LogManager::logDebug("Jugadores inicializados: " + std::to_string(amountOfPlayers));
+        LogManager::logDebug("[LEVEL]: Jugadores inicializados: " + std::to_string(amountOfPlayers));
     }
 }
 
 void LevelBuilder::initializeEnemies() {
-    LogManager::logDebug("Inicializando enemigos");
+    LogManager::logDebug("[LEVEL]: Inicializando enemigos");
 
     Manager *manager = GameServer::getInstance().getManager();
 
@@ -229,11 +229,11 @@ void LevelBuilder::initializeEnemies() {
         npc->addComponent<StateComponent>();
     }
 
-    LogManager::logDebug("Enemigos inicializados: " + std::to_string(amountOfEnemies));
+    LogManager::logDebug("[LEVEL]: Enemigos inicializados: " + std::to_string(amountOfEnemies));
 }
 
 void LevelBuilder::initializeWeapons() {
-    LogManager::logDebug("Inicializando armas");
+    LogManager::logDebug("[LEVEL]: Inicializando armas");
 
     Manager *manager = GameServer::getInstance().getManager();
 
@@ -250,7 +250,7 @@ void LevelBuilder::initializeWeapons() {
         knife->addComponent<PositionComponent>(x,y);
         knife->addComponent<NonMobileRenderComponent>(_camera, knifeConfig.sprite);
     }
-    LogManager::logDebug("Armas inicializadas: " + std::to_string(weapons.knife.amount));
+    LogManager::logDebug("[LEVEL]: Armas inicializadas: " + std::to_string(weapons.knife.amount));
 
     for (int i = 0; i < weapons.tube.amount;i++) {
 
@@ -263,11 +263,11 @@ void LevelBuilder::initializeWeapons() {
         tube->addComponent<PositionComponent>(x,y);
         tube->addComponent<NonMobileRenderComponent>(_camera, tubeConfig.sprite);
     }    
-    LogManager::logDebug("Tubos de metal inicializados: " + std::to_string(weapons.tube.amount));
+    LogManager::logDebug("[LEVEL]: Tubos de metal inicializados: " + std::to_string(weapons.tube.amount));
 }
 
 void LevelBuilder::initializeUtilities() {
-    LogManager::logDebug("Inicializando cajas y barriles");
+    LogManager::logDebug("[LEVEL]: Inicializando cajas y barriles");
 
     Manager *manager = GameServer::getInstance().getManager();
 
@@ -284,7 +284,7 @@ void LevelBuilder::initializeUtilities() {
         box->addComponent<PositionComponent>(x,y);
         box->addComponent<NonMobileRenderComponent>(_camera, boxConfig.sprite);
     } 
-    LogManager::logDebug("Cajas inicializadas: " + std::to_string(utilities.box.amount));
+    LogManager::logDebug("[LEVEL]: Cajas inicializadas: " + std::to_string(utilities.box.amount));
 
     for (int i = 0; i < utilities.barrel.amount;i++) {
 
@@ -297,11 +297,11 @@ void LevelBuilder::initializeUtilities() {
         barrel->addComponent<PositionComponent>(x,y);
         barrel->addComponent<NonMobileRenderComponent>(_camera, barrelConfig.sprite);
     }
-    LogManager::logDebug("Barriles inicializados: " + std::to_string(utilities.barrel.amount));
+    LogManager::logDebug("[LEVEL]: Barriles inicializados: " + std::to_string(utilities.barrel.amount));
 }
 
 void LevelBuilder::resetLevelLimits() {
-    LogManager::logDebug("reseteando limites de pantalla");
+    LogManager::logDebug("[LEVEL]: reseteando limites de pantalla");
 
     int screenWidth = GameServer::getInstance().getConfig()->screenResolution.width;
     int screenHeigth = GameServer::getInstance().getConfig()->screenResolution.height;
@@ -310,7 +310,7 @@ void LevelBuilder::resetLevelLimits() {
 }
 
 void LevelBuilder::resetPlayers() {
-    LogManager::logDebug("reseteando jugadores");
+    LogManager::logDebug("[LEVEL]: reseteando jugadores");
 
     Manager *manager = GameServer::getInstance().getManager();
 
@@ -329,11 +329,11 @@ void LevelBuilder::resetPlayers() {
 
         i++;
     }
-    LogManager::logDebug("Jugadores resetados: " + std::to_string(amountOfPlayers));
+    LogManager::logDebug("[LEVEL]: Jugadores resetados: " + std::to_string(amountOfPlayers));
 }
 
 void LevelBuilder::resetCamera() {
-    LogManager::logDebug("reseteando Camara");
+    LogManager::logDebug("[LEVEL]: reseteando Camara");
     _camera->getComponent<CameraComponent>()->reset();
 }
 
@@ -343,5 +343,5 @@ void LevelBuilder::resetCamera() {
 LevelBuilder::~LevelBuilder(){
     _camera = nullptr;
     _levelLimits = nullptr;
-    LogManager::logDebug("Memoria de LevelBuilder liberada");
+    LogManager::logDebug("[LEVEL]: Memoria de LevelBuilder liberada");
 }

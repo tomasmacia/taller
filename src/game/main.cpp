@@ -30,13 +30,13 @@ Mode getModeFromCommandLine(int argc, const char** argv){
         if (((arg == "-m") || (arg == "--mode")) && (i + 1 < argc)) {
             commandLineMode = argv[i + 1];
             if ((commandLineMode == "client") || (commandLineMode == "Client") || (commandLineMode == "CLIENT")){
-                LogManager::logInfo("Client mode detected in command line");
+                LogManager::logInfo("[CLI]: Client mode detected in command line");
             } else {
                 if ((commandLineMode == "server") || (commandLineMode == "Server") || (commandLineMode == "SERVER")){
                     mode = SERVER;
-                    LogManager::logInfo("Server mode detected in command line");
+                    LogManager::logInfo("[CLI]: Server mode detected in command line");
                 } else {
-                    LogManager::logError("Incomprehensible mode in command line, going to client mode");
+                    LogManager::logError("[CLI]: Incomprehensible mode in command line, going to client mode");
                 }
             }
         }
@@ -49,7 +49,7 @@ int main(int argc, const char** argv) {
     CLIArgumentParser::getInstance().init(argc, argv);
 
     Logger* logger = initLogger(CLIArgumentParser::getInstance().getDefaultLoggerLevel());
-    LogManager::logDebug("inicializado LogManager");
+    LogManager::logDebug("[INIT]: inicializado LogManager");
 
     Mode mode = getModeFromCommandLine(argc, argv);
 

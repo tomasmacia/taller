@@ -14,7 +14,7 @@ LoggerMenu::LoggerMenu(Client* client, GameClient* gameClient){
 void LoggerMenu::initSDL() {
     if( SDL_Init(SDL_INIT_VIDEO) == 0 ) {
         if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG) {
-            LogManager::logError("Fallo SDL_Image");
+            LogManager::logError("[LOGIN]: Fallo SDL_Image");
         }
 
         int windowWidth = 800;
@@ -74,21 +74,21 @@ void LoggerMenu::processResponse(){
 
     if (response == SUCCESS){
         MensajeEmergente("User y Passwors Aceptados");
-        LogManager::logInfo("User y Passwors Aceptados");
+        LogManager::logInfo("[LOGIN]: User y Passwors Aceptados");
         succesfulLogin = true;
         gameClient->setLogged();
     }
     if (response == INVALID_CREDENTIAL){
         MensajeEmergente("User y Passwors no existentes");
-        LogManager::logInfo("User y Passwors no existentes");
+        LogManager::logInfo("[LOGIN]: User y Passwors no existentes");
     }
     if (response ==ALREADY_LOGGED_IN_CREDENTIAL){
         MensajeEmergente("User ya logeado");
-        LogManager::logInfo("User ya logeado");
+        LogManager::logInfo("[LOGIN]: User ya logeado");
     }
     if (response ==SERVER_FULL){
         MensajeEmergente("Server Completo");
-        LogManager::logInfo("Server Completo");
+        LogManager::logInfo("[LOGIN]: Server Completo");
     }
     serverAcknowledgeReceived = false;
     waitingForServerAknowledge = false;
@@ -283,7 +283,7 @@ void LoggerMenu::ValidarCredenciales() {
 
     waitingForServerAknowledge = true;
     MensajeEmergente("Esperando respuesta del server");
-    LogManager::logInfo("Esperando respuesta del server");
+    LogManager::logInfo("[LOGIN]: Esperando respuesta del server");
 
     SDL_DestroyTexture(text);
     SDL_DestroyTexture(Usuario_completo);

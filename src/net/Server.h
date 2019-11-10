@@ -52,7 +52,7 @@ private:
 
     //ERROR
     //===============================
-    void error(const char* msg);
+    void error(string msg);
 
     //DISCONECTION RELATED
     //===============================

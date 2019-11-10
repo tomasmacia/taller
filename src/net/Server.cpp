@@ -53,9 +53,9 @@ int Server::send(string msg, int someSocketFD) {
 
     while (bytesSent < MAX_BYTES_BUFFER - 1) {
         int n = ::send(someSocketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
-        if (n < 0) {
-            error("ERROR sending");
-        }
+        //if (n < 0) {
+            //error("ERROR sending");
+        //}
 
         bytesSent += n;
     }
@@ -74,9 +74,9 @@ string Server::receive(int someSocketFD) {
 
     while (bytesRead < MAX_BYTES_BUFFER - 1) {
         int n = recv(someSocketFD, buff, MAX_BYTES_BUFFER - 1, 0);
-        if (n < 0) {
-            error("ERROR sending");
-        }
+        //if (n < 0) {
+            //error("ERROR leyenendo");
+       //}
 
         bytesRead += n;
     }
@@ -171,7 +171,7 @@ int Server::accept() {                  //INSTANCIA Y AGREGA CONECCION AL MAP
     if (newClientSocketFD < 0) {
         //error("ERROR on accept");
     } else {
-        LogManager::logInfo("Conexion establecida");
+        LogManager::logInfo("[SERVER]: Conexion establecida");
         printf("[SERVER]: Connection from %s on port %d\n", inet_ntoa(clientAddress.sin_addr), ntohs(clientAddress.sin_port));
 
     }
@@ -189,8 +189,8 @@ UserConnection* Server::addNewConnection(int newSocketFD){
 
 //ERROR
 //=========================================================================================
-void Server::error(const char *msg) {   //Cierra el server y en el destructor se cierra las conexiones
-    LogManager::logError(msg);
+void Server::error(string msg) {   //Cierra el server y en el destructor se cierra las conexiones
+    LogManager::logError("[SERVER]: " + msg);
     serverOn = false;
 }
 

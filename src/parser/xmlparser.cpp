@@ -11,7 +11,7 @@ using namespace tinyxml2;
 
 
 Config* XMLParser::parse(string pathToConfig) {
-    LogManager::logInfo(pathToConfig + " is the path to the config file.");
+    LogManager::logInfo("[XML]: " + pathToConfig + "is the path to the config file.");
     XMLDocument doc;
     loadFile(&doc, pathToConfig, DEFAULT_CONFIG_PATH, "config");
 
@@ -23,7 +23,7 @@ Config* XMLParser::parse(string pathToConfig) {
     try {
         config = mapXMLDocumentToConfig(&doc, &docDefault);
     } catch(string& msg) {
-        LogManager::logError("There was an error loading default config --> " + msg);
+        LogManager::logError("[XML]: There was an error loading default config --> " + msg);
     }
 
     return config;
@@ -40,15 +40,15 @@ XMLError XMLParser::loadFile(XMLDocument *doc, string path, string defaultPath, 
         XMLError defaultResult = doc->LoadFile(defaultPath.c_str());
 
         if (defaultResult != XML_SUCCESS) { // TODO what should we do here?
-            LogManager::logError("Default " + type + " file located in " + defaultPath + " could not be loaded");
+            LogManager::logError("[XML]: Default " + type + " file located in " + defaultPath + " could not be loaded");
             return defaultResult;
         }
 
         if (path.empty()) {
-            LogManager::logError("Default " + type + " file not specified, using default " + type + " located in " + defaultPath);
+            LogManager::logError("[XML]: Default " + type + " file not specified, using default " + type + " located in " + defaultPath);
         } else {
-            LogManager::logError(getErrorMessageFromFile(path, specifiedDocErrorLineNumber));
-            LogManager::logError(type + " file specified located in " + path +
+            LogManager::logError("[XML]: " + getErrorMessageFromFile(path, specifiedDocErrorLineNumber));
+            LogManager::logError("[XML]: " + type + " file specified located in " + path +
             " could not be loaded. Using default " + type + " located in " + defaultPath);
         }
     }
@@ -72,7 +72,7 @@ Config* XMLParser::mapXMLDocumentToConfig(XMLDocument *doc, XMLDocument *docDefa
     }
 
     if (configElement == nullptr) {
-        LogManager::logError("Error reading config from XML. Using default config");
+        LogManager::logError("[XML]: Error reading config from XML. Using default config");
         configElement = defaultConfigElement; // do not try to create modules later from null, use default directly
     }
 
@@ -470,7 +470,7 @@ string XMLParser::getPathToElement(XMLElement *genericElement, vector<string> na
 // ***********************************************
 Credentials *XMLParser::parseCredentials(string pathToCredentials) {
 
-    LogManager::logInfo(pathToCredentials + " is the path to the credentials file.");
+    LogManager::logInfo("[XML]: " + pathToCredentials +  " is the path to the credentials file.");
     XMLDocument doc;
     loadFile(&doc, pathToCredentials, DEFAULT_CREDENTIALS_PATH, "credentials");
 
@@ -482,7 +482,7 @@ Credentials *XMLParser::parseCredentials(string pathToCredentials) {
     try {
         credentials = mapXMLDocumentToCredentials(&doc, &docDefault);
     } catch(string& msg) {
-        LogManager::logError("There was an error loading default credentials --> " + msg);
+        LogManager::logError("[XML]: There was an error loading default credentials --> " + msg);
     }
 
     return credentials;
@@ -504,7 +504,7 @@ Credentials* XMLParser::mapXMLDocumentToCredentials(XMLDocument *doc, XMLDocumen
     }
 
     if (credentialsElement == nullptr) {
-        LogManager::logError("Error reading credentials from XML. Using default credentials");
+        LogManager::logError("[XML]: Error reading credentials from XML. Using default credentials");
         credentialsElement = defaultCredentialsElement; // do not try to create modules later from null, use default directly
     }
 

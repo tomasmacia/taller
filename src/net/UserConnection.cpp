@@ -4,17 +4,9 @@
 
 #include <unistd.h>
 #include <sys/socket.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
 #include "UserConnection.h"
 #include <iostream>
-#include <sys/socket.h>
 
-#include "../game/MessageId.h"
-
-#include <iostream>
 
 
 //API
@@ -156,6 +148,7 @@ void UserConnection::checkConnection(){
         usleep(100000);
     }
     setConnectionOff();
+    LogManager::logError("[SERVER]: conexion perdida");
 }
 
 bool UserConnection::isConnected() {
