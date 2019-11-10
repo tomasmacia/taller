@@ -246,7 +246,7 @@ int Client::create() {
     if (socketFD < 0) {
         error("ERROR opening socket");
     }
- 
+
     return socketFD;
 }
 
@@ -265,7 +265,7 @@ int Client::connectToServer() {
         cout<<"Connection to server failed"<<endl;
         gameClient->end();
     }
-
+    LogManager::logInfo("Conexion establecida");
     connectionAttemptMade = true;
 
     return socketFD;

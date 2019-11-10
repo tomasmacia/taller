@@ -171,6 +171,7 @@ int Server::accept() {                  //INSTANCIA Y AGREGA CONECCION AL MAP
     if (newClientSocketFD < 0) {
         //error("ERROR on accept");
     } else {
+        LogManager::logInfo("Conexion establecida");
         printf("[SERVER]: Connection from %s on port %d\n", inet_ntoa(clientAddress.sin_addr), ntohs(clientAddress.sin_port));
 
     }
