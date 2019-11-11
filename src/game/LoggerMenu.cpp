@@ -223,7 +223,14 @@ void LoggerMenu::OnEvent(SDL_Event* Event) {
                         enter=0;
                         textRect.y = 180;
                         inputed_password = input;
-                        ValidarCredenciales();
+
+                        if (user != "" && inputed_password != ""){
+                            ValidarCredenciales();
+                        }
+                        else{
+                            MensajeEmergente("Se dejaron campos vacios");
+                            LogManager::logInfo("[LOGIN]: Se dejaron campos vacios");
+                        }
                     }
                     else
                     {
