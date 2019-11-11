@@ -203,7 +203,7 @@ std::string Client::receive() {
 
     char end = objectSerializer.getEndOfSerializationSymbol();
     char padding = objectSerializer.getPaddingSymbol();
-    std::string parsed = messageParser.extractMeaningfulMessageFromStream(buff, end,padding);
+    std::string parsed = messageParser.extractMeaningfulMessageFromStream(buff,MAX_BYTES_BUFFER, end,padding);
     return parsed;
 }
 
@@ -241,7 +241,7 @@ bool Client::connectionOff(){
         return true;
     }
     else {
-        return send(objectSerializer.getPingCode()) < 0;
+        return send(objectSerializer.getPingMessage()) < 0;
     }
 }
 

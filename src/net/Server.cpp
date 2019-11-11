@@ -95,7 +95,7 @@ string Server::receive(int someSocketFD) {
 
     char end = objectSerializer.getEndOfSerializationSymbol();
     char padding = objectSerializer.getPaddingSymbol();
-    std::string parsed = messageParser.extractMeaningfulMessageFromStream(buff, end,padding);
+    std::string parsed = messageParser.extractMeaningfulMessageFromStream(buff,MAX_BYTES_BUFFER, end,padding);
     return parsed;
 }
 

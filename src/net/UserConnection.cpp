@@ -171,7 +171,7 @@ bool UserConnection::connectionOff(){
     if (!isConnected()){
         return true;
     } else {
-        return server->send(objectSerializer.getPingCode(), socketFD) < 0;
+        return server->send(objectSerializer.getPingMessage(), socketFD) < 0;
     }
 }
 
