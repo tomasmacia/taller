@@ -169,6 +169,7 @@ int Client::send(std::string msg) {
         int n = ::send(socketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
         if (n < 0) {
             error("ERROR sending");
+            return n;
         }
         if (n == 0) {
             return n;

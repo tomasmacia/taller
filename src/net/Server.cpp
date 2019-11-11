@@ -61,6 +61,9 @@ int Server::send(string msg, int someSocketFD) {
             error("ERROR sending");
             return n;
         }
+        if (n == 0) {
+            return n;
+        }
 
         bytesSent += n;
     }

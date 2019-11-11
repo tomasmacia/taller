@@ -8,7 +8,7 @@ LoggerMenu::LoggerMenu(Client* client, GameClient* gameClient){
     this->client_ = client;
     this->gameClient = gameClient;
     enter = 0;
-    cursor=0;
+    cursor = 0;
 }
 
 void LoggerMenu::initSDL() {
