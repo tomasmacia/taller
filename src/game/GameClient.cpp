@@ -53,7 +53,7 @@ void GameClient::pollAndSendInput() {
     std::string serializedInput = controller->pollAndProcessInput();
     if (serializedInput != ""){
         client->setToSend(serializedInput);
-        cout<<"CLIENT-FROM MODEL: "<<serializedInput<<endl;
+        //cout<<"CLIENT-FROM MODEL: "<<serializedInput<<endl;
     }
 }
 
@@ -70,12 +70,12 @@ void GameClient::renderAllPackages(){
         std::list<ToClientPack*>* packages = controller->getPackages();
 
         if (packages->empty()){
-            cout<<endl;
-            cout << "CLIENT-RENDER: EMPTY!!!!" <<endl;
+            //cout<<endl;
+            //cout << "CLIENT-RENDER: EMPTY!!!!" <<endl;
         }
         else{
-            cout<<endl;
-            cout << "CLIENT-RENDER: amount: " << packages->size() << endl;
+            //cout<<endl;
+            //cout << "CLIENT-RENDER: amount: " << packages->size() << endl;
             for (auto package : *packages) {
                 package->render(&loadedTexturesMap);
                 //cout << "CLIENT-RENDER: " << package->getPath() << endl;

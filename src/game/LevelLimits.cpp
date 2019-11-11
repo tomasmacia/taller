@@ -19,15 +19,20 @@ void LevelLimits::initialize(int windowWidth, int windowHeight, int levelWidth, 
     _windowHeight = windowHeight;
     _levelWidth = levelWidth;
 
-    _offsetY = windowHeight * 0.35;
+    _characterHeigth = 0;
+    _rangeOfMovementY = _windowWidth;
 
-    _toleranceY = _windowHeight * 0.35;
-    _toleranceX = _windowWidth * 0.1;
-
-    _minY = _offsetY;
-    _maxY = _windowHeight - _toleranceY;
-    _minX = 0 - _toleranceX;
+    _maxY = _windowHeight - _characterHeigth;
+    _minY = _maxY - _rangeOfMovementY;
     _maxX = _windowWidth;
+    _minX = 0;
+
+    _offsetY = _windowHeight - _maxY;
+
+    cout<<"_maxY: "<<_maxY<<endl;
+    cout<<"_minY: "<<_minY<<endl;
+    cout<<"_maxX: "<<_maxX<<endl;
+    cout<<"_minX: "<<_minX<<endl;
 }
 
 void LevelLimits::reset(int windowWidth, int windowHeight, int levelWidth) {
@@ -35,7 +40,7 @@ void LevelLimits::reset(int windowWidth, int windowHeight, int levelWidth) {
 }
 
 void LevelLimits::update(){
-    _minX = _camera->currentX - _toleranceX;
+    _minX = _camera->currentX;
     _maxX = _camera->currentX + _windowWidth;
 }
 

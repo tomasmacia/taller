@@ -41,7 +41,6 @@ void Server::setToBroadcast(string message) {
 }
 
 void Server::stopListening(){
-    close();
     shutdown();
 }
 
@@ -217,7 +216,7 @@ void Server::removeConnection(int id){
 }
 
 int Server::shutdown() {
-    return ::shutdown(socketFD, SHUT_WR);
+    return ::shutdown(socketFD, SHUT_RDWR);
 }
 
 int Server::close() {
@@ -230,6 +229,4 @@ Server::~Server() {
     for(std::map<int, UserConnection*>::iterator itr = connections.begin(); itr != connections.end(); itr++) {
         delete itr->second;
     }
-    close();
-    shutdown();
 }

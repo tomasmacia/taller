@@ -133,6 +133,7 @@ void GameServer::startServer(){
 
 void GameServer::closeServer(){
     listenConnectionsThread.join();
+    server->close();
 }
 
 void GameServer::waitUnitAllPlayersConnected(){

@@ -31,6 +31,7 @@ public:
     void setToBroadcast(std::string message);
     void removeConnection(int id);
     void stopListening();
+    int close();
 
     //ACTUAL DATA TRANSFER
     //===============================
@@ -58,7 +59,6 @@ private:
     //DISCONECTION RELATED
     //===============================
     int shutdown();
-    int close();
 
     //ATRIBUTE
     //===============================
