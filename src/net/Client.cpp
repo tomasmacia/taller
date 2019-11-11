@@ -90,7 +90,7 @@ void Client::sendThread() {
             toSendMessagesQueue.pop_front();
 
             send(message);
-            cout<<endl;
+            //cout<<endl;
             //cout<<"CLIENT-SEND: "<<endl;
             //cout << "CLIENT-SEND: " << message << endl;
         }
