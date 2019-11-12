@@ -102,6 +102,10 @@ void GameServer::addNewIDToGame(int id) {
     IDPlayer::getInstance().addNewIdPlayer(id);
 }
 
+void GameServer::reemplazePreviousIDWith(int oldID, int newID) {
+    IDPlayer::getInstance().reemplaze(oldID, newID);
+}
+
 int GameServer::getCurrentLevelWidth(){
     return levelBuilder->getCurrentLevelWidth();
 }
@@ -221,6 +225,8 @@ string GameServer::processReconectionAndEmitSuccesMessage(string user, int newID
     loggedPlayersUserByID.insert({newID,user});
 
     loggedPlayersIDbyUser.at(user) = newID;
+
+    reemplazePreviousIDWith(oldID, newID);
 
     disconectedPlayers.erase(user);
     if (manager != nullptr){

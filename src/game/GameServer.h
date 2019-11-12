@@ -36,6 +36,7 @@ public:
     void endLevel();
     std::string validateLogin(std::string user, std::string pass, int userId);
     void addNewIDToGame(int id);
+    void reemplazePreviousIDWith(int oldID, int newID);
     void reciveNewInput(tuple<Action,int> input);
     int getCurrentLevelWidth();
     static bool isActive();
