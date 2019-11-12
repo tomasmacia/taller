@@ -27,7 +27,7 @@ void Controller::checkIfCloseRelatedInputWasPulsed(){
     Action action;
     while (SDL_PollEvent(&sdlEvent)) {
         action = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
-        if ((sdlEvent.type == SDL_QUIT) || action == QUIT){
+        if (sdlEvent.type == SDL_QUIT){
             game->end();
         }
     }

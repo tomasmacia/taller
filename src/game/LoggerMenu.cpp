@@ -255,10 +255,10 @@ void LoggerMenu::OnEvent(SDL_Event* Event) {
                   this->render();
                 }
               break;
-            case SDLK_ESCAPE:
-              running=false;
-                gameClient->end();
-              break;
+            //case SDLK_ESCAPE:
+              //running=false;
+                //gameClient->end();
+              //break;
             default:
             //Solo 10 caracteres para no salirse de su espacio
               if(input.size()<10){
