@@ -65,6 +65,7 @@ bool StateComponent::notJumping(){
 bool StateComponent::jumping(){
     return _jumping;
 }
+
 void StateComponent::setFliped(){
     _facingLeft = !_facingLeft;
 }
@@ -83,6 +84,10 @@ bool StateComponent::facingLeft(){
 
 Action StateComponent::current(){
     return _currentState;
+}
+
+bool StateComponent::hasFinishedJumping(){
+    return ((_prevState == JUMP) || (_prevState == JUMP_KICK)) && changed();
 }
 
 void StateComponent::setDisconnected() {

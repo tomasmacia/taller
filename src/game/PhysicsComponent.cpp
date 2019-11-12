@@ -35,6 +35,9 @@ void PhysicsComponent::update() {
     int newX = (int)((float)prevX + _velocityX);
     int newY = (int)((float)prevY - _velocityY); //resto porque el SDL tiene el eje Y al revez
 
+    if (state->hasFinishedJumping()){
+        newY = _berforeJumpingY;
+    }
 
     if (state->jumping()){
         if (_levelLimits->newXOutOfRange(newX)){
@@ -77,6 +80,7 @@ void PhysicsComponent::handleIncomingAction(){
             case JUMP:
                 state->setJumping(); //la fisica es la que determina CUANDO EMPIEZA a saltar, no State
                 jump();
+                _berforeJumpingY = entity->getComponent<PositionComponent>()->getY();
                 break;
             case PUNCH:
                 punch();
@@ -87,6 +91,7 @@ void PhysicsComponent::handleIncomingAction(){
             case JUMP_KICK:
                 state->setJumping(); //la fisica es la que determina CUANDO EMPIEZA a saltar, no State
                 jumpKick();
+                _berforeJumpingY = entity->getComponent<PositionComponent>()->getY();
                 break;
             case CROUCH:
                 crouch();

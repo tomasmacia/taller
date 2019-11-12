@@ -1,5 +1,4 @@
 #include "CharacterRenderComponent.h"
-#include "GameServer.h"
 #include "StateComponent.h"
 
 CharacterRenderComponent::CharacterRenderComponent(Entity* camera, CharacterXML characterConfig) {

@@ -36,6 +36,8 @@ private:
     float DEFAULT_JUMPING_VELOCITY_Y = ((GameServer::getInstance().getConfig()->screenResolution.height)/35);;
     //how high is the jump
 
+    int _berforeJumpingY;
+
     void up();
     void down();
     void left();

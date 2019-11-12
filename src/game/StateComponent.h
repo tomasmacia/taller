@@ -23,6 +23,7 @@ public:
     bool jumping();
     void setJumping();
     bool changed();
+    bool hasFinishedJumping();
 
     void setConnected();
     void setDisconnected();
