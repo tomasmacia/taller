@@ -36,6 +36,7 @@ public:
     void endLevel();
     std::string validateLogin(std::string user, std::string pass, int userId);
     void addNewIDToGame(int id);
+    void reemplazePreviousIDWith(int oldID, int newID);
     void reciveNewInput(tuple<Action,int> input);
     int getCurrentLevelWidth();
     static bool isActive();
@@ -119,8 +120,8 @@ private:
 
     std::map<std::string,std::string> validCredentials;             //<user,pass>
     std::map<std::string,std::string> loggedPlayersPassByUser;      //<user,pass>
-    std::map<std::string,int> loggedPlayersIDbyUser;                //<id,user>
-    std::map<int,std::string> loggedPlayersUserByID;                //<user,id>
+    std::map<std::string,int> loggedPlayersIDbyUser;                //<user,id>
+    std::map<int,std::string> loggedPlayersUserByID;                //<id,user>
     std::map<std::string,int> disconectedPlayers;                   //<user,id>
 
     int maxPlayers;

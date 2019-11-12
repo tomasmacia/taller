@@ -4,17 +4,9 @@
 
 #include <unistd.h>
 #include <sys/socket.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
 #include "UserConnection.h"
 #include <iostream>
-#include <sys/socket.h>
 
-#include "../game/MessageId.h"
-
-#include <iostream>
 
 
 //API
@@ -59,7 +51,6 @@ bool UserConnection::hasPassedLogin(){
 void UserConnection::readThread() {
 
     string incomingMessage;
-
     while(isConnected()) {
         incomingMessage = server->receive(socketFD);
         //cout<<"SERVER-READ"<<endl;
@@ -98,7 +89,7 @@ void UserConnection::sendThread() {
 
 void UserConnection::dispatchThread() {
 
-    while(connectionOn) {
+    while(isConnected()) {
         incomingQueueMutex.lock();
         if (!incomingMessagesQueue.empty()){
 
@@ -156,6 +147,7 @@ void UserConnection::checkConnection(){
         usleep(100000);
     }
     setConnectionOff();
+    LogManager::logError("[SERVER]: conexion con " + to_string(userId) + " perdida");
 }
 
 bool UserConnection::isConnected() {
@@ -179,7 +171,7 @@ bool UserConnection::connectionOff(){
     if (!isConnected()){
         return true;
     } else {
-        return server->send(objectSerializer.getPingCode(), socketFD) < 0;
+        return server->send(objectSerializer.getPingMessage(), socketFD) < 0;
     }
 }
 

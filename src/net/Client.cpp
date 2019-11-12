@@ -1,5 +1,3 @@
-
-#include <list>
 #include <unistd.h>
 #include <string.h>
 #include <sys/socket.h>
@@ -9,7 +7,6 @@
 
 #include "../LogLib/LogManager.h"
 #include "../game/MessageId.h"
-#include "../game/ToClientPack.h"
 #include "Client.h"
 
 #include <iostream>
@@ -60,28 +57,32 @@ bool Client::start(){
     read.join();
     send.join();
     dispatch.join();
+
+    gameClient->end();
 }
 
 //THREADS
 //=========================================================================================
 void Client::readThread() {
 
-    string newMessage;
-    while (connectionOn) {
-        newMessage = receive();
-        incomingQueueMutex.lock();
-
-        incomingMessagesQueue.push_back(newMessage);
-        //cout<<endl;
-        //cout<<"CLIENT-READ: "<<endl;
-        //cout << "CLIENT-READ: " << newMessage << endl;
-        incomingQueueMutex.unlock();
+    string incomingMessage;
+    while(isConnected()) {
+        incomingMessage = receive();
+        //cout<<"CLIENT-READ"<<endl;
+        if (incomingMessage == objectSerializer.getFailure()){ continue;}
+        if (incomingMessage == objectSerializer.getPingCode()){ continue;}
+        else{
+            incomingQueueMutex.lock();
+            incomingMessagesQueue.push_back(incomingMessage);
+            //cout<<"CLIENT-READ: "<<incomingMessage<<endl;
+            incomingQueueMutex.unlock();
+        }
     }
 }
 
 void Client::sendThread() {
 
-    while (connectionOn) {
+    while (isConnected()) {
         sendQueueMutex.lock();
 
         if (!toSendMessagesQueue.empty()){
@@ -89,7 +90,7 @@ void Client::sendThread() {
             toSendMessagesQueue.pop_front();
 
             send(message);
-            cout<<endl;
+            //cout<<endl;
             //cout<<"CLIENT-SEND: "<<endl;
             //cout << "CLIENT-SEND: " << message << endl;
         }
@@ -101,7 +102,7 @@ void Client::dispatchThread() {
 
     int totalDispatched = 0;
     int validRenderablesPackDispatched = 0;
-    while(connectionOn) {
+    while(isConnected()) {
         incomingQueueMutex.lock();
         if (!incomingMessagesQueue.empty()){
 
@@ -168,6 +169,10 @@ int Client::send(std::string msg) {
         int n = ::send(socketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
         if (n < 0) {
             error("ERROR sending");
+            return n;
+        }
+        if (n == 0) {
+            return n;
         }
 
         bytesSent += n;
@@ -186,7 +191,10 @@ std::string Client::receive() {
     while (bytesRead < MAX_BYTES_BUFFER - 1) {
         int n = recv(socketFD, buff, MAX_BYTES_BUFFER - 1, 0);
         if (n < 0) {
-            cout << "ERROR READ" << endl;
+            error("ERROR reading");
+            return objectSerializer.getFailure();
+        }
+        if (n == 0) {
             return objectSerializer.getFailure();
         }
 
@@ -195,7 +203,7 @@ std::string Client::receive() {
 
     char end = objectSerializer.getEndOfSerializationSymbol();
     char padding = objectSerializer.getPaddingSymbol();
-    std::string parsed = messageParser.extractMeaningfulMessageFromStream(buff, end,padding);
+    std::string parsed = messageParser.extractMeaningfulMessageFromStream(buff,MAX_BYTES_BUFFER, end,padding);
     return parsed;
 }
 
@@ -208,6 +216,23 @@ void Client::checkConnection(){
         usleep(100000);
    }
     connectionOn = false;
+    LogManager::logError("[CLIENT]: conexion perdida");
+}
+
+bool Client::isConnected() {
+    bool isConnected;
+
+    connectionMutex.lock();
+    isConnected = connectionOn;
+    connectionMutex.unlock();
+
+    return isConnected;
+}
+
+void Client::setConnectionOff() {
+    connectionMutex.lock();
+    connectionOn = false;
+    connectionMutex.unlock();
 }
 
 bool Client::connectionOff(){
@@ -216,7 +241,7 @@ bool Client::connectionOff(){
         return true;
     }
     else {
-        return send(objectSerializer.getPingCode()) < 0;
+        return send(objectSerializer.getPingMessage()) < 0;
     }
 }
 
@@ -229,7 +254,7 @@ int Client::disconnectFromServer() {
 //=========================================================================================
 void Client::error(const char *msg) {
     LogManager::logError(msg);
-
+    setConnectionOff();
 }
 
 //INIT & CONSTRUCTOR
@@ -262,9 +287,10 @@ int Client::connectToServer() {
 
     if (connect(socketFD, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) < 0) {
         error("ERROR connecting");
+        cout<<"Connection to server failed"<<endl;
         gameClient->end();
     }
-
+    LogManager::logInfo("[CLIENT]: Conexion establecida");
     connectionAttemptMade = true;
 
     return socketFD;

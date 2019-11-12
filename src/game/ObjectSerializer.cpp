@@ -150,6 +150,10 @@ string ObjectSerializer::serializeCredentials(string user, string pass){
     return addPadding(START_SYMBOL + SEPARATOR + to_string(USER_PASS) + SEPARATOR + user + SEPARATOR + pass + SEPARATOR + END_OF_SERIALIZATION_SYMBOL);
 }
 
+string ObjectSerializer::getPingMessage(){
+    return PING_CODE + END_OF_SERIALIZATION_SYMBOL;
+}
+
 string ObjectSerializer::serializeObject(ToClientPack* package){
 
     std::string serializedObject;

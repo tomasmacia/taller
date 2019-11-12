@@ -25,6 +25,7 @@ public:
     void addNewIdPlayer(int id);
     int getNextId();
     void initIDCounter();
+    void reemplaze(int oldID, int newID);
 
 private:
     IDPlayer(){}

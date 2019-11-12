@@ -14,7 +14,7 @@
 bool GameServer::hasInstance = false;
 
 void GameServer::start() {
-    LogManager::logInfo("Se inicia Game");
+    LogManager::logInfo("[GAME]: Se inicia Game");
 
     initController();
     startServer();          //1 thread de listen de conexiones nuevas y 4 threads por cliente nuevo
@@ -26,7 +26,7 @@ void GameServer::start() {
 
     closeServer();          //se cierra el thread se server y (previamente se cierran los 4 threads child)
 
-    LogManager::logInfo("Juego terminado");
+    LogManager::logInfo("[GAME]: Juego terminado");
     LogManager::logInfo("=======================================");
 
     cout << "everything endded up nicely :D" << endl;
@@ -41,16 +41,18 @@ void GameServer::gameLoop(){
 
         levelBuilder->loadNext();
         LogManager::logInfo("=======================================");
-        LogManager::logInfo("se inicia game loop de este nivel");
+        LogManager::logInfo("[GAME]: se inicia game loop de este nivel");
 
         while (isOn() && !levelBuilder->levelFinished() && notAllPlayersDisconnected()) {
             update();
             sendUpdate();
             usleep(13000);
         }
-        LogManager::logInfo("fin de game loop de este nivel");
+        LogManager::logInfo("[GAME]: fin de game loop de este nivel");
         LogManager::logInfo("=======================================");
     }
+    on = false;
+    server->stopListening();
 }
 
 void GameServer::update() {
@@ -92,12 +94,16 @@ std::string GameServer::validateLogin(std::string user, std::string pass, int us
 }
 
 void GameServer::endLevel(){
-    LogManager::logInfo("Nivel terminado");
+    LogManager::logInfo("[GAME]: Nivel terminado");
     levelBuilder->endLevel();
 }
 
 void GameServer::addNewIDToGame(int id) {
     IDPlayer::getInstance().addNewIdPlayer(id);
+}
+
+void GameServer::reemplazePreviousIDWith(int oldID, int newID) {
+    IDPlayer::getInstance().reemplaze(oldID, newID);
 }
 
 int GameServer::getCurrentLevelWidth(){
@@ -126,20 +132,18 @@ void GameServer::startServer(){
     server = new Server(this);
     server->init();
     listenConnectionsThread = std::thread(&Server::listenThread,server);
-    LogManager::logInfo("Server inicializado");
+    LogManager::logInfo("[INIT]: Server inicializado");
 }
 
 void GameServer::closeServer(){
     listenConnectionsThread.join();
+    server->close();
 }
 
 void GameServer::waitUnitAllPlayersConnected(){
 
     while ((loggedPlayersPassByUser.size() != maxPlayers) ||
-            (disconectedPlayers.size() != 0)){
-
-        continue;
-    }
+            (!disconectedPlayers.empty())){}
 }
 
 bool GameServer::notAllPlayersDisconnected(){
@@ -163,7 +167,7 @@ void GameServer::connectionLostWith(int id){
 
 void GameServer::initController() {
     controller = new Controller(this);
-    LogManager::logDebug("inicializado Controller");
+    LogManager::logDebug("[INIT]: inicializado Controller");
 }
 
 void GameServer::closeController(){
@@ -222,6 +226,8 @@ string GameServer::processReconectionAndEmitSuccesMessage(string user, int newID
 
     loggedPlayersIDbyUser.at(user) = newID;
 
+    reemplazePreviousIDWith(oldID, newID);
+
     disconectedPlayers.erase(user);
     if (manager != nullptr){
         manager->reconectPlayerByID(oldID, newID);
@@ -236,9 +242,9 @@ string GameServer::processReconectionAndEmitSuccesMessage(string user, int newID
 void GameServer::initGameModel() {
     initECSManager();
     initLevelBuilder();
-    LogManager::logDebug("inicializado Manager");
-    LogManager::logDebug("inicializado LevelBuilder");
-    LogManager::logInfo("Modelo inicializado");
+    LogManager::logDebug("[INIT]: inicializado Manager");
+    LogManager::logDebug("[INIT]: inicializado LevelBuilder");
+    LogManager::logInfo("[INIT]: Modelo inicializado");
 }
 
 void GameServer::init() {
@@ -246,8 +252,8 @@ void GameServer::init() {
     loadValidCredenctials();
     maxPlayers = config->serverMaxPlayers;
 
-    LogManager::logDebug("inicializado Config");
-    LogManager::logDebug("cargado credenciales");
+    LogManager::logDebug("[INIT]: inicializado Config");
+    LogManager::logDebug("[INIT]: cargado credenciales");
     LogManager::logDebug("=======================================");
 }
 

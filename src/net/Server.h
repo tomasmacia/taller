@@ -30,6 +30,8 @@ public:
     void setToSendToSpecific(std::string message,int connectionID);
     void setToBroadcast(std::string message);
     void removeConnection(int id);
+    void stopListening();
+    int close();
 
     //ACTUAL DATA TRANSFER
     //===============================
@@ -52,12 +54,11 @@ private:
 
     //ERROR
     //===============================
-    void error(const char* msg);
+    void error(string msg);
 
     //DISCONECTION RELATED
     //===============================
     int shutdown();
-    int close();
 
     //ATRIBUTE
     //===============================

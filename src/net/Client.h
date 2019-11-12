@@ -50,6 +50,8 @@ private:
     //DISCONECTION RELATED
     //===============================
     void checkConnection();
+    bool isConnected();
+    void setConnectionOff();
     bool connectionOff();
     int disconnectFromServer();
 
@@ -64,6 +66,7 @@ private:
 
     //ATRIBUTES
     //===============================
+    std::mutex connectionMutex;
     std::mutex sendQueueMutex;
     std::mutex incomingQueueMutex;
     int socketFD;

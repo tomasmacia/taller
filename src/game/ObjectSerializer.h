@@ -52,6 +52,7 @@ public:
     string serializeObject(ToClientPack* package);
     string serializeInput(Action action, int id);
     string serializeCredentials(string user, string pass);
+    string getPingMessage();
     string addPadding(string message);
 
     //GETTERS
@@ -77,7 +78,7 @@ public:
     }
 
     string getPingCode(){
-        return PING_CODE + string(totalMessageLength - PING_CODE.length(),'&'); // TODO HARDCODE
+        return PING_CODE;
     }
 
 

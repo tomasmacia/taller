@@ -21,7 +21,7 @@ vector<string>* MessageParser::parse(string rawMessage, char separatorCharacter)
     return lastParsedMessage;
 }
 
-string MessageParser::extractMeaningfulMessageFromStream(char *buffer, char endSerializationChar, char padding){
+string MessageParser::extractMeaningfulMessageFromStream(char *buffer, int bufferLength, char endSerializationChar, char padding){
 
     string extractedMessage = "";
     int i = 0;
@@ -29,9 +29,11 @@ string MessageParser::extractMeaningfulMessageFromStream(char *buffer, char endS
         if (buffer[i] != padding){
             extractedMessage += buffer[i];
         }
+        if (i == bufferLength){
+            break;
+        }
         i++;
     }
-
     return extractedMessage;
 }
 
