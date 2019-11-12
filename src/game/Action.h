@@ -9,9 +9,13 @@
 enum Action {
     NONE,
     UP,
+    END_UP,
     DOWN,
+    END_DOWN,
     LEFT,
+    END_LEFT,
     RIGHT,
+    END_RIGHT,
     JUMP,
     PUNCH,
     KICK,

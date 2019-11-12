@@ -34,19 +34,35 @@ void CharacterRenderComponent::handleIncomingAction(){
             currentSprite = characterConfig.walk;
             _imageAmount  = WALK_IMAGE_AMOUNT;
             break;
+        case END_UP:
+            currentSprite = characterConfig.stand;
+            _imageAmount  = STAND_IMAGE_AMOUNT;
+            break;
         case DOWN:
             currentSprite = characterConfig.walk;
             _imageAmount  = WALK_IMAGE_AMOUNT;
+            break;
+        case END_DOWN:
+            currentSprite = characterConfig.stand;
+            _imageAmount  = STAND_IMAGE_AMOUNT;
             break;
         case LEFT:
             if (state->facingRight()) flip();
             currentSprite = characterConfig.walk;
             _imageAmount  = WALK_IMAGE_AMOUNT;
             break;
+        case END_LEFT:
+            currentSprite = characterConfig.stand;
+            _imageAmount  = STAND_IMAGE_AMOUNT;
+            break;
         case RIGHT:
             if (state->facingLeft()) flip();
             currentSprite = characterConfig.walk;
             _imageAmount  = WALK_IMAGE_AMOUNT;
+            break;
+        case END_RIGHT:
+            currentSprite = characterConfig.stand;
+            _imageAmount  = STAND_IMAGE_AMOUNT;
             break;
         case JUMP:
             currentSprite = characterConfig.jump;

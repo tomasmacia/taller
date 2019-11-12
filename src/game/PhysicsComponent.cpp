@@ -75,14 +75,27 @@ void PhysicsComponent::handleIncomingAction(){
             case UP:
                 up();
                 break;
+            case END_UP:
+                endUp();
+                break;
             case DOWN:
                 down();
+                break;
+            case END_DOWN:
+                endDown();
                 break;
             case LEFT:
                 left();
                 break;
+            case END_LEFT:
+                cout<<"me llego una keyup: "<<END_LEFT<<endl;
+                endLeft();
+                break;
             case RIGHT:
                 right();
+                break;
+            case END_RIGHT:
+                endRight();
                 break;
             case JUMP:
                 state->setJumping(); //la fisica es la que determina CUANDO EMPIEZA a saltar, no State
@@ -111,26 +124,43 @@ void PhysicsComponent::handleIncomingAction(){
 
 void PhysicsComponent::up() {
     _accelerationX = 0;
-    _accelerationY = 0;
     _velocityY = DEFAULT_WALKING_VELOCITY_Y;
 }
 
 void PhysicsComponent::down() {
     _accelerationX = 0;
-    _accelerationY = 0;
     _velocityY = -DEFAULT_WALKING_VELOCITY_Y;;
 }
 
 void PhysicsComponent::left() {
     _accelerationX = 0;
-    _accelerationY = 0;
     _velocityX = -DEFAULT_WALKING_VELOCITY_X;
 }
 
 void PhysicsComponent::right() {
     _accelerationX = 0;
-    _accelerationY = 0;
     _velocityX = DEFAULT_WALKING_VELOCITY_X;
+}
+
+void PhysicsComponent::endUp() {
+    _accelerationY = 0;
+    _velocityY = 0;
+}
+
+void PhysicsComponent::endDown() {
+    _accelerationX = 0;
+    _accelerationY = 0;
+    _velocityY = 0;;
+}
+
+void PhysicsComponent::endLeft() {
+    _accelerationX = 0;
+    _velocityX = 0;
+}
+
+void PhysicsComponent::endRight() {
+    _accelerationX = 0;
+    _velocityX = 0;
 }
 
 void PhysicsComponent::jump() {
