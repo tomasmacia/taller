@@ -29,11 +29,6 @@ void LevelLimits::initialize(int windowWidth, int windowHeight, int levelWidth, 
     _minX = 0;
 
     _offsetY = _windowHeight - _maxY;
-
-    cout<<"_maxY: "<<_maxY<<endl;
-    cout<<"_minY: "<<_minY<<endl;
-    cout<<"_maxX: "<<_maxX<<endl;
-    cout<<"_minX: "<<_minX<<endl;
 }
 
 void LevelLimits::reset(int windowWidth, int windowHeight, int levelWidth) {

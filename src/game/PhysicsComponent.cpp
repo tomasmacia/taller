@@ -8,6 +8,7 @@
 #include "CharacterRenderComponent.h"
 #include "NPCRenderComponent.h"
 
+#include <iostream>
 
 PhysicsComponent::PhysicsComponent(LevelLimits* levelLimits){
     _levelLimits = levelLimits;
@@ -40,11 +41,27 @@ void PhysicsComponent::update() {
     }
 
     if (state->jumping()){
+        cout<<"prevY: "<<prevY<<endl;
+        cout<<"newY: "<<newY<<endl;
+        cout<<"_berforeJumpingY: "<<_berforeJumpingY<<endl;
+        cout<<"==============================="<<endl;
+        cout<<endl;
+
         if (_levelLimits->newXOutOfRange(newX)){
-            positionComponent->setPosition(prevX,newY);
+            if(newY > _berforeJumpingY){
+                positionComponent->setPosition(prevX,prevY);
+            }
+            else{
+                positionComponent->setPosition(prevX,newY);
+            }
         }
         else{
-            positionComponent->setPosition(newX,newY);
+            if(newY > _berforeJumpingY){
+                positionComponent->setPosition(newX,prevY);
+            }
+            else{
+                positionComponent->setPosition(newX,newY);
+            }
         }
     }
     else{
