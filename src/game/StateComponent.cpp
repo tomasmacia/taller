@@ -44,6 +44,7 @@ void StateComponent::setFinished(){ //cambia el estado (por RenderComponent)
     if (_jumping){
         _jumping = false;
         _requestForStateChange = true;
+        entity->getComponent<PhysicsComponent>()->endJumpingMovement();
     }
 
     if (currentIsblockingAction()){

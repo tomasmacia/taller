@@ -36,17 +36,7 @@ void PhysicsComponent::update() {
     int newX = (int)((float)prevX + _velocityX);
     int newY = (int)((float)prevY - _velocityY); //resto porque el SDL tiene el eje Y al revez
 
-    if (state->hasFinishedJumping()){
-        newY = _berforeJumpingY;
-    }
-
     if (state->jumping()){
-        cout<<"prevY: "<<prevY<<endl;
-        cout<<"newY: "<<newY<<endl;
-        cout<<"_berforeJumpingY: "<<_berforeJumpingY<<endl;
-        cout<<"==============================="<<endl;
-        cout<<endl;
-
         if (_levelLimits->newXOutOfRange(newX)){
             if(newY > _berforeJumpingY){
                 positionComponent->setPosition(prevX,prevY);
@@ -218,4 +208,11 @@ void PhysicsComponent::drag(){
     int newY = prevY;
 
     positionComponent->setPosition(newX,newY);
+}
+
+void PhysicsComponent::endJumpingMovement(){
+    auto positionComponent = entity->getComponent<PositionComponent>();
+    int prevX = positionComponent->getX();
+    none();
+    positionComponent->setPosition(prevX,_berforeJumpingY);
 }
