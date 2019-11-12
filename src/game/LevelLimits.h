@@ -28,7 +28,7 @@ private:
     int _windowHeight, _windowWidth, _levelWidth;
 
     int _minY, _maxY, _minX, _maxX;
-    int _rangeOfMovementY, _offsetY, _characterHeigth;
+    int _rangeOfMovementY, _offsetY, _characterHeigth,_offset;
 
     std::clock_t start = std::clock();
 
