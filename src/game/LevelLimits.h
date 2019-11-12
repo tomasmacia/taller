@@ -4,16 +4,12 @@
 #include <cstdio>
 #include <ctime>
 
-#include "ECS.h"
 #include "CameraComponent.h"
 
 
 class LevelLimits : public Component{
 public:
-    LevelLimits(int windowWidth, int windowHeigh, int levelWidth,
-                 CameraComponent* camera);
-
-    void update() override;
+    LevelLimits(){}
 
     void reset(int windowWidth, int windowHeight, int levelWidth);
 
@@ -22,9 +18,9 @@ public:
     bool newPositionOutOfRange(int x, int y);
     bool newXOutOfRange(int newX);
 
-private:
-    void initialize(int windowWidth, int windowHeight, int levelWidth, CameraComponent* camera);
-    
+protected:
+    virtual void initialize(int windowWidth, int windowHeight, int levelWidth, CameraComponent* camera){}
+
     int _windowHeight, _windowWidth, _levelWidth;
 
     int _minY, _maxY, _minX, _maxX;

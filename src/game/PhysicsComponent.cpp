@@ -208,7 +208,6 @@ int PhysicsComponent::getWalkingSpeed(){
     return DEFAULT_WALKING_VELOCITY_X;
 }
 
-
 void PhysicsComponent::drag(){
 
     auto positionComponent = entity->getComponent<PositionComponent>();

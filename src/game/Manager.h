@@ -12,8 +12,7 @@
 
 #include "ToClientPack.h"
 
-#include "ECS.h"
-
+class Entity;
 class Manager {
 public:
     Manager();
