@@ -14,6 +14,8 @@ void CharacterRenderComponent::init() {
     setDimentions();
 
     DELAY = 5;
+    WIDTH_SCALE = 0.3; //el width de los codys es un poco mas grande
+    destRect.w = (int)((float)(_camera->getWindowWidth())*WIDTH_SCALE);
     currentSprite = characterConfig.stand;
     _imageAmount  = STAND_IMAGE_AMOUNT;
     _imageCounter = 0;
