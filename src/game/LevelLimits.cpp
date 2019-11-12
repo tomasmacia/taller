@@ -20,7 +20,7 @@ void LevelLimits::initialize(int windowWidth, int windowHeight, int levelWidth, 
     _levelWidth = levelWidth;
 
     _characterHeigth = _windowHeight * 0.45;
-    _offset = _windowWidth / 160;
+    _offset = _windowWidth / 50;
     _rangeOfMovementY = _windowHeight * 0.22;
 
     _maxY = _windowHeight - _characterHeigth;
@@ -56,9 +56,9 @@ int LevelLimits::generateValidInScreenY(){
 }
 
 bool LevelLimits::newPositionOutOfRange(int x, int y){
-    return (x >= _maxX || x <= _minX) 
+    return (x > _maxX || x < _minX)
             ||
-           (y >= _maxY || y <= _minY);
+           (y > _maxY || y < _minY);
 }
 
 bool LevelLimits::newXOutOfRange(int x){

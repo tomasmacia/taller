@@ -43,7 +43,7 @@ string Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
 
         action = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
 
-        if ((sdlEvent.type == SDL_QUIT) || action == QUIT){
+        if (sdlEvent.type == SDL_QUIT){
             game->end();
         }
 
@@ -279,25 +279,3 @@ Controller::~Controller() {
     delete  currentInput;
     currentInput = nullptr;
 }
-
-
-
-
-
-
-
-
-
-
-
-/*
-bool Controller::hasNewInput(){
-
-    SDL_Event* e;
-    if (SDL_PeepEvents(e, 0, SDL_PEEKEVENT, 0, 0) >= 0){
-        return true;
-    }
-    else{
-        return  false;
-    }
-}*/

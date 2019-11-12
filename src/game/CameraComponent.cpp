@@ -36,6 +36,18 @@ void CameraComponent::update() {
 }
 
 bool CameraComponent::shouldMoveCamera() {
+
+    for (auto* player : _players){
+        cout<<"x: "<<player->getComponent<PositionComponent>()->getX() - currentX<<endl;
+    }
+    cout<<"amount: "<<_players.size()<<endl;
+    cout<<"noConnectedPlayerInLeftLimit: "<<noConnectedPlayerInLeftLimit()<<endl;
+    cout<<"margin position: "<<windowWidth - marginWidth<<endl;
+    cout<<"marginSurpased: "<<marginSurpased()<<endl;
+    cout<<"notAtTheEnd: "<<notAtTheEnd()<<endl;
+    cout<<"==============================="<<endl;
+    cout<<endl;
+
     return (noConnectedPlayerInLeftLimit() && marginSurpased() && notAtTheEnd());
 }
 
@@ -68,7 +80,7 @@ bool CameraComponent::cameraHasReachedLimit(){
 }
 
 bool CameraComponent::surpasedRightLimit(Entity* player){
-    return (currentX + windowWidth - offScreenTolerance/30) < player->getComponent<PositionComponent>()->getX();
+    return touchingMargin(player);
 }
 
 bool CameraComponent::aPlayerSurpasedRightLimit(){
