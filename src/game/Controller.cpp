@@ -97,7 +97,6 @@ void Controller::clearAllInputs(){
     currentInput->clear();
 }
 
-
 void Controller::reciveRenderables(vector<string>* serializedPagackes){
     cleanUpRenderables();
     objectSerializer.reconstructRenderables(serializedPagackes,currentPackagesToRender);

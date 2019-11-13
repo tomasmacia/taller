@@ -43,6 +43,7 @@ public:
     bool playersCanMove();
     void connectionLostWith(int id);
     bool isIDLogged(int ID);
+    void sendWaitingScreen();
 
     //GETTERS
     //===============================
@@ -81,6 +82,7 @@ private:
 
     //INIT
     //===============================
+    void initWaitingScreen();
     void initECSManager();
     void initLevelBuilder();
     void loadValidCredenctials();   //<user,pass>
@@ -114,6 +116,8 @@ private:
 
     //ATRIBUTES
     //===============================
+    int SLEEP_TIME = 13000;
+
     static bool hasInstance;
 
     std::thread listenConnectionsThread;
@@ -125,6 +129,9 @@ private:
     std::map<std::string,int> disconectedPlayers;                   //<user,id>
 
     int maxPlayers;
+
+    ToClientPack* waitingScreenRenderable = nullptr;
+    list<ToClientPack*>* waitingScreenContainer = nullptr;
 
     Server* server = nullptr;
     LevelBuilder* levelBuilder = nullptr;
