@@ -10,6 +10,8 @@
 #include "Game.h"
 #include "ToClientPack.h"
 #include "Action.h"
+#include "Color.h"
+#include "User.h"
 
 class Server;
 
@@ -113,20 +115,22 @@ private:
     bool IDInDisconnectedPlayers(string user);
     string processConectionAndEmitSuccesMessage(string user, string pass, int id);
     string processReconectionAndEmitSuccesMessage(string user, int newId);
+    string getNewColor();
 
     //ATRIBUTES
     //===============================
     int SLEEP_TIME = 13000;
+    Color currentColor = BLUE;
 
     static bool hasInstance;
 
     std::thread listenConnectionsThread;
 
-    std::map<std::string,std::string> validCredentials;             //<user,pass>
-    std::map<std::string,std::string> loggedPlayersPassByUser;      //<user,pass>
-    std::map<std::string,int> loggedPlayersIDbyUser;                //<user,id>
-    std::map<int,std::string> loggedPlayersUserByID;                //<id,user>
-    std::map<std::string,int> disconectedPlayers;                   //<user,id>
+    std::map<std::string,std::string> validCredentials;             //<name,pass>
+    std::map<std::string,std::string> loggedPlayersPassByUser;      //<name,pass>
+    std::map<std::string,int> loggedPlayersIDbyUser;                //<name,id>
+    std::map<int,User> loggedPlayersUserByID;                       //<id,user>
+    std::map<std::string,int> disconectedPlayers;                   //<name,id>
 
     int maxPlayers;
 

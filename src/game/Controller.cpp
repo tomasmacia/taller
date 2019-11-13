@@ -110,8 +110,8 @@ void Controller::sendUpdate(std::list<ToClientPack*>* toClientsPackages, Server*
     server->setToBroadcast(serializedPackages);
 }
 
-std::string Controller::getSuccesfullLoginMessage(int userId){
-    return objectSerializer.getSuccesfullLoginMessage(userId);
+std::string Controller::getSuccesfullLoginMessage(string color, int userId){
+    return objectSerializer.getSuccesfullLoginMessage(color, userId);
 }
 
 std::string Controller::getInvalidCredentialMessage() {

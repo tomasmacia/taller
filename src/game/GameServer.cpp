@@ -9,6 +9,8 @@
 
 #include "IDPlayer.h"
 #include "../utils/ImageUtils.h"
+#include "User.h"
+#include "Color.h"
 
 #include <iostream>
 
@@ -163,8 +165,8 @@ void GameServer::connectionLostWith(int id){
 
     if (loggedPlayersUserByID.count(id)){
 
-        string user = loggedPlayersUserByID.at(id);
-        disconectedPlayers.insert({user,id});
+        string name = loggedPlayersUserByID.at(id).name;
+        disconectedPlayers.insert({name,id});
     }
     if (manager != nullptr){
         manager->disconectPlayerByID(id);
@@ -217,32 +219,57 @@ bool GameServer::IDInDisconnectedPlayers(string user){
     return disconectedPlayers.find(user) != disconectedPlayers.end();
 }
 
-string GameServer::processConectionAndEmitSuccesMessage(string user, string pass, int id){
+string GameServer::processConectionAndEmitSuccesMessage(string name, string pass, int id){
 
-    loggedPlayersPassByUser.insert({ user, pass });
+    User user(name,this->getNewColor());
+
+
+    loggedPlayersPassByUser.insert({ user.name, pass });
     loggedPlayersUserByID.insert({ id, user });
-    loggedPlayersIDbyUser.insert({user,id});
+    loggedPlayersIDbyUser.insert({user.name,id});
     addNewIDToGame(id);
 
-    return controller->getSuccesfullLoginMessage(id);
+    return controller->getSuccesfullLoginMessage(user.color, id);
 }
 
-string GameServer::processReconectionAndEmitSuccesMessage(string user, int newID){
+string GameServer::processReconectionAndEmitSuccesMessage(string name, int newID){
 
-    int oldID = loggedPlayersIDbyUser.at(user);
+    int oldID = loggedPlayersIDbyUser.at(name);
+    User user = loggedPlayersUserByID.at(oldID);
+
     loggedPlayersUserByID.erase(oldID);
     loggedPlayersUserByID.insert({newID,user});
 
-    loggedPlayersIDbyUser.at(user) = newID;
+    loggedPlayersIDbyUser.at(user.name) = newID;
 
     reemplazePreviousIDWith(oldID, newID);
 
-    disconectedPlayers.erase(user);
+    disconectedPlayers.erase(user.name);
     if (manager != nullptr){
         manager->reconectPlayerByID(oldID, newID);
     }
 
-    return controller->getSuccesfullLoginMessage(newID);
+    return controller->getSuccesfullLoginMessage(user.color,newID);
+}
+
+string GameServer::getNewColor() {
+    switch (currentColor){
+        case BLUE:
+            currentColor = RED;
+            return "BLUE";
+        case RED:
+            currentColor = GREEN;
+            return "RED";
+        case GREEN:
+            currentColor = YELLOW;
+            return "GREEN";
+        case YELLOW:
+            currentColor = COLOR_UNDEFINED;
+            return "YELLOW";
+        case COLOR_UNDEFINED:
+            LogManager::logError("[LOGIN]: tried to assign undefined color");
+            return "COLOR_UNDEFINED";
+    }
 }
 
 

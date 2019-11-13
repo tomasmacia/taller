@@ -140,6 +140,7 @@ void Client::processResponseFromServer() {
 
     if (messageParser.getHeader() == SUCCESS){
         gameClient->setPlayerId(id);
+        gameClient->setPlayerColor(messageParser.getCurrent()->at(messageParser.getCurrent()->size()-1));
     }
 }
 

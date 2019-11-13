@@ -23,7 +23,7 @@ public:
     int getIDFrom(vector<string>* currentParsedMessage);
     string getUserFrom(vector<string>* currentParsedMessage);
     string getPassFrom(vector<string>* currentParsedMessage);
-    std::string getSuccesfullLoginMessage(int userId);
+    std::string getSuccesfullLoginMessage(string color, int userId);
     std::string getInvalidCredentialMessage();
     std::string getServerFullMessage();
     std::string getAlreadyLoggedInMessage();
@@ -45,7 +45,7 @@ public:
 
     //SERIALIZATION
     //===============================
-    std::string serializedSuccesfullLoginMessage(int userId);
+    std::string serializedSuccesfullLoginMessage(string color, int userId);
     std::string serializedInvalidCredentialMessage();
     std::string serializedServerFullMessage();
     std::string serializedAlreadyLoggedInMessage();

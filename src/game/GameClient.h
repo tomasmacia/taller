@@ -53,6 +53,15 @@ public:
     void setLogged(){
         loggedIn = true;
     }
+
+    void setPlayerName(string name){
+        this->user = name;
+    }
+
+    void setPlayerColor(string color){
+        this->color = color;
+    }
+
 private:
 
     GameClient() {
@@ -85,9 +94,13 @@ private:
     void initRenderingSystem();
     void initLoggerMenu();
     void init() override ;
+    void initSDL();
 
     //ATRIBUTES
     //===============================
+    string color = "";
+    string user = "";
+
     static bool hasInstance;
     bool loggedIn = false;
 

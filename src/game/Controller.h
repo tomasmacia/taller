@@ -33,7 +33,7 @@ public:
     //DATA TRANSFER INTERFACE
     //===============================
     void sendUpdate(std::list<ToClientPack*>* toClientsPackages, Server* server);
-    std::string getSuccesfullLoginMessage(int userId);
+    std::string getSuccesfullLoginMessage(string color, int userId);
     std::string getInvalidCredentialMessage();
     std::string getServerFullMessage();
     std::string getAlreadyLoggedInMessage();

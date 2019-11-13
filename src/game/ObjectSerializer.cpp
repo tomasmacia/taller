@@ -27,8 +27,8 @@ string ObjectSerializer::getPassFrom(vector<string>* currentParsedMessage){
     return currentParsedMessage->at(3);
 }
 
-string ObjectSerializer::getSuccesfullLoginMessage(int id){
-    return serializedSuccesfullLoginMessage(id);
+string ObjectSerializer::getSuccesfullLoginMessage(string color, int id){
+    return serializedSuccesfullLoginMessage(color, id);
 }
 
 string ObjectSerializer::getInvalidCredentialMessage(){
@@ -46,8 +46,8 @@ string ObjectSerializer::getAlreadyLoggedInMessage() {
 //VALIDATE
 //=========================================================================================
 bool ObjectSerializer::validLoginFromServerMessage(vector<string>* currentParsedMessage){
-    //SERIALIZED LOGIN ID: //START,header,id
-    return  currentParsedMessage->size() == 3 &&
+    //SERIALIZED LOGIN ID: //START,header,id,color
+    return  currentParsedMessage->size() == 4 &&
             currentParsedMessage->at(0) == START_SYMBOL &&
             (currentParsedMessage->at(1) == to_string(SUCCESS)
              || currentParsedMessage->at(1) == to_string(INVALID_CREDENTIAL)
@@ -134,8 +134,8 @@ void ObjectSerializer::reconstructRenderables(vector<string>* serializedPackages
 //SERIALIZATION
 //=========================================================================================
 
-string ObjectSerializer::serializedSuccesfullLoginMessage(int id){
-    return addPadding(START_SYMBOL + SEPARATOR + to_string(SUCCESS) + SEPARATOR + to_string(id) + END_OF_SERIALIZATION_SYMBOL);
+string ObjectSerializer::serializedSuccesfullLoginMessage(string color, int id){
+    return addPadding(START_SYMBOL + SEPARATOR + to_string(SUCCESS) + SEPARATOR + to_string(id) + SEPARATOR + color + SEPARATOR +  END_OF_SERIALIZATION_SYMBOL);
 }
 
 string ObjectSerializer::serializedInvalidCredentialMessage(){

@@ -139,7 +139,7 @@ set(SOURCE_FILES
         src/net/Server.h
         src/net/UserConnection.cpp 
         src/net/UserConnection.h
-)
+        src/game/User.h src/game/Color.h)
 
 # create executable
 add_executable(game ${SOURCE_FILES})

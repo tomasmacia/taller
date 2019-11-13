@@ -55,10 +55,10 @@ protected:
     virtual void init() = 0;
     virtual void initController();
     void initConfig();
-    void initSDL();
 
     //ATRIBUTES
     //===============================
+
     bool on = true;
     int playerId = -1;
 

@@ -117,7 +117,6 @@ void GameClient::reciveRenderables(vector<string>* serializedPages){
     }
 }
 
-
 //CLIENT RELATED
 //=========================================================================================
 void GameClient::startClient() {
@@ -160,9 +159,28 @@ void GameClient::initRenderingSystem(){
 
 void GameClient::init() {
     initConfig();
-
     LogManager::logDebug("[INIT]: inicializado Config");
     LogManager::logDebug("=======================================");
+}
+
+void GameClient::initSDL() {
+    if( SDL_Init(SDL_INIT_VIDEO) == 0 ) {
+        if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG) {
+            LogManager::logError("Fallo SDL_Image");
+        }
+
+        int windowWidth = this->config->screenResolution.width;
+        int windowHeight = this->config->screenResolution.height;
+
+        string title = this->user + ": " + this->color;
+        this->window = SDL_CreateWindow( title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowWidth, windowHeight, 0);
+        this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_PRESENTVSYNC);
+    }
+
+    if (this->window == nullptr || this->renderer == nullptr) {
+        this->on = false;
+        LogManager::logError("SDL no pudo inicializarse");
+    }
 }
 
 //DESTROY
