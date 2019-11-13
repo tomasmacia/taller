@@ -7,6 +7,7 @@
 #include <tuple>
 #include <utility>
 
+
 #include "Controller.h"
 #include "IDPlayer.h"
 
@@ -34,8 +35,9 @@ void Controller::checkIfCloseRelatedInputWasPulsed(){
 }
 
 
-string Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
+list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
     Action action;
+    list<string> serializedInputs;
     int playerId = game->getPlayerId(); //cada pc tiene uno asignado al principio y es unico
     std::string serializedInput;
 
@@ -51,6 +53,8 @@ string Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
 
             if (action != NONE) {
                 serializedInput = objectSerializer.serializeInput(action,playerId);
+                serializedInputs.push_back(serializedInput);
+
             }
         }
 
@@ -73,11 +77,12 @@ string Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
                         break;
                 }
                 serializedInput = objectSerializer.serializeInput(action,playerId);
+                serializedInputs.push_back(serializedInput);
 
             }
         }
     }
-    return serializedInput;
+    return serializedInputs;
 }
 
 template <typename K, typename V>

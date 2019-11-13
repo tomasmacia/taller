@@ -50,11 +50,11 @@ void GameClient::gameLoop() {
 }
 
 void GameClient::pollAndSendInput() {
-    std::string serializedInput = controller->pollAndProcessInput();
-    if (serializedInput != ""){
-        client->setToSend(serializedInput);
-        //cout<<"CLIENT-FROM MODEL: "<<serializedInput<<endl;
+    std::list<string> serializedInputs = controller->pollAndProcessInput();
+    for (auto &input : serializedInputs) {
+        client->setToSend(input);
     }
+        //cout<<"CLIENT-FROM MODEL: "<<serializedInput<<endl;
 }
 
 void GameClient::render() {
@@ -172,7 +172,7 @@ void GameClient::initSDL() {
         int windowWidth = this->config->screenResolution.width;
         int windowHeight = this->config->screenResolution.height;
 
-        string title = this->user + ": " + this->color;
+        string title = "FINAL FIGHT: Usuario: " + this->user + " Color: " + this->color;
         this->window = SDL_CreateWindow( title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowWidth, windowHeight, 0);
         this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_PRESENTVSYNC);
     }
