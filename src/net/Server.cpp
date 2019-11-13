@@ -148,6 +148,24 @@ void Server::init(){
 int Server::create() {
 
     socketFD = socket(AF_INET, SOCK_STREAM, 0);
+
+    int enable = 1;
+    if (setsockopt(socketFD, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0) {
+        error("setsockopt(SO_REUSEADDR) failed");
+    }
+
+    struct timeval timeout;
+    timeout.tv_sec = 0;
+    timeout.tv_usec = 500000;
+
+    if (setsockopt (socketFD, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0) {
+        error("setsockopt failed\n");
+    }
+
+    if (setsockopt (socketFD, SOL_SOCKET, SO_SNDTIMEO, (char *)&timeout, sizeof(timeout)) < 0) {
+        error("setsockopt failed\n");
+    }
+
     return socketFD;
 }
 
