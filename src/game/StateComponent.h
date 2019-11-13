@@ -28,6 +28,7 @@ public:
     void setJumping();
     bool changed();
     bool hasMovement();
+    bool isEndOfMovement(Action action);
 
     void setConnected();
     void setDisconnected();

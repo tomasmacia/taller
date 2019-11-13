@@ -84,6 +84,30 @@ void StateComponent::setIncomingAction(Action action){ //cambia el estado (Por I
         _prevState = _currentState;
         _currentState = action;
     }
+    else{
+        if (isEndOfMovement(action)){
+            switch (action){
+                case END_UP:
+                    movingUp = false;
+                    break;
+                case END_DOWN:
+                    movingDown = false;
+                    break;
+                case END_LEFT:
+                    movingLeft = false;
+                    break;
+                case END_RIGHT:
+                    movingRight = false;
+                    break;
+            }
+        }
+    }
+}
+
+bool StateComponent::isEndOfMovement(Action action){
+    return ((action == END_UP) || (action == END_DOWN) ||
+            (action == END_LEFT) || (action == END_RIGHT));
+
 }
 
 bool StateComponent::hasMovement(){
