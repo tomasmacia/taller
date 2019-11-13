@@ -18,7 +18,7 @@
         <height>600</height>
     </screen>
     <server>
-        <players>1</players>
+        <players>4</players>
     </server>
     <gameplay>
         <levels>

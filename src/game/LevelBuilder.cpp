@@ -5,21 +5,31 @@
 #include "../parser/config/level.h"
 #include "../parser/config/npc.h"
 #include "../utils/ImageUtils.h"
+
 #include "LevelBuilder.h"
+
 #include "GameServer.h"
+#include "IDPlayer.h"
+
+#include "CharacterLevelLimits.h"
+#include "NonCharacterLevelLimits.h"
+
 #include "PositionComponent.h"
 #include "InputComponent.h"
 #include "PhysicsComponent.h"
 #include "StateComponent.h"
 #include "IAComponent.h"
+#include "CameraComponent.h"
+#include "IDComponent.h"
+
 #include "NPCRenderComponent.h"
 #include "CharacterRenderComponent.h"
 #include "BackgroundRenderComponent.h"
 #include "NonMobileRenderComponent.h"
 #include "RenderComponent.h"
-#include "CameraComponent.h"
-#include "IDComponent.h"
-#include "IDPlayer.h"
+
+
+
 
 using namespace std;
 
@@ -117,8 +127,12 @@ void LevelBuilder::initializeLevelLimits() {
     int screenWidth = GameServer::getInstance().getConfig()->screenResolution.width;
     int screenHeigth = GameServer::getInstance().getConfig()->screenResolution.height;
 
-    _levelLimits = manager->addSpecialEntity();
-    _levelLimits->addComponent<LevelLimits>(screenWidth,screenHeigth,currentLevelWidth,_camera->getComponent<CameraComponent>());
+    _characterLevelLimits = manager->addSpecialEntity();
+    _characterLevelLimits->addComponent<CharacterLevelLimits>(screenWidth,screenHeigth,currentLevelWidth,_camera->getComponent<CameraComponent>());
+
+    _nonCharacterLevelLimits = manager->addSpecialEntity();
+    _nonCharacterLevelLimits->addComponent<NonCharacterLevelLimits>(screenWidth,screenHeigth,currentLevelWidth,_camera->getComponent<CameraComponent>());
+
 }
 
 void LevelBuilder::initializeWorld() {
@@ -193,7 +207,7 @@ void LevelBuilder::initializePlayers() {
         _camera->getComponent<CameraComponent>()->setPlayer(player);
         player->addComponent<IDComponent>(IDPlayer::getInstance().getNextId());
         player->addComponent<InputComponent>();
-        player->addComponent<PhysicsComponent>(_levelLimits->getComponent<LevelLimits>());
+        player->addComponent<PhysicsComponent>(_characterLevelLimits->getComponent<CharacterLevelLimits>());
         player->addComponent<PositionComponent>(x,y);
         player->addComponent<CharacterRenderComponent>(_camera, characterConfig);
         player->addComponent<StateComponent>();
@@ -219,11 +233,11 @@ void LevelBuilder::initializeEnemies() {
         auto npcConfig = npcs.at(i);
         auto *npc = manager->addNPC();
 
-        int x = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenX();
-        int y = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenY();
+        int x = _nonCharacterLevelLimits->getComponent<NonCharacterLevelLimits>()->generateValidInScreenX();
+        int y = _nonCharacterLevelLimits->getComponent<NonCharacterLevelLimits>()->generateValidInScreenY();
 
         npc->addComponent<IAComponent>();
-        npc->addComponent<PhysicsComponent>(_levelLimits->getComponent<LevelLimits>());
+        npc->addComponent<PhysicsComponent>(_nonCharacterLevelLimits->getComponent<NonCharacterLevelLimits>());
         npc->addComponent<PositionComponent>(x,y);
         npc->addComponent<NPCRenderComponent>(_camera, &npcConfig);
         npc->addComponent<StateComponent>();
@@ -243,8 +257,8 @@ void LevelBuilder::initializeWeapons() {
         auto knifeConfig = weapons.knife;
         auto *knife = manager->addWeapon();
 
-        int x = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenX();
-        int y = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenY();
+        int x = _nonCharacterLevelLimits->getComponent<NonCharacterLevelLimits>()->generateValidInScreenX();
+        int y = _nonCharacterLevelLimits->getComponent<NonCharacterLevelLimits>()->generateValidInScreenY();
 
         knife->addComponent<PositionComponent>(x,y);
         knife->addComponent<NonMobileRenderComponent>(_camera, knifeConfig.sprite);
@@ -256,8 +270,8 @@ void LevelBuilder::initializeWeapons() {
         auto tubeConfig = weapons.tube;
         auto *tube = manager->addWeapon();
 
-        int x = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenX();
-        int y = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenY();
+        int x = _nonCharacterLevelLimits->getComponent<NonCharacterLevelLimits>()->generateValidInScreenX();
+        int y = _nonCharacterLevelLimits->getComponent<NonCharacterLevelLimits>()->generateValidInScreenY();
 
         tube->addComponent<PositionComponent>(x,y);
         tube->addComponent<NonMobileRenderComponent>(_camera, tubeConfig.sprite);
@@ -277,8 +291,8 @@ void LevelBuilder::initializeUtilities() {
         auto boxConfig = utilities.box;
         auto *box = manager->addUtilitie();
 
-        int x = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenX();
-        int y = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenY();
+        int x = _nonCharacterLevelLimits->getComponent<NonCharacterLevelLimits>()->generateValidInScreenX();
+        int y = _nonCharacterLevelLimits->getComponent<NonCharacterLevelLimits>()->generateValidInScreenY();
 
         box->addComponent<PositionComponent>(x,y);
         box->addComponent<NonMobileRenderComponent>(_camera, boxConfig.sprite);
@@ -290,8 +304,8 @@ void LevelBuilder::initializeUtilities() {
         auto barrelConfig = utilities.barrel;
         auto *barrel = manager->addUtilitie();
 
-        int x = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenX();
-        int y = _levelLimits->getComponent<LevelLimits>()->generateValidInScreenY();
+        int x = _nonCharacterLevelLimits->getComponent<NonCharacterLevelLimits>()->generateValidInScreenX();
+        int y = _nonCharacterLevelLimits->getComponent<NonCharacterLevelLimits>()->generateValidInScreenY();
 
         barrel->addComponent<PositionComponent>(x,y);
         barrel->addComponent<NonMobileRenderComponent>(_camera, barrelConfig.sprite);
@@ -305,7 +319,8 @@ void LevelBuilder::resetLevelLimits() {
     int screenWidth = GameServer::getInstance().getConfig()->screenResolution.width;
     int screenHeigth = GameServer::getInstance().getConfig()->screenResolution.height;
 
-    _levelLimits->getComponent<LevelLimits>()->reset(screenWidth,screenHeigth,currentLevelWidth);
+    _characterLevelLimits->getComponent<CharacterLevelLimits>()->reset(screenWidth,screenHeigth,currentLevelWidth);
+    _nonCharacterLevelLimits->getComponent<NonCharacterLevelLimits>()->reset(screenWidth,screenHeigth,currentLevelWidth);
 }
 
 void LevelBuilder::resetPlayers() {
@@ -341,6 +356,7 @@ void LevelBuilder::resetCamera() {
 //=========================================================================================
 LevelBuilder::~LevelBuilder(){
     _camera = nullptr;
-    _levelLimits = nullptr;
+    _characterLevelLimits = nullptr;
+    _nonCharacterLevelLimits = nullptr;
     LogManager::logDebug("[LEVEL]: Memoria de LevelBuilder liberada");
 }

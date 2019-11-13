@@ -23,7 +23,7 @@ void MobileRenderComponent::loadNextImage(){
 
     _imageCounter++;
     
-    if (_imageCounter == (_imageAmount *DELAY))
+    if (_imageCounter == (_imageAmount * DELAY))
         entity->getComponent<StateComponent>()->setFinished();
 
     _imageCounter = _imageCounter % (_imageAmount * DELAY);

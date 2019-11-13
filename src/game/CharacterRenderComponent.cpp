@@ -1,5 +1,4 @@
 #include "CharacterRenderComponent.h"
-#include "GameServer.h"
 #include "StateComponent.h"
 
 CharacterRenderComponent::CharacterRenderComponent(Entity* camera, CharacterXML characterConfig) {
@@ -32,22 +31,30 @@ void CharacterRenderComponent::handleIncomingAction(){
             _imageAmount  = STAND_IMAGE_AMOUNT;
             break;
         case UP:
-            currentSprite = characterConfig.walk;
-            _imageAmount  = WALK_IMAGE_AMOUNT;
+            state->addMovement(UP);
             break;
         case DOWN:
-            currentSprite = characterConfig.walk;
-            _imageAmount  = WALK_IMAGE_AMOUNT;
+            state->addMovement(DOWN);
             break;
         case LEFT:
             if (state->facingRight()) flip();
-            currentSprite = characterConfig.walk;
-            _imageAmount  = WALK_IMAGE_AMOUNT;
+            state->addMovement(LEFT);
             break;
         case RIGHT:
             if (state->facingLeft()) flip();
-            currentSprite = characterConfig.walk;
-            _imageAmount  = WALK_IMAGE_AMOUNT;
+            state->addMovement(RIGHT);
+            break;
+        case END_UP:
+            state->substractMovement(UP);
+            break;
+        case END_DOWN:
+            state->substractMovement(DOWN);
+            break;
+        case END_LEFT:
+            state->substractMovement(LEFT);
+            break;
+        case END_RIGHT:
+            state->substractMovement(RIGHT);
             break;
         case JUMP:
             currentSprite = characterConfig.jump;
@@ -69,6 +76,17 @@ void CharacterRenderComponent::handleIncomingAction(){
             currentSprite = characterConfig.crouch;
             _imageAmount  = CROUCH_IMAGE_AMOUNT;
             break;
+    }
+
+    if (state->currentIsNotBlockingAction()){
+        if (state->hasMovement()){
+            currentSprite = characterConfig.walk;
+            _imageAmount  = WALK_IMAGE_AMOUNT;
+        }
+        else{
+            currentSprite = characterConfig.stand;
+            _imageAmount  = STAND_IMAGE_AMOUNT;
+        }
     }
 }
 

@@ -15,6 +15,7 @@ public:
     void init() override;
 
     int getWalkingSpeed();
+    void endJumpingMovement();
     void drag();
 
 protected:
@@ -29,12 +30,14 @@ private:
     float _accelerationX;
     float _accelerationY;
 
-    float DEFAULT_WALKING_VELOCITY_X = ((GameServer::getInstance().getConfig()->screenResolution.width)/50);
+    float DEFAULT_WALKING_VELOCITY_X = ((GameServer::getInstance().getConfig()->screenResolution.width)/100);
     float DEFAULT_WALKING_VELOCITY_Y = ((GameServer::getInstance().getConfig()->screenResolution.width)/100);;
 
     float DEFAULT_JUMPING_ACCELERATION_Y; //setted later to sync with sprites
     float DEFAULT_JUMPING_VELOCITY_Y = ((GameServer::getInstance().getConfig()->screenResolution.height)/110);;
     //how high is the jump
+
+    int _berforeJumpingY;
 
     void up();
     void down();
@@ -46,6 +49,11 @@ private:
     void jumpKick();
     void crouch();
     void none();
+
+    void endUp();
+    void endDown();
+    void endLeft();
+    void endRight();
 
     void seekToSyncJumping();
 };
