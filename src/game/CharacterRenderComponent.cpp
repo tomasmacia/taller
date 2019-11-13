@@ -26,35 +26,11 @@ void CharacterRenderComponent::handleIncomingAction(){
     auto state = entity->getComponent<StateComponent>();
 
     switch (state->current()) {
-        case NONE:
-            currentSprite = characterConfig.stand;
-            _imageAmount  = STAND_IMAGE_AMOUNT;
-            break;
-        case UP:
-            state->addMovement(UP);
-            break;
-        case DOWN:
-            state->addMovement(DOWN);
-            break;
         case LEFT:
             if (state->facingRight()) flip();
-            state->addMovement(LEFT);
             break;
         case RIGHT:
             if (state->facingLeft()) flip();
-            state->addMovement(RIGHT);
-            break;
-        case END_UP:
-            state->substractMovement(UP);
-            break;
-        case END_DOWN:
-            state->substractMovement(DOWN);
-            break;
-        case END_LEFT:
-            state->substractMovement(LEFT);
-            break;
-        case END_RIGHT:
-            state->substractMovement(RIGHT);
             break;
         case JUMP:
             currentSprite = characterConfig.jump;
@@ -86,6 +62,8 @@ void CharacterRenderComponent::handleIncomingAction(){
         else{
             currentSprite = characterConfig.stand;
             _imageAmount  = STAND_IMAGE_AMOUNT;
+
+
         }
     }
 }

@@ -105,7 +105,7 @@ void UserConnection::dispatchThread() {
             else if (objectSerializer.validSerializedInputMessage(messageParser.getCurrent())){
                 processInput();
             }
-            cout<<"SERVER-DISPATCH: "<< message <<endl;
+            //cout<<"SERVER-DISPATCH: "<< message <<endl;
         }
         incomingQueueMutex.unlock();
     }
