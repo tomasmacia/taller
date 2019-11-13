@@ -55,9 +55,25 @@ string Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
         }
 
         if ((sdlEvent.type == SDL_KEYUP && sdlEvent.key.repeat == 0 )){
+
             if (action == UP || action == DOWN || action == LEFT || action == RIGHT ||
                 action == NONE){//no bloqueante
-                serializedInput = objectSerializer.serializeInput(NONE,playerId);
+                switch (action) {
+                    case UP:
+                        action = END_UP;
+                        break;
+                    case DOWN:
+                        action = END_DOWN;
+                        break;
+                    case LEFT:
+                        action = END_LEFT;
+                        break;
+                    case RIGHT:
+                        action = END_RIGHT;
+                        break;
+                }
+                serializedInput = objectSerializer.serializeInput(action,playerId);
+
             }
         }
     }

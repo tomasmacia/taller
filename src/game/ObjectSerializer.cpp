@@ -103,9 +103,13 @@ tuple<Action,int> ObjectSerializer::reconstructInput(vector<string>* currentPars
     Action reconstructedAction;
     if (action == "NONE"){reconstructedAction = NONE;}
     if (action == "UP"){reconstructedAction = UP;}
+    if (action == "END_UP"){reconstructedAction = END_UP;}
     if (action == "DOWN"){reconstructedAction = DOWN;}
+    if (action == "END_DOWN"){reconstructedAction = END_DOWN;}
     if (action == "LEFT"){reconstructedAction = LEFT;}
+    if (action == "END_LEFT"){reconstructedAction = END_LEFT;}
     if (action == "RIGHT"){reconstructedAction = RIGHT;}
+    if (action == "END_RIGHT"){reconstructedAction = END_RIGHT;}
     if (action == "JUMP"){reconstructedAction = JUMP;}
     if (action == "PUNCH"){reconstructedAction = PUNCH;}
     if (action == "KICK"){reconstructedAction = KICK;}
@@ -189,9 +193,13 @@ string ObjectSerializer::serializeInput(Action action, int id){
 
     if (action == NONE){serializedAction = "NONE";}
     if (action == UP){serializedAction = "UP";}
+    if (action == END_UP){serializedAction = "END_UP";}
     if (action == DOWN){serializedAction = "DOWN";}
+    if (action == END_DOWN){serializedAction = "END_DOWN";}
     if (action == LEFT){serializedAction = "LEFT";}
+    if (action == END_LEFT){serializedAction = "END_LEFT";}
     if (action == RIGHT){serializedAction = "RIGHT";}
+    if (action == END_RIGHT){serializedAction = "END_RIGHT";}
     if (action == JUMP){serializedAction = "JUMP";}
     if (action == PUNCH){serializedAction = "PUNCH";}
     if (action == KICK){serializedAction = "KICK";}

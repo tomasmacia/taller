@@ -5,11 +5,7 @@
 #ifndef GAME_LEVELBUILDER_H
 #define GAME_LEVELBUILDER_H
 
-#include "ECS.h"
-#include "TextureWrapper.h"
-#include "LevelLimits.h"
-
-
+class Entity;
 class LevelBuilder {
 public:
     LevelBuilder();
@@ -53,7 +49,8 @@ private:
     //ATRIBUTES
     //===============================
     Entity* _camera = nullptr;
-    Entity* _levelLimits = nullptr;
+    Entity* _characterLevelLimits = nullptr;
+    Entity* _nonCharacterLevelLimits = nullptr;
 
     int currentLevel;
     int totalLevels;

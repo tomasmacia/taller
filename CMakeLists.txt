@@ -113,6 +113,10 @@ set(SOURCE_FILES
         src/game/NonMobileRenderComponent.h 
         src/game/LevelLimits.h
         src/game/LevelLimits.cpp
+        src/game/CharacterLevelLimits.cpp 
+        src/game/CharacterLevelLimits.h 
+        src/game/NonCharacterLevelLimits.cpp 
+        src/game/NonCharacterLevelLimits.h
 
         src/game/ToClientPack.h
         src/game/ToClientPack.cpp
@@ -135,7 +139,7 @@ set(SOURCE_FILES
         src/net/Server.h
         src/net/UserConnection.cpp 
         src/net/UserConnection.h
-        )
+)
 
 # create executable
 add_executable(game ${SOURCE_FILES})

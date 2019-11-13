@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "StateComponent.h"
 #include "PhysicsComponent.h"
 
@@ -6,7 +8,11 @@ void StateComponent::update(){ //ESTE METODO TIENE QUE EJECUTARSE AL FINAL DE LO
     if (!_requestForStateChange)
         _prevState = _currentState;
     else// si hubo request
+    {
+        setIncomingAction(_lastNonBlockingState);
         _requestForStateChange = false; //la reinicio
+    }
+
 
     /*Esto hace que el StateComponent se "entere" de que paso un tick 
     y para que, si hubo un cambio de estado antes, en el siguiente tick deje
@@ -39,11 +45,16 @@ void StateComponent::setJumping(){
     _jumping = true;
 }
 
+void StateComponent::saveLastNonBlockingSate(){
+    _lastNonBlockingState = _prevState;
+}
+
 void StateComponent::setFinished(){ //cambia el estado (por RenderComponent)
 
     if (_jumping){
         _jumping = false;
         _requestForStateChange = true;
+        entity->getComponent<PhysicsComponent>()->endJumpingMovement();
     }
 
     if (currentIsblockingAction()){
@@ -51,7 +62,6 @@ void StateComponent::setFinished(){ //cambia el estado (por RenderComponent)
         _currentState = NONE;
         _requestForStateChange = true;
     }
-
 }
 
 bool StateComponent::changed(){
@@ -86,8 +96,19 @@ Action StateComponent::current(){
     return _currentState;
 }
 
-bool StateComponent::hasFinishedJumping(){
-    return ((_prevState == JUMP) || (_prevState == JUMP_KICK)) && changed();
+void StateComponent::addMovement(Action movement){
+    if (std::find(movements.begin(), movements.end(), movement) == movements.end()){ //si no esta en la lista
+        movements.push_back(movement);
+    }
+}
+
+void StateComponent::substractMovement(Action movement){
+    movements.remove(movement);
+}
+
+bool StateComponent::hasMovement(){
+    return !movements.empty();
+
 }
 
 void StateComponent::setDisconnected() {
