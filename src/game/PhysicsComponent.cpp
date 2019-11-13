@@ -88,7 +88,6 @@ void PhysicsComponent::handleIncomingAction(){
                 left();
                 break;
             case END_LEFT:
-                cout<<"me llego una keyup: "<<END_LEFT<<endl;
                 endLeft();
                 break;
             case RIGHT:
@@ -116,10 +115,11 @@ void PhysicsComponent::handleIncomingAction(){
             case CROUCH:
                 crouch();
                 break;
+        }
     }
+    if (state->currentIsblockingAction()){
+        state->saveLastNonBlockingSate();
     }
-
-
 }
 
 void PhysicsComponent::up() {
