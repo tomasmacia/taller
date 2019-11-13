@@ -50,10 +50,9 @@ void GameClient::gameLoop() {
 }
 
 void GameClient::pollAndSendInput() {
-    std::string serializedInput = controller->pollAndProcessInput();
-    if (serializedInput != ""){
-        client->setToSend(serializedInput);
-        //cout<<"CLIENT-FROM MODEL: "<<serializedInput<<endl;
+    std::list<std::string> serializedInputs = controller->pollAndProcessInput();
+    for (auto& input : serializedInputs){
+        client->setToSend(input);
     }
 }
 
