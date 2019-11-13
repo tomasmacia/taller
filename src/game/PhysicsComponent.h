@@ -33,7 +33,7 @@ private:
     float DEFAULT_WALKING_VELOCITY_Y = ((GameServer::getInstance().getConfig()->screenResolution.width)/100);;
 
     float DEFAULT_JUMPING_ACCELERATION_Y; //setted later to sync with sprites
-    float DEFAULT_JUMPING_VELOCITY_Y = ((GameServer::getInstance().getConfig()->screenResolution.height)/35);;
+    float DEFAULT_JUMPING_VELOCITY_Y = ((GameServer::getInstance().getConfig()->screenResolution.height)/110);;
     //how high is the jump
 
     void up();
