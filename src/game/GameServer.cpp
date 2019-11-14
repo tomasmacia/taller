@@ -8,6 +8,7 @@
 #include <unistd.h>
 
 #include "IDPlayer.h"
+#include "../utils/ImageUtils.h"
 
 #include <iostream>
 
@@ -19,6 +20,7 @@ void GameServer::start() {
     initController();
     startServer();          //1 thread de listen de conexiones nuevas y 4 threads por cliente nuevo
 
+    initWaitingScreen();
     waitUnitAllPlayersConnected();
 
     initGameModel();
@@ -46,7 +48,7 @@ void GameServer::gameLoop(){
         while (isOn() && !levelBuilder->levelFinished() && notAllPlayersDisconnected()) {
             update();
             sendUpdate();
-            usleep(13000);
+            usleep(SLEEP_TIME);
         }
         LogManager::logInfo("[GAME]: fin de game loop de este nivel");
         LogManager::logInfo("=======================================");
@@ -126,6 +128,10 @@ bool GameServer::isIDLogged(int ID){
     return loggedPlayersUserByID.count( ID );
 }
 
+void GameServer::sendWaitingScreen() {
+    controller->sendUpdate(waitingScreenContainer,server);
+}
+
 //SERVER RELATED
 //=========================================================================================
 void GameServer::startServer(){
@@ -143,7 +149,10 @@ void GameServer::closeServer(){
 void GameServer::waitUnitAllPlayersConnected(){
 
     while ((loggedPlayersPassByUser.size() != maxPlayers) ||
-            (!disconectedPlayers.empty())){}
+            (!disconectedPlayers.empty())){
+        sendWaitingScreen();
+        usleep(SLEEP_TIME);
+    }
 }
 
 bool GameServer::notAllPlayersDisconnected(){
@@ -239,6 +248,25 @@ string GameServer::processReconectionAndEmitSuccesMessage(string user, int newID
 
 //INIT
 //=========================================================================================
+void GameServer::initWaitingScreen() {
+    string path = "resources/sprites/waitingScreens/waiting_for_your_teammates.png";
+
+    ImageSize imageSize = ImageUtils::getImageSize(path);
+    int imageWidth = imageSize.width;
+    int imageHeight = imageSize.height;
+
+    int screenWidth = config->screenResolution.width;
+    int screenHeight = config->screenResolution.height;
+
+
+    SDL_Rect src = {0,0,imageWidth,imageHeight};
+    SDL_Rect dst = {0,0,screenWidth,screenHeight};
+
+    waitingScreenRenderable = new ToClientPack(path,src,dst,false);
+    waitingScreenContainer = new list<ToClientPack*>();
+    waitingScreenContainer->push_back(waitingScreenRenderable);
+}
+
 void GameServer::initGameModel() {
     initECSManager();
     initLevelBuilder();
@@ -280,6 +308,13 @@ void GameServer::initLevelBuilder() {
 //=========================================================================================
 
 void GameServer::destroy() {
+    if (!waitingScreenContainer->empty()){
+        delete(waitingScreenContainer->front());
+    }
+    waitingScreenContainer->pop_front();
+    waitingScreenContainer = nullptr;
+    delete(waitingScreenRenderable);
+    waitingScreenRenderable = nullptr;
     delete(server);
     server = nullptr;
     delete(levelBuilder);

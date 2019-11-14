@@ -34,10 +34,11 @@ void Controller::checkIfCloseRelatedInputWasPulsed(){
 }
 
 
-string Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
+std::list<std::string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
     Action action;
     int playerId = game->getPlayerId(); //cada pc tiene uno asignado al principio y es unico
     std::string serializedInput;
+    std::list<std::string> serializedInputs;
 
     while (SDL_PollEvent(&sdlEvent)) {
 
@@ -51,6 +52,7 @@ string Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
 
             if (action != NONE) {
                 serializedInput = objectSerializer.serializeInput(action,playerId);
+                serializedInputs.push_back(serializedInput);
             }
         }
 
@@ -73,11 +75,11 @@ string Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
                         break;
                 }
                 serializedInput = objectSerializer.serializeInput(action,playerId);
-
+                serializedInputs.push_back(serializedInput);
             }
         }
     }
-    return serializedInput;
+    return serializedInputs;
 }
 
 template <typename K, typename V>
@@ -96,7 +98,6 @@ V Controller::getWithDefault(const std::map<K,V> &map, const K &key, const V &de
 void Controller::clearAllInputs(){
     currentInput->clear();
 }
-
 
 void Controller::reciveRenderables(vector<string>* serializedPagackes){
     cleanUpRenderables();

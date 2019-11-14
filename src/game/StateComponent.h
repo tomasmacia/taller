@@ -13,26 +13,22 @@ public:
     void update() override;
 
     bool currentIsNotBlockingAction();
+    bool incomingIsNotBlockingAction(Action incoming);
     Action current();
     bool isFliped();
     void setFliped();
     bool facingRight();
     bool facingLeft();
     void setFinished();
-    bool currentIsblockingAction();
+    bool currentIsBlockingAction();
     bool blockingActionFinished();
     void setIncomingAction(Action action);
     bool notJumping();
     bool jumping();
     void setJumping();
     bool changed();
-    bool hasFinishedJumping();
-
-    void saveLastNonBlockingSate();
-
-    void addMovement(Action movement);
-    void substractMovement(Action movement);
     bool hasMovement();
+    bool isEndOfMovement(Action action);
 
     void setConnected();
     void setDisconnected();
@@ -41,13 +37,15 @@ public:
 private:
     Action _currentState = NONE;
     Action _prevState = NONE;
-    Action _lastNonBlockingState = NONE;
+
+    bool movingUp = false;
+    bool movingDown = false;
+    bool movingLeft = false;
+    bool movingRight = false;
 
     bool _facingLeft = false;
     bool _jumping = false;
     bool _requestForStateChange = false;
-
-    std::list<Action> movements;
 
     bool disconnected = false;
 

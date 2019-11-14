@@ -108,11 +108,11 @@ void Client::dispatchThread() {
 
             string message = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
-            totalDispatched++;
+            //totalDispatched++;
 
             if (objectSerializer.validSerializedSetOfObjectsMessage(messageParser.parse(message, objectSerializer.getObjectSeparator()))){
                 processRenderableSerializedObject();
-                validRenderablesPackDispatched++;
+                //validRenderablesPackDispatched++;
                 //cout<<endl;
                 //cout<<"CLIENT-DISPATCH: "<<validRenderablesPackDispatched<<endl;
                 //cout<<"CLIENT-DISPATCH: "<<totalDispatched<<endl;

@@ -24,7 +24,7 @@ public:
 
     //API
     //===============================
-    string pollAndProcessInput();
+    std::list<std::string> pollAndProcessInput();
     //bool hasNewInput();
     void clearAllInputs();
     void checkIfCloseRelatedInputWasPulsed();

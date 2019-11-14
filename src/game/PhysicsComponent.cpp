@@ -75,23 +75,23 @@ void PhysicsComponent::handleIncomingAction(){
             case UP:
                 up();
                 break;
-            case END_UP:
-                endUp();
-                break;
             case DOWN:
                 down();
-                break;
-            case END_DOWN:
-                endDown();
                 break;
             case LEFT:
                 left();
                 break;
-            case END_LEFT:
-                endLeft();
-                break;
             case RIGHT:
                 right();
+                break;
+            case END_UP:
+                endUp();
+                break;
+            case END_DOWN:
+                endDown();
+                break;
+            case END_LEFT:
+                endLeft();
                 break;
             case END_RIGHT:
                 endRight();
@@ -116,9 +116,6 @@ void PhysicsComponent::handleIncomingAction(){
                 crouch();
                 break;
         }
-    }
-    if (state->currentIsblockingAction()){
-        state->saveLastNonBlockingSate();
     }
 }
 
