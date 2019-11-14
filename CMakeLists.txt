@@ -21,8 +21,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 # SDL
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
+find_package(SDL2_ttf REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 include_directories(${SDL2_IMAGE_INCLUDE_DIRS})
+include_directories(${SDL2_TTF_INCLUDE_DIRS})
 
 # source files
 set(SOURCE_FILES
@@ -42,6 +44,8 @@ set(SOURCE_FILES
         src/parser/config/screenresolution.h
         src/parser/config/utility.h
         src/parser/config/weapon.h
+        src/parser/credentials/Credentials.h
+        src/parser/credentials/UserCredentials.h
 
         # logger module
         src/LogLib/Logger.h
@@ -55,33 +59,90 @@ set(SOURCE_FILES
         src/LogLib/LogManager.h
         src/LogLib/LogManager.cpp
 
-        # window
+        # utils
+        src/utils/TimeUtils.cpp
+        src/utils/TimeUtils.h
+        src/utils/ImageUtils.cpp
+        src/utils/ImageUtils.h
 
         #main
-        src/main.cpp
+        src/game/main.cpp
 
-        src/events.h
-        src/events.cpp
-        src/game.h
-        src/game.cpp
-        src/character.h
-        src/character.cpp
-        src/background.h
-        src/background.cpp
-        src/object.h
-        src/object.cpp
-        src/LevelBuilder.cpp
-        src/LevelBuilder.h
-        src/GameObject.cpp
-        src/GameObject.h
-        src/TextureManager.cpp
-        src/TextureManager.h
-        src/game_component.h
-        src/game_component.cpp
-        src/utils/TimeUtils.cpp src/utils/TimeUtils.h)
+        # game
+        src/game/LoggerMenu.cpp
+        src/game/LoggerMenu.h
+        src/game/Game.h
+        src/game/Game.cpp
+        src/game/GameServer.h
+        src/game/GameServer.cpp
+        src/game/GameClient.h
+        src/game/GameClient.cpp
+        src/game/Controller.cpp
+        src/game/Controller.h
+        src/game/ECS.h
+        src/game/Manager.h
+        src/game/Manager.cpp
+        src/game/Action.h
+        src/game/LevelBuilder.h
+        src/game/LevelBuilder.cpp
+        src/game/PositionComponent.h 
+        src/game/PositionComponent.cpp
+        src/game/CameraComponent.cpp 
+        src/game/CameraComponent.h 
+        src/game/TextureWrapper.cpp 
+        src/game/TextureWrapper.h 
+        src/game/PhysicsComponent.cpp 
+        src/game/PhysicsComponent.h 
+        src/game/StateComponent.cpp 
+        src/game/StateComponent.h 
+        src/game/InputComponent.cpp 
+        src/game/InputComponent.h
+        src/game/IAComponent.h  
+        src/game/IAComponent.cpp
+        src/game/RenderComponent.h
+        src/game/RenderComponent.cpp
+        src/game/CharacterRenderComponent.h
+        src/game/CharacterRenderComponent.cpp 
+        src/game/NPCRenderComponent.h
+        src/game/NPCRenderComponent.cpp   
+        src/game/BackgroundRenderComponent.h
+        src/game/BackgroundRenderComponent.cpp       
+        src/game/MobileRenderComponent.cpp
+        src/game/MobileRenderComponent.h
+        src/game/NonMobileRenderComponent.cpp
+        src/game/NonMobileRenderComponent.h 
+        src/game/LevelLimits.h
+        src/game/LevelLimits.cpp
+        src/game/CharacterLevelLimits.cpp 
+        src/game/CharacterLevelLimits.h 
+        src/game/NonCharacterLevelLimits.cpp 
+        src/game/NonCharacterLevelLimits.h
+
+        src/game/ToClientPack.h
+        src/game/ToClientPack.cpp
+        src/game/IDPlayer.cpp 
+        src/game/IDPlayer.h 
+        src/game/IDComponent.cpp 
+        src/game/IDComponent.h
+        src/game/LoggerMenu.cpp
+        src/game/LoggerMenu.h
+        src/game/ObjectSerializer.cpp
+        src/game/ObjectSerializer.h
+        src/game/MessageParser.cpp
+        src/game/MessageParser.h
+        src/game/MessageId.h
+
+        # net
+        src/net/Client.cpp
+        src/net/Client.h
+        src/net/Server.cpp
+        src/net/Server.h
+        src/net/UserConnection.cpp 
+        src/net/UserConnection.h
+)
 
 # create executable
 add_executable(game ${SOURCE_FILES})
 
 # link libraries
-target_link_libraries(game ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARIES} ${XMLPARSER})
+target_link_libraries(game ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARIES} ${SDL2_TTF_LIBRARIES} ${XMLPARSER})

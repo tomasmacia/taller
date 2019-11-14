@@ -22,6 +22,11 @@ public:
 
     string getPathToConfigFileName();
     string getDefaultLoggerLevel();
+    string getModeType();
+    string getServerAddress();
+    string getServerPort();
+    string getPathToUserCredentialsFileName();
+
 
     CLIArgumentParser(CLIArgumentParser const&) = delete;
     void operator=(CLIArgumentParser const&) = delete;
@@ -30,6 +35,8 @@ private:
     CLIArgumentParser() {};
     ~CLIArgumentParser() {};
 
+
+    string getParamHelper(string, string);
     int argc;
     const char** argv;
 };
