@@ -1,0 +1,70 @@
+=============================================================
+1)
+AL DESCONECTARSE HABIENDO DOS JUGADORES
+
+Se grisea el jugador
+=============================================================
+2)
+AL DESCONECTARSE HABIENDO DOS JUGADORES Y UNO MOVERSE HASTA EL MARGEN Y EL DESCONECTADO ESTAR EN EL BORDE IZQUIERDO
+
+El scroll arrastra al jugador grisado
+=============================================================
+3)
+AL DESCONECTARSE HABIENDO DOS JUGADORES Y UNO MOVERSE HASTA EL MARGEN Y EL DESCONECTADO NO ESTAR EN EL BORDE IZQUIERDO
+
+El scroll no arrastra al jugador grisado
+===========================================================
+4)
+AL RECONECTARSE EL JUGADOR
+
+Se retorna el color
+===========================================================
+5)
+HABIENDO DOS JUGADORES CONECTADOS Y UNO DE ELLOS SE MUEVE HASTA EL MARGEN Y UNO DE ELLOS ESTA EN EL BORDE IZQUIERDO
+
+la camara se bloquea y el jugador que esta a la derecha no se va de pantalla
+===========================================================
+6)
+HABIENDO DOS JUGADORES SE LLEGA AL FINAL DE NIVEL Y AMBOS SOBREPASAN LA PANTALLA
+
+Se pasa de nivel
+===========================================================
+7)
+HABIENDO DOS JUGADORES SE LLEGA AL FINAL DE NIVEL Y UNO NO SOBREPASA LA PANTALLA
+
+Queda la camara trabada y no se pasa de nivel
+===========================================================
+8)
+HABIENDO DOS JUGADORES AL PRINCIPIO DE CADA NIVEL
+
+Ambos jugadores se distribuyen equiespaciados en la pantalla
+===========================================================
+9)
+NO DEBE HABER PARPADEO
+===========================================================
+10)
+AMBOS CLIENTES DEBEN VER LO MISMO EN SINCRONIA
+===========================================================
+11)
+LA VELOCIDAD DE RESPUESTA ANTE UN INPUT DEBE SER BUENA
+===========================================================
+12)
+LA IMAGEN NO DEBE VERSE ACELERADA
+===========================================================
+13)
+LA IMAGEN NO DEBE VERSE LAGEADA
+===========================================================
+14)
+LOS JUGADORES DEBEN PODER DIFERENCIARSE
+===========================================================
+15)
+EL INPUT DE UN CLIENTE DADO DEBE CORRESPONDERSE SIEMPRE CON EL MISMO JUGADOR Y SOLO CON ESE
+===========================================================
+16)
+TODOS LOS CLIENTES DEBEN PODER EJECUTAR:
+
+up, down, left, right, jump, jump_kick, kick, crouch, punch
+===========================================================
+17)
+TODOS LOS CLIENTES DEBEN TENER LIMITACION AL MOVERSE LOS BORDES IZQUIERDO, ARRIBA Y ABAJO
+===========================================================

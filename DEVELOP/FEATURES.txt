@@ -1,0 +1,10 @@
+
+1) pantalla de seleccion
+
+2) mensaje de desconexion involuntaria/voluntaria
+
+3) logica de desconexion involuntaria/voluntaria
+
+4) estaria bueno que se mueva el barco solo
+
+5) poner en la config para que no haya que agrega n cosas y que alcance con cambiarle el amount (adaptar el parser en consecuencia)

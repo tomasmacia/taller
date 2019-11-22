@@ -1,0 +1,89 @@
+=============================================================
+1)
+SE CONECTA ANTES EL CLIENTE QUE EL SERVER Y LUEGO EL SERVER
+
+Error por consola GameClient, el logger debe informar esto en cliente
+=============================================================
+2)
+SE CONECTA ANTES EL SERVER Y  NADIE MAS
+
+Se inicia el GameServer pero no el modelo y queda esperando, el logger debe informar esto en server
+=============================================================
+3)
+SE CONECTA ANTES EL SERVER QUE EL CLIENTE Y LUEGO EL CLIENTE PERO SOLO UNO
+
+Se inicia el GameServer pero no el modelo y queda esperando, el logger debe informar esto en cliente y server
+=============================================================
+4)
+SE CONECTA ANTES EL SERVER QUE EL CLIENTE Y SE CONECTAN LOS CUATRO
+
+Arranca el juego normal, el logger debe informar esto en cliente y server
+=============================================================
+5)
+SE CIERRA EL SERVER ANTES QUE LOS CLIENTES
+
+Los clientes cierran sin romper, el logger debe informar esto en cliente y server
+=============================================================
+6)
+JUEGO ANDANDO Y SE DESCONECTA EL PRIMERO QUE SE CONECTO
+
+Juego sigue normal pero con jugador grisado, freeseado y arrastrado por scroll, el logger debe informar esto en cliente y server
+=============================================================
+7)
+JUEGO ANDANDO Y SE DESCONECTA EL SEGUNDO QUE SE CONECTO
+
+Juego sigue normal pero con jugador grisado, freeseado y arrastrado por scroll, el logger debe informar esto en cliente y server
+=============================================================
+8)
+JUEGO ANDANDO Y SE DESCONECTA EL TERCERO QUE SE CONECTO
+
+Juego sigue normal pero con jugador grisado, freeseado y arrastrado por scroll, el logger debe informar esto en cliente y server
+=============================================================
+9)
+JUEGO ANDANDO Y SE DESCONECTA EL CUARTO QUE SE CONECTO
+
+Juego sigue normal pero con jugador grisado, freeseado y arrastrado por scroll, el logger debe informar esto en cliente y server
+=============================================================
+10)
+JUEGO ANDANDO Y SE DESCONECTAN TODOS (#,falta probar)
+
+Juego termina, el logger debe informar esto en cliente y server
+=============================================================
+11)
+JUEGO ANDANDO Y SE RECONECTA EL PRIMERO QUE SE CONECTO
+
+Juego sigue normal y se restituye el color y control del jugador grisado y se 
+restituye la restriccion con los limites de camara y la camara, el logger debe informar esto en cliente y server
+=============================================================
+12)
+JUEGO ANDANDO Y SE RECONECTA EL SEGUNDO QUE SE CONECTO
+
+Juego sigue normal y se restituye el color y control del jugador grisado y se 
+restituye la restriccion con los limites de camara y la camara, el logger debe informar esto en cliente y server
+=============================================================
+13)
+JUEGO ANDANDO Y SE RECONECTA EL TERCERO QUE SE CONECTO
+
+Juego sigue normal y se restituye el color y control del jugador grisado y se 
+restituye la restriccion con los limites de camara y la camara, el logger debe informar esto en cliente y server
+=============================================================
+14)
+JUEGO ANDANDO Y SE RECONECTA EL CUARTO QUE SE CONECTO
+
+Juego sigue normal y se restituye el color y control del jugador grisado y se 
+restituye la restriccion con los limites de camara y la camara, el logger debe informar esto en cliente y server
+=============================================================
+15)
+JUEGO ANDANDO Y SE RECONECTAN TODOS
+
+Juego sigue normal y se restituye el color y control del todos los jugadores grisados y se 
+restituye la restriccion con los limites de camara y la camara, el logger debe informar esto en cliente y server
+=============================================================
+16)
+AL TOCAR ESC O QUIT EN EL CLIENTE SE CIERRA ESE CLIENTE Y NINGUNO MAS
+=============================================================
+
+
+
+
+
