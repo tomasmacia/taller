@@ -7,10 +7,10 @@
 #include <condition_variable>
 #include <mutex>
 
-#include "ToClientPack.h"
+#include "../net/messaging/ToClientPack.h"
 #include "Game.h"
 #include "../net/Client.h"
-#include "ToClientPack.h"
+#include "../net/messaging/ToClientPack.h"
 
 class LoggerMenu;
 class Client;

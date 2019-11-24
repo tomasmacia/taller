@@ -8,8 +8,8 @@
 #include "Server.h"
 #include <mutex>
 #include <thread>
-#include "../game/MessageParser.h"
-#include "../game/ObjectSerializer.h"
+#include "messaging/MessageParser.h"
+#include "messaging/ObjectSerializer.h"
 
 // UserConnection at Server level
 class UserConnection {

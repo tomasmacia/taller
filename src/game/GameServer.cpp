@@ -1,16 +1,16 @@
 #include "GameServer.h"
 #include "Controller.h"
-#include "LevelBuilder.h"
+#include "../to_remove_or_modify/LevelBuilder.h"
 #include "../LogLib/Logger.h"
 #include "../LogLib/LogManager.h"
 #include "../parser/CLIArgumentParser.h"
 #include "../parser/xmlparser.h"
 #include <unistd.h>
 
-#include "IDPlayer.h"
+#include "../net/messaging/IDPlayer.h"
 #include "../utils/ImageUtils.h"
-#include "User.h"
-#include "Color.h"
+#include "../net/messaging/User.h"
+#include "../enumerates/Color.h"
 
 #include <iostream>
 

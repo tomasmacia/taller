@@ -12,8 +12,8 @@
 #include <thread>
 #include <mutex>
 #include "../game/GameServer.h"
-#include "../game/MessageParser.h"
-#include "../game/ObjectSerializer.h"
+#include "messaging/MessageParser.h"
+#include "messaging/ObjectSerializer.h"
 
 class GameServer;
 class UserConnection;

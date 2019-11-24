@@ -9,7 +9,7 @@
 
 
 #include "Controller.h"
-#include "IDPlayer.h"
+#include "../net/messaging/IDPlayer.h"
 
 #include <iostream>
 

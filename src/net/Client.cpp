@@ -3,10 +3,10 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h> // for inet_pton -> string to in_addr
-#include <CLIArgumentParser.h>
+#include "../CLIAparser/CLIArgumentParser.h"
 
 #include "../LogLib/LogManager.h"
-#include "../game/MessageId.h"
+#include "../enumerates/MessageId.h"
 #include "Client.h"
 
 #include <iostream>

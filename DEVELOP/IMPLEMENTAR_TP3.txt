@@ -1,0 +1,70 @@
+$) significa a tener en cuenta pero no es algo a implementar
+
+IMPLEMENTAR
+
+PENDIENTE DEL TP2:
+
+    1) Que se desconecte el cable y que no se trabe nadie salvo el desconectado al que le aparece una pantalla que le avisa
+    2) Que se cierre/desconecte el server y que los clientes hagan display de eso en las pantallas
+
+PERSONAJES PRINCIPALES:
+
+    3) 3 vidas
+    4) 100 unidades de energia
+    $1) no se ve la energia restante de los enemigos
+
+OBJETOS:
+
+    5) que se puedan romper cajas y barriles
+    6) los barriles solo se bancan un golpe
+    7) las cajas solo se bancan 2 golpes
+    8) los cuchillos y barras se pueden agarrar
+    9) solo se pueden usar 3 veces y desp desaparecen
+
+ENEMIGOS:
+
+    10) los enemigos son mas inteligentes. Buscan a los personajes para atacarlos
+    11) los ataques de enemigos restan 20 unidades de energia
+
+PUNTOS:
+
+    12) cada golpe de puño a un enemigo otorga 100 puntos
+    13) cada golpe de salto con patada a un enemigo otorga 400 puntos
+    14) cada ataque con cuchillo a un enemigo otorga 400 puntos
+    15) cada golpe con barra metalica otorga 200 puntos
+    16) cada vez que jugado elimine a un enemigo, 500 puntos
+    17) cada caja destruida otorga 200 puntos
+    18) cada barril destruido otorga 300 puntos
+
+ENERGIA:
+    
+    19) cada enemigo inicia con una energia de 100 unidades
+    20) cada ataque con cuchillo quita 50 unidades
+    21) cada golpe con barra metalica quita 35 unidades
+    22) cada golpe de puño quita 20 unidades
+    23) cada holpe de salto con patada a un enemigo quita 75 puntos
+
+PANTALLA DE FINALIZACION DE NIVELES:
+
+    24) Al finalizar el nivel se mostrara un resultado parcial de puntajes de los jugadores
+    25) Al finalizar el juego se mostrara el resultado parcial y final de lo puntajes de jugadores
+    $2) abra que hacer dos levels en vez de tres?
+
+ENEMIGO FINAL:
+
+    26) Se debe implementar un enemigo final con 500 unidades de energia
+    $3) en que level aparece?
+    $4) cuanta energia quita el final boss?
+
+MUSICA Y SONIDOS:
+
+    27) Debe haber musica de fondo todo el juego
+    28) Se tiene que poder quitar o poenr la musica con una tecla
+    29) Los golpes, patadas, caidas, saltos y destruccion de objetos tienen que tener sonido
+    $5) Ademas del ruido de los golpes estaria bueno que cuando le pegas a un enemigo, el enemigo haga ruido
+    $6) Ademas del ruido de los golpes estaria bueno que cuando se le pega a un jugador, el jugador haga ruido
+
+MODO TEST:
+
+    30) mediante una tecla se tiene que poder activar/desactivar un modo en el que los personajes no mueren una vez que pierden toda su energia
+

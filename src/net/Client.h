@@ -10,8 +10,8 @@
 #include <thread>
 #include <condition_variable>
 #include <mutex>
-#include "../game/MessageParser.h"
-#include "../game/ObjectSerializer.h"
+#include "messaging/MessageParser.h"
+#include "messaging/ObjectSerializer.h"
 #include "../game/GameClient.h"
 
 class GameClient;

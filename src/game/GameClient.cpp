@@ -2,8 +2,8 @@
 
 #include "../LogLib/Logger.h"
 #include "Controller.h"
-#include "LoggerMenu.h"
-#include "MessageId.h"
+#include "../to_remove_or_modify/LoggerMenu.h"
+#include "../enumerates/MessageId.h"
 
 #include <iostream>
 

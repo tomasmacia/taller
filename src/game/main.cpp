@@ -2,10 +2,10 @@
 #include "../utils/TimeUtils.h"
 #include "../parser/CLIArgumentParser.h"
 #include "../LogLib/LogManager.h"
-#include "LoggerMenu.h"
+#include "../to_remove_or_modify/LoggerMenu.h"
 #include "GameServer.h"
 #include "GameClient.h"
-#include "Mode.h"
+#include "../enumerates/Mode.h"
 
 using namespace std;
 

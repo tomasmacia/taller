@@ -10,9 +10,9 @@
 #include <SDL2/SDL_scancode.h>
 #include <string>
 #include <list>
-#include "Action.h"
+#include "../enumerates/Action.h"
 #include "Game.h"
-#include "ToClientPack.h"
+#include "../net/messaging/ToClientPack.h"
 #include "../net/Server.h"
 #include "GameClient.h"
 

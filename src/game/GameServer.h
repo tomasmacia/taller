@@ -5,13 +5,13 @@
 #include <condition_variable>
 #include <mutex>
 
-#include "Manager.h"
-#include "LevelBuilder.h"
+#include "../to_remove_or_modify/Manager.h"
+#include "../to_remove_or_modify/LevelBuilder.h"
 #include "Game.h"
-#include "ToClientPack.h"
-#include "Action.h"
-#include "Color.h"
-#include "User.h"
+#include "../net/messaging/ToClientPack.h"
+#include "../enumerates/Action.h"
+#include "../enumerates/Color.h"
+#include "../net/messaging/User.h"
 
 class Server;
 
