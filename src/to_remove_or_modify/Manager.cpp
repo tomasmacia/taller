@@ -1,19 +1,20 @@
 
 #include "Manager.h"
 
-#include "../game/Components/PositionComponent.h"
+#include "../entities/components/Position.h"
 #include "../logger/LogManager.h"
-#include "../game/Components/Appearences/BackgroundRenderComponent.h"
-#include "../game/Components/Appearences/NonMobileRenderComponent.h"
-#include "../game/Components/Appearences/CharacterRenderComponent.h"
-#include "../game/Components/Appearences/NPCRenderComponent.h"
-#include "../game/Components/IDComponent.h"
-#include "../game/Components/StateComponent.h"
+#include "../entities/components/appearances/BackgroundAppearance.h"
+#include "../entities/components/appearances/NonMobileAppearance.h"
+#include "../entities/components/appearances/CharacterAppearance.h"
+#include "../entities/components/appearances/NPCAppearance.h"
+#include "../entities/components/ID.h"
+#include "../entities/components/ID.h"
+asdasda#include "../entities/components/State.h"
 
 //CONSTRUCTOR
 //=========================================================================================
 Manager::Manager(){
-    packagesToClients = new list<ToClientPack*>;
+    packagesToClients = new list<Renderable*>;
 }
 
 //API
@@ -26,7 +27,7 @@ void Manager::update() {//se updatean todas seguro porque updateo las listas que
     for(auto* e : specialEntities) e->update();
 }
 
-std::list<ToClientPack*>* Manager::generateRenderables() {
+std::list<Renderable*>* Manager::generateRenderables() {
 
     for (auto package: *packagesToClients){
         delete package;
@@ -37,7 +38,7 @@ std::list<ToClientPack*>* Manager::generateRenderables() {
     sortEntitiesByY(); //sorteo aca porque es al render al que le importa el orden en la lista
 
     for(auto* e : backLayerBackgrounds){
-        renderable = e->getComponent<BackgroundRenderComponent>()->emitRenderable();
+        renderable = e->getComponent<BackgroundAppearance>()->emitRenderable();
 
         if (renderable != nullptr && renderable->getPath() != "NULL"){
             packagesToClients->push_back(renderable);
@@ -46,16 +47,16 @@ std::list<ToClientPack*>* Manager::generateRenderables() {
 
     for(auto* e : entitiesWithPosition){
 
-        if (e->hasComponent<NonMobileRenderComponent>()){
-            renderable = e->getComponent<NonMobileRenderComponent>()->emitRenderable();
+        if (e->hasComponent<NonMobileAppearance>()){
+            renderable = e->getComponent<NonMobileAppearance>()->emitRenderable();
         }
 
-        if (e->hasComponent<NPCRenderComponent>()){
-            renderable = e->getComponent<NPCRenderComponent>()->emitRenderable();
+        if (e->hasComponent<NPCAppearance>()){
+            renderable = e->getComponent<NPCAppearance>()->emitRenderable();
         }
 
-        if (e->hasComponent<CharacterRenderComponent>()){
-            renderable = e->getComponent<CharacterRenderComponent>()->emitRenderable();
+        if (e->hasComponent<CharacterAppearance>()){
+            renderable = e->getComponent<CharacterAppearance>()->emitRenderable();
         }
 
         if (renderable != nullptr && renderable->getPath() != "NULL"){
@@ -64,7 +65,7 @@ std::list<ToClientPack*>* Manager::generateRenderables() {
     }
 
     for(auto* e : fronLayerBackgrounds){
-        renderable = e->getComponent<BackgroundRenderComponent>()->emitRenderable();
+        renderable = e->getComponent<BackgroundAppearance>()->emitRenderable();
         if (renderable != nullptr && renderable->getPath() != "NULL"){
             packagesToClients->push_back(renderable);
         }
@@ -90,19 +91,19 @@ void Manager::prepareForNextLevel(){
 
 void Manager::reconectPlayerByID(int id,  int newID) {
     for (auto player : players){
-        if (player->getComponent<IDComponent>()->getId() == id){
-            player->getComponent<StateComponent>()->setConnected();
-            player->getComponent<CharacterRenderComponent>()->setConnected();
-            player->getComponent<IDComponent>()->setNewID(newID);
+        if (player->getComponent<ID>()->get() == id){
+            player->getComponent<State>()->setConnected();
+            player->getComponent<CharacterAppearance>()->setConnected();
+            player->getComponent<ID>()->setNew(newID);
         }
     }
 }
 
 void Manager::disconectPlayerByID(int id){
     for (auto player : players){
-        if (player->getComponent<IDComponent>()->getId() == id){
-            player->getComponent<StateComponent>()->setDisconnected();
-            player->getComponent<CharacterRenderComponent>()->setDisconnected();
+        if (player->getComponent<ID>()->get() == id){
+            player->getComponent<State>()->setDisconnected();
+            player->getComponent<CharacterAppearance>()->setDisconnected();
         }
     }
 }
@@ -218,8 +219,8 @@ struct EntityComparator
 {
     bool operator ()(const Entity* entity1, const Entity* entity2)
     {
-        int entity1Y = entity1->getComponent<PositionComponent>()->getY();
-        int entity2Y = entity2->getComponent<PositionComponent>()->getY();
+        int entity1Y = entity1->getComponent<Position>()->getY();
+        int entity2Y = entity2->getComponent<Position>()->getY();
 
         if(entity1Y == entity2Y)
             return true;

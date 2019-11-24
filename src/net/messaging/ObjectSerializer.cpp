@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 #include "ObjectSerializer.h"
-#include "ToClientPack.h"
+#include "Renderable.h"
 #include "../../enumerates/MessageId.h"
 #include "MessageParser.h"
 
@@ -83,7 +83,7 @@ bool ObjectSerializer::validSerializedInputMessage(vector<string>* currentParsed
 //RECONSTRUCT
 //=========================================================================================
 
-ToClientPack* ObjectSerializer::reconstructRenderable(vector<string>* currentParsedMessage) {
+Renderable* ObjectSerializer::reconstructRenderable(vector<string>* currentParsedMessage) {
 
     std::string path = currentParsedMessage->at(2);
     SDL_Rect src = {std::stoi(currentParsedMessage->at(5)), std::stoi(currentParsedMessage->at(6)), std::stoi(currentParsedMessage->at(3)),
@@ -92,7 +92,7 @@ ToClientPack* ObjectSerializer::reconstructRenderable(vector<string>* currentPar
                     std::stoi(currentParsedMessage->at(8))};
     bool flip = std::stoi(currentParsedMessage->at(11));
 
-    return  new ToClientPack(path, src, dst, flip);
+    return  new Renderable(path, src, dst, flip);
 }
 
 tuple<Action,int> ObjectSerializer::reconstructInput(vector<string>* currentParsedMessage) {
@@ -119,7 +119,7 @@ tuple<Action,int> ObjectSerializer::reconstructInput(vector<string>* currentPars
     return make_tuple (reconstructedAction,reconstructedId);
 }
 
-void ObjectSerializer::reconstructRenderables(vector<string>* serializedPackages, std::list<ToClientPack*>* renderables){
+void ObjectSerializer::reconstructRenderables(vector<string>* serializedPackages, std::list<Renderable*>* renderables){
 
     MessageParser parser = MessageParser();
 
@@ -158,7 +158,7 @@ string ObjectSerializer::getPingMessage(){
     return PING_CODE + END_OF_SERIALIZATION_SYMBOL;
 }
 
-string ObjectSerializer::serializeObject(ToClientPack* package){
+string ObjectSerializer::serializeObject(Renderable* package){
 
     std::string serializedObject;
 
@@ -209,7 +209,7 @@ string ObjectSerializer::serializeInput(Action action, int id){
     return addPadding(START_SYMBOL + SEPARATOR  + to_string(INPUT) + SEPARATOR + serializedAction + SEPARATOR + to_string(id) + SEPARATOR + END_OF_SERIALIZATION_SYMBOL);
 }
 
-std::string ObjectSerializer::serializeObjects(std::list<ToClientPack*>* packages){
+std::string ObjectSerializer::serializeObjects(std::list<Renderable*>* packages){
 
     string serializedPackages = "";
 

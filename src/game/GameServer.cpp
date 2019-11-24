@@ -7,12 +7,13 @@
 #include "../XMLparser/xmlparser.h"
 #include <unistd.h>
 
-#include "../net/messaging/IDPlayer.h"
+#include "../net/messaging/IDManager.h"
 #include "../image/ImageUtils.h"
 #include "../net/messaging/User.h"
 #include "../enumerates/Color.h"
 
 #include <iostream>
+#include <utility>
 
 bool GameServer::hasInstance = false;
 
@@ -71,7 +72,7 @@ void GameServer::sendUpdate() {
 //API
 //=========================================================================================
 
-std::string GameServer::validateLogin(std::string user, std::string pass, int userId){
+std::string GameServer::validateLogin(const std::string& user,const std::string& pass, int userId){
 
 
     if (credentialsAreValid(user,pass)){
@@ -103,11 +104,11 @@ void GameServer::endLevel(){
 }
 
 void GameServer::addNewIDToGame(int id) {
-    IDPlayer::getInstance().addNewIdPlayer(id);
+    IDManager::getInstance().addNewIdPlayer(id);
 }
 
 void GameServer::reemplazePreviousIDWith(int oldID, int newID) {
-    IDPlayer::getInstance().reemplaze(oldID, newID);
+    IDManager::getInstance().reemplaze(oldID, newID);
 }
 
 int GameServer::getCurrentLevelWidth(){
@@ -181,45 +182,41 @@ void GameServer::initController() {
     LogManager::logDebug("[INIT]: inicializado Controller");
 }
 
-void GameServer::closeController(){
-    //lisentToInputForClosing.join();
-}
-
 //LOGIN RELATED
 //=========================================================================================
 bool GameServer::serverFull(){
     return loggedPlayersPassByUser.size() == maxPlayers;
 }
 
-bool GameServer::credentialsAreValid(string user, string pass){
+bool GameServer::credentialsAreValid(const string& user, const string& pass){
     return validUser(user) && validPass(user,pass);
 }
 
-bool GameServer::userAlreadyLoggedIn(string user){
+bool GameServer::userAlreadyLoggedIn(const string& user){
     return userInLoggedPlayers(user);
 }
 
-bool GameServer::userIsDisconnected(string user){
+bool GameServer::userIsDisconnected(const string& user){
     return IDInDisconnectedPlayers(user);
 }
 
-bool GameServer::validUser(string user){
+bool GameServer::validUser(const string& user){
     return validCredentials.find(user) != validCredentials.end();
 }
 
-bool GameServer::validPass(string user, string pass){
+bool GameServer::validPass(const string& user, const string& pass){
     return validCredentials.at(user) == pass;
 }
 
-bool GameServer::userInLoggedPlayers(string user){
+bool GameServer::userInLoggedPlayers(const string& user){
     return loggedPlayersPassByUser.find(user) != loggedPlayersPassByUser.end();
 }
 
-bool GameServer::IDInDisconnectedPlayers(string user){
+bool GameServer::IDInDisconnectedPlayers(const string& user){
     return disconectedPlayers.find(user) != disconectedPlayers.end();
 }
 
-string GameServer::processConectionAndEmitSuccesMessage(string name, string pass, int id){
+string GameServer::processConectionAndEmitSuccesMessage(const string& name, const string& pass, int id){
 
     User user(name,this->getNewColor());
 
@@ -232,7 +229,7 @@ string GameServer::processConectionAndEmitSuccesMessage(string name, string pass
     return controller->getSuccesfullLoginMessage(user.color, id);
 }
 
-string GameServer::processReconectionAndEmitSuccesMessage(string name, int newID){
+string GameServer::processReconectionAndEmitSuccesMessage(const string& name, int newID){
 
     int oldID = loggedPlayersIDbyUser.at(name);
     User user = loggedPlayersUserByID.at(oldID);
@@ -289,8 +286,8 @@ void GameServer::initWaitingScreen() {
     SDL_Rect src = {0,0,imageWidth,imageHeight};
     SDL_Rect dst = {0,0,screenWidth,screenHeight};
 
-    waitingScreenRenderable = new ToClientPack(path,src,dst,false);
-    waitingScreenContainer = new list<ToClientPack*>();
+    waitingScreenRenderable = new Renderable(path, src, dst, false);
+    waitingScreenContainer = new list<Renderable*>();
     waitingScreenContainer->push_back(waitingScreenRenderable);
 }
 

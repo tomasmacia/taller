@@ -1,5 +1,5 @@
 #include <unistd.h>
-#include <string.h>
+#include <cstring>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h> // for inet_pton -> string to in_addr
@@ -10,6 +10,7 @@
 #include "Client.h"
 
 #include <iostream>
+#include <utility>
 
 using namespace std;
 
@@ -33,10 +34,10 @@ bool Client::hasAchievedConnectionAttempt() {
 }
 
 void Client::sendCredentials(string user, string pass){
-    setToSend(objectSerializer.serializeCredentials(user,pass));
+    setToSend(objectSerializer.serializeCredentials(std::move(user),std::move(pass)));
 }
 
-void Client::setToSend(std::string message){
+void Client::setToSend(const std::string& message){
     sendQueueMutex.lock();
     toSendMessagesQueue.push_back(message);
     sendQueueMutex.unlock();
@@ -100,8 +101,6 @@ void Client::sendThread() {
 
 void Client::dispatchThread() {
 
-    int totalDispatched = 0;
-    int validRenderablesPackDispatched = 0;
     while(isConnected()) {
         incomingQueueMutex.lock();
         if (!incomingMessagesQueue.empty()){
@@ -149,20 +148,13 @@ void Client::processRenderableSerializedObject() {//TODO HEAVY IN PERFORMANCE
     //gameClient->render();
 }
 
-bool Client::alreadyLoggedIn() {
-    return gameClient->alreadyLoggedIn();
-}
-
 //ACTUAL DATA TRANSFER
 //=========================================================================================
-int Client::send(std::string msg) {
+int Client::send(const std::string& msg) {
 
     char buff[MAX_BYTES_BUFFER]{0};
     strncpy(buff, msg.c_str(), sizeof(buff));
     buff[sizeof(buff) - 1] = 0;
-
-    //int len = msg.size();
-    //char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
 
     int bytesSent = 0;
 

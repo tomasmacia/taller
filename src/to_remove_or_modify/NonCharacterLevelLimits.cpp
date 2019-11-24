@@ -4,12 +4,12 @@
 
 #include "NonCharacterLevelLimits.h"
 
-NonCharacterLevelLimits::NonCharacterLevelLimits(int windowWidth, int windowHeight, int levelWidth, CameraComponent* camera){
+NonCharacterLevelLimits::NonCharacterLevelLimits(int windowWidth, int windowHeight, int levelWidth, Screen* camera){
     LevelLimits();
     initialize(windowWidth,windowHeight,levelWidth,camera);
 }
 
-void NonCharacterLevelLimits::initialize(int windowWidth, int windowHeight, int levelWidth, CameraComponent* camera){
+void NonCharacterLevelLimits::initialize(int windowWidth, int windowHeight, int levelWidth, Screen* camera){
 
     _camera = camera;
 

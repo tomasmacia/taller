@@ -3,9 +3,6 @@
 #include "../logger/Logger.h"
 #include "Controller.h"
 #include "../to_remove_or_modify/LoggerMenu.h"
-#include "../enumerates/MessageId.h"
-
-#include <iostream>
 
 bool GameClient::hasInstance = false;
 
@@ -67,7 +64,7 @@ void GameClient::render() {
 void GameClient::renderAllPackages(){
     if (controller != nullptr){
         controllerMutex.lock();
-        std::list<ToClientPack*>* packages = controller->getPackages();
+        std::list<Renderable*>* packages = controller->getPackages();
 
         if (packages->empty()){
             //cout<<endl;
@@ -103,10 +100,6 @@ void GameClient::end() {
     on = false;
     client->notifyGameStoppedRunning();
     LogManager::logDebug("[GAME]: señal de fin de programa emitida");
-}
-
-bool GameClient::alreadyLoggedIn() {
-    return loggedIn;
 }
 
 void GameClient::reciveRenderables(vector<string>* serializedPages){
@@ -198,8 +191,8 @@ void GameClient::destroy() {
 
 void GameClient::clearTextureMap(){
 
-    for(std::map<std::string, TextureWrapper*>::iterator itr = loadedTexturesMap.begin(); itr != loadedTexturesMap.end(); itr++)
+    for(auto & itr : loadedTexturesMap)
     {
-        delete itr->second;
+        delete itr.second;
     }
 }

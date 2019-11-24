@@ -8,7 +8,7 @@
 #include "../to_remove_or_modify/Manager.h"
 #include "../to_remove_or_modify/LevelBuilder.h"
 #include "Game.h"
-#include "../net/messaging/ToClientPack.h"
+#include "../net/messaging/Renderable.h"
 #include "../enumerates/Action.h"
 #include "../enumerates/Color.h"
 #include "../net/messaging/User.h"
@@ -36,7 +36,7 @@ public:
     //API
     //===============================
     void endLevel();
-    std::string validateLogin(std::string user, std::string pass, int userId);
+    std::string validateLogin(const string& user,const std::string& pass, int userId);
     void addNewIDToGame(int id);
     void reemplazePreviousIDWith(int oldID, int newID);
     void reciveNewInput(tuple<Action,int> input);
@@ -55,9 +55,6 @@ public:
 
     Manager* getManager() {
         return manager;
-    }
-    Server* getServer() {
-        return server;
     }
 
 private:
@@ -101,20 +98,19 @@ private:
     //CONTROLLER RELATED
     //===============================
     void initController() override ;
-    void closeController();
 
     //LOGIN RELATED
     //===============================
     bool serverFull();
-    bool credentialsAreValid(string user, string pass);
-    bool userAlreadyLoggedIn(string user);
-    bool userIsDisconnected(string user);
-    bool validUser(string user);
-    bool validPass(string user, string pass);
-    bool userInLoggedPlayers(string user);
-    bool IDInDisconnectedPlayers(string user);
-    string processConectionAndEmitSuccesMessage(string user, string pass, int id);
-    string processReconectionAndEmitSuccesMessage(string user, int newId);
+    bool credentialsAreValid(const string& user, const string& pass);
+    bool userAlreadyLoggedIn(const string& user);
+    bool userIsDisconnected(const string& user);
+    bool validUser(const string& user);
+    bool validPass(const string& user, const string& pass);
+    bool userInLoggedPlayers(const string& user);
+    bool IDInDisconnectedPlayers(const string& user);
+    string processConectionAndEmitSuccesMessage(const string& user, const string& pass, int id);
+    string processReconectionAndEmitSuccesMessage(const string& user, int newId);
     string getNewColor();
 
     //ATRIBUTES
@@ -132,10 +128,10 @@ private:
     std::map<int,User> loggedPlayersUserByID;                       //<id,user>
     std::map<std::string,int> disconectedPlayers;                   //<name,id>
 
-    int maxPlayers;
+    int maxPlayers{};
 
-    ToClientPack* waitingScreenRenderable = nullptr;
-    list<ToClientPack*>* waitingScreenContainer = nullptr;
+    Renderable* waitingScreenRenderable = nullptr;
+    list<Renderable*>* waitingScreenContainer = nullptr;
 
     Server* server = nullptr;
     LevelBuilder* levelBuilder = nullptr;

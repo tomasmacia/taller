@@ -85,32 +85,32 @@ set(SOURCE_FILES
         src/enumerates/Action.h
         src/to_remove_or_modify/LevelBuilder.h
         src/to_remove_or_modify/LevelBuilder.cpp
-        src/game/Components/PositionComponent.h
-        src/game/Components/PositionComponent.cpp
-        src/to_remove_or_modify/CameraComponent.cpp
-        src/to_remove_or_modify/CameraComponent.h
+        src/entities/components/Position.h
+        src/entities/components/Position.cpp
+        src/entities/Screen.cpp
+        src/entities/Screen.h
         src/image/TextureWrapper.cpp
         src/image/TextureWrapper.h
-        src/game/Components/PhysicsComponent.cpp
-        src/game/Components/PhysicsComponent.h
-        src/game/Components/StateComponent.cpp
-        src/game/Components/StateComponent.h
-        src/game/Components/InputComponent.cpp
-        src/game/Components/InputComponent.h
-        src/game/Components/IAComponent.h
-        src/game/Components/IAComponent.cpp
-        src/game/Components/Appearences/RenderComponent.h
-        src/game/Components/Appearences/RenderComponent.cpp
-        src/game/Components/Appearences/CharacterRenderComponent.h
-        src/game/Components/Appearences/CharacterRenderComponent.cpp
-        src/game/Components/Appearences/NPCRenderComponent.h
-        src/game/Components/Appearences/NPCRenderComponent.cpp
-        src/game/Components/Appearences/BackgroundRenderComponent.h
-        src/game/Components/Appearences/BackgroundRenderComponent.cpp
-        src/game/Components/Appearences/MobileRenderComponent.cpp
-        src/game/Components/Appearences/MobileRenderComponent.h
-        src/game/Components/Appearences/NonMobileRenderComponent.cpp
-        src/game/Components/Appearences/NonMobileRenderComponent.h
+        src/entities/components/Physics.cpp
+        src/entities/components/Physics.h
+        src/entities/components/State.cpp
+        src/entities/components/State.h
+        src/entities/components/InputPoller.cpp
+        src/entities/components/InputPoller.h
+        src/entities/components/IAComponent.h
+        src/entities/components/IAComponent.cpp
+        src/entities/components/appearances/Appearance.h
+        src/entities/components/appearances/Appearance.cpp
+        src/entities/components/appearances/CharacterAppearance.h
+        src/entities/components/appearances/CharacterAppearance.cpp
+        src/entities/components/appearances/NPCAppearance.h
+        src/entities/components/appearances/NPCAppearance.cpp
+        src/entities/components/appearances/BackgroundAppearance.h
+        src/entities/components/appearances/BackgroundAppearance.cpp
+        src/entities/components/appearances/MobileAppearance.cpp
+        src/entities/components/appearances/MobileAppearance.h
+        src/entities/components/appearances/NonMobileAppearance.cpp
+        src/entities/components/appearances/NonMobileAppearance.h
         src/to_remove_or_modify/LevelLimits.h
         src/to_remove_or_modify/LevelLimits.cpp
         src/to_remove_or_modify/CharacterLevelLimits.cpp
@@ -118,12 +118,12 @@ set(SOURCE_FILES
         src/to_remove_or_modify/NonCharacterLevelLimits.cpp
         src/to_remove_or_modify/NonCharacterLevelLimits.h
 
-        src/net/messaging/ToClientPack.h
-        src/net/messaging/ToClientPack.cpp
-        src/net/messaging/IDPlayer.cpp
-        src/net/messaging/IDPlayer.h
-        src/game/Components/IDComponent.cpp
-        src/game/Components/IDComponent.h
+        src/net/messaging/Renderable.h
+        src/net/messaging/Renderable.cpp
+        src/net/messaging/IDManager.cpp
+        src/net/messaging/IDManager.h
+        src/entities/components/ID.cpp
+        src/entities/components/ID.h
         src/to_remove_or_modify/LoggerMenu.cpp
         src/to_remove_or_modify/LoggerMenu.h
         src/net/messaging/ObjectSerializer.cpp
@@ -139,7 +139,7 @@ set(SOURCE_FILES
         src/net/Server.h
         src/net/UserConnection.cpp 
         src/net/UserConnection.h
-        src/net/messaging/User.h src/enumerates/Color.h)
+        src/net/messaging/User.h src/enumerates/Color.h src/entities/Character.cpp src/entities/Character.h src/net/messaging/Sendable.cpp src/net/messaging/Sendable.h src/net/messaging/Soundable.cpp src/net/messaging/Soundable.h src/entities/Life.cpp src/entities/Life.h src/entities/Score.cpp src/entities/Score.h src/entities/components/Damage.cpp src/entities/components/Damage.h src/entities/components/Will.cpp src/entities/components/Will.h src/entities/components/SendableGenerator.cpp src/entities/components/SendableGenerator.h src/entities/Enemy.cpp src/entities/Enemy.h src/entities/Barrel.cpp src/entities/Barrel.h src/entities/Tube.cpp src/entities/Tube.h src/entities/Box.cpp src/entities/Box.h src/entities/Knife.cpp src/entities/Knife.h src/entities/FinalBoss.cpp src/entities/FinalBoss.h)
 
 # create executable
 add_executable(game ${SOURCE_FILES})

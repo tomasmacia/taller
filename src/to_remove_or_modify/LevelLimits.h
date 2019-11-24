@@ -4,7 +4,7 @@
 #include <cstdio>
 #include <ctime>
 
-#include "CameraComponent.h"
+#include "../entities/Screen.h"
 
 
 class LevelLimits : public Component{
@@ -19,7 +19,7 @@ public:
     bool newXOutOfRange(int newX);
 
 protected:
-    virtual void initialize(int windowWidth, int windowHeight, int levelWidth, CameraComponent* camera){}
+    virtual void initialize(int windowWidth, int windowHeight, int levelWidth, Screen* camera){}
 
     int _windowHeight, _windowWidth, _levelWidth;
 
@@ -28,7 +28,7 @@ protected:
 
     std::clock_t start = std::clock();
 
-    CameraComponent* _camera = nullptr;
+    Screen* _camera = nullptr;
 };
 
 

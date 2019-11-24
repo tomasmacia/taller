@@ -7,10 +7,10 @@
 #include <condition_variable>
 #include <mutex>
 
-#include "../net/messaging/ToClientPack.h"
+#include "../net/messaging/Renderable.h"
 #include "Game.h"
 #include "../net/Client.h"
-#include "../net/messaging/ToClientPack.h"
+#include "../net/messaging/Renderable.h"
 
 class LoggerMenu;
 class Client;
@@ -39,7 +39,6 @@ public:
     void setPlayerId(int id);
     void notifyAboutClientConectionToServerAttemptDone();
     void end() override ;
-    bool alreadyLoggedIn();
     void render();
 
     void reciveRenderables(vector<string>* serializedPages);
@@ -102,7 +101,6 @@ private:
     string user = "";
 
     static bool hasInstance;
-    bool loggedIn = false;
 
     std:: mutex mu;
     std:: mutex controllerMutex;

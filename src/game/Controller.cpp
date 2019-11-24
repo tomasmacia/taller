@@ -9,7 +9,7 @@
 
 
 #include "Controller.h"
-#include "../net/messaging/IDPlayer.h"
+#include "../net/messaging/IDManager.h"
 
 #include <iostream>
 
@@ -110,7 +110,7 @@ void Controller::reciveRenderables(vector<string>* serializedPagackes){
 //DATA TRANSFER INTERFACE
 //=========================================================================================
 
-void Controller::sendUpdate(std::list<ToClientPack*>* toClientsPackages, Server* server) {
+void Controller::sendUpdate(std::list<Renderable*>* toClientsPackages, Server* server) {
     string serializedPackages = objectSerializer.serializeObjects(toClientsPackages); //TODO HEAVY IN PERFORMANCE
     server->setToBroadcast(serializedPackages);
 }
@@ -137,7 +137,7 @@ std::string Controller::getAlreadyLoggedInMessage() {
 Controller::Controller(Game* game) {
     this->game = game;
     currentInput = new std::list<std::tuple<Action,int>>();
-    currentPackagesToRender = new std::list<ToClientPack*>();
+    currentPackagesToRender = new std::list<Renderable*>();
     init();
     bind();
 }

@@ -11,4 +11,4 @@
 
 6) refatorizar para que sea, desde el diseño, facil cambiar lo que se muestra en pantalla (hasta ahora se usa de forma separada el levelBuilder y el LoggerMenu) estaria bueno que este todo integrado para que sea facil agregar pantallas de seleccion, de desconexion, de fin de nivel, de fin de juego, etc
 
-7) refactorizar la relacion que hay entre StateComponent PhysiscComponent, RenderComponent e InputComponent
+7) refactorizar la relacion que hay entre State PhysiscComponent, Appearance e InputPoller

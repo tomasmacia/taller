@@ -7,7 +7,7 @@
 
 #include <string>
 #include <list>
-#include "ToClientPack.h"
+#include "Renderable.h"
 #include "../../enumerates/Action.h"
 #include "../../enumerates/MessageId.h"
 
@@ -27,7 +27,7 @@ public:
     std::string getInvalidCredentialMessage();
     std::string getServerFullMessage();
     std::string getAlreadyLoggedInMessage();
-    std::string serializeObjects(std::list<ToClientPack*>* packages);
+    std::string serializeObjects(std::list<Renderable*>* packages);
 
     //VALIDATE
     //===============================
@@ -39,9 +39,9 @@ public:
 
     //RECONSTRUCT
     //===============================
-    ToClientPack* reconstructRenderable(vector<string>* currentParsedMessage);
+    Renderable* reconstructRenderable(vector<string>* currentParsedMessage);
     tuple<Action,int> reconstructInput(vector<string>* currentParsedMessage);
-    void reconstructRenderables(vector<string>* serializedPackages, std::list<ToClientPack*>* renderables);
+    void reconstructRenderables(vector<string>* serializedPackages, std::list<Renderable*>* renderables);
 
     //SERIALIZATION
     //===============================
@@ -49,7 +49,7 @@ public:
     std::string serializedInvalidCredentialMessage();
     std::string serializedServerFullMessage();
     std::string serializedAlreadyLoggedInMessage();
-    string serializeObject(ToClientPack* package);
+    string serializeObject(Renderable* package);
     string serializeInput(Action action, int id);
     string serializeCredentials(string user, string pass);
     string getPingMessage();

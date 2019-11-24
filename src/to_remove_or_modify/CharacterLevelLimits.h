@@ -10,11 +10,11 @@
 class CharacterLevelLimits : public LevelLimits {
 
 public:
-    CharacterLevelLimits(int windowWidth, int windowHeight, int levelWidth, CameraComponent* camera);
+    CharacterLevelLimits(int windowWidth, int windowHeight, int levelWidth, Screen* camera);
     void update() override ;
 
 protected:
-    void initialize(int windowWidth, int windowHeight, int levelWidth, CameraComponent* camera) override ;
+    void initialize(int windowWidth, int windowHeight, int levelWidth, Screen* camera) override ;
 
 };
 

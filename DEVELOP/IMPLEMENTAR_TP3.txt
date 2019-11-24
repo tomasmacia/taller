@@ -42,7 +42,7 @@ ENERGIA:
     20) cada ataque con cuchillo quita 50 unidades
     21) cada golpe con barra metalica quita 35 unidades
     22) cada golpe de puño quita 20 unidades
-    23) cada holpe de salto con patada a un enemigo quita 75 puntos
+    23) cada golpe de salto con patada a un enemigo quita 75 puntos
 
 PANTALLA DE FINALIZACION DE NIVELES:
 

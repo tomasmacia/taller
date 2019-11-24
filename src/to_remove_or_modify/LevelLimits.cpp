@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "LevelLimits.h"
-#include "CameraComponent.h"
+#include "../entities/Screen.h"
 
 #include <iostream>
 

@@ -22,7 +22,7 @@ public:
 
     //API
     //===============================
-    void setToSend(std::string message);
+    void setToSend(const std::string& message);
     bool start();
     void sendCredentials(string user, string pass);
     bool hasAchievedConnectionAttempt();
@@ -38,7 +38,7 @@ private:
 
     //ACTUAL DATA TRANSFER
     //===============================
-    int send(std::string msg);
+    int send(const std::string& msg);
     string receive();
 
     //DISPATCHING OF INCOMMING MESSAGES
@@ -69,7 +69,7 @@ private:
     std::mutex connectionMutex;
     std::mutex sendQueueMutex;
     std::mutex incomingQueueMutex;
-    int socketFD;
+    int socketFD{};
     int maxBytesBuffer;
     //char* buffer;
 

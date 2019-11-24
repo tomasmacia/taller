@@ -10,7 +10,7 @@
 #include <memory>
 #include <algorithm>
 
-#include "../net/messaging/ToClientPack.h"
+#include "../net/messaging/Renderable.h"
 
 class Entity;
 class Manager {
@@ -21,7 +21,7 @@ public:
     //API
     //===============================
     void update();
-    std::list<ToClientPack*>* generateRenderables();
+    std::list<Renderable*>* generateRenderables();
     void prepareForNextLevel();
     void disconectPlayerByID(int id);
     void reconectPlayerByID(int oldID, int newID);
@@ -69,7 +69,7 @@ private:
     std::list<Entity*> fronLayerBackgrounds;
 
     //for performance
-    std::list<ToClientPack*>* packagesToClients = nullptr;
-    ToClientPack* renderable = nullptr;
+    std::list<Renderable*>* packagesToClients = nullptr;
+    Renderable* renderable = nullptr;
 };
 #endif //GAME_MANAGER_H

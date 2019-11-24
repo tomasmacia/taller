@@ -4,12 +4,12 @@
 
 #include "CharacterLevelLimits.h"
 
-CharacterLevelLimits::CharacterLevelLimits(int windowWidth, int windowHeight, int levelWidth, CameraComponent* camera){
+CharacterLevelLimits::CharacterLevelLimits(int windowWidth, int windowHeight, int levelWidth, Screen* camera){
     LevelLimits();
     initialize(windowWidth,windowHeight,levelWidth,camera);
 }
 
-void CharacterLevelLimits::initialize(int windowWidth, int windowHeight, int levelWidth, CameraComponent* camera){
+void CharacterLevelLimits::initialize(int windowWidth, int windowHeight, int levelWidth, Screen* camera){
 
     _camera = camera;
 

@@ -9,7 +9,7 @@
 #include "LevelBuilder.h"
 
 #include "../game/GameServer.h"
-#include "../net/messaging/IDPlayer.h"
+#include "../net/messaging/IDManager.h"
 
 #include "CharacterLevelLimits.h"
 #include "NonCharacterLevelLimits.h"
@@ -19,7 +19,7 @@
 #include "../game/Components/PhysicsComponent.h"
 #include "../game/Components/StateComponent.h"
 #include "../game/Components/IAComponent.h"
-#include "CameraComponent.h"
+#include "../entities/Screen.h"
 #include "../game/Components/IDComponent.h"
 
 #include "../game/Components/Appearences/NPCRenderComponent.h"
@@ -116,7 +116,7 @@ void LevelBuilder::initializeCamera() {
     Manager *manager = GameServer::getInstance().getManager();
 
     _camera = manager->addSpecialEntity();
-    _camera->addComponent<CameraComponent>();
+    _camera->addComponent<Screen>();
 }
 
 void LevelBuilder::initializeLevelLimits() {
@@ -128,10 +128,10 @@ void LevelBuilder::initializeLevelLimits() {
     int screenHeigth = GameServer::getInstance().getConfig()->screenResolution.height;
 
     _characterLevelLimits = manager->addSpecialEntity();
-    _characterLevelLimits->addComponent<CharacterLevelLimits>(screenWidth,screenHeigth,currentLevelWidth,_camera->getComponent<CameraComponent>());
+    _characterLevelLimits->addComponent<CharacterLevelLimits>(screenWidth,screenHeigth,currentLevelWidth,_camera->getComponent<Screen>());
 
     _nonCharacterLevelLimits = manager->addSpecialEntity();
-    _nonCharacterLevelLimits->addComponent<NonCharacterLevelLimits>(screenWidth,screenHeigth,currentLevelWidth,_camera->getComponent<CameraComponent>());
+    _nonCharacterLevelLimits->addComponent<NonCharacterLevelLimits>(screenWidth,screenHeigth,currentLevelWidth,_camera->getComponent<Screen>());
 
 }
 
@@ -190,12 +190,12 @@ void LevelBuilder::initializePlayers() {
     int screenResolutionWidth = (int)(GameServer::getInstance().getConfig()->screenResolution.width);
     int screenResolutionHeight = (int)(GameServer::getInstance().getConfig()->screenResolution.height);
     int amountOfPlayers = GameServer::getInstance().getConfig()->gameplay.characters.size();
-    int offset = (screenResolutionWidth - _camera->getComponent<CameraComponent>()->getMargin())/(amountOfPlayers + 1);
+    int offset = (screenResolutionWidth - _camera->getComponent<Screen>()->getMargin()) / (amountOfPlayers + 1);
     int i = 0;
     auto charactersConfigs = GameServer::getInstance().getConfig()->gameplay.characters;
 
 
-    IDPlayer::getInstance().initIDCounter();
+    IDManager::getInstance().initIDCounter();
     for (int i = 0; i < GameServer::getInstance().getMaxPlayers(); i++) {
 
         auto characterConfig = charactersConfigs[i];
@@ -204,8 +204,8 @@ void LevelBuilder::initializePlayers() {
         int y = screenResolutionHeight/2;
 
         auto *player = manager->addPlayer();
-        _camera->getComponent<CameraComponent>()->setPlayer(player);
-        player->addComponent<IDComponent>(IDPlayer::getInstance().getNextId());
+        _camera->getComponent<Screen>()->setPlayer(player);
+        player->addComponent<IDComponent>(IDManager::getInstance().getNextId());
         player->addComponent<InputComponent>();
         player->addComponent<PhysicsComponent>(_characterLevelLimits->getComponent<CharacterLevelLimits>());
         player->addComponent<PositionComponent>(x,y);
@@ -348,7 +348,7 @@ void LevelBuilder::resetPlayers() {
 
 void LevelBuilder::resetCamera() {
     LogManager::logDebug("[LEVEL]: reseteando Camara");
-    _camera->getComponent<CameraComponent>()->reset();
+    _camera->getComponent<Screen>()->reset();
 }
 
 

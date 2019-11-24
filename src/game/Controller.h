@@ -12,7 +12,7 @@
 #include <list>
 #include "../enumerates/Action.h"
 #include "Game.h"
-#include "../net/messaging/ToClientPack.h"
+#include "../net/messaging/Renderable.h"
 #include "../net/Server.h"
 #include "GameClient.h"
 
@@ -32,7 +32,7 @@ public:
 
     //DATA TRANSFER INTERFACE
     //===============================
-    void sendUpdate(std::list<ToClientPack*>* toClientsPackages, Server* server);
+    void sendUpdate(std::list<Renderable*>* toClientsPackages, Server* server);
     std::string getSuccesfullLoginMessage(string color, int userId);
     std::string getInvalidCredentialMessage();
     std::string getServerFullMessage();
@@ -44,7 +44,7 @@ public:
 
     //SETTERS
     //===============================
-    void setRenderable(ToClientPack* package){
+    void setRenderable(Renderable* package){
         currentPackagesToRender->push_back(package);
     }
 
@@ -57,7 +57,7 @@ public:
     std::list<std::tuple<Action,int>> getACopyOfNewInputs() {
         return *currentInput;
     }
-    std::list<ToClientPack*>* getPackages(){
+    std::list<Renderable*>* getPackages(){
         return currentPackagesToRender;
     }
 
@@ -80,7 +80,7 @@ private:
     //ATRIBUTES
     //===============================
     std::list<std::tuple<Action,int>>* currentInput = nullptr;
-    std::list<ToClientPack*>* currentPackagesToRender = nullptr;
+    std::list<Renderable*>* currentPackagesToRender = nullptr;
     SDL_Event sdlEvent;
     Game* game = nullptr;
 
