@@ -1,7 +1,7 @@
 #include "LogManager.h"
 #include "Logger.h"
 #include "DebugLogger.h"
-#include "../utils/TimeUtils.h"
+#include "../time/TimeUtils.h"
 #include <fstream>
 
 Logger* LogManager::loggerToBeUsed;

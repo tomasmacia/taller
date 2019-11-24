@@ -1,7 +1,0 @@
-//****************** LOGGER ******************//
-25-09-2019 15:52:09 [ERROR] : This should be printed, error
-25-09-2019 15:52:09 [ERROR] : This should be printed, error
-25-09-2019 15:52:09 [INFO] : This should be printed, info
-25-09-2019 15:52:09 [ERROR] : This should be printed, error
-25-09-2019 15:52:09 [INFO] : This should be printed, info
-25-09-2019 15:52:09 [DEBUG] : This should be printed, debug

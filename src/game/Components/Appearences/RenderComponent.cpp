@@ -1,7 +1,7 @@
 #include "../../GameServer.h"
 #include "RenderComponent.h"
 #include "../../../to_remove_or_modify/CameraComponent.h"
-#include "../../../utils/ImageUtils.h"
+#include "../../../image/ImageUtils.h"
 
 ToClientPack* RenderComponent::emitRenderable() {
     if (onScreen()){

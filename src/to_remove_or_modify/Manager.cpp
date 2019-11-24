@@ -2,7 +2,7 @@
 #include "Manager.h"
 
 #include "../game/Components/PositionComponent.h"
-#include "../LogLib/LogManager.h"
+#include "../logger/LogManager.h"
 #include "../game/Components/Appearences/BackgroundRenderComponent.h"
 #include "../game/Components/Appearences/NonMobileRenderComponent.h"
 #include "../game/Components/Appearences/CharacterRenderComponent.h"

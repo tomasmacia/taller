@@ -1,14 +1,14 @@
 #include "GameServer.h"
 #include "Controller.h"
 #include "../to_remove_or_modify/LevelBuilder.h"
-#include "../LogLib/Logger.h"
-#include "../LogLib/LogManager.h"
-#include "../parser/CLIArgumentParser.h"
-#include "../parser/xmlparser.h"
+#include "../logger/Logger.h"
+#include "../logger/LogManager.h"
+#include "../CLIAparser/CLIArgumentParser.h"
+#include "../XMLparser/xmlparser.h"
 #include <unistd.h>
 
 #include "../net/messaging/IDPlayer.h"
-#include "../utils/ImageUtils.h"
+#include "../image/ImageUtils.h"
 #include "../net/messaging/User.h"
 #include "../enumerates/Color.h"
 

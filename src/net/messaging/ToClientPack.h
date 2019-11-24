@@ -5,7 +5,7 @@
 #include <string>
 #include <map>
 
-#include "../../imageProcessing/TextureWrapper.h"
+#include "../../image/TextureWrapper.h"
 
 class ToClientPack {
     

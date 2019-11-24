@@ -5,7 +5,7 @@
 #include <arpa/inet.h> // for inet_pton -> string to in_addr
 #include "../CLIAparser/CLIArgumentParser.h"
 
-#include "../LogLib/LogManager.h"
+#include "../logger/LogManager.h"
 #include "../enumerates/MessageId.h"
 #include "Client.h"
 

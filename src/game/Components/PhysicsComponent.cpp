@@ -2,7 +2,7 @@
 // Created by Axel on 15/10/2019.
 //
 #include "PhysicsComponent.h"
-#include "../../LogLib/LogManager.h"
+#include "../../logger/LogManager.h"
 #include "PositionComponent.h"
 #include "StateComponent.h"
 #include "Appearences/CharacterRenderComponent.h"

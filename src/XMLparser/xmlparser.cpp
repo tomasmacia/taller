@@ -1,7 +1,7 @@
 #include "xmlparser.h"
 #include "config/config.h"
 #include "config/characterxml.h"
-#include "../LogLib/LogManager.h"
+#include "../logger/LogManager.h"
 #include <tinyxml2.h>
 #include <string>
 #include <vector>

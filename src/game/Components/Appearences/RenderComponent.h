@@ -6,8 +6,8 @@
 #include "../../../to_remove_or_modify/ECS.h"
 #include "../../../enumerates/Action.h"
 #include "../PositionComponent.h"
-#include "../../../LogLib/LogManager.h"
-#include "../../../imageProcessing/TextureWrapper.h"
+#include "../../../logger/LogManager.h"
+#include "../../../image/TextureWrapper.h"
 #include "../../../to_remove_or_modify/CameraComponent.h"
 #include "../../../net/messaging/ToClientPack.h"
 

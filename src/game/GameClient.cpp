@@ -1,6 +1,6 @@
 #include <SDL2/SDL.h>
 
-#include "../LogLib/Logger.h"
+#include "../logger/Logger.h"
 #include "Controller.h"
 #include "../to_remove_or_modify/LoggerMenu.h"
 #include "../enumerates/MessageId.h"

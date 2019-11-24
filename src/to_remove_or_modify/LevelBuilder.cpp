@@ -2,9 +2,9 @@
 // Created by Tomás Macía on 21/09/2019.
 //
 
-#include "config/level.h"
-#include "config/npc.h"
-#include "../utils/ImageUtils.h"
+#include "../XMLparser/config/level.h"
+#include "../XMLparser/config/npc.h"
+#include "../image/ImageUtils.h"
 
 #include "LevelBuilder.h"
 

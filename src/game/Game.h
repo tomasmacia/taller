@@ -4,8 +4,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "../LogLib/LogManager.h"
-#include "../parser/config/config.h"
+#include "../logger/LogManager.h"
+#include "../XMLparser/config/config.h"
 
 class Controller;
 
