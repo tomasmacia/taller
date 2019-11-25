@@ -5,11 +5,15 @@
 #ifndef GAME_POSITION_H
 #define GAME_POSITION_H
 
-#include "../../to_remove_or_modify/ECS.h"
+#include "collition/CollitionHandler.h"
 
 class Position {
 public:
-    Position(int x, int y, int z) ;
+    Position(int x, int y, int z, CollitionHandler* collitionHandler) ;
+
+    void ifValidChangeTo(int newX, int newY, int newZ);
+    int getXInTwoDimentions();
+    int getYIinTwoDimentions();
 
     int getX() {
         return x;
@@ -23,10 +27,6 @@ public:
         return z;
     }
 
-    void ifValidChangeTo(int newX, int newY, int newZ){
-
-    }
-
 private:
     void setPosition(int xPos, int yPos, int zPos) {
         this->x = xPos;
@@ -37,6 +37,8 @@ private:
     int x;
     int y;
     int z;
+
+    CollitionHandler* _collitionHandler = nullptr;
 };
 
 

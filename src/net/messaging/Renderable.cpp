@@ -6,19 +6,11 @@
 
 //CONSTRUCTORS
 //=========================================================================================
-Renderable::Renderable(std::string path, SDL_Rect srcRect, SDL_Rect destRect, bool isFliped){
+Renderable::Renderable(std::string path, Rect srcRect, Rect destRect, bool isFliped){
     this->path = path;
     this->srcRect = srcRect;
     this->destRect = destRect;
     this->fliped = isFliped;
-}
-
-Renderable::Renderable(){
-    SDL_Rect aux;
-    this->path = "NULL";
-    this->srcRect = aux;
-    this->destRect = aux;
-    this->fliped = false;
 }
 
 //API

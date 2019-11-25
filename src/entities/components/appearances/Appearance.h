@@ -1,38 +1,60 @@
 #ifndef RENDER_COMPONENT_H
 #define RENDER_COMPONENT_H
 
+#include <string>
 #include "../../../enumerates/Action.h"
+#include "../../../image/ImageUtils.h"
+#include "../../../net/messaging/Renderable.h"
+#include "../../../image/Rect.h"
+#include "../State.h"
+#include "../../Screen.h"
+#include "../Position.h"
+
+using namespace std;
 
 class Appearance {
+
 public:
     virtual void update() = 0;
 
+    Renderable* generateRenderable();
+    bool onScreen();
 
+    string getCurrent(){
+        return currentSprite;
+    }
+
+    int getWidth(){
+        return currentSpriteWidth;
+    }
+
+    int getHeight(){
+        return currentSpriteHeight;
+    }
 
 protected:
+    virtual Renderable* actuallyGenerateRenderable() = 0;
     virtual void loadNextImage() = 0;
-    virtual Renderable* generateRenderable() = 0;
-    //virtual void renderInOwnWay() = 0;
 
+    void initDestRect(int w, int h);
     void getCurrentSpriteDimentions();
-    bool onScreen();
-    void updatePosition();
-    void setCamera(Entity* camera);
-    void setDimentions();
 
     int currentSpriteWidth;
-    int currentSpriteHight;
-    SDL_Rect srcRect;
-    SDL_Rect destRect;
+    int currentSpriteHeight;
 
-    CameraComponent* _camera = nullptr;
-
-    float WIDTH_SCALE = 0.2;
-    float HEIGHT_SCALE = 0.5;
+    Rect srcRect;
+    Rect destRect;
 
     int _imageAmount;
     int _imageCounter = 0;
 
-    std::string currentSprite;
+    string currentSprite;
+
+    State* _state = nullptr;
+    Screen* _screen = nullptr;
+    Position* _position = nullptr;
+
+    float WIDTH_SCALE{};
+    float HEIGHT_SCALE{};
 };
 #endif //RENDER_COMPONENT_H

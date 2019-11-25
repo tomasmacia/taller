@@ -14,8 +14,9 @@ public:
     void setIncoming(Action incoming);
     void deactivateCorrespondingPreviousOngoingMovements(Action incoming);
     void updateMovementState(Action incoming);
-    void finishBlockingState();
+    void setFinished();
 
+    bool currentIsNotBlockingAction();
     bool isBlockingAction(Action action);
     bool isNotBlockingAction(Action action);
     bool isEndOfMovement(Action action);

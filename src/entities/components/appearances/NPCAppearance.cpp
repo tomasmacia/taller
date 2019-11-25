@@ -1,27 +1,29 @@
 #include "NPCAppearance.h"
 #include "../State.h"
 
-NPCAppearance::NPCAppearance(Entity* camera, NPC *npcConfig) {
+NPCAppearance::NPCAppearance(int w, int h, Position* position, Screen* screen, NPC *npcConfig) {
     this->npcConfig = *npcConfig;
-    setCamera(camera);
+    _screen = screen;
+    _position = position;
+    initDestRect(w,h);
+    init();
 }
 
 void NPCAppearance::init() {
 
-    setDimentions();
-
     DELAY = 3;
+    WIDTH_SCALE = 0.2;
+    HEIGHT_SCALE = 0.5;
+
     currentSprite = npcConfig.walk;
     _imageAmount  = WALK_IMAGE_AMOUNT;
     _imageCounter = 0;
     getCurrentSpriteDimentions();
 }
 
-void NPCAppearance::handleIncomingAction(){
+void NPCAppearance::handleCurrentState(){
 
-    auto state = entity->getComponent<State>();
-
-    switch (state->current()) {
+    switch (_state->current()) {
         case NONE:
             currentSprite = npcConfig.walk;
             _imageAmount  = WALK_IMAGE_AMOUNT;
@@ -35,20 +37,12 @@ void NPCAppearance::handleIncomingAction(){
             _imageAmount  = WALK_IMAGE_AMOUNT;
             break;
         case LEFT:
-            if (state->facingRight()) flip();
             currentSprite = npcConfig.walk;
             _imageAmount  = WALK_IMAGE_AMOUNT;
             break;
         case RIGHT:
-            if (state->facingLeft()) flip();
             currentSprite = npcConfig.walk;
             _imageAmount  = WALK_IMAGE_AMOUNT;
             break;
     }
 }
-
-int NPCAppearance::getJumpDuration(){
-    return DELAY * JUMP_IMAGE_AMOUNT;
-}
-
-

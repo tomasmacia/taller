@@ -1,37 +1,31 @@
 #include "CharacterAppearance.h"
 #include "../State.h"
 
-CharacterAppearance::CharacterAppearance(Entity* camera, CharacterXML characterConfig) {
+CharacterAppearance::CharacterAppearance(int w, int h, Position* position, Screen* screen, State* state, const CharacterXML& characterConfig) {
+
     this->characterConfig = characterConfig;
     realSpritePath = characterConfig.stand;
     disconnectedSpritePath = characterConfig.disconnected;
-    setCamera(camera);
+    _screen = screen;
+    _position = position;
+    _state = state;
+    initDestRect(w,h);
+    init();
 }
 
 void CharacterAppearance::init() {
-    
-    setDimentions();
 
     DELAY = 5;
-    WIDTH_SCALE = 0.3; //el width de los codys es un poco mas grande
-    destRect.w = (int)((float)(_camera->getWindowWidth())*WIDTH_SCALE);
+
     currentSprite = characterConfig.stand;
     _imageAmount  = STAND_IMAGE_AMOUNT;
     _imageCounter = 0;
     getCurrentSpriteDimentions();
 }
 
-void CharacterAppearance::handleIncomingAction(){
+void CharacterAppearance::handleCurrentState(){
 
-    auto state = entity->getComponent<State>();
-
-    switch (state->current()) {
-        case LEFT:
-            if (state->facingRight()) flip();
-            break;
-        case RIGHT:
-            if (state->facingLeft()) flip();
-            break;
+    switch (_state->current()) {
         case JUMP:
             currentSprite = characterConfig.jump;
             _imageAmount  = JUMP_IMAGE_AMOUNT;
@@ -54,22 +48,16 @@ void CharacterAppearance::handleIncomingAction(){
             break;
     }
 
-    if (state->currentIsNotBlockingAction()){
-        if (state->hasMovement()){
+    if (_state->currentIsNotBlockingAction()){
+        if (_state->hasMovement()){
             currentSprite = characterConfig.walk;
             _imageAmount  = WALK_IMAGE_AMOUNT;
         }
         else{
             currentSprite = characterConfig.stand;
             _imageAmount  = STAND_IMAGE_AMOUNT;
-
-
         }
     }
-}
-
-int CharacterAppearance::getJumpDuration(){
-    return DELAY * JUMP_IMAGE_AMOUNT;
 }
 
 void CharacterAppearance::setDisconnected() {

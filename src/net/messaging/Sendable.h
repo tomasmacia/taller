@@ -5,18 +5,19 @@
 #ifndef GAME_SENDABLE_H
 #define GAME_SENDABLE_H
 
-
+#include <string>
 #include "Renderable.h"
 #include "Soundable.h"
+using namespace std;
 
 class Sendable {
 
 public:
-    Soundable* soundable = nullptr;
-    Renderable* renderable = nullptr;
-
-    Sendable(Soundable* soundable,Renderable* renderable);
+    Sendable(Renderable* renderable, Soundable* soundable);
     ~Sendable();
+
+    Renderable* _renderable = nullptr;
+    Soundable* _soundable = nullptr;
 };
 
 

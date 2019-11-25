@@ -16,7 +16,7 @@ class InputPoller : public Will {
 public:
     InputPoller(Controller* controller, ID* id);
 
-    void update();
+    void update() override ;
 
 private:
     void selectAndStoreInputsFromIncoming(std::list<std::tuple<Action,int>>& inputs);

@@ -97,8 +97,8 @@ set(SOURCE_FILES
         src/entities/components/State.h
         src/entities/components/InputPoller.cpp
         src/entities/components/InputPoller.h
-        src/entities/components/IAComponent.h
-        src/entities/components/IAComponent.cpp
+        src/entities/components/IA.h
+        src/entities/components/IA.cpp
         src/entities/components/appearances/Appearance.h
         src/entities/components/appearances/Appearance.cpp
         src/entities/components/appearances/CharacterAppearance.h
@@ -107,10 +107,8 @@ set(SOURCE_FILES
         src/entities/components/appearances/NPCAppearance.cpp
         src/entities/components/appearances/BackgroundAppearance.h
         src/entities/components/appearances/BackgroundAppearance.cpp
-        src/entities/components/appearances/MobileAppearance.cpp
-        src/entities/components/appearances/MobileAppearance.h
-        src/entities/components/appearances/NonMobileAppearance.cpp
-        src/entities/components/appearances/NonMobileAppearance.h
+        src/entities/components/appearances/StateDrivenAppearance.cpp
+        src/entities/components/appearances/StateDrivenAppearance.h
         src/to_remove_or_modify/LevelLimits.h
         src/to_remove_or_modify/LevelLimits.cpp
         src/to_remove_or_modify/CharacterLevelLimits.cpp
@@ -139,7 +137,7 @@ set(SOURCE_FILES
         src/net/Server.h
         src/net/UserConnection.cpp 
         src/net/UserConnection.h
-        src/net/messaging/User.h src/enumerates/Color.h src/entities/Character.cpp src/entities/Character.h src/net/messaging/Sendable.cpp src/net/messaging/Sendable.h src/net/messaging/Soundable.cpp src/net/messaging/Soundable.h src/entities/Life.cpp src/entities/Life.h src/entities/Score.cpp src/entities/Score.h src/entities/components/Damage.cpp src/entities/components/Damage.h src/entities/components/Will.cpp src/entities/components/Will.h src/entities/components/SendableGenerator.cpp src/entities/components/SendableGenerator.h src/entities/Enemy.cpp src/entities/Enemy.h src/entities/Barrel.cpp src/entities/Barrel.h src/entities/Tube.cpp src/entities/Tube.h src/entities/Box.cpp src/entities/Box.h src/entities/Knife.cpp src/entities/Knife.h src/entities/FinalBoss.cpp src/entities/FinalBoss.h)
+        src/net/messaging/User.h src/enumerates/Color.h src/entities/Character.cpp src/entities/Character.h src/net/messaging/Sendable.cpp src/net/messaging/Sendable.h src/net/messaging/Soundable.cpp src/net/messaging/Soundable.h src/entities/Life.cpp src/entities/Life.h src/entities/Score.cpp src/entities/Score.h src/entities/components/Damage.cpp src/entities/components/Damage.h src/entities/components/Will.cpp src/entities/components/Will.h src/entities/Enemy.cpp src/entities/Enemy.h src/entities/Barrel.cpp src/entities/Barrel.h src/entities/Tube.cpp src/entities/Tube.h src/entities/Box.cpp src/entities/Box.h src/entities/Knife.cpp src/entities/Knife.h src/entities/FinalBoss.cpp src/entities/FinalBoss.h src/entities/components/Sound.cpp src/entities/components/Sound.h src/image/Rect.cpp src/image/Rect.h src/entities/components/collition/CollitionHandler.cpp src/entities/components/collition/CollitionHandler.h src/entities/components/collition/CollitionBox.cpp src/entities/components/collition/CollitionBox.h src/game/CollitionManager.cpp src/game/CollitionManager.h src/entities/components/collition/EntityWithAttackCollitionHandler.cpp src/entities/components/collition/EntityWithAttackCollitionHandler.h)
 
 # create executable
 add_executable(game ${SOURCE_FILES})

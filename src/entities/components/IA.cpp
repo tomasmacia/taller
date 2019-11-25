@@ -1,11 +1,11 @@
-#include "IAComponent.h"
+#include "IA.h"
 #include "State.h"
 
-IAComponent::IAComponent(){
+IA::IA(){
     srand (time(NULL));
 }
 
-void IAComponent::update(){
+void IA::update(){
     auto state = entity->getComponent<State>();
 
     if (counter >= CHOOSING_ACTION_DELAY){
@@ -21,7 +21,7 @@ void IAComponent::update(){
     counter++;
 }
 
-Action IAComponent::generateAction(){
+Action IA::generateAction(){
   if (side == 1){
       return RIGHT;
   } else {

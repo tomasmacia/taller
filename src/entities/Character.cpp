@@ -3,21 +3,27 @@
 //
 
 #include "Character.h"
+#include "../game/CollitionManager.h"
+#include "components/collition/EntityWithAttackCollitionHandler.h"
 
-Character::Character(CharacterSendableGenerator* sendableGenerator, InputPoller* inputPoller) {
+Character::Character(int x, int y, int z, int w, int h, int walkingSpeed, const CharacterXML& characterConfig,
+                    InputPoller* inputPoller, Screen* screen, CollitionManager* collitionManager) {
+
+    _wakingSpeed = walkingSpeed;
 
     this->will = inputPoller;
     this->state = new State(will);
     this->damage = new CharacterDamage();
-    this->ColitionHandler = new CharacterColitionHandler();
-    this->position = new Position(colitionManager);
-    this->physics = new Physics(state,position);
-    this->appearance = new CharacterAppearence(state);
-    this->sound = new CharacterSound(state);
 
-    this->sendableGenerator = sendableGenerator;
-    this->sendableGenerator->setPosition(position);
-    this->sendableGenerator->setSound(sound);
+    auto punchBox = collitionManager->addNewCollitionBox(x,y,z,w,h,DEFAULT_DEPH,this);
+    auto kickBox = collitionManager->addNewCollitionBox(x,y,z,w,h,DEFAULT_DEPH,this);
+    auto collitionBox = collitionManager->addNewCollitionBox(x,y,z,w,h,DEFAULT_DEPH,this);
+    this->collitionHandler = new EntityWithAttackCollitionHandler(punchBox, kickBox, collitionBox, collitionManager, state);
+
+    this->position = new Position(x, y, z, collitionHandler);
+    this->physics = new Physics(state,position,walkingSpeed);
+    this->appearance = new CharacterAppearance(w, h, position, screen, state, characterConfig);
+    this->sound = new CharacterSound(state);
 }
 
 void Character::update() {
@@ -32,7 +38,11 @@ void Character::update() {
 }
 
 Sendable *Character::generateSendable() {
-    return sendableGenerator->generateSendable();
+
+    auto renderable = appearance->generateRenderable();
+    auto soundable = sound->generateSoundable();
+
+    return new Sendable(renderable, soundable);
 }
 
 Character::~Character() {
@@ -44,11 +54,22 @@ Character::~Character() {
     delete(id);
     delete(will);
     delete(state);
-    delete(colitionHandler);
+    delete(collitionHandler);
     delete(position);
     delete(physics);
     delete(appearance);
     delete(sound);
-
-    delete(sendableGenerator);
 }
+
+void Character::drag() {
+    physics->drag();
+}
+
+bool Character::isDisconnected() {
+    return state->isDisconnected();
+}
+
+int Character::getX() {
+    return position->getX();
+}
+

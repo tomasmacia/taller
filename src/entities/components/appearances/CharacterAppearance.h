@@ -2,21 +2,19 @@
 #ifndef CHARACTER_RENDER_COMPONENT_H
 #define CHARACTER_RENDER_COMPONENT_H
 
-#include "MobileAppearance.h"
+#include "StateDrivenAppearance.h"
 #include "../../../XMLparser/config/characterxml.h"
 
-class CharacterAppearance : public MobileAppearance {
+class CharacterAppearance : public StateDrivenAppearance {
 public:
-    CharacterAppearance(Entity* camera, CharacterXML characterConfig);
-    void init() override;
-
-    int getJumpDuration() override;
+    CharacterAppearance(int w, int h, Position* position, Screen* screen, State* state, const CharacterXML& characterConfig);
 
     void setConnected();
     void setDisconnected();
 
 protected:
-    void handleIncomingAction() override;
+    void init() override;
+    void handleCurrentState() override;
 
 private:
     CharacterXML characterConfig;

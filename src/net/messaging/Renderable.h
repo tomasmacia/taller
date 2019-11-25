@@ -1,46 +1,43 @@
-#ifndef GAME_TOCLIENTPACK_H_
-#define GAME_TOCLIENTPACK_H_
+#ifndef GAME_RENDERABLE_H_
+#define GAME_RENDERABLE_H_
 
-#include <SDL2/SDL.h>
 #include <string>
 #include <map>
 
 #include "../../image/TextureWrapper.h"
+#include "../../image/Rect.h"
 
 class Renderable {
     
-    public:
-        Renderable(std::string path, SDL_Rect srcRect, SDL_Rect destRect, bool isFliped);
-        Renderable(); //NULL PATTERN
+public:
+    Renderable(std::string path, Rect srcRect, Rect destRect, bool isFliped);
 
-        //GETTERS
-        //===============================
-        void render(std::map<std::string, TextureWrapper*>* loadedTexturesMap);
+    void render(std::map<std::string, TextureWrapper*>* loadedTexturesMap);
 
-        //GETTERS
-        //===============================
-        std::string getPath(){
-            return path;
-        }
+    //GETTERS
+    //===============================
+    std::string getPath(){
+        return path;
+    }
 
-        SDL_Rect getSrcRect() {
-        return srcRect;
-        }
+    Rect getSrcRect() {
+    return srcRect;
+    }
 
-        SDL_Rect getDstRect() {
-        return destRect;
-        }
+    Rect getDstRect() {
+    return destRect;
+    }
 
-        bool getFliped() {
-        return fliped;
-        }
+    bool getFliped() {
+    return fliped;
+    }
 
-    private:
+private:
     //ATRIBUTES
     //===============================
     std::string path;
-    SDL_Rect destRect;
-    SDL_Rect srcRect;
+    Rect destRect;
+    Rect srcRect;
     bool fliped;
 };
 

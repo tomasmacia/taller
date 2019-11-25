@@ -65,11 +65,7 @@ bool LevelBuilder::hasNextLevel(){
 }
 
 bool LevelBuilder::levelFinished(){
-    return !levelRunning;
-}
-
-void LevelBuilder::endLevel(){
-    levelRunning = false;
+    return _screen->isAtEnd();
 }
 
 //MANAGING OWN STATE

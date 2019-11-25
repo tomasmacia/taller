@@ -6,9 +6,13 @@
 #include "Position.h"
 #include "State.h"
 
-Physics::Physics(State* state, Position* position){
+Physics::Physics(State* state, Position* position, int walkingSpeed){
     _state = state;
     _position = position;
+
+    DEFAULT_WALKING_VELOCITY_X = walkingSpeed;
+    DEFAULT_WALKING_VELOCITY_Z = walkingSpeed;
+
     init();
 }
 

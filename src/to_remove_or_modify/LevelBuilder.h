@@ -48,7 +48,7 @@ private:
 
     //ATRIBUTES
     //===============================
-    Entity* _camera = nullptr;
+    Entity* _screen = nullptr;
     Entity* _characterLevelLimits = nullptr;
     Entity* _nonCharacterLevelLimits = nullptr;
 

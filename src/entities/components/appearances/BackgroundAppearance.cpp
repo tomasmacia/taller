@@ -1,20 +1,17 @@
 #include "BackgroundAppearance.h"
-#include "../../Screen.h"
-#include "../../../net/messaging/Renderable.h"
 
-#include <iostream>
-
-BackgroundAppearance::BackgroundAppearance(Entity* camera, string string_path, float parallaxSpeed) {
+BackgroundAppearance::BackgroundAppearance(Position* position, Screen* screen, string string_path, float parallaxSpeed) {
     currentSprite = string_path;
-    setCamera(camera);
     _parallaxSpeed = parallaxSpeed;
+    _screen = screen;
+    _position = position;
+    init();
 }
 
 void BackgroundAppearance::init() {
-    getCurrentSpriteDimentions();
 
-    int screenResolutionWidth = _camera->getWindowWidth();
-    int screenResolutionHeight = _camera->getWindowHeight();
+    int screenResolutionWidth = _screen->getWindowWidth();
+    int screenResolutionHeight = _screen->getWindowHeight();
     float aspectRatio = (float)(screenResolutionWidth)/(float)(screenResolutionHeight);
 
     destRect.w = screenResolutionWidth;
@@ -26,7 +23,6 @@ void BackgroundAppearance::init() {
     srcRect.h = currentSpriteHight;
     srcRect.x = 0;
     srcRect.y = 0;
-
 }
 
 void BackgroundAppearance::update() {
@@ -38,19 +34,14 @@ void BackgroundAppearance::loadNextImage(){
     int screenWidth = srcRect.w;
     int spriteWidth = currentSpriteWidth;
 
-    int newX = ((float)spriteWidth*_camera->getLevelPercentageCovered()*_parallaxSpeed);
+    int newX = ((float)spriteWidth*_screen->getLevelPercentageCovered()*_parallaxSpeed);
 
     if ((newX + screenWidth) < spriteWidth){
         srcRect.x = newX;
     }
 }
 
-Renderable* BackgroundAppearance::generateRenderable() {
-    return new Renderable(currentSprite, srcRect, destRect, false);
+Renderable *BackgroundAppearance::generateRenderable() {
+    return new Renderable(currentSprite,srcRect,destRect,false);
 }
 
-/*
-void BackgroundAppearance::renderInOwnWay() {
-    texture.render(&srcRect, &destRect,false);
-}
- */

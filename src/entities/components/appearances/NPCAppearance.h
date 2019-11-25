@@ -2,18 +2,16 @@
 #ifndef NPC_RENDER_COMPONENT_H
 #define NPC_RENDER_COMPONENT_H
 
-#include "MobileAppearance.h"
+#include "StateDrivenAppearance.h"
 #include "../../../XMLparser/config/npc.h"
 
-class NPCAppearance : public MobileAppearance {
+class NPCAppearance : public StateDrivenAppearance {
 public:
-    NPCAppearance(Entity* camera, NPC *npcConfig);
-    void init() override;
-
-    int getJumpDuration() override;
+    NPCAppearance(int w, int h, Position* position, Screen* screen, NPC *npcConfig);
 
 protected:
-    void handleIncomingAction() override;
+    void init() override ;
+    void handleCurrentState() override;
 
 private:
     NPC npcConfig;

@@ -53,7 +53,7 @@ void GameServer::gameLoop(){
             sendUpdate();
             usleep(SLEEP_TIME);
         }
-        LogManager::logInfo("[GAME]: fin de game loop de este nivel");
+        LogManager::logInfo("[GAME]: Nivel terminado");
         LogManager::logInfo("=======================================");
     }
     on = false;
@@ -96,11 +96,6 @@ std::string GameServer::validateLogin(const std::string& user,const std::string&
     else{
         return controller->getInvalidCredentialMessage();
     }
-}
-
-void GameServer::endLevel(){
-    LogManager::logInfo("[GAME]: Nivel terminado");
-    levelBuilder->endLevel();
 }
 
 void GameServer::addNewIDToGame(int id) {

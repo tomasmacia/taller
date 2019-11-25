@@ -4,12 +4,12 @@
 
 #include "Sendable.h"
 
-Sendable::Sendable(Soundable* soundable,Renderable* renderable){
-    this->soundable = soundable;
-    this->renderable = renderable;
+Sendable::Sendable(Renderable *renderable, Soundable *soundable) {
+    _renderable = renderable;
+    _soundable = soundable;
 }
 
-Sendable::~Sendable(){
-    delete(soundable);
-    delete(renderable);
+Sendable::~Sendable() {
+    delete(_renderable);
+    delete(_soundable);
 }

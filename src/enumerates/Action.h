@@ -21,6 +21,7 @@ enum Action {
     KICK,
     JUMP_KICK,
     CROUCH,
+    PICK,
     QUIT,
 };
 

@@ -7,7 +7,7 @@
 
 class Physics {
 public:
-    Physics(State* state, Position* position);
+    Physics(State* state, Position* position, int walkingSpeed);
 
     void update();
     void init();

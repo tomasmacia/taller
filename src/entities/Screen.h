@@ -5,27 +5,32 @@
 #ifndef GAME_CAMERAPOSITIONCOMPONENT_H
 #define GAME_CAMERAPOSITIONCOMPONENT_H
 
-
-#include "../to_remove_or_modify/ECS.h"
-
 #include <list>
+#include "Character.h"
+
 using namespace std;
 
 
 class Screen {
 public:
+    Screen(int width, int height, int levelWidth);
 
-    void update() override;
-    void init() override;
+    void update();
 
-    void setPlayer(Entity* player);
+    void setPlayer(Character* player);
     bool onScreen(int x, int y);
+    bool isAtEnd();
     
-    void reset();
-
-    int getWindowWidth(){return windowWidth;}
-    int getWindowHeight(){return windowHeight;}
+    void reset(int levelWidth);
     float getLevelPercentageCovered();
+
+    int getWindowWidth(){
+        return windowWidth;
+    }
+
+    int getWindowHeight(){
+        return windowHeight;
+    }
 
     int getMargin(){
         return marginWidth;
@@ -37,19 +42,20 @@ private:
 
     int windowHeight, windowWidth;
     int marginWidth , offScreenTolerance;
+    int currentLevelWidth;
+    bool arrivedToEnd = false;
 
-
-    std::list<Entity*> _players;
+    list<Character*> _players;
 
     bool shouldMoveCamera();
     bool marginSurpased();
     bool notAtTheEnd();
     bool atTheEnd();
     bool noConnectedPlayerInLeftLimit();
-    bool playerIsConnected(Entity* player);
-    bool inLeftLimit(Entity* player);
-    bool touchingMargin(Entity* player);
-    bool surpasedRightLimit(Entity* player);
+    bool playerIsConnected(Character* player);
+    bool inLeftLimit(Character* player);
+    bool touchingMargin(Character* player);
+    bool surpasedRightLimit(Character* player);
     bool cameraHasReachedLimit();
     bool aPlayerSurpasedRightLimit();
 

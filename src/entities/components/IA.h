@@ -1,13 +1,13 @@
-#ifndef GAME_IACOMPONENT_H
-#define GAME_IACOMPONENT_H
+#ifndef GAME_IA_H
+#define GAME_IA_H
 
 #include "../../to_remove_or_modify/ECS.h"
 #include "../../enumerates/Action.h"
 #include <list>
 
-class IAComponent : public Component {
+class IA : public Will {
 public:
-    IAComponent();
+    IA();
     void update() override;
 
 private:
@@ -19,4 +19,4 @@ private:
     int side = 1;
 };
 
-#endif //GAME_IACOMPONENT_H
+#endif //GAME_IA_H

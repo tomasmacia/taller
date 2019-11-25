@@ -3,3 +3,7 @@
 //
 
 #include "Soundable.h"
+
+Soundable::Soundable(string soundPath) {
+    _soundPath = soundPath;
+}

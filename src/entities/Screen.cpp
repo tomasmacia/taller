@@ -1,29 +1,22 @@
 //
 // Created by Tomás Macía on 14/10/2019.
 //
-#include <string>
-
 #include "Screen.h"
-#include "../game/Components/PositionComponent.h"
-#include "../game/Components/PhysicsComponent.h"
-#include "../game/GameServer.h"
-#include "../game/Components/StateComponent.h"
 
-#include <iostream>
+Screen::Screen(int width, int height, int levelWidth){
 
-
-void Screen::init(){
     this->currentX = 0;
-    this->windowWidth = GameServer::getInstance().getConfig()->screenResolution.width;
-    this->windowHeight = GameServer::getInstance().getConfig()->screenResolution.height;
+    this->windowWidth = width;
+    this->windowHeight = height;
     this->marginWidth = windowWidth/3;
     this->offScreenTolerance = 2*marginWidth;
+    this->currentLevelWidth = levelWidth;
 }
 
-void Screen::reset(){
+void Screen::reset(int levelWidth){
     currentX = 0;
+    currentLevelWidth = levelWidth;
 }
-
 
 void Screen::update() {
     if (shouldMoveCamera()){
@@ -31,7 +24,7 @@ void Screen::update() {
     }
 
     if (atTheEnd()){
-        GameServer::getInstance().endLevel();
+        arrivedToEnd = true;
     }
 }
 
@@ -51,12 +44,12 @@ bool Screen::noConnectedPlayerInLeftLimit() {
     return true;
 }
 
-bool Screen::playerIsConnected(Entity* player) {
-    return !player->getComponent<StateComponent>()->isDisconnected();
+bool Screen::playerIsConnected(Character* player) {
+    return !player->isDisconnected();
 }
 
-bool Screen::inLeftLimit(Entity* player) {
-    return (player->getComponent<PositionComponent>()->getX() <= currentX);
+bool Screen::inLeftLimit(Character* player) {
+    return (player->getX() <= currentX);
 }
 
 bool Screen::atTheEnd() {
@@ -64,10 +57,10 @@ bool Screen::atTheEnd() {
 }
 
 bool Screen::cameraHasReachedLimit(){
-    return (currentX + windowWidth) >= GameServer::getInstance().getCurrentLevelWidth();
+    return (currentX + windowWidth) >= currentLevelWidth;
 }
 
-bool Screen::surpasedRightLimit(Entity* player){
+bool Screen::surpasedRightLimit(Character* player){
     return touchingMargin(player);
 }
 
@@ -80,7 +73,7 @@ bool Screen::aPlayerSurpasedRightLimit(){
 }
 
 bool Screen::notAtTheEnd() {
-    return (currentX + windowWidth) < GameServer::getInstance().getCurrentLevelWidth();
+    return (currentX + windowWidth) < currentLevelWidth;
 }
 
 bool Screen::marginSurpased() {
@@ -90,28 +83,26 @@ bool Screen::marginSurpased() {
     return false;
 }
 
-bool Screen::touchingMargin(Entity* player) {
-    return (player->getComponent<PositionComponent>()->getX() >= (currentX + windowWidth - marginWidth));
+bool Screen::touchingMargin(Character* player) {
+    return (player->getX() >= (currentX + windowWidth - marginWidth));
 }
 
 void Screen::scroll() {
-    this->currentX += (int)(_players.front()->getComponent<PhysicsComponent>()->getWalkingSpeed());
+    this->currentX += (int)(_players.front()->getWalkingSpeed());
 
     for (auto player: _players){
         if (!playerIsConnected(player) && inLeftLimit(player)){
-            player->getComponent<PhysicsComponent>()->drag();
+            player->drag();
         }
     }
 }
 
-void Screen::setPlayer(Entity* player){
+void Screen::setPlayer(Character* player){
     _players.push_back(player); 
 }
 
 float Screen::getLevelPercentageCovered(){
-
-    float levelWidth = GameServer::getInstance().getCurrentLevelWidth();
-    return (currentX/levelWidth);
+    return (currentX/currentLevelWidth);
 }
 
 bool Screen::onScreen(int x, int y){
@@ -119,4 +110,8 @@ bool Screen::onScreen(int x, int y){
     return (x <= (windowWidth + offScreenTolerance) && x >= -offScreenTolerance)
             &&
            (y <= (windowHeight + offScreenTolerance) && y >= -offScreenTolerance); //este luce raro pero es porque el eje y en SDL esta al revez
+}
+
+bool Screen::isAtEnd(){
+    return arrivedToEnd;
 }

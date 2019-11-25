@@ -88,6 +88,10 @@ void State::updateMovementState(Action incoming){
     }
 }
 
+bool State::currentIsNotBlockingAction(){
+    return isNotBlockingAction(_currentState);
+}
+
 bool State::isNotBlockingAction(Action action){
     return !(action == JUMP || action == PUNCH ||
             action == KICK || action == JUMP_KICK ||
@@ -109,7 +113,7 @@ bool State::hasMovement(){
     return (movingUp || movingDown || movingLeft || movingRight);
 }
 
-void State::finishBlockingState(){
+void State::setFinished(){
 
     if (isBlockingAction(_currentState)){
         _currentState = NONE;
@@ -142,4 +146,8 @@ void State::setConnected() {
 
 bool State::isDisconnected() {
     return disconnected;
+}
+
+bool State::isFliped() {
+    return _facingLeft;
 }

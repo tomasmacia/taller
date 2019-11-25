@@ -56,18 +56,21 @@ bool TextureWrapper::loadFromFile(std::string path, std::vector<int> rgb) {
     return mTexture != nullptr;
 }
 
-void TextureWrapper::render(SDL_Rect* srcRect, SDL_Rect* destRect,bool flip = false) {
+void TextureWrapper::render(Rect* src, Rect* dest,bool flip = false) {
+
+    SDL_Rect srcRect = {src->x,src->y,src->w,src->h};
+    SDL_Rect destRect = {dest->x,dest->y,dest->w,dest->h};
 
     if (mTexture == nullptr){
 
         SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0x00, 0xFF );
-        SDL_RenderFillRect( renderer, destRect );
+        SDL_RenderFillRect( renderer, &destRect );
 
     }else{
         if (flip)
-            SDL_RenderCopyEx( renderer, mTexture, srcRect, destRect, 0, NULL, SDL_FLIP_HORIZONTAL);
+            SDL_RenderCopyEx( renderer, mTexture, &srcRect, &destRect, 0, NULL, SDL_FLIP_HORIZONTAL);
         else
-            SDL_RenderCopy(renderer, mTexture, srcRect, destRect );
+            SDL_RenderCopy(renderer, mTexture, &srcRect, &destRect );
     }
 }
 
