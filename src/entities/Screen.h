@@ -11,18 +11,23 @@
 using namespace std;
 
 
-class Screen {
+class Screen : public Entity{
 public:
-    Screen(int width, int height, int levelWidth);
+    Screen(int width, int height);
 
-    void update();
+    void update() override ;
+    void generateSendable() override {}
 
     void setPlayer(Character* player);
     bool onScreen(int x, int y);
     bool isAtEnd();
     
-    void reset(int levelWidth);
+    void reset();
     float getLevelPercentageCovered();
+
+    void setLevelWidth(int levelWidth){
+        currentLevelWidth = levelWidth;
+    }
 
     int getWindowWidth(){
         return windowWidth;

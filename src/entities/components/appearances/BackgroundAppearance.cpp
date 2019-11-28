@@ -1,10 +1,9 @@
 #include "BackgroundAppearance.h"
 
-BackgroundAppearance::BackgroundAppearance(Position* position, Screen* screen, string string_path, float parallaxSpeed) {
+BackgroundAppearance::BackgroundAppearance(Screen* screen, string string_path, float parallaxSpeed) {
     currentSprite = string_path;
     _parallaxSpeed = parallaxSpeed;
     _screen = screen;
-    _position = position;
     init();
 }
 
@@ -19,8 +18,8 @@ void BackgroundAppearance::init() {
     destRect.x = 0;
     destRect.y = 0;
 
-    srcRect.w = (int)(aspectRatio*(float)(currentSpriteHight));
-    srcRect.h = currentSpriteHight;
+    srcRect.w = (int)(aspectRatio*(float)(currentSpriteHeight));
+    srcRect.h = currentSpriteHeight;
     srcRect.x = 0;
     srcRect.y = 0;
 }
@@ -41,7 +40,7 @@ void BackgroundAppearance::loadNextImage(){
     }
 }
 
-Renderable *BackgroundAppearance::generateRenderable() {
+Renderable *BackgroundAppearance::actuallyGenerateRenderable() {
     return new Renderable(currentSprite,srcRect,destRect,false);
 }
 

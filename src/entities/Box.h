@@ -6,7 +6,9 @@
 #define GAME_BOX_H
 
 
-class Box {
+#include "entityHierarchy/Utillity.h"
+
+class Box  : public Utillity{
 
 };
 

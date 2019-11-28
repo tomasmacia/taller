@@ -66,7 +66,7 @@ void GameServer::update() {
 }
 
 void GameServer::sendUpdate() {
-    controller->sendUpdate(manager->generateRenderables(),server);
+    controller->sendUpdate(manager->generateSendables(), server);
 }
 
 //API
@@ -277,9 +277,8 @@ void GameServer::initWaitingScreen() {
     int screenWidth = config->screenResolution.width;
     int screenHeight = config->screenResolution.height;
 
-
-    SDL_Rect src = {0,0,imageWidth,imageHeight};
-    SDL_Rect dst = {0,0,screenWidth,screenHeight};
+    Rect src = {0,0,imageWidth,imageHeight};
+    Rect dst = {0,0,screenWidth,screenHeight};
 
     waitingScreenRenderable = new Renderable(path, src, dst, false);
     waitingScreenContainer = new list<Renderable*>();
@@ -320,7 +319,7 @@ void GameServer::initECSManager() {
 }
 
 void GameServer::initLevelBuilder() {
-    this->levelBuilder = new LevelBuilder();
+    this->levelBuilder = new LevelBuilder(manager, config);
 }
 
 //DESTROY

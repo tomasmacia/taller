@@ -14,20 +14,28 @@
 #include "Score.h"
 #include "Screen.h"
 
-class Character {
+class Character : public PositionalEntity{
 
 public:
-    Character(int x, int y, int z, int w, int h, int walkingSpeed,  const CharacterXML& characterConfig,
+    Character(int x, int y, int z, int w, int h, int id, int walkingSpeed,  const CharacterXML& characterConfig,
                 InputPoller* inputPoller, Screen* screen, CollitionManager* collitionManager);
     ~Character();
 
-    void update();
-    Sendable* generateSendable();
+    //API
+    //===============================
+    void update() override ;
+    Sendable* generateSendable() override;
 
     void drag();
-    bool isDisconnected();
-    int getX();
 
+    void setConnected(int newID);
+    void setDisconnected();
+    bool isDisconnected();
+
+    int getID();
+
+    //GETTERS
+    //===============================
     Life* getLife(){
         return life;
     }
@@ -45,7 +53,6 @@ public:
     }
 
 private:
-    int DEFAULT_DEPH = 5;
     int _wakingSpeed;
 
     Life* life = nullptr;
@@ -58,9 +65,7 @@ private:
     ColitionHandler* collitionHandler = nullptr;
     Position* position = nullptr;
     Physics* physics = nullptr;
-    Appearance* appearance = nullptr;
+    CharacterAppearance* appearance = nullptr;
     Sound* sound = nullptr;
-
-    SendableGenerator sendableGenerator = nullptr;
 };
 #endif //GAME_CHARACTER_H

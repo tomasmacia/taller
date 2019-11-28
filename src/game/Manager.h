@@ -9,10 +9,13 @@
 #include <list>
 #include <memory>
 #include <algorithm>
-
+#include "../entities/entityHierarchy/Entity.h"
+#include "../entities/entityHierarchy/PositionalEntity.h"
+#include "../entities/Background.h"
 #include "../net/messaging/Renderable.h"
+#include "../net/messaging/Sendable.h"
+#include "../entities/Character.h"
 
-class Entity;
 class Manager {
 public:
     Manager();
@@ -21,20 +24,20 @@ public:
     //API
     //===============================
     void update();
-    std::list<Renderable*>* generateRenderables();
+    std::list<Sendable*>* generateSendables();
     void prepareForNextLevel();
     void disconectPlayerByID(int id);
     void reconectPlayerByID(int oldID, int newID);
 
     //ADDING NEW ENTITIES
     //===============================
-    Entity* addNPC();
-    Entity* addUtilitie();
-    Entity* addWeapon();
-    Entity* addPlayer();
-    Entity* addBackLayerBackgrounds();
-    Entity* addFrontLayerBackgrounds();
-    Entity* addSpecialEntity();
+    void addNPC(PositionalEntity* enemy);
+    void addUtilitiy(Entity* utillity);
+    void addWeapon(Entity* weapon);
+    void addPlayer(PositionalEntity* enemy);
+    void addBackLayerBackgrounds(Background* background);
+    void addFrontLayerBackgrounds(Background* background);
+    void addScreen(Screen* screen);
 
     //GETTERS
     //===============================
@@ -45,7 +48,7 @@ public:
 private:
     //SORTING
     //===============================
-    void sortEntitiesByY();
+    void sortEntitiesByZ();
 
     //ADDING NEW ENTITIES
     //===============================
@@ -57,19 +60,19 @@ private:
     //===============================
     //no forman una particion (hay overlapings o no estan todas)
     std::list<Entity*> nonLevelPersistentEntities;
-    std::list<Entity*> players;
+    std::list<Character*> players;
     std::list<Entity*> npcs;
     std::list<Entity*> nonMobileEntities;
 
     //estas listas forman una particion de todas las entities
     // es decir, toda entitie esta en alguna y si esta en una no esta en las otras
-    std::list<Entity*> specialEntities;             //camera and levelLimits
-    std::list<Entity*> entitiesWithPosition;        //only utilities, weapons, npcs and players
-    std::list<Entity*> backLayerBackgrounds;
-    std::list<Entity*> fronLayerBackgrounds;
+    std::list<Entity*> specialEntities;                       //camera and levelLimits
+    std::list<PositionalEntity*> entitiesWithPosition;        //only utilities, weapons, npcs and players
+    std::list<Background*> backLayerBackgrounds;
+    std::list<Background*> fronLayerBackgrounds;
 
     //for performance
-    std::list<Renderable*>* packagesToClients = nullptr;
-    Renderable* renderable = nullptr;
+    std::list<Sendable*>* packagesToClients = nullptr;
+    Sendable* sendable = nullptr;
 };
 #endif //GAME_MANAGER_H

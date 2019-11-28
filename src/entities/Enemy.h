@@ -6,7 +6,9 @@
 #define GAME_ENEMY_H
 
 
-class Enemy {
+#include "entityHierarchy/PositionalEntity.h"
+
+class Enemy : public PositionalEntity{
 
 };
 

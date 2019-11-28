@@ -6,7 +6,9 @@
 #define GAME_FINALBOSS_H
 
 
-class FinalBoss {
+#include "entityHierarchy/PositionalEntity.h"
+
+class FinalBoss : public PositionalEntity {
 
 };
 

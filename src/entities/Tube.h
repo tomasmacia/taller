@@ -6,7 +6,9 @@
 #define GAME_TUBE_H
 
 
-class Tube {
+#include "entityHierarchy/Weapon.h"
+
+class Tube : public Weapon{
 
 };
 

@@ -5,10 +5,13 @@
 #ifndef GAME_LEVELBUILDER_H
 #define GAME_LEVELBUILDER_H
 
+#include "../game/Manager.h"
+#include "../entities/Screen.h"
+
 class Entity;
 class LevelBuilder {
 public:
-    LevelBuilder();
+    LevelBuilder(Manager* manager, Config* config);
     ~LevelBuilder();
 
 
@@ -17,7 +20,6 @@ public:
     void loadNext();
     bool hasNextLevel();
     bool levelFinished();
-    void endLevel();
 
     //GETTERS
     //===============================
@@ -30,8 +32,8 @@ private:
     //===============================
     void initialize();
     void initializeNextLevel();
+    void initializeCollitionManager();
     void initializeCamera();
-    void initializeLevelLimits();
     void initializeWorld();
     void initializeLevelWidth(std::string floorSpritePath);
     void initializePlayers();
@@ -39,7 +41,6 @@ private:
     void initializeUtilities();
     void initializeWeapons();
     void resetCamera();
-    void resetLevelLimits();
     void resetPlayers();
 
     //MANAGING OWN STATE
@@ -48,13 +49,14 @@ private:
 
     //ATRIBUTES
     //===============================
-    Entity* _screen = nullptr;
-    Entity* _characterLevelLimits = nullptr;
-    Entity* _nonCharacterLevelLimits = nullptr;
+    Screen* _screen = nullptr;
+    CollitionManager* _collitionManager = nullptr;
+
+    Manager* _manager = nullptr;
+    Config* _config = nullptr;
 
     int currentLevel;
-    int totalLevels;
-    bool levelRunning;
+    int _levelAmount;
 
     int currentLevelWidth = 10000; //ONLY USED ON ERROR
 

@@ -3,19 +3,17 @@
 //
 #include "Screen.h"
 
-Screen::Screen(int width, int height, int levelWidth){
+Screen::Screen(int width, int height){
 
     this->currentX = 0;
     this->windowWidth = width;
     this->windowHeight = height;
     this->marginWidth = windowWidth/3;
     this->offScreenTolerance = 2*marginWidth;
-    this->currentLevelWidth = levelWidth;
 }
 
-void Screen::reset(int levelWidth){
+void Screen::reset(){
     currentX = 0;
-    currentLevelWidth = levelWidth;
 }
 
 void Screen::update() {

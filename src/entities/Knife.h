@@ -6,7 +6,9 @@
 #define GAME_KNIFE_H
 
 
-class Knife {
+#include "entityHierarchy/Weapon.h"
+
+class Knife : public Weapon{
 
 };
 

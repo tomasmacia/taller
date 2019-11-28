@@ -6,18 +6,20 @@
 #include "../game/CollitionManager.h"
 #include "components/collition/EntityWithAttackCollitionHandler.h"
 
-Character::Character(int x, int y, int z, int w, int h, int walkingSpeed, const CharacterXML& characterConfig,
+Character::Character(int x, int y, int z, int w, int h, int id, int walkingSpeed, const CharacterXML& characterConfig,
                     InputPoller* inputPoller, Screen* screen, CollitionManager* collitionManager) {
 
     _wakingSpeed = walkingSpeed;
+
+    this->id = new ID(id);
 
     this->will = inputPoller;
     this->state = new State(will);
     this->damage = new CharacterDamage();
 
-    auto punchBox = collitionManager->addNewCollitionBox(x,y,z,w,h,DEFAULT_DEPH,this);
-    auto kickBox = collitionManager->addNewCollitionBox(x,y,z,w,h,DEFAULT_DEPH,this);
-    auto collitionBox = collitionManager->addNewCollitionBox(x,y,z,w,h,DEFAULT_DEPH,this);
+    auto punchBox = collitionManager->addNewCollitionBox(x, y, z, w, h, COLLITION_BOX_DEFAULT_DEPTH, this);
+    auto kickBox = collitionManager->addNewCollitionBox(x, y, z, w, h, COLLITION_BOX_DEFAULT_DEPTH, this);
+    auto collitionBox = collitionManager->addNewCollitionBox(x, y, z, w, h, COLLITION_BOX_DEFAULT_DEPTH, this);
     this->collitionHandler = new EntityWithAttackCollitionHandler(punchBox, kickBox, collitionBox, collitionManager, state);
 
     this->position = new Position(x, y, z, collitionHandler);
@@ -69,7 +71,18 @@ bool Character::isDisconnected() {
     return state->isDisconnected();
 }
 
-int Character::getX() {
-    return position->getX();
+void Character::setConnected(int newID) {
+    state->setConnected();
+    appearance->setConnected();
+    id->setNew(newID);
+}
+
+int Character::getID() {
+    return id->get();
+}
+
+void Character::setDisconnected() {
+    state->setDisconnected();
+    appearance->setDisconnected();
 }
 

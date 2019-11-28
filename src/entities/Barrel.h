@@ -6,7 +6,9 @@
 #define GAME_BARREL_H
 
 
-class Barrel {
+#include "entityHierarchy/Utillity.h"
+
+class Barrel : public Utillity {
 
 };
 

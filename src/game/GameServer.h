@@ -5,7 +5,7 @@
 #include <condition_variable>
 #include <mutex>
 
-#include "../to_remove_or_modify/Manager.h"
+#include "Manager.h"
 #include "../to_remove_or_modify/LevelBuilder.h"
 #include "Game.h"
 #include "../net/messaging/Renderable.h"

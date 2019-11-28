@@ -5,8 +5,6 @@
 #ifndef GAME_ID_H
 #define GAME_ID_H
 
-#include "../../to_remove_or_modify/ECS.h"
-
 class ID{
 
 public:
