@@ -5,6 +5,17 @@
 #include "CollitionBox.h"
 
 CollitionBox::CollitionBox(int x, int y, int z, int w, int h, int d, int id, Character* owner) {
+
+    if (w == -1){
+        w = DEFAULT_WIDTH;
+    }
+    if (h == -1){
+        h = DEFAULT_HEIGHT;
+    }
+    if (d == -1){
+        d = DEFAULT_DEPTH;
+    }
+
     this->x = x;
     this->y = y;
     this->z = z;
@@ -26,19 +37,4 @@ bool CollitionBox::hasInsideItsVolumeThePositionPointOf(CollitionBox* collitionB
             (y <= collitionBox->y && collitionBox->y <= y + h)
             &&
             (z <= collitionBox->z && collitionBox->z <= z + d);
-}
-
-void CollitionBox::tryPos(int tryX, int tryY, int tryZ) {
-    stashedX = x;
-    stashedY = y;
-    stashedZ = z;
-    x = tryX;
-    y = tryY;
-    z = tryZ;
-}
-
-void CollitionBox::resetPos() {
-    x = stashedX;
-    y = stashedY;
-    z = stashedZ;
 }

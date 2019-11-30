@@ -25,15 +25,15 @@ private:
     float _velocityY;
     float _velocityZ;
 
-    float _accelerationX;
-    float _accelerationY;
-    float _accelerationZ;
+    float DEFAULT_JUMPING_ACCELERATION_Y = 10;
+    float DEFAULT_JUMPING_VELOCITY_Y = 10;          //how high is the jump
+
+    float _accelerationX = 0;
+    float _accelerationY = DEFAULT_JUMPING_ACCELERATION_Y;
+    float _accelerationZ = 0;
 
     float DEFAULT_WALKING_VELOCITY_X;
     float DEFAULT_WALKING_VELOCITY_Z;
-
-    float DEFAULT_JUMPING_ACCELERATION_Y = 10;
-    float DEFAULT_JUMPING_VELOCITY_Y = 10;          //how high is the jump
 
     void up();
     void down();

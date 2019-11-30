@@ -17,14 +17,15 @@ Character::Character(int x, int y, int z, int w, int h, int id, int walkingSpeed
     this->state = new State(will);
     this->damage = new CharacterDamage();
 
-    auto punchBox = collitionManager->addNewCollitionBox(x, y, z, w, h, COLLITION_BOX_DEFAULT_DEPTH, this);
-    auto kickBox = collitionManager->addNewCollitionBox(x, y, z, w, h, COLLITION_BOX_DEFAULT_DEPTH, this);
-    auto collitionBox = collitionManager->addNewCollitionBox(x, y, z, w, h, COLLITION_BOX_DEFAULT_DEPTH, this);
+    auto punchBox = collitionManager->addNewCollitionBox(x, y, z, w, h, -1, this);
+    auto kickBox = collitionManager->addNewCollitionBox(x, y, z, w, h, -1, this);
+    auto collitionBox = collitionManager->addNewCollitionBox(x, y, z, w, h, -1, this);
     this->collitionHandler = new EntityWithAttackCollitionHandler(punchBox, kickBox, collitionBox, collitionManager, state);
 
     this->position = new Position(x, y, z, collitionHandler);
     this->physics = new Physics(state,position,walkingSpeed);
-    this->appearance = new CharacterAppearance(w, h, position, screen, state, characterConfig);
+    this->screenPosition = new ScreenPosition(position,screen);
+    this->appearance = new CharacterAppearance(w, h, screenPosition, state, characterConfig);
     this->sound = new CharacterSound(state);
 }
 
@@ -59,6 +60,7 @@ Character::~Character() {
     delete(collitionHandler);
     delete(position);
     delete(physics);
+    delete(screenPosition);
     delete(appearance);
     delete(sound);
 }

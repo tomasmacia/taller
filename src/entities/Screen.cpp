@@ -3,20 +3,27 @@
 //
 #include "Screen.h"
 
-Screen::Screen(int width, int height){
+
+Screen::Screen(int width, int height, int levelWidth, CollitionManager* collitionManager){
+
 
     this->currentX = 0;
     this->windowWidth = width;
     this->windowHeight = height;
     this->marginWidth = windowWidth/3;
     this->offScreenTolerance = 2*marginWidth;
+    this->levelDepth = windowHeight * 0.3;
+
+    this->_collitionHandler = new ScreenCollitionHandler(this, collitionManager);
 }
 
-void Screen::reset(){
+void Screen::reset(int levelWidth){
     currentX = 0;
+    currentLevelWidth = levelWidth;
 }
 
 void Screen::update() {
+
     if (shouldMoveCamera()){
         scroll();
     }
@@ -86,7 +93,9 @@ bool Screen::touchingMargin(Character* player) {
 }
 
 void Screen::scroll() {
-    this->currentX += (int)(_players.front()->getWalkingSpeed());
+    int amount = (int)(_players.front()->getWalkingSpeed());
+    this->currentX += amount;
+    this->_collitionHandler->dragToRight(amount);
 
     for (auto player: _players){
         if (!playerIsConnected(player) && inLeftLimit(player)){

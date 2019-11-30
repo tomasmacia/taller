@@ -288,7 +288,7 @@ void GameServer::initWaitingScreen() {
 void GameServer::initGameModel() {
     initECSManager();
     initLevelBuilder();
-    LogManager::logDebug("[INIT]: inicializado Manager");
+    LogManager::logDebug("[INIT]: inicializado EntityManager");
     LogManager::logDebug("[INIT]: inicializado LevelBuilder");
     LogManager::logInfo("[INIT]: Modelo inicializado");
 }
@@ -315,7 +315,7 @@ void GameServer::loadValidCredenctials(){
 }
 
 void GameServer::initECSManager() {
-    this->manager = new Manager();
+    this->manager = new EntityManager();
 }
 
 void GameServer::initLevelBuilder() {

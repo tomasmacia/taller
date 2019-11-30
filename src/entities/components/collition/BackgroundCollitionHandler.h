@@ -6,18 +6,13 @@
 #define GAME_BACKGROUNDCOLLITIONHANDLER_H
 
 
-#include "CollitionBox.h"
+#include "collitionBoxHierarchy/CollitionBox.h"
 
-class BackgroundCollitionHandler {
+class BackgroundCollitionHandler : public CollitionHandler {
 
 public:
     BackgroundCollitionHandler(CollitionManager *collitionManager, list<CollitionBox*>* collitionBoxes);
     ~BackgroundCollitionHandler();
-
-private:
-    list<CollitionBox*>* _collitionBoxes = nullptr;
-
-    CollitionManager* _collitionManager = nullptr;
 
 };
 #endif //GAME_BACKGROUNDCOLLITIONHANDLER_H

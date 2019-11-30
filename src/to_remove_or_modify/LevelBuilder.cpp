@@ -35,7 +35,7 @@ using namespace std;
 
 //CONSTRUCTOR
 //=========================================================================================
-LevelBuilder::LevelBuilder(Manager* manager, Config* config) {
+LevelBuilder::LevelBuilder(EntityManager* manager, Config* config) {
     currentLevel = 0;
     _config = config;
     _levelAmount = _config->gameplay.levels.size();
@@ -82,6 +82,7 @@ void LevelBuilder::initialize() {
     LogManager::logInfo("=======================================");
     LogManager::logInfo("[LEVEL]: Inicializando NIVEL " + std::to_string(currentLevel));
 
+    initializeLevelWidth();
     initializeCollitionManager();
     initializeCamera();
     initializeWorld();
@@ -97,6 +98,7 @@ void LevelBuilder::initializeNextLevel() {
     LogManager::logInfo("=======================================");
     LogManager::logInfo("[LEVEL]: Inicializando NIVEL " + std::to_string(currentLevel));
 
+    initializeLevelWidth();
     resetCamera();
     initializeWorld();
     resetPlayers();
@@ -106,14 +108,14 @@ void LevelBuilder::initializeNextLevel() {
 }
 
 void LevelBuilder::initializeCollitionManager(){
-    LogManager::logDebug("[LEVEL]: Inicializando Collition Manager");
+    LogManager::logDebug("[LEVEL]: Inicializando Collition EntityManager");
     _collitionManager = new CollitionManager();
 }
 
 void LevelBuilder::initializeCamera() {
     LogManager::logDebug("[LEVEL]: Inicializando Camara");
 
-    _screen = new Screen(_config->screenResolution.width, _config->screenResolution.height);
+    _screen = new Screen(_config->screenResolution.width, _config->screenResolution.height, currentLevelWidth, _collitionManager);
     _manager->addScreen(_screen);
 }
 
@@ -121,8 +123,6 @@ void LevelBuilder::initializeWorld() {
     LogManager::logDebug("[LEVEL]: Inicializando Fondos");
 
     Level currentLevelSprites = _config->gameplay.levels.at(currentLevel - 1);
-
-    initializeLevelWidth(currentLevelSprites.floor.front());
 
     if (!currentLevelSprites.far.empty()){
 
@@ -133,28 +133,30 @@ void LevelBuilder::initializeWorld() {
 
     if (!currentLevelSprites.middle.empty()){
 
-        string stritePath = currentLevelSprites.middle.front()
+        string stritePath = currentLevelSprites.middle.front();
         auto *middle = new Background(_screen, stritePath, MIDDLE_SPEED_RATIO, _collitionManager, nullptr);
         _manager->addBackLayerBackgrounds(middle);
     }
 
     if (!currentLevelSprites.floor.empty()){
 
-        string stritePath = currentLevelSprites.floor.front()
+        string stritePath = currentLevelSprites.floor.front();
         auto *floor = new Background(_screen, stritePath, FLOOR_SPEED_RATIO, _collitionManager, nullptr);
         _manager->addBackLayerBackgrounds(floor);
     }
 
     if (!currentLevelSprites.overlay.empty()){
 
-        string stritePath = currentLevelSprites.overlay.front()
+        string stritePath = currentLevelSprites.overlay.front();
         auto *overlay = new Background(_screen, stritePath, OVERLAY_SPEED_RATIO, _collitionManager, nullptr);
         _manager->addBackLayerBackgrounds(overlay);
     }
     LogManager::logDebug("[LEVEL]: Fondos inicializados");
 }
 
-void LevelBuilder::initializeLevelWidth(std::string floorSpritePath){
+void LevelBuilder::initializeLevelWidth(){
+
+    std::string floorSpritePath = _config->gameplay.levels.at(currentLevel).floor.front();
 
     ImageSize imageSize = ImageUtils::getImageSize(floorSpritePath);
     int floorSpriteWidth = imageSize.width;
@@ -167,8 +169,6 @@ void LevelBuilder::initializeLevelWidth(std::string floorSpritePath){
     float scaleFactor =  (aspectRatio * (float)floorSpriteHeight)/screenResolutionWidth;
 
     currentLevelWidth = (float)floorSpriteWidth/ scaleFactor;
-
-    _screen->setLevelWidth(currentLevelWidth);
 }
 
 void LevelBuilder::initializePlayers() {
@@ -318,7 +318,7 @@ void LevelBuilder::resetPlayers() {
 
 void LevelBuilder::resetCamera() {
     LogManager::logDebug("[LEVEL]: reseteando Camara");
-    _screen->reset();
+    _screen->reset(currentLevelWidth);
 }
 
 LevelBuilder::~LevelBuilder(){

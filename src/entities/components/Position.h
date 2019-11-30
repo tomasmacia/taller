@@ -12,8 +12,6 @@ public:
     Position(int x, int y, int z, CollitionHandler* collitionHandler) ;
 
     void ifValidChangeTo(int newX, int newY, int newZ);
-    int getXInTwoDimentions();
-    int getYIinTwoDimentions();
 
     int getX() {
         return x;

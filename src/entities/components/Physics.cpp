@@ -84,6 +84,9 @@ void Physics::handleCurrentState(){
         case CROUCH:
             crouch();
             break;
+        case PICK:
+            none();
+            break;
     }
 }
 
@@ -108,14 +111,11 @@ void Physics::right() {
 }
 
 void Physics::endUp() {
-    _accelerationY = 0;
-    _velocityY = 0;
+    _velocityZ = 0;
 }
 
 void Physics::endDown() {
-    _accelerationX = 0;
-    _accelerationY = 0;
-    _velocityY = 0;;
+    _velocityZ = 0;;
 }
 
 void Physics::endLeft() {
@@ -130,42 +130,36 @@ void Physics::endRight() {
 
 void Physics::jump() {
     _accelerationX = 0;
-    _accelerationY = DEFAULT_JUMPING_ACCELERATION_Y;
     _velocityX = _velocityX; //aca esta la inercia horizontal. La velocidad ahora es la de antes TODO no tiene sentido, se puede borrar esta linea
     _velocityY = DEFAULT_JUMPING_VELOCITY_Y;
 }
 
 void Physics::punch() {
     _accelerationX = 0;
-    _accelerationY = 0;
     _velocityX = 0;
     _velocityY = 0;
 }
 
 void Physics::kick() {
     _accelerationX = 0;
-    _accelerationY = 0;
     _velocityX = 0;
     _velocityY = 0;
 }
 
 void Physics::jumpKick() {
     _accelerationX = 0;
-    _accelerationY = DEFAULT_JUMPING_ACCELERATION_Y;
     _velocityX = _velocityX; //aca esta la inercia horizontal. La velocidad ahora es la de antes TODO no tiene sentido, se puede borrar esta linea
     _velocityY = DEFAULT_JUMPING_VELOCITY_Y;
 }
 
 void Physics::crouch() {
     _accelerationX = 0;
-    _accelerationY = 0;
     _velocityX = 0;
     _velocityY = 0;
 }
 
 void Physics::none() {
     _accelerationX = 0;
-    _accelerationY = 0;
     _velocityX = 0;
     _velocityY = 0;
 }

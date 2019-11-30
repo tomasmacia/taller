@@ -7,7 +7,7 @@
 
 class NPCAppearance : public StateDrivenAppearance {
 public:
-    NPCAppearance(int w, int h, Position* position, Screen* screen, NPC *npcConfig);
+    NPCAppearance(int w, int h, ScreenPosition* screenPosition, NPC *npcConfig);
 
 protected:
     void init() override ;

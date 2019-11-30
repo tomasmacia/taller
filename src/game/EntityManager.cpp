@@ -1,16 +1,16 @@
 
-#include "Manager.h"
+#include "EntityManager.h"
 #include "../logger/LogManager.h"
 
 //CONSTRUCTOR
 //=========================================================================================
-Manager::Manager(){
+EntityManager::EntityManager(){
     packagesToClients = new list<Sendable*>;
 }
 
 //API
 //=========================================================================================
-void Manager::update() {//se updatean todas seguro porque updateo las listas que formaban una particion de las entities
+void EntityManager::update() {//se updatean todas seguro porque updateo las listas que formaban una particion de las entities
 
     for(auto* e : backLayerBackgrounds) e->update();
     for(auto* e : entitiesWithPosition) e->update();
@@ -18,7 +18,7 @@ void Manager::update() {//se updatean todas seguro porque updateo las listas que
     for(auto* e : specialEntities) e->update();
 }
 
-std::list<Sendable*>* Manager::generateSendables() {
+std::list<Sendable*>* EntityManager::generateSendables() {
 
     for (auto package: *packagesToClients){
         delete package;
@@ -53,7 +53,7 @@ std::list<Sendable*>* Manager::generateSendables() {
     return packagesToClients;
 }
 
-void Manager::prepareForNextLevel(){
+void EntityManager::prepareForNextLevel(){
 
     entitiesWithPosition.clear();
     destroyNonLevelPersistentEntities();
@@ -67,7 +67,7 @@ void Manager::prepareForNextLevel(){
     }
 }
 
-void Manager::reconectPlayerByID(int id,  int newID) {
+void EntityManager::reconectPlayerByID(int id, int newID) {
     for (auto player : players){
         if (player->getID() == id){
             player->setConnected(id);
@@ -75,7 +75,7 @@ void Manager::reconectPlayerByID(int id,  int newID) {
     }
 }
 
-void Manager::disconectPlayerByID(int id){
+void EntityManager::disconectPlayerByID(int id){
     for (auto player : players){
         if (player->getID() == id){
             player->setDisconnected();
@@ -85,46 +85,46 @@ void Manager::disconectPlayerByID(int id){
 
 //ADDING NEW ENTITIES
 //=========================================================================================
-void Manager::addNPC(PositionalEntity* enemy) {
+void EntityManager::addNPC(PositionalEntity* enemy) {
     nonLevelPersistentEntities.push_back(enemy);
     npcs.push_back(enemy);
     entitiesWithPosition.push_back(enemy);
 }
 
-void Manager::addUtilitiy(Entity* utillity) {
+void EntityManager::addUtilitiy(Entity* utillity) {
     nonLevelPersistentEntities.push_back(utillity);
     nonMobileEntities.push_back(utillity);
     entitiesWithPosition.push_back((PositionalEntity*) utillity);
 }
 
-void Manager::addWeapon(Entity* weapon) {
+void EntityManager::addWeapon(Entity* weapon) {
     nonLevelPersistentEntities.push_back(weapon);
     nonMobileEntities.push_back(weapon);
     entitiesWithPosition.push_back((PositionalEntity*) weapon);
 }
 
-void Manager::addPlayer(PositionalEntity* player) {
+void EntityManager::addPlayer(PositionalEntity* player) {
     players.push_back((Character*) player);
     entitiesWithPosition.push_back(player);
 }
 
-void Manager::addBackLayerBackgrounds(Background* background) {
+void EntityManager::addBackLayerBackgrounds(Background* background) {
     nonLevelPersistentEntities.push_back(background);
     backLayerBackgrounds.push_back(background);
 }
 
-void Manager::addFrontLayerBackgrounds(Background* background) {
+void EntityManager::addFrontLayerBackgrounds(Background* background) {
     nonLevelPersistentEntities.push_back(background);
     fronLayerBackgrounds.push_back(background);
 }
 
-void Manager::addScreen(Screen* screen) {
+void EntityManager::addScreen(Screen* screen) {
     specialEntities.push_back((Entity*) screen);
 }
 
 //DESTROY
 //=========================================================================================
-void Manager::destroyAllEntities() { //se destruyen todas seguro porque borro las listas que formaban una particion de las entities
+void EntityManager::destroyAllEntities() { //se destruyen todas seguro porque borro las listas que formaban una particion de las entities
     for(auto* e : entitiesWithPosition) {
         delete e;
         e = nullptr;
@@ -143,7 +143,7 @@ void Manager::destroyAllEntities() { //se destruyen todas seguro porque borro la
     }
 }
 
-void Manager::destroyNonLevelPersistentEntities() {
+void EntityManager::destroyNonLevelPersistentEntities() {
     for(auto* e : nonLevelPersistentEntities){
         delete e;
         e = nullptr;
@@ -151,7 +151,7 @@ void Manager::destroyNonLevelPersistentEntities() {
     nonLevelPersistentEntities.clear();
 }
 
-Manager::~Manager() {
+EntityManager::~EntityManager() {
     destroyAllEntities();
     entitiesWithPosition.clear();
     npcs.clear();
@@ -171,7 +171,7 @@ Manager::~Manager() {
 
     delete sendable;
     sendable = nullptr;
-    LogManager::logDebug("Memoria de Manager liberada");
+    LogManager::logDebug("Memoria de EntityManager liberada");
 }
 
 //SORTING
@@ -189,6 +189,6 @@ struct EntityComparator
     }
 };
 
-void Manager::sortEntitiesByZ() {
+void EntityManager::sortEntitiesByZ() {
     entitiesWithPosition.sort(EntityComparator());
 }

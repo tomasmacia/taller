@@ -13,13 +13,20 @@ int Position::getXInTwoDimentions() {
 }
 
 int Position::getYIinTwoDimentions() {
-    return y + z;
+    return screenHegiht - (y + z);
 }
 
 void Position::ifValidChangeTo(int newX, int newY, int newZ) {
 
-    if (_collitionHandler->noCollitionsIn(newX,newY,newZ)){
-        setPosition(newX,newY,newZ);
+    int prevX = x;
+    int prevY = y;
+    int prevZ = z;
+
+    setPosition(newX,newY,newZ);
+    _collitionHandler->moveCollitionBoxes(this);
+
+    if (_collitionHandler->anyCollitions()){
+        setPosition(prevX,prevY,prevZ);
         _collitionHandler->moveCollitionBoxes(this);
     }
 }

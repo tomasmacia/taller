@@ -1,13 +1,13 @@
 #include "CharacterAppearance.h"
 #include "../State.h"
 
-CharacterAppearance::CharacterAppearance(int w, int h, Position* position, Screen* screen, State* state, const CharacterXML& characterConfig) {
+CharacterAppearance::CharacterAppearance(int w, int h, Position *position, ScreenPosition *screenPosition, State *state,
+                                         const CharacterXML &characterConfig) {
 
     this->characterConfig = characterConfig;
     realSpritePath = characterConfig.stand;
     disconnectedSpritePath = characterConfig.disconnected;
-    _screen = screen;
-    _position = position;
+    _screenPosition = screenPosition;
     _state = state;
     initDestRect(w,h);
     init();
@@ -67,6 +67,5 @@ void CharacterAppearance::setDisconnected() {
 void CharacterAppearance::setConnected() {
     currentSprite = realSpritePath;
 }
-
  
 

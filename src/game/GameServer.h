@@ -5,7 +5,7 @@
 #include <condition_variable>
 #include <mutex>
 
-#include "Manager.h"
+#include "EntityManager.h"
 #include "../to_remove_or_modify/LevelBuilder.h"
 #include "Game.h"
 #include "../net/messaging/Renderable.h"
@@ -53,7 +53,7 @@ public:
         return maxPlayers;
     }
 
-    Manager* getManager() {
+    EntityManager* getManager() {
         return manager;
     }
 
@@ -135,7 +135,7 @@ private:
 
     Server* server = nullptr;
     LevelBuilder* levelBuilder = nullptr;
-    Manager* manager = nullptr;
+    EntityManager* manager = nullptr;
 };
 
 #endif //GAME_GAMESERVER_H_

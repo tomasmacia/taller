@@ -7,8 +7,7 @@
 #include "../../../net/messaging/Renderable.h"
 #include "../../../image/Rect.h"
 #include "../State.h"
-#include "../../Screen.h"
-#include "../Position.h"
+#include "../ScreenPosition.h"
 
 using namespace std;
 
@@ -19,18 +18,6 @@ public:
 
     Renderable* generateRenderable();
     bool onScreen();
-
-    string getCurrent(){
-        return currentSprite;
-    }
-
-    int getWidth(){
-        return currentSpriteWidth;
-    }
-
-    int getHeight(){
-        return currentSpriteHeight;
-    }
 
 protected:
     virtual Renderable* actuallyGenerateRenderable() = 0;
@@ -45,14 +32,10 @@ protected:
     Rect srcRect;
     Rect destRect;
 
-    int _imageAmount;
-    int _imageCounter = 0;
-
     string currentSprite;
 
     State* _state = nullptr;
-    Screen* _screen = nullptr;
-    Position* _position = nullptr;
+    ScreenPosition* _screenPosition = nullptr;
 
     float WIDTH_SCALE{};
     float HEIGHT_SCALE{};

@@ -8,7 +8,7 @@
 
 #include "../../../game/CollitionManager.h"
 #include "CollitionHandler.h"
-#include "CollitionBox.h"
+#include "collitionBoxHierarchy/CollitionBox.h"
 
 class EntityWithAttackCollitionHandler : public CollitionHandler{
 

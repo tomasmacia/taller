@@ -4,16 +4,11 @@
 
 #include "CollitionHandler.h"
 
-bool CollitionHandler::noCollitionsIn(int newX, int newY, int newZ) {
-
-    _collitionBox->tryPos(newX, newY, newZ);
-    bool result = !_collitionManager->anyCollitionsWith(_collitionBox);
-    _collitionBox->resetPos();
-
-    return result;
+bool CollitionHandler::anyCollitions() {
+    return _collitionManager->anyBlockingCollitionsWith(_blockingCollitionBox);
 }
 
-void CollitionHandler::moveCollitionBoxes(Position* position, State* state) {
+void CollitionHandler::moveCollitionBoxes(Position* position) {
 
     int diffX;
     int diffY;
@@ -28,5 +23,12 @@ void CollitionHandler::moveCollitionBoxes(Position* position, State* state) {
         collitionBox->x += diffX;
         collitionBox->y += diffY;
         collitionBox->z += diffZ;
+    }
+}
+
+void CollitionHandler::dragToRight(int amount) {
+
+    for (auto collitionBox: *_collitionBoxes){
+        collitionBox->x += amount;
     }
 }

@@ -11,8 +11,7 @@
 class PositionalEntity : public Entity{
 
 public:
-    PositionalEntity(Position *position);
-
+    PositionalEntity(){}
     int getX();
     int getY();
     int getZ();

@@ -5,13 +5,13 @@
 #ifndef GAME_LEVELBUILDER_H
 #define GAME_LEVELBUILDER_H
 
-#include "../game/Manager.h"
+#include "../game/EntityManager.h"
 #include "../entities/Screen.h"
 
 class Entity;
 class LevelBuilder {
 public:
-    LevelBuilder(Manager* manager, Config* config);
+    LevelBuilder(EntityManager* manager, Config* config);
     ~LevelBuilder();
 
 
@@ -35,7 +35,7 @@ private:
     void initializeCollitionManager();
     void initializeCamera();
     void initializeWorld();
-    void initializeLevelWidth(std::string floorSpritePath);
+    void initializeLevelWidth();
     void initializePlayers();
     void initializeEnemies();
     void initializeUtilities();
@@ -52,7 +52,7 @@ private:
     Screen* _screen = nullptr;
     CollitionManager* _collitionManager = nullptr;
 
-    Manager* _manager = nullptr;
+    EntityManager* _manager = nullptr;
     Config* _config = nullptr;
 
     int currentLevel;

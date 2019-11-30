@@ -14,9 +14,13 @@ protected:
 
     Renderable* actuallyGenerateRenderable() override;
     void loadNextImage() override;
+    void updateDestRectPosition();
 
     bool isFliped();
 
-    int DELAY{};
+    int _imageAmount;
+    int _imageCounter = 0;
+
+    int DELAY;
 };
 #endif //_MOBILE_RENDER_COMPONENT_H

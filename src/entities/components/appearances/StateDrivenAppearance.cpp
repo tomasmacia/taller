@@ -4,7 +4,6 @@
 void StateDrivenAppearance::update() {
 
     handleCurrentState();
-    getCurrentSpriteDimentions();
     loadNextImage();
     updateDestRectPosition();
 }
@@ -13,7 +12,7 @@ void StateDrivenAppearance::loadNextImage(){
 
     currentSpriteWidth = currentSpriteWidth/_imageAmount;
     currentSpriteHeight = currentSpriteHeight;
-    currentXInSprite = srcRect.w * (int)(_imageCounter / DELAY);
+    srcRect.x = srcRect.w * (int)(_imageCounter / DELAY);
 
     _imageCounter++;
     
@@ -29,14 +28,15 @@ bool StateDrivenAppearance::isFliped() {
     return _state->isFliped();
 }
 
-Renderable *StateDrivenAppearance::generateRenderable() {
+Renderable *StateDrivenAppearance::actuallyGenerateRenderable() {
     return new Renderable(currentSprite,srcRect,destRect,isFliped());
 }
 
 void StateDrivenAppearance::updateDestRectPosition(){
-
-    destRect.x = _position->getX() - _screen->currentX;
-    destRect.y = _position->getY();
+    
+    _screenPosition->update();
+    destRect.x = _screenPosition->getX();
+    destRect.y = _screenPosition->getY();
 }
 
 

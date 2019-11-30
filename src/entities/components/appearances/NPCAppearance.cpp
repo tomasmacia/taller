@@ -1,10 +1,9 @@
 #include "NPCAppearance.h"
 #include "../State.h"
 
-NPCAppearance::NPCAppearance(int w, int h, Position* position, Screen* screen, NPC *npcConfig) {
+NPCAppearance::NPCAppearance(int w, int h, ScreenPosition* screenPosition, NPC *npcConfig) {
     this->npcConfig = *npcConfig;
-    _screen = screen;
-    _position = position;
+    _screenPosition = screenPosition;
     initDestRect(w,h);
     init();
 }

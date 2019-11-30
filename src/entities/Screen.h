@@ -7,13 +7,14 @@
 
 #include <list>
 #include "Character.h"
+#include "components/collition/ScreenCollitionHandler.h"
 
 using namespace std;
 
 
 class Screen : public Entity{
 public:
-    Screen(int width, int height);
+    Screen(int width, int height, int levelWidth, CollitionManager* collitionManager);
 
     void update() override ;
     void generateSendable() override {}
@@ -22,11 +23,15 @@ public:
     bool onScreen(int x, int y);
     bool isAtEnd();
     
-    void reset();
+    void reset(int levelWidth));
     float getLevelPercentageCovered();
 
     void setLevelWidth(int levelWidth){
         currentLevelWidth = levelWidth;
+    }
+
+    int getLevelDepth(){
+        return levelDepth;
     }
 
     int getWindowWidth(){
@@ -45,7 +50,7 @@ public:
 
 private:
 
-    int windowHeight, windowWidth;
+    int windowHeight, windowWidth, levelDepth;
     int marginWidth , offScreenTolerance;
     int currentLevelWidth;
     bool arrivedToEnd = false;
@@ -65,6 +70,8 @@ private:
     bool aPlayerSurpasedRightLimit();
 
     void scroll();
+
+    ScreenCollitionHandler* _collitionHandler = nullptr;
 };
 
 

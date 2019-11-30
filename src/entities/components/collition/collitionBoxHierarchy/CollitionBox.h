@@ -6,20 +6,14 @@
 #define GAME_COLLITIONBOX_H
 
 
-#include "../../Character.h"
+#include "../../../entityHierarchy/Entity.h"
 
 class CollitionBox {
 
 public:
-    CollitionBox(int x, int y, int z, int w, int h, int d, int id, Character* owner);
+    CollitionBox(int x, int y, int z, int w, int h, int d, int id, Entity* owner);
 
-    void tryPos(int tryX, int tryY, int tryZ);
-    void resetPos();
     bool intersectsWith(CollitionBox* collitionBox);
-
-    int stashedX{};
-    int stashedY{};
-    int stashedZ{};
 
     int x;
     int y;
@@ -28,10 +22,14 @@ public:
     int h;
     int d;
     int id;
-    Character* owner = nullptr;
+    Entity* owner = nullptr;
 
 private:
     bool hasInsideItsVolumeThePositionPointOf(CollitionBox* collitionBox);
+
+    int DEFAULT_WIDTH = 10;
+    int DEFAULT_HEIGHT = 10;
+    int DEFAULT_DEPTH = 10;
 };
 
 

@@ -7,7 +7,7 @@
 
 class CharacterAppearance : public StateDrivenAppearance {
 public:
-    CharacterAppearance(int w, int h, Position* position, Screen* screen, State* state, const CharacterXML& characterConfig);
+    CharacterAppearance(int w, int h, Position* position, ScreenPosition* screenPosition, State* state, const CharacterXML& characterConfig);
 
     void setConnected();
     void setDisconnected();

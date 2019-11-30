@@ -16,12 +16,12 @@ void Appearance::getCurrentSpriteDimentions() {
 }
 
 bool Appearance::onScreen(){
-    return _screen->onScreen(destRect.x,destRect.y);
+    return _screenPosition->onScreen();
 }
 
 void Appearance::initDestRect(int w, int h){
     destRect.w = w;
     destRect.h = h;
-    destRect.x = _position->getX();
-    destRect.y = _position->getY();
+    destRect.x = _screenPosition->getX();
+    destRect.y = _screenPosition->getY();
 }

@@ -4,12 +4,13 @@
 #include <list>
 #include "EntityWithAttackCollitionHandler.h"
 
-EntityWithAttackCollitionHandler::EntityWithAttackCollitionHandler(CollitionBox* punchBox, CollitionBox* kickBox, CollitionBox* collitionBox, CollitionManager* collitionManager, State* state) {
+EntityWithAttackCollitionHandler::EntityWithAttackCollitionHandler(CollitionBox* punchBox, CollitionBox* kickBox, CollitionBox* collitionBox,
+                                                                CollitionManager* collitionManager, State* state) {
 
     _state = state;
 
-    _collitionBoxes = new list<CollitionBox*>();
     _collitionManager = collitionManager;
+    _collitionBoxes = new list<CollitionBox*>();
 
     _collitionBox = collitionBox;
     _punchBox = punchBox;

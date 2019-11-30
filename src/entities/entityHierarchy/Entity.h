@@ -13,9 +13,6 @@ class Entity {
 public:
     virtual void update() = 0;
     virtual Sendable* generateSendable() = 0;
-
-protected:
-    int COLLITION_BOX_DEFAULT_DEPTH = 10;
 };
 
 

@@ -9,6 +9,7 @@
 #include "components/Damage.h"
 #include "components/Physics.h"
 #include "components/InputPoller.h"
+#include "components/ScreenPosition.h"
 #include "components/appearances/CharacterAppearance.h"
 #include "Life.h"
 #include "Score.h"
@@ -65,6 +66,7 @@ private:
     ColitionHandler* collitionHandler = nullptr;
     Position* position = nullptr;
     Physics* physics = nullptr;
+    ScreenPosition* screenPosition = nullptr;
     CharacterAppearance* appearance = nullptr;
     Sound* sound = nullptr;
 };

@@ -2,8 +2,8 @@
 // Created by Tomás Macía on 14/10/2019.
 //
 
-#ifndef GAME_MANAGER_H
-#define GAME_MANAGER_H
+#ifndef GAME_ENTITYMANAGER_H
+#define GAME_ENTITYMANAGER_H
 
 
 #include <list>
@@ -16,10 +16,10 @@
 #include "../net/messaging/Sendable.h"
 #include "../entities/Character.h"
 
-class Manager {
+class EntityManager {
 public:
-    Manager();
-    ~Manager();
+    EntityManager();
+    ~EntityManager();
 
     //API
     //===============================
@@ -75,4 +75,4 @@ private:
     std::list<Sendable*>* packagesToClients = nullptr;
     Sendable* sendable = nullptr;
 };
-#endif //GAME_MANAGER_H
+#endif //GAME_ENTITYMANAGER_H
