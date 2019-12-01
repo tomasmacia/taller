@@ -19,11 +19,17 @@ public:
     void update();
     void handleCurrentState();
 
+    list<Entity*>* getAllPunchableWithinPunchingRange();
+    list<Entity*>* getAllKickableWithinKickingRange();
+    Entity* getClosestPickeableWithinPickingRange();
+
 private:
     void addressAttack(CollitionBox* attackingBoxInUse);
+    void addressPickIntent();
 
     CollitionBox* _punchBox = nullptr;
     CollitionBox* _kickBox = nullptr;
+    CollitionBox* _pickBox = nullptr;
 };
 
 

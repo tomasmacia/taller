@@ -4,6 +4,14 @@
 
 #include "Life.h"
 
-Life::Life(State *state) {
+Life::Life(int amount, State *state) {
+
+    this->startingAmount = amount;
+    this->current = amount;
+
     this->state = state;
+}
+
+bool Life::empty() {
+    return current <= 0;
 }

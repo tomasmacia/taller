@@ -14,6 +14,8 @@ class Damage {
 public:
     Damage(State* state);
 
+    void update();
+
 private:
     DamageAppearance* appearance = nullptr;
     State* state = nullptr;

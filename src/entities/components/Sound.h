@@ -7,6 +7,7 @@
 
 #include <string>
 #include "State.h"
+#include "../../net/messaging/Soundable.h"
 
 using namespace std;
 
@@ -15,7 +16,10 @@ class Sound {
 public:
     Sound(State* state);
 
+    void update();
+
     string getCurrent();
+    Soundable* generateSoundable();
 
 private:
     State* state = nullptr;

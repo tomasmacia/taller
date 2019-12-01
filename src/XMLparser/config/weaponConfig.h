@@ -2,7 +2,7 @@
 // Created by Tomás Macía on 07/09/2019.
 //
 
-#ifndef GAME_WEAPON_H
+#ifndef GAME_WEAPONENTITY_H
 #define GAME_WEAPON_H
 
 #include <string>
@@ -10,7 +10,7 @@
 using namespace std;
 
 
-class Weapon {
+class WeaponConfig {
 public:
     int amount;
     string sprite;
@@ -18,4 +18,4 @@ public:
 };
 
 
-#endif //GAME_WEAPON_H
+#endif //GAME_WEAPONENTITY_H

@@ -10,6 +10,7 @@
 
 class Box  : public Utillity{
 
+    int setAttackedWith(AttackCode attack) override ;
 };
 
 

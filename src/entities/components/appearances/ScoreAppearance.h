@@ -7,11 +7,15 @@
 
 
 #include "Appearance.h"
+#include "../../Score.h"
+
 
 class ScoreAppearance : public Appearance{
 
 public:
     ScoreAppearance(Score* score);
+
+    void update();
 
 private:
     Score* score = nullptr;

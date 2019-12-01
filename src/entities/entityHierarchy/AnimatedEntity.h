@@ -16,17 +16,25 @@
 #include "../components/appearances/StateDrivenAppearance.h"
 #include "../components/Sound.h"
 #include "../components/Damage.h"
+#include "../components/Attack.h"
 #include "../Life.h"
 
 class AnimatedEntity : public PositionalEntity {
 
 public:
+    AnimatedEntity(Will *will, State *state, AnimatedEntityCollitionHandler *collitionHandler, Position *position,
+                   Physics *physics, ScreenPosition *screenPosition, StateDrivenAppearance *appearance, Sound *sound,
+                   Damage *damage, Life *life, Attack *attack);
+
     ~AnimatedEntity();
 
     void update() override;
     Sendable* generateSendable() override;
 
+    virtual void notifySuccessfulAttack(int score) {}
+    bool dead();
     void drag();
+
 
     //GETTERS
     //===============================
@@ -46,7 +54,7 @@ protected:
 
     AnimatedEntity(Will* will, State* state, AnimatedEntityCollitionHandler* collitionHandler,
               Position* position, Physics* physics, ScreenPosition* screenPosition,
-              StateDrivenAppearance* appearance, Sound* sound, Damage* damage, Life* life);
+              StateDrivenAppearance* appearance, Sound* sound, Damage* damage, Life* life, Attack* attack);
 
     int _wakingSpeed;
 
@@ -58,8 +66,9 @@ protected:
     Position* position = nullptr;
     Physics* physics = nullptr;
     ScreenPosition* screenPosition = nullptr;
-    AnimatedEntity* appearance = nullptr;
+    StateDrivenAppearance* appearance = nullptr;
     Sound* sound = nullptr;
+    Attack* attack = nullptr;
 };
 
 

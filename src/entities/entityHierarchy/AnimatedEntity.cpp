@@ -6,7 +6,7 @@
 
 AnimatedEntity::AnimatedEntity(Will *will, State *state, AnimatedEntityCollitionHandler *collitionHandler,
                                Position *position, Physics *physics, ScreenPosition *screenPosition,
-                               StateDrivenAppearance *appearance, Sound *sound, Damage *damage, Life *life) {
+                               StateDrivenAppearance *appearance, Sound *sound, Damage *damage, Life *life, Attack* attack) {
     this->will = will;
     this->state = state;
     this->collitionHandler = collitionHandler;
@@ -16,13 +16,14 @@ AnimatedEntity::AnimatedEntity(Will *will, State *state, AnimatedEntityCollition
     this->appearance = appearance;
     this->damage = damage;
     this->life = life;
+    this->attack = attack;
 }
 
 void AnimatedEntity::update() {
 
     will->update();
     state->update();
-    damage->update();
+    attack->update();
     physics->update();
     appearance->update();
     sound->update();
@@ -36,9 +37,12 @@ Sendable *AnimatedEntity::generateSendable() {
     return new Sendable(renderable, soundable);
 }
 
-
 void AnimatedEntity::drag() {
     physics->drag();
+}
+
+bool AnimatedEntity::dead() {
+    return life->empty();
 }
 
 AnimatedEntity::~AnimatedEntity() {
@@ -53,4 +57,5 @@ AnimatedEntity::~AnimatedEntity() {
     delete(screenPosition);
     delete(appearance);
     delete(sound);
+    delete(attack);
 }

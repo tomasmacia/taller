@@ -99,7 +99,7 @@ void LevelBuilder::initializeWorld() {
     if (!currentLevelSprites.far.empty()){
 
         string stritePath = currentLevelSprites.far.front();
-        auto *far = new Background(_screen, stritePath, FAR_SPEED_RATIO, _collitionManager, nullptr);
+        auto *far = new Background(_screen, stritePath, FAR_SPEED_RATIO, nullptr);
         _entityManager->addBackLayerBackgrounds(far);
     }
 

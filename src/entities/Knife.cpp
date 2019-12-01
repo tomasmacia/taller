@@ -3,3 +3,7 @@
 //
 
 #include "Knife.h"
+
+int Knife::useOn(Entity *entity) {
+    return entity->setAttackedWith(KNIFE);
+}

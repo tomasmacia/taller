@@ -11,12 +11,13 @@
 #include <algorithm>
 #include "../entities/entityHierarchy/Entity.h"
 #include "../entities/entityHierarchy/PositionalEntity.h"
+#include "../entities/entityHierarchy/Weapon.h"
 #include "../entities/Background.h"
 #include "../net/messaging/Renderable.h"
 #include "../net/messaging/Sendable.h"
 #include "../XMLparser/config/config.h"
-#include "Controller.h"
 
+#include "Controller.h"
 #include "../entities/Character.h"
 #include "../entities/Enemy.h"
 #include "../entities/Knife.h"

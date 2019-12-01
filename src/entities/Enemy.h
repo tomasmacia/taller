@@ -10,6 +10,8 @@
 
 class Enemy : public PositionalEntity{
 
+    int setAttackedWith(AttackCode attack) override ;
+
 };
 
 

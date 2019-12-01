@@ -10,6 +10,7 @@
 
 class Tube : public Weapon{
 
+    int useOn(Entity* entity) override ;
 };
 
 

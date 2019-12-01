@@ -3,3 +3,12 @@
 //
 
 #include "Weapon.h"
+
+Weapon::Weapon(Life *life) {
+
+    this->life = life;
+}
+
+bool Weapon::broke() {
+    return life->empty();
+}

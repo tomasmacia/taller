@@ -54,7 +54,7 @@ private:
 
     Weapons getGameplayWeapons(XMLElement *gameplay);
 
-    Weapon getGameplayWeapon(XMLElement *weaponElement);
+    WeaponConfig getGameplayWeapon(XMLElement *weaponElement);
 
     Utilities getGameplayUtilities(XMLElement *gameplay);
 

@@ -10,6 +10,12 @@
 
 class Score {
 
+public:
+    void increaseBy(int amount);
+
+private:
+    int current = 0;
+
 };
 
 

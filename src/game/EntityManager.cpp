@@ -78,6 +78,7 @@ std::list<Sendable*>* EntityManager::generateSendables() {
 
 void EntityManager::prepareForNextLevel(){
 
+    collitionManager->prepareForNextLevel();
     entitiesWithPosition.clear();
     destroyNonLevelPersistentEntities();
     enemies.clear();
@@ -86,7 +87,7 @@ void EntityManager::prepareForNextLevel(){
     fronLayerBackgrounds.clear();
 
     for (Character* e : players){
-        entitiesWithPosition.push_back((PositionalEntity*) e);
+        entitiesWithPosition.push_back(e);
     }
 }
 
@@ -111,7 +112,7 @@ void EntityManager::disconectPlayerByID(int id){
 Character* EntityManager::addPlayer(int x, int y, int z, int w, int h, int id, int walkingSpeed) {
     Character* character = createCharacter(x,y,z,w,h,id,walkingSpeed);
     players.push_back(character);
-    entitiesWithPosition.push_back((PositionalEntity*) character);
+    entitiesWithPosition.push_back(character);
 }
 
 void EntityManager::addEnemy(int w, int h, int walkingSpeed) {
@@ -125,28 +126,28 @@ void EntityManager::addKnife(int w, int h) {
     auto* knife = createKnife(w,h);
     nonLevelPersistentEntities.push_back(knife);
     inanimatedEntities.push_back(knife);
-    entitiesWithPosition.push_back((PositionalEntity*) knife);
+    entitiesWithPosition.push_back(knife);
 }
 
 void EntityManager::addTube(int w, int h) {
     auto* tube = createTube(w,h);
     nonLevelPersistentEntities.push_back(tube);
     inanimatedEntities.push_back(tube);
-    entitiesWithPosition.push_back((PositionalEntity*) tube);
+    entitiesWithPosition.push_back(tube);
 }
 
 void EntityManager::addBox(int w, int h) {
     auto* box = createBox(w,h);
     nonLevelPersistentEntities.push_back(box);
     inanimatedEntities.push_back(box);
-    entitiesWithPosition.push_back((PositionalEntity*) box);
+    entitiesWithPosition.push_back(box);
 }
 
 void EntityManager::addBarrel(int w, int h) {
     auto* barrel = createBarrel(w,h);
     nonLevelPersistentEntities.push_back(barrel);
     inanimatedEntities.push_back(barrel);
-    entitiesWithPosition.push_back((PositionalEntity*) barrel);
+    entitiesWithPosition.push_back(barrel);
 }
 
 void EntityManager::addBackLayerBackgrounds(Background* background) {
@@ -175,7 +176,7 @@ Character *EntityManager::createCharacter(int x, int y, int z, int w, int h, int
 
     auto* punchBox = new CollitionBox(x, y, z, w, h, -1,-1);
     auto* kickBox = new CollitionBox(x, y, z, w, h, -1,-1);
-    auto* collitionBox = collitionManager->addBlockingCollitionBox(x, y, z, w, h, -1);
+    auto* collitionBox = collitionManager->addCharacterBlockingCollitionBox(x, y, z, w, h, -1);
     auto* collitionHandler = new AnimatedEntityCollitionHandler(punchBox, kickBox, collitionBox, collitionManager, state);
 
     auto* position = new Position(x, y, z, collitionHandler);
@@ -190,6 +191,29 @@ Character *EntityManager::createCharacter(int x, int y, int z, int w, int h, int
 
     return new Character(will, state, collitionHandler, position, physics, screenPosition,
                          appearance, sound, damage,life, idComponent, score, scoreAppearance);
+}
+
+Enemy *EntityManager::createEnemy(int w, int h, int walkingSpeed) {
+
+    auto* will = new IA();
+    auto* state = new State(will);
+
+    auto* punchBox = new CollitionBox(x, y, z, w, h, -1,-1);
+    auto* kickBox = new CollitionBox(x, y, z, w, h, -1,-1);
+    auto* collitionBox = collitionManager->addBlockingCollitionBox(x, y, z, w, h, -1);
+    auto* collitionHandler = new AnimatedEntityCollitionHandler(punchBox, kickBox, collitionBox, collitionManager, state);
+
+    auto* position = new Position(x, y, z, collitionHandler);
+    auto* physics = new Physics(state,position,walkingSpeed);
+    auto* screenPosition = new ScreenPosition(position,screen);
+    auto* appearance = new EnemyAppearance(w, h, screenPosition, state, config->gameplay.characters.at(players.size()));
+    auto* sound = new Sound(state);
+    auto* damage = new Damage(state);
+    auto* life = new Life(state);
+    auto* score = new Score();
+
+    return new Enemy(will, state, collitionHandler, position, physics, screenPosition,
+                         appearance, sound, damage,life, score);
 }
 
 

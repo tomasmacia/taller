@@ -3,3 +3,7 @@
 //
 
 #include "Score.h"
+
+void Score::increaseBy(int amount) {
+    current += amount;
+}

@@ -3,3 +3,7 @@
 //
 
 #include "Box.h"
+
+int Box::setAttackedWith(AttackCode attack) {
+    return Entity::setAttackedWith(attack);
+}

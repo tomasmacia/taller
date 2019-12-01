@@ -3,3 +3,7 @@
 //
 
 #include "Enemy.h"
+
+int Enemy::setAttackedWith(AttackCode attack) {
+    return Entity::setAttackedWith(attack);
+}

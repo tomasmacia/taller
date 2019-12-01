@@ -12,9 +12,14 @@
 class Life {
 
 public:
-    Life(State* state);
+    Life(int amount, State* state);
+
+    bool empty();
 
 private:
+    int startingAmount;
+    int current;
+
     LifeAppearance* appearance = nullptr;
     State* state = nullptr;
 

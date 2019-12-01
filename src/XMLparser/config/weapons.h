@@ -5,12 +5,12 @@
 #ifndef GAME_WEAPONS_H
 #define GAME_WEAPONS_H
 
-#include "weapon.h"
+#include "weaponConfig.h"
 
 class Weapons {
 public:
-    Weapon knife;
-    Weapon tube;
+    WeaponConfig knife;
+    WeaponConfig tube;
 };
 
 #endif //GAME_WEAPONS_H

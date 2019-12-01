@@ -352,8 +352,8 @@ Utilities XMLParser::wrapperGameplayUtilitiesModule(XMLElement *gameplay, XMLEle
     return utilities;
 }
 
-Weapon XMLParser::getGameplayWeapon(XMLElement *weaponElement) {
-    Weapon weapon;
+WeaponConfig XMLParser::getGameplayWeapon(XMLElement *weaponElement) {
+    WeaponConfig weapon;
     weapon.amount = getSafeValueFromElement(weaponElement, {"amount"}, atoi, "weapons");
     weapon.sprite = getSafeValueFromElement(weaponElement, {"sprite"}, charArrayToString, "weapons");
     weapon.damage = getSafeValueFromElement(weaponElement, {"damage"}, atoi, "weapons");

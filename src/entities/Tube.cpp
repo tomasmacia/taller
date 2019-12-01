@@ -3,3 +3,7 @@
 //
 
 #include "Tube.h"
+
+int Tube::useOn(Entity *entity) {
+    return entity->setAttackedWith(KNIFE);
+}

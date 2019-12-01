@@ -17,11 +17,29 @@ public:
     CollitionManager();
     ~CollitionManager();
 
-    CollitionBox* addBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
+    void prepareForNextLevel();
+
+    list<CollitionBox*>* getListOfHittedCollitionBox(CollitionBox* query);
+    CollitionBox* getFirstPickedCollitionBox(CollitionBox* query);
+
+    CollitionBox* addCharacterBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
+    CollitionBox* addEnemyBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
+    CollitionBox* addBackgroundBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
+    CollitionBox* addKnifeBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
+    CollitionBox* addTubeBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
+    CollitionBox* addBoxBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
+    CollitionBox* addBarrelBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
+
     bool anyBlockingCollitionsWith(CollitionBox* queryCollitionBox);
 
 private:
+    void clearNonLevelPersistentCollitionBoxes();
+
     list<CollitionBox*>* _blockingCollitionBoxes = nullptr;
+
+    list<CollitionBox*> _nonLevelPersistentCollitionBoxes = nullptr;
+    list<CollitionBox*>* _weaponCollitionBoxes = nullptr;
+    list<CollitionBox*>* _characterCollitionBoxes = nullptr;
     int newID = 0;
 };
 

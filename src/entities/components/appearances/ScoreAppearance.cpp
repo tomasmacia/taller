@@ -7,3 +7,7 @@
 ScoreAppearance::ScoreAppearance(Score *score) {
     this->score = score;
 }
+
+void ScoreAppearance::update() {
+    //current = score->get(); TODO
+}

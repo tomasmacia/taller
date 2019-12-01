@@ -18,19 +18,28 @@ Character::Character(Will* will, State* state, AnimatedEntityCollitionHandler* c
     this->scoreAppearance = scoreAppearance;
 }
 
+void Character::notifySuccessfulAttack(int score) {
+    this->score->increaseBy(score);
+    this->scoreAppearance->update();
+}
+
 bool Character::isDisconnected() {
     return state->isDisconnected();
 }
 
 void Character::setConnected(int newID) {
+    CharacterAppearance* characterAppearance = (CharacterAppearance*) this->appearance;
+
     state->setConnected();
-    appearance->setConnected();
+    characterAppearance->setConnected();
     id->setNew(newID);
 }
 
 void Character::setDisconnected() {
+    CharacterAppearance* characterAppearance = (CharacterAppearance*) this->appearance;
+
     state->setDisconnected();
-    appearance->setDisconnected();
+    characterAppearance->setDisconnected();
 }
 
 int Character::getID() {
@@ -38,7 +47,7 @@ int Character::getID() {
 }
 
 Character::~Character() {
-
     delete(score);
     delete(id);
+    delete(scoreAppearance);
 }

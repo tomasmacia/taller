@@ -3,3 +3,7 @@
 //
 
 #include "Barrel.h"
+
+int Barrel::setAttackedWith(AttackCode attack) {
+    return Entity::setAttackedWith(attack);
+}
