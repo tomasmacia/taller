@@ -93,3 +93,7 @@ bool Attack::hasWeapon() {
 bool Attack::weaponBroke() {
     return weapon->broke();
 }
+
+void Attack::throwWeapon() {
+    weapon = nullptr;
+}

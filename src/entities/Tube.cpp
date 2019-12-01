@@ -5,5 +5,7 @@
 #include "Tube.h"
 
 int Tube::useOn(Entity *entity) {
+
+    life->decreseBy(1);
     return entity->setAttackedWith(KNIFE);
 }

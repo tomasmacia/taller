@@ -5,5 +5,15 @@
 #include "Barrel.h"
 
 int Barrel::setAttackedWith(AttackCode attack) {
-    return Entity::setAttackedWith(attack);
+
+    int damageInflicted = damage->barrelAttackedWith(attack);
+
+    life->decreseBy(damageInflicted);
+
+    if (broke()){
+        return score->barrelBroken();
+    }
+    else{
+        return score->barrelAttackedWith(attack);
+    }
 }

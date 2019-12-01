@@ -5,5 +5,15 @@
 #include "Box.h"
 
 int Box::setAttackedWith(AttackCode attack) {
-    return Entity::setAttackedWith(attack);
+
+    int damageInflicted = damage->boxAttackedWith(attack);
+
+    life->decreseBy(damageInflicted);
+
+    if (broke()){
+        return score->boxBroken();
+    }
+    else{
+        return score->boxAttackedWith(attack);
+    }
 }

@@ -1,14 +1,14 @@
-#include "NPCAppearance.h"
+#include "EnemyAppearance.h"
 #include "../State.h"
 
-NPCAppearance::NPCAppearance(int w, int h, ScreenPosition* screenPosition, NPC *npcConfig) {
+EnemyAppearance::EnemyAppearance(int w, int h, ScreenPosition* screenPosition, NPC *npcConfig) {
     this->npcConfig = *npcConfig;
     _screenPosition = screenPosition;
     initDestRect(w,h);
     init();
 }
 
-void NPCAppearance::init() {
+void EnemyAppearance::init() {
 
     DELAY = 3;
     WIDTH_SCALE = 0.2;
@@ -20,7 +20,7 @@ void NPCAppearance::init() {
     getCurrentSpriteDimentions();
 }
 
-void NPCAppearance::handleCurrentState(){
+void EnemyAppearance::handleCurrentState(){
 
     switch (_state->current()) {
         case NONE:

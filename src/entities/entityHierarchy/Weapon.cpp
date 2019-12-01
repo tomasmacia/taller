@@ -7,6 +7,7 @@
 Weapon::Weapon(Life *life) {
 
     this->life = life;
+    life->initializeWith(USES_AMOUNT);
 }
 
 bool Weapon::broke() {

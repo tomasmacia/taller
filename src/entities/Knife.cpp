@@ -5,5 +5,7 @@
 #include "Knife.h"
 
 int Knife::useOn(Entity *entity) {
+
+    life->decreseBy(1);
     return entity->setAttackedWith(KNIFE);
 }

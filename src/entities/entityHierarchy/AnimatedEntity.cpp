@@ -6,17 +6,16 @@
 
 AnimatedEntity::AnimatedEntity(Will *will, State *state, AnimatedEntityCollitionHandler *collitionHandler,
                                Position *position, Physics *physics, ScreenPosition *screenPosition,
-                               StateDrivenAppearance *appearance, Sound *sound, Damage *damage, Life *life, Attack* attack) {
+                               StateDrivenAppearance *appearance, Sound *sound, Damage *damage, Life *life,
+                               Attack *attack) :
+
+                               PhysicalEntity(state, position, screenPosition, appearance, damage, life, score){
+
     this->will = will;
-    this->state = state;
     this->collitionHandler = collitionHandler;
-    this->position = position;
     this->physics = physics;
-    this->screenPosition = screenPosition;
-    this->appearance = appearance;
-    this->damage = damage;
-    this->life = life;
     this->attack = attack;
+    this->sound = sound;
 }
 
 void AnimatedEntity::update() {
@@ -41,21 +40,15 @@ void AnimatedEntity::drag() {
     physics->drag();
 }
 
-bool AnimatedEntity::dead() {
+bool AnimatedEntity::lifeEmpty() {
     return life->empty();
 }
 
 AnimatedEntity::~AnimatedEntity() {
 
-    delete(life);
-    delete(damage);
     delete(will);
-    delete(state);
     delete(collitionHandler);
-    delete(position);
     delete(physics);
-    delete(screenPosition);
-    delete(appearance);
     delete(sound);
     delete(attack);
 }

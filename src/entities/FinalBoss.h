@@ -6,9 +6,9 @@
 #define GAME_FINALBOSS_H
 
 
-#include "entityHierarchy/PositionalEntity.h"
+#include "entityHierarchy/PhysicalEntity.h"
 
-class FinalBoss : public PositionalEntity {
+class FinalBoss : public PhysicalEntity {
 
 };
 

@@ -5,9 +5,9 @@
 #include "StateDrivenAppearance.h"
 #include "../../../XMLparser/config/npc.h"
 
-class NPCAppearance : public StateDrivenAppearance {
+class EnemyAppearance : public StateDrivenAppearance {
 public:
-    NPCAppearance(int w, int h, ScreenPosition* screenPosition, NPC *npcConfig);
+    EnemyAppearance(int w, int h, ScreenPosition* screenPosition, NPC *npcConfig);
 
 protected:
     void init() override ;

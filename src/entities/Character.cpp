@@ -12,9 +12,12 @@ Character::Character(Will* will, State* state, AnimatedEntityCollitionHandler* c
                      Life* life, ID* id, Score* score, ScoreAppearance* scoreAppearance) :
 
         AnimatedEntity(will, state, collitionHandler, position, physics, screenPosition,
-                       appearance, sound, damage,life){
+                       appearance, sound, damage,life, score, attack){
+
+    lifes = 3;
+    lifeAmount = 100;
+    this->life->initializeWith(lifeAmount, lifes);
     this->id = id;
-    this->score = score;
     this->scoreAppearance = scoreAppearance;
 }
 
@@ -47,7 +50,13 @@ int Character::getID() {
 }
 
 Character::~Character() {
-    delete(score);
     delete(id);
     delete(scoreAppearance);
+}
+
+int Character::setAttackedWith(AttackCode attackCode) {
+
+    int damageInflicted = damage->characterAttackedWith(attack);
+
+    life->decreseBy(damageInflicted);
 }

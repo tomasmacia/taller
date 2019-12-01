@@ -22,6 +22,7 @@ public:
 
     //API
     //===============================
+    int setAttackedWith(AttackCode attackCode);
     void notifySuccessfulAttack(int score) override;
 
     void setConnected(int newID);
@@ -32,13 +33,16 @@ public:
 
     //GETTERS
     //===============================
-    Score* getScore(){
-        return score;
+    ScoreAppearance* getScoreAppearance(){
+        return scoreAppearance;
+    }
+
+    LifeAppearance* getLifeAppearance(){
+        return life->getAppearance();
     }
 
 private:
     ID* id = nullptr;
-    Score* score = nullptr;
     ScoreAppearance* scoreAppearance = nullptr;
 };
 #endif //GAME_CHARACTER_H

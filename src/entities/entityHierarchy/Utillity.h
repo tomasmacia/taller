@@ -6,18 +6,15 @@
 #define GAME_UTILLITY_H
 
 
-#include "InanimatedEntity.h"
+#include "UnanimatedEntity.h"
 #include "../Life.h"
 
-class Utillity : public InanimatedEntity{
+class Utillity : public UnanimatedEntity{
 
 public:
     Utillity(Life* life);
 
     bool broke();
-
-private:
-    Life* life = nullptr;
 };
 
 

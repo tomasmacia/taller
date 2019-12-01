@@ -308,7 +308,7 @@ EntityManager::~EntityManager() {
 //=========================================================================================
 struct EntityComparator
 {
-    bool operator ()(PositionalEntity* entity1, PositionalEntity* entity2)
+    bool operator ()(PhysicalEntity* entity1, PhysicalEntity* entity2)
     {
         int entity1Z = entity1->getZ();
         int entity2Z = entity2->getZ();

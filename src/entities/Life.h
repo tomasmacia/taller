@@ -12,17 +12,31 @@
 class Life {
 
 public:
-    Life(int amount, State* state);
+    Life(State* state);
 
+    void initializeWith(int amount, int amountOfLifes = 1);
+    void decreseBy(int amount);
     bool empty();
 
+    LifeAppearance* getAppearance(){
+        return appearance;
+    }
+
+    int getLifeAmount(){
+        return current;
+    }
+
+    int getAmountOfLifes(){
+        return amountOfLifes;
+    }
+
 private:
+    int amountOfLifes = 1;
     int startingAmount;
     int current;
 
     LifeAppearance* appearance = nullptr;
     State* state = nullptr;
-
 };
 
 

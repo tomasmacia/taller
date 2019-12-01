@@ -6,11 +6,11 @@
 #define GAME_WEAPON_H
 
 
-#include "InanimatedEntity.h"
+#include "UnanimatedEntity.h"
 #include "../Life.h"
 
 
-class Weapon : public InanimatedEntity{
+class Weapon : public UnanimatedEntity{
 
 public:
     Weapon(Life* life);
@@ -18,8 +18,8 @@ public:
     virtual int useOn(Entity* entity) = 0;
     bool broke();
 
-private:
-    Life* life = nullptr;
+protected:
+    int USES_AMOUNT = 3;
 };
 
 

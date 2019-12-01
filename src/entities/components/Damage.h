@@ -7,18 +7,24 @@
 
 
 #include "State.h"
-#include "appearances/DamageAppearance.h"
+#include "../../enumerates/AttackCode.h"
 
 class Damage {
 
 public:
-    Damage(State* state);
-
-    void update();
+    int characterAttackedWith(AttackCode attackCode);
+    int enemyAttackedWith(AttackCode attackCode);
+    int boxAttackedWith(AttackCode attack);
+    int barrelAttackedWith(AttackCode attackCode);
 
 private:
-    DamageAppearance* appearance = nullptr;
-    State* state = nullptr;
+    int ENEMY_TO_CHARACTER_DAMAGE = 10;
+    int PUNCH_DAMAGE_TO_ENEMY = 20;
+    int KICK_DAMAGE_TO_ENEMY = 75;
+    int JUMP_KICK_DAMAGE_TO_ENEMY = 75;
+    int KNIFE_DAMAGE_TO_ENEMY = 50;
+    int TUBE_DAMAGE_TO_ENEMY = 35;
+
 };
 
 

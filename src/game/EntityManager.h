@@ -10,7 +10,7 @@
 #include <memory>
 #include <algorithm>
 #include "../entities/entityHierarchy/Entity.h"
-#include "../entities/entityHierarchy/PositionalEntity.h"
+#include "../entities/entityHierarchy/PhysicalEntity.h"
 #include "../entities/entityHierarchy/Weapon.h"
 #include "../entities/Background.h"
 #include "../net/messaging/Renderable.h"
@@ -96,7 +96,7 @@ private:
     //estas listas forman una particion de todas las entities
     // es decir, toda entitie esta en alguna y si esta en una no esta en las otras
     std::list<Entity*> specialEntities;                       //camera and levelLimits
-    std::list<PositionalEntity*> entitiesWithPosition;        //only utilities, weapons, enemies and players
+    std::list<PhysicalEntity*> entitiesWithPosition;        //only utilities, weapons, enemies and players
     std::list<Background*> backLayerBackgrounds;
     std::list<Background*> fronLayerBackgrounds;
 
