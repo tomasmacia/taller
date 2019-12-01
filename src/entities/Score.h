@@ -6,6 +6,8 @@
 #define GAME_SCORE_H
 
 
+#include "components/appearances/ScoreAppearance.h"
+
 class Score {
 
 };

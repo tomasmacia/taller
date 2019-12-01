@@ -4,7 +4,7 @@
 
 #include "CollitionBox.h"
 
-CollitionBox::CollitionBox(int x, int y, int z, int w, int h, int d, int id, Character* owner) {
+CollitionBox::CollitionBox(int x, int y, int z, int w, int h, int d, int id, Entity* owner) {
 
     if (w == -1){
         w = DEFAULT_WIDTH;
@@ -14,6 +14,9 @@ CollitionBox::CollitionBox(int x, int y, int z, int w, int h, int d, int id, Cha
     }
     if (d == -1){
         d = DEFAULT_DEPTH;
+    }
+    if (id < 0){
+        id = DEFAULT_NULL_ID;
     }
 
     this->x = x;
@@ -37,4 +40,8 @@ bool CollitionBox::hasInsideItsVolumeThePositionPointOf(CollitionBox* collitionB
             (y <= collitionBox->y && collitionBox->y <= y + h)
             &&
             (z <= collitionBox->z && collitionBox->z <= z + d);
+}
+
+void CollitionBox::setOwner(Entity *owner) {
+    this->owner = owner;
 }

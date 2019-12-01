@@ -6,7 +6,7 @@
 #define GAME_BACKGROUNDCOLLITIONHANDLER_H
 
 
-#include "collitionBoxHierarchy/CollitionBox.h"
+#include "CollitionBox.h"
 
 class BackgroundCollitionHandler : public CollitionHandler {
 

@@ -3,3 +3,7 @@
 //
 
 #include "Damage.h"
+
+Damage::Damage(State *state) {
+    this->state = state;
+}

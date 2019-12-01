@@ -2,35 +2,35 @@
 // Created by axel on 25/11/19.
 //
 #include <list>
-#include "EntityWithAttackCollitionHandler.h"
+#include "AnimatedEntityCollitionHandler.h"
 
-EntityWithAttackCollitionHandler::EntityWithAttackCollitionHandler(CollitionBox* punchBox, CollitionBox* kickBox, CollitionBox* collitionBox,
-                                                                CollitionManager* collitionManager, State* state) {
+AnimatedEntityCollitionHandler::AnimatedEntityCollitionHandler(CollitionBox* punchBox, CollitionBox* kickBox, CollitionBox* collitionBox,
+                                                               CollitionManager* collitionManager, State* state) {
 
     _state = state;
 
     _collitionManager = collitionManager;
     _collitionBoxes = new list<CollitionBox*>();
 
-    _collitionBox = collitionBox;
+    _blockingCollitionBox = collitionBox;
     _punchBox = punchBox;
     _kickBox = kickBox;
 
-    _collitionBoxes->push_back(_collitionBox);
+    _collitionBoxes->push_back(_blockingCollitionBox);
     _collitionBoxes->push_back(_punchBox);
     _collitionBoxes->push_back(_kickBox);
 }
 
-EntityWithAttackCollitionHandler::~EntityWithAttackCollitionHandler(){
+AnimatedEntityCollitionHandler::~AnimatedEntityCollitionHandler(){
     _collitionBoxes->clear();
     delete(_collitionBoxes);
 }
 
-void EntityWithAttackCollitionHandler::update() {
+void AnimatedEntityCollitionHandler::update() {
     handleCurrentState();
 }
 
-void EntityWithAttackCollitionHandler::handleCurrentState(){
+void AnimatedEntityCollitionHandler::handleCurrentState(){
 
     switch (_state->current()) {
         case PUNCH:
@@ -48,7 +48,7 @@ void EntityWithAttackCollitionHandler::handleCurrentState(){
     }
 }
 
-void EntityWithAttackCollitionHandler::addressAttack(CollitionBox* attackingBoxInUse){
+void AnimatedEntityCollitionHandler::addressAttack(CollitionBox* attackingBoxInUse){
 
     auto hittedCollitionBox = _collitionManager->getListOfHittedCollitionBox();
     int damage = attackingBoxInUse->owner->getDamage();
@@ -60,7 +60,7 @@ void EntityWithAttackCollitionHandler::addressAttack(CollitionBox* attackingBoxI
     attackingBoxInUse->owner->increseScoreBy(score);
 }
 
-void EntityWithAttackCollitionHandler::addressPickIntent(){
+void AnimatedEntityCollitionHandler::addressPickIntent(){
 
     auto collitionBox = _collitionManager->getFirstPickedCollitionBox();
     collitionBox->owner->setPickedBy(_collitionBox->owner);

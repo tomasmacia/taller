@@ -14,11 +14,20 @@
 #include "../entities/Background.h"
 #include "../net/messaging/Renderable.h"
 #include "../net/messaging/Sendable.h"
+#include "../XMLparser/config/config.h"
+#include "Controller.h"
+
 #include "../entities/Character.h"
+#include "../entities/Enemy.h"
+#include "../entities/Knife.h"
+#include "../entities/Tube.h"
+#include "../entities/Box.h"
+#include "../entities/Barrel.h"
+#include "../entities/Background.h"
 
 class EntityManager {
 public:
-    EntityManager();
+    EntityManager(Controller* controller, Config* config);
     ~EntityManager();
 
     //API
@@ -31,17 +40,32 @@ public:
 
     //ADDING NEW ENTITIES
     //===============================
-    void addNPC(PositionalEntity* enemy);
-    void addUtilitiy(Entity* utillity);
-    void addWeapon(Entity* weapon);
-    void addPlayer(PositionalEntity* enemy);
+    Character* addPlayer(int x, int y, int z, int w, int h, int id, int walkingSpeed,);
+    void addEnemy(int w, int h, int walkingSpeed);
+    void addKnife(int w, int h);
+    void addTube(int w, int h);
+    void addBox(int w, int h);
+    void addBarrel(int w, int h);
     void addBackLayerBackgrounds(Background* background);
     void addFrontLayerBackgrounds(Background* background);
-    void addScreen(Screen* screen);
+    Screen* addScreen(int screenWidth, int screenHeight, int levelWidth);
+
+    //CREATING ENTITIES
+    //===============================
+    Character* createCharacter(int x, int y, int z, int w, int h, int id, int walkingSpeed);
+    Enemy* createEnemy(int w, int h, int walkingSpeed);
+    Knife* createKnife(int w, int h);
+    Tube* createTube(int w, int h);
+    Box* createBox(int w, int h);
+    Barrel* createBarrel(int w, int h);
+    Background* createFar();
+    Background* createMiddle();
+    Background* createFloor();
+    Background* createOverlay();
 
     //GETTERS
     //===============================
-    std::list<Entity*> getPlayers(){
+    std::list<Character*> getPlayers(){
         return players;
     }
 
@@ -55,24 +79,33 @@ private:
     void destroyAllEntities();
     void destroyNonLevelPersistentEntities();
 
+    //INIT
+    //===============================
+    void initializeCollitionManager();
+
 private:
     //ATRIBUTES
     //===============================
     //no forman una particion (hay overlapings o no estan todas)
     std::list<Entity*> nonLevelPersistentEntities;
     std::list<Character*> players;
-    std::list<Entity*> npcs;
-    std::list<Entity*> nonMobileEntities;
+    std::list<Entity*> enemies;
+    std::list<Entity*> inanimatedEntities;
 
     //estas listas forman una particion de todas las entities
     // es decir, toda entitie esta en alguna y si esta en una no esta en las otras
     std::list<Entity*> specialEntities;                       //camera and levelLimits
-    std::list<PositionalEntity*> entitiesWithPosition;        //only utilities, weapons, npcs and players
+    std::list<PositionalEntity*> entitiesWithPosition;        //only utilities, weapons, enemies and players
     std::list<Background*> backLayerBackgrounds;
     std::list<Background*> fronLayerBackgrounds;
 
     //for performance
     std::list<Sendable*>* packagesToClients = nullptr;
     Sendable* sendable = nullptr;
+
+    CollitionManager* collitionManager = nullptr;
+    Controller* controller = nullptr;
+    Config* config = nullptr;
+    Screen* screen = nullptr;
 };
 #endif //GAME_ENTITYMANAGER_H

@@ -5,30 +5,21 @@
 #ifndef GAME_CHARACTER_H
 #define GAME_CHARACTER_H
 
-#include "../net/messaging/Sendable.h"
-#include "components/Damage.h"
-#include "components/Physics.h"
-#include "components/InputPoller.h"
-#include "components/ScreenPosition.h"
-#include "components/appearances/CharacterAppearance.h"
-#include "Life.h"
+#include "entityHierarchy/AnimatedEntity.h"
+#include "components/ID.h"
 #include "Score.h"
-#include "Screen.h"
 
-class Character : public PositionalEntity{
+class Character : public AnimatedEntity{
 
 public:
-    Character(int x, int y, int z, int w, int h, int id, int walkingSpeed,  const CharacterXML& characterConfig,
-                InputPoller* inputPoller, Screen* screen, CollitionManager* collitionManager);
+    Character(Will* will, State* state, AnimatedEntityCollitionHandler* collitionHandler,
+              Position* position, Physics* physics, ScreenPosition* screenPosition,
+              StateDrivenAppearance* appearance, Sound* sound, Damage* damage,
+              Life* life, ID* id, Score* score, ScoreAppearance* scoreAppearance)
     ~Character();
 
     //API
     //===============================
-    void update() override ;
-    Sendable* generateSendable() override;
-
-    void drag();
-
     void setConnected(int newID);
     void setDisconnected();
     bool isDisconnected();
@@ -37,37 +28,13 @@ public:
 
     //GETTERS
     //===============================
-    Life* getLife(){
-        return life;
-    }
-
     Score* getScore(){
         return score;
     }
 
-    Damage* getDamage(){
-        return damage;
-    }
-
-    int getWalkingSpeed(){
-        return _wakingSpeed;
-    }
-
 private:
-    int _wakingSpeed;
-
-    Life* life = nullptr;
-    Score* score = nullptr;
-    Damage* damage = nullptr;
-
     ID* id = nullptr;
-    Will* will = nullptr;
-    State* state = nullptr;
-    ColitionHandler* collitionHandler = nullptr;
-    Position* position = nullptr;
-    Physics* physics = nullptr;
-    ScreenPosition* screenPosition = nullptr;
-    CharacterAppearance* appearance = nullptr;
-    Sound* sound = nullptr;
+    Score* score = nullptr;
+    ScoreAppearance* scoreAppearance = nullptr;
 };
 #endif //GAME_CHARACTER_H

@@ -11,7 +11,7 @@
 class Entity;
 class LevelBuilder {
 public:
-    LevelBuilder(EntityManager* manager, Config* config);
+    LevelBuilder(Controller* controller, Config* config);
     ~LevelBuilder();
 
 
@@ -50,9 +50,7 @@ private:
     //ATRIBUTES
     //===============================
     Screen* _screen = nullptr;
-    CollitionManager* _collitionManager = nullptr;
-
-    EntityManager* _manager = nullptr;
+    EntityManager* _entityManager = nullptr;
     Config* _config = nullptr;
 
     int currentLevel;

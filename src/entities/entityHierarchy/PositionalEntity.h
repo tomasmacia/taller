@@ -15,6 +15,7 @@ public:
     int getX();
     int getY();
     int getZ();
+    void setPosition(int x, int y, int z);
 
 protected:
     Position* position = nullptr;

@@ -286,7 +286,6 @@ void GameServer::initWaitingScreen() {
 }
 
 void GameServer::initGameModel() {
-    initECSManager();
     initLevelBuilder();
     LogManager::logDebug("[INIT]: inicializado EntityManager");
     LogManager::logDebug("[INIT]: inicializado LevelBuilder");
@@ -314,12 +313,8 @@ void GameServer::loadValidCredenctials(){
     }
 }
 
-void GameServer::initECSManager() {
-    this->manager = new EntityManager();
-}
-
 void GameServer::initLevelBuilder() {
-    this->levelBuilder = new LevelBuilder(manager, config);
+    this->levelBuilder = new LevelBuilder(controller, config);
 }
 
 //DESTROY
@@ -337,8 +332,6 @@ void GameServer::destroy() {
     server = nullptr;
     delete(levelBuilder);
     levelBuilder = nullptr;
-    delete(manager);
-    manager = nullptr;
     baseClassFreeMemory();
     LogManager::logDebug("Memoria de Game Server liberada");
 }

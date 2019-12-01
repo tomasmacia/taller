@@ -6,8 +6,17 @@
 #define GAME_DAMAGE_H
 
 
+#include "State.h"
+#include "appearances/DamageAppearance.h"
+
 class Damage {
 
+public:
+    Damage(State* state);
+
+private:
+    DamageAppearance* appearance = nullptr;
+    State* state = nullptr;
 };
 
 

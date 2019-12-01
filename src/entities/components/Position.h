@@ -13,6 +13,12 @@ public:
 
     void ifValidChangeTo(int newX, int newY, int newZ);
 
+    void setPosition(int xPos, int yPos, int zPos) {
+        this->x = xPos;
+        this->y = yPos;
+        this->z = zPos;
+    }
+
     int getX() {
         return x;
     }
@@ -24,13 +30,7 @@ public:
     int getZ() {
         return z;
     }
-
 private:
-    void setPosition(int xPos, int yPos, int zPos) {
-        this->x = xPos;
-        this->y = yPos;
-        this->z = zPos;
-    }
 
     int x;
     int y;

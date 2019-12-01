@@ -17,6 +17,12 @@ void InputPoller::update() {
     selectAndStoreInputsFromIncoming(inputs);
 }
 
+Action InputPoller::getNext() {
+    Action next = std::get<0>(playerInputs.front());
+    playerInputs.pop_front();
+    return next;
+}
+
 void InputPoller::selectAndStoreInputsFromIncoming(std::list<std::tuple<Action,int>>& inputs){
 
     std::tuple<Action,int> currentInput;

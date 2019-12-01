@@ -6,11 +6,7 @@
 #define GAME_COLLITIONMANAGER_H
 
 #include <list>
-#include "../entities/components/collition/collitionBoxHierarchy/CollitionBox.h"
-#include "../entities/components/collition/collitionBoxHierarchy/NonBlockingCollitionBox.h"
-#include "../entities/components/collition/collitionBoxHierarchy/BlockingCollitionBox.h"
-#include "../entities/components/collition/collitionBoxHierarchy/CharacterCollitionBox.h"
-#include "../entities/components/collition/collitionBoxHierarchy/NonCharacterCollitionBox.h"
+#include "../entities/components/collition/CollitionBox.h"
 #include "../entities/Character.h"
 
 using namespace std;
@@ -21,17 +17,11 @@ public:
     CollitionManager();
     ~CollitionManager();
 
-    NonCharacterCollitionBox* addBlockingCollitionBox(int x, int y, int z, int w, int h, int d, Entity* owner);
-    CharacterCollitionBox* addCharacterCollitionBox(int x, int y, int z, int w, int h, int d, Character* owner);
-    NonBlockingCollitionBox* addNonBlockingCollitionBox(int x, int y, int z, int w, int h, int d, Entity* owner);
+    CollitionBox* addBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
     bool anyBlockingCollitionsWith(CollitionBox* queryCollitionBox);
 
 private:
-    list<NonCharacterCollitionBox*>* _nonCharacterCollitionBoxes = nullptr;
-    list<CharacterCollitionBox*>* _characterCollitionBoxes = nullptr;
-    list<NonBlockingCollitionBox*>* _nonBlockingCollitionBoxes = nullptr;
-    list<BlockingCollitionBox*>* _blockingCollitionBoxes = nullptr;
-    list<CollitionBox*>* _collitionBoxes = nullptr;
+    list<CollitionBox*>* _blockingCollitionBoxes = nullptr;
     int newID = 0;
 };
 

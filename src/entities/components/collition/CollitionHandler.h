@@ -7,7 +7,7 @@
 
 
 #include "../Position.h"
-#include "collitionBoxHierarchy/CollitionBox.h"
+#include "CollitionBox.h"
 #include "../State.h"
 #include "../../../game/CollitionManager.h"
 using namespace std;
@@ -18,6 +18,7 @@ public:
     void dragToRight(int amount);
     bool anyCollitions();
     void moveCollitionBoxes(Position* position);
+    void setOwner(Entity* owner);
 
 protected:
     State* _state = nullptr;

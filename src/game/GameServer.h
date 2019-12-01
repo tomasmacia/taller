@@ -82,7 +82,6 @@ private:
     //INIT
     //===============================
     void initWaitingScreen();
-    void initECSManager();
     void initLevelBuilder();
     void loadValidCredenctials();   //<user,pass>
     void initGameModel();
@@ -135,7 +134,6 @@ private:
 
     Server* server = nullptr;
     LevelBuilder* levelBuilder = nullptr;
-    EntityManager* manager = nullptr;
 };
 
 #endif //GAME_GAMESERVER_H_

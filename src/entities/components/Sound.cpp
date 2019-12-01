@@ -7,3 +7,7 @@
 string Sound::getCurrent() {
     return _currentSoundPath;
 }
+
+Sound::Sound(State *state) {
+    this->state = state;
+}

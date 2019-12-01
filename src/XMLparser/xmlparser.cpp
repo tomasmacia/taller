@@ -246,7 +246,7 @@ vector<NPC> XMLParser::wrapperGameplayNPCSModule(XMLElement *gameplay, XMLElemen
 }
 
 vector<NPC> XMLParser::getGameplayNPCS(XMLElement *gameplay) {
-    string section = "npcs";
+    string section = "enemies";
     XMLElement *npcsElement = getXMLElementSafe(gameplay, {section});
 
     return mapSettingToVector(npcsElement, "npc", XMLParser::mapNPC, section);
@@ -294,8 +294,8 @@ string XMLParser::dummyStringMap(XMLElement *genericElement, const string curren
 
 NPC XMLParser::mapNPC(XMLElement *npcs, const string currentChildName) {
     NPC npc;
-    npc.difficulty = getSafeValueFromElement(npcs, {currentChildName.c_str(), "difficulty"}, charArrayToString, "npcs");
-    npc.walk = getSafeValueFromElement(npcs, {currentChildName.c_str(), "walk"}, charArrayToString, "npcs");
+    npc.difficulty = getSafeValueFromElement(npcs, {currentChildName.c_str(), "difficulty"}, charArrayToString, "enemies");
+    npc.walk = getSafeValueFromElement(npcs, {currentChildName.c_str(), "walk"}, charArrayToString, "enemies");
 
     return npc;
 }

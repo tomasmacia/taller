@@ -32,3 +32,10 @@ void CollitionHandler::dragToRight(int amount) {
         collitionBox->x += amount;
     }
 }
+
+void CollitionHandler::setOwner(Entity *owner) {
+
+    for (auto collitionBox : *_collitionBoxes){
+        collitionBox->setOwner(owner);
+    }
+}

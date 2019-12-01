@@ -15,3 +15,7 @@ int PositionalEntity::getY() {
 int PositionalEntity::getZ() {
     return position->getZ();
 }
+
+void PositionalEntity::setPosition(int x, int y, int z){
+    position->setPosition(x,y,z);
+}

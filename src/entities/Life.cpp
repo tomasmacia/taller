@@ -3,3 +3,7 @@
 //
 
 #include "Life.h"
+
+Life::Life(State *state) {
+    this->state = state;
+}
