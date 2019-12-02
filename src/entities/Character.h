@@ -13,10 +13,9 @@
 class Character : public AnimatedEntity{
 
 public:
-    Character(Will* will, State* state, AnimatedEntityCollitionHandler* collitionHandler,
-              Position* position, Physics* physics, ScreenPosition* screenPosition,
-              StateDrivenAppearance* appearance, Sound* sound, Damage* damage,
-              Life* life, ID* id, Score* score, ScoreAppearance* scoreAppearance);
+    Character(CollitionHandler* collitionHandler, Life *life, Damage *damage, Score* score, Position *position,
+              State* state, ScreenPosition* screenPosition, StateDrivenAppearance* appearance, Sound* sound,
+              Will* will, Physics* physics, Attack* attack, ID* id, ScoreAppearance* scoreAppearance);
 
     ~Character();
 
@@ -42,6 +41,9 @@ public:
     }
 
 private:
+    int AMOUNT_OF_LIFES_CHARACTER = 3;
+    int CHARACTER_LIFE_AMOUNT = 100;
+
     ID* id = nullptr;
     ScoreAppearance* scoreAppearance = nullptr;
 };

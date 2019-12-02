@@ -2,6 +2,7 @@
 // Created by Tomás Macía on 14/10/2019.
 //
 #include "Screen.h"
+#include "components/collition/ScreenCollitionHandler.h"
 
 
 Screen::Screen(int width, int height, int levelWidth, CollitionManager* collitionManager){
@@ -12,9 +13,9 @@ Screen::Screen(int width, int height, int levelWidth, CollitionManager* collitio
     this->windowHeight = height;
     this->marginWidth = windowWidth/3;
     this->offScreenTolerance = 2*marginWidth;
-    this->levelDepth = windowHeight * 0.3;
+    this->levelDepth = (float)windowHeight * 0.3;
 
-    this->_collitionHandler = new ScreenCollitionHandler(this, collitionManager);
+    this->collitionHandler = new ScreenCollitionHandler(this, collitionManager);
 }
 
 void Screen::reset(int levelWidth){

@@ -8,6 +8,7 @@
 #include <string>
 #include <list>
 #include "Renderable.h"
+#include "Sendable.h"
 #include "../../enumerates/Action.h"
 #include "../../enumerates/MessageId.h"
 
@@ -27,7 +28,7 @@ public:
     std::string getInvalidCredentialMessage();
     std::string getServerFullMessage();
     std::string getAlreadyLoggedInMessage();
-    std::string serializeObjects(std::list<Renderable*>* packages);
+    std::string serializeObjects(std::list<Sendable*>* packages);
 
     //VALIDATE
     //===============================

@@ -4,51 +4,32 @@
 
 #include "AnimatedEntity.h"
 
-AnimatedEntity::AnimatedEntity(Will *will, State *state, AnimatedEntityCollitionHandler *collitionHandler,
-                               Position *position, Physics *physics, ScreenPosition *screenPosition,
-                               StateDrivenAppearance *appearance, Sound *sound, Damage *damage, Life *life,
-                               Attack *attack) :
+AnimatedEntity::AnimatedEntity(CollitionHandler* collitionHandler, Life *life, Damage *damage, Score* score, Position *position,
+                               State* state, ScreenPosition* screenPosition, StateDrivenAppearance* appearance, Sound* sound,
+                               Will* will, Physics* physics, Attack* attack) :
 
-                               PhysicalEntity(state, position, screenPosition, appearance, damage, life, score){
+                               PhysicalEntity(collitionHandler, life, damage, score, position, state, screenPosition, appearance, sound){
 
     this->will = will;
-    this->collitionHandler = collitionHandler;
     this->physics = physics;
     this->attack = attack;
-    this->sound = sound;
 }
 
 void AnimatedEntity::update() {
 
     will->update();
-    state->update();
-    attack->update();
+    PhysicalEntity::update();
     physics->update();
-    appearance->update();
-    sound->update();
-}
-
-Sendable *AnimatedEntity::generateSendable() {
-
-    auto renderable = appearance->generateRenderable();
-    auto soundable = sound->generateSoundable();
-
-    return new Sendable(renderable, soundable);
+    attack->update();
 }
 
 void AnimatedEntity::drag() {
     physics->drag();
 }
 
-bool AnimatedEntity::lifeEmpty() {
-    return life->empty();
-}
-
 AnimatedEntity::~AnimatedEntity() {
 
     delete(will);
-    delete(collitionHandler);
     delete(physics);
-    delete(sound);
     delete(attack);
 }

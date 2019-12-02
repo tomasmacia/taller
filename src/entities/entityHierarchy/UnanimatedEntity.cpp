@@ -1,12 +1,17 @@
 //
-// Created by axel on 28/11/19.
+// Created by axelmpm on 2/12/19.
 //
 
 #include "UnanimatedEntity.h"
 
+UnanimatedEntity::UnanimatedEntity(CollitionHandler *collitionHandler, Life *life, Damage *damage, Score *score,
+                                   Position *position, State *state, ScreenPosition *screenPosition,
+                                   StateDrivenAppearance *appearance, Sound *sound) :
 
-UnanimatedEntity::UnanimatedEntity(State *state, Position *position, ScreenPosition *screenPosition,
-                               StateDrivenAppearance *appearance, Damage *damage, Life *life) :
+                                    PhysicalEntity(collitionHandler, life, damage, score, position, state,
+                                                    screenPosition, appearance, sound){
+}
 
-                                PhysicalEntity(state, screenPosition, appearance, position, damage, life, score){
+bool UnanimatedEntity::broke() {
+    return lifeEmpty();
 }

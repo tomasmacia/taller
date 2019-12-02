@@ -8,6 +8,7 @@
 #include <list>
 #include "../entities/components/collition/CollitionBox.h"
 #include "../entities/Character.h"
+#include "../entities/components/Point.h"
 
 using namespace std;
 
@@ -18,6 +19,7 @@ public:
     ~CollitionManager();
 
     void prepareForNextLevel();
+    void untrack(CollitionBox* collitionBox);
 
     list<CollitionBox*>* getListOfHittedCollitionBox(CollitionBox* query);
     CollitionBox* getFirstPickedCollitionBox(CollitionBox* query);
@@ -29,14 +31,14 @@ public:
     CollitionBox* addTubeBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
     CollitionBox* addBoxBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
     CollitionBox* addBarrelBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
+    CollitionBox* addScreenBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
 
-    bool anyBlockingCollitionsWith(CollitionBox* queryCollitionBox);
+    bool anyBlockingCollitionsWith(CollitionBox* queryCollitionBox, Point* corrected);
 
 private:
     void clearNonLevelPersistentCollitionBoxes();
 
     list<CollitionBox*>* _blockingCollitionBoxes = nullptr;
-
     list<CollitionBox*> _nonLevelPersistentCollitionBoxes = nullptr;
     list<CollitionBox*>* _weaponCollitionBoxes = nullptr;
     list<CollitionBox*>* _characterCollitionBoxes = nullptr;

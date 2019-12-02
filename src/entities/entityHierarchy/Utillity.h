@@ -5,16 +5,9 @@
 #ifndef GAME_UTILLITY_H
 #define GAME_UTILLITY_H
 
-
 #include "UnanimatedEntity.h"
-#include "../Life.h"
 
 class Utillity : public UnanimatedEntity{
-
-public:
-    Utillity(Life* life);
-
-    bool broke();
 };
 
 

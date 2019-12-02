@@ -22,6 +22,8 @@ enum Action {
     JUMP_KICK,
     CROUCH,
     PICK,
+    DYING,
+    DEAD,
     QUIT,
 };
 

@@ -27,6 +27,11 @@ public:
         return currentLevelWidth;
     }
 
+    EntityManager* getEntityManager(){
+        return _entityManager;
+    }
+
+
 private:
     //INITIALIZING
     //===============================

@@ -20,6 +20,9 @@ void Life::decreseBy(int amount) {
             amountOfLifes --;
             current = startingAmount;
         }
+        else{
+            state->setDying();
+        }
     }
     appearance->update();
 }

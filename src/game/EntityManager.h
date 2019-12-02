@@ -75,8 +75,10 @@ private:
     //===============================
     void sortEntitiesByZ();
 
-    //ADDING NEW ENTITIES
+    //DESTROY
     //===============================
+    void eraseDeadEntities();
+    void untrackDead(Entity* entity);
     void destroyAllEntities();
     void destroyNonLevelPersistentEntities();
 
@@ -96,7 +98,7 @@ private:
     //estas listas forman una particion de todas las entities
     // es decir, toda entitie esta en alguna y si esta en una no esta en las otras
     std::list<Entity*> specialEntities;                       //camera and levelLimits
-    std::list<PhysicalEntity*> entitiesWithPosition;        //only utilities, weapons, enemies and players
+    std::list<PhysicalEntity*> physicalEntities;          //only utilities, weapons, enemies and players
     std::list<Background*> backLayerBackgrounds;
     std::list<Background*> fronLayerBackgrounds;
 

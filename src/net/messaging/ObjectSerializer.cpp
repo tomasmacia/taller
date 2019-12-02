@@ -163,8 +163,8 @@ string ObjectSerializer::serializeObject(Renderable* package){
     std::string serializedObject;
 
     std::string path = package->getPath();
-    SDL_Rect src = package->getSrcRect();
-    SDL_Rect dst = package->getDstRect();
+    Rect src = package->getSrcRect();
+    Rect dst = package->getDstRect();
     bool fliped = package->getFliped();
 
     std::string srcW = to_string(src.w);
@@ -209,7 +209,7 @@ string ObjectSerializer::serializeInput(Action action, int id){
     return addPadding(START_SYMBOL + SEPARATOR  + to_string(INPUT) + SEPARATOR + serializedAction + SEPARATOR + to_string(id) + SEPARATOR + END_OF_SERIALIZATION_SYMBOL);
 }
 
-std::string ObjectSerializer::serializeObjects(std::list<Renderable*>* packages){
+std::string ObjectSerializer::serializeObjects(std::list<Sendable*>* packages){
 
     string serializedPackages = "";
 

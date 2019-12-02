@@ -21,6 +21,5 @@ Sendable *Background::generateSendable() {
 }
 
 Background::~Background() {
-    delete(collitionHandler);
     delete(appearance);
 }

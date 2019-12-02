@@ -4,7 +4,7 @@
 
 #include "CollitionBox.h"
 
-CollitionBox::CollitionBox(int x, int y, int z, int w, int h, int d, int id, Entity* owner) {
+CollitionBox::CollitionBox(int x, int y, int z, int w, int h, int d, int id) {
 
     if (w == -1){
         w = DEFAULT_WIDTH;
@@ -19,29 +19,70 @@ CollitionBox::CollitionBox(int x, int y, int z, int w, int h, int d, int id, Ent
         id = DEFAULT_NULL_ID;
     }
 
-    this->x = x;
-    this->y = y;
-    this->z = z;
     this->w = w;
     this->h = h;
     this->d = d;
     this->id = id;
-    this->owner = owner;
+
+    calculateAndAssignCorners(x,y,z);
 }
 
-bool CollitionBox::intersectsWith(CollitionBox* collitionBox) {
-    return hasInsideItsVolumeThePositionPointOf(collitionBox) || collitionBox->hasInsideItsVolumeThePositionPointOf(this);
+
+bool CollitionBox::cornerIntersectsWith(CollitionBox* collitionBox, Point* corner) {
+
+    return collitionBox->hasInsideItsVolume(corner);
 }
 
-bool CollitionBox::hasInsideItsVolumeThePositionPointOf(CollitionBox* collitionBox){
+bool CollitionBox::anyCornerIntersectsWith(CollitionBox* collitionBox) {
 
-    return  (x <= collitionBox->x && collitionBox->x <= x + w)
+    for (auto corner : corners){
+        if (cornerIntersectsWith(collitionBox,corner)){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool CollitionBox::intersectsWith(CollitionBox* collitionBox, Point* corrected) {
+
+
+
+    return anyCornerIntersectsWith(collitionBox);
+}
+
+bool CollitionBox::hasInsideItsVolume(Point* corner){
+
+    int x = corners.front()->x;
+    int y = corners.front()->y;
+    int z = corners.front()->z;
+
+    return  (x <= corner->x && corner->x <= x + w)
             &&
-            (y <= collitionBox->y && collitionBox->y <= y + h)
+            (y <= corner->y && corner->y <= y + h)
             &&
-            (z <= collitionBox->z && collitionBox->z <= z + d);
+            (z <= corner->z && corner->z <= z + d);
+}
+
+void CollitionBox::calculateAndAssignCorners(int x, int y, int z) {
+
+    corners.push_back(new Point(x + 0,y + 0,z + 0));
+    corners.push_back(new Point(x + 0,y + 0,z + d));
+    corners.push_back(new Point(x + 0,y + h,z + 0));
+    corners.push_back(new Point(x + 0,y + h,z + d));
+    corners.push_back(new Point(x + w,y + 0,z + 0));
+    corners.push_back(new Point(x + w,y + 0,z + d));
+    corners.push_back(new Point(x + w,y + h,z + 0));
+    corners.push_back(new Point(x + w,y + h,z + d));
 }
 
 void CollitionBox::setOwner(Entity *owner) {
     this->owner = owner;
+}
+
+CollitionBox::~CollitionBox() {
+
+    for (auto c : corners){
+        delete(c);
+    }
+    corners.clear();
 }

@@ -7,7 +7,6 @@
 
 #include <list>
 #include "Character.h"
-#include "components/collition/ScreenCollitionHandler.h"
 
 using namespace std;
 
@@ -17,7 +16,7 @@ public:
     Screen(int width, int height, int levelWidth, CollitionManager* collitionManager);
 
     void update() override ;
-    void generateSendable() override {}
+    Sendable* generateSendable() override {}
 
     void setPlayer(Character* player);
     bool onScreen(int x, int y);
@@ -49,7 +48,6 @@ public:
     int currentX = 0;
 
 private:
-
     int windowHeight, windowWidth, levelDepth;
     int marginWidth , offScreenTolerance;
     int currentLevelWidth;
@@ -69,10 +67,7 @@ private:
     bool cameraHasReachedLimit();
     bool aPlayerSurpasedRightLimit();
 
-    void scroll();
-
-    ScreenCollitionHandler* _collitionHandler = nullptr;
-};
+    void scroll();};
 
 
 #endif //GAME_CAMERAPOSITIONCOMPONENT_H

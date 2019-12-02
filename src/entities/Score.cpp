@@ -24,6 +24,10 @@ int Score::barrelBroken() {
     return BROKEN_BARREL_SCORE;
 }
 
+int Score::finalBossKilled() {
+    return FINAL_BOSS_KILLED;
+}
+
 int Score::enemyKilled() {
     return ENEMY_KILLED;
 }

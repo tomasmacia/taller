@@ -7,12 +7,11 @@
 
 
 #include "CollitionBox.h"
+#include "CollitionHandler.h"
 
 class BackgroundCollitionHandler : public CollitionHandler {
 
 public:
     BackgroundCollitionHandler(CollitionManager *collitionManager, list<CollitionBox*>* collitionBoxes);
-    ~BackgroundCollitionHandler();
-
 };
 #endif //GAME_BACKGROUNDCOLLITIONHANDLER_H

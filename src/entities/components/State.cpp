@@ -93,15 +93,13 @@ bool State::currentIsNotBlockingAction(){
 }
 
 bool State::isNotBlockingAction(Action action){
-    return !(action == JUMP || action == PUNCH ||
-            action == KICK || action == JUMP_KICK ||
-            action == CROUCH);
+    return !isBlockingAction(action);
 }
 
 bool State::isBlockingAction(Action action){
     return  (action == JUMP || action == PUNCH ||
             action == KICK || action == JUMP_KICK ||
-            action == CROUCH);
+            action == CROUCH || action == DYING || action == DEAD);
 }
 
 bool State::isEndOfMovement(Action action){
@@ -116,7 +114,13 @@ bool State::hasMovement(){
 void State::setFinished(){
 
     if (isBlockingAction(_currentState)){
-        _currentState = NONE;
+
+        if (_currentState == DYING || _currentState == DEAD){
+            _currentState = DEAD;
+        }
+        else {
+            _currentState = NONE;
+        }
     }
 }
 
@@ -150,4 +154,12 @@ bool State::isDisconnected() {
 
 bool State::isFliped() {
     return _facingLeft;
+}
+
+void State::setDying() {
+    _currentState = DYING;
+}
+
+bool State::dead() {
+    return _currentState == DEAD;
 }

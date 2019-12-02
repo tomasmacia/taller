@@ -11,12 +11,14 @@
 class Enemy : public AnimatedEntity{
 
 public:
-    Enemy(Will* will, State* state, AnimatedEntityCollitionHandler* collitionHandler,
-                    Position* position, Physics* physics, ScreenPosition* screenPosition,
-                    StateDrivenAppearance* appearance, Sound* sound, Damage* damage,
-                    Life* life, ID* id, Score* score, ScoreAppearance* scoreAppearance);
+    Enemy(CollitionHandler* collitionHandler, Life *life, Damage *damage, Score* score, Position *position,
+          State* state, ScreenPosition* screenPosition, StateDrivenAppearance* appearance, Sound* sound,
+          Will* will, Physics* physics, Attack* attack);
 
     int setAttackedWith(AttackCode attack) override ;
+
+private:
+    int ENEMY_LIFE_AMOUNT = 100;
 };
 
 

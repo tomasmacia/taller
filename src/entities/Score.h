@@ -13,6 +13,7 @@ class Score {
 
 public:
     void increaseBy(int amount);
+    int finalBossKilled();
     int barrelAttackedWith(AttackCode attackCode);
     int boxAttackedWith(AttackCode attack);
     int enemyAttackedWith(AttackCode attackCode)
@@ -26,6 +27,7 @@ private:
     int BROKEN_BOX_SCORE = 200;
     int BROKEN_BARREL_SCORE = 300;
     int ENEMY_KILLED = 500;
+    int FINAL_BOSS_KILLED = 2000;
     int PUNCH_TO_ENEMY = 100;
     int KICK_TO_ENEMY = 400;
     int JUMP_KICK_TO_ENEMY = 400;

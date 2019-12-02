@@ -31,6 +31,9 @@ public:
     void setDisconnected();
     bool isDisconnected();
 
+    void setDying();
+    bool dead();
+
 private:
     Will* _will = nullptr;
 

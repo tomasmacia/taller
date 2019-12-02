@@ -3,3 +3,11 @@
 //
 
 #include "Entity.h"
+
+Entity::Entity(CollitionHandler *collitionHandler) {
+    this->collitionHandler = collitionHandler;
+}
+
+Entity::~Entity() {
+    delete(collitionHandler);
+}

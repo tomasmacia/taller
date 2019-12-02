@@ -6,10 +6,19 @@
 #define GAME_FINALBOSS_H
 
 
-#include "entityHierarchy/PhysicalEntity.h"
+#include "entityHierarchy/AnimatedEntity.h"
 
-class FinalBoss : public PhysicalEntity {
+class FinalBoss : public AnimatedEntity {
 
+public:
+    FinalBoss(CollitionHandler* collitionHandler, Life *life, Damage *damage, Score* score, Position *position,
+    State* state, ScreenPosition* screenPosition, StateDrivenAppearance* appearance, Sound* sound,
+    Will* will, Physics* physics, Attack* attack);
+
+    int setAttackedWith(AttackCode attack) override ;
+
+private:
+    int FINAL_BOSS_LIFE_AMOUNT = 500;
 };
 
 

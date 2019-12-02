@@ -9,6 +9,7 @@
 #include "entityHierarchy/Entity.h"
 #include "components/appearances/BackgroundAppearance.h"
 #include "components/collition/BackgroundCollitionHandler.h"
+#include "Screen.h"
 
 class Background : public Entity{
 
@@ -22,7 +23,6 @@ public:
     Sendable* generateSendable() override;
 
 private:
-    BackgroundCollitionHandler* collitionHandler = nullptr;
     BackgroundAppearance* appearance = nullptr;
 };
 

@@ -5,16 +5,32 @@
 #include "PhysicalEntity.h"
 
 
-PhysicalEntity::PhysicalEntity(State* state, ScreenPosition* screenPosition, StateDrivenAppearance* appearance,
-                            Position *position, Damage *damage, Life *life, Score* score) {
+PhysicalEntity::PhysicalEntity(CollitionHandler* collitionHandler, Life *life, Damage *damage, Score* score, Position *position,
+                               State* state, ScreenPosition* screenPosition, StateDrivenAppearance* appearance, Sound* sound)
 
-    this->damage = damage;
+                               : Entity(collitionHandler){
     this->life = life;
+    this->damage = damage;
     this->score = score;
+    this->position = position;
     this->state = state;
     this->screenPosition = screenPosition;
     this->appearance = appearance;
-    this->position = position;
+    this->sound = sound;
+}
+
+void PhysicalEntity::update() {
+    state->update();
+    sound->update();
+    appearance->update();
+}
+
+Sendable *PhysicalEntity::generateSendable() {
+
+    auto renderable = appearance->generateRenderable();
+    auto soundable = sound->generateSoundable();
+
+    return new Sendable(renderable, soundable);
 }
 
 int PhysicalEntity::getX() {
@@ -33,13 +49,22 @@ void PhysicalEntity::setPosition(int x, int y, int z){
         position->setPosition(x,y,z);
     }
 
+
+bool PhysicalEntity::lifeEmpty() {
+    return life->empty();
+}
+
+bool PhysicalEntity::dead() {
+    return state->dead();
+}
+
 PhysicalEntity::~PhysicalEntity() {
 
     delete(life);
     delete(damage);
     delete (score);
+    delete(position);
     delete(state);
     delete(screenPosition);
     delete(appearance);
-    delete(position);
 }

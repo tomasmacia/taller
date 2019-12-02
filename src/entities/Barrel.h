@@ -10,6 +10,7 @@
 
 class Barrel : public Utillity {
 
+public:
     int setAttackedWith(AttackCode attack) override ;
 
 };

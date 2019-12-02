@@ -1,17 +1,20 @@
 //
-// Created by axel on 28/11/19.
+// Created by axelmpm on 2/12/19.
 //
 
 #ifndef GAME_UNANIMATEDENTITY_H
 #define GAME_UNANIMATEDENTITY_H
+
 
 #include "PhysicalEntity.h"
 
 class UnanimatedEntity : public PhysicalEntity {
 
 public:
-    UnanimatedEntity(State *state, Position *position, ScreenPosition *screenPosition,
-            StateDrivenAppearance *appearance, Damage *damage, Life *life);
+    UnanimatedEntity(CollitionHandler* collitionHandler, Life *life, Damage *damage, Score* score, Position *position,
+                     State* state, ScreenPosition* screenPosition, StateDrivenAppearance* appearance, Sound* sound);
+
+    bool broke();
 };
 
 

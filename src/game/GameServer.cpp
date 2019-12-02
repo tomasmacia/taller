@@ -61,12 +61,12 @@ void GameServer::gameLoop(){
 }
 
 void GameServer::update() {
-    manager->update();
+    entityManager->update();
     controller->clearAllInputs();
 }
 
 void GameServer::sendUpdate() {
-    controller->sendUpdate(manager->generateSendables(), server);
+    controller->sendUpdate(entityManager->generateSendables(), server);
 }
 
 //API
@@ -286,7 +286,7 @@ void GameServer::initWaitingScreen() {
 }
 
 void GameServer::initGameModel() {
-    initLevelBuilder();
+    entityManager = initLevelBuilder();
     LogManager::logDebug("[INIT]: inicializado EntityManager");
     LogManager::logDebug("[INIT]: inicializado LevelBuilder");
     LogManager::logInfo("[INIT]: Modelo inicializado");
@@ -313,8 +313,9 @@ void GameServer::loadValidCredenctials(){
     }
 }
 
-void GameServer::initLevelBuilder() {
+EntityManager* GameServer::initLevelBuilder() {
     this->levelBuilder = new LevelBuilder(controller, config);
+    return levelBuilder->getEntityManager();
 }
 
 //DESTROY

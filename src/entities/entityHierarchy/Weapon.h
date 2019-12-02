@@ -7,16 +7,11 @@
 
 
 #include "UnanimatedEntity.h"
-#include "../Life.h"
-
 
 class Weapon : public UnanimatedEntity{
 
 public:
-    Weapon(Life* life);
-
-    virtual int useOn(Entity* entity) = 0;
-    bool broke();
+    virtual int useOn(Entity* entity);
 
 protected:
     int USES_AMOUNT = 3;

@@ -4,12 +4,6 @@
 
 #include "Weapon.h"
 
-Weapon::Weapon(Life *life) {
-
-    this->life = life;
-    life->initializeWith(USES_AMOUNT);
-}
-
-bool Weapon::broke() {
-    return life->empty();
+int Weapon::useOn(Entity *entity) {
+    life->decreseBy(1);
 }

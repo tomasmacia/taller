@@ -10,6 +10,7 @@
 
 class Knife : public Weapon{
 
+public:
     int useOn(Entity* entity) override ;
 };
 

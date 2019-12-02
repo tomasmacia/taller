@@ -4,12 +4,14 @@
 
 #include "Enemy.h"
 
-Enemy::Enemy(Will *will, State *state, AnimatedEntityCollitionHandler *collitionHandler, Position *position,
-             Physics *physics, ScreenPosition *screenPosition, StateDrivenAppearance *appearance, Sound *sound,
-             Damage *damage, Life *life, ID *id, Score *score, ScoreAppearance *scoreAppearance) :
+Enemy::Enemy(CollitionHandler *collitionHandler, Life *life, Damage *damage, Score *score, Position *position,
+             State *state, ScreenPosition *screenPosition, StateDrivenAppearance *appearance, Sound *sound, Will *will,
+             Physics *physics, Attack *attack)
 
-             AnimatedEntity(will, state, collitionHandler, position, physics, screenPosition, appearance, sound, damage, life, attack){
+             : AnimatedEntity(collitionHandler, life, damage, score, position, state, screenPosition, appearance,
+                                sound, will, physics, attack) {
 
+    this->life->initializeWith(ENEMY_LIFE_AMOUNT);
 }
 
 int Enemy::setAttackedWith(AttackCode attack) {

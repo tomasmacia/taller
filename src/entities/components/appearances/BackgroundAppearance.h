@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include "Appearance.h"
+#include "../../Screen.h"
 
 using namespace std;
 

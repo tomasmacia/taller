@@ -6,36 +6,34 @@
 #define GAME_POSITION_H
 
 #include "collition/CollitionHandler.h"
+#include "../components/Point.h"
 
 class Position {
 public:
     Position(int x, int y, int z, CollitionHandler* collitionHandler) ;
+    ~Position();
 
     void ifValidChangeTo(int newX, int newY, int newZ);
 
     void setPosition(int xPos, int yPos, int zPos) {
-        this->x = xPos;
-        this->y = yPos;
-        this->z = zPos;
+        point.x = xPos;
+        point.y = yPos;
+        point.z = zPos;
     }
 
     int getX() {
-        return x;
+        return point.x;
     }
 
     int getY() {
-        return y;
+        return point.y;
     }
 
     int getZ() {
-        return z;
+        return point.z;
     }
 private:
-
-    int x;
-    int y;
-    int z;
-
+    Point* point = nullptr;
     CollitionHandler* _collitionHandler = nullptr;
 };
 

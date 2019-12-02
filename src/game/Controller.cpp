@@ -110,7 +110,7 @@ void Controller::reciveRenderables(vector<string>* serializedPagackes){
 //DATA TRANSFER INTERFACE
 //=========================================================================================
 
-void Controller::sendUpdate(std::list<Renderable*>* toClientsPackages, Server* server) {
+void Controller::sendUpdate(std::list<Sendable*>* toClientsPackages, Server* server) {
     string serializedPackages = objectSerializer.serializeObjects(toClientsPackages); //TODO HEAVY IN PERFORMANCE
     server->setToBroadcast(serializedPackages);
 }

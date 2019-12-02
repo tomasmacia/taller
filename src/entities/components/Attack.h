@@ -2,7 +2,7 @@
 // Created by axelmpm on 1/12/19.
 //
 
-#ifndef GAME_ATTACKCODE_H
+#ifndef GAME_ATTACK_H
 #define GAME_ATTACK_H
 
 
@@ -10,6 +10,7 @@
 #include "State.h"
 #include "../../enumerates/AttackCode.h"
 #include "collition/AnimatedEntityCollitionHandler.h"
+#include "../entityHierarchy/AnimatedEntity.h"
 
 class Attack {
 public:
@@ -39,4 +40,4 @@ private:
 };
 
 
-#endif //GAME_ATTACKCODE_H
+#endif //GAME_ATTACK_H

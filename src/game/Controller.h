@@ -12,7 +12,7 @@
 #include <list>
 #include "../enumerates/Action.h"
 #include "Game.h"
-#include "../net/messaging/Renderable.h"
+#include "../net/messaging/Sendable.h"
 #include "../net/Server.h"
 #include "GameClient.h"
 
@@ -32,7 +32,7 @@ public:
 
     //DATA TRANSFER INTERFACE
     //===============================
-    void sendUpdate(std::list<Renderable*>* toClientsPackages, Server* server);
+    void sendUpdate(std::list<Sendable*>* toClientsPackages, Server* server);
     std::string getSuccesfullLoginMessage(string color, int userId);
     std::string getInvalidCredentialMessage();
     std::string getServerFullMessage();

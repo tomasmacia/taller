@@ -4,17 +4,9 @@
 
 #include "BackgroundCollitionHandler.h"
 
-BackgroundCollitionHandler::BackgroundCollitionHandler(CollitionManager* collitionManager,
-                                                       list<CollitionBox *>* collitionBoxes) {
+BackgroundCollitionHandler::BackgroundCollitionHandler(CollitionManager* collitionManager, list<CollitionBox *>* collitionBoxes)
+
+                                                       :CollitionHandler(collitionManager){
     _collitionBoxes = collitionBoxes;
-    _collitionManager = collitionManager;
-}
-
-BackgroundCollitionHandler::~BackgroundCollitionHandler() {
-
-    for (auto box : *_collitionBoxes){
-        delete(box);
-    }
-    _collitionBoxes->clear();
-    delete(_collitionBoxes);
+    _blockingCollitionBoxes = collitionBoxes;
 }

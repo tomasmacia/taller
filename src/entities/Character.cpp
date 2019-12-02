@@ -6,17 +6,14 @@
 #include "Character.h"
 #include "components/appearances/CharacterAppearance.h"
 
-Character::Character(Will* will, State* state, AnimatedEntityCollitionHandler* collitionHandler,
-                     Position* position, Physics* physics, ScreenPosition* screenPosition,
-                     StateDrivenAppearance* appearance, Sound* sound, Damage* damage,
-                     Life* life, ID* id, Score* score, ScoreAppearance* scoreAppearance) :
+Character::Character(CollitionHandler* collitionHandler, Life *life, Damage *damage, Score* score, Position *position,
+                     State* state, ScreenPosition* screenPosition, StateDrivenAppearance* appearance, Sound* sound,
+                     Will* will, Physics* physics, Attack* attack, ID* id, ScoreAppearance* scoreAppearance) :
 
-        AnimatedEntity(will, state, collitionHandler, position, physics, screenPosition,
-                       appearance, sound, damage,life, score, attack){
+        AnimatedEntity(collitionHandler, life, damage, score, position, state, screenPosition, appearance, sound,
+                       will, physics, attack){
 
-    lifes = 3;
-    lifeAmount = 100;
-    this->life->initializeWith(lifeAmount, lifes);
+    this->life->initializeWith(CHARACTER_LIFE_AMOUNT, AMOUNT_OF_LIFES_CHARACTER);
     this->id = id;
     this->scoreAppearance = scoreAppearance;
 }
@@ -56,7 +53,7 @@ Character::~Character() {
 
 int Character::setAttackedWith(AttackCode attackCode) {
 
-    int damageInflicted = damage->characterAttackedWith(attack);
+    int damageInflicted = damage->characterAttackedWith(attackCode);
 
     life->decreseBy(damageInflicted);
 }

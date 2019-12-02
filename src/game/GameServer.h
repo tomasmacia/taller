@@ -82,7 +82,7 @@ private:
     //INIT
     //===============================
     void initWaitingScreen();
-    void initLevelBuilder();
+    EntityManager* initLevelBuilder();
     void loadValidCredenctials();   //<user,pass>
     void initGameModel();
     void init() override ;
@@ -133,6 +133,7 @@ private:
     list<Renderable*>* waitingScreenContainer = nullptr;
 
     Server* server = nullptr;
+    EntityManager* entityManager = nullptr;
     LevelBuilder* levelBuilder = nullptr;
 };
 

@@ -73,19 +73,44 @@ CollitionBox *CollitionManager::addBarrelBlockingCollitionBox(int x, int y, int 
     return newCollitionBox;
 }
 
+CollitionBox *CollitionManager::addScreenBlockingCollitionBox(int x, int y, int z, int w, int h, int d) {
+
+    auto* newCollitionBox = new CollitionBox(x,y,z,w,h,d,newID);
+    _blockingCollitionBoxes->push_back(newCollitionBox);
+    newID++;
+    return newCollitionBox;
+}
+
 list<CollitionBox *> *CollitionManager::getListOfHittedCollitionBox(CollitionBox *query) {
-    return nullptr;
+
+    auto hitted = new list<CollitionBox*>();
+
+    for (auto* collitionBox: *_blockingCollitionBoxes){
+        if (collitionBox->getID() != query->getID()){
+            if (collitionBox->intersectsWith(query)){
+                hitted->push_back(collitionBox);
+            }
+        }
+    }
+    return hitted;
 }
 
 CollitionBox *CollitionManager::getFirstPickedCollitionBox(CollitionBox *query) {
-    return nullptr;
-}
-
-bool CollitionManager::anyBlockingCollitionsWith(CollitionBox *queryCollitionBox) {
 
     for (auto* collitionBox: *_blockingCollitionBoxes){
-        if (collitionBox->id != queryCollitionBox->id){
-            if (collitionBox->intersectsWith(queryCollitionBox)){
+        if (collitionBox->getID() != query->getID()){
+            if (collitionBox->intersectsWith(query)){
+                return collitionBox;
+            }
+        }
+    }
+}
+
+bool CollitionManager::anyBlockingCollitionsWith(CollitionBox *queryCollitionBox, Point* corrected) {
+
+    for (auto* collitionBox: *_blockingCollitionBoxes){
+        if (collitionBox->getID() != queryCollitionBox->getID()){
+            if (collitionBox->intersectsWith(queryCollitionBox, corrected)){
                 return true;
             }
         }
@@ -93,18 +118,16 @@ bool CollitionManager::anyBlockingCollitionsWith(CollitionBox *queryCollitionBox
     return false;
 }
 
+void CollitionManager::prepareForNextLevel() {
+    clearNonLevelPersistentCollitionBoxes();
+}
+
 void CollitionManager::clearNonLevelPersistentCollitionBoxes(){
-    for (auto collitionBox: *_nonLevelPersistentCollitionBoxes){
-        delete(collitionBox);
-    }
     _nonLevelPersistentCollitionBoxes->clear();
     _weaponCollitionBoxes->clear();
 }
 
 CollitionManager::~CollitionManager(){
-    for (auto collitionBox: *_blockingCollitionBoxes){
-        delete(collitionBox);
-    }
     _blockingCollitionBoxes->clear();
     delete(_blockingCollitionBoxes);
     _characterCollitionBoxes->clear();
@@ -115,6 +138,9 @@ CollitionManager::~CollitionManager(){
     delete(_nonLevelPersistentCollitionBoxes);
 }
 
-void CollitionManager::prepareForNextLevel() {
-    clearNonLevelPersistentCollitionBoxes();
+void CollitionManager::untrack(CollitionBox* collitionBox) {
+    _blockingCollitionBoxes->remove(collitionBox);
+    _nonLevelPersistentCollitionBoxes->remove(collitionBox);
+    _weaponCollitionBoxes->remove(collitionBox);
+    _characterCollitionBoxes->remove(collitionBox);
 }

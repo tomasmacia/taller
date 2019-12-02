@@ -35,21 +35,24 @@ void EntityManager::initializeCollitionManager(){
 //=========================================================================================
 void EntityManager::update() {//se updatean todas seguro porque updateo las listas que formaban una particion de las entities
 
+    eraseDeadEntities();
+
     for(auto* e : backLayerBackgrounds) e->update();
-    for(auto* e : entitiesWithPosition) e->update();
+    for(auto* e : physicalEntities) e->update();
     for(auto* e : fronLayerBackgrounds) e->update();
     for(auto* e : specialEntities) e->update();
 }
 
 std::list<Sendable*>* EntityManager::generateSendables() {
 
+    //clear previous outdated packages
     for (auto package: *packagesToClients){
         delete package;
         package = nullptr;
     }
     packagesToClients->clear();
 
-    sortEntitiesByZ(); //sorteo aca porque es al render al que le importa el orden en la lista
+//    sortEntitiesByZ(); //sorteo aca porque es al render al que le importa el orden en la lista
 
     for(auto* e : backLayerBackgrounds){
         sendable = e->generateSendable();
@@ -58,7 +61,7 @@ std::list<Sendable*>* EntityManager::generateSendables() {
         }
     }
 
-    for(auto* e : entitiesWithPosition){
+    for(auto* e : physicalEntities){
         sendable = e->generateSendable();
         if (sendable != nullptr){
             packagesToClients->push_back(sendable);
@@ -71,6 +74,7 @@ std::list<Sendable*>* EntityManager::generateSendables() {
             packagesToClients->push_back(sendable);
         }
     }
+
     sendable = nullptr;
 
     return packagesToClients;
@@ -79,7 +83,7 @@ std::list<Sendable*>* EntityManager::generateSendables() {
 void EntityManager::prepareForNextLevel(){
 
     collitionManager->prepareForNextLevel();
-    entitiesWithPosition.clear();
+    physicalEntities.clear();
     destroyNonLevelPersistentEntities();
     enemies.clear();
     inanimatedEntities.clear();
@@ -87,7 +91,7 @@ void EntityManager::prepareForNextLevel(){
     fronLayerBackgrounds.clear();
 
     for (Character* e : players){
-        entitiesWithPosition.push_back(e);
+        physicalEntities.push_back(e);
     }
 }
 
@@ -112,42 +116,42 @@ void EntityManager::disconectPlayerByID(int id){
 Character* EntityManager::addPlayer(int x, int y, int z, int w, int h, int id, int walkingSpeed) {
     Character* character = createCharacter(x,y,z,w,h,id,walkingSpeed);
     players.push_back(character);
-    entitiesWithPosition.push_back(character);
+    physicalEntities.push_back(character);
 }
 
 void EntityManager::addEnemy(int w, int h, int walkingSpeed) {
     Enemy* enemy = createEnemy(w,h,walkingSpeed);
     nonLevelPersistentEntities.push_back(enemy);
     enemies.push_back(enemy);
-    entitiesWithPosition.push_back(enemy);
+    physicalEntities.push_back(enemy);
 }
 
 void EntityManager::addKnife(int w, int h) {
     auto* knife = createKnife(w,h);
     nonLevelPersistentEntities.push_back(knife);
     inanimatedEntities.push_back(knife);
-    entitiesWithPosition.push_back(knife);
+    physicalEntities.push_back(knife);
 }
 
 void EntityManager::addTube(int w, int h) {
     auto* tube = createTube(w,h);
     nonLevelPersistentEntities.push_back(tube);
     inanimatedEntities.push_back(tube);
-    entitiesWithPosition.push_back(tube);
+    physicalEntities.push_back(tube);
 }
 
 void EntityManager::addBox(int w, int h) {
     auto* box = createBox(w,h);
     nonLevelPersistentEntities.push_back(box);
     inanimatedEntities.push_back(box);
-    entitiesWithPosition.push_back(box);
+    physicalEntities.push_back(box);
 }
 
 void EntityManager::addBarrel(int w, int h) {
     auto* barrel = createBarrel(w,h);
     nonLevelPersistentEntities.push_back(barrel);
     inanimatedEntities.push_back(barrel);
-    entitiesWithPosition.push_back(barrel);
+    physicalEntities.push_back(barrel);
 }
 
 void EntityManager::addBackLayerBackgrounds(Background* background) {
@@ -252,7 +256,7 @@ Background* EntityManager::createOverlay() {
 //DESTROY
 //=========================================================================================
 void EntityManager::destroyAllEntities() { //se destruyen todas seguro porque borro las listas que formaban una particion de las entities
-    for(auto* e : entitiesWithPosition) {
+    for(auto* e : physicalEntities) {
         delete e;
         e = nullptr;
     }
@@ -270,6 +274,30 @@ void EntityManager::destroyAllEntities() { //se destruyen todas seguro porque bo
     }
 }
 
+void EntityManager::eraseDeadEntities() {
+
+    list<PhysicalEntity*> toUntrack;
+    for (auto e: physicalEntities){
+        if (e->dead()){
+            delete(e);
+            toUntrack.push_back(e);
+        }
+    }
+    for (auto e: toUntrack){
+        untrackDead(e);
+    }
+}
+
+void EntityManager::untrackDead(Entity *entity) {
+
+    nonLevelPersistentEntities.remove(entity);
+    players.remove(entity);
+    enemies.remove(entity);
+    inanimatedEntities.remove(entity);
+    specialEntities.remove(entity);
+    physicalEntities.remove(entity);
+}
+
 void EntityManager::destroyNonLevelPersistentEntities() {
     for(auto* e : nonLevelPersistentEntities){
         delete e;
@@ -280,7 +308,7 @@ void EntityManager::destroyNonLevelPersistentEntities() {
 
 EntityManager::~EntityManager() {
     destroyAllEntities();
-    entitiesWithPosition.clear();
+    physicalEntities.clear();
     enemies.clear();
     inanimatedEntities.clear();
     specialEntities.clear();
@@ -320,5 +348,5 @@ struct EntityComparator
 };
 
 void EntityManager::sortEntitiesByZ() {
-    entitiesWithPosition.sort(EntityComparator());
+    physicalEntities.sort(EntityComparator());
 }

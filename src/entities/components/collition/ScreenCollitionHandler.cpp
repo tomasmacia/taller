@@ -4,17 +4,8 @@
 
 #include "ScreenCollitionHandler.h"
 
-ScreenCollitionHandler::ScreenCollitionHandler(Screen* screen, CollitionManager *collitionManager) {
+ScreenCollitionHandler::ScreenCollitionHandler(CollitionManager* collitionManager, Screen* screen) : CollitionHandler(collitionManager){
 
-    _collitionManager = collitionManager;
-
-    _leftScreenCollitionBox = collitionManager->addBlockingCollitionBox(0, 0, 0, -1, screen->getWindowHeight(),
-                                                                         screen->getLevelDepth());
-    _rightScreenCollitionBox = collitionManager->addBlockingCollitionBox(screen->getWindowWidth(), 0, 0, -1,
-                                                                         screen->getWindowHeight(), screen->getLevelDepth());
-    _leftScreenCollitionBox->setOwner((Entity*)screen);
-    _rightScreenCollitionBox->setOwner((Entity*)screen);
-
-    _collitionBoxes->push_back(_leftScreenCollitionBox);
-    _collitionBoxes->push_back(_rightScreenCollitionBox);
+    _leftScreenCollitionBox = addBlockingCollitionBox(0,0,0,-1,screen->getWindowHeight(),screen->getLevelDepth());
+    _rightScreenCollitionBox = addBlockingCollitionBox(screen->getWindowHeight(),0,0,-1,screen->getWindowHeight(),screen->getLevelDepth());
 }

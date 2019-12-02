@@ -6,26 +6,22 @@
 #define GAME_ANIMATEDENTITY_H
 
 #include "PhysicalEntity.h"
-#include "../components/collition/AnimatedEntityCollitionHandler.h"
 #include "../components/Will.h"
 #include "../components/Physics.h"
-#include "../components/Sound.h"
 #include "../components/Attack.h"
 
 class AnimatedEntity : public PhysicalEntity {
 
 public:
-    AnimatedEntity(Will *will, State *state, AnimatedEntityCollitionHandler *collitionHandler, Position *position,
-                   Physics *physics, ScreenPosition *screenPosition, StateDrivenAppearance *appearance, Sound *sound,
-                   Damage *damage, Life *life, Attack *attack);
+    AnimatedEntity(CollitionHandler* collitionHandler, Life *life, Damage *damage, Score* score, Position *position,
+                   State* state, ScreenPosition* screenPosition, StateDrivenAppearance* appearance, Sound* sound,
+                   Will* will, Physics* physics, Attack* attack);
 
     ~AnimatedEntity();
 
     void update() override;
-    Sendable* generateSendable() override;
 
     virtual void notifySuccessfulAttack(int score) {}
-    bool lifeEmpty();
     void drag();
 
 
@@ -44,17 +40,11 @@ public:
     }
 
 protected:
-    AnimatedEntity(Will* will, State* state, AnimatedEntityCollitionHandler* collitionHandler,
-              Position* position, Physics* physics, ScreenPosition* screenPosition,
-              StateDrivenAppearance* appearance, Sound* sound, Damage* damage, Life* life, Score* score, Attack* attack);
-
     int _wakingSpeed;
 
-    AnimatedEntityCollitionHandler* collitionHandler = nullptr;
-    Physics* physics = nullptr;
-    Sound* sound = nullptr;
-    Attack* attack = nullptr;
     Will* will = nullptr;
+    Physics* physics = nullptr;
+    Attack* attack = nullptr;
 };
 
 
