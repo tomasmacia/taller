@@ -20,6 +20,9 @@ public:
 
     bool onScreen();
 
+    Screen* getScreen(){
+        return _screen;
+    }
 
 private:
     int x;

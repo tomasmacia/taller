@@ -9,3 +9,9 @@ Point::Point(int x, int y, int z) {
     this->y = y;
     this->z = z;
 }
+
+void Point::moveBy(int xAmount, int yAmount, int zAmount) {
+    x += xAmount;
+    y += yAmount;
+    z += zAmount;
+}

@@ -4,14 +4,12 @@
 
 #include "Background.h"
 
-Background::Background(Screen *screen, string spritePath, float parallaxSpeed, CollitionManager *collitionManager, list<CollitionBox*>* collitionBoxes) {
+Background::Background(CollitionHandler *collitionHandler, BackgroundAppearance* appearance) : Entity(collitionHandler) {
 
-    this->collitionHandler = new BackgroundCollitionHandler(collitionManager, collitionBoxes);
-    this->appearance = new BackgroundAppearance(screen, spritePath, parallaxSpeed);
+    this->appearance = appearance;
 }
 
 void Background::update() {
-    //no hace falta update a el collition handler por ahora
     appearance->update();
 }
 

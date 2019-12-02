@@ -45,6 +45,8 @@ public:
         return marginWidth;
     }
 
+    bool isScreen() override {return true;}
+
     int currentX = 0;
 
 private:

@@ -25,6 +25,7 @@ CollitionBox::CollitionBox(int x, int y, int z, int w, int h, int d, int id) {
     this->id = id;
 
     calculateAndAssignCorners(x,y,z);
+    previousPosition = new Point(x,y,z);
 }
 
 
@@ -43,9 +44,7 @@ bool CollitionBox::anyCornerIntersectsWith(CollitionBox* collitionBox) {
     return false;
 }
 
-bool CollitionBox::intersectsWith(CollitionBox* collitionBox, Point* corrected) {
-
-
+bool CollitionBox::intersectsWith(CollitionBox* collitionBox) {
 
     return anyCornerIntersectsWith(collitionBox);
 }
@@ -79,10 +78,62 @@ void CollitionBox::setOwner(Entity *owner) {
     this->owner = owner;
 }
 
+void CollitionBox::moveAllCornersBy(int xAmount, int yAmount, int zAmount) {
+
+    for (auto corner : corners){
+        corner->moveBy(xAmount,yAmount,zAmount);
+    }
+}
+
+void CollitionBox::dragToRight(int amount) {
+    moveAllCornersBy(amount,0,0);
+}
+
+bool CollitionBox::notArrivedAt(Point *destination) {
+    return  corners.front()->x != destination->x
+            ||
+            corners.front()->y != destination->y
+            ||
+            corners.front()->z != destination->z ;
+}
+
+void CollitionBox::moveOneUnitInTheDirectionOf(Point* destination) {
+
+    savePreviousPosition();
+
+    int diffX = destination->x - corners.front()->x;
+    int diffY = destination->y - corners.front()->y;
+    int diffZ = destination->z - corners.front()->z;
+
+    int norm = (diffX * diffX) + (diffY * diffY) + (diffZ * diffZ);
+
+    diffX = (int)((diffX * diffX)/norm);
+    diffY = (int)((diffY * diffY)/norm);
+    diffZ = (int)((diffZ * diffZ)/norm);
+
+    moveAllCornersBy(diffX,diffY,diffZ);
+}
+
 CollitionBox::~CollitionBox() {
 
     for (auto c : corners){
         delete(c);
     }
     corners.clear();
+    delete(previousPosition);
+}
+
+void CollitionBox::savePreviousPosition() {
+    previousPosition->x = corners.front()->x;
+    previousPosition->y = corners.front()->y;
+    previousPosition->z = corners.front()->z;
+}
+
+void CollitionBox::restorePreviousPosition() {
+
+    int diffX = corners.front()->x - previousPosition->x;
+    int diffY = corners.front()->y - previousPosition->y;
+    int diffZ = corners.front()->z - previousPosition->z;
+
+    moveAllCornersBy(diffX,diffY,diffZ);
 }

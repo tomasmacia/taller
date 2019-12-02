@@ -4,10 +4,10 @@
 
 #include "ScoreAppearance.h"
 
-ScoreAppearance::ScoreAppearance(Score *score) {
+ScoreAppearance::ScoreAppearance(ScreenPosition* screenPosition, Score *score) : Appearance(screenPosition){
     this->score = score;
 }
 
 void ScoreAppearance::update() {
-    //current = score->get(); TODO
+    //TODO
 }

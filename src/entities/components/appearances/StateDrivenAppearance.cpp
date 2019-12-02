@@ -1,5 +1,8 @@
 #include "StateDrivenAppearance.h"
-#include "../State.h"
+
+StateDrivenAppearance::StateDrivenAppearance(ScreenPosition* screenPosition, State *state) : Appearance(screenPosition){
+    _state = state;
+}
 
 void StateDrivenAppearance::update() {
 
@@ -15,7 +18,7 @@ void StateDrivenAppearance::loadNextImage(){
     srcRect.x = srcRect.w * (int)(_imageCounter / DELAY);
 
     _imageCounter++;
-    
+
     if (_imageCounter == (_imageAmount * DELAY)){
         _state->setFinished();
         _imageCounter = 0;
@@ -33,7 +36,7 @@ Renderable *StateDrivenAppearance::actuallyGenerateRenderable() {
 }
 
 void StateDrivenAppearance::updateDestRectPosition(){
-    
+
     _screenPosition->update();
     destRect.x = _screenPosition->getX();
     destRect.y = _screenPosition->getY();

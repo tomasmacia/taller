@@ -14,6 +14,7 @@ using namespace std;
 class Appearance {
 
 public:
+    Appearance(ScreenPosition* screenPosition);
     virtual void update() = 0;
 
     Renderable* generateRenderable();
@@ -34,10 +35,6 @@ protected:
 
     string currentSprite;
 
-    State* _state = nullptr;
     ScreenPosition* _screenPosition = nullptr;
-
-    float WIDTH_SCALE{};
-    float HEIGHT_SCALE{};
 };
 #endif //RENDER_COMPONENT_H

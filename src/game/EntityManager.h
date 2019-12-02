@@ -41,28 +41,30 @@ public:
 
     //ADDING NEW ENTITIES
     //===============================
-    Character* addPlayer(int x, int y, int z, int w, int h, int id, int walkingSpeed,);
-    void addEnemy(int w, int h, int walkingSpeed);
-    void addKnife(int w, int h);
-    void addTube(int w, int h);
-    void addBox(int w, int h);
-    void addBarrel(int w, int h);
-    void addBackLayerBackgrounds(Background* background);
-    void addFrontLayerBackgrounds(Background* background);
+    Character* addPlayer(int x, int y, int z,int id);
+    void addEnemy();
+    void addKnife();
+    void addTube();
+    void addBox();
+    void addBarrel();
+    void addFar(const string& spritePath, float parallaxSpeed);
+    void addMiddle(const string& spritePath, float parallaxSpeed);
+    void addFloor(const string& spritePath, float parallaxSpeed);
+    void addOverlay(const string& spritePath, float parallaxSpeed);
     Screen* addScreen(int screenWidth, int screenHeight, int levelWidth);
 
     //CREATING ENTITIES
     //===============================
-    Character* createCharacter(int x, int y, int z, int w, int h, int id, int walkingSpeed);
-    Enemy* createEnemy(int w, int h, int walkingSpeed);
-    Knife* createKnife(int w, int h);
-    Tube* createTube(int w, int h);
-    Box* createBox(int w, int h);
-    Barrel* createBarrel(int w, int h);
-    Background* createFar();
-    Background* createMiddle();
-    Background* createFloor();
-    Background* createOverlay();
+    Character* createCharacter(int x, int y, int z, int id);
+    Enemy* createEnemy();
+    Knife* createKnife();
+    Tube* createTube();
+    Box* createBox();
+    Barrel* createBarrel();
+    Background* createFar(const string& spritePath, float parallaxSpeed);
+    Background* createMiddle(const string& spritePath, float parallaxSpeed);
+    Background* createFloor(const string& spritePath, float parallaxSpeed);
+    Background* createOverlay(const string& spritePath, float parallaxSpeed);
 
     //GETTERS
     //===============================
@@ -78,7 +80,7 @@ private:
     //DESTROY
     //===============================
     void eraseDeadEntities();
-    void untrackDead(Entity* entity);
+    void untrackDead(PhysicalEntity* entity);
     void destroyAllEntities();
     void destroyNonLevelPersistentEntities();
 
@@ -92,8 +94,8 @@ private:
     //no forman una particion (hay overlapings o no estan todas)
     std::list<Entity*> nonLevelPersistentEntities;
     std::list<Character*> players;
-    std::list<Entity*> enemies;
-    std::list<Entity*> inanimatedEntities;
+    std::list<Enemy*> enemies;
+    std::list<UnanimatedEntity*> unanimatedEntities;
 
     //estas listas forman una particion de todas las entities
     // es decir, toda entitie esta en alguna y si esta en una no esta en las otras
@@ -110,5 +112,17 @@ private:
     Controller* controller = nullptr;
     Config* config = nullptr;
     Screen* screen = nullptr;
+
+    //Parametros de construccion de entidades
+    int CHARACTER_WIDTH_SCALE = 0.3;
+    int CHARACTER_HEIGHT_SCALE = 0.5;
+    int ENEMY_WIDTH_SCALE = 0.2;
+    int ENEMY_HEIGHT_SCALE = 0.5;
+    int UTILITY_WIDTH_SCALE = 0.2;
+    int UTILITY_HEIGHT_SCALE = 0.5;
+    int WEAPON_WIDTH_SCALE = 0.2;
+    int WEAPON_HEIGHT_SCALE = 0.5;
+    int WAKING_SPEED_FACTOR = 100;
+    int JUMPING_SPEED_FACTOR = 110;
 };
 #endif //GAME_ENTITYMANAGER_H

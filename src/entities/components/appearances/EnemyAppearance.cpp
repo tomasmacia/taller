@@ -1,9 +1,9 @@
 #include "EnemyAppearance.h"
 #include "../State.h"
 
-EnemyAppearance::EnemyAppearance(int w, int h, ScreenPosition* screenPosition, NPC *npcConfig) {
+EnemyAppearance::EnemyAppearance(int w, int h, ScreenPosition* screenPosition, State* state, NPC *npcConfig) : StateDrivenAppearance(
+        screenPosition, state) {
     this->npcConfig = *npcConfig;
-    _screenPosition = screenPosition;
     initDestRect(w,h);
     init();
 }
@@ -11,9 +11,6 @@ EnemyAppearance::EnemyAppearance(int w, int h, ScreenPosition* screenPosition, N
 void EnemyAppearance::init() {
 
     DELAY = 3;
-    WIDTH_SCALE = 0.2;
-    HEIGHT_SCALE = 0.5;
-
     currentSprite = npcConfig.walk;
     _imageAmount  = WALK_IMAGE_AMOUNT;
     _imageCounter = 0;

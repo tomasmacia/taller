@@ -1,17 +1,17 @@
 #ifndef GAME_IA_H
 #define GAME_IA_H
 
-#include "../../to_remove_or_modify/ECS.h"
 #include "../../enumerates/Action.h"
+#include "Will.h"
 #include <list>
 
 class IA : public Will {
 public:
     IA();
     void update() override;
+    Action getNext() override ;
 
 private:
-    Action generateAction();
 
     Action _currentAction = NONE;
     int CHOOSING_ACTION_DELAY = 50;

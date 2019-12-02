@@ -2,13 +2,11 @@
 #include "../State.h"
 
 CharacterAppearance::CharacterAppearance(int w, int h, Position *position, ScreenPosition *screenPosition, State *state,
-                                         const CharacterXML &characterConfig) {
+                                         const CharacterXML &characterConfig) : StateDrivenAppearance(screenPosition, state) {
 
     this->characterConfig = characterConfig;
     realSpritePath = characterConfig.stand;
     disconnectedSpritePath = characterConfig.disconnected;
-    _screenPosition = screenPosition;
-    _state = state;
     initDestRect(w,h);
     init();
 }

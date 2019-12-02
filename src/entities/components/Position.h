@@ -13,7 +13,7 @@ public:
     Position(int x, int y, int z, CollitionHandler* collitionHandler) ;
     ~Position();
 
-    void ifValidChangeTo(int newX, int newY, int newZ);
+    void tryToMoveTo(int newX, int newY, int newZ);
 
     void setPosition(int xPos, int yPos, int zPos) {
         point.x = xPos;

@@ -14,8 +14,8 @@
 class Background : public Entity{
 
 public:
-    Background(Screen *screen, string spritePath, float parallaxSpeed, CollitionManager *collitionManager, list<CollitionBox*>* collitionBoxes);
-    ~Background();
+    Background(CollitionHandler* collitionHandler, BackgroundAppearance* appearance);
+    ~Background() override;
 
     //API
     //===============================

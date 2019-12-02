@@ -11,6 +11,8 @@ class Point {
 public:
     Point(int x, int y, int z);
 
+    void moveBy(int xAmount, int yAmount, int zAmount);
+
     int x;
     int y;
     int z;

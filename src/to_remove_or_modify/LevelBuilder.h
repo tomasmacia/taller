@@ -37,7 +37,6 @@ private:
     //===============================
     void initialize();
     void initializeNextLevel();
-    void initializeCollitionManager();
     void initializeCamera();
     void initializeWorld();
     void initializeLevelWidth();

@@ -20,6 +20,7 @@ public:
 
     void prepareForNextLevel();
     void untrack(CollitionBox* collitionBox);
+    list<CollitionBox*>* getCollitionsWith(CollitionBox* query);
 
     list<CollitionBox*>* getListOfHittedCollitionBox(CollitionBox* query);
     CollitionBox* getFirstPickedCollitionBox(CollitionBox* query);
@@ -33,7 +34,7 @@ public:
     CollitionBox* addBarrelBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
     CollitionBox* addScreenBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
 
-    bool anyBlockingCollitionsWith(CollitionBox* queryCollitionBox, Point* corrected);
+    bool anyBlockingCollitionsWith(CollitionBox* queryCollitionBox);
 
 private:
     void clearNonLevelPersistentCollitionBoxes();

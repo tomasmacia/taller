@@ -13,7 +13,7 @@
 class ScoreAppearance : public Appearance{
 
 public:
-    ScoreAppearance(Score* score);
+    ScoreAppearance(ScreenPosition* screenPosition, Score* score);
 
     void update();
 

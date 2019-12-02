@@ -6,6 +6,8 @@
 
 class StateDrivenAppearance : public Appearance {
 public:
+    StateDrivenAppearance(ScreenPosition* screenPosition, State* state);
+
     void update() override ;
 
 protected:
@@ -22,5 +24,7 @@ protected:
     int _imageCounter = 0;
 
     int DELAY;
+
+    State* _state = nullptr;
 };
 #endif //_MOBILE_RENDER_COMPONENT_H

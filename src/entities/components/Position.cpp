@@ -9,24 +9,17 @@ Position::Position(int x, int y, int z, CollitionHandler* collitionHandler) {
     _collitionHandler = collitionHandler;
 }
 
-void Position::ifValidChangeTo(int newX, int newY, int newZ) {
+void Position::tryToMoveTo(int newX, int newY, int newZ) {
+    auto* collitionHandler = (AnimatedEntityCollitionHandler*) _collitionHandler;
 
-    int prevX, prevY, prevZ, correctedX, correctedY, correctedZ;
+    auto* destination = new Point(newX,newY,newZ);
 
-    prevX = point->x;
-    prevY = point->y;
-    prevZ = point->z;
+    collitionHandler->correctDestination(destination);
 
-    setPosition(newX,newY,newZ);
-    _collitionHandler->moveCollitionBoxes(this);
+    setPosition(destination->x,destination->y,destination->z);
+    collitionHandler->moveAllCollitionBoxesKeepingRelativeDistancesTo(destination);
 
-    if (_collitionHandler->anyCollitions()){
-
-        Point* corrected = _collitionHandler->getCorrected();
-
-        setPosition(corrected->x,corrected->y,corrected->z);
-        _collitionHandler->moveCollitionBoxes(this);
-    }
+    delete(destination);
 }
 
 Position::~Position() {

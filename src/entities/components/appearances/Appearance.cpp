@@ -1,5 +1,9 @@
 #include "Appearance.h"
 
+Appearance::Appearance(ScreenPosition *screenPosition) {
+    _screenPosition = screenPosition;
+}
+
 Renderable* Appearance::generateRenderable() {
     if (onScreen()){
         return actuallyGenerateRenderable();

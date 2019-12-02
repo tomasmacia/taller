@@ -17,6 +17,8 @@ public:
 
     int setAttackedWith(AttackCode attack) override ;
 
+
+    bool isEnemy() override {return true;}
 private:
     int ENEMY_LIFE_AMOUNT = 100;
 };

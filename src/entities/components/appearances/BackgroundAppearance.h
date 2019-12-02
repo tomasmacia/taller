@@ -12,7 +12,7 @@ using namespace std;
 class BackgroundAppearance : public Appearance {
 
 public:
-    BackgroundAppearance(Screen* screen, string string_path, float parallaxSpeed);
+    BackgroundAppearance(ScreenPosition* screenPosition, string string_path, float parallaxSpeed);
 
     void update() override ;
     void init();

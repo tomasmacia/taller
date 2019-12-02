@@ -99,29 +99,25 @@ void LevelBuilder::initializeWorld() {
     if (!currentLevelSprites.far.empty()){
 
         string stritePath = currentLevelSprites.far.front();
-        auto *far = new Background(_screen, stritePath, FAR_SPEED_RATIO, nullptr);
-        _entityManager->addBackLayerBackgrounds(far);
+        _entityManager->addFar(stritePath,FAR_SPEED_RATIO);
     }
 
     if (!currentLevelSprites.middle.empty()){
 
         string stritePath = currentLevelSprites.middle.front();
-        auto *middle = new Background(_screen, stritePath, MIDDLE_SPEED_RATIO, _collitionManager, nullptr);
-        _entityManager->addBackLayerBackgrounds(middle);
+        _entityManager->addMiddle(stritePath, MIDDLE_SPEED_RATIO);
     }
 
     if (!currentLevelSprites.floor.empty()){
 
         string stritePath = currentLevelSprites.floor.front();
-        auto *floor = new Background(_screen, stritePath, FLOOR_SPEED_RATIO, _collitionManager, nullptr);
-        _entityManager->addBackLayerBackgrounds(floor);
+        _entityManager->addFloor(stritePath, FLOOR_SPEED_RATIO);
     }
 
     if (!currentLevelSprites.overlay.empty()){
 
         string stritePath = currentLevelSprites.overlay.front();
-        auto *overlay = new Background(_screen, stritePath, OVERLAY_SPEED_RATIO, _collitionManager, nullptr);
-        _entityManager->addBackLayerBackgrounds(overlay);
+        _entityManager->addOverlay(stritePath, OVERLAY_SPEED_RATIO);
     }
     LogManager::logDebug("[LEVEL]: Fondos inicializados");
 }
@@ -153,9 +149,7 @@ void LevelBuilder::initializePlayers() {
     int offset = (screenResolutionWidth - _screen->getMargin()) / (amountOfPlayers + 1);
     auto charactersConfigs = _config->gameplay.characters;
 
-    int x,y,z,w,h,walkingSpeed;
-
-
+    int x,y,z;
 
     int i = 0;
     IDManager::getInstance().initIDCounter();
@@ -167,7 +161,7 @@ void LevelBuilder::initializePlayers() {
         z = screenResolutionHeight/2;
 
         IDManager::getInstance().getNextId();
-        auto *player = _entityManager->addPlayer(x,y,z,w,h,newPlayerID,walkingSpeed);
+        auto *player = _entityManager->addPlayer(x,y,z,newPlayerID);
         _screen->setPlayer(player);
 
     }
@@ -178,12 +172,9 @@ void LevelBuilder::initializeEnemies() {
     LogManager::logDebug("[LEVEL]: Inicializando enemigos");
 
     int amountOfEnemies = _config->gameplay.npcs.size();
-    int w,h,walkingSpeed;
-
-
 
     for (int i = 0; i < _config->gameplay.npcs.size();i++) {
-        _entityManager->addEnemy(w,h,walkingSpeed);
+        _entityManager->addEnemy();
     }
     LogManager::logDebug("[LEVEL]: Enemigos inicializados: " + std::to_string(amountOfEnemies));
 }
@@ -191,18 +182,13 @@ void LevelBuilder::initializeEnemies() {
 void LevelBuilder::initializeWeapons() {
     LogManager::logDebug("[LEVEL]: Inicializando armas");
 
-    int knifeWidth, knifeHeight;
-
     for (int i = 0; i < _config->gameplay.weapons.knife.amount;i++) {
-        _entityManager->addWeapon(knifeWidth,knifeHeight);
+        _entityManager->addKnife();
     }
     LogManager::logDebug("[LEVEL]: Armas inicializadas: " + std::to_string(_config->gameplay.weapons.knife.amount));
 
-    int tubeWidth, tubeHeight;
-
-
     for (int i = 0; i < _config->gameplay.weapons.tube.amount;i++) {
-        _entityManager->addWeapon(tubeWidth,tubeHeight);
+        _entityManager->addTube();
     }
     LogManager::logDebug("[LEVEL]: Tubos de metal inicializados: " + std::to_string(_config->gameplay.weapons.tube.amount));
 }
@@ -210,18 +196,13 @@ void LevelBuilder::initializeWeapons() {
 void LevelBuilder::initializeUtilities() {
     LogManager::logDebug("[LEVEL]: Inicializando cajas y barriles");
 
-    int boxWidth, boxHeight;
-
     for (int i = 0; i < _config->gameplay.utilities.box.amount;i++) {
-        _entityManager->addUtilitiy(boxWidth, boxHeight);
+        _entityManager->addBox();
     }
     LogManager::logDebug("[LEVEL]: Cajas inicializadas: " + std::to_string(_config->gameplay.utilities.box.amount));
 
-    int barrelWidth, barrrelHeight;
-
-
     for (int i = 0; i < _config->gameplay.utilities.barrel.amount;i++) {
-        _entityManager->addUtilitiy(barrelWidth, barrrelHeight);
+        _entityManager->addBarrel();
     }
     LogManager::logDebug("[LEVEL]: Barriles inicializados: " + std::to_string(_config->gameplay.utilities.barrel.amount));
 }

@@ -7,7 +7,7 @@
 
 class EnemyAppearance : public StateDrivenAppearance {
 public:
-    EnemyAppearance(int w, int h, ScreenPosition* screenPosition, NPC *npcConfig);
+    EnemyAppearance(int w, int h, ScreenPosition* screenPosition, State* state, NPC *npcConfig);
 
 protected:
     void init() override ;

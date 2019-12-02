@@ -14,7 +14,7 @@
 
 class Attack {
 public:
-    Attack(AnimatedEntity* owner, State* state, AnimatedEntityCollitionHandler* animatedEntityCollitionHandler);
+    Attack(State* state, AnimatedEntityCollitionHandler* animatedEntityCollitionHandler);
 
     void update();
 
@@ -22,6 +22,10 @@ public:
     void addressKick();
     void addressJumpKick();
     void addressPickIntent();
+
+    void setOwner(AnimatedEntity* owner){
+        this->owner = owner;
+    }
 
     void setWeapon(Weapon* weapon){
         this->weapon = weapon;

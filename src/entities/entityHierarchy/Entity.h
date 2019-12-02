@@ -23,7 +23,12 @@ public:
 
 protected:
     CollitionHandler* collitionHandler = nullptr;
-};
 
+    //mea culpa
+public:
+    virtual bool isScreen(){return false;}
+    virtual bool isEnemy(){return false;}
+    virtual bool isFinalBoss(){return false;}
+};
 
 #endif //GAME_ENTITY_H

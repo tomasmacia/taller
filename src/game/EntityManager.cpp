@@ -15,6 +15,9 @@
 #include "../entities/Score.h"
 #include "../entities/components/ID.h"
 #include "../entities/components/appearances/ScoreAppearance.h"
+#include "../entities/components/Attack.h"
+#include "../entities/components/IA.h"
+#include "../entities/components/appearances/EnemyAppearance.h"
 
 //CONSTRUCTOR
 //=========================================================================================
@@ -86,7 +89,7 @@ void EntityManager::prepareForNextLevel(){
     physicalEntities.clear();
     destroyNonLevelPersistentEntities();
     enemies.clear();
-    inanimatedEntities.clear();
+    unanimatedEntities.clear();
     backLayerBackgrounds.clear();
     fronLayerBackgrounds.clear();
 
@@ -113,53 +116,67 @@ void EntityManager::disconectPlayerByID(int id){
 
 //ADDING NEW ENTITIES
 //=========================================================================================
-Character* EntityManager::addPlayer(int x, int y, int z, int w, int h, int id, int walkingSpeed) {
-    Character* character = createCharacter(x,y,z,w,h,id,walkingSpeed);
+Character* EntityManager::addPlayer(int x, int y, int z, int id) {
+    Character* character = createCharacter(x,y,z,id);
     players.push_back(character);
     physicalEntities.push_back(character);
 }
 
-void EntityManager::addEnemy(int w, int h, int walkingSpeed) {
-    Enemy* enemy = createEnemy(w,h,walkingSpeed);
-    nonLevelPersistentEntities.push_back(enemy);
+void EntityManager::addEnemy() {
+    Enemy* enemy = createEnemy();
+    nonLevelPersistentEntities.push_back((Entity*) enemy);
     enemies.push_back(enemy);
     physicalEntities.push_back(enemy);
 }
 
-void EntityManager::addKnife(int w, int h) {
-    auto* knife = createKnife(w,h);
-    nonLevelPersistentEntities.push_back(knife);
-    inanimatedEntities.push_back(knife);
+void EntityManager::addKnife() {
+    auto* knife = createKnife();
+    nonLevelPersistentEntities.push_back((Entity*) knife);
+    unanimatedEntities.push_back(knife);
     physicalEntities.push_back(knife);
 }
 
-void EntityManager::addTube(int w, int h) {
-    auto* tube = createTube(w,h);
-    nonLevelPersistentEntities.push_back(tube);
-    inanimatedEntities.push_back(tube);
+void EntityManager::addTube() {
+    auto* tube = createTube();
+    nonLevelPersistentEntities.push_back((Entity*) tube);
+    unanimatedEntities.push_back(tube);
     physicalEntities.push_back(tube);
 }
 
-void EntityManager::addBox(int w, int h) {
-    auto* box = createBox(w,h);
-    nonLevelPersistentEntities.push_back(box);
-    inanimatedEntities.push_back(box);
+void EntityManager::addBox() {
+    auto* box = createBox();
+    nonLevelPersistentEntities.push_back((Entity*) box);
+    unanimatedEntities.push_back(box);
     physicalEntities.push_back(box);
 }
 
-void EntityManager::addBarrel(int w, int h) {
-    auto* barrel = createBarrel(w,h);
-    nonLevelPersistentEntities.push_back(barrel);
-    inanimatedEntities.push_back(barrel);
+void EntityManager::addBarrel() {
+    auto* barrel = createBarrel();
+    nonLevelPersistentEntities.push_back((Entity*) barrel);
+    unanimatedEntities.push_back(barrel);
     physicalEntities.push_back(barrel);
 }
 
-void EntityManager::addBackLayerBackgrounds(Background* background) {
+void EntityManager::addFar(const string &spritePath, float parallaxSpeed) {
+    auto* background = createFar(spritePath,parallaxSpeed);
     nonLevelPersistentEntities.push_back(background);
     backLayerBackgrounds.push_back(background);
 }
 
-void EntityManager::addFrontLayerBackgrounds(Background* background) {
+void EntityManager::addMiddle(const string &spritePath, float parallaxSpeed) {
+    auto* background = createMiddle(spritePath,parallaxSpeed);
+    nonLevelPersistentEntities.push_back(background);
+    fronLayerBackgrounds.push_back(background);
+}
+
+void EntityManager::addFloor(const string &spritePath, float parallaxSpeed) {
+    auto* background = createFloor(spritePath,parallaxSpeed);
+    nonLevelPersistentEntities.push_back(background);
+    backLayerBackgrounds.push_back(background);
+}
+
+void EntityManager::addOverlay(const string &spritePath, float parallaxSpeed) {
+    auto* background = createOverlay(spritePath,parallaxSpeed);
     nonLevelPersistentEntities.push_back(background);
     fronLayerBackgrounds.push_back(background);
 }
@@ -172,84 +189,113 @@ Screen* EntityManager::addScreen(int screenWidth, int screenHeight, int levelWid
 
 //ADDING NEW ENTITIES
 //=========================================================================================
-Character *EntityManager::createCharacter(int x, int y, int z, int w, int h, int id, int walkingSpeed) {
+Character *EntityManager::createCharacter(int x, int y, int z, int id) {
+
+    int w = config->screenResolution.width*CHARACTER_WIDTH_SCALE;
+    int h = config->screenResolution.height*CHARACTER_HEIGHT_SCALE;
+    int walkingSpeed = config->screenResolution.width/WAKING_SPEED_FACTOR;
+    int jumpingSpeed = config->screenResolution.height/JUMPING_SPEED_FACTOR;
 
     auto* idComponent = new ID(id);
     auto* will = new InputPoller(controller, idComponent);
     auto* state = new State(will);
 
-    auto* punchBox = new CollitionBox(x, y, z, w, h, -1,-1);
-    auto* kickBox = new CollitionBox(x, y, z, w, h, -1,-1);
+    auto* pickBox = new CollitionBox(x, y, z, w*2, h, -1,-1);
+    auto* punchBox = new CollitionBox(x, y, z, w*1.5, h, -1,-1);
+    auto* kickBox = new CollitionBox(x, y, z, w*1.5, h, -1,-1);
     auto* collitionBox = collitionManager->addCharacterBlockingCollitionBox(x, y, z, w, h, -1);
-    auto* collitionHandler = new AnimatedEntityCollitionHandler(punchBox, kickBox, collitionBox, collitionManager, state);
+    auto* collitionHandler = new AnimatedEntityCollitionHandler(collitionManager, punchBox, kickBox, collitionBox, pickBox);
 
     auto* position = new Position(x, y, z, collitionHandler);
-    auto* physics = new Physics(state,position,walkingSpeed);
+    auto* physics = new Physics(state,position,walkingSpeed,jumpingSpeed);
     auto* screenPosition = new ScreenPosition(position,screen);
     auto* appearance = new CharacterAppearance(w, h, screenPosition, state, config->gameplay.characters.at(players.size()));
     auto* sound = new Sound(state);
-    auto* damage = new Damage(state);
+    auto* damage = new Damage();
     auto* life = new Life(state);
     auto* score = new Score();
     auto* scoreAppearance = new ScoreAppearance(score);
+    auto* attack = new Attack(state, collitionHandler);
 
-    return new Character(will, state, collitionHandler, position, physics, screenPosition,
-                         appearance, sound, damage,life, idComponent, score, scoreAppearance);
+    return new Character(collitionHandler, life, damage, score, position,
+                          state, screenPosition, appearance, sound,
+                          will, physics, attack, id, scoreAppearance);
 }
 
-Enemy *EntityManager::createEnemy(int w, int h, int walkingSpeed) {
+Enemy *EntityManager::createEnemy() {
+
+    int w = config->screenResolution.width*ENEMY_WIDTH_SCALE;
+    int h = config->screenResolution.height*ENEMY_HEIGHT_SCALE;
+    int walkingSpeed = config->screenResolution.width/WAKING_SPEED_FACTOR;
+
+    int x;
+    int y;
+    int z;
 
     auto* will = new IA();
     auto* state = new State(will);
-
-    auto* punchBox = new CollitionBox(x, y, z, w, h, -1,-1);
-    auto* kickBox = new CollitionBox(x, y, z, w, h, -1,-1);
-    auto* collitionBox = collitionManager->addBlockingCollitionBox(x, y, z, w, h, -1);
-    auto* collitionHandler = new AnimatedEntityCollitionHandler(punchBox, kickBox, collitionBox, collitionManager, state);
+    
+    auto* punchBox = new CollitionBox(x, y, z, w*1.5, h, -1,-1);
+    auto* collitionBox = collitionManager->addEnemyBlockingCollitionBox(x, y, z, w, h, -1);
+    auto* collitionHandler = new AnimatedEntityCollitionHandler(collitionManager, punchBox, collitionBox);
 
     auto* position = new Position(x, y, z, collitionHandler);
     auto* physics = new Physics(state,position,walkingSpeed);
     auto* screenPosition = new ScreenPosition(position,screen);
-    auto* appearance = new EnemyAppearance(w, h, screenPosition, state, config->gameplay.characters.at(players.size()));
+    auto* appearance = new EnemyAppearance(w, h, screenPosition, state, config->gameplay.npcs.front());
     auto* sound = new Sound(state);
-    auto* damage = new Damage(state);
+    auto* damage = new Damage();
     auto* life = new Life(state);
     auto* score = new Score();
 
-    return new Enemy(will, state, collitionHandler, position, physics, screenPosition,
-                         appearance, sound, damage,life, score);
+    return new Enemy(collitionHandler, life, damage, score, position,
+                     state, screenPosition, appearance, sound,
+                     will, physics);
 }
 
 
-Knife* EntityManager::createKnife(int w, int h) {
+Knife* EntityManager::createKnife() {
+
+    int w = config->screenResolution.width*WEAPON_WIDTH_SCALE;
+    int h = config->screenResolution.height*WEAPON_HEIGHT_SCALE;
 
 }
 
-Tube* EntityManager::createTube(int w, int h) {
+Tube* EntityManager::createTube() {
+
+    int w = config->screenResolution.width*WEAPON_WIDTH_SCALE;
+    int h = config->screenResolution.height*WEAPON_HEIGHT_SCALE;
 
 }
 
-Box* EntityManager::createBox(int w, int h) {
+Box* EntityManager::createBox() {
+
+    int w = config->screenResolution.width*UTILITY_WIDTH_SCALE;
+    int h = config->screenResolution.height*UTILITY_HEIGHT_SCALE;
+
 
 }
 
-Barrel* EntityManager::createBarrel(int w, int h) {
+Barrel* EntityManager::createBarrel() {
+
+    int w = config->screenResolution.width*UTILITY_WIDTH_SCALE;
+    int h = config->screenResolution.height*UTILITY_HEIGHT_SCALE;
 
 }
 
-Background* EntityManager::createFar() {
+Background* EntityManager::createFar(const string& spritePath, float parallaxSpeed) {
 
 }
 
-Background* EntityManager::createMiddle() {
+Background* EntityManager::createMiddle(const string& spritePath, float parallaxSpeed) {
 
 }
 
-Background* EntityManager::createFloor() {
+Background* EntityManager::createFloor(const string& spritePath, float parallaxSpeed) {
 
 }
 
-Background* EntityManager::createOverlay() {
+Background* EntityManager::createOverlay(const string& spritePath, float parallaxSpeed) {
 
 }
 
@@ -288,13 +334,13 @@ void EntityManager::eraseDeadEntities() {
     }
 }
 
-void EntityManager::untrackDead(Entity *entity) {
+void EntityManager::untrackDead(PhysicalEntity *entity) {
 
-    nonLevelPersistentEntities.remove(entity);
-    players.remove(entity);
-    enemies.remove(entity);
-    inanimatedEntities.remove(entity);
-    specialEntities.remove(entity);
+    nonLevelPersistentEntities.remove((Entity*) entity);
+    players.remove((Character*) entity);
+    enemies.remove((Enemy*) entity);
+    unanimatedEntities.remove((UnanimatedEntity*) entity);
+    specialEntities.remove((Entity*) entity);
     physicalEntities.remove(entity);
 }
 
@@ -310,7 +356,7 @@ EntityManager::~EntityManager() {
     destroyAllEntities();
     physicalEntities.clear();
     enemies.clear();
-    inanimatedEntities.clear();
+    unanimatedEntities.clear();
     specialEntities.clear();
     nonLevelPersistentEntities.clear();
     players.clear();

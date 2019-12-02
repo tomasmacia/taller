@@ -4,9 +4,8 @@
 
 #include "Attack.h"
 
-Attack::Attack(AnimatedEntity* owner, State* state, AnimatedEntityCollitionHandler* animatedEntityCollitionHandler){
+Attack::Attack(State* state, AnimatedEntityCollitionHandler* animatedEntityCollitionHandler){
 
-    this->owner = owner;
     this->state = state;
     this->collitionHandler = animatedEntityCollitionHandler;
 }

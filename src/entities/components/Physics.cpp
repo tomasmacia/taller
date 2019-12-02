@@ -6,12 +6,13 @@
 #include "Position.h"
 #include "State.h"
 
-Physics::Physics(State* state, Position* position, int walkingSpeed){
+Physics::Physics(State* state, Position* position, int walkingSpeed, int jumpingSpeed){
     _state = state;
     _position = position;
 
     DEFAULT_WALKING_VELOCITY_X = walkingSpeed;
     DEFAULT_WALKING_VELOCITY_Z = walkingSpeed;
+    DEFAULT_JUMPING_VELOCITY_Y = jumpingSpeed;
 
     init();
 }
@@ -36,7 +37,7 @@ void Physics::update() {
     int newY = (int)((float)prevY - _velocityY); //resto porque el SDL tiene el eje Y al revez
     int newZ = (int)((float)prevZ - _velocityZ); //resto porque el SDL tiene el eje Y al revez
 
-    _position->ifValidChangeTo(newX,newY,newZ);
+    _position->tryToMoveTo(newX, newY, newZ);
 }
 
 void Physics::handleCurrentState(){
@@ -172,5 +173,5 @@ void Physics::drag(){
 
     int newX = prevX + DEFAULT_WALKING_VELOCITY_X;
 
-    _position->ifValidChangeTo(newX,prevY,prevZ);
+    _position->tryToMoveTo(newX, prevY, prevZ);
 }

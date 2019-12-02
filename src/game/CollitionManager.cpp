@@ -106,16 +106,35 @@ CollitionBox *CollitionManager::getFirstPickedCollitionBox(CollitionBox *query) 
     }
 }
 
-bool CollitionManager::anyBlockingCollitionsWith(CollitionBox *queryCollitionBox, Point* corrected) {
+bool CollitionManager::anyBlockingCollitionsWith(CollitionBox *queryCollitionBox) {
 
     for (auto* collitionBox: *_blockingCollitionBoxes){
         if (collitionBox->getID() != queryCollitionBox->getID()){
-            if (collitionBox->intersectsWith(queryCollitionBox, corrected)){
+            if (collitionBox->intersectsWith(queryCollitionBox)){
                 return true;
             }
         }
     }
     return false;
+}
+
+list<CollitionBox*>* CollitionManager::getCollitionsWith(CollitionBox *query) {
+
+    auto collitions = new list<CollitionBox*>();
+
+    for (auto collitionBox : *_blockingCollitionBoxes){
+        if (collitionBox->getID() != query->getID() ){
+            if (collitionBox->intersectsWith(query)){
+
+                if (!((collitionBox->getOwner()->isScreen() && query->getOwner()->isEnemy()) ||
+                    (collitionBox->getOwner()->isScreen() && query->getOwner()->isFinalBoss()))){
+
+                    collitions->push_back(collitionBox);
+                }
+            }
+        }
+    }
+    return collitions;
 }
 
 void CollitionManager::prepareForNextLevel() {
@@ -127,6 +146,13 @@ void CollitionManager::clearNonLevelPersistentCollitionBoxes(){
     _weaponCollitionBoxes->clear();
 }
 
+void CollitionManager::untrack(CollitionBox* collitionBox) {
+    _blockingCollitionBoxes->remove(collitionBox);
+    _nonLevelPersistentCollitionBoxes->remove(collitionBox);
+    _weaponCollitionBoxes->remove(collitionBox);
+    _characterCollitionBoxes->remove(collitionBox);
+}
+
 CollitionManager::~CollitionManager(){
     _blockingCollitionBoxes->clear();
     delete(_blockingCollitionBoxes);
@@ -136,11 +162,4 @@ CollitionManager::~CollitionManager(){
     delete(_weaponCollitionBoxes);
     _nonLevelPersistentCollitionBoxes->clear();
     delete(_nonLevelPersistentCollitionBoxes);
-}
-
-void CollitionManager::untrack(CollitionBox* collitionBox) {
-    _blockingCollitionBoxes->remove(collitionBox);
-    _nonLevelPersistentCollitionBoxes->remove(collitionBox);
-    _weaponCollitionBoxes->remove(collitionBox);
-    _characterCollitionBoxes->remove(collitionBox);
 }

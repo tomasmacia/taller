@@ -7,7 +7,7 @@
 
 class Physics {
 public:
-    Physics(State* state, Position* position, int walkingSpeed);
+    Physics(State* state, Position* position, int walkingSpeed, int jumpingSpeed);
 
     void update();
     void init();
@@ -26,7 +26,7 @@ private:
     float _velocityZ;
 
     float DEFAULT_JUMPING_ACCELERATION_Y = 10;
-    float DEFAULT_JUMPING_VELOCITY_Y = 10;          //how high is the jump
+    float DEFAULT_JUMPING_VELOCITY_Y;
 
     float _accelerationX = 0;
     float _accelerationY = DEFAULT_JUMPING_ACCELERATION_Y;
