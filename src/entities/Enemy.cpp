@@ -16,6 +16,7 @@ Enemy::Enemy(CollitionHandler *collitionHandler, Life *life, Damage *damage, Sco
 
 int Enemy::setAttackedWith(AttackCode attack) {
 
+    AnimatedEntity::setAttackedWith(attack);
     int damageInflicted = damage->enemyAttackedWith(attack);
 
     life->decreseBy(damageInflicted);

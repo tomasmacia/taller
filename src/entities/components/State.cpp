@@ -11,16 +11,18 @@ void State::update(){
 
 void State::setIncoming(Action incoming){
 
-    if (isEndOfMovement(incoming)){
-        deactivateCorrespondingPreviousOngoingMovements(incoming);
-    }
+    if (incoming != NONE){
+        if (isEndOfMovement(incoming)){
+            deactivateCorrespondingPreviousOngoingMovements(incoming);
+        }
 
-    if (isBlockingAction(_currentState)){
-        //pass
-    }
-    else{
-        updateMovementState(incoming);
-        _currentState = incoming;
+        if (isBlockingAction(_currentState)){
+            //pass
+        }
+        else{//es un movimiento el incoming
+            updateMovementState(incoming);
+            _currentState = incoming;
+        }
     }
 }
 
@@ -82,9 +84,25 @@ void State::updateMovementState(Action incoming){
                 _currentState = LEFT;
             }
             break;
-        default:
-            //pass
-            break;
+    }
+}
+
+Action State::pickOneOngoingMovement(){
+
+    if (movingRight){
+        return RIGHT;
+    }
+    if (movingLeft){
+        return LEFT;
+    }
+    if (movingDown){
+        return DOWN;
+    }
+    if (movingUp){
+        return UP;
+    }
+    else{
+        return NONE;
     }
 }
 
@@ -99,7 +117,7 @@ bool State::isNotBlockingAction(Action action){
 bool State::isBlockingAction(Action action){
     return  (action == JUMP || action == PUNCH ||
             action == KICK || action == JUMP_KICK ||
-            action == CROUCH || action == DYING || action == DEAD);
+            action == CROUCH || action == DYING || action == DEAD || action == BEING_ATTACKED);
 }
 
 bool State::isEndOfMovement(Action action){
@@ -119,7 +137,7 @@ void State::setFinished(){
             _currentState = DEAD;
         }
         else {
-            _currentState = NONE;
+            _currentState = pickOneOngoingMovement();
         }
     }
 }
@@ -162,4 +180,8 @@ void State::setDying() {
 
 bool State::dead() {
     return _currentState == DEAD;
+}
+
+void State::setBeingAttacked() {
+    _currentState = BEING_ATTACKED;
 }

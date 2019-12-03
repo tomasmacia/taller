@@ -33,6 +33,11 @@ Sendable *PhysicalEntity::generateSendable() {
     return new Sendable(renderable, soundable);
 }
 
+int PhysicalEntity::setAttackedWith(AttackCode attackCode) {
+    state->setBeingAttacked();
+    return 0;
+}
+
 int PhysicalEntity::getX() {
     return position->getX();
 }

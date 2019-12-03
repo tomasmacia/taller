@@ -53,6 +53,7 @@ Character::~Character() {
 
 int Character::setAttackedWith(AttackCode attackCode) {
 
+    AnimatedEntity::setAttackedWith(attackCode);
     int damageInflicted = damage->characterAttackedWith(attackCode);
 
     life->decreseBy(damageInflicted);

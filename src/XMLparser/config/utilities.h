@@ -5,7 +5,7 @@
 #ifndef GAME_UTILITIES_H
 #define GAME_UTILITIES_H
 
-#include "utility.h"
+#include "UtilityConfig.h"
 
 class Utilities {
 public:

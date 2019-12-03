@@ -1,9 +1,11 @@
 #include "BackgroundAppearance.h"
 
-BackgroundAppearance::BackgroundAppearance(ScreenPosition* screenPosition, string string_path, float parallaxSpeed) : Appearance(screenPosition) {
-    currentSprite = string_path;
+#include <utility>
+
+BackgroundAppearance::BackgroundAppearance(Screen* screen, string string_path, float parallaxSpeed) {
+    currentSprite = std::move(string_path);
     _parallaxSpeed = parallaxSpeed;
-    _screen = screenPosition->getScreen();
+    _screen = screen;
     init();
 }
 

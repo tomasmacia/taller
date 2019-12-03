@@ -200,10 +200,10 @@ Character *EntityManager::createCharacter(int x, int y, int z, int id) {
     auto* will = new InputPoller(controller, idComponent);
     auto* state = new State(will);
 
-    auto* pickBox = new CollitionBox(x, y, z, w*2, h, -1,-1);
-    auto* punchBox = new CollitionBox(x, y, z, w*1.5, h, -1,-1);
-    auto* kickBox = new CollitionBox(x, y, z, w*1.5, h, -1,-1);
-    auto* collitionBox = collitionManager->addCharacterBlockingCollitionBox(x, y, z, w, h, -1);
+    auto* pickBox = new CollitionBox(x, y, z, w * PICK_COLLITON_BOX_SCALE_FACTOR, h * PICK_COLLITON_BOX_SCALE_FACTOR, DEFAULT_COLLITION_BOX_DEPTH * PICK_COLLITON_BOX_SCALE_FACTOR, NON_TRACKABLE_COLLITION_BOX_ID);
+    auto* punchBox = new CollitionBox(x, y, z, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH,NON_TRACKABLE_COLLITION_BOX_ID);
+    auto* kickBox = new CollitionBox(x, y, z, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH,NON_TRACKABLE_COLLITION_BOX_ID);
+    auto* collitionBox = collitionManager->createCharacterBlockingCollitionBox(x, y, z, w, h, DEFAULT_COLLITION_BOX_DEPTH);
     auto* collitionHandler = new AnimatedEntityCollitionHandler(collitionManager, punchBox, kickBox, collitionBox, pickBox);
 
     auto* position = new Position(x, y, z, collitionHandler);
@@ -234,9 +234,11 @@ Enemy *EntityManager::createEnemy() {
 
     auto* will = new IA();
     auto* state = new State(will);
-    
-    auto* punchBox = new CollitionBox(x, y, z, w*1.5, h, -1,-1);
-    auto* collitionBox = collitionManager->addEnemyBlockingCollitionBox(x, y, z, w, h, -1);
+
+    auto* pickBox = new CollitionBox(x, y, z, w * PICK_COLLITON_BOX_SCALE_FACTOR, h * PICK_COLLITON_BOX_SCALE_FACTOR, DEFAULT_COLLITION_BOX_DEPTH * PICK_COLLITON_BOX_SCALE_FACTOR, NON_TRACKABLE_COLLITION_BOX_ID);
+    auto* punchBox = new CollitionBox(x, y, z, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH,NON_TRACKABLE_COLLITION_BOX_ID);
+    auto* kickBox = new CollitionBox(x, y, z, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH,NON_TRACKABLE_COLLITION_BOX_ID);
+    auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(x, y, z, w, h, DEFAULT_COLLITION_BOX_DEPTH);
     auto* collitionHandler = new AnimatedEntityCollitionHandler(collitionManager, punchBox, collitionBox);
 
     auto* position = new Position(x, y, z, collitionHandler);

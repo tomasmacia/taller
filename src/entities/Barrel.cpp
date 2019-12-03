@@ -6,6 +6,7 @@
 
 int Barrel::setAttackedWith(AttackCode attack) {
 
+    PhysicalEntity::setAttackedWith(attack);
     int damageInflicted = damage->barrelAttackedWith(attack);
 
     life->decreseBy(damageInflicted);

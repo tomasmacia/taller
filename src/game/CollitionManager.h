@@ -25,14 +25,14 @@ public:
     list<CollitionBox*>* getListOfHittedCollitionBox(CollitionBox* query);
     CollitionBox* getFirstPickedCollitionBox(CollitionBox* query);
 
-    CollitionBox* addCharacterBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
-    CollitionBox* addEnemyBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
-    CollitionBox* addBackgroundBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
-    CollitionBox* addKnifeBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
-    CollitionBox* addTubeBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
-    CollitionBox* addBoxBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
-    CollitionBox* addBarrelBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
-    CollitionBox* addScreenBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
+    CollitionBox* createCharacterBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
+    CollitionBox* createEnemyBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
+    CollitionBox* createBackgroundBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
+    CollitionBox* createKnifeBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
+    CollitionBox* createTubeBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
+    CollitionBox* createBoxBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
+    CollitionBox* createBarrelBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
+    CollitionBox* createScreenBlockingCollitionBox(int x, int y, int z, int w, int h, int d);
 
     bool anyBlockingCollitionsWith(CollitionBox* queryCollitionBox);
 

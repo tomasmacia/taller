@@ -9,7 +9,7 @@ CollitionManager::CollitionManager() {
     _blockingCollitionBoxes = new list<CollitionBox*>();
 }
 
-CollitionBox *CollitionManager::addCharacterBlockingCollitionBox(int x, int y, int z, int w, int h, int d) {
+CollitionBox *CollitionManager::createCharacterBlockingCollitionBox(int x, int y, int z, int w, int h, int d) {
 
     auto* newCollitionBox = new CollitionBox(x,y,z,w,h,d,newID);
     _blockingCollitionBoxes->push_back(newCollitionBox);
@@ -17,16 +17,7 @@ CollitionBox *CollitionManager::addCharacterBlockingCollitionBox(int x, int y, i
     return newCollitionBox;
 }
 
-CollitionBox *CollitionManager::addEnemyBlockingCollitionBox(int x, int y, int z, int w, int h, int d) {
-
-    auto* newCollitionBox = new CollitionBox(x,y,z,w,h,d,newID);
-    _blockingCollitionBoxes->push_back(newCollitionBox);
-    _nonLevelPersistentCollitionBoxes->push_back(newCollitionBox);
-    newID++;
-    return newCollitionBox;
-}
-
-CollitionBox *CollitionManager::addBackgroundBlockingCollitionBox(int x, int y, int z, int w, int h, int d) {
+CollitionBox *CollitionManager::createEnemyBlockingCollitionBox(int x, int y, int z, int w, int h, int d) {
 
     auto* newCollitionBox = new CollitionBox(x,y,z,w,h,d,newID);
     _blockingCollitionBoxes->push_back(newCollitionBox);
@@ -35,7 +26,16 @@ CollitionBox *CollitionManager::addBackgroundBlockingCollitionBox(int x, int y, 
     return newCollitionBox;
 }
 
-CollitionBox *CollitionManager::addKnifeBlockingCollitionBox(int x, int y, int z, int w, int h, int d) {
+CollitionBox *CollitionManager::createBackgroundBlockingCollitionBox(int x, int y, int z, int w, int h, int d) {
+
+    auto* newCollitionBox = new CollitionBox(x,y,z,w,h,d,newID);
+    _blockingCollitionBoxes->push_back(newCollitionBox);
+    _nonLevelPersistentCollitionBoxes->push_back(newCollitionBox);
+    newID++;
+    return newCollitionBox;
+}
+
+CollitionBox *CollitionManager::createKnifeBlockingCollitionBox(int x, int y, int z, int w, int h, int d) {
 
     auto* newCollitionBox = new CollitionBox(x,y,z,w,h,d,newID);
     _blockingCollitionBoxes->push_back(newCollitionBox);
@@ -45,7 +45,7 @@ CollitionBox *CollitionManager::addKnifeBlockingCollitionBox(int x, int y, int z
     return newCollitionBox;
 }
 
-CollitionBox *CollitionManager::addTubeBlockingCollitionBox(int x, int y, int z, int w, int h, int d) {
+CollitionBox *CollitionManager::createTubeBlockingCollitionBox(int x, int y, int z, int w, int h, int d) {
 
     auto* newCollitionBox = new CollitionBox(x,y,z,w,h,d,newID);
     _blockingCollitionBoxes->push_back(newCollitionBox);
@@ -55,7 +55,7 @@ CollitionBox *CollitionManager::addTubeBlockingCollitionBox(int x, int y, int z,
     return newCollitionBox;
 }
 
-CollitionBox *CollitionManager::addBoxBlockingCollitionBox(int x, int y, int z, int w, int h, int d) {
+CollitionBox *CollitionManager::createBoxBlockingCollitionBox(int x, int y, int z, int w, int h, int d) {
 
     auto* newCollitionBox = new CollitionBox(x,y,z,w,h,d,newID);
     _blockingCollitionBoxes->push_back(newCollitionBox);
@@ -64,7 +64,7 @@ CollitionBox *CollitionManager::addBoxBlockingCollitionBox(int x, int y, int z, 
     return newCollitionBox;
 }
 
-CollitionBox *CollitionManager::addBarrelBlockingCollitionBox(int x, int y, int z, int w, int h, int d) {
+CollitionBox *CollitionManager::createBarrelBlockingCollitionBox(int x, int y, int z, int w, int h, int d) {
 
     auto* newCollitionBox = new CollitionBox(x,y,z,w,h,d,newID);
     _blockingCollitionBoxes->push_back(newCollitionBox);
@@ -73,7 +73,7 @@ CollitionBox *CollitionManager::addBarrelBlockingCollitionBox(int x, int y, int 
     return newCollitionBox;
 }
 
-CollitionBox *CollitionManager::addScreenBlockingCollitionBox(int x, int y, int z, int w, int h, int d) {
+CollitionBox *CollitionManager::createScreenBlockingCollitionBox(int x, int y, int z, int w, int h, int d) {
 
     auto* newCollitionBox = new CollitionBox(x,y,z,w,h,d,newID);
     _blockingCollitionBoxes->push_back(newCollitionBox);

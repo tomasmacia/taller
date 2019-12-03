@@ -22,6 +22,7 @@ enum Action {
     JUMP_KICK,
     CROUCH,
     PICK,
+    BEING_ATTACKED,
     DYING,
     DEAD,
     QUIT,

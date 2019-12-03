@@ -5,9 +5,15 @@
 #ifndef GAME_FINALBOSSAPPEARANCE_H
 #define GAME_FINALBOSSAPPEARANCE_H
 
+#include "AnimatedAppearance.h"
+#include "../../../XMLparser/config/npc.h"
 
-class FinalBossAppearance {
+class FinalBossAppearance : public AnimatedAppearance{
+public:
+    FinalBossAppearance(int w, int h, ScreenPosition* screenPosition, State* state, NPC npcConfig);
 
+protected:
+    void init() override ;
 };
 
 

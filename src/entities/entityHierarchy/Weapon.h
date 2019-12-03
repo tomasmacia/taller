@@ -12,6 +12,7 @@ class Weapon : public UnanimatedEntity{
 
 public:
     virtual int useOn(Entity* entity);
+    void getPicked();
 
 protected:
     int USES_AMOUNT = 3;

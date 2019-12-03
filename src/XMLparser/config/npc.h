@@ -6,13 +6,13 @@
 #define GAME_NPC_H
 
 #include <string>
+#include "EntityConfig.h"
 
 using namespace std;
 
-class NPC {
+class NPC : public EntityConfig{
 public:
     string difficulty; // maybe map it as an enum?
-    string walk;
 };
 
 #endif //GAME_NPC_H

@@ -1,12 +1,25 @@
 #include "StateDrivenAppearance.h"
 
 StateDrivenAppearance::StateDrivenAppearance(ScreenPosition* screenPosition, State *state) : Appearance(screenPosition){
+    _screenPosition = screenPosition;
     _state = state;
+}
+
+Renderable* StateDrivenAppearance::generateRenderable() {
+
+    if (onScreen()){
+        return actuallyGenerateRenderable();
+    }
+    else{
+        return nullptr;
+    }
 }
 
 void StateDrivenAppearance::update() {
 
-    handleCurrentState();
+    if (!isTransparent()){
+        handleCurrentState();
+    }
     loadNextImage();
     updateDestRectPosition();
 }
@@ -27,10 +40,6 @@ void StateDrivenAppearance::loadNextImage(){
     _imageCounter = _imageCounter % (_imageAmount * DELAY);
 }
 
-bool StateDrivenAppearance::isFliped() {
-    return _state->isFliped();
-}
-
 Renderable *StateDrivenAppearance::actuallyGenerateRenderable() {
     return new Renderable(currentSprite,srcRect,destRect,isFliped());
 }
@@ -42,4 +51,6 @@ void StateDrivenAppearance::updateDestRectPosition(){
     destRect.y = _screenPosition->getY();
 }
 
-
+bool StateDrivenAppearance::isFliped() {
+    return _state->isFliped();
+}

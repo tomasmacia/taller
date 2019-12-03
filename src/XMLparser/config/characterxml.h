@@ -6,19 +6,13 @@
 #define GAME_CHARACTERXML_H
 
 #include <string>
+#include "EntityConfig.h"
 
 using namespace std;
 
-class CharacterXML {
+class CharacterXML : public EntityConfig {
 public:
     string name;
-    string stand;
-    string walk;
-    string jump;
-    string punch;
-    string crouch;
-    string kick;
-    string jumpkick;
     string disconnected;
 };
 

@@ -56,14 +56,9 @@ private:
     Entity* owner = nullptr;
 
     int id;
-    int DEFAULT_WIDTH = 10;
-    int DEFAULT_HEIGHT = 10;
-    int DEFAULT_DEPTH = 10;
 
-    int DEFAULT_NULL_ID = -1;   //es la id que tienen todos los colition box que no estan//trackeados por el CollitionManager
     int w;
     int h;
-
     int d;
 };
 

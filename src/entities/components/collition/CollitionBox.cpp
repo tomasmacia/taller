@@ -6,19 +6,6 @@
 
 CollitionBox::CollitionBox(int x, int y, int z, int w, int h, int d, int id) {
 
-    if (w == -1){
-        w = DEFAULT_WIDTH;
-    }
-    if (h == -1){
-        h = DEFAULT_HEIGHT;
-    }
-    if (d == -1){
-        d = DEFAULT_DEPTH;
-    }
-    if (id < 0){
-        id = DEFAULT_NULL_ID;
-    }
-
     this->w = w;
     this->h = h;
     this->d = d;

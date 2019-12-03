@@ -22,6 +22,7 @@ FinalBoss::FinalBoss(CollitionHandler *collitionHandler, Life *life, Damage *dam
 
 int FinalBoss::setAttackedWith(AttackCode attack) {
 
+    AnimatedEntity::setAttackedWith(attack);
     int damageInflicted = damage->enemyAttackedWith(attack);
 
     life->decreseBy(damageInflicted);

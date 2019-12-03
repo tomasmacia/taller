@@ -14,10 +14,10 @@ AnimatedEntityCollitionHandler::AnimatedEntityCollitionHandler(CollitionManager 
     _kickBox = kickBox;
     _pickBox = pickBox;
 
-    _collitionBoxes->push_back(_blockingCollitionBox);
-    _collitionBoxes->push_back(_punchBox);
-    _collitionBoxes->push_back(_kickBox);
-    _collitionBoxes->push_back(_pickBox);
+    addCollitionBox(_blockingCollitionBox);
+    addCollitionBox(_punchBox);
+    addCollitionBox(_kickBox);
+    addCollitionBox(_pickBox);
 }
 
 list<Entity *> *AnimatedEntityCollitionHandler::getAllPunchableWithinPunchingRange() {

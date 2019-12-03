@@ -5,7 +5,7 @@
 #ifndef GAME_WEAPONS_H
 #define GAME_WEAPONS_H
 
-#include "weaponConfig.h"
+#include "WeaponConfig.h"
 
 class Weapons {
 public:

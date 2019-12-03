@@ -4,7 +4,7 @@
 
 #include "ScoreAppearance.h"
 
-ScoreAppearance::ScoreAppearance(ScreenPosition* screenPosition, Score *score) : Appearance(screenPosition){
+ScoreAppearance::ScoreAppearance(Score *score){
     this->score = score;
 }
 

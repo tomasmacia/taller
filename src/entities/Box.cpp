@@ -6,6 +6,7 @@
 
 int Box::setAttackedWith(AttackCode attack) {
 
+    PhysicalEntity::setAttackedWith(attack);
     int damageInflicted = damage->boxAttackedWith(attack);
 
     life->decreseBy(damageInflicted);

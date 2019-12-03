@@ -7,3 +7,8 @@
 int Weapon::useOn(Entity *entity) {
     life->decreseBy(1);
 }
+
+void Weapon::getPicked() {
+    collitionHandler->eraseCollitionBoxes();
+    appearance->setTransparent();
+}

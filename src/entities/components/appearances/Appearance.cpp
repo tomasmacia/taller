@@ -1,16 +1,11 @@
 #include "Appearance.h"
 
-Appearance::Appearance(ScreenPosition *screenPosition) {
-    _screenPosition = screenPosition;
+Renderable *Appearance::generateRenderable() {
+    return actuallyGenerateRenderable();
 }
 
-Renderable* Appearance::generateRenderable() {
-    if (onScreen()){
-        return actuallyGenerateRenderable();
-    }
-    else{
-        return nullptr;
-    }
+Appearance::Appearance(ScreenPosition *screenPosition) {
+    _screenPosition = screenPosition;
 }
 
 void Appearance::getCurrentSpriteDimentions() {
@@ -29,3 +24,15 @@ void Appearance::initDestRect(int w, int h){
     destRect.x = _screenPosition->getX();
     destRect.y = _screenPosition->getY();
 }
+
+void Appearance::setTransparent() {
+
+    currentSprite = TRANSPARENT_SPRITE;
+
+    transparent = true;
+}
+
+bool Appearance::isTransparent() {
+    return transparent;
+}
+

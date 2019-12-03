@@ -18,8 +18,17 @@ void InputPoller::update() {
 }
 
 Action InputPoller::getNext() {
-    Action next = std::get<0>(playerInputs.front());
-    playerInputs.pop_front();
+
+    Action next;
+
+    if (playerInputs.empty()){
+
+        next = std::get<0>(playerInputs.front());
+        playerInputs.pop_front();
+    }
+    else{
+        next = NONE;
+    }
     return next;
 }
 

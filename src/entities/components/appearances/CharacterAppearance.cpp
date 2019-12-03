@@ -2,11 +2,10 @@
 #include "../State.h"
 
 CharacterAppearance::CharacterAppearance(int w, int h, Position *position, ScreenPosition *screenPosition, State *state,
-                                         const CharacterXML &characterConfig) : StateDrivenAppearance(screenPosition, state) {
+                                         CharacterXML characterConfig) : AnimatedAppearance(screenPosition, state, characterConfig) {
 
-    this->characterConfig = characterConfig;
-    realSpritePath = characterConfig.stand;
     disconnectedSpritePath = characterConfig.disconnected;
+    realSpritePath = entityConfig.stand;
     initDestRect(w,h);
     init();
 }
@@ -14,48 +13,22 @@ CharacterAppearance::CharacterAppearance(int w, int h, Position *position, Scree
 void CharacterAppearance::init() {
 
     DELAY = 5;
+    STAND_IMAGE_AMOUNT = 1;
+    WALK_IMAGE_AMOUNT = 9;
+    JUMP_IMAGE_AMOUNT = 13;
+    PUNCH_IMAGE_AMOUNT = 3;
+    CROUCH_IMAGE_AMOUNT = 4;
+    KICK_IMAGE_AMOUNT = 6;
+    JUMP_KICK_IMAGE_AMOUNT = 13;
+    //PICK_IMAGE_AMOUNT = -1; todo
+    //BEING_ATTACKED_IMAGE_AMOUNT = -1;
+    //DYING_IMAGE_AMOUNT = -1;
+    //DEAD_IMAGE_AMOUNT = -1;
 
-    currentSprite = characterConfig.stand;
+    currentSprite = entityConfig.stand;
     _imageAmount  = STAND_IMAGE_AMOUNT;
     _imageCounter = 0;
     getCurrentSpriteDimentions();
-}
-
-void CharacterAppearance::handleCurrentState(){
-
-    switch (_state->current()) {
-        case JUMP:
-            currentSprite = characterConfig.jump;
-            _imageAmount  = JUMP_IMAGE_AMOUNT;
-            break;
-        case PUNCH:
-            currentSprite = characterConfig.punch;
-            _imageAmount  = PUNCH_IMAGE_AMOUNT;
-            break;
-        case KICK:
-            currentSprite = characterConfig.kick;
-            _imageAmount  = KICK_IMAGE_AMOUNT;
-            break;
-        case JUMP_KICK:
-            currentSprite = characterConfig.jumpkick;
-            _imageAmount  = JUMP_KICK_IMAGE_AMOUNT;
-            break;
-        case CROUCH:
-            currentSprite = characterConfig.crouch;
-            _imageAmount  = CROUCH_IMAGE_AMOUNT;
-            break;
-    }
-
-    if (_state->currentIsNotBlockingAction()){
-        if (_state->hasMovement()){
-            currentSprite = characterConfig.walk;
-            _imageAmount  = WALK_IMAGE_AMOUNT;
-        }
-        else{
-            currentSprite = characterConfig.stand;
-            _imageAmount  = STAND_IMAGE_AMOUNT;
-        }
-    }
 }
 
 void CharacterAppearance::setDisconnected() {
@@ -65,5 +38,3 @@ void CharacterAppearance::setDisconnected() {
 void CharacterAppearance::setConnected() {
     currentSprite = realSpritePath;
 }
- 
-

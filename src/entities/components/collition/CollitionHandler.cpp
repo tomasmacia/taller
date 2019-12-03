@@ -7,8 +7,12 @@
 CollitionHandler::CollitionHandler(CollitionManager* collitionManager) {
 
     _collitionBoxes = new list<CollitionBox*>();
-
     _collitionManager = collitionManager;
+}
+
+void CollitionHandler::addCollitionBox(CollitionBox *collitionBox) {
+
+    _collitionBoxes->push_back(collitionBox);
 }
 
 void CollitionHandler::dragToRight(int amount) {
@@ -25,11 +29,15 @@ void CollitionHandler::setOwnerToAllCollitionBox(Entity* owner) {
     }
 }
 
-CollitionHandler::~CollitionHandler(){
-    for (auto collitionBox : *_collitionBoxes){
+void CollitionHandler::eraseCollitionBoxes() {
+    for (auto collitionBox : _collitionBoxes){
         _collitionManager->untrack(collitionBox);
         delete(collitionBox);
     }
     _collitionBoxes->clear();
+}
+
+CollitionHandler::~CollitionHandler(){
+    eraseCollitionBoxes();
     delete(_collitionBoxes);
 }

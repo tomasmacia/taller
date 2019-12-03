@@ -24,6 +24,7 @@ public:
     virtual void update() override ;
     Sendable* generateSendable() override ;
 
+    virtual int setAttackedWith(AttackCode attackCode) override ;
     bool lifeEmpty();
     bool dead();
     int getX();

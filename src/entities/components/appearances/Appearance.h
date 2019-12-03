@@ -15,10 +15,14 @@ class Appearance {
 
 public:
     Appearance(ScreenPosition* screenPosition);
-    virtual void update() = 0;
 
-    Renderable* generateRenderable();
+    virtual void update() = 0;
+    virtual Renderable* generateRenderable();
+
     bool onScreen();
+
+    void setTransparent();
+    bool isTransparent();
 
 protected:
     virtual Renderable* actuallyGenerateRenderable() = 0;
@@ -36,5 +40,8 @@ protected:
     string currentSprite;
 
     ScreenPosition* _screenPosition = nullptr;
+
+    bool transparent = false;
+    string TRANSPARENT_SPRITE = "path" //todo
 };
 #endif //RENDER_COMPONENT_H

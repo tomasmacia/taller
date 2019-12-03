@@ -14,6 +14,7 @@ public:
     void setIncoming(Action incoming);
     void deactivateCorrespondingPreviousOngoingMovements(Action incoming);
     void updateMovementState(Action incoming);
+    Action pickOneOngoingMovement();
     void setFinished();
 
     bool currentIsNotBlockingAction();
@@ -33,6 +34,8 @@ public:
 
     void setDying();
     bool dead();
+
+    void setBeingAttacked();
 
 private:
     Will* _will = nullptr;

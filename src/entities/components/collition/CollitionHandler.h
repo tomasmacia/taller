@@ -18,8 +18,11 @@ public:
     CollitionHandler(CollitionManager* collitionManager);
     virtual ~CollitionHandler();
 
+    void addCollitionBox(CollitionBox* collitionBox);
     void dragToRight(int amount);
     void setOwnerToAllCollitionBox(Entity* owner);
+
+    void eraseCollitionBoxes();
 
 protected:
     CollitionManager* _collitionManager = nullptr;

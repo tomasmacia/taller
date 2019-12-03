@@ -88,6 +88,12 @@ void Physics::handleCurrentState(){
         case PICK:
             none();
             break;
+        case BEING_ATTACKED:
+            none();
+            break;
+        case DYING:
+            none();
+            break;
     }
 }
 

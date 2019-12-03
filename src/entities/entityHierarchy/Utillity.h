@@ -8,6 +8,7 @@
 #include "UnanimatedEntity.h"
 
 class Utillity : public UnanimatedEntity{
+    
 };
 
 
