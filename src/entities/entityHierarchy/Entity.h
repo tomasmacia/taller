@@ -14,6 +14,7 @@ class Entity {
 
 public:
     Entity(CollitionHandler* collitionHandler);
+    Entity(){}
     virtual ~Entity();
 
     virtual void update() = 0;

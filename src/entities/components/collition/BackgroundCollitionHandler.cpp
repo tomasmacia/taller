@@ -8,5 +8,4 @@ BackgroundCollitionHandler::BackgroundCollitionHandler(CollitionManager* colliti
 
                                                        :CollitionHandler(collitionManager){
     _collitionBoxes = collitionBoxes;
-    _blockingCollitionBoxes = collitionBoxes;
 }
