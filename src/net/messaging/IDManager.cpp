@@ -27,3 +27,7 @@ void IDManager::reemplaze(int oldID, int newID){
         }
     }
 }
+
+int IDManager::amount() {
+    return ids.size();
+}

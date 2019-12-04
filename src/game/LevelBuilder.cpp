@@ -148,14 +148,13 @@ void LevelBuilder::initializePlayers() {
 
     int screenResolutionWidth = _config->screenResolution.width;
     int screenResolutionHeight = _config->screenResolution.height;
-    int amountOfPlayers = _config->gameplay.characters.size();
+    int amountOfPlayers = IDManager::getInstance().amount();
 
     int offset = (screenResolutionWidth - _screen->getMargin()) / (amountOfPlayers + 1);
     auto charactersConfigs = _config->gameplay.characters;
 
     int x,y,z;
 
-    int i = 0;
     IDManager::getInstance().initIDCounter();
     for (int i = 0; i < amountOfPlayers; i++) {
         int newPlayerID = IDManager::getInstance().getNextId();

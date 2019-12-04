@@ -26,6 +26,7 @@ public:
     int getNextId();
     void initIDCounter();
     void reemplaze(int oldID, int newID);
+    int amount();
 
 private:
     IDManager(){}

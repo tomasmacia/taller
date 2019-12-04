@@ -128,6 +128,7 @@ Character* EntityManager::addPlayer(int x, int y, int z, int id) {
     Character* character = createCharacter(x,y,z,id);
     players.push_back(character);
     physicalEntities.push_back(character);
+    return character;
 }
 
 void EntityManager::addEnemy() {
@@ -174,7 +175,7 @@ void EntityManager::addFar(const string &spritePath, float parallaxSpeed) {
 void EntityManager::addMiddle(const string &spritePath, float parallaxSpeed) {
     auto* background = createMiddle(spritePath,parallaxSpeed);
     nonLevelPersistentEntities.push_back(background);
-    fronLayerBackgrounds.push_back(background);
+    backLayerBackgrounds.push_back(background);
 }
 
 void EntityManager::addFloor(const string &spritePath, float parallaxSpeed) {
@@ -493,8 +494,6 @@ EntityManager::~EntityManager() {
     sendable = nullptr;
     delete collitionManager;
     collitionManager = nullptr;
-
-    LogManager::logDebug("Memoria de EntityManager liberada");
 }
 
 //SORTING

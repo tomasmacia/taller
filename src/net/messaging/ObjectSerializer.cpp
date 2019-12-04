@@ -162,6 +162,8 @@ string ObjectSerializer::serializeObject(Renderable* package){
 
     std::string serializedObject;
 
+    if (package == nullptr){ return "";}
+
     std::string path = package->getPath();
     Rect src = package->getSrcRect();
     Rect dst = package->getDstRect();

@@ -67,7 +67,7 @@ void AnimatedEntityCollitionHandler::correctDestination(Point *destination) {
 void AnimatedEntityCollitionHandler::moveTowardsDestinationAndCorrect(Point *destination) {
 
     int counter = 0;
-    while (_blockingCollitionBox->notArrivedAt(destination) || counter == TRIES){
+    while (_blockingCollitionBox->notArrivedAt(destination) && counter <= TRIES){
 
         _blockingCollitionBox->moveOneUnitInTheDirectionOf(destination);
 
@@ -82,6 +82,7 @@ void AnimatedEntityCollitionHandler::moveTowardsDestinationAndCorrect(Point *des
         delete(collitions);
         counter++;
     }
+    counter = 0;
 }
 
 void AnimatedEntityCollitionHandler::correctDestinationUsing(CollitionBox *collitionBox, Point *destination) {
