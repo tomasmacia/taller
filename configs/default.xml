@@ -62,14 +62,14 @@
             <amount>1</amount>
             <character1>
                 <name>Cody Blue</name>
-                <standSprite>resources/sprites/players/blue/standSprite.png</standSprite>
+                <standSprite>resources/sprites/players/blue/stand.png</standSprite>
                 <walk>resources/sprites/players/blue/walk.png</walk>
                 <punch>resources/sprites/players/blue/punch.png</punch>
                 <jump>resources/sprites/players/blue/jump.png</jump>
                 <crouch>resources/sprites/players/blue/crouch.png</crouch>
                 <jumpkick>resources/sprites/players/blue/jumpkick.png</jumpkick>
                 <kick>resources/sprites/players/blue/kick.png</kick>
-                <disconnected>resources/sprites/players/gray/standSprite.png</disconnected>
+                <disconnected>resources/sprites/players/gray/stand.png</disconnected>
             </character1>
         </characters>
         <enemies>

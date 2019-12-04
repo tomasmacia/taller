@@ -8,6 +8,7 @@ ScreenPosition::ScreenPosition(Position *position, Screen* screen) {
 
     this->_spacePosition = position;
     this->_screen = screen;
+    update();
 }
 
 void ScreenPosition::update(){

@@ -12,6 +12,7 @@ BackgroundAppearance::BackgroundAppearance(ScreenPosition *screenPosition, Scree
 
 void BackgroundAppearance::init() {
 
+    getCurrentSpriteDimentions();
     int screenResolutionWidth = _screen->getWindowWidth();
     int screenResolutionHeight = _screen->getWindowHeight();
     float aspectRatio = (float)(screenResolutionWidth)/(float)(screenResolutionHeight);

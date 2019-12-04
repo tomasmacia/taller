@@ -1,11 +1,11 @@
 #include "Appearance.h"
 
-Renderable *Appearance::generateRenderable() {
-    return actuallyGenerateRenderable();
-}
-
 Appearance::Appearance(ScreenPosition *screenPosition) {
     _screenPosition = screenPosition;
+}
+
+Renderable *Appearance::generateRenderable() {
+    return actuallyGenerateRenderable();
 }
 
 void Appearance::getCurrentSpriteDimentions() {

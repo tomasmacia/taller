@@ -224,7 +224,7 @@ Character *EntityManager::createCharacter(int x, int y, int z, int id) {
     auto* damage = new Damage();
     auto* life = new Life(state);
     auto* score = new Score();
-    auto* scoreAppearance = new ScoreAppearance(nullptr, score);
+    auto* scoreAppearance = new ScoreAppearance(screenPosition, score);
     auto* attack = new Attack(state, collitionHandler);
 
     return new Character(collitionHandler, life, damage, score, position,
@@ -494,6 +494,8 @@ EntityManager::~EntityManager() {
     sendable = nullptr;
     delete collitionManager;
     collitionManager = nullptr;
+
+    LogManager::logDebug("Memoria de EntityManager liberada");
 }
 
 //SORTING

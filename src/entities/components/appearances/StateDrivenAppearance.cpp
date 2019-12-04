@@ -26,9 +26,10 @@ void StateDrivenAppearance::update() {
 
 void StateDrivenAppearance::loadNextImage(){
 
-    currentSpriteWidth = currentSpriteWidth/_imageAmount;
-    currentSpriteHeight = currentSpriteHeight;
+    srcRect.w = currentSpriteWidth/_imageAmount;
+    srcRect.h = currentSpriteHeight;
     srcRect.x = srcRect.w * (int)(_imageCounter / DELAY);
+    srcRect.y = 0;
 
     _imageCounter++;
 

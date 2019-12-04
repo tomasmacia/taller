@@ -18,10 +18,10 @@ public:
 
     virtual void update() = 0;
     virtual Renderable* generateRenderable();
-
     bool onScreen();
 
     void setTransparent();
+
     bool isTransparent();
 
 protected:

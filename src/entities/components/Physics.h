@@ -25,7 +25,7 @@ private:
     float _velocityY;
     float _velocityZ;
 
-    float DEFAULT_JUMPING_ACCELERATION_Y = 10;
+    float DEFAULT_JUMPING_ACCELERATION_Y = 0;
     float DEFAULT_JUMPING_VELOCITY_Y;
 
     float _accelerationX = 0;
