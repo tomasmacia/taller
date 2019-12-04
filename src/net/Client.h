@@ -27,6 +27,7 @@ public:
     void sendCredentials(string user, string pass);
     bool hasAchievedConnectionAttempt();
     void notifyGameStoppedRunning();
+    void client_noBlock();
 
 private:
     //THREADS

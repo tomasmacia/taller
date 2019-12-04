@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
 
 #include "../LogLib/LogManager.h"
 #include "../parser/config/config.h"
@@ -39,6 +40,8 @@ public:
         return playerId;
     }
 
+    void pauseResumeMusic();
+    void sound();
 protected:
 
     //GAME LOOP
@@ -67,6 +70,15 @@ protected:
 
     SDL_Window *window = nullptr;
     SDL_Renderer *renderer = nullptr;
+
+    //SOUND
+    //===============================
+    Mix_Music* music;
+    Mix_Chunk* sound1;
+    void init_music();
+    void close_music();
+    
+
 };
 
 #endif

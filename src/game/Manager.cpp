@@ -1,6 +1,7 @@
 
 #include "Manager.h"
-
+#include <iostream>
+#include <string.h>
 #include "PositionComponent.h"
 #include "../LogLib/LogManager.h"
 #include "BackgroundRenderComponent.h"
@@ -21,10 +22,12 @@ Manager::Manager(){
 void Manager::update() {//se updatean todas seguro porque updateo las listas que formaban una particion de las entities
 
     for(auto* e : backLayerBackgrounds) e->update();
-    for(auto* e : entitiesWithPosition) e->update();
+    for(auto* e : players) e->update();
+    for(auto* e : npcs)  e->update();
+    for(auto* e : nonMobileEntities) e->update();
     for(auto* e : fronLayerBackgrounds) e->update();
     for(auto* e : specialEntities) e->update();
-}
+    }
 
 std::list<ToClientPack*>* Manager::generateRenderables() {
 

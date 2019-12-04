@@ -30,7 +30,10 @@ public:
     int getId(){
         return  userId;
     }
-
+    
+    int getSock(){
+        return socketFD;
+    }
 private:
 
     //THREADS
@@ -58,8 +61,9 @@ private:
     std::mutex sendQueueMutex;
     std::mutex incomingQueueMutex;
     std::mutex isConnectedMutex;
-    int socketFD;
+    
     int userId;
+    int socketFD;
 
     Server *server = nullptr;
     GameServer* gameServer = nullptr;

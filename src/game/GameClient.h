@@ -99,6 +99,7 @@ private:
     LoggerMenu* loggerMenu = nullptr;
     Client* client = nullptr;
     std::map<std::string, TextureWrapper*> loadedTexturesMap;
+
 };
 
 #endif //GAME_GAMECLIENT_H_

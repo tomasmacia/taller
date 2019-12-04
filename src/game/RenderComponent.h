@@ -17,6 +17,7 @@ public:
 
     ToClientPack* emitRenderable();
     
+    
 protected:
     virtual void loadNextImage() = 0;
     virtual ToClientPack* generateRenderable() = 0;

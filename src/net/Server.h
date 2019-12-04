@@ -5,6 +5,7 @@
 #ifndef GAME_SERVER_H
 #define GAME_SERVER_H
 
+#include <fcntl.h>
 #include <vector>
 #include <string>
 #include <list>
@@ -32,7 +33,9 @@ public:
     void removeConnection(int id);
     void stopListening();
     int close();
+    void client_noBlock(int a);
 
+    
     //ACTUAL DATA TRANSFER
     //===============================
     int send(std::string, int someSocketFD);
@@ -41,6 +44,7 @@ public:
     //THREADS
     //===============================
     void listenThread();
+    
 
 private:
     //INIT
@@ -63,6 +67,7 @@ private:
     //ATRIBUTE
     //===============================
     bool serverOn;
+   
 
     int maxBytesBuffer;
     int maxConnections;

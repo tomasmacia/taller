@@ -50,13 +50,20 @@ std::list<std::string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFOR
 
         if( (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)){
 
-            if (action != NONE) {
+            if (action != NONE ) {
                 serializedInput = objectSerializer.serializeInput(action,playerId);
                 serializedInputs.push_back(serializedInput);
             }
         }
 
         if ((sdlEvent.type == SDL_KEYUP && sdlEvent.key.repeat == 0 )){
+
+            if (sdlEvent.key.keysym.sym == SDLK_m){
+                game->pauseResumeMusic();
+            }
+            if (sdlEvent.key.keysym.sym == SDLK_n){
+                game->sound();
+            }
 
             if (action == UP || action == DOWN || action == LEFT || action == RIGHT ||
                 action == NONE){//no bloqueante

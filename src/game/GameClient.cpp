@@ -19,7 +19,7 @@ void GameClient::start() {
 
     if (isOn()){                //pregunto porque el Client lo podria haber cerrado al no conectarse
         loggerMenu->open();
-
+        client->client_noBlock(); //que el send y recv al cliente no bloqueen el juego
         if (isOn()){            //pregunto porque el loggerMenu lo podria haber cerrado al tocar ESC o QUIT
             initInputSystem();
             initRenderingSystem();
@@ -37,16 +37,17 @@ void GameClient::start() {
     LogManager::logInfo("=======================================");
 }
 
+
 //GAME LOOP
 //=========================================================================================
 
 void GameClient::gameLoop() {
+    init_music();
     while (isOn()) {
         pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
         render();
     }
-
-
+    
 }
 
 void GameClient::pollAndSendInput() {

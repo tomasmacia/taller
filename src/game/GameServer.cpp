@@ -223,7 +223,7 @@ string GameServer::processConectionAndEmitSuccesMessage(string user, string pass
     loggedPlayersUserByID.insert({ id, user });
     loggedPlayersIDbyUser.insert({user,id});
     addNewIDToGame(id);
-
+    server->client_noBlock(id);
     return controller->getSuccesfullLoginMessage(id);
 }
 
@@ -241,7 +241,7 @@ string GameServer::processReconectionAndEmitSuccesMessage(string user, int newID
     if (manager != nullptr){
         manager->reconectPlayerByID(oldID, newID);
     }
-
+    server->client_noBlock(newID);
     return controller->getSuccesfullLoginMessage(newID);
 }
 

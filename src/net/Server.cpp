@@ -56,20 +56,22 @@ int Server::send(string msg, int someSocketFD) {
     int bytesSent = 0;
 
     while (bytesSent < MAX_BYTES_BUFFER - 1) {
-        int n = ::send(someSocketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
-        if (n < 0) {
-            error("ERROR sending");
-            return n;
-        }
-        if (n == 0) {
-            return n;
-        }
+
+            int n = ::send(someSocketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
+            if (n < 0) {
+                error("ERROR sending");
+                return n;
+            }
+            if (n == 0) {
+                return n;
+            
+            }
 
         bytesSent += n;
-    }
+        }
 
-    return bytesSent;
-}
+        return bytesSent;
+    }
 
 string Server::receive(int someSocketFD) {
     // TODO REVISAR. Hay que fijarse que someSocketFD este en la lista de conexiones?
@@ -224,6 +226,23 @@ int Server::shutdown() {
 
 int Server::close() {
     return ::close(socketFD);
+}
+
+
+void Server::client_noBlock(int a) {
+    struct timeval tv ;
+    tv.tv_usec =10000;
+    tv.tv_sec = 0;
+
+    std::map<int, UserConnection*>::iterator it = connections.find(a);
+    if (it != connections.end()) {
+        if (fcntl(it->second->getSock(),F_SETFL,O_NONBLOCK)<0){
+            perror("no puedo desbloquear socket");
+        }
+        setsockopt(it->second->getSock(),SOL_SOCKET,SO_SNDTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
+        setsockopt(it->second->getSock(),SOL_SOCKET,SO_RCVTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
+    }
+
 }
 
 //DESTROY

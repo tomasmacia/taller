@@ -61,6 +61,16 @@ bool Client::start(){
     gameClient->end();
 }
 
+
+void Client::client_noBlock() {
+    struct timeval tv ;
+    tv.tv_usec =100000;
+    tv.tv_sec = 0;
+
+    setsockopt(socketFD,SOL_SOCKET,SO_RCVTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
+    
+}
+
 //THREADS
 //=========================================================================================
 void Client::readThread() {
