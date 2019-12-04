@@ -240,7 +240,7 @@ void Server::client_noBlock(int a) {
             perror("no puedo desbloquear socket");
         }
         setsockopt(it->second->getSock(),SOL_SOCKET,SO_SNDTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
-        setsockopt(it->second->getSock(),SOL_SOCKET,SO_RCVTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
+     //   setsockopt(it->second->getSock(),SOL_SOCKET,SO_RCVTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
     }
 
 }

@@ -19,11 +19,11 @@ void GameClient::start() {
 
     if (isOn()){                //pregunto porque el Client lo podria haber cerrado al no conectarse
         loggerMenu->open();
-        client->client_noBlock(); //que el send y recv al cliente no bloqueen el juego
+       
         if (isOn()){            //pregunto porque el loggerMenu lo podria haber cerrado al tocar ESC o QUIT
             initInputSystem();
             initRenderingSystem();
-
+            client->client_noBlock(); //que el send y recv al cliente no bloqueen el juego
             gameLoop();
         }
     }

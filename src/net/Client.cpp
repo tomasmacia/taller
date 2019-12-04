@@ -65,7 +65,7 @@ bool Client::start(){
 void Client::client_noBlock() {
     struct timeval tv ;
     tv.tv_usec =100000;
-    tv.tv_sec = 0;
+    tv.tv_sec = 1;
 
     setsockopt(socketFD,SOL_SOCKET,SO_RCVTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
     
