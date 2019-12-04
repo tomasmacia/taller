@@ -199,8 +199,8 @@ Screen* EntityManager::addScreen(int screenWidth, int screenHeight, int levelWid
 //=========================================================================================
 Character *EntityManager::createCharacter(int x, int y, int z, int id) {
 
-    int w = config->screenResolution.width*CHARACTER_WIDTH_SCALE;
-    int h = config->screenResolution.height*CHARACTER_HEIGHT_SCALE;
+    int w = (int)(((float)config->screenResolution.width)*CHARACTER_WIDTH_SCALE);
+    int h = (int)((float)config->screenResolution.height*CHARACTER_HEIGHT_SCALE);
     int walkingSpeed = config->screenResolution.width/WAKING_SPEED_FACTOR;
     int jumpingSpeed = config->screenResolution.height/JUMPING_SPEED_FACTOR;
 
@@ -234,8 +234,8 @@ Character *EntityManager::createCharacter(int x, int y, int z, int id) {
 
 Enemy *EntityManager::createEnemy() {
 
-    int w = config->screenResolution.width*ENEMY_WIDTH_SCALE;
-    int h = config->screenResolution.height*ENEMY_HEIGHT_SCALE;
+    int w = (int)((float)config->screenResolution.width*ENEMY_WIDTH_SCALE);
+    int h = (int)((float)config->screenResolution.height*ENEMY_HEIGHT_SCALE);
     int walkingSpeed = config->screenResolution.width/WAKING_SPEED_FACTOR;
     int jumpingSpeed = config->screenResolution.height/JUMPING_SPEED_FACTOR;
 
@@ -269,8 +269,8 @@ Enemy *EntityManager::createEnemy() {
 
 Knife* EntityManager::createKnife() {
 
-    int w = config->screenResolution.width*WEAPON_WIDTH_SCALE;
-    int h = config->screenResolution.height*WEAPON_HEIGHT_SCALE;
+    int w = (int)((float)config->screenResolution.width*WEAPON_WIDTH_SCALE);
+    int h = (int)((float)config->screenResolution.height*WEAPON_HEIGHT_SCALE);
 
     int x = validPositionGenerator.x();
     int y = validPositionGenerator.y();
@@ -290,15 +290,15 @@ Knife* EntityManager::createKnife() {
     auto* appearance = new KnifeAppearance(w, h, screenPosition, state, config->gameplay.weapons.knife);
     auto* sound = new Sound(state);
 
-    return new Knife(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, collitionHandler,
+    return new Knife(collitionHandler,
                      life, damage, score, position,
                      state, screenPosition, appearance, sound);
 }
 
 Tube* EntityManager::createTube() {
 
-    int w = config->screenResolution.width*WEAPON_WIDTH_SCALE;
-    int h = config->screenResolution.height*WEAPON_HEIGHT_SCALE;
+    int w = (int)((float)config->screenResolution.width*WEAPON_WIDTH_SCALE);
+    int h = (int)((float)config->screenResolution.height*WEAPON_HEIGHT_SCALE);
 
     int x = validPositionGenerator.x();
     int y = validPositionGenerator.y();
@@ -318,15 +318,15 @@ Tube* EntityManager::createTube() {
     auto* appearance = new TubeAppearance(w, h, screenPosition, state, config->gameplay.weapons.tube);
     auto* sound = new Sound(state);
 
-    return new Tube(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, collitionHandler,
+    return new Tube(collitionHandler,
                     life, damage, score, position,
                     state, screenPosition, appearance, sound);
 }
 
 Box* EntityManager::createBox() {
 
-    int w = config->screenResolution.width*UTILITY_WIDTH_SCALE;
-    int h = config->screenResolution.height*UTILITY_HEIGHT_SCALE;
+    int w = (int)((float)config->screenResolution.width*UTILITY_WIDTH_SCALE);
+    int h = (int)((float)config->screenResolution.height*UTILITY_HEIGHT_SCALE);
 
     int x = validPositionGenerator.x();
     int y = validPositionGenerator.y();
@@ -346,15 +346,15 @@ Box* EntityManager::createBox() {
     auto* appearance = new BoxAppearance(w, h, screenPosition, state, config->gameplay.utilities.box);
     auto* sound = new Sound(state);
 
-    return new Box(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, collitionHandler,
+    return new Box(collitionHandler,
                    life, damage, score, position,
                    state, screenPosition, appearance, sound);
 }
 
 Barrel* EntityManager::createBarrel() {
 
-    int w = config->screenResolution.width*UTILITY_WIDTH_SCALE;
-    int h = config->screenResolution.height*UTILITY_HEIGHT_SCALE;
+    int w = (int)((float)config->screenResolution.width*UTILITY_WIDTH_SCALE);
+    int h = (int)((float)config->screenResolution.height*UTILITY_HEIGHT_SCALE);
 
     int x = validPositionGenerator.x();
     int y = validPositionGenerator.y();
@@ -374,7 +374,7 @@ Barrel* EntityManager::createBarrel() {
     auto* appearance = new BarrelAppearance(w, h, screenPosition, state, config->gameplay.utilities.barrel);
     auto* sound = new Sound(state);
 
-    return new Barrel(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, collitionHandler,
+    return new Barrel(collitionHandler,
                       life, damage, score, position,
                       state, screenPosition, appearance, sound);
 }

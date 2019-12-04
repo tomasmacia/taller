@@ -19,10 +19,13 @@ int Box::setAttackedWith(AttackCode attack) {
     }
 }
 
-Box::Box(CollitionHandler *collitionHandler, Life *life, Damage *damage, Score *score, Position *position,
-         State *state, ScreenPosition *screenPosition, StateDrivenAppearance *appearance, Sound *sound,
-         CollitionHandler *pHandler, Life *pLife, Damage *pDamage, Score *pScore, Position *pPosition,
-         State *pState, ScreenPosition *pPosition1, BoxAppearance *pAppearance, Sound *pSound)
-        : Utillity(collitionHandler, life, damage, score, position, state, screenPosition, appearance, sound) {
+Box::Box(CollitionHandler *collitionHandler, Life *life, Damage *damage, Score *score, Position *position, State *state,
+         ScreenPosition *screenPosition, StateDrivenAppearance *appearance, Sound *sound) : Utillity(collitionHandler,
+                                                                                                     life, damage,
+                                                                                                     score, position,
+                                                                                                     state,
+                                                                                                     screenPosition,
+                                                                                                     appearance,
+                                                                                                     sound) {
 
 }

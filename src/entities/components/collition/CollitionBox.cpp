@@ -86,9 +86,11 @@ void CollitionBox::moveOneUnitInTheDirectionOf(Point* destination) {
 
     int norm = (diffX * diffX) + (diffY * diffY) + (diffZ * diffZ);
 
-    diffX = (int)((diffX * diffX)/norm);
-    diffY = (int)((diffY * diffY)/norm);
-    diffZ = (int)((diffZ * diffZ)/norm);
+    if (norm > 0){
+        diffX = (int)((diffX * diffX)/norm);
+        diffY = (int)((diffY * diffY)/norm);
+        diffZ = (int)((diffZ * diffZ)/norm);
+    }
 
     moveAllCornersBy(diffX,diffY,diffZ);
 }

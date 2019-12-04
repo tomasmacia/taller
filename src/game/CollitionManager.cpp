@@ -8,6 +8,9 @@
 CollitionManager::CollitionManager() {
 
     _blockingCollitionBoxes = new list<CollitionBox*>();
+    _nonLevelPersistentCollitionBoxes = new list<CollitionBox*>();
+    _weaponCollitionBoxes = new list<CollitionBox*>();
+    _characterCollitionBoxes = new list<CollitionBox*>();
 }
 
 CollitionBox *CollitionManager::createCharacterBlockingCollitionBox(int x, int y, int z, int w, int h, int d) {

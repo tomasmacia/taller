@@ -13,9 +13,7 @@ class Knife : public Weapon{
 
 public:
     Knife(CollitionHandler *collitionHandler, Life *life, Damage *damage, Score *score, Position *position,
-          State *state, ScreenPosition *screenPosition, StateDrivenAppearance *appearance, Sound *sound,
-          CollitionHandler *pHandler, Life *pLife, Damage *pDamage, Score *pScore, Position *pPosition,
-          State *pState, ScreenPosition *pPosition1, KnifeAppearance *pAppearance, Sound *pSound);
+          State *state, ScreenPosition *screenPosition, StateDrivenAppearance *appearance, Sound *sound);
 
     int useOn(Entity* entity) override ;
 };

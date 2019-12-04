@@ -17,6 +17,8 @@ public:
 private:
     CollitionBox* _leftScreenCollitionBox = nullptr;
     CollitionBox* _rightScreenCollitionBox = nullptr;
+
+    int DEFAULT_SCREEN_COLLITION_BOX_WIDTH = 10;
 };
 
 

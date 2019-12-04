@@ -21,7 +21,7 @@ Action InputPoller::getNext() {
 
     Action next;
 
-    if (playerInputs.empty()){
+    if (!playerInputs.empty()){
 
         next = std::get<0>(playerInputs.front());
         playerInputs.pop_front();

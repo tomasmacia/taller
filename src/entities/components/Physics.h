@@ -50,6 +50,8 @@ private:
     void endDown();
     void endLeft();
     void endRight();
+
+    bool wasThereAChange();
 };
 
 #endif //GAME_PHYSICS_H

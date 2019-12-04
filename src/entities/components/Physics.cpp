@@ -181,3 +181,7 @@ void Physics::drag(){
 
     _position->tryToMoveTo(newX, prevY, prevZ);
 }
+
+bool Physics::wasThereAChange() {
+    return _velocityX != 0 || _velocityY != 0 || _velocityZ != 0;
+}

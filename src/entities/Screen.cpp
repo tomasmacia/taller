@@ -14,6 +14,7 @@ Screen::Screen(int width, int height, int levelWidth, int levelDepth, CollitionM
     this->windowHeight = height;
     this->marginWidth = windowWidth/3;
     this->offScreenTolerance = 2*marginWidth;
+    this->currentLevelWidth = levelWidth;
     this->levelDepth = levelDepth;
 
     this->collitionHandler = new ScreenCollitionHandler(collitionManager, this);
