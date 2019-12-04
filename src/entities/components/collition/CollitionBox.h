@@ -6,9 +6,9 @@
 #define GAME_COLLITIONBOX_H
 
 
-#include "../../entityHierarchy/Entity.h"
 #include "../../components/Point.h"
 
+class Entity;
 class CollitionBox {
 
 public:
@@ -19,7 +19,6 @@ public:
     bool intersectsWith(CollitionBox* collitionBox);
     void moveAllCornersBy(int xAmount, int yAmount, int zAmount);
     void dragToRight(int amount);
-    void setOwner(Entity *owner);
     bool notArrivedAt(Point* destination);
     void moveOneUnitInTheDirectionOf(Point* destination);
     bool hasInsideItsVolume(Point* corner);

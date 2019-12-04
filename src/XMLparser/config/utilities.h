@@ -9,8 +9,8 @@
 
 class Utilities {
 public:
-    Utility barrel;
-    Utility box;
+    UtilityConfig barrel;
+    UtilityConfig box;
 
 };
 

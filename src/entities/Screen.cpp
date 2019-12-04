@@ -5,7 +5,7 @@
 #include "components/collition/ScreenCollitionHandler.h"
 
 
-Screen::Screen(int width, int height, int levelWidth, CollitionManager* collitionManager){
+Screen::Screen(int width, int height, int levelWidth, int levelDepth, CollitionManager* collitionManager){
 
 
     this->currentX = 0;
@@ -13,7 +13,7 @@ Screen::Screen(int width, int height, int levelWidth, CollitionManager* collitio
     this->windowHeight = height;
     this->marginWidth = windowWidth/3;
     this->offScreenTolerance = 2*marginWidth;
-    this->levelDepth = (float)windowHeight * 0.3;
+    this->levelDepth = levelDepth;
 
     this->collitionHandler = new ScreenCollitionHandler(this, collitionManager);
 }

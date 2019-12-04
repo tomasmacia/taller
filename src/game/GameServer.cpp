@@ -1,19 +1,4 @@
 #include "GameServer.h"
-#include "Controller.h"
-#include "../to_remove_or_modify/LevelBuilder.h"
-#include "../logger/Logger.h"
-#include "../logger/LogManager.h"
-#include "../CLIAparser/CLIArgumentParser.h"
-#include "../XMLparser/xmlparser.h"
-#include <unistd.h>
-
-#include "../net/messaging/IDManager.h"
-#include "../image/ImageUtils.h"
-#include "../net/messaging/User.h"
-#include "../enumerates/Color.h"
-
-#include <iostream>
-#include <utility>
 
 bool GameServer::hasInstance = false;
 

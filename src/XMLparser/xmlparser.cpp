@@ -255,7 +255,7 @@ vector<NPC> XMLParser::getGameplayNPCS(XMLElement *gameplay) {
 CharacterXML XMLParser::mapCharacter(XMLElement *characters, const string currentChildName) {
     CharacterXML character;
     character.name = getSafeValueFromElement(characters, {currentChildName.c_str(), "name"}, charArrayToString, "characters");
-    character.stand = getSafeValueFromElement(characters, {currentChildName.c_str(), "stand"}, charArrayToString, "characters");
+    character.stand = getSafeValueFromElement(characters, {currentChildName.c_str(), "standSprite"}, charArrayToString, "characters");
     character.walk = getSafeValueFromElement(characters, {currentChildName.c_str(), "walk"}, charArrayToString, "characters");
     character.jump = getSafeValueFromElement(characters, {currentChildName.c_str(), "jump"}, charArrayToString, "characters");
     character.punch = getSafeValueFromElement(characters, {currentChildName.c_str(), "punch"}, charArrayToString, "characters");
@@ -374,10 +374,10 @@ Utilities XMLParser::getGameplayUtilities(XMLElement *gameplay) {
     return utilities;
 }
 
-Utility XMLParser::getGameplayUtility(XMLElement *utilityElement) {
-    Utility utility;
+UtilityConfig XMLParser::getGameplayUtility(XMLElement *utilityElement) {
+    UtilityConfig utility;
     utility.amount = getSafeValueFromElement(utilityElement, {"amount"}, atoi, "utilities");
-    utility.sprite = getSafeValueFromElement(utilityElement, {"sprite"}, charArrayToString, "utilities");
+    utility.standSprite = getSafeValueFromElement(utilityElement, {"sprite"}, charArrayToString, "utilities");
     utility.knivesDropProb = getSafeValueFromElement(utilityElement, {"contains", "knives"}, atof, "utilities");
     utility.tubesDropProb = getSafeValueFromElement(utilityElement, {"contains", "tubes"}, atof, "utilities");
 

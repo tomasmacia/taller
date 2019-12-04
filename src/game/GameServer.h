@@ -5,13 +5,28 @@
 #include <condition_variable>
 #include <mutex>
 
-#include "EntityManager.h"
-#include "../to_remove_or_modify/LevelBuilder.h"
+#include <iostream>
+#include <unistd.h>
+#include <utility>
+
 #include "Game.h"
-#include "../net/messaging/Renderable.h"
+#include "EntityManager.h"
+#include "LevelBuilder.h"
+#include "Controller.h"
+#include "LevelBuilder.h"
+
 #include "../enumerates/Action.h"
-#include "../enumerates/Color.h"
+#include "../logger/Logger.h"
+#include "../logger/LogManager.h"
+#include "../CLIAparser/CLIArgumentParser.h"
+
+#include "../XMLparser/xmlparser.h"
+
+#include "../net/messaging/IDManager.h"
+#include "../net/messaging/Renderable.h"
+#include "../image/ImageUtils.h"
 #include "../net/messaging/User.h"
+#include "../enumerates/Color.h"
 
 class Server;
 
@@ -35,7 +50,6 @@ public:
 
     //API
     //===============================
-    void endLevel();
     std::string validateLogin(const string& user,const std::string& pass, int userId);
     void addNewIDToGame(int id);
     void reemplazePreviousIDWith(int oldID, int newID);

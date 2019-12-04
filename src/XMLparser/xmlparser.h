@@ -58,7 +58,7 @@ private:
 
     Utilities getGameplayUtilities(XMLElement *gameplay);
 
-    Utility getGameplayUtility(XMLElement *utility);
+    UtilityConfig getGameplayUtility(XMLElement *utility);
 
     template <typename T>
     static vector<T> mapSettingToVector(XMLElement *genericElement, string childNameType, T (*function)(XMLElement*, string), string section);

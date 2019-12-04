@@ -12,7 +12,7 @@ using namespace std;
 class UtilityConfig {
 public:
     int amount;
-    string stand;
+    string standSprite;
     string beingAttacked;
     string dying;
     double knivesDropProb;

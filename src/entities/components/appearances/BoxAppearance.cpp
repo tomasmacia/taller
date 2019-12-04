@@ -19,7 +19,7 @@ void BoxAppearance::init() {
     //DYING_IMAGE_AMOUNT = -1;
     //DEAD_IMAGE_AMOUNT = -1;
 
-    currentSprite = config.stand;
+    currentSprite = config.standSprite;
     _imageAmount  = STAND_IMAGE_AMOUNT;
     _imageCounter = 0;
     getCurrentSpriteDimentions();

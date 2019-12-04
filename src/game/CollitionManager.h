@@ -7,11 +7,11 @@
 
 #include <list>
 #include "../entities/components/collition/CollitionBox.h"
-#include "../entities/Character.h"
 #include "../entities/components/Point.h"
 
 using namespace std;
 
+class Character;
 class CollitionManager {
 
 public:
@@ -40,7 +40,7 @@ private:
     void clearNonLevelPersistentCollitionBoxes();
 
     list<CollitionBox*>* _blockingCollitionBoxes = nullptr;
-    list<CollitionBox*> _nonLevelPersistentCollitionBoxes = nullptr;
+    list<CollitionBox*>* _nonLevelPersistentCollitionBoxes = nullptr;
     list<CollitionBox*>* _weaponCollitionBoxes = nullptr;
     list<CollitionBox*>* _characterCollitionBoxes = nullptr;
     int newID = 0;

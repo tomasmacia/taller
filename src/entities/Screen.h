@@ -7,13 +7,13 @@
 
 #include <list>
 #include "Character.h"
+#include "../entities/entityHierarchy/Entity.h"
 
 using namespace std;
 
-
 class Screen : public Entity{
 public:
-    Screen(int width, int height, int levelWidth, CollitionManager* collitionManager);
+    Screen(int width, int height, int levelWidth, int levelDepth, CollitionManager* collitionManager);
 
     void update() override ;
     Sendable* generateSendable() override {}
@@ -43,6 +43,10 @@ public:
 
     int getMargin(){
         return marginWidth;
+    }
+
+    int getLevelWidth(){
+        return currentLevelWidth;
     }
 
     bool isScreen() override {return true;}

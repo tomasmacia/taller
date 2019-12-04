@@ -7,6 +7,7 @@
 
 
 #include "Position.h"
+#include "../Screen.h"
 
 class ScreenPosition {
 

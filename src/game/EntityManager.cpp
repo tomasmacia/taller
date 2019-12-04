@@ -1,28 +1,5 @@
 
 #include "EntityManager.h"
-#include "../logger/LogManager.h"
-
-#include "../entities/components/collition/AnimatedEntityCollitionHandler.h"
-#include "../entities/components/InputPoller.h"
-#include "../entities/components/State.h"
-#include "../entities/components/Position.h"
-#include "../entities/components/Physics.h"
-#include "../entities/components/ScreenPosition.h"
-#include "../entities/components/Sound.h"
-#include "../entities/components/Damage.h"
-#include "../entities/Life.h"
-#include "../entities/Score.h"
-#include "../entities/components/ID.h"
-#include "../entities/components/Attack.h"
-#include "../entities/components/IA.h"
-#include "../entities/components/NullWill.h"
-#include "../entities/components/appearances/CharacterAppearance.h"
-#include "../entities/components/appearances/ScoreAppearance.h"
-#include "../entities/components/appearances/EnemyAppearance.h"
-#include "../entities/components/appearances/BarrelAppearance.h"
-#include "../entities/components/appearances/BoxAppearance.h"
-#include "../entities/components/appearances/KnifeAppearance.h"
-#include "../entities/components/appearances/TubeAppearance.h"
 
 //CONSTRUCTOR
 //=========================================================================================
@@ -119,6 +96,11 @@ void EntityManager::disconectPlayerByID(int id){
     }
 }
 
+void EntityManager::setLevelParameters(int levelWidth, int levelHeight, int levelDepth) {
+
+    validPositionGenerator.set(levelWidth,levelHeight,levelDepth);
+}
+
 //ADDING NEW ENTITIES
 //=========================================================================================
 Character* EntityManager::addPlayer(int x, int y, int z, int id) {
@@ -186,8 +168,8 @@ void EntityManager::addOverlay(const string &spritePath, float parallaxSpeed) {
     fronLayerBackgrounds.push_back(background);
 }
 
-Screen* EntityManager::addScreen(int screenWidth, int screenHeight, int levelWidth) {
-    screen = new Screen(screenWidth, screenHeight, levelWidth, collitionManager);
+Screen* EntityManager::addScreen(int screenWidth, int screenHeight, int levelWidth, int levelDepth) {
+    screen = new Screen(screenWidth, screenHeight, levelWidth, levelDepth, collitionManager);
     specialEntities.push_back((Entity*) screen);
     return screen;
 }
@@ -231,15 +213,16 @@ Character *EntityManager::createCharacter(int x, int y, int z, int id) {
                           will, physics, attack, id, scoreAppearance);
 }
 
+
 Enemy *EntityManager::createEnemy() {
 
     int w = config->screenResolution.width*ENEMY_WIDTH_SCALE;
     int h = config->screenResolution.height*ENEMY_HEIGHT_SCALE;
     int walkingSpeed = config->screenResolution.width/WAKING_SPEED_FACTOR;
 
-    int x;
-    int y;
-    int z;
+    int x = validPositionGenerator.x();
+    int y = validPositionGenerator.y();
+    int z = validPositionGenerator.z();
 
     auto* will = new IA();
     auto* state = new State(will);
@@ -268,7 +251,6 @@ Enemy *EntityManager::createEnemy() {
                      will, physics);
 }
 
-
 Knife* EntityManager::createKnife() {
 
     int w = config->screenResolution.width*WEAPON_WIDTH_SCALE;
@@ -278,6 +260,10 @@ Knife* EntityManager::createKnife() {
     collitionBox->setOwner(this);
     auto* collitionHandler = new CollitionHandler(collitionManager);
     collitionHandler->addCollitionBox(collitionBox);
+
+    int x = validPositionGenerator.x();
+    int y = validPositionGenerator.y();
+    int z = validPositionGenerator.z();
 
     auto* damage = new Damage();
     auto* score = new Score();
@@ -303,6 +289,10 @@ Tube* EntityManager::createTube() {
     auto* collitionHandler = new CollitionHandler(collitionManager);
     collitionHandler->addCollitionBox(collitionBox);
 
+    int x = validPositionGenerator.x();
+    int y = validPositionGenerator.y();
+    int z = validPositionGenerator.z();
+
     auto* damage = new Damage();
     auto* score = new Score();
     auto* position = new Position(x, y, z, collitionHandler);
@@ -327,6 +317,10 @@ Box* EntityManager::createBox() {
     auto* collitionHandler = new CollitionHandler(collitionManager);
     collitionHandler->addCollitionBox(collitionBox);
 
+    int x = validPositionGenerator.x();
+    int y = validPositionGenerator.y();
+    int z = validPositionGenerator.z();
+
     auto* damage = new Damage();
     auto* score = new Score();
     auto* position = new Position(x, y, z, collitionHandler);
@@ -350,6 +344,10 @@ Barrel* EntityManager::createBarrel() {
     collitionBox->setOwner(this);
     auto* collitionHandler = new CollitionHandler(collitionManager);
     collitionHandler->addCollitionBox(collitionBox);
+
+    int x = validPositionGenerator.x();
+    int y = validPositionGenerator.y();
+    int z = validPositionGenerator.z();
 
     auto* damage = new Damage();
     auto* score = new Score();
@@ -379,10 +377,13 @@ Background* EntityManager::createMiddle(const string& spritePath, float parallax
 
 Background* EntityManager::createFloor(const string& spritePath, float parallaxSpeed) {
 
+    int w = screen->getLevelWidth();
+    int h = config->screenResolution.height;
+
     auto* collitionBoxes = new list<CollitionBox *>();
-    auto* back = collitionManager->createEnemyBlockingCollitionBox(x, y, z, w, h, DEFAULT_COLLITION_BOX_DEPTH);
-    auto* front = collitionManager->createEnemyBlockingCollitionBox(x, y, z, w, h, DEFAULT_COLLITION_BOX_DEPTH);
-    auto* floor = collitionManager->createEnemyBlockingCollitionBox(x, y, z, w, h, DEFAULT_COLLITION_BOX_DEPTH);
+    auto* back = collitionManager->createEnemyBlockingCollitionBox(0, 0, screen->getLevelDepth(), w, h, DEFAULT_COLLITION_BOX_DEPTH);
+    auto* front = collitionManager->createEnemyBlockingCollitionBox(0, 0, 0, w, h, DEFAULT_COLLITION_BOX_DEPTH);
+    auto* floor = collitionManager->createEnemyBlockingCollitionBox(0, -10, 0, w, DEFAULT_COLLITION_BOX_HEIGHT, screen->getLevelDepth());
     back->setOwner(this);
     front->setOwner(this);
     floor->setOwner(this);

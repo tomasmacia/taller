@@ -62,7 +62,7 @@ void LevelBuilder::initialize() {
     LogManager::logInfo("=======================================");
     LogManager::logInfo("[LEVEL]: Inicializando NIVEL " + std::to_string(currentLevel));
 
-    initializeLevelWidth();
+    initializeLevelDimentions();
     initializeCamera();
     initializeWorld();
     initializePlayers();
@@ -77,7 +77,7 @@ void LevelBuilder::initializeNextLevel() {
     LogManager::logInfo("=======================================");
     LogManager::logInfo("[LEVEL]: Inicializando NIVEL " + std::to_string(currentLevel));
 
-    initializeLevelWidth();
+    initializeLevelDimentions();
     resetCamera();
     initializeWorld();
     resetPlayers();
@@ -88,7 +88,7 @@ void LevelBuilder::initializeNextLevel() {
 
 void LevelBuilder::initializeCamera() {
     LogManager::logDebug("[LEVEL]: Inicializando Camara");
-    _screen = _entityManager->addScreen(_config->screenResolution.width, _config->screenResolution.height, currentLevelWidth);
+    _screen = _entityManager->addScreen(_config->screenResolution.width, _config->screenResolution.height, currentLevelWidth, currentlevelDepth);
 }
 
 void LevelBuilder::initializeWorld() {
@@ -122,7 +122,7 @@ void LevelBuilder::initializeWorld() {
     LogManager::logDebug("[LEVEL]: Fondos inicializados");
 }
 
-void LevelBuilder::initializeLevelWidth(){
+void LevelBuilder::initializeLevelDimentions(){
 
     std::string floorSpritePath = _config->gameplay.levels.at(currentLevel).floor.front();
 
@@ -137,6 +137,10 @@ void LevelBuilder::initializeLevelWidth(){
     float scaleFactor =  (aspectRatio * (float)floorSpriteHeight)/screenResolutionWidth;
 
     currentLevelWidth = (float)floorSpriteWidth/ scaleFactor;
+    currentlevelHeight = _config->screenResolution.height;
+    currentlevelDepth = _config->screenResolution.height/3;
+
+    _entityManager->setLevelParameters(currentLevelWidth, currentlevelHeight, currentlevelDepth);
 }
 
 void LevelBuilder::initializePlayers() {

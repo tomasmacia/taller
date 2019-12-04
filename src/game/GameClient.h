@@ -102,6 +102,8 @@ private:
 
     static bool hasInstance;
 
+    bool loggedIn = false;
+
     std:: mutex mu;
     std:: mutex controllerMutex;
     std::condition_variable waitForConnection;

@@ -14,7 +14,7 @@ void UtilityAppearance::handleCurrentState(){
 
     switch (_state->current()) {
         case NONE:
-            currentSprite = config.stand;
+            currentSprite = config.standSprite;
             _imageAmount  = STAND_IMAGE_AMOUNT;
             break;
         case BEING_ATTACKED:

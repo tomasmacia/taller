@@ -5,19 +5,20 @@
 #ifndef GAME_ENTITYMANAGER_H
 #define GAME_ENTITYMANAGER_H
 
-
 #include <list>
-#include <memory>
-#include <algorithm>
-#include "../entities/entityHierarchy/Entity.h"
-#include "../entities/entityHierarchy/PhysicalEntity.h"
-#include "../entities/entityHierarchy/Weapon.h"
-#include "../entities/Background.h"
+
+#include "Controller.h"
+#include "ValidPositionGenerator.h"
+
 #include "../net/messaging/Renderable.h"
+
 #include "../net/messaging/Sendable.h"
 #include "../XMLparser/config/config.h"
 
-#include "Controller.h"
+#include "../logger/LogManager.h"
+
+#include "../entities/entityHierarchy/PhysicalEntity.h"
+#include "../entities/Background.h"
 #include "../entities/Character.h"
 #include "../entities/Enemy.h"
 #include "../entities/Knife.h"
@@ -25,6 +26,29 @@
 #include "../entities/Box.h"
 #include "../entities/Barrel.h"
 #include "../entities/Background.h"
+#include "../entities/Life.h"
+#include "../entities/Score.h"
+
+#include "../entities/components/collition/AnimatedEntityCollitionHandler.h"
+#include "../entities/components/InputPoller.h"
+#include "../entities/components/State.h"
+#include "../entities/components/Position.h"
+#include "../entities/components/Physics.h"
+#include "../entities/components/ScreenPosition.h"
+#include "../entities/components/Sound.h"
+#include "../entities/components/Damage.h"
+#include "../entities/components/ID.h"
+#include "../entities/components/Attack.h"
+#include "../entities/components/IA.h"
+#include "../entities/components/NullWill.h"
+
+#include "../entities/components/appearances/CharacterAppearance.h"
+#include "../entities/components/appearances/ScoreAppearance.h"
+#include "../entities/components/appearances/EnemyAppearance.h"
+#include "../entities/components/appearances/BarrelAppearance.h"
+#include "../entities/components/appearances/BoxAppearance.h"
+#include "../entities/components/appearances/KnifeAppearance.h"
+#include "../entities/components/appearances/TubeAppearance.h"
 
 class EntityManager {
 public:
@@ -51,7 +75,7 @@ public:
     void addMiddle(const string& spritePath, float parallaxSpeed);
     void addFloor(const string& spritePath, float parallaxSpeed);
     void addOverlay(const string& spritePath, float parallaxSpeed);
-    Screen* addScreen(int screenWidth, int screenHeight, int levelWidth);
+    Screen* addScreen(int screenWidth, int screenHeight, int levelWidth, int levelDepth);
 
     //CREATING ENTITIES
     //===============================
@@ -71,6 +95,8 @@ public:
     std::list<Character*> getPlayers(){
         return players;
     }
+
+    void setLevelParameters( int levelWidth, int levelHeight, int levelDepth);
 
 private:
     //SORTING
@@ -103,6 +129,8 @@ private:
     std::list<PhysicalEntity*> physicalEntities;          //only utilities, weapons, enemies and players
     std::list<Background*> backLayerBackgrounds;
     std::list<Background*> fronLayerBackgrounds;
+
+    ValidPositionGenerator validPositionGenerator;
 
     //for performance
     std::list<Sendable*>* packagesToClients = nullptr;

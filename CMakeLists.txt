@@ -69,8 +69,8 @@ set(SOURCE_FILES
         src/game/main.cpp
 
         # game
-        src/to_remove_or_modify/LoggerMenu.cpp
-        src/to_remove_or_modify/LoggerMenu.h
+        src/game/LoggerMenu.cpp
+        src/game/LoggerMenu.h
         src/game/Game.h
         src/game/Game.cpp
         src/game/GameServer.h
@@ -82,8 +82,8 @@ set(SOURCE_FILES
         src/game/EntityManager.h
         src/game/EntityManager.cpp
         src/enumerates/Action.h
-        src/to_remove_or_modify/LevelBuilder.h
-        src/to_remove_or_modify/LevelBuilder.cpp
+        src/game/LevelBuilder.h
+        src/game/LevelBuilder.cpp
         src/entities/components/Position.h
         src/entities/components/Position.cpp
         src/entities/Screen.cpp
@@ -108,12 +108,8 @@ set(SOURCE_FILES
         src/entities/components/appearances/BackgroundAppearance.cpp
         src/entities/components/appearances/StateDrivenAppearance.cpp
         src/entities/components/appearances/StateDrivenAppearance.h
-        src/to_remove_or_modify/LevelLimits.h
-        src/to_remove_or_modify/LevelLimits.cpp
-        src/to_remove_or_modify/CharacterLevelLimits.cpp
-        src/to_remove_or_modify/CharacterLevelLimits.h
-        src/to_remove_or_modify/NonCharacterLevelLimits.cpp
-        src/to_remove_or_modify/NonCharacterLevelLimits.h
+        src/game/ValidPositionGenerator.h
+        src/game/ValidPositionGenerator.cpp
 
         src/net/messaging/Renderable.h
         src/net/messaging/Renderable.cpp
@@ -121,8 +117,8 @@ set(SOURCE_FILES
         src/net/messaging/IDManager.h
         src/entities/components/ID.cpp
         src/entities/components/ID.h
-        src/to_remove_or_modify/LoggerMenu.cpp
-        src/to_remove_or_modify/LoggerMenu.h
+        src/game/LoggerMenu.cpp
+        src/game/LoggerMenu.h
         src/net/messaging/ObjectSerializer.cpp
         src/net/messaging/ObjectSerializer.h
         src/net/messaging/MessageParser.cpp

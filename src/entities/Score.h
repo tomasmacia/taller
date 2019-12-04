@@ -7,7 +7,7 @@
 
 
 #include "components/appearances/ScoreAppearance.h"
-#include "../../enumerates/AttackCode.h"
+#include "../enumerates/AttackCode.h"
 
 class Score {
 

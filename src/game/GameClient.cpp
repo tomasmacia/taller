@@ -2,7 +2,7 @@
 
 #include "../logger/Logger.h"
 #include "Controller.h"
-#include "../to_remove_or_modify/LoggerMenu.h"
+#include "LoggerMenu.h"
 
 bool GameClient::hasInstance = false;
 

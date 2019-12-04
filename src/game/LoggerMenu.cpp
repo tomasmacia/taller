@@ -1,7 +1,7 @@
 #include "LoggerMenu.h"
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
-#include "../game/Game.h"
+#include "Game.h"
 #include<string>
 
 LoggerMenu::LoggerMenu(Client* client, GameClient* gameClient){

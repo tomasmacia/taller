@@ -5,7 +5,7 @@
 #ifndef GAME_LEVELBUILDER_H
 #define GAME_LEVELBUILDER_H
 
-#include "../game/EntityManager.h"
+#include "EntityManager.h"
 #include "../entities/Screen.h"
 
 class Entity;
@@ -39,7 +39,7 @@ private:
     void initializeNextLevel();
     void initializeCamera();
     void initializeWorld();
-    void initializeLevelWidth();
+    void initializeLevelDimentions();
     void initializePlayers();
     void initializeEnemies();
     void initializeUtilities();
@@ -61,6 +61,8 @@ private:
     int _levelAmount;
 
     int currentLevelWidth = 10000; //ONLY USED ON ERROR
+    int currentlevelHeight = 300;  //ONLY USED ON ERROR
+    int currentlevelDepth = 100;   //ONLY USED ON ERROR
 
     //un numero entre 0 y 1. 1 significa nada de parallax y 0 es quieto
     float OVERLAY_SPEED_RATIO = 1; //este TIENE que ser 1

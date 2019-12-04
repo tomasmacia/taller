@@ -5,9 +5,9 @@
 #ifndef GAME_POSITION_H
 #define GAME_POSITION_H
 
-#include "collition/CollitionHandler.h"
 #include "../components/Point.h"
 
+class CollitionHandler;
 class Position {
 public:
     Position(int x, int y, int z, CollitionHandler* collitionHandler) ;
@@ -16,21 +16,21 @@ public:
     void tryToMoveTo(int newX, int newY, int newZ);
 
     void setPosition(int xPos, int yPos, int zPos) {
-        point.x = xPos;
-        point.y = yPos;
-        point.z = zPos;
+        point->x = xPos;
+        point->y = yPos;
+        point->z = zPos;
     }
 
     int getX() {
-        return point.x;
+        return point->x;
     }
 
     int getY() {
-        return point.y;
+        return point->y;
     }
 
     int getZ() {
-        return point.z;
+        return point->z;
     }
 private:
     Point* point = nullptr;

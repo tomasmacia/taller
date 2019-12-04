@@ -4,7 +4,6 @@
 #include "../../enumerates/Action.h"
 #include "Will.h"
 
-
 class State {
 public:
     State(Will* will);

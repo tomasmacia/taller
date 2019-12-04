@@ -2,7 +2,7 @@
 #include "../time/TimeUtils.h"
 #include "../CLIAparser/CLIArgumentParser.h"
 #include "../logger/LogManager.h"
-#include "../to_remove_or_modify/LoggerMenu.h"
+#include "LoggerMenu.h"
 #include "GameServer.h"
 #include "GameClient.h"
 #include "../enumerates/Mode.h"

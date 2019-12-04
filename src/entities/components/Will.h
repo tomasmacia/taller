@@ -7,7 +7,6 @@
 
 
 #include "../../enumerates/Action.h"
-#include "State.h"
 
 class Will {
 

@@ -5,13 +5,12 @@
 #ifndef GAME_ATTACK_H
 #define GAME_ATTACK_H
 
-
-#include "../entityHierarchy/Weapon.h"
 #include "State.h"
 #include "../../enumerates/AttackCode.h"
 #include "collition/AnimatedEntityCollitionHandler.h"
-#include "../entityHierarchy/AnimatedEntity.h"
 
+class AnimatedEntity;
+class Weapon;
 class Attack {
 public:
     Attack(State* state, AnimatedEntityCollitionHandler* animatedEntityCollitionHandler);
@@ -22,14 +21,10 @@ public:
     void addressKick();
     void addressJumpKick();
     void addressPickIntent();
+    void setWeapon(Weapon* weapon);
 
     void setOwner(AnimatedEntity* owner){
         this->owner = owner;
-    }
-
-    void setWeapon(Weapon* weapon){
-        weapon->getPicked();
-        this->weapon = weapon;
     }
 
 private:

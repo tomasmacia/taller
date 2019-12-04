@@ -3,6 +3,7 @@
 //
 
 #include "Attack.h"
+#include "../entityHierarchy/Weapon.h"
 
 Attack::Attack(State* state, AnimatedEntityCollitionHandler* animatedEntityCollitionHandler){
 
@@ -95,4 +96,9 @@ bool Attack::weaponBroke() {
 
 void Attack::throwWeapon() {
     weapon = nullptr;
+}
+
+void setWeapon(Weapon* weapon){
+    weapon->getPicked();
+    this->weapon = weapon;
 }
