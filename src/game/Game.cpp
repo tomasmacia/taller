@@ -74,8 +74,8 @@ void Game::baseClassFreeMemory(){
 //===============================
 
 void Game::init_music(){
-    music = Mix_LoadMUS("resources/Sound/Game/fondo.mp3");
-    sound1 = Mix_LoadWAV("resources/Sound/Game/kick.mp3");
+    music = Mix_LoadMUS("resources/sfx/Game/fondo.mp3");
+    sound1 = Mix_LoadWAV("resources/sfx/Game/kick.mp3");
     
     Mix_PlayMusic(music,-1);
 }
