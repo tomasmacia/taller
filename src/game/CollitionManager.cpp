@@ -3,6 +3,7 @@
 //
 
 #include "CollitionManager.h"
+#include "../entities/entityHierarchy/Entity.h"
 
 CollitionManager::CollitionManager() {
 
@@ -125,9 +126,10 @@ list<CollitionBox*>* CollitionManager::getCollitionsWith(CollitionBox *query) {
     for (auto collitionBox : *_blockingCollitionBoxes){
         if (collitionBox->getID() != query->getID() ){
             if (collitionBox->intersectsWith(query)){
-
-                if (!((collitionBox->getOwner()->isScreen() && query->getOwner()->isEnemy()) ||
-                    (collitionBox->getOwner()->isScreen() && query->getOwner()->isFinalBoss()))){
+                if (!((query->getOwner()->isScreen() && collitionBox->getOwner()->isEnemy())
+                 || (query->getOwner()->isScreen() && collitionBox->getOwner()->isFinalBoss())
+                 || (query->getOwner()->isEnemy() && collitionBox->getOwner()->isScreen())
+                 || (query->getOwner()->isFinalBoss() && collitionBox->getOwner()->isScreen()))){
 
                     collitions->push_back(collitionBox);
                 }

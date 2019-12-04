@@ -30,7 +30,7 @@ void CollitionHandler::setOwnerToAllCollitionBox(Entity* owner) {
 }
 
 void CollitionHandler::eraseCollitionBoxes() {
-    for (auto collitionBox : _collitionBoxes){
+    for (auto collitionBox : *_collitionBoxes){
         _collitionManager->untrack(collitionBox);
         delete(collitionBox);
     }

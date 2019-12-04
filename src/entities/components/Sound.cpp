@@ -11,3 +11,11 @@ string Sound::getCurrent() {
 Sound::Sound(State *state) {
     this->state = state;
 }
+
+void Sound::update() {
+    //TODO
+}
+
+Soundable *Sound::generateSoundable() {
+    return nullptr; //TODO
+}

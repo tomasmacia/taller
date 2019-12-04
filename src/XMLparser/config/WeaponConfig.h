@@ -3,7 +3,7 @@
 //
 
 #ifndef GAME_WEAPONENTITY_H
-#define GAME_WEAPON_H
+#define GAME_WEAPONENTITY_H
 
 #include <string>
 

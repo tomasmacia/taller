@@ -3,6 +3,7 @@
 //
 
 #include "CollitionBox.h"
+#include "../../entityHierarchy/Entity.h"
 
 CollitionBox::CollitionBox(int x, int y, int z, int w, int h, int d, int id) {
 
@@ -31,11 +32,6 @@ bool CollitionBox::anyCornerIntersectsWith(CollitionBox* collitionBox) {
     return false;
 }
 
-bool CollitionBox::intersectsWith(CollitionBox* collitionBox) {
-
-    return anyCornerIntersectsWith(collitionBox);
-}
-
 bool CollitionBox::hasInsideItsVolume(Point* corner){
 
     int x = corners.front()->x;
@@ -59,10 +55,6 @@ void CollitionBox::calculateAndAssignCorners(int x, int y, int z) {
     corners.push_back(new Point(x + w,y + 0,z + d));
     corners.push_back(new Point(x + w,y + h,z + 0));
     corners.push_back(new Point(x + w,y + h,z + d));
-}
-
-void CollitionBox::setOwner(Entity *owner) {
-    this->owner = owner;
 }
 
 void CollitionBox::moveAllCornersBy(int xAmount, int yAmount, int zAmount) {
@@ -123,4 +115,16 @@ void CollitionBox::restorePreviousPosition() {
     int diffZ = corners.front()->z - previousPosition->z;
 
     moveAllCornersBy(diffX,diffY,diffZ);
+}
+
+Entity *CollitionBox::getOwner() {
+    return owner;
+}
+
+void CollitionBox::setOwner(Entity *owner) {
+    this->owner = owner;
+}
+
+bool CollitionBox::intersectsWith(CollitionBox *collitionBox) {
+    return anyCornerIntersectsWith(collitionBox);
 }

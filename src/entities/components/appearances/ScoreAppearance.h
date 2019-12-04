@@ -7,13 +7,14 @@
 
 
 #include "Appearance.h"
-#include "../../Score.h"
 
-
+class Score;
 class ScoreAppearance : public Appearance{
 
 public:
-    ScoreAppearance(Score* score);
+    ScoreAppearance(ScreenPosition *screenPosition, Score *score);
+    Renderable* actuallyGenerateRenderable() override ;
+    void loadNextImage() override ;
 
     void update();
 

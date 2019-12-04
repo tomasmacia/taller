@@ -12,8 +12,8 @@
 #include "Game.h"
 #include "EntityManager.h"
 #include "LevelBuilder.h"
-#include "Controller.h"
 #include "LevelBuilder.h"
+#include "Controller.h"
 
 #include "../enumerates/Action.h"
 #include "../logger/Logger.h"
@@ -22,13 +22,12 @@
 
 #include "../XMLparser/xmlparser.h"
 
+#include "../net/Server.h"
 #include "../net/messaging/IDManager.h"
 #include "../net/messaging/Renderable.h"
 #include "../image/ImageUtils.h"
 #include "../net/messaging/User.h"
 #include "../enumerates/Color.h"
-
-class Server;
 
 class GameServer : public  Game{
 public:
@@ -68,7 +67,7 @@ public:
     }
 
     EntityManager* getManager() {
-        return manager;
+        return entityManager;
     }
 
 private:
@@ -143,8 +142,8 @@ private:
 
     int maxPlayers{};
 
-    Renderable* waitingScreenRenderable = nullptr;
-    list<Renderable*>* waitingScreenContainer = nullptr;
+    Sendable* waitingScreenRenderable = nullptr;
+    list<Sendable*>* waitingScreenContainer = nullptr;
 
     Server* server = nullptr;
     EntityManager* entityManager = nullptr;

@@ -4,10 +4,18 @@
 
 #include "ScoreAppearance.h"
 
-ScoreAppearance::ScoreAppearance(Score *score){
+ScoreAppearance::ScoreAppearance(ScreenPosition *screenPosition, Score *score) : Appearance(screenPosition) {
     this->score = score;
 }
 
 void ScoreAppearance::update() {
+    //TODO
+}
+
+Renderable *ScoreAppearance::actuallyGenerateRenderable() {
+    return nullptr; //TODO
+}
+
+void ScoreAppearance::loadNextImage() {
     //TODO
 }

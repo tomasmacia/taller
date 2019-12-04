@@ -13,10 +13,9 @@
 #include "../enumerates/Action.h"
 #include "Game.h"
 #include "../net/messaging/Sendable.h"
-#include "../net/Server.h"
 #include "GameClient.h"
 
-
+class Server;
 class Controller {
 public:
     Controller(Game* game);

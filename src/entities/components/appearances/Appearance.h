@@ -42,6 +42,6 @@ protected:
     ScreenPosition* _screenPosition = nullptr;
 
     bool transparent = false;
-    string TRANSPARENT_SPRITE = "path" //todo
+    string TRANSPARENT_SPRITE = "path"; //todo
 };
 #endif //RENDER_COMPONENT_H

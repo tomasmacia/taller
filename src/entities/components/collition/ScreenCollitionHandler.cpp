@@ -6,6 +6,6 @@
 
 ScreenCollitionHandler::ScreenCollitionHandler(CollitionManager* collitionManager, Screen* screen) : CollitionHandler(collitionManager){
 
-    _leftScreenCollitionBox = addBlockingCollitionBox(0,0,0,-1,screen->getWindowHeight(),screen->getLevelDepth());
-    _rightScreenCollitionBox = addBlockingCollitionBox(screen->getWindowHeight(),0,0,-1,screen->getWindowHeight(),screen->getLevelDepth());
+    _leftScreenCollitionBox = collitionManager->createScreenBlockingCollitionBox(0,0,0,-1,screen->getWindowHeight(),screen->getLevelDepth());
+    _rightScreenCollitionBox = collitionManager->createScreenBlockingCollitionBox(screen->getWindowHeight(),0,0,-1,screen->getWindowHeight(),screen->getLevelDepth());
 }

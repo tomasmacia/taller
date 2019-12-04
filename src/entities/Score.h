@@ -16,12 +16,10 @@ public:
     int finalBossKilled();
     int barrelAttackedWith(AttackCode attackCode);
     int boxAttackedWith(AttackCode attack);
-    int enemyAttackedWith(AttackCode attackCode)
+    int enemyAttackedWith(AttackCode attackCode);
     int enemyKilled();
     int barrelBroken();
     int boxBroken();
-
-    int enemyKilled();
 
 private:
     int BROKEN_BOX_SCORE = 200;
@@ -34,10 +32,7 @@ private:
     int KNIFE_ATTACK_TO_ENEMY = 400;
     int TUBE_ATTACK_TO_ENEMY = 200;
 
-}
-
     int current = 0;
-
 };
 
 

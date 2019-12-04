@@ -5,7 +5,7 @@
 #ifndef GAME_COLLITIONBOX_H
 #define GAME_COLLITIONBOX_H
 
-
+#include <list>
 #include "../../components/Point.h"
 
 class Entity;
@@ -15,7 +15,6 @@ public:
     CollitionBox(int x, int y, int z, int w, int h, int d, int id);
     ~CollitionBox();
 
-    void setOwner(Entity* owner);
     bool intersectsWith(CollitionBox* collitionBox);
     void moveAllCornersBy(int xAmount, int yAmount, int zAmount);
     void dragToRight(int amount);
@@ -24,6 +23,8 @@ public:
     bool hasInsideItsVolume(Point* corner);
     void savePreviousPosition();
     void restorePreviousPosition();
+    Entity* getOwner();
+    void setOwner(Entity* owner);
 
     int getX(){
         return corners.front()->x;
@@ -37,25 +38,23 @@ public:
         return corners.front()->z;
     }
 
-    Entity* getOwner(){
-        return owner;
-    }
-
     int getID(){
         return id;
     }
-private:
-    Point* previousPosition = nullptr;
 
-    bool cornerIntersectsWith(CollitionBox* collitionBox, Point* corner);
+protected:
     bool anyCornerIntersectsWith(CollitionBox* collitionBox);
 
+private:
+    Point* previousPosition = nullptr;
+    bool cornerIntersectsWith(CollitionBox* collitionBox, Point* corner);
     void calculateAndAssignCorners(int x, int y, int z);
-    list<Point*> corners;
+
+    std::list<Point*> corners;
+
     Entity* owner = nullptr;
 
     int id;
-
     int w;
     int h;
     int d;

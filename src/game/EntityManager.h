@@ -7,7 +7,6 @@
 
 #include <list>
 
-#include "Controller.h"
 #include "ValidPositionGenerator.h"
 
 #include "../net/messaging/Renderable.h"
@@ -29,27 +28,7 @@
 #include "../entities/Life.h"
 #include "../entities/Score.h"
 
-#include "../entities/components/collition/AnimatedEntityCollitionHandler.h"
-#include "../entities/components/InputPoller.h"
-#include "../entities/components/State.h"
-#include "../entities/components/Position.h"
-#include "../entities/components/Physics.h"
-#include "../entities/components/ScreenPosition.h"
-#include "../entities/components/Sound.h"
-#include "../entities/components/Damage.h"
-#include "../entities/components/ID.h"
-#include "../entities/components/Attack.h"
-#include "../entities/components/IA.h"
-#include "../entities/components/NullWill.h"
-
-#include "../entities/components/appearances/CharacterAppearance.h"
-#include "../entities/components/appearances/ScoreAppearance.h"
-#include "../entities/components/appearances/EnemyAppearance.h"
-#include "../entities/components/appearances/BarrelAppearance.h"
-#include "../entities/components/appearances/BoxAppearance.h"
-#include "../entities/components/appearances/KnifeAppearance.h"
-#include "../entities/components/appearances/TubeAppearance.h"
-
+class Controller;
 class EntityManager {
 public:
     EntityManager(Controller* controller, Config* config);
@@ -90,13 +69,13 @@ public:
     Background* createFloor(const string& spritePath, float parallaxSpeed);
     Background* createOverlay(const string& spritePath, float parallaxSpeed);
 
+    void setLevelParameters( int levelWidth, int levelHeight, int levelDepth);
+
     //GETTERS
     //===============================
     std::list<Character*> getPlayers(){
         return players;
     }
-
-    void setLevelParameters( int levelWidth, int levelHeight, int levelDepth);
 
 private:
     //SORTING
@@ -153,7 +132,7 @@ private:
     int WAKING_SPEED_FACTOR = 100;
     int JUMPING_SPEED_FACTOR = 110;
 
-    int NON_TRACKABLE_COLLITION_BOX_ID = -1
+    int NON_TRACKABLE_COLLITION_BOX_ID = -1;
     int DEFAULT_COLLITION_BOX_WIDTH = 5;
     int DEFAULT_COLLITION_BOX_HEIGHT = 5;
     int DEFAULT_COLLITION_BOX_DEPTH = 5;

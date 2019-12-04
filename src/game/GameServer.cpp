@@ -149,8 +149,8 @@ void GameServer::connectionLostWith(int id){
         string name = loggedPlayersUserByID.at(id).name;
         disconectedPlayers.insert({name,id});
     }
-    if (manager != nullptr){
-        manager->disconectPlayerByID(id);
+    if (entityManager != nullptr){
+        entityManager->disconectPlayerByID(id);
     }
 }
 
@@ -222,8 +222,8 @@ string GameServer::processReconectionAndEmitSuccesMessage(const string& name, in
     reemplazePreviousIDWith(oldID, newID);
 
     disconectedPlayers.erase(user.name);
-    if (manager != nullptr){
-        manager->reconectPlayerByID(oldID, newID);
+    if (entityManager != nullptr){
+        entityManager->reconectPlayerByID(oldID, newID);
     }
 
     return controller->getSuccesfullLoginMessage(user.color,newID);
@@ -265,8 +265,8 @@ void GameServer::initWaitingScreen() {
     Rect src = {0,0,imageWidth,imageHeight};
     Rect dst = {0,0,screenWidth,screenHeight};
 
-    waitingScreenRenderable = new Renderable(path, src, dst, false);
-    waitingScreenContainer = new list<Renderable*>();
+    waitingScreenRenderable = new Sendable(new Renderable(path, src, dst, false), nullptr);
+    waitingScreenContainer = new list<Sendable*>();
     waitingScreenContainer->push_back(waitingScreenRenderable);
 }
 

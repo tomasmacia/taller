@@ -2,6 +2,7 @@
 // Created by Tomás Macía on 14/10/2019.
 //
 #include "Position.h"
+#include "collition/AnimatedEntityCollitionHandler.h"
 
 Position::Position(int x, int y, int z, CollitionHandler* collitionHandler) {
 

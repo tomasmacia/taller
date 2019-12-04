@@ -8,9 +8,9 @@
 #include "State.h"
 #include "../../enumerates/AttackCode.h"
 #include "collition/AnimatedEntityCollitionHandler.h"
+#include "../entityHierarchy/Weapon.h"
 
 class AnimatedEntity;
-class Weapon;
 class Attack {
 public:
     Attack(State* state, AnimatedEntityCollitionHandler* animatedEntityCollitionHandler);

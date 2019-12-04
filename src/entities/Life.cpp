@@ -29,7 +29,7 @@ void Life::decreseBy(int amount) {
 
 void Life::initializeWith(int amount, int amountOfLifes) {
 
-    this->amountOfLifes = amountOfLifes
+    this->amountOfLifes = amountOfLifes;
     startingAmount = amount;
     current = amount;
 }

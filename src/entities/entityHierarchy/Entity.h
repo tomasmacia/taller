@@ -22,14 +22,12 @@ public:
 
     virtual int setAttackedWith(AttackCode attack){return 0;} //returns score to attacker, by default its 0
 
-protected:
-    CollitionHandler* collitionHandler = nullptr;
-
-    //mea culpa
-public:
-    virtual bool isScreen(){return false;}
     virtual bool isEnemy(){return false;}
     virtual bool isFinalBoss(){return false;}
+    virtual bool isScreen(){return false;}
+
+protected:
+    CollitionHandler* collitionHandler = nullptr;
 };
 
 #endif //GAME_ENTITY_H

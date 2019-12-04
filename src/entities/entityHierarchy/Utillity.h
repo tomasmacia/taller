@@ -8,7 +8,10 @@
 #include "UnanimatedEntity.h"
 
 class Utillity : public UnanimatedEntity{
-    
+
+protected:
+    Utillity(CollitionHandler *collitionHandler, Life *life, Damage *damage, Score *score, Position *position,
+             State *state, ScreenPosition *screenPosition, StateDrivenAppearance *appearance, Sound *sound);
 };
 
 

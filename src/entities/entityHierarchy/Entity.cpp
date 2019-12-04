@@ -6,6 +6,7 @@
 
 Entity::Entity(CollitionHandler *collitionHandler) {
     this->collitionHandler = collitionHandler;
+    collitionHandler->setOwnerToAllCollitionBox(this);
 }
 
 Entity::~Entity() {

@@ -86,9 +86,9 @@ bool ObjectSerializer::validSerializedInputMessage(vector<string>* currentParsed
 Renderable* ObjectSerializer::reconstructRenderable(vector<string>* currentParsedMessage) {
 
     std::string path = currentParsedMessage->at(2);
-    SDL_Rect src = {std::stoi(currentParsedMessage->at(5)), std::stoi(currentParsedMessage->at(6)), std::stoi(currentParsedMessage->at(3)),
+    Rect src = {std::stoi(currentParsedMessage->at(5)), std::stoi(currentParsedMessage->at(6)), std::stoi(currentParsedMessage->at(3)),
                     std::stoi(currentParsedMessage->at(4))};
-    SDL_Rect dst = {std::stoi(currentParsedMessage->at(9)), std::stoi(currentParsedMessage->at(10)), std::stoi(currentParsedMessage->at(7)),
+    Rect dst = {std::stoi(currentParsedMessage->at(9)), std::stoi(currentParsedMessage->at(10)), std::stoi(currentParsedMessage->at(7)),
                     std::stoi(currentParsedMessage->at(8))};
     bool flip = std::stoi(currentParsedMessage->at(11));
 
@@ -214,7 +214,7 @@ std::string ObjectSerializer::serializeObjects(std::list<Sendable*>* packages){
     string serializedPackages = "";
 
     for (auto package : *packages){
-        serializedPackages +=  serializeObject(package) + OBJECT_SEPARATOR_SYMBOL;
+        serializedPackages +=  serializeObject(package->_renderable) + OBJECT_SEPARATOR_SYMBOL;
     }
     return addPadding(to_string(SET_OF_RENDERABLES) + OBJECT_SEPARATOR_SYMBOL + serializedPackages + END_OF_SERIALIZATION_SYMBOL);
 }

@@ -3,6 +3,7 @@
 //
 #include "Screen.h"
 #include "components/collition/ScreenCollitionHandler.h"
+#include "Character.h"
 
 
 Screen::Screen(int width, int height, int levelWidth, int levelDepth, CollitionManager* collitionManager){
@@ -15,7 +16,7 @@ Screen::Screen(int width, int height, int levelWidth, int levelDepth, CollitionM
     this->offScreenTolerance = 2*marginWidth;
     this->levelDepth = levelDepth;
 
-    this->collitionHandler = new ScreenCollitionHandler(this, collitionManager);
+    this->collitionHandler = new ScreenCollitionHandler(collitionManager, this);
 }
 
 void Screen::reset(int levelWidth){
@@ -96,7 +97,7 @@ bool Screen::touchingMargin(Character* player) {
 void Screen::scroll() {
     int amount = (int)(_players.front()->getWalkingSpeed());
     this->currentX += amount;
-    this->_collitionHandler->dragToRight(amount);
+    this->collitionHandler->dragToRight(amount);
 
     for (auto player: _players){
         if (!playerIsConnected(player) && inLeftLimit(player)){

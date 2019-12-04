@@ -17,8 +17,7 @@ public:
 
     int setAttackedWith(AttackCode attack) override ;
 
-
-    bool isFinalBoss() override {return true;}
+    bool isFinalBoss(){return true;}
 private:
     int FINAL_BOSS_LIFE_AMOUNT = 500;
 };

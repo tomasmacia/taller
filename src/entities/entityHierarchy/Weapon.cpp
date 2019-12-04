@@ -12,3 +12,8 @@ void Weapon::getPicked() {
     collitionHandler->eraseCollitionBoxes();
     appearance->setTransparent();
 }
+
+Weapon::Weapon(CollitionHandler *collitionHandler, Life *life, Damage *damage, Score *score, Position *position,
+               State *state, ScreenPosition *screenPosition, StateDrivenAppearance *appearance, Sound *sound)
+        : UnanimatedEntity(collitionHandler, life, damage, score, position, state, screenPosition, appearance, sound) {
+}

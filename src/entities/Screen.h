@@ -6,11 +6,11 @@
 #define GAME_CAMERAPOSITIONCOMPONENT_H
 
 #include <list>
-#include "Character.h"
 #include "../entities/entityHierarchy/Entity.h"
 
 using namespace std;
 
+class Character;
 class Screen : public Entity{
 public:
     Screen(int width, int height, int levelWidth, int levelDepth, CollitionManager* collitionManager);
@@ -22,7 +22,7 @@ public:
     bool onScreen(int x, int y);
     bool isAtEnd();
     
-    void reset(int levelWidth));
+    void reset(int levelWidth);
     float getLevelPercentageCovered();
 
     void setLevelWidth(int levelWidth){
@@ -49,9 +49,9 @@ public:
         return currentLevelWidth;
     }
 
-    bool isScreen() override {return true;}
-
     int currentX = 0;
+
+    bool isScreen(){return true;}
 
 private:
     int windowHeight, windowWidth, levelDepth;

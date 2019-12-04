@@ -6,8 +6,8 @@
 #define GAME_COLLITIONMANAGER_H
 
 #include <list>
-#include "../entities/components/collition/CollitionBox.h"
 #include "../entities/components/Point.h"
+#include "../entities/components/collition/CollitionBox.h"
 
 using namespace std;
 

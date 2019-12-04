@@ -1,6 +1,27 @@
 
 #include "EntityManager.h"
 
+#include "../entities/components/collition/AnimatedEntityCollitionHandler.h"
+#include "../entities/components/InputPoller.h"
+#include "../entities/components/State.h"
+#include "../entities/components/Position.h"
+#include "../entities/components/Physics.h"
+#include "../entities/components/ScreenPosition.h"
+#include "../entities/components/Sound.h"
+#include "../entities/components/Damage.h"
+#include "../entities/components/ID.h"
+#include "../entities/components/Attack.h"
+#include "../entities/components/IA.h"
+#include "../entities/components/NullWill.h"
+
+#include "../entities/components/appearances/CharacterAppearance.h"
+#include "../entities/components/appearances/ScoreAppearance.h"
+#include "../entities/components/appearances/EnemyAppearance.h"
+#include "../entities/components/appearances/BarrelAppearance.h"
+#include "../entities/components/appearances/BoxAppearance.h"
+#include "../entities/components/appearances/KnifeAppearance.h"
+#include "../entities/components/appearances/TubeAppearance.h"
+
 //CONSTRUCTOR
 //=========================================================================================
 EntityManager::EntityManager(Controller* controller, Config* config){
@@ -191,26 +212,23 @@ Character *EntityManager::createCharacter(int x, int y, int z, int id) {
     auto* punchBox = new CollitionBox(x, y, z, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH,NON_TRACKABLE_COLLITION_BOX_ID);
     auto* kickBox = new CollitionBox(x, y, z, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH,NON_TRACKABLE_COLLITION_BOX_ID);
     auto* collitionBox = collitionManager->createCharacterBlockingCollitionBox(x, y, z, w, h, DEFAULT_COLLITION_BOX_DEPTH);
-    pickBox->setOwner(this);
-    punchBox->setOwner(this);
-    kickBox->setOwner(this);
-    collitionBox->setOwner(this);
     auto* collitionHandler = new AnimatedEntityCollitionHandler(collitionManager, punchBox, kickBox, collitionBox, pickBox);
 
     auto* position = new Position(x, y, z, collitionHandler);
     auto* physics = new Physics(state,position,walkingSpeed,jumpingSpeed);
     auto* screenPosition = new ScreenPosition(position,screen);
-    auto* appearance = new CharacterAppearance(w, h, screenPosition, state, config->gameplay.characters.at(players.size()));
+    auto characterConfig = config->gameplay.characters.at(players.size());
+    auto* appearance = new CharacterAppearance(w, h,position, screenPosition, state, characterConfig);
     auto* sound = new Sound(state);
     auto* damage = new Damage();
     auto* life = new Life(state);
     auto* score = new Score();
-    auto* scoreAppearance = new ScoreAppearance(score);
+    auto* scoreAppearance = new ScoreAppearance(nullptr, score);
     auto* attack = new Attack(state, collitionHandler);
 
     return new Character(collitionHandler, life, damage, score, position,
                           state, screenPosition, appearance, sound,
-                          will, physics, attack, id, scoreAppearance);
+                          will, physics, attack, idComponent, scoreAppearance);
 }
 
 
@@ -219,6 +237,7 @@ Enemy *EntityManager::createEnemy() {
     int w = config->screenResolution.width*ENEMY_WIDTH_SCALE;
     int h = config->screenResolution.height*ENEMY_HEIGHT_SCALE;
     int walkingSpeed = config->screenResolution.width/WAKING_SPEED_FACTOR;
+    int jumpingSpeed = config->screenResolution.height/JUMPING_SPEED_FACTOR;
 
     int x = validPositionGenerator.x();
     int y = validPositionGenerator.y();
@@ -231,24 +250,21 @@ Enemy *EntityManager::createEnemy() {
     auto* punchBox = new CollitionBox(x, y, z, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH,NON_TRACKABLE_COLLITION_BOX_ID);
     auto* kickBox = new CollitionBox(x, y, z, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH,NON_TRACKABLE_COLLITION_BOX_ID);
     auto* collitionBox = collitionManager->createCharacterBlockingCollitionBox(x, y, z, w, h, DEFAULT_COLLITION_BOX_DEPTH);
-    pickBox->setOwner(this);
-    punchBox->setOwner(this);
-    kickBox->setOwner(this);
-    collitionBox->setOwner(this);
-    auto* collitionHandler = new AnimatedEntityCollitionHandler(collitionManager, punchBox, collitionBox);
+    auto* collitionHandler = new AnimatedEntityCollitionHandler(collitionManager, punchBox, kickBox, collitionBox, pickBox);
 
     auto* position = new Position(x, y, z, collitionHandler);
-    auto* physics = new Physics(state,position,walkingSpeed);
+    auto* physics = new Physics(state,position,walkingSpeed,jumpingSpeed);
     auto* screenPosition = new ScreenPosition(position,screen);
     auto* appearance = new EnemyAppearance(w, h, screenPosition, state, config->gameplay.npcs.front());
     auto* sound = new Sound(state);
     auto* damage = new Damage();
     auto* life = new Life(state);
     auto* score = new Score();
+    auto* attack = new Attack(state, collitionHandler);
 
     return new Enemy(collitionHandler, life, damage, score, position,
                      state, screenPosition, appearance, sound,
-                     will, physics);
+                     will, physics, attack);
 }
 
 Knife* EntityManager::createKnife() {
@@ -256,14 +272,13 @@ Knife* EntityManager::createKnife() {
     int w = config->screenResolution.width*WEAPON_WIDTH_SCALE;
     int h = config->screenResolution.height*WEAPON_HEIGHT_SCALE;
 
-    auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(x, y, z, w, h, DEFAULT_COLLITION_BOX_DEPTH);
-    collitionBox->setOwner(this);
-    auto* collitionHandler = new CollitionHandler(collitionManager);
-    collitionHandler->addCollitionBox(collitionBox);
-
     int x = validPositionGenerator.x();
     int y = validPositionGenerator.y();
     int z = validPositionGenerator.z();
+
+    auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(x, y, z, w, h, DEFAULT_COLLITION_BOX_DEPTH);
+    auto* collitionHandler = new CollitionHandler(collitionManager);
+    collitionHandler->addCollitionBox(collitionBox);
 
     auto* damage = new Damage();
     auto* score = new Score();
@@ -272,10 +287,11 @@ Knife* EntityManager::createKnife() {
     auto* state = new State(will);
     auto* life = new Life(state);
     auto* screenPosition = new ScreenPosition(position,screen);
-    auto* appearance = new KnifeAppearance(w, h, screenPosition, state, config->gameplay.npcs.front());
+    auto* appearance = new KnifeAppearance(w, h, screenPosition, state, config->gameplay.weapons.knife);
     auto* sound = new Sound(state);
 
-    return new Knife(collitionHandler, life, damage, score, position,
+    return new Knife(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, collitionHandler,
+                     life, damage, score, position,
                      state, screenPosition, appearance, sound);
 }
 
@@ -284,14 +300,13 @@ Tube* EntityManager::createTube() {
     int w = config->screenResolution.width*WEAPON_WIDTH_SCALE;
     int h = config->screenResolution.height*WEAPON_HEIGHT_SCALE;
 
-    auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(x, y, z, w, h, DEFAULT_COLLITION_BOX_DEPTH);
-    collitionBox->setOwner(this);
-    auto* collitionHandler = new CollitionHandler(collitionManager);
-    collitionHandler->addCollitionBox(collitionBox);
-
     int x = validPositionGenerator.x();
     int y = validPositionGenerator.y();
     int z = validPositionGenerator.z();
+
+    auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(x, y, z, w, h, DEFAULT_COLLITION_BOX_DEPTH);
+    auto* collitionHandler = new CollitionHandler(collitionManager);
+    collitionHandler->addCollitionBox(collitionBox);
 
     auto* damage = new Damage();
     auto* score = new Score();
@@ -300,11 +315,12 @@ Tube* EntityManager::createTube() {
     auto* state = new State(will);
     auto* life = new Life(state);
     auto* screenPosition = new ScreenPosition(position,screen);
-    auto* appearance = new TubeAppearance(w, h, screenPosition, state, config->gameplay.npcs.front());
+    auto* appearance = new TubeAppearance(w, h, screenPosition, state, config->gameplay.weapons.tube);
     auto* sound = new Sound(state);
 
-    return new Tube(collitionHandler, life, damage, score, position,
-                     state, screenPosition, appearance, sound);
+    return new Tube(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, collitionHandler,
+                    life, damage, score, position,
+                    state, screenPosition, appearance, sound);
 }
 
 Box* EntityManager::createBox() {
@@ -312,14 +328,13 @@ Box* EntityManager::createBox() {
     int w = config->screenResolution.width*UTILITY_WIDTH_SCALE;
     int h = config->screenResolution.height*UTILITY_HEIGHT_SCALE;
 
-    auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(x, y, z, w, h, DEFAULT_COLLITION_BOX_DEPTH);
-    collitionBox->setOwner(this);
-    auto* collitionHandler = new CollitionHandler(collitionManager);
-    collitionHandler->addCollitionBox(collitionBox);
-
     int x = validPositionGenerator.x();
     int y = validPositionGenerator.y();
     int z = validPositionGenerator.z();
+
+    auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(x, y, z, w, h, DEFAULT_COLLITION_BOX_DEPTH);
+    auto* collitionHandler = new CollitionHandler(collitionManager);
+    collitionHandler->addCollitionBox(collitionBox);
 
     auto* damage = new Damage();
     auto* score = new Score();
@@ -328,11 +343,12 @@ Box* EntityManager::createBox() {
     auto* state = new State(will);
     auto* life = new Life(state);
     auto* screenPosition = new ScreenPosition(position,screen);
-    auto* appearance = new BoxAppearance(w, h, screenPosition, state, config->gameplay.npcs.front());
+    auto* appearance = new BoxAppearance(w, h, screenPosition, state, config->gameplay.utilities.box);
     auto* sound = new Sound(state);
 
-    return new Box(collitionHandler, life, damage, score, position,
-                     state, screenPosition, appearance, sound);
+    return new Box(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, collitionHandler,
+                   life, damage, score, position,
+                   state, screenPosition, appearance, sound);
 }
 
 Barrel* EntityManager::createBarrel() {
@@ -340,14 +356,13 @@ Barrel* EntityManager::createBarrel() {
     int w = config->screenResolution.width*UTILITY_WIDTH_SCALE;
     int h = config->screenResolution.height*UTILITY_HEIGHT_SCALE;
 
-    auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(x, y, z, w, h, DEFAULT_COLLITION_BOX_DEPTH);
-    collitionBox->setOwner(this);
-    auto* collitionHandler = new CollitionHandler(collitionManager);
-    collitionHandler->addCollitionBox(collitionBox);
-
     int x = validPositionGenerator.x();
     int y = validPositionGenerator.y();
     int z = validPositionGenerator.z();
+
+    auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(x, y, z, w, h, DEFAULT_COLLITION_BOX_DEPTH);
+    auto* collitionHandler = new CollitionHandler(collitionManager);
+    collitionHandler->addCollitionBox(collitionBox);
 
     auto* damage = new Damage();
     auto* score = new Score();
@@ -356,22 +371,23 @@ Barrel* EntityManager::createBarrel() {
     auto* state = new State(will);
     auto* life = new Life(state);
     auto* screenPosition = new ScreenPosition(position,screen);
-    auto* appearance = new BarrelAppearance(w, h, screenPosition, state, config->gameplay.npcs.front());
+    auto* appearance = new BarrelAppearance(w, h, screenPosition, state, config->gameplay.utilities.barrel);
     auto* sound = new Sound(state);
 
-    return new Barrel(collitionHandler, life, damage, score, position,
-                     state, screenPosition, appearance, sound);
+    return new Barrel(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, collitionHandler,
+                      life, damage, score, position,
+                      state, screenPosition, appearance, sound);
 }
 
 Background* EntityManager::createFar(const string& spritePath, float parallaxSpeed) {
 
-    auto* appearance = BackgroundAppearance(screen,spritePath,parallaxSpeed);
+    auto* appearance = new BackgroundAppearance(nullptr, screen, spritePath, parallaxSpeed);
     return new Background(appearance);
 }
 
 Background* EntityManager::createMiddle(const string& spritePath, float parallaxSpeed) {
 
-    auto* appearance = BackgroundAppearance(screen,spritePath,parallaxSpeed);
+    auto* appearance = new BackgroundAppearance(nullptr, screen, spritePath, parallaxSpeed);
     return new Background(appearance);
 }
 
@@ -384,16 +400,13 @@ Background* EntityManager::createFloor(const string& spritePath, float parallaxS
     auto* back = collitionManager->createEnemyBlockingCollitionBox(0, 0, screen->getLevelDepth(), w, h, DEFAULT_COLLITION_BOX_DEPTH);
     auto* front = collitionManager->createEnemyBlockingCollitionBox(0, 0, 0, w, h, DEFAULT_COLLITION_BOX_DEPTH);
     auto* floor = collitionManager->createEnemyBlockingCollitionBox(0, -10, 0, w, DEFAULT_COLLITION_BOX_HEIGHT, screen->getLevelDepth());
-    back->setOwner(this);
-    front->setOwner(this);
-    floor->setOwner(this);
     collitionBoxes->push_back(back);
     collitionBoxes->push_back(front);
     collitionBoxes->push_back(floor);
 
-    auto* appearance = BackgroundAppearance(screen,spritePath,parallaxSpeed);
+    auto* appearance = new BackgroundAppearance(nullptr, screen, spritePath, parallaxSpeed);
 
-    auto* collitionHandler = BackgroundCollitionHandler(collitionManager, collitionBoxes);
+    auto* collitionHandler = new BackgroundCollitionHandler(collitionManager, collitionBoxes);
 
 
     return new Background(collitionHandler,appearance);
@@ -401,7 +414,7 @@ Background* EntityManager::createFloor(const string& spritePath, float parallaxS
 
 Background* EntityManager::createOverlay(const string& spritePath, float parallaxSpeed) {
 
-    auto* appearance = BackgroundAppearance(screen,spritePath,parallaxSpeed);
+    auto* appearance = new BackgroundAppearance(nullptr, screen, spritePath, parallaxSpeed);
     return new Background(appearance);
 }
 

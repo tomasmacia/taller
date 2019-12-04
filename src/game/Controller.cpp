@@ -10,6 +10,7 @@
 
 #include "Controller.h"
 #include "../net/messaging/IDManager.h"
+#include "../net/Server.h"
 
 #include <iostream>
 
