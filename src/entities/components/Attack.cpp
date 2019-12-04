@@ -92,7 +92,12 @@ bool Attack::hasWeapon() {
 }
 
 bool Attack::weaponBroke() {
-    return weapon->broke();
+    if (weapon != nullptr){
+        return weapon->broke();
+    }
+    else{
+        return false;
+    }
 }
 
 void Attack::throwWeapon() {

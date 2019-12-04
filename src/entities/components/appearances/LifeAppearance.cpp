@@ -3,3 +3,19 @@
 //
 
 #include "LifeAppearance.h"
+
+LifeAppearance::LifeAppearance(ScreenPosition *screenPosition) : Appearance(screenPosition) {
+
+}
+
+void LifeAppearance::update() {
+    //TODO
+}
+
+Renderable *LifeAppearance::actuallyGenerateRenderable() {
+    return nullptr; //TODO
+}
+
+void LifeAppearance::loadNextImage() {
+    //TODO
+}

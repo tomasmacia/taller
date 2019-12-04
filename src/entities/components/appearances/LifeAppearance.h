@@ -10,6 +10,12 @@
 
 class LifeAppearance : public Appearance {
 
+public:
+    LifeAppearance(ScreenPosition* screenPosition);
+
+    void update() override;
+    Renderable* actuallyGenerateRenderable() override ;
+    void loadNextImage() override ;
     //todo
 };
 

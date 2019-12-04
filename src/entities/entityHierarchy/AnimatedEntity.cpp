@@ -13,6 +13,7 @@ AnimatedEntity::AnimatedEntity(CollitionHandler* collitionHandler, Life *life, D
     this->will = will;
     this->physics = physics;
     this->attack = attack;
+    this->attack->setOwner(this);
 }
 
 void AnimatedEntity::update() {

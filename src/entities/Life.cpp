@@ -6,6 +6,7 @@
 
 Life::Life(State *state) {
     this->state = state;
+    this->appearance = new LifeAppearance(nullptr);
 }
 
 bool Life::empty() {

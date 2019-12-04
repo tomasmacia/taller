@@ -5,6 +5,7 @@
 #ifndef GAME_ANIMATEDENTITY_H
 #define GAME_ANIMATEDENTITY_H
 
+#include <iostream>
 #include "PhysicalEntity.h"
 #include "../components/Will.h"
 #include "../components/Physics.h"
@@ -21,7 +22,7 @@ public:
 
     void update() override;
 
-    virtual void notifySuccessfulAttack(int score) {}
+    virtual void notifySuccessfulAttack(int score) { cout<<"pegue"<<endl;}
     void drag();
 
 

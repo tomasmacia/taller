@@ -29,6 +29,8 @@ protected:
     int PICK_IMAGE_AMOUNT;
     int BEING_ATTACKED_IMAGE_AMOUNT;
     int DYING_IMAGE_AMOUNT;
+
+    Action previous = NONE;
 };
 
 
