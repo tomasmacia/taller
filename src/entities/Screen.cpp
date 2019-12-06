@@ -24,6 +24,7 @@ Screen::Screen(int width, int height, int levelWidth, int levelDepth, CollitionM
 void Screen::reset(int levelWidth){
     currentX = 0;
     currentLevelWidth = levelWidth;
+    arrivedToEnd = false;
 }
 
 void Screen::update() {
@@ -113,7 +114,8 @@ void Screen::setPlayer(Character* player){
 }
 
 float Screen::getLevelPercentageCovered(){
-    return (currentX/currentLevelWidth);
+    float percentage = (float)currentX/(float)currentLevelWidth;
+    return percentage;
 }
 
 bool Screen::onScreen(int x, int y){

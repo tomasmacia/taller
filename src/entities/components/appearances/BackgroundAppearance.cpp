@@ -1,6 +1,7 @@
 #include "BackgroundAppearance.h"
 
 #include <utility>
+#include <iostream>
 
 BackgroundAppearance::BackgroundAppearance(ScreenPosition *screenPosition, Screen *screen, string string_path,
                                            float parallaxSpeed) : Appearance(screenPosition) {
@@ -42,6 +43,7 @@ void BackgroundAppearance::loadNextImage(){
     if ((newX + screenWidth) < spriteWidth){
         srcRect.x = newX;
     }
+    cout<<"newX: "<<newX<<"| spriteWidth: "<<spriteWidth<<"| getLevelPercentageCovered: "<<_screen->getLevelPercentageCovered()<<endl;
 }
 
 Renderable *BackgroundAppearance::actuallyGenerateRenderable() {

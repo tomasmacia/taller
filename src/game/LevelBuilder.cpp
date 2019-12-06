@@ -124,7 +124,7 @@ void LevelBuilder::initializeWorld() {
 
 void LevelBuilder::initializeLevelDimentions(){
 
-    std::string floorSpritePath = _config->gameplay.levels.at(currentLevel).floor.front();
+    std::string floorSpritePath = _config->gameplay.levels.at(currentLevel - 1).floor.front();
 
     ImageSize imageSize = ImageUtils::getImageSize(floorSpritePath);
     int floorSpriteWidth = imageSize.width;
