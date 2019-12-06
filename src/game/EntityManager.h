@@ -107,7 +107,7 @@ private:
     std::list<Entity*> specialEntities;                       //camera and levelLimits
     std::list<PhysicalEntity*> physicalEntities;          //only utilities, weapons, enemies and players
     std::list<Background*> backLayerBackgrounds;
-    std::list<Background*> fronLayerBackgrounds;
+    std::list<Background*> frontLayerBackgrounds;
 
     ValidPositionGenerator validPositionGenerator;
 

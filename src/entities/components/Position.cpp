@@ -1,6 +1,7 @@
 //
 // Created by Tomás Macía on 14/10/2019.
 //
+#include <iostream>
 #include "Position.h"
 #include "collition/AnimatedEntityCollitionHandler.h"
 
@@ -19,7 +20,7 @@ void Position::tryToMoveTo(int newX, int newY, int newZ) {
 
     setPosition(destination->x,destination->y,destination->z);
     collitionHandler->moveAllCollitionBoxesKeepingRelativeDistancesTo(destination);
-
+    cout<<"position: "<<"x: "<<destination->x<<", y: "<<destination->y<<", z: "<<destination->z<<endl;
     delete(destination);
 }
 

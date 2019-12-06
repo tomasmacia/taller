@@ -45,7 +45,7 @@ void EntityManager::update() {//se updatean todas seguro porque updateo las list
 
     for(auto* e : backLayerBackgrounds) e->update();
     for(auto* e : physicalEntities) e->update();
-    for(auto* e : fronLayerBackgrounds) e->update();
+    for(auto* e : frontLayerBackgrounds) e->update();
     for(auto* e : specialEntities) e->update();
 }
 
@@ -74,7 +74,7 @@ std::list<Sendable*>* EntityManager::generateSendables() {
         }
     }
 
-    for(auto* e : fronLayerBackgrounds){
+    for(auto* e : frontLayerBackgrounds){
         sendable = e->generateSendable();
         if (sendable != nullptr){
             packagesToClients->push_back(sendable);
@@ -94,7 +94,7 @@ void EntityManager::prepareForNextLevel(){
     enemies.clear();
     unanimatedEntities.clear();
     backLayerBackgrounds.clear();
-    fronLayerBackgrounds.clear();
+    frontLayerBackgrounds.clear();
 
     for (Character* e : players){
         physicalEntities.push_back(e);
@@ -187,7 +187,7 @@ void EntityManager::addFloor(const string &spritePath, float parallaxSpeed) {
 void EntityManager::addOverlay(const string &spritePath, float parallaxSpeed) {
     auto* background = createOverlay(spritePath,parallaxSpeed);
     nonLevelPersistentEntities.push_back(background);
-    fronLayerBackgrounds.push_back(background);
+    frontLayerBackgrounds.push_back(background);
 }
 
 Screen* EntityManager::addScreen(int screenWidth, int screenHeight, int levelWidth, int levelDepth) {
@@ -434,7 +434,7 @@ void EntityManager::destroyAllEntities() { //se destruyen todas seguro porque bo
         delete e;
         e = nullptr;
     }
-    for(auto* e : fronLayerBackgrounds) {
+    for(auto* e : frontLayerBackgrounds) {
         delete e;
         e = nullptr;
     }
@@ -481,7 +481,7 @@ EntityManager::~EntityManager() {
     nonLevelPersistentEntities.clear();
     players.clear();
     backLayerBackgrounds.clear();
-    fronLayerBackgrounds.clear();
+    frontLayerBackgrounds.clear();
 
     for (auto package: *packagesToClients){
         delete package;

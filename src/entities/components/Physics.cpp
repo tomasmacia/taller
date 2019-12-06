@@ -6,6 +6,8 @@
 #include "Position.h"
 #include "State.h"
 
+#include <iostream>
+
 Physics::Physics(State* state, Position* position, int walkingSpeed, int jumpingSpeed){
     _state = state;
     _position = position;
@@ -37,7 +39,10 @@ void Physics::update() {
     int newY = (int)((float)prevY + _velocityY);
     int newZ = (int)((float)prevZ + _velocityZ);
 
-    _position->tryToMoveTo(newX, newY, newZ);
+    std::cout<<"state: "<<_state->current()<<std::endl;
+    if (_state->current() != NONE){
+        _position->tryToMoveTo(newX, newY, newZ);
+    }
 }
 
 void Physics::handleCurrentState(){
@@ -98,22 +103,18 @@ void Physics::handleCurrentState(){
 }
 
 void Physics::up() {
-    _accelerationX = 0;
     _velocityZ = DEFAULT_WALKING_VELOCITY_Z;
 }
 
 void Physics::down() {
-    _accelerationX = 0;
     _velocityZ = -DEFAULT_WALKING_VELOCITY_Z;;
 }
 
 void Physics::left() {
-    _accelerationX = 0;
     _velocityX = -DEFAULT_WALKING_VELOCITY_X;
 }
 
 void Physics::right() {
-    _accelerationX = 0;
     _velocityX = DEFAULT_WALKING_VELOCITY_X;
 }
 
@@ -126,17 +127,14 @@ void Physics::endDown() {
 }
 
 void Physics::endLeft() {
-    _accelerationX = 0;
     _velocityX = 0;
 }
 
 void Physics::endRight() {
-    _accelerationX = 0;
     _velocityX = 0;
 }
 
 void Physics::jump() {
-    _accelerationX = 0;
     _velocityX = _velocityX; //aca esta la inercia horizontal. La velocidad ahora es la de antes TODO no tiene sentido, se puede borrar esta linea
     _velocityY = DEFAULT_JUMPING_VELOCITY_Y;
 }

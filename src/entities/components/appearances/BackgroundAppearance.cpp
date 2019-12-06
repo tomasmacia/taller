@@ -43,7 +43,6 @@ void BackgroundAppearance::loadNextImage(){
     if ((newX + screenWidth) < spriteWidth){
         srcRect.x = newX;
     }
-    cout<<"newX: "<<newX<<"| spriteWidth: "<<spriteWidth<<"| getLevelPercentageCovered: "<<_screen->getLevelPercentageCovered()<<endl;
 }
 
 Renderable *BackgroundAppearance::actuallyGenerateRenderable() {

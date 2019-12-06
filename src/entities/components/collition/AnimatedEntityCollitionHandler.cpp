@@ -1,6 +1,7 @@
 //
 // Created by axel on 25/11/19.
 //
+#include <iostream>
 #include "AnimatedEntityCollitionHandler.h"
 
 AnimatedEntityCollitionHandler::AnimatedEntityCollitionHandler(CollitionManager *collitionManager,
@@ -72,6 +73,7 @@ void AnimatedEntityCollitionHandler::moveTowardsDestinationAndCorrect(Point *des
         _blockingCollitionBox->moveOneUnitInTheDirectionOf(destination);
 
         list<CollitionBox*>* collitions = _collitionManager->getCollitionsWith(_blockingCollitionBox);
+        cout<<"colitions: "<<collitions->size()<<endl;
 
         if (!collitions->empty()){
             _blockingCollitionBox->restorePreviousPosition();

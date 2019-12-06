@@ -11,8 +11,8 @@ public:
     void update();
     Action current();
     void setIncoming(Action incoming);
-    void deactivateCorrespondingPreviousOngoingMovements(Action incoming);
     void updateMovementState(Action incoming);
+    void restoreMovementFromOngoing(Action incoming);
     Action pickOneOngoingMovement();
     void setFinished();
 
@@ -20,6 +20,7 @@ public:
     bool isBlockingAction(Action action);
     bool isNotBlockingAction(Action action);
     bool isEndOfMovement(Action action);
+    bool isAMovement(Action action);
     bool hasMovement();
 
     void flip();
@@ -50,6 +51,9 @@ private:
 
     bool disconnected = false;
 
+    void handleNewState(Action action);
+
+    void updateFacingState(Action action);
 };
 
 

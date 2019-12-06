@@ -149,19 +149,19 @@
         </enemies>
         <weapons>
             <knife>
-                <amount>5</amount>
+                <amount>0</amount>
                 <sprite>resources/sprites/weapons/knife.png</sprite>
                 <damage>30</damage>
             </knife>
             <tube>
-                <amount>10</amount>
+                <amount>0</amount>
                 <sprite>resources/sprites/weapons/tube.png</sprite>
                 <damage>20</damage>
             </tube>
         </weapons>
         <utilities>
             <barrel>
-                <amount>3</amount>
+                <amount>0</amount>
                 <sprite>resources/sprites/utilities/barril.png</sprite>
                 <contains>
                     <knives>0.3</knives>
@@ -169,7 +169,7 @@
                 </contains>
             </barrel>
             <box>
-                <amount>1</amount>
+                <amount>0</amount>
                 <sprite>resources/sprites/utilities/caja.png</sprite>
                 <contains>
                     <knives>1</knives>

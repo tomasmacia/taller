@@ -1,5 +1,7 @@
 #include "State.h"
 
+#include <iostream>
+
 State::State(Will* will){
     _will = will;
 }
@@ -10,24 +12,46 @@ void State::update(){
 }
 
 void State::setIncoming(Action incoming){
+    std::cout<<"incoming: "<<incoming<<std::endl;
 
-    if (incoming != NONE){
-        if (isEndOfMovement(incoming)){
-            deactivateCorrespondingPreviousOngoingMovements(incoming);
-        }
+    updateMovementState(incoming);
+    handleNewState(incoming);
+}
 
-        if (isBlockingAction(_currentState)){
-            //pass
-        }
-        else{//es un movimiento el incoming
-            updateMovementState(incoming);
+void State::handleNewState(Action incoming) {
+
+    updateMovementState(incoming);
+    updateFacingState(incoming);
+
+    if (isEndOfMovement(_currentState) || _currentState == NONE){
+        _currentState = incoming;
+    }
+
+    if (isAMovement(_currentState)){
+
+        if (incoming != NONE){
             _currentState = incoming;
+        }
+        if (isEndOfMovement(incoming)) {
+            restoreMovementFromOngoing(incoming);
         }
     }
 }
 
-void State::deactivateCorrespondingPreviousOngoingMovements(Action incoming){
+void State::updateMovementState(Action incoming){
     switch (incoming){
+        case UP:
+            movingUp = true;
+            break;
+        case DOWN:
+            movingDown = true;
+            break;
+        case LEFT:
+            movingLeft = true;
+            break;
+        case RIGHT:
+            movingRight = true;
+            break;
         case END_UP:
             movingUp = false;
             break;
@@ -43,27 +67,11 @@ void State::deactivateCorrespondingPreviousOngoingMovements(Action incoming){
     }
 }
 
-void State::updateMovementState(Action incoming){
+void State::restoreMovementFromOngoing(Action incoming) {
+
+    _currentState = incoming;
 
     switch (incoming){
-        case UP:
-            movingUp = true;
-            break;
-        case DOWN:
-            movingDown = true;
-            break;
-        case LEFT:
-            movingLeft = true;
-            if (facingRight()){
-                flip();
-            }
-            break;
-        case RIGHT:
-            movingRight = true;
-            if (facingLeft()){
-                flip();
-            }
-            break;
         case END_UP:
             if (movingDown){
                 _currentState = DOWN;
@@ -74,14 +82,29 @@ void State::updateMovementState(Action incoming){
                 _currentState = UP;
             }
             break;
+        case END_RIGHT:
+            if (movingLeft){
+                _currentState = LEFT;
+            }
+            break;
         case END_LEFT:
             if (movingRight){
                 _currentState = RIGHT;
             }
             break;
-        case END_RIGHT:
-            if (movingLeft){
-                _currentState = LEFT;
+    }
+}
+
+void State::updateFacingState(Action incoming) {
+    switch (incoming){
+        case RIGHT:
+            if (facingLeft()){
+                flip();
+            }
+            break;
+        case LEFT:
+            if (facingRight()){
+                flip();
             }
             break;
     }
@@ -123,6 +146,11 @@ bool State::isBlockingAction(Action action){
 bool State::isEndOfMovement(Action action){
     return ((action == END_UP) || (action == END_DOWN) ||
             (action == END_LEFT) || (action == END_RIGHT));
+}
+
+bool State::isAMovement(Action action){
+    return ((action == UP) || (action == DOWN) ||
+            (action == LEFT) || (action == RIGHT));
 }
 
 bool State::hasMovement(){
