@@ -37,12 +37,10 @@ public:
     }
 
     int getWalkingSpeed(){
-        return _wakingSpeed;
+        return physics->getWalkingSpeed();
     }
 
 protected:
-    int _wakingSpeed;
-
     Will* will = nullptr;
     Physics* physics = nullptr;
     Attack* attack = nullptr;

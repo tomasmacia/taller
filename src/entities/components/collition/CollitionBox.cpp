@@ -128,5 +128,5 @@ void CollitionBox::setOwner(Entity *owner) {
 }
 
 bool CollitionBox::intersectsWith(CollitionBox *collitionBox) {
-    return anyCornerIntersectsWith(collitionBox);
+    return anyCornerIntersectsWith(collitionBox) || collitionBox->anyCornerIntersectsWith(this);
 }

@@ -2,6 +2,7 @@
 // Created by axel on 25/11/19.
 //
 
+#include <iostream>
 #include "CollitionManager.h"
 #include "../entities/entityHierarchy/Entity.h"
 
@@ -129,6 +130,7 @@ list<CollitionBox*>* CollitionManager::getCollitionsWith(CollitionBox *query) {
     for (auto collitionBox : *_blockingCollitionBoxes){
         if (collitionBox->getID() != query->getID() ){
             if (collitionBox->intersectsWith(query)){
+                cout<<"id: "<<collitionBox->getID()<<endl;
                 if (!((query->getOwner()->isScreen() && collitionBox->getOwner()->isEnemy())
                  || (query->getOwner()->isScreen() && collitionBox->getOwner()->isFinalBoss())
                  || (query->getOwner()->isEnemy() && collitionBox->getOwner()->isScreen())

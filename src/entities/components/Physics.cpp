@@ -34,8 +34,8 @@ void Physics::update() {
     _velocityZ += _accelerationZ;
 
     int newX = (int)((float)prevX + _velocityX);
-    int newY = (int)((float)prevY - _velocityY); //resto porque el SDL tiene el eje Y al revez
-    int newZ = (int)((float)prevZ - _velocityZ); //resto porque el SDL tiene el eje Y al revez
+    int newY = (int)((float)prevY + _velocityY);
+    int newZ = (int)((float)prevZ + _velocityZ);
 
     _position->tryToMoveTo(newX, newY, newZ);
 }
@@ -184,4 +184,8 @@ void Physics::drag(){
 
 bool Physics::wasThereAChange() {
     return _velocityX != 0 || _velocityY != 0 || _velocityZ != 0;
+}
+
+int Physics::getWalkingSpeed() {
+    return DEFAULT_WALKING_VELOCITY_X;
 }

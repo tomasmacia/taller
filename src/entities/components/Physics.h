@@ -13,6 +13,8 @@ public:
     void init();
     void drag();
 
+    int getWalkingSpeed();
+
 protected:
     void handleCurrentState();
 
