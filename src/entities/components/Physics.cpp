@@ -37,7 +37,7 @@ void Physics::update() {
     int newY = (int)((float)prevY - _velocityY); //resto porque el SDL tiene el eje Y al revez
     int newZ = (int)((float)prevZ - _velocityZ); //resto porque el SDL tiene el eje Y al revez
 
-    //_position->tryToMoveTo(newX, newY, newZ);
+    _position->tryToMoveTo(newX, newY, newZ);
 }
 
 void Physics::handleCurrentState(){

@@ -196,7 +196,7 @@ Screen* EntityManager::addScreen(int screenWidth, int screenHeight, int levelWid
     return screen;
 }
 
-//ADDING NEW ENTITIES
+//ADDING NEW ENTITIESl
 //=========================================================================================
 Character *EntityManager::createCharacter(int x, int y, int z, int id) {
 
@@ -400,7 +400,7 @@ Background* EntityManager::createFloor(const string& spritePath, float parallaxS
     auto* collitionBoxes = new list<CollitionBox *>();
     auto* back = collitionManager->createEnemyBlockingCollitionBox(0, 0, screen->getLevelDepth(), w, h, DEFAULT_COLLITION_BOX_DEPTH);
     auto* front = collitionManager->createEnemyBlockingCollitionBox(0, 0, 0, w, h, DEFAULT_COLLITION_BOX_DEPTH);
-    auto* floor = collitionManager->createEnemyBlockingCollitionBox(0, -10, 0, w, DEFAULT_COLLITION_BOX_HEIGHT, screen->getLevelDepth());
+    auto* floor = collitionManager->createEnemyBlockingCollitionBox(0,-DEFAULT_COLLITION_BOX_HEIGHT,0, w, DEFAULT_COLLITION_BOX_HEIGHT, screen->getLevelDepth());
     collitionBoxes->push_back(back);
     collitionBoxes->push_back(front);
     collitionBoxes->push_back(floor);

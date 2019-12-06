@@ -23,7 +23,7 @@ public:
 
 
 private:
-    int TRIES = 1000;
+    int TRIES = 10;
 
     CollitionBox* _blockingCollitionBox = nullptr;
     CollitionBox* _punchBox = nullptr;

@@ -51,7 +51,9 @@ void GameServer::update() {
 }
 
 void GameServer::sendUpdate() {
-    controller->sendUpdate(entityManager->generateSendables(), server);
+    //auto* sendables = sceneDirector->generateSendables();
+    auto* sendables = entityManager->generateSendables();
+    controller->sendUpdate(sendables, server);
 }
 
 //API
