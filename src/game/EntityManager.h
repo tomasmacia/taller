@@ -49,6 +49,7 @@ public:
     void addKnife();
     void addTube();
     void addBox();
+    void addBox(int x, int y, int z);
     void addBarrel();
     void addFar(const string& spritePath, float parallaxSpeed);
     void addMiddle(const string& spritePath, float parallaxSpeed);
@@ -63,6 +64,7 @@ public:
     Knife* createKnife();
     Tube* createTube();
     Box* createBox();
+    Box* createBox(int x, int y, int z);
     Barrel* createBarrel();
     Background* createFar(const string& spritePath, float parallaxSpeed);
     Background* createMiddle(const string& spritePath, float parallaxSpeed);
@@ -135,7 +137,7 @@ private:
     int NON_TRACKABLE_COLLITION_BOX_ID = -1;
     int DEFAULT_COLLITION_BOX_WIDTH = 5;
     int DEFAULT_COLLITION_BOX_HEIGHT = 5;
-    int DEFAULT_COLLITION_BOX_DEPTH = 5;
+    int DEFAULT_COLLITION_BOX_DEPTH = 20;
 
     float PICK_COLLITON_BOX_SCALE_FACTOR = 1.2;
     float ATTACK_COLLITON_BOX_SCALE_FACTOR = 1.1;

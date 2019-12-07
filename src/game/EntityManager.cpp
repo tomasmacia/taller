@@ -1,26 +1,12 @@
 
 #include "EntityManager.h"
 
-#include "../entities/components/collition/AnimatedEntityCollitionHandler.h"
 #include "../entities/components/InputPoller.h"
-#include "../entities/components/State.h"
-#include "../entities/components/Position.h"
-#include "../entities/components/Physics.h"
-#include "../entities/components/ScreenPosition.h"
-#include "../entities/components/Sound.h"
-#include "../entities/components/Damage.h"
-#include "../entities/components/ID.h"
-#include "../entities/components/Attack.h"
 #include "../entities/components/IA.h"
 #include "../entities/components/NullWill.h"
 
 #include "../entities/components/appearances/CharacterAppearance.h"
-#include "../entities/components/appearances/ScoreAppearance.h"
 #include "../entities/components/appearances/EnemyAppearance.h"
-#include "../entities/components/appearances/BarrelAppearance.h"
-#include "../entities/components/appearances/BoxAppearance.h"
-#include "../entities/components/appearances/KnifeAppearance.h"
-#include "../entities/components/appearances/TubeAppearance.h"
 
 //CONSTRUCTOR
 //=========================================================================================
@@ -57,6 +43,8 @@ std::list<Sendable*>* EntityManager::generateSendables() {
         package = nullptr;
     }
     packagesToClients->clear();
+
+    sortEntitiesByZ();
 
     for(auto* e : backLayerBackgrounds){
         packagesToClients->splice(packagesToClients->end(),e->generateSendable());
@@ -552,10 +540,50 @@ struct EntityComparator
 
         if(entity1Z == entity2Z)
             return true;
-        return entity1Z < entity2Z;
+        return entity1Z > entity2Z;
     }
 };
 
 void EntityManager::sortEntitiesByZ() {
     physicalEntities.sort(EntityComparator());
+}
+
+Box* EntityManager::createBox(int x, int y, int z) {
+
+    int w = (int)((float)config->screenResolution.width*UTILITY_WIDTH_SCALE);
+    int h = (int)((float)config->screenResolution.height*UTILITY_HEIGHT_SCALE);
+
+    int centerX = x + w/2;
+    int centerY = y + h/2;
+    int centerZ = z + DEFAULT_COLLITION_BOX_DEPTH/2;
+
+    auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(centerX, centerY, centerZ,w * NORMAL_COLLITON_BOX_SCALE_FACTOR_WIDTH, h * NORMAL_COLLITON_BOX_SCALE_FACTOR_HEIGHT, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
+    auto* collitionHandler = new CollitionHandler(collitionManager);
+    collitionHandler->addCollitionBox(collitionBox);
+
+    auto* damage = new Damage();
+    auto* score = new Score();
+    auto* position = new Position(x, y, z, collitionHandler);
+    auto* will = new NullWill();
+    auto* state = new State(will);
+    auto* life = new Life(state);
+    auto* screenPosition = new ScreenPosition(w,h,position,screen);
+
+    if (VISUAL_COLLITION_BOX){
+        collitionHandler->setToAllCollitionBoxScreenPosition(screenPosition);
+    }
+
+    auto* appearance = new BoxAppearance(w, h, screenPosition, state, config->gameplay.utilities.box);
+    auto* sound = new Sound(state);
+
+    return new Box(collitionHandler,
+                   life, damage, score, position,
+                   state, screenPosition, appearance, sound);
+}
+
+void EntityManager::addBox(int x, int y, int z) {
+    auto* box = createBox(x,y,z);
+    nonLevelPersistentEntities.push_back((Entity*) box);
+    unanimatedEntities.push_back(box);
+    physicalEntities.push_back(box);
 }

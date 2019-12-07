@@ -126,7 +126,6 @@ bool CollitionManager::anyBlockingCollitionsWith(CollitionBox *queryCollitionBox
 list<CollitionBox*>* CollitionManager::getCollitionsWith(CollitionBox *query) {
 
     auto collitions = new list<CollitionBox*>();
-
     for (auto collitionBox : *_blockingCollitionBoxes){
         if (collitionBox->getID() != query->getID() ){
             if (collitionBox->intersectsWith(query)){

@@ -73,7 +73,6 @@ void AnimatedEntityCollitionHandler::moveTowardsDestinationAndCorrect(Point *des
         _blockingCollitionBox->moveOneUnitInTheDirectionOf(destination);
 
         list<CollitionBox*>* collitions = _collitionManager->getCollitionsWith(_blockingCollitionBox);
-        cout<<"counter: "<<counter<<", colitions: "<<collitions->size()<<endl;
 
         if (!collitions->empty()){
             _blockingCollitionBox->restorePreviousPosition();
