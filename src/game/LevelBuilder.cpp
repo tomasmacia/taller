@@ -161,7 +161,7 @@ void LevelBuilder::initializePlayers() {
         
         x = offset*(i+1);
         y = 0;
-        z = screenResolutionHeight/2;
+        z = screenResolutionHeight*0.25;
 
         IDManager::getInstance().getNextId();
         auto *player = _entityManager->addPlayer(x,y,z,newPlayerID);

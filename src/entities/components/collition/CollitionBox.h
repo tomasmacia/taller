@@ -14,7 +14,7 @@ class Entity;
 class CollitionBox {
 
 public:
-    CollitionBox(int x, int y, int z, int w, int h, int d, int id, bool visual);
+    CollitionBox(int centerX, int centerY, int centerZ, int w, int h, int d, int id, bool visual);
     ~CollitionBox();
 
     bool intersectsWith(CollitionBox* collitionBox);
@@ -61,7 +61,7 @@ private:
 
     Point* previousPosition = nullptr;
     bool cornerIntersectsWith(CollitionBox* collitionBox, Point* corner);
-    void calculateAndAssignCorners(int x, int y, int z);
+    void calculateAndAssignCorners(int centerX, int centerY, int centerZ);
 
     std::list<Point*> corners;
 

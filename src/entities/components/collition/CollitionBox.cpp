@@ -6,7 +6,7 @@
 #include "../../entityHierarchy/Entity.h"
 #include "../ScreenPosition.h"
 
-CollitionBox::CollitionBox(int x, int y, int z, int w, int h, int d, int id, bool visual) {
+CollitionBox::CollitionBox(int centerX, int centerY, int centerZ, int w, int h, int d, int id, bool visual) {
 
     this->visual = visual;
 
@@ -15,8 +15,20 @@ CollitionBox::CollitionBox(int x, int y, int z, int w, int h, int d, int id, boo
     this->d = d;
     this->id = id;
 
-    calculateAndAssignCorners(x,y,z);
-    previousPosition = new Point(x,y,z);
+    calculateAndAssignCorners(centerX, centerY, centerZ);
+    previousPosition = corners.front();
+}
+
+void CollitionBox::calculateAndAssignCorners(int centerX, int centerY, int centerZ) {
+
+    corners.push_back(new Point(centerX - w/2, centerY - h/2, centerZ - d/2));
+    corners.push_back(new Point(centerX - w/2, centerY - h/2, centerZ + d/2));
+    corners.push_back(new Point(centerX - w/2, centerY + h/2, centerZ - d/2));
+    corners.push_back(new Point(centerX - w/2, centerY + h/2, centerZ + d/2));
+    corners.push_back(new Point(centerX + w/2, centerY - h/2, centerZ - d/2));
+    corners.push_back(new Point(centerX + w/2, centerY - h/2, centerZ + d/2));
+    corners.push_back(new Point(centerX + w/2, centerY + h/2, centerZ - d/2));
+    corners.push_back(new Point(centerX + w/2, centerY + h/2, centerZ + d/2));
 }
 
 bool CollitionBox::cornerIntersectsWith(CollitionBox* collitionBox, Point* corner) {
@@ -45,18 +57,6 @@ bool CollitionBox::hasInsideItsVolume(Point* corner){
             (y <= corner->y && corner->y <= y + h)
             &&
             (z <= corner->z && corner->z <= z + d);
-}
-
-void CollitionBox::calculateAndAssignCorners(int x, int y, int z) {
-
-    corners.push_back(new Point(x + 0,y + 0,z + 0));
-    corners.push_back(new Point(x + 0,y + 0,z + d));
-    corners.push_back(new Point(x + 0,y + h,z + 0));
-    corners.push_back(new Point(x + 0,y + h,z + d));
-    corners.push_back(new Point(x + w,y + 0,z + 0));
-    corners.push_back(new Point(x + w,y + 0,z + d));
-    corners.push_back(new Point(x + w,y + h,z + 0));
-    corners.push_back(new Point(x + w,y + h,z + d));
 }
 
 void CollitionBox::moveAllCornersBy(int xAmount, int yAmount, int zAmount) {
@@ -137,8 +137,8 @@ Sendable *CollitionBox::generateSendable() {
 
     if (screenPosition->onScreen()){
 
-        int x = screenPosition->getX();
-        int y = screenPosition->getY();
+        int x = screenPosition->getX() + (screenPosition->getWidth() - w)/2;
+        int y = screenPosition->getY() + (screenPosition->getHeight() - h)/2;;
         return new Sendable(new Renderable("NULL_PATH",Rect(0,0,w,h),Rect(x,y,w,h),false), nullptr);
     }
     else{

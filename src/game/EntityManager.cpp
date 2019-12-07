@@ -192,19 +192,23 @@ Character *EntityManager::createCharacter(int x, int y, int z, int id) {
     int walkingSpeed = config->screenResolution.width/WAKING_SPEED_FACTOR;
     int jumpingSpeed = config->screenResolution.height/JUMPING_SPEED_FACTOR;
 
+    int centerX = x + w/2;
+    int centerY = y + h/2;
+    int centerZ = z + DEFAULT_COLLITION_BOX_DEPTH/2;
+
     auto* idComponent = new ID(id);
     auto* will = new InputPoller(controller, idComponent);
     auto* state = new State(will);
 
-    auto* pickBox = new CollitionBox(x, y, z, w * PICK_COLLITON_BOX_SCALE_FACTOR, h * PICK_COLLITON_BOX_SCALE_FACTOR, DEFAULT_COLLITION_BOX_DEPTH * PICK_COLLITON_BOX_SCALE_FACTOR, NON_TRACKABLE_COLLITION_BOX_ID,false);
-    auto* punchBox = new CollitionBox(x, y, z, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH,NON_TRACKABLE_COLLITION_BOX_ID,false);
-    auto* kickBox = new CollitionBox(x, y, z, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH,NON_TRACKABLE_COLLITION_BOX_ID,false);
-    auto* collitionBox = collitionManager->createCharacterBlockingCollitionBox(x, y, z, w, h, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
+    auto* pickBox = new CollitionBox(centerX, centerY, centerZ, w * PICK_COLLITON_BOX_SCALE_FACTOR, h * PICK_COLLITON_BOX_SCALE_FACTOR, DEFAULT_COLLITION_BOX_DEPTH * PICK_COLLITON_BOX_SCALE_FACTOR, NON_TRACKABLE_COLLITION_BOX_ID,false);
+    auto* punchBox = new CollitionBox(centerX, centerY, centerZ, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH,NON_TRACKABLE_COLLITION_BOX_ID,false);
+    auto* kickBox = new CollitionBox(centerX, centerY, centerZ, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH,NON_TRACKABLE_COLLITION_BOX_ID,false);
+    auto* collitionBox = collitionManager->createCharacterBlockingCollitionBox(centerX, centerY, centerZ, w * NORMAL_COLLITON_BOX_SCALE_FACTOR_WIDTH, h * NORMAL_COLLITON_BOX_SCALE_FACTOR_HEIGHT, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
     auto* collitionHandler = new AnimatedEntityCollitionHandler(collitionManager, punchBox, kickBox, collitionBox, pickBox);
 
     auto* position = new Position(x, y, z, collitionHandler);
     auto* physics = new Physics(state,position,walkingSpeed,jumpingSpeed);
-    auto* screenPosition = new ScreenPosition(position,screen);
+    auto* screenPosition = new ScreenPosition(w,h,position,screen);
 
     if (VISUAL_COLLITION_BOX){
         collitionHandler->setToAllCollitionBoxScreenPosition(screenPosition);
@@ -236,18 +240,22 @@ Enemy *EntityManager::createEnemy() {
     int y = validPositionGenerator.y();
     int z = validPositionGenerator.z();
 
+    int centerX = x + w/2;
+    int centerY = y + h/2;
+    int centerZ = z + DEFAULT_COLLITION_BOX_DEPTH/2;
+
     auto* will = new IA();
     auto* state = new State(will);
 
-    auto* pickBox = new CollitionBox(x, y, z, w * PICK_COLLITON_BOX_SCALE_FACTOR, h * PICK_COLLITON_BOX_SCALE_FACTOR, DEFAULT_COLLITION_BOX_DEPTH * PICK_COLLITON_BOX_SCALE_FACTOR, NON_TRACKABLE_COLLITION_BOX_ID,VISUAL_COLLITION_BOX);
-    auto* punchBox = new CollitionBox(x, y, z, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH,NON_TRACKABLE_COLLITION_BOX_ID,VISUAL_COLLITION_BOX);
-    auto* kickBox = new CollitionBox(x, y, z, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH,NON_TRACKABLE_COLLITION_BOX_ID,VISUAL_COLLITION_BOX);
-    auto* collitionBox = collitionManager->createCharacterBlockingCollitionBox(x, y, z, w, h, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
+    auto* pickBox = new CollitionBox(centerX, centerY, centerZ, w * PICK_COLLITON_BOX_SCALE_FACTOR, h * PICK_COLLITON_BOX_SCALE_FACTOR, DEFAULT_COLLITION_BOX_DEPTH * PICK_COLLITON_BOX_SCALE_FACTOR, NON_TRACKABLE_COLLITION_BOX_ID,VISUAL_COLLITION_BOX);
+    auto* punchBox = new CollitionBox(centerX, centerY, centerZ, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH,NON_TRACKABLE_COLLITION_BOX_ID,VISUAL_COLLITION_BOX);
+    auto* kickBox = new CollitionBox(centerX, centerY, centerZ, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH,NON_TRACKABLE_COLLITION_BOX_ID,VISUAL_COLLITION_BOX);
+    auto* collitionBox = collitionManager->createCharacterBlockingCollitionBox(centerX, centerY, centerZ, w * NORMAL_COLLITON_BOX_SCALE_FACTOR_WIDTH, h * NORMAL_COLLITON_BOX_SCALE_FACTOR_HEIGHT, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
     auto* collitionHandler = new AnimatedEntityCollitionHandler(collitionManager, punchBox, kickBox, collitionBox, pickBox);
 
     auto* position = new Position(x, y, z, collitionHandler);
     auto* physics = new Physics(state,position,walkingSpeed,jumpingSpeed);
-    auto* screenPosition = new ScreenPosition(position,screen);
+    auto* screenPosition = new ScreenPosition(w,h,position,screen);
 
     if (VISUAL_COLLITION_BOX){
         collitionHandler->setToAllCollitionBoxScreenPosition(screenPosition);
@@ -274,7 +282,11 @@ Knife* EntityManager::createKnife() {
     int y = validPositionGenerator.y();
     int z = validPositionGenerator.z();
 
-    auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(x, y, z, w, h, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
+    int centerX = x + w/2;
+    int centerY = y + h/2;
+    int centerZ = z + DEFAULT_COLLITION_BOX_DEPTH/2;
+
+    auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(centerX, centerY, centerZ, w * NORMAL_COLLITON_BOX_SCALE_FACTOR_WIDTH, h * NORMAL_COLLITON_BOX_SCALE_FACTOR_HEIGHT, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
     auto* collitionHandler = new CollitionHandler(collitionManager);
     collitionHandler->addCollitionBox(collitionBox);
 
@@ -284,7 +296,7 @@ Knife* EntityManager::createKnife() {
     auto* will = new NullWill();
     auto* state = new State(will);
     auto* life = new Life(state);
-    auto* screenPosition = new ScreenPosition(position,screen);
+    auto* screenPosition = new ScreenPosition(w,h,position,screen);
 
     if (VISUAL_COLLITION_BOX){
         collitionHandler->setToAllCollitionBoxScreenPosition(screenPosition);
@@ -307,7 +319,11 @@ Tube* EntityManager::createTube() {
     int y = validPositionGenerator.y();
     int z = validPositionGenerator.z();
 
-    auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(x, y, z, w, h, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
+    int centerX = x + w/2;
+    int centerY = y + h/2;
+    int centerZ = z + DEFAULT_COLLITION_BOX_DEPTH/2;
+
+    auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(centerX, centerY, centerZ, w * NORMAL_COLLITON_BOX_SCALE_FACTOR_WIDTH, h * NORMAL_COLLITON_BOX_SCALE_FACTOR_HEIGHT, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
     auto* collitionHandler = new CollitionHandler(collitionManager);
     collitionHandler->addCollitionBox(collitionBox);
 
@@ -317,7 +333,7 @@ Tube* EntityManager::createTube() {
     auto* will = new NullWill();
     auto* state = new State(will);
     auto* life = new Life(state);
-    auto* screenPosition = new ScreenPosition(position,screen);
+    auto* screenPosition = new ScreenPosition(w,h,position,screen);
 
     if (VISUAL_COLLITION_BOX){
         collitionHandler->setToAllCollitionBoxScreenPosition(screenPosition);
@@ -340,7 +356,11 @@ Box* EntityManager::createBox() {
     int y = validPositionGenerator.y();
     int z = validPositionGenerator.z();
 
-    auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(x, y, z, w, h, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
+    int centerX = x + w/2;
+    int centerY = y + h/2;
+    int centerZ = z + DEFAULT_COLLITION_BOX_DEPTH/2;
+
+    auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(centerX, centerY, centerZ,w * NORMAL_COLLITON_BOX_SCALE_FACTOR_WIDTH, h * NORMAL_COLLITON_BOX_SCALE_FACTOR_HEIGHT, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
     auto* collitionHandler = new CollitionHandler(collitionManager);
     collitionHandler->addCollitionBox(collitionBox);
 
@@ -350,7 +370,7 @@ Box* EntityManager::createBox() {
     auto* will = new NullWill();
     auto* state = new State(will);
     auto* life = new Life(state);
-    auto* screenPosition = new ScreenPosition(position,screen);
+    auto* screenPosition = new ScreenPosition(w,h,position,screen);
 
     if (VISUAL_COLLITION_BOX){
         collitionHandler->setToAllCollitionBoxScreenPosition(screenPosition);
@@ -373,7 +393,11 @@ Barrel* EntityManager::createBarrel() {
     int y = validPositionGenerator.y();
     int z = validPositionGenerator.z();
 
-    auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(x, y, z, w, h, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
+    int centerX = x + w/2;
+    int centerY = y + h/2;
+    int centerZ = z + DEFAULT_COLLITION_BOX_DEPTH/2;
+
+    auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(centerX, centerY, centerZ,w * NORMAL_COLLITON_BOX_SCALE_FACTOR_WIDTH, h * NORMAL_COLLITON_BOX_SCALE_FACTOR_HEIGHT, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
     auto* collitionHandler = new CollitionHandler(collitionManager);
     collitionHandler->addCollitionBox(collitionBox);
 
@@ -383,7 +407,7 @@ Barrel* EntityManager::createBarrel() {
     auto* will = new NullWill();
     auto* state = new State(will);
     auto* life = new Life(state);
-    auto* screenPosition = new ScreenPosition(position,screen);
+    auto* screenPosition = new ScreenPosition(w,h,position,screen);
 
     if (VISUAL_COLLITION_BOX){
         collitionHandler->setToAllCollitionBoxScreenPosition(screenPosition);
@@ -414,10 +438,14 @@ Background* EntityManager::createFloor(const string& spritePath, float parallaxS
     int w = screen->getLevelWidth();
     int h = config->screenResolution.height;
 
+    int centerX = 0 + w/2;
+    int centerY = 0 + h/2;
+    int centerZ = 0 + DEFAULT_COLLITION_BOX_DEPTH/2;
+
     auto* collitionBoxes = new list<CollitionBox *>();
-    auto* back = collitionManager->createEnemyBlockingCollitionBox(0, 0, screen->getLevelDepth(), w, h, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
-    auto* front = collitionManager->createEnemyBlockingCollitionBox(0, 0, 0, w, h, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
-    auto* floor = collitionManager->createEnemyBlockingCollitionBox(0,-DEFAULT_COLLITION_BOX_HEIGHT,0, w, DEFAULT_COLLITION_BOX_HEIGHT, screen->getLevelDepth(),VISUAL_COLLITION_BOX);
+    auto* back = collitionManager->createEnemyBlockingCollitionBox(centerX, centerY, screen->getLevelDepth() + DEFAULT_COLLITION_BOX_DEPTH/2, w, h, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
+    auto* front = collitionManager->createEnemyBlockingCollitionBox(centerX, centerY, centerZ, w, h, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
+    auto* floor = collitionManager->createEnemyBlockingCollitionBox(0,-DEFAULT_COLLITION_BOX_HEIGHT + h/2,centerZ, w, DEFAULT_COLLITION_BOX_HEIGHT, screen->getLevelDepth(),VISUAL_COLLITION_BOX);
     collitionBoxes->push_back(back);
     collitionBoxes->push_back(front);
     collitionBoxes->push_back(floor);
