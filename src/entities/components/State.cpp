@@ -12,8 +12,6 @@ void State::update(){
 }
 
 void State::setIncoming(Action incoming){
-    std::cout<<"incoming: "<<incoming<<std::endl;
-
     updateMovementState(incoming);
     handleNewState(incoming);
 }

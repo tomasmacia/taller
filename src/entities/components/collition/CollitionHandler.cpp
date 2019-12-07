@@ -41,3 +41,20 @@ CollitionHandler::~CollitionHandler(){
     eraseCollitionBoxes();
     delete(_collitionBoxes);
 }
+
+list<Sendable*> CollitionHandler::generateSendable() {
+    list<Sendable*> sendables;
+    for (auto collitionBox : *_collitionBoxes){
+        if (collitionBox->isVisual()){
+            sendables.push_back(collitionBox->generateSendable());
+        }
+    }
+    return sendables;
+}
+
+void CollitionHandler::setToAllCollitionBoxScreenPosition(ScreenPosition *screenPosition) {
+
+    for (auto collitionBox : *_collitionBoxes){
+        collitionBox->setScreenPosition(screenPosition);
+    }
+}

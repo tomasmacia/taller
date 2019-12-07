@@ -18,7 +18,7 @@ public:
     virtual ~Entity();
 
     virtual void update() = 0;
-    virtual Sendable* generateSendable() = 0;
+    virtual list<Sendable*> generateSendable() = 0;
 
     virtual int setAttackedWith(AttackCode attack){return 0;} //returns score to attacker, by default its 0
 

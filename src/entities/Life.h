@@ -9,13 +9,16 @@
 #include "components/State.h"
 #include "components/appearances/LifeAppearance.h"
 
-class Life {
+class Life : public Entity{
 
 public:
     Life(State* state);
 
+    void update() override {}
     void initializeWith(int amount, int amountOfLifes = 1);
+    list<Sendable*> generateSendable() override ;
     void decreseBy(int amount);
+
     bool empty();
 
     LifeAppearance* getAppearance(){

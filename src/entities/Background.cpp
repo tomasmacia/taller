@@ -16,9 +16,12 @@ void Background::update() {
     appearance->update();
 }
 
-Sendable *Background::generateSendable() {
+list<Sendable*> Background::generateSendable() {
+    list<Sendable*> sendables;
     auto renderable = appearance->generateRenderable();
-    return new Sendable(renderable, nullptr);
+    sendables.push_back(new Sendable(renderable, nullptr));
+
+    return sendables;
 }
 
 Background::~Background() {

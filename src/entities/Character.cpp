@@ -18,6 +18,14 @@ Character::Character(CollitionHandler* collitionHandler, Life *life, Damage *dam
     this->scoreAppearance = scoreAppearance;
 }
 
+list<Sendable *> Character::generateSendable() {
+    list<Sendable *> sendables = PhysicalEntity::generateSendable();
+
+    auto scoreAppearanceSendable = new Sendable(scoreAppearance->generateRenderable(), nullptr);
+    sendables.push_back(scoreAppearanceSendable);
+    return sendables;
+}
+
 void Character::notifySuccessfulAttack(int score) {
     this->score->increaseBy(score);
     this->scoreAppearance->update();

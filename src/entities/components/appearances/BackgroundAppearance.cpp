@@ -45,7 +45,7 @@ void BackgroundAppearance::loadNextImage(){
     }
 }
 
-Renderable *BackgroundAppearance::actuallyGenerateRenderable() {
+Renderable* BackgroundAppearance::actuallyGenerateRenderable() {
     return new Renderable(currentSprite,srcRect,destRect,false);
 }
 

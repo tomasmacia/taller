@@ -113,7 +113,6 @@ private:
 
     //for performance
     std::list<Sendable*>* packagesToClients = nullptr;
-    Sendable* sendable = nullptr;
 
     CollitionManager* collitionManager = nullptr;
     Controller* controller = nullptr;
@@ -132,12 +131,13 @@ private:
     float WAKING_SPEED_FACTOR = 100;
     float JUMPING_SPEED_FACTOR = 110;
 
+    bool VISUAL_COLLITION_BOX = true;
     int NON_TRACKABLE_COLLITION_BOX_ID = -1;
     int DEFAULT_COLLITION_BOX_WIDTH = 5;
     int DEFAULT_COLLITION_BOX_HEIGHT = 5;
     int DEFAULT_COLLITION_BOX_DEPTH = 5;
 
-    float PICK_COLLITON_BOX_SCALE_FACTOR = 2;
-    float ATTACK_COLLITON_BOX_SCALE_FACTOR = 1.5;
+    float PICK_COLLITON_BOX_SCALE_FACTOR = 1.2;
+    float ATTACK_COLLITON_BOX_SCALE_FACTOR = 1.1;
 };
 #endif //GAME_ENTITYMANAGER_H

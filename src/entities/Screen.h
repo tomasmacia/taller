@@ -16,7 +16,7 @@ public:
     Screen(int width, int height, int levelWidth, int levelDepth, CollitionManager* collitionManager);
 
     void update() override ;
-    Sendable* generateSendable() override {}
+    list<Sendable*> generateSendable() override ;
 
     void setPlayer(Character* player);
     bool onScreen(int x, int y);

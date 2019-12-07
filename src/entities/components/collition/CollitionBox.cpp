@@ -4,8 +4,11 @@
 
 #include "CollitionBox.h"
 #include "../../entityHierarchy/Entity.h"
+#include "../ScreenPosition.h"
 
-CollitionBox::CollitionBox(int x, int y, int z, int w, int h, int d, int id) {
+CollitionBox::CollitionBox(int x, int y, int z, int w, int h, int d, int id, bool visual) {
+
+    this->visual = visual;
 
     this->w = w;
     this->h = h;
@@ -15,7 +18,6 @@ CollitionBox::CollitionBox(int x, int y, int z, int w, int h, int d, int id) {
     calculateAndAssignCorners(x,y,z);
     previousPosition = new Point(x,y,z);
 }
-
 
 bool CollitionBox::cornerIntersectsWith(CollitionBox* collitionBox, Point* corner) {
 
@@ -129,4 +131,21 @@ void CollitionBox::setOwner(Entity *owner) {
 
 bool CollitionBox::intersectsWith(CollitionBox *collitionBox) {
     return anyCornerIntersectsWith(collitionBox) || collitionBox->anyCornerIntersectsWith(this);
+}
+
+Sendable *CollitionBox::generateSendable() {
+
+    if (screenPosition->onScreen()){
+
+        int x = screenPosition->getX();
+        int y = screenPosition->getY();
+        return new Sendable(new Renderable("NULL_PATH",Rect(0,0,w,h),Rect(x,y,w,h),false), nullptr);
+    }
+    else{
+        return new Sendable(nullptr, nullptr);
+    }
+}
+
+void CollitionBox::setScreenPosition(ScreenPosition *screenPosition) {
+    this->screenPosition = screenPosition;
 }

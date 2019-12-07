@@ -21,7 +21,7 @@ public:
     //API
     //===============================
     void update() override ;
-    Sendable* generateSendable() override;
+    list<Sendable*> generateSendable() override;
 
 private:
     BackgroundAppearance* appearance = nullptr;

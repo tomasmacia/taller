@@ -39,7 +39,6 @@ void Physics::update() {
     int newY = (int)((float)prevY + _velocityY);
     int newZ = (int)((float)prevZ + _velocityZ);
 
-    std::cout<<"state: "<<_state->current()<<std::endl;
     if (_state->current() != NONE){
         _position->tryToMoveTo(newX, newY, newZ);
     }

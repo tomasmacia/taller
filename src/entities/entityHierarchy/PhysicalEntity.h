@@ -22,7 +22,7 @@ public:
     virtual ~PhysicalEntity();
 
     virtual void update() override ;
-    Sendable* generateSendable() override ;
+    list<Sendable*> generateSendable() override ;
 
     virtual int setAttackedWith(AttackCode attackCode) override ;
     bool lifeEmpty();

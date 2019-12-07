@@ -7,12 +7,14 @@
 
 #include <list>
 #include "../../components/Point.h"
+#include "../../../net/messaging/Sendable.h"
 
+class ScreenPosition;
 class Entity;
 class CollitionBox {
 
 public:
-    CollitionBox(int x, int y, int z, int w, int h, int d, int id);
+    CollitionBox(int x, int y, int z, int w, int h, int d, int id, bool visual);
     ~CollitionBox();
 
     bool intersectsWith(CollitionBox* collitionBox);
@@ -25,6 +27,10 @@ public:
     void restorePreviousPosition();
     Entity* getOwner();
     void setOwner(Entity* owner);
+
+    bool isVisual() {
+        return visual;
+    }
 
     int getX(){
         return corners.front()->x;
@@ -42,10 +48,17 @@ public:
         return id;
     }
 
+    Sendable *generateSendable();
+
+    void setScreenPosition(ScreenPosition *screenPosition);
+
 protected:
     bool anyCornerIntersectsWith(CollitionBox* collitionBox);
 
 private:
+    bool visual = false;
+    ScreenPosition* screenPosition = nullptr;
+
     Point* previousPosition = nullptr;
     bool cornerIntersectsWith(CollitionBox* collitionBox, Point* corner);
     void calculateAndAssignCorners(int x, int y, int z);

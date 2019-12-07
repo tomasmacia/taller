@@ -25,12 +25,19 @@ void PhysicalEntity::update() {
     appearance->update();
 }
 
-Sendable *PhysicalEntity::generateSendable() {
+list<Sendable*> PhysicalEntity::generateSendable() {
 
-    auto renderable = appearance->generateRenderable();
-    auto soundable = sound->generateSoundable();
+    list<Sendable*> sendables;
 
-    return new Sendable(renderable, soundable);
+    sendables.splice(sendables.end(),collitionHandler->generateSendable());
+    sendables.splice(sendables.end(),life->generateSendable());
+
+    auto entityRenderable = appearance->generateRenderable();
+    auto entitySoundable = sound->generateSoundable();
+    auto entitySendable = new Sendable(entityRenderable, entitySoundable);
+    sendables.push_back(entitySendable);
+
+    return sendables;
 }
 
 int PhysicalEntity::setAttackedWith(AttackCode attackCode) {

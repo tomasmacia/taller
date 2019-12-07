@@ -9,13 +9,14 @@
 #include "../Position.h"
 #include "CollitionBox.h"
 #include "../../../game/CollitionManager.h"
+#include "../../../net/messaging/Sendable.h"
 
 using namespace std;
 
 class CollitionHandler {
 
 public:
-    CollitionHandler(CollitionManager* collitionManager);
+    CollitionHandler(CollitionManager* collitionManagel);
     virtual ~CollitionHandler();
 
     void addCollitionBox(CollitionBox* collitionBox);
@@ -23,6 +24,11 @@ public:
     void setOwnerToAllCollitionBox(Entity* owner);
 
     void eraseCollitionBoxes();
+
+    bool hasVisualCollitionBox();
+    void setToAllCollitionBoxScreenPosition(ScreenPosition *pPosition);
+
+    list<Sendable*> generateSendable();
 
 protected:
     CollitionManager* _collitionManager = nullptr;

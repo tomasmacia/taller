@@ -34,3 +34,12 @@ void Life::initializeWith(int amount, int amountOfLifes) {
     startingAmount = amount;
     current = amount;
 }
+
+list<Sendable *> Life::generateSendable() {
+    list<Sendable*> sendables;
+
+    auto renderable = appearance->generateRenderable(); //TODO
+    sendables.push_back(new Sendable(renderable, nullptr));
+
+    return sendables;
+}

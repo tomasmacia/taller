@@ -17,7 +17,7 @@ Screen::Screen(int width, int height, int levelWidth, int levelDepth, CollitionM
     this->currentLevelWidth = levelWidth;
     this->levelDepth = levelDepth;
 
-    this->collitionHandler = new ScreenCollitionHandler(collitionManager, this);
+    this->collitionHandler = new ScreenCollitionHandler(nullptr, collitionManager, this, true);
     this->collitionHandler->setOwnerToAllCollitionBox(this);
 }
 
@@ -127,4 +127,8 @@ bool Screen::onScreen(int x, int y){
 
 bool Screen::isAtEnd(){
     return arrivedToEnd;
+}
+
+list<Sendable*> Screen::generateSendable() {
+    return collitionHandler->generateSendable();
 }

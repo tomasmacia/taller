@@ -6,6 +6,7 @@
 #define GAME_ANIMATEDENTITYCOLLITIONHANDLER_H
 
 #include "CollitionHandler.h"
+#include "../ScreenPosition.h"
 
 class AnimatedEntityCollitionHandler : public CollitionHandler{
 
@@ -20,7 +21,6 @@ public:
     void correctDestination(Point* destination);
     void moveTowardsDestinationAndCorrect(Point* destination);
     void correctDestinationUsing(CollitionBox* collitionBox, Point* destination);
-
 
 private:
     int TRIES = 10;
