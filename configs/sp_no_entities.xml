@@ -21,6 +21,29 @@
     <server>
         <players>1</players>
     </server>
+    <sounds>
+        <boss>
+            <death>resources/sfx/boss/death.wav</death>
+        </boss>
+        <music>
+            <soundtrack>resources/sfx/music/soundtrack.mp3</soundtrack>
+        </music>
+        <npc>
+            <death>resources/sfx/npcs/death.wav</death>
+            <hit>resources/sfx/npcs/hit.wav</hit>
+        </npc>
+        <player>
+            <death>resources/sfx/players/death.wav</death>
+            <great>resources/sfx/players/great.wav</great>
+            <hit>resources/sfx/players/hit.wav</hit>
+            <knifehit>resources/sfx/players/knifehit.wav</knifehit>
+            <pipehit>resources/sfx/players/pipehit.wav</pipehit>
+        </player>
+        <utility>
+            <barrelbreak>resources/sfx/utilities/barrelbreak.wav</barrelbreak>
+            <boxbreak>resources/sfx/utilities/boxbreak.wav</boxbreak>
+        </utility>
+    </sounds>
     <gameplay>
         <levels>
             <amount>3</amount>

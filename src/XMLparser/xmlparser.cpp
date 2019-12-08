@@ -80,6 +80,7 @@ Config* XMLParser::mapXMLDocumentToConfig(XMLDocument *doc, XMLDocument *docDefa
 
     config->loggerLevel = wrapperLoggerModule(configElement, defaultConfigElement);
     config->bindings = wrapperBindingsModule(configElement, defaultConfigElement);
+    config->sounds = wrapperSoundsModule(configElement, defaultConfigElement);
     config->screenResolution = wrapperScreenResolutionModule(configElement, defaultConfigElement);
     config->serverMaxPlayers = wrapperServerModule(configElement, defaultConfigElement);
     config->gameplay = wrapperGameplayModule(configElement, defaultConfigElement);
@@ -152,6 +153,53 @@ Bindings XMLParser::getBindings(XMLElement *config) {
     bindings.MUTE = getSafeValueFromElement(bindingsElement, {"mute"}, charArrayToString, section);
 
     return bindings;
+}
+
+Sounds XMLParser::wrapperSoundsModule(XMLElement *config, XMLElement *defaultConfig) {
+    Sounds sounds;
+    try {
+        sounds = getSounds(config);
+    } catch (string& msg) {
+        LogManager::logError(msg);
+        sounds = getSounds(defaultConfig);
+    }
+
+    return sounds;
+}
+
+Sounds XMLParser::getSounds(XMLElement *config) {
+    XMLElement *soundsElement = getXMLElementSafe(config, {"sounds"});
+    string section = "sounds";
+    Sounds sounds;
+
+    Boss boss;
+    boss.death = getSafeValueFromElement(soundsElement, {"boss", "death"}, charArrayToString, section);
+
+    Music music;
+    music.soundtrack = getSafeValueFromElement(soundsElement, {"music", "soundtrack"}, charArrayToString, section);
+
+    NpcSound npcSound;
+    npcSound.death = getSafeValueFromElement(soundsElement, {"npc", "death"}, charArrayToString, section);
+    npcSound.hit = getSafeValueFromElement(soundsElement, {"npc", "hit"}, charArrayToString, section);
+
+    PlayerSound playerSound;
+    playerSound.death = getSafeValueFromElement(soundsElement, {"player", "death"}, charArrayToString, section);
+    playerSound.great = getSafeValueFromElement(soundsElement, {"player", "great"}, charArrayToString, section);
+    playerSound.hit = getSafeValueFromElement(soundsElement, {"player", "hit"}, charArrayToString, section);
+    playerSound.knifeHit = getSafeValueFromElement(soundsElement, {"player", "knifehit"}, charArrayToString, section);
+    playerSound.pipeHit = getSafeValueFromElement(soundsElement, {"player", "pipehit"}, charArrayToString, section);
+
+    UtilitySound utilitySound;
+    utilitySound.barrelBreak = getSafeValueFromElement(soundsElement, {"utility", "barrelbreak"}, charArrayToString, section);
+    utilitySound.boxBreak = getSafeValueFromElement(soundsElement, {"utility", "boxbreak"}, charArrayToString, section);
+
+    sounds.boss = boss;
+    sounds.music = music;
+    sounds.npcs = npcSound;
+    sounds.players = playerSound;
+    sounds.utilities = utilitySound;
+
+    return sounds;
 }
 
 ScreenResolution XMLParser::wrapperScreenResolutionModule(XMLElement *config, XMLElement *defaultConfig) {

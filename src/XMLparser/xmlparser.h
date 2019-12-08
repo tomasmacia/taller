@@ -75,6 +75,8 @@ private:
 
     Bindings wrapperBindingsModule(XMLElement *config, XMLElement *defaultConfig);
 
+    Sounds wrapperSoundsModule(XMLElement *config, XMLElement *defaultConfig);
+
     Gameplay wrapperGameplayModule(XMLElement *config, XMLElement *defaultConfig);
 
     vector<Level> wrapperGameplayLevelsModule(XMLElement *gameplay, XMLElement *defaultGameplay);
@@ -99,6 +101,8 @@ private:
     vector<UserCredentials> wrapperUsersModule(XMLElement *credentials, XMLElement *defaultCredentials);
 
     vector<UserCredentials> getUserCredentials(XMLElement *credentials);
+
+    Sounds getSounds(XMLElement *config);
 };
 
 #endif //GAME_XMLPARSER_H
