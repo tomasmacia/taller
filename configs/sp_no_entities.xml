@@ -12,6 +12,7 @@
         <crouch>C</crouch>
         <kick>A</kick>
         <jumpkick>S</jumpkick>
+        <mute>M</mute>
     </bindings>
     <screen>
         <width>800</width>

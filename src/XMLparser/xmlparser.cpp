@@ -149,6 +149,8 @@ Bindings XMLParser::getBindings(XMLElement *config) {
     bindings.KICK = getSafeValueFromElement(bindingsElement, {"kick"}, charArrayToString, section);
     bindings.JUMPKICK = getSafeValueFromElement(bindingsElement, {"jumpkick"}, charArrayToString, section);
 
+    bindings.MUTE = getSafeValueFromElement(bindingsElement, {"mute"}, charArrayToString, section);
+
     return bindings;
 }
 

@@ -6,9 +6,10 @@
 #define GAME_CONFIG_H
 
 #include <string>
-#include "config/bindings.h"
-#include "config/gameplay.h"
-#include "config/screenresolution.h"
+#include "bindings.h"
+#include "gameplay.h"
+#include "Sounds.h"
+#include "screenresolution.h"
 
 using namespace std;
 
@@ -17,6 +18,7 @@ public:
     string loggerLevel;
     int serverMaxPlayers;
     Bindings bindings;
+    Sounds sounds;
     ScreenResolution screenResolution;
     Gameplay gameplay;
 };
