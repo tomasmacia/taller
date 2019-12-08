@@ -2,28 +2,23 @@
 #include <cstdlib>
 #include "IA.h"
 #include "State.h"
+#include "PatrolBehavior.h"
 
-IA::IA(){
+IA::IA(EntityManager* em,Position* subjectPosition){
     srand (time(nullptr));
+    this->behavior = new PatrolBehavior(this,em,subjectPosition);
+    this->em = em;
 }
 
 void IA::update(){
-
-    if (counter >= CHOOSING_ACTION_DELAY){
-        counter = 0;
-        if (side == 1){
-            side ++;
-        } else {
-            side =1;
-        }
-    }
-    counter++;
+    this->behavior->update();
 }
 
 Action IA::getNext(){
-  if (side == 1){
-      return RIGHT;
-  } else {
-      return LEFT;
-  }
+    this->behavior->getNext();
+}
+
+void IA::changeBehavior(Will* newBehavior){
+    delete this->behavior;
+    this->behavior = newBehavior;
 }
