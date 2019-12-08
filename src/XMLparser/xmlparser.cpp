@@ -238,6 +238,7 @@ Gameplay XMLParser::getGameplaySettings(XMLElement *config, XMLElement *defaultC
 
     gameplay.levels = wrapperGameplayLevelsModule(gameplayElement, gameplayDefaultElement);
     gameplay.characters = wrapperGameplayCharactersModule(gameplayElement, gameplayDefaultElement);
+    gameplay.boss = wrapperGameplayBossModule(gameplayElement, gameplayDefaultElement);
     gameplay.npcs = wrapperGameplayNPCSModule(gameplayElement, gameplayDefaultElement);
     gameplay.weapons = wrapperGameplayWeaponsModule(gameplayElement, gameplayDefaultElement);
     gameplay.utilities = wrapperGameplayUtilitiesModule(gameplayElement, gameplayDefaultElement);
@@ -281,6 +282,32 @@ vector<CharacterXML> XMLParser::getGameplayCharacters(XMLElement *gameplay) {
     XMLElement *charactersElement = getXMLElementSafe(gameplay, {section});
 
     return mapSettingToVector(charactersElement, "character", XMLParser::mapCharacter, section);
+}
+
+NPC XMLParser::wrapperGameplayBossModule(XMLElement *gameplay, XMLElement *defaultGameplay) {
+    NPC boss;
+    try {
+        boss = getGameplayBoss(gameplay);
+    } catch (string& msg) {
+        LogManager::logError(msg);
+        boss = getGameplayBoss(defaultGameplay);
+    }
+
+    return boss;
+}
+
+NPC XMLParser::getGameplayBoss(XMLElement *gameplay) {
+    XMLElement *bossElement = getXMLElementSafe(gameplay, {"boss"});
+    string section = "boss";
+    NPC boss;
+
+    boss.stand = getSafeValueFromElement(bossElement, {"stand"}, charArrayToString, section);
+    boss.beingAttacked = getSafeValueFromElement(bossElement, {"attacked"}, charArrayToString, section);
+    boss.walk = getSafeValueFromElement(bossElement, {"walk"}, charArrayToString, section);
+    boss.dying = getSafeValueFromElement(bossElement, {"death"}, charArrayToString, section);
+    boss.punch = getSafeValueFromElement(bossElement, {"punch"}, charArrayToString, section);
+
+    return boss;
 }
 
 vector<NPC> XMLParser::wrapperGameplayNPCSModule(XMLElement *gameplay, XMLElement *defaultGameplay) {

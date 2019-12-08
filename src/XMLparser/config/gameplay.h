@@ -18,6 +18,7 @@ class Gameplay {
 public:
     vector<Level> levels;
     vector<CharacterXML> characters;
+    NPC boss;
     vector<NPC> npcs;
     Weapons weapons;
     Utilities utilities;

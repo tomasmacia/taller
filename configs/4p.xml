@@ -172,27 +172,54 @@
                 <disconnected>resources/sprites/players/gray/stand.png</disconnected>
             </character4>
         </characters>
+        <boss>
+            <walk>resources/sprites/enemies/boss/walk.png</walk>
+            <death>resources/sprites/enemies/boss/death.png</death>
+            <punch>resources/sprites/enemies/boss/punch.png</punch>
+            <stand>resources/sprites/enemies/boss/stand.png</stand>
+            <attacked>resources/sprites/enemies/boss/kicked.png</attacked>
+        </boss>
         <enemies>
             <amount>5</amount>
             <npc1>
                 <difficulty>NONE</difficulty>
-                <walk>resources/sprites/enemies/enemy_walk.png</walk>
+                <walk>resources/sprites/enemies/npc/enemy_walk.png</walk>
+                <death>resources/sprites/enemies/npc/enemy_death.png</death>
+                <punch>resources/sprites/enemies/npc/enemy_punch.png</punch>
+                <stand>resources/sprites/enemies/npc/enemy_stand.png</stand>
+                <attacked>resources/sprites/enemies/npc/enemy_kicked.png</attacked>
             </npc1>
             <npc2>
                 <difficulty>NONE</difficulty>
-                <walk>resources/sprites/enemies/enemy_walk.png</walk>
+                <walk>resources/sprites/enemies/npc/enemy_walk.png</walk>
+                <death>resources/sprites/enemies/npc/enemy_death.png</death>
+                <punch>resources/sprites/enemies/npc/enemy_punch.png</punch>
+                <stand>resources/sprites/enemies/npc/enemy_stand.png</stand>
+                <attacked>resources/sprites/enemies/npc/enemy_kicked.png</attacked>
             </npc2>
             <npc3>
                 <difficulty>NONE</difficulty>
-                <walk>resources/sprites/enemies/enemy_walk.png</walk>
+                <walk>resources/sprites/enemies/npc/enemy_walk.png</walk>
+                <death>resources/sprites/enemies/npc/enemy_death.png</death>
+                <punch>resources/sprites/enemies/npc/enemy_punch.png</punch>
+                <stand>resources/sprites/enemies/npc/enemy_stand.png</stand>
+                <attacked>resources/sprites/enemies/npc/enemy_kicked.png</attacked>
             </npc3>
             <npc4>
                 <difficulty>NONE</difficulty>
-                <walk>resources/sprites/enemies/enemy_walk.png</walk>
+                <walk>resources/sprites/enemies/npc/enemy_walk.png</walk>
+                <death>resources/sprites/enemies/npc/enemy_death.png</death>
+                <punch>resources/sprites/enemies/npc/enemy_punch.png</punch>
+                <stand>resources/sprites/enemies/npc/enemy_stand.png</stand>
+                <attacked>resources/sprites/enemies/npc/enemy_kicked.png</attacked>
             </npc4>
             <npc5>
                 <difficulty>NONE</difficulty>
-                <walk>resources/sprites/enemies/enemy_walk.png</walk>
+                <walk>resources/sprites/enemies/npc/enemy_walk.png</walk>
+                <death>resources/sprites/enemies/npc/enemy_death.png</death>
+                <punch>resources/sprites/enemies/npc/enemy_punch.png</punch>
+                <stand>resources/sprites/enemies/npc/enemy_stand.png</stand>
+                <attacked>resources/sprites/enemies/npc/enemy_kicked.png</attacked>
             </npc5>
         </enemies>
         <weapons>

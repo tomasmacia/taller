@@ -50,6 +50,8 @@ private:
 
     vector<CharacterXML> getGameplayCharacters(XMLElement *gameplay);
 
+    NPC getGameplayBoss(XMLElement *gameplay);
+
     vector<NPC> getGameplayNPCS(XMLElement *gameplay);
 
     Weapons getGameplayWeapons(XMLElement *gameplay);
@@ -82,6 +84,8 @@ private:
     vector<Level> wrapperGameplayLevelsModule(XMLElement *gameplay, XMLElement *defaultGameplay);
 
     vector<CharacterXML> wrapperGameplayCharactersModule(XMLElement *gameplay, XMLElement *defaultGameplay);
+
+    NPC wrapperGameplayBossModule(XMLElement *gameplay, XMLElement *defaultGameplay);
 
     vector<NPC> wrapperGameplayNPCSModule(XMLElement *gameplay, XMLElement *defaultGameplay);
 
