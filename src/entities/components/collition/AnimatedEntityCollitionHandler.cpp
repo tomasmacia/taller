@@ -1,7 +1,6 @@
 //
 // Created by axel on 25/11/19.
 //
-#include <iostream>
 #include "AnimatedEntityCollitionHandler.h"
 
 AnimatedEntityCollitionHandler::AnimatedEntityCollitionHandler(CollitionManager *collitionManager,
@@ -87,33 +86,4 @@ void AnimatedEntityCollitionHandler::moveTowardsDestinationAndCorrect(Point *des
     }
     destination->setAt(_blockingCollitionBox->getCenter());
     _blockingCollitionBox->clearDiscardedMoves();
-}
-
-void AnimatedEntityCollitionHandler::correctDestinationUsing(CollitionBox *collitionBox, Point *destination) {
-
-    int prevX = destination->x;
-    int prevY = destination->y;
-    int prevZ = destination->z;
-
-    int currentX = _blockingCollitionBox->getX();
-    int currentY = _blockingCollitionBox->getY();
-    int currentZ = _blockingCollitionBox->getZ();
-
-    destination->x = prevX;
-    destination->y = currentY;
-    destination->z = currentZ;
-
-    if (collitionBox->hasInsideItsVolume(destination)){
-
-        destination->x = currentX;
-        destination->y = prevY;
-        destination->z = currentZ;
-
-        if (collitionBox->hasInsideItsVolume(destination)){
-
-            destination->x = currentX;
-            destination->y = currentY;
-            destination->z = prevZ;
-        }
-    }
 }

@@ -130,8 +130,8 @@ private:
     float UTILITY_HEIGHT_SCALE = 0.5;
     float WEAPON_WIDTH_SCALE = 0.2;
     float WEAPON_HEIGHT_SCALE = 0.5;
-    float WAKING_SPEED_FACTOR = 100;
-    float JUMPING_SPEED_FACTOR = 110;
+    float WAKING_SPEED_FACTOR = 0.01;
+    float JUMPING_SPEED_FACTOR = 0.03;
 
     bool VISUAL_COLLITION_BOX = true;
     int NON_TRACKABLE_COLLITION_BOX_ID = -1;

@@ -39,7 +39,7 @@ bool CollitionBox::anyCornerIntersectsWith(CollitionBox* query) {
 
     for (auto corner : corners){
         if (query->hasInsideItsVolume(corner)){
-
+            /*
             string path;
             if (query->getOwner()->isScreen()) {
                 path = "screen";
@@ -54,7 +54,7 @@ bool CollitionBox::anyCornerIntersectsWith(CollitionBox* query) {
                 }
             }
 
-            cout<<"corner colliding: from: "<<path<<" ,x: "<<corner->x<<" ,y: "<<corner->y<<" ,z: "<<corner->z<<endl;
+            cout<<"corner colliding: from: "<<path<<" ,x: "<<corner->x<<" ,y: "<<corner->y<<" ,z: "<<corner->z<<endl;*/
             return true;
         }
     }
@@ -103,9 +103,9 @@ void CollitionBox::moveOneUnitInTheDirectionOf(Point* destination) {
 
     center->save();
 
-    int minDistance = 100000;
-    int distance = 0;
-    Point* bestMove = nullptr;
+    int minDistance = center->distanceWith(destination);
+    int distance = center->distanceWith(destination);
+    Point* bestMove = candidateMoves.front();
     bool inDiscardedMoves;
 
     for (auto* candidateMove : candidateMoves){
@@ -115,7 +115,7 @@ void CollitionBox::moveOneUnitInTheDirectionOf(Point* destination) {
         if (!inDiscardedMoves){
             center->plus(*candidateMove);
             distance = center->distanceWith(destination);
-            if (distance < minDistance){
+            if (distance <= minDistance){
                 minDistance = distance;
                 bestMove = candidateMove;
             }

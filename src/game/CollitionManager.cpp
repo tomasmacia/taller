@@ -112,12 +112,18 @@ CollitionBox *CollitionManager::getFirstPickedCollitionBox(CollitionBox *query) 
     return nullptr;
 }
 
-bool CollitionManager::anyBlockingCollitionsWith(CollitionBox *queryCollitionBox) {
+bool CollitionManager::anyBlockingCollitionsWith(CollitionBox *query) {
 
     for (auto* collitionBox: *_blockingCollitionBoxes){
-        if (collitionBox->getID() != queryCollitionBox->getID()){
-            if (collitionBox->intersectsWith(queryCollitionBox)){
-                return true;
+        if (collitionBox->getID() != query->getID()){
+            if (collitionBox->intersectsWith(query)){
+                //cout<<"query: "<<query->getID()<<", intersected: "<<collitionBox->getID()<<endl;
+                if (!((query->getOwner()->isScreen() && collitionBox->getOwner()->isEnemy())
+                      || (query->getOwner()->isScreen() && collitionBox->getOwner()->isFinalBoss())
+                      || (query->getOwner()->isEnemy() && collitionBox->getOwner()->isScreen())
+                      || (query->getOwner()->isFinalBoss() && collitionBox->getOwner()->isScreen()))){
+                    return true;
+                }
             }
         }
     }

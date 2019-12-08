@@ -39,12 +39,16 @@ void Physics::update() {
     int newY = (int)((float)prevY + _velocityY);
     int newZ = (int)((float)prevZ + _velocityZ);
 
+    _position->tryToMoveTo(newX, newY, newZ);
     if (_state->current() != NONE){
-        _position->tryToMoveTo(newX, newY, newZ);
     }
 }
 
 void Physics::handleCurrentState(){
+
+    if (_state->current() != JUMP && _state->current() != JUMP_KICK){
+        alreadyJumping = false;
+    }
 
     switch (_state->current()) {
         case NONE:
@@ -75,7 +79,10 @@ void Physics::handleCurrentState(){
             endRight();
             break;
         case JUMP:
-            jump();
+            if (!alreadyJumping){
+                alreadyJumping = true;
+                jump();
+            }
             break;
         case PUNCH:
             punch();
@@ -84,7 +91,10 @@ void Physics::handleCurrentState(){
             kick();
             break;
         case JUMP_KICK:
-            jumpKick();
+            if (!alreadyJumping){
+                alreadyJumping = true;
+                jumpKick();
+            }
             break;
         case CROUCH:
             crouch();
@@ -94,6 +104,10 @@ void Physics::handleCurrentState(){
             break;
         case DYING:
             none();
+            break;
+        case DEAD:
+            break;
+        case QUIT:
             break;
     }
 }
@@ -131,7 +145,6 @@ void Physics::endRight() {
 }
 
 void Physics::jump() {
-    _velocityX = _velocityX; //aca esta la inercia horizontal. La velocidad ahora es la de antes TODO no tiene sentido, se puede borrar esta linea
     _velocityY = DEFAULT_JUMPING_VELOCITY_Y;
 }
 
@@ -148,8 +161,6 @@ void Physics::kick() {
 }
 
 void Physics::jumpKick() {
-    _accelerationX = 0;
-    _velocityX = _velocityX; //aca esta la inercia horizontal. La velocidad ahora es la de antes TODO no tiene sentido, se puede borrar esta linea
     _velocityY = DEFAULT_JUMPING_VELOCITY_Y;
 }
 
@@ -163,6 +174,7 @@ void Physics::none() {
     _accelerationX = 0;
     _velocityX = 0;
     _velocityY = 0;
+    _velocityZ = 0;
 }
 
 void Physics::drag(){
@@ -174,10 +186,6 @@ void Physics::drag(){
     int newX = prevX + DEFAULT_WALKING_VELOCITY_X;
 
     _position->tryToMoveTo(newX, prevY, prevZ);
-}
-
-bool Physics::wasThereAChange() {
-    return _velocityX != 0 || _velocityY != 0 || _velocityZ != 0;
 }
 
 int Physics::getWalkingSpeed() {

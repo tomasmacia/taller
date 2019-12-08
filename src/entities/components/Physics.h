@@ -23,11 +23,11 @@ private:
     State* _state = nullptr;
     Position* _position = nullptr;
 
-    float _velocityX;
-    float _velocityY;
-    float _velocityZ;
+    float _velocityX = 0;
+    float _velocityY = 0;
+    float _velocityZ = 0;
 
-    float DEFAULT_JUMPING_ACCELERATION_Y = 0;
+    float DEFAULT_JUMPING_ACCELERATION_Y = -1;
     float DEFAULT_JUMPING_VELOCITY_Y;
 
     float _accelerationX = 0;
@@ -53,7 +53,7 @@ private:
     void endLeft();
     void endRight();
 
-    bool wasThereAChange();
+    bool alreadyJumping = false;
 };
 
 #endif //GAME_PHYSICS_H

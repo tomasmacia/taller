@@ -54,6 +54,8 @@ private:
     void handleNewState(Action action);
 
     void updateFacingState(Action action);
+
+    void printState(Action action);
 };
 
 

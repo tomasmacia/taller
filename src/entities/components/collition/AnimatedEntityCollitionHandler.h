@@ -20,7 +20,6 @@ public:
     void moveAllCollitionBoxesKeepingRelativeDistancesTo(Point* destination);
     void correctDestination(Point* destination);
     void moveTowardsDestinationAndCorrect(Point* destination);
-    void correctDestinationUsing(CollitionBox* collitionBox, Point* destination);
 
 private:
     CollitionBox* _blockingCollitionBox = nullptr;

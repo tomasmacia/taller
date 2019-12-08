@@ -55,7 +55,6 @@ list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
             if (action != NONE) {
                 serializedInput = objectSerializer.serializeInput(action,playerId);
                 serializedInputs.push_back(serializedInput);
-
             }
         }
 
@@ -79,7 +78,6 @@ list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
                 }
                 serializedInput = objectSerializer.serializeInput(action,playerId);
                 serializedInputs.push_back(serializedInput);
-
             }
         }
     }

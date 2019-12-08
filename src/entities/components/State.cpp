@@ -2,24 +2,25 @@
 
 #include <iostream>
 
+
 State::State(Will* will){
     _will = will;
 }
 
 void State::update(){
     auto incoming = _will->getNext();
+    //printState(incoming);
     setIncoming(incoming);
 }
 
 void State::setIncoming(Action incoming){
+
     updateMovementState(incoming);
+    updateFacingState(incoming);;
     handleNewState(incoming);
 }
 
 void State::handleNewState(Action incoming) {
-
-    updateMovementState(incoming);
-    updateFacingState(incoming);
 
     if (isEndOfMovement(_currentState) || _currentState == NONE){
         _currentState = incoming;
@@ -210,4 +211,65 @@ bool State::dead() {
 
 void State::setBeingAttacked() {
     _currentState = BEING_ATTACKED;
+}
+
+void State::printState(Action incoming) {
+
+    switch (_currentState){
+
+        case NONE:
+            //std::cout<<"NONE"<<std::endl;
+            break;
+        case UP:
+            std::cout<<"UP"<<std::endl;
+            break;
+        case END_UP:
+            std::cout<<"END_UP"<<std::endl;
+            break;
+        case DOWN:
+            std::cout<<"DOWN"<<std::endl;
+            break;
+        case END_DOWN:
+            std::cout<<"END_DOWN"<<std::endl;
+            break;
+        case LEFT:
+            std::cout<<"LEFT"<<std::endl;
+            break;
+        case END_LEFT:
+            std::cout<<"END_LEFT"<<std::endl;
+            break;
+        case RIGHT:
+            std::cout<<"RIGHT"<<std::endl;
+            break;
+        case END_RIGHT:
+            std::cout<<"END_RIGHT"<<std::endl;
+            break;
+        case JUMP:
+            std::cout<<"JUMP"<<std::endl;
+            break;
+        case PUNCH:
+            std::cout<<"PUNCH"<<std::endl;
+            break;
+        case KICK:
+            std::cout<<"KICK"<<std::endl;
+            break;
+        case JUMP_KICK:
+            std::cout<<"JUMP_KICK"<<std::endl;
+            break;
+        case CROUCH:
+            std::cout<<"CROUCH"<<std::endl;
+            break;
+        case BEING_ATTACKED:
+            std::cout<<"BEING_ATTACKED"<<std::endl;
+            break;
+        case DYING:
+            std::cout<<"DYING"<<std::endl;
+            break;
+        case DEAD:
+            std::cout<<"DEAD"<<std::endl;
+            break;
+        case QUIT:
+            std::cout<<"QUIT"<<std::endl;
+            break;
+    }
 }

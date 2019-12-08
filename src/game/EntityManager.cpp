@@ -177,8 +177,8 @@ Character *EntityManager::createCharacter(int x, int y, int z, int id) {
 
     int w = (int)(((float)config->screenResolution.width)*CHARACTER_WIDTH_SCALE);
     int h = (int)((float)config->screenResolution.height*CHARACTER_HEIGHT_SCALE);
-    int walkingSpeed = config->screenResolution.width/WAKING_SPEED_FACTOR;
-    int jumpingSpeed = config->screenResolution.height/JUMPING_SPEED_FACTOR;
+    int walkingSpeed = ((float)config->screenResolution.width) * WAKING_SPEED_FACTOR;
+    int jumpingSpeed = ((float)config->screenResolution.height) * JUMPING_SPEED_FACTOR;
 
     int centerX = x + w/2;
     int centerY = y + h/2;
@@ -436,13 +436,13 @@ Background* EntityManager::createFloor(const string& spritePath, float parallaxS
     int centerZFront = 0 - DEFAULT_COLLITION_BOX_DEPTH/2;
 
     int centerXFloor = 0 + w/2;
-    int centerYFloor = 0 + h/2;
-    int centerZFloor = 0 - DEFAULT_COLLITION_BOX_HEIGHT/2;
+    int centerYFloor = 0 - DEFAULT_COLLITION_BOX_HEIGHT;
+    int centerZFloor = 0 + d/2 ;
 
     auto* collitionBoxes = new list<CollitionBox *>();
     auto* back = collitionManager->createBackgroundBlockingCollitionBox(centerXBack, centerYBack, centerZBack, w, h, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
     auto* front = collitionManager->createBackgroundBlockingCollitionBox(centerXFront, centerYFront, centerZFront, w, h, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
-    auto* floor = collitionManager->createBackgroundBlockingCollitionBox(centerXFloor,-centerYFloor,centerZFloor, w, DEFAULT_COLLITION_BOX_HEIGHT, screen->getLevelDepth(),VISUAL_COLLITION_BOX);
+    auto* floor = collitionManager->createBackgroundBlockingCollitionBox(centerXFloor,centerYFloor,centerZFloor, w, DEFAULT_COLLITION_BOX_HEIGHT, screen->getLevelDepth(),VISUAL_COLLITION_BOX);
     collitionBoxes->push_back(back);
     collitionBoxes->push_back(front);
     collitionBoxes->push_back(floor);
