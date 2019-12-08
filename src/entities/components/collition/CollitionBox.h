@@ -61,7 +61,6 @@ private:
 
     ScreenPosition* screenPosition = nullptr;
 
-    bool cornerIntersectsWith(CollitionBox* collitionBox, Point* corner);
     void calculateAndAssignCorners(int centerX, int centerY, int centerZ);
     void calculateCandidates();
 

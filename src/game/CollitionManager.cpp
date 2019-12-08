@@ -130,7 +130,7 @@ list<CollitionBox*>* CollitionManager::getCollitionsWith(CollitionBox *query) {
     for (auto collitionBox : *_blockingCollitionBoxes){
         if (collitionBox->getID() != query->getID() ){
             if (collitionBox->intersectsWith(query)){
-                cout<<"query: "<<query->getID()<<", intersected: "<<collitionBox->getID()<<endl;
+                //cout<<"query: "<<query->getID()<<", intersected: "<<collitionBox->getID()<<endl;
                 if (!((query->getOwner()->isScreen() && collitionBox->getOwner()->isEnemy())
                  || (query->getOwner()->isScreen() && collitionBox->getOwner()->isFinalBoss())
                  || (query->getOwner()->isEnemy() && collitionBox->getOwner()->isScreen())

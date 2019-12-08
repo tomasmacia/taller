@@ -33,15 +33,26 @@ void CollitionBox::calculateAndAssignCorners(int centerX, int centerY, int cente
     corners.push_back(new Point(center->x + w/2, center->y + h/2, center->z + d/2));
 }
 
-bool CollitionBox::cornerIntersectsWith(CollitionBox* collitionBox, Point* corner) {
-
-    return collitionBox->hasInsideItsVolume(corner);
-}
-
-bool CollitionBox::anyCornerIntersectsWith(CollitionBox* collitionBox) {
+bool CollitionBox::anyCornerIntersectsWith(CollitionBox* query) {
 
     for (auto corner : corners){
-        if (cornerIntersectsWith(collitionBox,corner)){
+        if (query->hasInsideItsVolume(corner)){
+
+            string path;
+            if (query->getOwner()->isScreen()) {
+                path = "screen";
+            }
+            else{
+                int i = 0;
+                for (auto s : query->getOwner()->generateSendable()){
+                    if (i == 2){
+                        path = s->_renderable->getPath();
+                    }
+                    i++;
+                }
+            }
+
+            cout<<"corner colliding: from: "<<path<<" ,x: "<<corner->x<<" ,y: "<<corner->y<<" ,z: "<<corner->z<<endl;
             return true;
         }
     }
@@ -130,8 +141,8 @@ void CollitionBox::setOwner(Entity *owner) {
     this->owner = owner;
 }
 
-bool CollitionBox::intersectsWith(CollitionBox *collitionBox) {
-    return anyCornerIntersectsWith(collitionBox) || collitionBox->anyCornerIntersectsWith(this);
+bool CollitionBox::intersectsWith(CollitionBox *query) {
+    return this->anyCornerIntersectsWith(query) || query->anyCornerIntersectsWith(this);
 }
 
 Sendable *CollitionBox::generateSendable() {

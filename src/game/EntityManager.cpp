@@ -557,7 +557,7 @@ Box* EntityManager::createBox(int x, int y, int z) {
     int centerY = y + h/2;
     int centerZ = z + DEFAULT_COLLITION_BOX_DEPTH/2;
 
-    auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(centerX, centerY, centerZ,w * NORMAL_COLLITON_BOX_SCALE_FACTOR_WIDTH, h * NORMAL_COLLITON_BOX_SCALE_FACTOR_HEIGHT, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
+    auto* collitionBox = collitionManager->createBoxBlockingCollitionBox(centerX, centerY, centerZ,w * NORMAL_COLLITON_BOX_SCALE_FACTOR_WIDTH, h * NORMAL_COLLITON_BOX_SCALE_FACTOR_HEIGHT, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
     auto* collitionHandler = new CollitionHandler(collitionManager);
     collitionHandler->addCollitionBox(collitionBox);
 
