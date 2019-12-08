@@ -36,7 +36,7 @@ void PatrolBehavior::update(){
 
 void PatrolBehavior::checkForNearbyPlayer(){
     for(auto const& i : manager->getPlayers()){
-        if (abs(i->getX - subjectPosition->getX) < PLAYER_DETECTION_RANGE){
+        if (abs(i->getX() - subjectPosition->getX()) < PLAYER_DETECTION_RANGE){
             playerDetected = true;
             target = i;
         }

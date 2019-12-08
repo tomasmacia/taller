@@ -16,8 +16,8 @@ void PursuitBehavior::update(){
 
 Action PursuitBehavior::getNext(){
     Action result = PUNCH;
-    float xdif = subjectPosition->getX - target->getX;
-    float ydif = subjectPosition->getY - target->getY;
+    float xdif = subjectPosition->getX() - target->getX();
+    float ydif = subjectPosition->getY() - target->getY();
 
     if (xdif >= PUNCH_RANGE){
         if(abs(xdif) < abs(ydif)){
