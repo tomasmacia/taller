@@ -112,6 +112,12 @@
                 <crouch>resources/sprites/players/blue/crouch.png</crouch>
                 <jumpkick>resources/sprites/players/blue/jumpkick.png</jumpkick>
                 <kick>resources/sprites/players/blue/kick.png</kick>
+                <death>resources/sprites/players/blue/death.png</death>
+                <attacked>resources/sprites/players/blue/gethit.png</attacked>
+                <knifehit>resources/sprites/players/blue/knifehit.png</knifehit>
+                <knifestand>resources/sprites/players/blue/knifestand.png</knifestand>
+                <pipehit>resources/sprites/players/blue/pipehit.png</pipehit>
+                <pipestand>resources/sprites/players/blue/pipestand.png</pipestand>
                 <disconnected>resources/sprites/players/gray/stand.png</disconnected>
             </character1>
             <character2>
@@ -123,6 +129,12 @@
                 <crouch>resources/sprites/players/red/crouch.png</crouch>
                 <jumpkick>resources/sprites/players/red/jumpkick.png</jumpkick>
                 <kick>resources/sprites/players/red/kick.png</kick>
+                <death>resources/sprites/players/red/death.png</death>
+                <attacked>resources/sprites/players/red/gethit.png</attacked>
+                <knifehit>resources/sprites/players/red/knifehit.png</knifehit>
+                <knifestand>resources/sprites/players/red/knifestand.png</knifestand>
+                <pipehit>resources/sprites/players/red/pipehit.png</pipehit>
+                <pipestand>resources/sprites/players/red/pipestand.png</pipestand>
                 <disconnected>resources/sprites/players/gray/stand.png</disconnected>
             </character2>
             <character3>
@@ -134,6 +146,12 @@
                 <crouch>resources/sprites/players/green/crouch.png</crouch>
                 <jumpkick>resources/sprites/players/green/jumpkick.png</jumpkick>
                 <kick>resources/sprites/players/green/kick.png</kick>
+                <death>resources/sprites/players/green/death.png</death>
+                <attacked>resources/sprites/players/green/gethit.png</attacked>
+                <knifehit>resources/sprites/players/green/knifehit.png</knifehit>
+                <knifestand>resources/sprites/players/green/knifestand.png</knifestand>
+                <pipehit>resources/sprites/players/green/pipehit.png</pipehit>
+                <pipestand>resources/sprites/players/green/pipestand.png</pipestand>
                 <disconnected>resources/sprites/players/gray/stand.png</disconnected>
             </character3>
             <character4>
@@ -145,6 +163,12 @@
                 <crouch>resources/sprites/players/yellow/crouch.png</crouch>
                 <jumpkick>resources/sprites/players/yellow/jumpkick.png</jumpkick>
                 <kick>resources/sprites/players/yellow/kick.png</kick>
+                <death>resources/sprites/players/yellow/death.png</death>
+                <attacked>resources/sprites/players/yellow/gethit.png</attacked>
+                <knifehit>resources/sprites/players/yellow/knifehit.png</knifehit>
+                <knifestand>resources/sprites/players/yellow/knifestand.png</knifestand>
+                <pipehit>resources/sprites/players/yellow/pipehit.png</pipehit>
+                <pipestand>resources/sprites/players/yellow/pipestand.png</pipestand>
                 <disconnected>resources/sprites/players/gray/stand.png</disconnected>
             </character4>
         </characters>

@@ -93,6 +93,12 @@
                 <crouch>resources/sprites/players/blue/crouch.png</crouch>
                 <jumpkick>resources/sprites/players/blue/jumpkick.png</jumpkick>
                 <kick>resources/sprites/players/blue/kick.png</kick>
+                <death>resources/sprites/players/blue/death.png</death>
+                <attacked>resources/sprites/players/blue/gethit.png</attacked>
+                <knifehit>resources/sprites/players/blue/knifehit.png</knifehit>
+                <knifestand>resources/sprites/players/blue/knifestand.png</knifestand>
+                <pipehit>resources/sprites/players/blue/pipehit.png</pipehit>
+                <pipestand>resources/sprites/players/blue/pipestand.png</pipestand>
                 <disconnected>resources/sprites/players/gray/stand.png</disconnected>
             </character1>
         </characters>
