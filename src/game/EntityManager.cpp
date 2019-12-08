@@ -425,18 +425,27 @@ Background* EntityManager::createFloor(const string& spritePath, float parallaxS
 
     int w = screen->getLevelWidth();
     int h = config->screenResolution.height;
+    int d = screen->getLevelDepth();
 
-    int centerX = 0 + w/2;
-    int centerY = 0 + h/2;
-    int centerZ = 0 + DEFAULT_COLLITION_BOX_DEPTH/2;
+    int centerXBack = 0 + w/2;
+    int centerYBack = 0 + h/2;
+    int centerZBack = d + DEFAULT_COLLITION_BOX_DEPTH/2;
+
+    int centerXFront = 0 + w/2;
+    int centerYFront = 0 + h/2;
+    int centerZFront = 0 - DEFAULT_COLLITION_BOX_DEPTH/2;
+
+    int centerXFloor = 0 + w/2;
+    int centerYFloor = 0 + h/2;
+    int centerZFloor = 0 - DEFAULT_COLLITION_BOX_HEIGHT/2;
 
     auto* collitionBoxes = new list<CollitionBox *>();
-    //auto* back = collitionManager->createBackgroundBlockingCollitionBox(centerX, centerY, screen->getLevelDepth() + DEFAULT_COLLITION_BOX_DEPTH/2, w, h, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
-    //auto* front = collitionManager->createBackgroundBlockingCollitionBox(centerX, centerY, centerZ, w, h, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
-    //auto* floor = collitionManager->createBackgroundBlockingCollitionBox(centerX,-DEFAULT_COLLITION_BOX_HEIGHT + h/2,centerZ, w, DEFAULT_COLLITION_BOX_HEIGHT, screen->getLevelDepth(),VISUAL_COLLITION_BOX);
-    //collitionBoxes->push_back(back);
-    //collitionBoxes->push_back(front);
-    //collitionBoxes->push_back(floor);
+    auto* back = collitionManager->createBackgroundBlockingCollitionBox(centerXBack, centerYBack, centerZBack, w, h, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
+    auto* front = collitionManager->createBackgroundBlockingCollitionBox(centerXFront, centerYFront, centerZFront, w, h, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
+    auto* floor = collitionManager->createBackgroundBlockingCollitionBox(centerXFloor,-centerYFloor,centerZFloor, w, DEFAULT_COLLITION_BOX_HEIGHT, screen->getLevelDepth(),VISUAL_COLLITION_BOX);
+    collitionBoxes->push_back(back);
+    collitionBoxes->push_back(front);
+    collitionBoxes->push_back(floor);
 
     auto* appearance = new BackgroundAppearance(nullptr, screen, spritePath, parallaxSpeed);
 
