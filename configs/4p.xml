@@ -187,6 +187,8 @@
             <barrel>
                 <amount>3</amount>
                 <sprite>resources/sprites/utilities/barril.png</sprite>
+                <damaged>resources/sprites/utilities/barril_golpeado.png</damaged>
+                <broken>resources/sprites/utilities/barril_roto.png</broken>
                 <contains>
                     <knives>0.3</knives>
                     <tubes>0.7</tubes>
@@ -195,6 +197,8 @@
             <box>
                 <amount>1</amount>
                 <sprite>resources/sprites/utilities/caja.png</sprite>
+                <damaged>resources/sprites/utilities/caja_golpeada.png</damaged>
+                <broken>resources/sprites/utilities/caja_rota.png</broken>
                 <contains>
                     <knives>1</knives>
                     <tubes>0</tubes>

@@ -428,6 +428,8 @@ UtilityConfig XMLParser::getGameplayUtility(XMLElement *utilityElement) {
     UtilityConfig utility;
     utility.amount = getSafeValueFromElement(utilityElement, {"amount"}, atoi, "utilities");
     utility.standSprite = getSafeValueFromElement(utilityElement, {"sprite"}, charArrayToString, "utilities");
+    utility.damagedSprite = getSafeValueFromElement(utilityElement, {"damaged"}, charArrayToString, "utilities");
+    utility.brokenSprite = getSafeValueFromElement(utilityElement, {"broken"}, charArrayToString, "utilities");
     utility.knivesDropProb = getSafeValueFromElement(utilityElement, {"contains", "knives"}, atof, "utilities");
     utility.tubesDropProb = getSafeValueFromElement(utilityElement, {"contains", "tubes"}, atof, "utilities");
 
