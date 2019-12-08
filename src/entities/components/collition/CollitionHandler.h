@@ -16,7 +16,7 @@ using namespace std;
 class CollitionHandler {
 
 public:
-    CollitionHandler(CollitionManager* collitionManagel);
+    CollitionHandler(CollitionManager* collitionManager);
     virtual ~CollitionHandler();
 
     void addCollitionBox(CollitionBox* collitionBox);

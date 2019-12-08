@@ -17,7 +17,7 @@ Screen::Screen(int width, int height, int levelWidth, int levelDepth, CollitionM
     this->currentLevelWidth = levelWidth;
     this->levelDepth = levelDepth;
 
-    this->collitionHandler = new ScreenCollitionHandler(nullptr, collitionManager, this, true);
+    this->collitionHandler = new ScreenCollitionHandler(collitionManager, this, false);
     this->collitionHandler->setOwnerToAllCollitionBox(this);
 }
 

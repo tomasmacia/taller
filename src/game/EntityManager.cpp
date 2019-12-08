@@ -536,8 +536,6 @@ EntityManager::~EntityManager() {
 
     delete collitionManager;
     collitionManager = nullptr;
-
-    LogManager::logDebug("Memoria de EntityManager liberada");
 }
 
 //SORTING

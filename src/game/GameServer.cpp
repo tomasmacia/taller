@@ -321,5 +321,5 @@ void GameServer::destroy() {
     delete(levelBuilder);
     levelBuilder = nullptr;
     baseClassFreeMemory();
-    LogManager::logDebug("Memoria de Game Server liberada");
+    //LogManager::logDebug("Memoria de Game Server liberada");
 }

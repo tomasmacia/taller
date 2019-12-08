@@ -3,7 +3,7 @@
 #include <utility>
 
 EnemyAppearance::EnemyAppearance(int w, int h, ScreenPosition* screenPosition, State* state, NPC npcConfig) : AnimatedAppearance(
-        screenPosition, state, std::move(npcConfig)) {
+        screenPosition, state, npcConfig) {
     initDestRect(w,h);
     init();
 }
@@ -18,13 +18,11 @@ void EnemyAppearance::init() {
     KICK_IMAGE_AMOUNT = 6;
     JUMP_KICK_IMAGE_AMOUNT = 13;
     CROUCH_IMAGE_AMOUNT = 4;
-    //PICK_IMAGE_AMOUNT = -1; todo
     //BEING_ATTACKED_IMAGE_AMOUNT = -1;
-    //DYING_IMAGE_AMOUNT = -1;
-    //DEAD_IMAGE_AMOUNT = -1;
+    //DYING_IMAGE_AMOUNT = -1; TODO
 
-    currentSprite = entityConfig.walk;
-    _imageAmount  = WALK_IMAGE_AMOUNT;
+    currentSprite = entityConfig.stand;
+    _imageAmount  = STAND_IMAGE_AMOUNT;
     _imageCounter = 0;
     getCurrentSpriteDimentions();
 }

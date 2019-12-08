@@ -12,8 +12,7 @@
 class ScreenCollitionHandler : public CollitionHandler{
 
 public:
-    ScreenCollitionHandler(CollitionManager *collitionManagel,
-                           CollitionManager *collitionManager, Screen *screen, bool visual);
+    ScreenCollitionHandler(CollitionManager *collitionManager, Screen *screen, bool visual);
 
 private:
     CollitionBox* _leftScreenCollitionBox = nullptr;
