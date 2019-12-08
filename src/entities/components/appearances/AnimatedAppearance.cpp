@@ -34,10 +34,6 @@ void AnimatedAppearance::handleCurrentState(){
                 currentSprite = entityConfig.crouch;
                 _imageAmount  = CROUCH_IMAGE_AMOUNT;
                 break;
-            case PICK:
-                //currentSprite = entityConfig.pick;
-                //_imageAmount  = PICK_IMAGE_AMOUNT; todo
-                break;
             case BEING_ATTACKED:
                 //currentSprite = entityConfig.being_attacked;
                 //_imageAmount  = BEING_ATTACKED_IMAGE_AMOUNT; todo

@@ -4,7 +4,7 @@
 
 #include "ScreenPosition.h"
 
-ScreenPosition::ScreenPosition(int width, int height, Position *position, Screen* screen) {
+ScreenPosition::ScreenPosition(int width, int height, int depth, Position *position, Screen* screen) {
 
     this->_spacePosition = position;
     this->_screen = screen;
@@ -14,8 +14,8 @@ ScreenPosition::ScreenPosition(int width, int height, Position *position, Screen
 }
 
 void ScreenPosition::update(){
-    x = _spacePosition->getX() - _screen->currentX;
-    y = _screen->getWindowHeight() - (_spacePosition->getY() + _spacePosition->getZ()) - height;
+    x = _spacePosition->getX() - _screen->currentX - width/2;
+    y = _screen->getWindowHeight() - (_spacePosition->getY() + _spacePosition->getZ()) - height + height/2;
 }
 
 int ScreenPosition::getX() {

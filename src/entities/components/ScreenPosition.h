@@ -12,7 +12,7 @@
 class ScreenPosition {
 
 public:
-    ScreenPosition(int width, int height, Position* position, Screen* screen);
+    ScreenPosition(int width, int height, int depth, Position* position, Screen* screen);
 
     void update();
 

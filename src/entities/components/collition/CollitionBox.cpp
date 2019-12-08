@@ -2,6 +2,7 @@
 // Created by axel on 25/11/19.
 //
 
+#include <iostream>
 #include "CollitionBox.h"
 #include "../../entityHierarchy/Entity.h"
 #include "../ScreenPosition.h"
@@ -15,20 +16,21 @@ CollitionBox::CollitionBox(int centerX, int centerY, int centerZ, int w, int h, 
     this->d = d;
     this->id = id;
 
-    calculateAndAssignCorners(centerX, centerY, centerZ);
-    previousPosition = corners.front();
+    center = new Point(centerX,centerY,centerZ);
+    calculateAndAssignCorners(center->x, center->y, center->z);
+    calculateCandidates();
 }
 
 void CollitionBox::calculateAndAssignCorners(int centerX, int centerY, int centerZ) {
 
-    corners.push_back(new Point(centerX - w/2, centerY - h/2, centerZ - d/2));
-    corners.push_back(new Point(centerX - w/2, centerY - h/2, centerZ + d/2));
-    corners.push_back(new Point(centerX - w/2, centerY + h/2, centerZ - d/2));
-    corners.push_back(new Point(centerX - w/2, centerY + h/2, centerZ + d/2));
-    corners.push_back(new Point(centerX + w/2, centerY - h/2, centerZ - d/2));
-    corners.push_back(new Point(centerX + w/2, centerY - h/2, centerZ + d/2));
-    corners.push_back(new Point(centerX + w/2, centerY + h/2, centerZ - d/2));
-    corners.push_back(new Point(centerX + w/2, centerY + h/2, centerZ + d/2));
+    corners.push_back(new Point(center->x - w/2, center->y - h/2, center->z - d/2));
+    corners.push_back(new Point(center->x - w/2, center->y - h/2, center->z + d/2));
+    corners.push_back(new Point(center->x - w/2, center->y + h/2, center->z - d/2));
+    corners.push_back(new Point(center->x - w/2, center->y + h/2, center->z + d/2));
+    corners.push_back(new Point(center->x + w/2, center->y - h/2, center->z - d/2));
+    corners.push_back(new Point(center->x + w/2, center->y - h/2, center->z + d/2));
+    corners.push_back(new Point(center->x + w/2, center->y + h/2, center->z - d/2));
+    corners.push_back(new Point(center->x + w/2, center->y + h/2, center->z + d/2));
 }
 
 bool CollitionBox::cornerIntersectsWith(CollitionBox* collitionBox, Point* corner) {
@@ -59,42 +61,52 @@ bool CollitionBox::hasInsideItsVolume(Point* corner){
             (z <= corner->z && corner->z <= z + d);
 }
 
-void CollitionBox::moveAllCornersBy(int xAmount, int yAmount, int zAmount) {
+void CollitionBox::moveBy(int xAmount, int yAmount, int zAmount) {
 
     for (auto corner : corners){
         corner->moveBy(xAmount,yAmount,zAmount);
     }
+    center->moveBy(xAmount,yAmount,zAmount);
+}
+
+void CollitionBox::moveBy(Point delta) {
+
+    for (auto corner : corners){
+        corner->moveBy(delta);
+    }
+    center->moveBy(delta);
 }
 
 void CollitionBox::dragToRight(int amount) {
-    moveAllCornersBy(amount,0,0);
+    moveBy(amount, 0, 0);
 }
 
 bool CollitionBox::notArrivedAt(Point *destination) {
-    return  corners.front()->x != destination->x
+    return  center->x != destination->x
             ||
-            corners.front()->y != destination->y
+            center->y != destination->y
             ||
-            corners.front()->z != destination->z ;
+            center->z != destination->z ;
 }
 
 void CollitionBox::moveOneUnitInTheDirectionOf(Point* destination) {
 
-    savePreviousPosition();
+    center->save();
 
-    int diffX = destination->x - corners.front()->x;
-    int diffY = destination->y - corners.front()->y;
-    int diffZ = destination->z - corners.front()->z;
+    int minDistance = 100000;
+    int distance = 0;
+    Point* bestMove = nullptr;
 
-    int norm = (diffX * diffX) + (diffY * diffY) + (diffZ * diffZ);
-
-    if (norm > 0){
-        diffX = (int)((diffX * diffX)/norm);
-        diffY = (int)((diffY * diffY)/norm);
-        diffZ = (int)((diffZ * diffZ)/norm);
+    for (auto* candidateMove : candidateMoves){
+        center->plus(*candidateMove);
+        distance = center->distanceWith(destination);
+        if (distance < minDistance){
+            minDistance = distance;
+            bestMove = candidateMove;
+        }
+        center->restore();
     }
-
-    moveAllCornersBy(diffX,diffY,diffZ);
+    moveBy(*bestMove);
 }
 
 CollitionBox::~CollitionBox() {
@@ -103,22 +115,11 @@ CollitionBox::~CollitionBox() {
         delete(c);
     }
     corners.clear();
-    delete(previousPosition);
-}
-
-void CollitionBox::savePreviousPosition() {
-    previousPosition->x = corners.front()->x;
-    previousPosition->y = corners.front()->y;
-    previousPosition->z = corners.front()->z;
-}
-
-void CollitionBox::restorePreviousPosition() {
-
-    int diffX = corners.front()->x - previousPosition->x;
-    int diffY = corners.front()->y - previousPosition->y;
-    int diffZ = corners.front()->z - previousPosition->z;
-
-    moveAllCornersBy(diffX,diffY,diffZ);
+    delete (center);
+    for (auto c : candidateMoves){
+        delete(c);
+    }
+    candidateMoves.clear();
 }
 
 Entity *CollitionBox::getOwner() {
@@ -148,4 +149,18 @@ Sendable *CollitionBox::generateSendable() {
 
 void CollitionBox::setScreenPosition(ScreenPosition *screenPosition) {
     this->screenPosition = screenPosition;
+}
+
+void CollitionBox::calculateCandidates() {
+    candidateMoves.push_back(new Point(-1,0,0));
+    candidateMoves.push_back(new Point(0,-1,0));
+    candidateMoves.push_back(new Point(0,0,-1));
+    candidateMoves.push_back(new Point(0,0,0));
+    candidateMoves.push_back(new Point(1,0,0));
+    candidateMoves.push_back(new Point(0,1,0));
+    candidateMoves.push_back(new Point(0,0,1));
+}
+
+void CollitionBox::restorePreviousPosition() {
+    moveBy(center->delta().oposite());
 }

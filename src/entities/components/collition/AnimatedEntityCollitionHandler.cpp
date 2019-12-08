@@ -56,19 +56,17 @@ void AnimatedEntityCollitionHandler::moveAllCollitionBoxesKeepingRelativeDistanc
     int diffZ = destination->z - _blockingCollitionBox->getZ();
 
     for (auto collitionBox : *_collitionBoxes){
-        collitionBox->moveAllCornersBy(diffX,diffY,diffZ);
+        collitionBox->moveBy(diffX, diffY, diffZ);
     }
 }
 
 void AnimatedEntityCollitionHandler::correctDestination(Point *destination) {
-
     moveTowardsDestinationAndCorrect(destination);
 }
 
 void AnimatedEntityCollitionHandler::moveTowardsDestinationAndCorrect(Point *destination) {
 
-    int counter = 0;
-    while (_blockingCollitionBox->notArrivedAt(destination) && counter <= TRIES){
+    while (_blockingCollitionBox->notArrivedAt(destination)){
 
         _blockingCollitionBox->moveOneUnitInTheDirectionOf(destination);
 
@@ -76,14 +74,15 @@ void AnimatedEntityCollitionHandler::moveTowardsDestinationAndCorrect(Point *des
 
         if (!collitions->empty()){
             _blockingCollitionBox->restorePreviousPosition();
-            correctDestinationUsing(collitions->front(), destination);
+            for (auto collidingCollitionBox : *collitions){
+                correctDestinationUsing(collidingCollitionBox, destination);
+            }
+            break;
         }
 
         collitions->clear();
         delete(collitions);
-        counter++;
     }
-    counter = 0;
 }
 
 void AnimatedEntityCollitionHandler::correctDestinationUsing(CollitionBox *collitionBox, Point *destination) {

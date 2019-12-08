@@ -18,7 +18,7 @@ class PhysicalEntity : public Entity{
 
 public:
     PhysicalEntity(CollitionHandler* collitionHandler, Life *life, Damage *damage, Score* score, Position *position,
-                   State* state, ScreenPosition* screenPosition, StateDrivenAppearance* appearance, Sound* sound);
+                   State* state, ScreenPosition* screenPosition, StateDrivenAppearance* appearance, Sound* sound, int w, int h, int d);
     virtual ~PhysicalEntity();
 
     virtual void update() override ;
@@ -33,6 +33,7 @@ public:
     void setPosition(int x, int y, int z);
 
 protected:
+    int w,h,d;
 
     Life* life = nullptr;
     Damage* damage = nullptr;

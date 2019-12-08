@@ -8,10 +8,10 @@
 
 Character::Character(CollitionHandler* collitionHandler, Life *life, Damage *damage, Score* score, Position *position,
                      State* state, ScreenPosition* screenPosition, StateDrivenAppearance* appearance, Sound* sound,
-                     Will* will, Physics* physics, Attack* attack, ID* id, ScoreAppearance* scoreAppearance) :
+                     Will* will, Physics* physics, Attack* attack, ID* id, ScoreAppearance* scoreAppearance, int w, int h, int d) :
 
         AnimatedEntity(collitionHandler, life, damage, score, position, state, screenPosition, appearance, sound,
-                       will, physics, attack){
+                       will, physics, attack, w, h, d){
 
     this->life->initializeWith(CHARACTER_LIFE_AMOUNT, AMOUNT_OF_LIFES_CHARACTER);
     this->id = id;

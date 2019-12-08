@@ -23,8 +23,6 @@ public:
     void correctDestinationUsing(CollitionBox* collitionBox, Point* destination);
 
 private:
-    int TRIES = 10;
-
     CollitionBox* _blockingCollitionBox = nullptr;
     CollitionBox* _punchBox = nullptr;
     CollitionBox* _kickBox = nullptr;

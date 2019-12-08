@@ -15,7 +15,7 @@ class Character : public AnimatedEntity{
 public:
     Character(CollitionHandler* collitionHandler, Life *life, Damage *damage, Score* score, Position *position,
               State* state, ScreenPosition* screenPosition, StateDrivenAppearance* appearance, Sound* sound,
-              Will* will, Physics* physics, Attack* attack, ID* id, ScoreAppearance* scoreAppearance);
+              Will* will, Physics* physics, Attack* attack, ID* id, ScoreAppearance* scoreAppearance, int w, int h, int d);
 
     ~Character();
 

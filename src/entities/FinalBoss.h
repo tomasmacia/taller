@@ -13,7 +13,7 @@ class FinalBoss : public AnimatedEntity {
 public:
     FinalBoss(CollitionHandler* collitionHandler, Life *life, Damage *damage, Score* score, Position *position,
     State* state, ScreenPosition* screenPosition, StateDrivenAppearance* appearance, Sound* sound,
-    Will* will, Physics* physics, Attack* attack);
+    Will* will, Physics* physics, Attack* attack, int w, int h, int d);
 
     int setAttackedWith(AttackCode attack) override ;
 

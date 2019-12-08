@@ -14,7 +14,7 @@ Position::Position(int x, int y, int z, CollitionHandler* collitionHandler) {
 void Position::tryToMoveTo(int newX, int newY, int newZ) {
     auto* collitionHandler = (AnimatedEntityCollitionHandler*) _collitionHandler;
 
-    auto* destination = new Point(newX,newY,newZ);
+    auto* destination = new Point(newX ,newY ,newZ);
 
     collitionHandler->correctDestination(destination);
 
