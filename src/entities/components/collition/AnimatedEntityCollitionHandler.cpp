@@ -74,23 +74,19 @@ void AnimatedEntityCollitionHandler::correctDestination(Point *destination) {
 
 void AnimatedEntityCollitionHandler::moveTowardsDestinationAndCorrect(Point *destination) {
 
-    while (_blockingCollitionBox->notArrivedAt(destination)){
+    bool startOfTheCorrection = true;
+    while (!_blockingCollitionBox->arrived() || startOfTheCorrection){
+        startOfTheCorrection = false;
 
         _blockingCollitionBox->moveOneUnitInTheDirectionOf(destination);
 
-        list<CollitionBox*>* collitions = _collitionManager->getCollitionsWith(_blockingCollitionBox);
-
-        if (!collitions->empty()){
+        if (_collitionManager->anyBlockingCollitionsWith(_blockingCollitionBox)){
             _blockingCollitionBox->restorePreviousPosition();
-            for (auto collidingCollitionBox : *collitions){
-                correctDestinationUsing(collidingCollitionBox, destination);
-            }
-            break;
+            _blockingCollitionBox->discardLastMoveAsCandidate();
         }
-
-        collitions->clear();
-        delete(collitions);
     }
+    destination->setAt(_blockingCollitionBox->getCenter());
+    _blockingCollitionBox->clearDiscardedMoves();
 }
 
 void AnimatedEntityCollitionHandler::correctDestinationUsing(CollitionBox *collitionBox, Point *destination) {

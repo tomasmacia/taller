@@ -20,7 +20,7 @@ public:
     bool intersectsWith(CollitionBox* collitionBox);
     void moveBy(int xAmount, int yAmount, int zAmount);
     void dragToRight(int amount);
-    bool notArrivedAt(Point* destination);
+    bool arrived();
     void moveOneUnitInTheDirectionOf(Point* destination);
     bool hasInsideItsVolume(Point* corner);
     Entity* getOwner();
@@ -50,6 +50,13 @@ public:
     void setScreenPosition(ScreenPosition *screenPosition);
     void moveBy(Point delta);
     void restorePreviousPosition();
+    void discardLastMoveAsCandidate();
+    void calculateAndAssignCorners(int centerX, int centerY, int centerZ);
+    void calculateCandidates();
+
+    Point *getCenter();
+
+    void clearDiscardedMoves();
 
 protected:
     bool anyCornerIntersectsWith(CollitionBox* collitionBox);
@@ -57,12 +64,12 @@ protected:
 private:
     bool visual = false;
     Point* center = nullptr;
+
+    Point* lastMove = nullptr;
     list<Point*> candidateMoves;
+    list<Point*> discardedMoves;
 
     ScreenPosition* screenPosition = nullptr;
-
-    void calculateAndAssignCorners(int centerX, int centerY, int centerZ);
-    void calculateCandidates();
 
     std::list<Point*> corners;
     Entity* owner = nullptr;

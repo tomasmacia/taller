@@ -8,18 +8,15 @@ Point::Point(int x, int y, int z) {
     this->x = x;
     this->y = y;
     this->z = z;
+    savedX = x + 1;
+    savedY = y + 1;
+    savedZ = z + 1;
 }
 
 void Point::moveBy(int xAmount, int yAmount, int zAmount) {
     x += xAmount;
     y += yAmount;
     z += zAmount;
-}
-
-void Point::setAt(int x, int y, int z) {
-    this->x = x;
-    this->y = y;
-    this->z = z;
 }
 
 void Point::moveBy(Point delta) {
@@ -60,4 +57,14 @@ Point Point::delta() {
 
 Point Point::oposite() {
     return Point(-x,-y,-z);
+}
+
+bool Point::isZero() {
+    return x == 0 && y == 0 && z == 0;
+}
+
+void Point::setAt(Point *pPoint) {
+    x = pPoint->x;
+    y = pPoint->y;
+    z = pPoint->z;
 }

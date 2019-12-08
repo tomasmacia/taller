@@ -17,6 +17,9 @@ public:
     int distanceWith(Point* other);
     void save();
     void restore();
+    Point delta();
+    Point oposite();
+    bool isZero();
 
     int savedX;
     int savedY;
@@ -26,11 +29,7 @@ public:
     int y;
     int z;
 
-    void setAt(int x, int y, int z);
-
-    Point delta();
-
-    Point oposite();
+    void setAt(Point *pPoint);
 };
 
 

@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <algorithm>
 #include "CollitionBox.h"
 #include "../../entityHierarchy/Entity.h"
 #include "../ScreenPosition.h"
@@ -19,6 +20,7 @@ CollitionBox::CollitionBox(int centerX, int centerY, int centerZ, int w, int h, 
     center = new Point(centerX,centerY,centerZ);
     calculateAndAssignCorners(center->x, center->y, center->z);
     calculateCandidates();
+    lastMove = candidateMoves.front();
 }
 
 void CollitionBox::calculateAndAssignCorners(int centerX, int centerY, int centerZ) {
@@ -92,12 +94,9 @@ void CollitionBox::dragToRight(int amount) {
     moveBy(amount, 0, 0);
 }
 
-bool CollitionBox::notArrivedAt(Point *destination) {
-    return  center->x != destination->x
-            ||
-            center->y != destination->y
-            ||
-            center->z != destination->z ;
+bool CollitionBox::arrived() {
+    bool result = lastMove->isZero();
+    return result;
 }
 
 void CollitionBox::moveOneUnitInTheDirectionOf(Point* destination) {
@@ -107,17 +106,25 @@ void CollitionBox::moveOneUnitInTheDirectionOf(Point* destination) {
     int minDistance = 100000;
     int distance = 0;
     Point* bestMove = nullptr;
+    bool inDiscardedMoves;
 
     for (auto* candidateMove : candidateMoves){
-        center->plus(*candidateMove);
-        distance = center->distanceWith(destination);
-        if (distance < minDistance){
-            minDistance = distance;
-            bestMove = candidateMove;
+
+        inDiscardedMoves = (std::find(discardedMoves.begin(), discardedMoves.end(), candidateMove) != discardedMoves.end());
+
+        if (!inDiscardedMoves){
+            center->plus(*candidateMove);
+            distance = center->distanceWith(destination);
+            if (distance < minDistance){
+                minDistance = distance;
+                bestMove = candidateMove;
+            }
+            center->restore();
         }
-        center->restore();
     }
+
     moveBy(*bestMove);
+    lastMove = bestMove;
 }
 
 CollitionBox::~CollitionBox() {
@@ -174,4 +181,16 @@ void CollitionBox::calculateCandidates() {
 
 void CollitionBox::restorePreviousPosition() {
     moveBy(center->delta().oposite());
+}
+
+void CollitionBox::discardLastMoveAsCandidate() {
+    discardedMoves.push_back(lastMove);
+}
+
+Point *CollitionBox::getCenter() {
+    return center;
+}
+
+void CollitionBox::clearDiscardedMoves() {
+    discardedMoves.clear();
 }
