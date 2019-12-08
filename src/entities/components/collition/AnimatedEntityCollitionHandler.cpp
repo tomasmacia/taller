@@ -46,7 +46,15 @@ list<Entity*>* AnimatedEntityCollitionHandler::getAllKickableWithinKickingRange(
 }
 
 Entity *AnimatedEntityCollitionHandler::getClosestPickeableWithinPickingRange() {
-    return _collitionManager->getFirstPickedCollitionBox(_pickBox)->getOwner();
+
+    CollitionBox* pickeableBox = _collitionManager->getFirstPickedCollitionBox(_pickBox);
+
+    if (pickeableBox != nullptr){
+        return pickeableBox->getOwner();
+    }
+    else{
+        return nullptr;
+    }
 }
 
 void AnimatedEntityCollitionHandler::moveAllCollitionBoxesKeepingRelativeDistancesTo(Point *destination) {

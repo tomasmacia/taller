@@ -102,13 +102,14 @@ list<CollitionBox *> *CollitionManager::getListOfHittedCollitionBox(CollitionBox
 
 CollitionBox *CollitionManager::getFirstPickedCollitionBox(CollitionBox *query) {
 
-    for (auto* collitionBox: *_blockingCollitionBoxes){
+    for (auto* collitionBox: *_weaponCollitionBoxes){
         if (collitionBox->getID() != query->getID()){
             if (collitionBox->intersectsWith(query)){
                 return collitionBox;
             }
         }
     }
+    return nullptr;
 }
 
 bool CollitionManager::anyBlockingCollitionsWith(CollitionBox *queryCollitionBox) {
