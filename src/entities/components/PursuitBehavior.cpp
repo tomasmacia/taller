@@ -24,13 +24,13 @@ Action PursuitBehavior::getNext(){
             if(ydif > 0){
                 result = DOWN;
             } else {
-                result = DOWN;
+                result = UP;
             }
         } else {
             if(xdif > 0){
-                result = LEFT;
-            } else {
                 result = RIGHT;
+            } else {
+                result = LEFT;
             }
         }
     }

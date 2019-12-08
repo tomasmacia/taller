@@ -32,6 +32,7 @@ void PatrolBehavior::update(){
             this->owner->changeBehavior(new PursuitBehavior(this->target,this->owner,manager,subjectPosition));
         }
     }
+    playerDetectCounter++;
 }
 
 void PatrolBehavior::checkForNearbyPlayer(){
