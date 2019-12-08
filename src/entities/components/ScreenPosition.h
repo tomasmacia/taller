@@ -12,7 +12,7 @@
 class ScreenPosition {
 
 public:
-    ScreenPosition(Position* position, Screen* screen);
+    ScreenPosition(int width, int height, int depth, Position* position, Screen* screen);
 
     void update();
 
@@ -25,9 +25,15 @@ public:
         return _screen;
     }
 
+    int getWidth();
+
+    int getHeight();
+
 private:
     int x;
     int y;
+    int width;
+    int height;
 
     Position* _spacePosition = nullptr;
     Screen* _screen = nullptr;

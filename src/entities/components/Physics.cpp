@@ -89,9 +89,6 @@ void Physics::handleCurrentState(){
         case CROUCH:
             crouch();
             break;
-        case PICK:
-            none();
-            break;
         case BEING_ATTACKED:
             none();
             break;

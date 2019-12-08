@@ -138,7 +138,7 @@ void LevelBuilder::initializeLevelDimentions(){
 
     currentLevelWidth = (float)floorSpriteWidth/ scaleFactor;
     currentlevelHeight = _config->screenResolution.height;
-    currentlevelDepth = _config->screenResolution.height/3;
+    currentlevelDepth = _config->screenResolution.height * 0.25;
 
     _entityManager->setLevelParameters(currentLevelWidth, currentlevelHeight, currentlevelDepth);
 }
@@ -161,7 +161,7 @@ void LevelBuilder::initializePlayers() {
         
         x = offset*(i+1);
         y = 0;
-        z = screenResolutionHeight/2;
+        z = screenResolutionHeight*0.15;
 
         IDManager::getInstance().getNextId();
         auto *player = _entityManager->addPlayer(x,y,z,newPlayerID);
@@ -169,6 +169,8 @@ void LevelBuilder::initializePlayers() {
 
     }
     LogManager::logDebug("[LEVEL]: Jugadores inicializados: " + std::to_string(amountOfPlayers));
+
+    _entityManager->addBox(50,0,50);
 }
 
 void LevelBuilder::initializeEnemies() {
@@ -224,7 +226,7 @@ void LevelBuilder::resetPlayers() {
 
         x = offset*(i+1);
         y = 0;
-        z = screenResolutionHeight/2;
+        z = screenResolutionHeight*0.15;
 
         player->setPosition(x,y,z);
         i++;

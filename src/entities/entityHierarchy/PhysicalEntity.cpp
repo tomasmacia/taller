@@ -6,9 +6,13 @@
 
 
 PhysicalEntity::PhysicalEntity(CollitionHandler* collitionHandler, Life *life, Damage *damage, Score* score, Position *position,
-                               State* state, ScreenPosition* screenPosition, StateDrivenAppearance* appearance, Sound* sound)
+                               State* state, ScreenPosition* screenPosition, StateDrivenAppearance* appearance, Sound* sound, int w, int h, int d )
 
                                : Entity(collitionHandler){
+    this->w = w;
+    this->h = h;
+    this->d = d;
+
     this->life = life;
     this->damage = damage;
     this->score = score;
@@ -58,7 +62,7 @@ int PhysicalEntity::getZ() {
     }
 
 void PhysicalEntity::setPosition(int x, int y, int z){
-        position->setPosition(x,y,z);
+        position->setPosition(x + w/2,y + h/2 ,z + d/2);
     }
 
 

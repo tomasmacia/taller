@@ -46,7 +46,15 @@ list<Entity*>* AnimatedEntityCollitionHandler::getAllKickableWithinKickingRange(
 }
 
 Entity *AnimatedEntityCollitionHandler::getClosestPickeableWithinPickingRange() {
-    return _collitionManager->getFirstPickedCollitionBox(_pickBox)->getOwner();
+
+    CollitionBox* pickeableBox = _collitionManager->getFirstPickedCollitionBox(_pickBox);
+
+    if (pickeableBox != nullptr){
+        return pickeableBox->getOwner();
+    }
+    else{
+        return nullptr;
+    }
 }
 
 void AnimatedEntityCollitionHandler::moveAllCollitionBoxesKeepingRelativeDistancesTo(Point *destination) {
@@ -56,35 +64,29 @@ void AnimatedEntityCollitionHandler::moveAllCollitionBoxesKeepingRelativeDistanc
     int diffZ = destination->z - _blockingCollitionBox->getZ();
 
     for (auto collitionBox : *_collitionBoxes){
-        collitionBox->moveAllCornersBy(diffX,diffY,diffZ);
+        collitionBox->moveBy(diffX, diffY, diffZ);
     }
 }
 
 void AnimatedEntityCollitionHandler::correctDestination(Point *destination) {
-
     moveTowardsDestinationAndCorrect(destination);
 }
 
 void AnimatedEntityCollitionHandler::moveTowardsDestinationAndCorrect(Point *destination) {
 
-    int counter = 0;
-    while (_blockingCollitionBox->notArrivedAt(destination) && counter <= TRIES){
+    bool startOfTheCorrection = true;
+    while (!_blockingCollitionBox->arrived() || startOfTheCorrection){
+        startOfTheCorrection = false;
 
         _blockingCollitionBox->moveOneUnitInTheDirectionOf(destination);
 
-        list<CollitionBox*>* collitions = _collitionManager->getCollitionsWith(_blockingCollitionBox);
-        cout<<"counter: "<<counter<<", colitions: "<<collitions->size()<<endl;
-
-        if (!collitions->empty()){
+        if (_collitionManager->anyBlockingCollitionsWith(_blockingCollitionBox)){
             _blockingCollitionBox->restorePreviousPosition();
-            correctDestinationUsing(collitions->front(), destination);
+            _blockingCollitionBox->discardLastMoveAsCandidate();
         }
-
-        collitions->clear();
-        delete(collitions);
-        counter++;
     }
-    counter = 0;
+    destination->setAt(_blockingCollitionBox->getCenter());
+    _blockingCollitionBox->clearDiscardedMoves();
 }
 
 void AnimatedEntityCollitionHandler::correctDestinationUsing(CollitionBox *collitionBox, Point *destination) {

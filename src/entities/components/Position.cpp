@@ -14,14 +14,14 @@ Position::Position(int x, int y, int z, CollitionHandler* collitionHandler) {
 void Position::tryToMoveTo(int newX, int newY, int newZ) {
     auto* collitionHandler = (AnimatedEntityCollitionHandler*) _collitionHandler;
 
-    auto* destination = new Point(newX,newY,newZ);
+    auto* destination = new Point(newX ,newY ,newZ);
 
     collitionHandler->correctDestination(destination);
 
     setPosition(destination->x,destination->y,destination->z);
     collitionHandler->moveAllCollitionBoxesKeepingRelativeDistancesTo(destination);
 
-    cout<<"position: "<<"x: "<<destination->x<<", y: "<<destination->y<<", z: "<<destination->z<<endl;
+    //cout<<"position: "<<"x: "<<destination->x<<", y: "<<destination->y<<", z: "<<destination->z<<endl;
 
     delete(destination);
 }

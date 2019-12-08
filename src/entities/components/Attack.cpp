@@ -28,7 +28,7 @@ void Attack::handleCurrentState(){
         case JUMP_KICK:
             addressJumpKick();
             break;
-        case PICK:
+        case CROUCH:
             addressPickIntent();
             break;
     }
@@ -84,7 +84,9 @@ void Attack::addressJumpKick(){
 void Attack::addressPickIntent(){
 
     auto* pickable = collitionHandler->getClosestPickeableWithinPickingRange();
-    setWeapon((Weapon*) pickable);
+    if (pickable != nullptr){
+        setWeapon((Weapon*) pickable);
+    }
 }
 
 bool Attack::hasWeapon() {

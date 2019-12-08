@@ -102,13 +102,14 @@ list<CollitionBox *> *CollitionManager::getListOfHittedCollitionBox(CollitionBox
 
 CollitionBox *CollitionManager::getFirstPickedCollitionBox(CollitionBox *query) {
 
-    for (auto* collitionBox: *_blockingCollitionBoxes){
+    for (auto* collitionBox: *_weaponCollitionBoxes){
         if (collitionBox->getID() != query->getID()){
             if (collitionBox->intersectsWith(query)){
                 return collitionBox;
             }
         }
     }
+    return nullptr;
 }
 
 bool CollitionManager::anyBlockingCollitionsWith(CollitionBox *queryCollitionBox) {
@@ -126,11 +127,10 @@ bool CollitionManager::anyBlockingCollitionsWith(CollitionBox *queryCollitionBox
 list<CollitionBox*>* CollitionManager::getCollitionsWith(CollitionBox *query) {
 
     auto collitions = new list<CollitionBox*>();
-
     for (auto collitionBox : *_blockingCollitionBoxes){
         if (collitionBox->getID() != query->getID() ){
             if (collitionBox->intersectsWith(query)){
-                cout<<"query: "<<query->getID()<<", intersected: "<<collitionBox->getID()<<endl;
+                //cout<<"query: "<<query->getID()<<", intersected: "<<collitionBox->getID()<<endl;
                 if (!((query->getOwner()->isScreen() && collitionBox->getOwner()->isEnemy())
                  || (query->getOwner()->isScreen() && collitionBox->getOwner()->isFinalBoss())
                  || (query->getOwner()->isEnemy() && collitionBox->getOwner()->isScreen())

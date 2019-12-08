@@ -6,9 +6,9 @@
 
 AnimatedEntity::AnimatedEntity(CollitionHandler* collitionHandler, Life *life, Damage *damage, Score* score, Position *position,
                                State* state, ScreenPosition* screenPosition, StateDrivenAppearance* appearance, Sound* sound,
-                               Will* will, Physics* physics, Attack* attack) :
+                               Will* will, Physics* physics, Attack* attack, int w, int h, int d) :
 
-                               PhysicalEntity(collitionHandler, life, damage, score, position, state, screenPosition, appearance, sound){
+                               PhysicalEntity(collitionHandler, life, damage, score, position, state, screenPosition, appearance, sound,w,h,d){
 
     this->will = will;
     this->physics = physics;

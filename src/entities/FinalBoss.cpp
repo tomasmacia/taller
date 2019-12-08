@@ -12,10 +12,10 @@
 
 FinalBoss::FinalBoss(CollitionHandler *collitionHandler, Life *life, Damage *damage, Score *score, Position *position,
              State *state, ScreenPosition *screenPosition, StateDrivenAppearance *appearance, Sound *sound, Will *will,
-             Physics *physics, Attack *attack)
+             Physics *physics, Attack *attack, int w, int h, int d)
 
         : AnimatedEntity(collitionHandler, life, damage, score, position, state, screenPosition, appearance,
-                         sound, will, physics, attack) {
+                         sound, will, physics, attack,w,h,d) {
 
     this->life->initializeWith(FINAL_BOSS_LIFE_AMOUNT);
 }
