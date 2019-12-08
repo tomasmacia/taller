@@ -4,12 +4,14 @@
 #include "../../enumerates/Action.h"
 #include "Will.h"
 #include <list>
+#include "../game/EntityManager.h"
 
 class IA : public Will {
 public:
-    IA();
+    IA(EntityManager* em,Position* subjectPosition);
     void update() override;
-    Action getNext() override ;
+    Action getNext() override;
+    void changeBehavior(Will* newBehavior);
 
 private:
 
@@ -17,6 +19,8 @@ private:
     int CHOOSING_ACTION_DELAY = 50;
     int counter = 0;
     int side = 1;
+    Will* behavior;
+    EntityManager* em;
 };
 
 #endif //GAME_IA_H

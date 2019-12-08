@@ -98,6 +98,11 @@ set(SOURCE_FILES
         src/entities/components/InputPoller.h
         src/entities/components/IA.h
         src/entities/components/IA.cpp
+        src/entities/components/PatrolBehavior.cpp
+        src/entities/components/PatrolBehavior.h
+        src/entities/components/PursuitBehavior.cpp
+        src/entities/components/PursuitBehavior.h
+
         src/entities/components/appearances/Appearance.h
         src/entities/components/appearances/Appearance.cpp
         src/entities/components/appearances/CharacterAppearance.h

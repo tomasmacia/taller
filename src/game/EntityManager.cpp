@@ -236,8 +236,6 @@ Enemy *EntityManager::createEnemy() {
     int y = validPositionGenerator.y();
     int z = validPositionGenerator.z();
 
-    auto* will = new IA();
-    auto* state = new State(will);
 
     auto* pickBox = new CollitionBox(x, y, z, w * PICK_COLLITON_BOX_SCALE_FACTOR, h * PICK_COLLITON_BOX_SCALE_FACTOR, DEFAULT_COLLITION_BOX_DEPTH * PICK_COLLITON_BOX_SCALE_FACTOR, NON_TRACKABLE_COLLITION_BOX_ID,VISUAL_COLLITION_BOX);
     auto* punchBox = new CollitionBox(x, y, z, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH,NON_TRACKABLE_COLLITION_BOX_ID,VISUAL_COLLITION_BOX);
@@ -246,8 +244,11 @@ Enemy *EntityManager::createEnemy() {
     auto* collitionHandler = new AnimatedEntityCollitionHandler(collitionManager, punchBox, kickBox, collitionBox, pickBox);
 
     auto* position = new Position(x, y, z, collitionHandler);
-    auto* physics = new Physics(state,position,walkingSpeed,jumpingSpeed);
     auto* screenPosition = new ScreenPosition(position,screen);
+
+    auto* will = new IA(this,position);
+    auto* state = new State(will);
+    auto* physics = new Physics(state,position,walkingSpeed,jumpingSpeed);
 
     if (VISUAL_COLLITION_BOX){
         collitionHandler->setToAllCollitionBoxScreenPosition(screenPosition);
