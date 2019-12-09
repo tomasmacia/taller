@@ -2,10 +2,12 @@
 // Created by axel on 24/11/19.
 //
 
+#include <iostream>
 #include "Score.h"
 
 void Score::increaseBy(int amount) {
     current += amount;
+    cout<<"score: "<<current<<endl;
 }
 
 int Score::boxAttackedWith(AttackCode attack) {
