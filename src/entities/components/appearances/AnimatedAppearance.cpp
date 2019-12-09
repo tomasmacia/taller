@@ -35,12 +35,12 @@ void AnimatedAppearance::handleCurrentState(){
                 _imageAmount  = CROUCH_IMAGE_AMOUNT;
                 break;
             case BEING_ATTACKED:
-                //currentSprite = entityConfig.being_attacked;
-                //_imageAmount  = BEING_ATTACKED_IMAGE_AMOUNT; todo
+                currentSprite = entityConfig.beingAttacked;
+                _imageAmount  = BEING_ATTACKED_IMAGE_AMOUNT;
                 break;
             case DYING:
-                //currentSprite = entityConfig.dying;
-                //_imageAmount  = DYING_IMAGE_AMOUNT; todo
+                currentSprite = entityConfig.dying;
+                _imageAmount  = DYING_IMAGE_AMOUNT;
                 break;
         }
 

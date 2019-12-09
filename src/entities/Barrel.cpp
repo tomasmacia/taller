@@ -23,4 +23,5 @@ Barrel::Barrel(CollitionHandler *collitionHandler, Life *life, Damage *damage, S
                State *state, ScreenPosition *screenPosition, StateDrivenAppearance *appearance, Sound *sound, int w, int h, int d)
         : Utillity(collitionHandler, life, damage, score, position, state, screenPosition, appearance, sound,w,h,d) {
 
+    this->life->initializeWith(BARREL_LIFE_AMOUNT);
 }

@@ -13,4 +13,5 @@ Knife::Knife(CollitionHandler *collitionHandler, Life *life, Damage *damage, Sco
              State *state, ScreenPosition *screenPosition, StateDrivenAppearance *appearance, Sound *sound, int w, int h, int d) : Weapon(
         collitionHandler, life, damage, score, position, state, screenPosition, appearance, sound,w,h,d) {
 
+    this->life->initializeWith(KNIFE_LIFE_AMOUNT);
 }

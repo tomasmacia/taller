@@ -17,6 +17,8 @@ public:
 
     int setAttackedWith(AttackCode attack) override ;
 
+    int BARREL_LIFE_AMOUNT = 1;
+
 };
 
 

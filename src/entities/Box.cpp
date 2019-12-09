@@ -27,5 +27,5 @@ Box::Box(CollitionHandler *collitionHandler, Life *life, Damage *damage, Score *
                                                                                                      screenPosition,
                                                                                                      appearance,
                                                                                                      sound,w,h,d) {
-
+    this->life->initializeWith(BOX_LIFE_AMOUNT);
 }

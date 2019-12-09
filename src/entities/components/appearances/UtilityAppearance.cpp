@@ -18,12 +18,12 @@ void UtilityAppearance::handleCurrentState(){
             _imageAmount  = STAND_IMAGE_AMOUNT;
             break;
         case BEING_ATTACKED:
-            //currentSprite = config.being_attacked;
-            //_imageAmount  = BEING_ATTACKED_IMAGE_AMOUNT; todo
+            currentSprite = config.beingAttacked;
+            _imageAmount  = BEING_ATTACKED_IMAGE_AMOUNT;
             break;
         case DYING:
-            //currentSprite = config.dying;
-            //_imageAmount  = DYING_IMAGE_AMOUNT; todo
+            currentSprite = config.dying;
+            _imageAmount  = DYING_IMAGE_AMOUNT;
             break;
     }
 }

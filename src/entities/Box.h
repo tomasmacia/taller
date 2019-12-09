@@ -16,6 +16,8 @@ public:
         State *state, ScreenPosition *screenPosition, StateDrivenAppearance *appearance, Sound *sound, int w, int h, int d);
 
     int setAttackedWith(AttackCode attack) override ;
+
+    int BOX_LIFE_AMOUNT = 2;
 };
 
 
