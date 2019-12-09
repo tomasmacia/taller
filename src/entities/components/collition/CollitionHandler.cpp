@@ -55,7 +55,9 @@ list<Sendable*> CollitionHandler::generateSendable() {
 void CollitionHandler::setToAllCollitionBoxScreenPosition(ScreenPosition *screenPosition) {
 
     for (auto collitionBox : *_collitionBoxes){
-        collitionBox->setScreenPosition(screenPosition);
+        if (collitionBox->isVisual()){
+            collitionBox->setScreenPosition(screenPosition);
+        }
     }
 }
 

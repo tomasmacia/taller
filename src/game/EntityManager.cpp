@@ -189,7 +189,7 @@ Character *EntityManager::createCharacter(int x, int y, int z, int id) {
     auto* state = new State(will);
 
     auto* collitionBox = collitionManager->createCharacterBlockingCollitionBox(centerX, centerY, centerZ, w * NORMAL_COLLITON_BOX_SCALE_FACTOR_WIDTH, h * NORMAL_COLLITON_BOX_SCALE_FACTOR_HEIGHT, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
-    auto* pickBox = new CollitionBox(centerX, centerY, centerZ, w * PICK_COLLITON_BOX_SCALE_FACTOR, h * PICK_COLLITON_BOX_SCALE_FACTOR, DEFAULT_COLLITION_BOX_DEPTH * PICK_COLLITON_BOX_SCALE_FACTOR, collitionBox->getID(),false);
+    auto* pickBox = new CollitionBox(centerX, centerY, centerZ, w * PICK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH * PICK_COLLITON_BOX_SCALE_FACTOR, collitionBox->getID(),false);
     auto* punchBox = new CollitionBox(centerX, centerY, centerZ, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH * ATTACK_COLLITON_BOX_SCALE_FACTOR,collitionBox->getID(),false);
     auto* kickBox = new CollitionBox(centerX, centerY, centerZ, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH * ATTACK_COLLITON_BOX_SCALE_FACTOR,collitionBox->getID(),false);
     auto* collitionHandler = new AnimatedEntityCollitionHandler(collitionManager, punchBox, kickBox, collitionBox, pickBox);
@@ -234,7 +234,7 @@ Enemy *EntityManager::createEnemy() {
 
 
     auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(centerX, centerY, centerZ, w * NORMAL_COLLITON_BOX_SCALE_FACTOR_WIDTH, h * NORMAL_COLLITON_BOX_SCALE_FACTOR_HEIGHT, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
-    auto* pickBox = new CollitionBox(centerX, centerY, centerZ, w * PICK_COLLITON_BOX_SCALE_FACTOR, h * PICK_COLLITON_BOX_SCALE_FACTOR, DEFAULT_COLLITION_BOX_DEPTH * PICK_COLLITON_BOX_SCALE_FACTOR, collitionBox->getID(),false);
+    auto* pickBox = new CollitionBox(centerX, centerY, centerZ, w * PICK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH * PICK_COLLITON_BOX_SCALE_FACTOR, collitionBox->getID(),false);
     auto* punchBox = new CollitionBox(centerX, centerY, centerZ, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH * ATTACK_COLLITON_BOX_SCALE_FACTOR,collitionBox->getID(),false);
     auto* kickBox = new CollitionBox(centerX, centerY, centerZ, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH * ATTACK_COLLITON_BOX_SCALE_FACTOR,collitionBox->getID(),false);
     auto* collitionHandler = new AnimatedEntityCollitionHandler(collitionManager, punchBox, kickBox, collitionBox, pickBox);
@@ -617,7 +617,7 @@ Enemy *EntityManager::createEnemy(int x, int y, int z) {
 
 
     auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(centerX, centerY, centerZ, w * NORMAL_COLLITON_BOX_SCALE_FACTOR_WIDTH, h * NORMAL_COLLITON_BOX_SCALE_FACTOR_HEIGHT, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
-    auto* pickBox = new CollitionBox(centerX, centerY, centerZ, w * PICK_COLLITON_BOX_SCALE_FACTOR, h * PICK_COLLITON_BOX_SCALE_FACTOR, DEFAULT_COLLITION_BOX_DEPTH * PICK_COLLITON_BOX_SCALE_FACTOR, collitionBox->getID(),false);
+    auto* pickBox = new CollitionBox(centerX, centerY, centerZ, w * PICK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH * PICK_COLLITON_BOX_SCALE_FACTOR, collitionBox->getID(),false);
     auto* punchBox = new CollitionBox(centerX, centerY, centerZ, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH * ATTACK_COLLITON_BOX_SCALE_FACTOR,collitionBox->getID(),false);
     auto* kickBox = new CollitionBox(centerX, centerY, centerZ, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH * ATTACK_COLLITON_BOX_SCALE_FACTOR,collitionBox->getID(),false);
     auto* collitionHandler = new AnimatedEntityCollitionHandler(collitionManager, punchBox, kickBox, collitionBox, pickBox);
