@@ -1,3 +1,89 @@
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_mixer.h"
+#include <string>
+
+
+
+int main(int argc, const char** argv) {
+
+
+    if( SDL_Init( SDL_INIT_EVERYTHING ) == -1 )
+    {
+        return false;
+    }
+
+    if( Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 4096 ) == -1 )
+    {
+        return false;
+    }
+
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 #include <algorithm>
 #include "../time/TimeUtils.h"
 #include "../CLIAparser/CLIArgumentParser.h"
@@ -62,3 +148,4 @@ int main(int argc, const char** argv) {
     }
     return 0;
 }
+ */
