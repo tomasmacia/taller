@@ -23,7 +23,7 @@ public:
     //===============================
     list<Sendable*> generateSendable() override;
 
-    int setAttackedWith(AttackCode attackCode);
+    int setAttackedWith(AttackCode attackCode) override;
     void notifySuccessfulAttack(int score) override;
 
     void setConnected(int newID);
@@ -41,6 +41,8 @@ public:
     LifeAppearance* getLifeAppearance(){
         return life->getAppearance();
     }
+
+    void resetAt(int x, int y, int z);
 
 private:
     int AMOUNT_OF_LIFES_CHARACTER = 3;

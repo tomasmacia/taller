@@ -21,11 +21,11 @@ int Damage::enemyAttackedWith(AttackCode attackCode) {
 }
 
 int Damage::boxAttackedWith(AttackCode attack) {
-    return 0;
+    return 1;
 }
 
 int Damage::barrelAttackedWith(AttackCode attackCode) {
-    return 0;
+    return 1;
 }
 
 int Damage::characterAttackedWith(AttackCode attackCode) {

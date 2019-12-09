@@ -194,3 +194,7 @@ Point *CollitionBox::getCenter() {
 void CollitionBox::clearDiscardedMoves() {
     discardedMoves.clear();
 }
+
+void CollitionBox::setAt(int x, int y, int z) {
+    moveBy(x - center->x,y - center->y,z - center->z);
+}

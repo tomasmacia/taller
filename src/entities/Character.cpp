@@ -66,3 +66,7 @@ int Character::setAttackedWith(AttackCode attackCode) {
 
     life->decreseBy(damageInflicted);
 }
+
+void Character::resetAt(int x, int y, int z) {
+    setPosition(x,y,z);
+}

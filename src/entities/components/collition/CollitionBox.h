@@ -58,6 +58,8 @@ public:
 
     void clearDiscardedMoves();
 
+    void setAt(int x, int y, int z);
+
 protected:
     bool anyCornerIntersectsWith(CollitionBox* collitionBox);
 

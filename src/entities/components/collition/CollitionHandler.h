@@ -30,6 +30,8 @@ public:
 
     list<Sendable*> generateSendable();
 
+    void setAllCollitionBoxCenterAt(int x, int y, int z);
+
 protected:
     CollitionManager* _collitionManager = nullptr;
 

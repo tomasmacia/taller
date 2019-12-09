@@ -46,6 +46,7 @@ public:
     //===============================
     Character* addPlayer(int x, int y, int z,int id);
     void addEnemy();
+    void addEnemy(int x, int y, int z);
     void addKnife();
     void addTube();
     void addBox();
@@ -61,6 +62,7 @@ public:
     //===============================
     Character* createCharacter(int x, int y, int z, int id);
     Enemy* createEnemy();
+    Enemy* createEnemy(int x, int y, int z);
     Knife* createKnife();
     Tube* createTube();
     Box* createBox();
@@ -105,7 +107,7 @@ private:
     std::list<UnanimatedEntity*> unanimatedEntities;
 
     //estas listas forman una particion de todas las entities
-    // es decir, toda entitie esta en alguna y si esta en una no esta en las otras
+    // es decir, toda entity esta en alguna y si esta en una no esta en las otras
     std::list<Entity*> specialEntities;                       //camera and levelLimits
     std::list<PhysicalEntity*> physicalEntities;          //only utilities, weapons, enemies and players
     std::list<Background*> backLayerBackgrounds;
@@ -133,15 +135,15 @@ private:
     float WAKING_SPEED_FACTOR = 0.01;
     float JUMPING_SPEED_FACTOR = 0.03;
 
-    bool VISUAL_COLLITION_BOX = false;
+    bool VISUAL_COLLITION_BOX = true;
     int NON_TRACKABLE_COLLITION_BOX_ID = -1;
     int DEFAULT_COLLITION_BOX_WIDTH = 5;
     int DEFAULT_COLLITION_BOX_HEIGHT = 5;
-    int DEFAULT_COLLITION_BOX_DEPTH = 30;
+    int DEFAULT_COLLITION_BOX_DEPTH = 20;
 
-    float PICK_COLLITON_BOX_SCALE_FACTOR = 1.2;
-    float ATTACK_COLLITON_BOX_SCALE_FACTOR = 1.1;
-    float NORMAL_COLLITON_BOX_SCALE_FACTOR_WIDTH = 0.6;
+    float PICK_COLLITON_BOX_SCALE_FACTOR = 0.8;
+    float ATTACK_COLLITON_BOX_SCALE_FACTOR = 2;
+    float NORMAL_COLLITON_BOX_SCALE_FACTOR_WIDTH = 0.5;
     float NORMAL_COLLITON_BOX_SCALE_FACTOR_HEIGHT = 1;
 };
 #endif //GAME_ENTITYMANAGER_H

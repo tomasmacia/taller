@@ -170,6 +170,7 @@ void LevelBuilder::initializePlayers() {
     LogManager::logDebug("[LEVEL]: Jugadores inicializados: " + std::to_string(amountOfPlayers));
 
     _entityManager->addBox(50,0,50);
+    _entityManager->addEnemy(150,0,50);
 }
 
 void LevelBuilder::initializeEnemies() {
@@ -227,7 +228,7 @@ void LevelBuilder::resetPlayers() {
         y = 0;
         z = screenResolutionHeight*0.15;
 
-        player->setPosition(x,y,z);
+        player->resetAt(x,y,z);
         i++;
     }
     LogManager::logDebug("[LEVEL]: Jugadores preparados para siguiente nivel: " + std::to_string(amountOfPlayers));

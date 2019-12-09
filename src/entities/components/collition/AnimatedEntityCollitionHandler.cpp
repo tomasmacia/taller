@@ -29,6 +29,9 @@ list<Entity *> *AnimatedEntityCollitionHandler::getAllPunchableWithinPunchingRan
         punchables->push_back(colitionBox->getOwner());
     }
 
+    boxes->clear();
+    delete(boxes);
+
     return punchables;
 }
 
@@ -58,12 +61,8 @@ Entity *AnimatedEntityCollitionHandler::getClosestPickeableWithinPickingRange() 
 
 void AnimatedEntityCollitionHandler::moveAllCollitionBoxesKeepingRelativeDistancesTo(Point *destination) {
 
-    int diffX = destination->x - _blockingCollitionBox->getX();
-    int diffY = destination->y - _blockingCollitionBox->getY();
-    int diffZ = destination->z - _blockingCollitionBox->getZ();
-
     for (auto collitionBox : *_collitionBoxes){
-        collitionBox->moveBy(diffX, diffY, diffZ);
+        collitionBox->setAt(destination->x,destination->y,destination->z);
     }
 }
 

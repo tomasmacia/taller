@@ -12,3 +12,8 @@ ScreenCollitionHandler::ScreenCollitionHandler(CollitionManager *collitionManage
     _collitionBoxes->push_back(_leftScreenCollitionBox);
     _collitionBoxes->push_back(_rightScreenCollitionBox);
 }
+
+void ScreenCollitionHandler::resetAll(Screen *screen) {
+    _leftScreenCollitionBox->setAt(DEFAULT_SCREEN_COLLITION_BOX_WIDTH/2,screen->getWindowHeight()/2,screen->getLevelDepth()/2);
+    _rightScreenCollitionBox->setAt(screen->getWindowWidth() + DEFAULT_SCREEN_COLLITION_BOX_WIDTH/2,screen->getWindowHeight()/2,screen->getLevelDepth()/2);
+}

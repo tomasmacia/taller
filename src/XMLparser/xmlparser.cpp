@@ -379,6 +379,10 @@ NPC XMLParser::mapNPC(XMLElement *npcs, const string currentChildName) {
     NPC npc;
     npc.difficulty = getSafeValueFromElement(npcs, {currentChildName.c_str(), "difficulty"}, charArrayToString, "enemies");
     npc.walk = getSafeValueFromElement(npcs, {currentChildName.c_str(), "walk"}, charArrayToString, "enemies");
+    npc.dying = getSafeValueFromElement(npcs, {currentChildName.c_str(), "death"}, charArrayToString, "enemies");
+    npc.punch = getSafeValueFromElement(npcs, {currentChildName.c_str(), "punch"}, charArrayToString, "enemies");
+    npc.stand = getSafeValueFromElement(npcs, {currentChildName.c_str(), "stand"}, charArrayToString, "enemies");
+    npc.beingAttacked = getSafeValueFromElement(npcs, {currentChildName.c_str(), "attacked"}, charArrayToString, "enemies");
 
     return npc;
 }

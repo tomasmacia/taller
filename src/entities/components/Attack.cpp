@@ -36,7 +36,7 @@ void Attack::handleCurrentState(){
 
 void Attack::addressPunch(){
 
-    list<Entity*>* punchables = collitionHandler->getAllKickableWithinKickingRange();
+    list<Entity*>* punchables = collitionHandler->getAllPunchableWithinPunchingRange();
 
     for (auto punchable : *punchables){
 

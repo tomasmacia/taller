@@ -1,6 +1,7 @@
 #include "EnemyAppearance.h"
 
 #include <utility>
+#include <iostream>
 
 EnemyAppearance::EnemyAppearance(int w, int h, ScreenPosition* screenPosition, State* state, NPC npcConfig) : AnimatedAppearance(
         screenPosition, state, std::move(npcConfig)) {

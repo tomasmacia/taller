@@ -63,6 +63,7 @@ int PhysicalEntity::getZ() {
 
 void PhysicalEntity::setPosition(int x, int y, int z){
         position->setPosition(x + w/2,y + h/2 ,z + d/2);
+    collitionHandler->setAllCollitionBoxCenterAt(x + w / 2, y + h / 2, z + d / 2);
     }
 
 

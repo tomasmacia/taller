@@ -58,3 +58,9 @@ void CollitionHandler::setToAllCollitionBoxScreenPosition(ScreenPosition *screen
         collitionBox->setScreenPosition(screenPosition);
     }
 }
+
+void CollitionHandler::setAllCollitionBoxCenterAt(int x, int y, int z) {
+    for (auto collitionBox: *_collitionBoxes){
+        collitionBox->setAt(x,y,z);
+    }
+}
