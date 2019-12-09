@@ -85,3 +85,7 @@ PhysicalEntity::~PhysicalEntity() {
     delete(screenPosition);
     delete(appearance);
 }
+
+void PhysicalEntity::stopBeingAttacked() {
+    state->endBeingAttacked();
+}

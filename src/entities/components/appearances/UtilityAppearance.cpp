@@ -2,6 +2,7 @@
 // Created by axelmpm on 2/12/19.
 //
 
+#include <iostream>
 #include "UtilityAppearance.h"
 
 UtilityAppearance::UtilityAppearance(ScreenPosition *screenPosition, State *state, UtilityConfig config) :
@@ -19,6 +20,7 @@ void UtilityAppearance::handleCurrentState(){
             break;
         case BEING_ATTACKED:
             currentSprite = config.beingAttacked;
+            std::cout<<currentSprite<<std::endl;
             _imageAmount  = BEING_ATTACKED_IMAGE_AMOUNT;
             break;
         case DYING:

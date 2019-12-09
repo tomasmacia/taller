@@ -61,10 +61,13 @@ Character::~Character() {
 
 int Character::setAttackedWith(AttackCode attackCode) {
 
-    AnimatedEntity::setAttackedWith(attackCode);
-    int damageInflicted = damage->characterAttackedWith(attackCode);
+    if (state->current() != BEING_ATTACKED){
 
-    life->decreseBy(damageInflicted);
+        AnimatedEntity::setAttackedWith(attackCode);
+        int damageInflicted = damage->characterAttackedWith(attackCode);
+
+        life->decreseBy(damageInflicted);
+    }
 }
 
 void Character::resetAt(int x, int y, int z) {

@@ -32,6 +32,8 @@ public:
     int getZ();
     void setPosition(int x, int y, int z);
 
+    void stopBeingAttacked();
+
 protected:
     int w,h,d;
 

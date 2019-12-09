@@ -22,15 +22,18 @@ FinalBoss::FinalBoss(CollitionHandler *collitionHandler, Life *life, Damage *dam
 
 int FinalBoss::setAttackedWith(AttackCode attack) {
 
-    AnimatedEntity::setAttackedWith(attack);
-    int damageInflicted = damage->enemyAttackedWith(attack);
+    if (state->current() != BEING_ATTACKED){
 
-    life->decreseBy(damageInflicted);
+        AnimatedEntity::setAttackedWith(attack);
+        int damageInflicted = damage->enemyAttackedWith(attack);
 
-    if (lifeEmpty()){
-        return score->finalBossKilled();
-    }
-    else{
-        return score->enemyAttackedWith(attack);
+        life->decreseBy(damageInflicted);
+
+        if (lifeEmpty()){
+            return score->finalBossKilled();
+        }
+        else{
+            return score->enemyAttackedWith(attack);
+        }
     }
 }

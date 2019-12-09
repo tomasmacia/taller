@@ -20,13 +20,13 @@ AnimatedEntityCollitionHandler::AnimatedEntityCollitionHandler(CollitionManager 
     addCollitionBox(_pickBox);
 }
 
-list<Entity *> *AnimatedEntityCollitionHandler::getAllPunchableWithinPunchingRange() {
+list<PhysicalEntity*> *AnimatedEntityCollitionHandler::getAllPunchableWithinPunchingRange() {
 
-    auto* punchables = new list<Entity*>();
+    auto* punchables = new list<PhysicalEntity*>();
     auto* boxes = _collitionManager->getListOfHittedCollitionBox(_punchBox);
 
     for (auto colitionBox : *boxes){
-        punchables->push_back(colitionBox->getOwner());
+        punchables->push_back((PhysicalEntity*) colitionBox->getOwner());
     }
 
     boxes->clear();
@@ -35,24 +35,27 @@ list<Entity *> *AnimatedEntityCollitionHandler::getAllPunchableWithinPunchingRan
     return punchables;
 }
 
-list<Entity*>* AnimatedEntityCollitionHandler::getAllKickableWithinKickingRange() {
+list<PhysicalEntity*>* AnimatedEntityCollitionHandler::getAllKickableWithinKickingRange() {
 
-    auto* kickeables = new list<Entity*>();
+    auto* kickeables = new list<PhysicalEntity*>();
     auto* boxes = _collitionManager->getListOfHittedCollitionBox(_kickBox);
 
     for (auto colitionBox : *boxes){
-        kickeables->push_back(colitionBox->getOwner());
+        kickeables->push_back((PhysicalEntity*) colitionBox->getOwner());
     }
+
+    boxes->clear();
+    delete(boxes);
 
     return kickeables;
 }
 
-Entity *AnimatedEntityCollitionHandler::getClosestPickeableWithinPickingRange() {
+PhysicalEntity *AnimatedEntityCollitionHandler::getClosestPickeableWithinPickingRange() {
 
     CollitionBox* pickeableBox = _collitionManager->getFirstPickedCollitionBox(_pickBox);
 
     if (pickeableBox != nullptr){
-        return pickeableBox->getOwner();
+        return (PhysicalEntity*) pickeableBox->getOwner();
     }
     else{
         return nullptr;

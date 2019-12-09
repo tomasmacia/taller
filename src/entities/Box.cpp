@@ -6,16 +6,19 @@
 
 int Box::setAttackedWith(AttackCode attack) {
 
-    PhysicalEntity::setAttackedWith(attack);
-    int damageInflicted = damage->boxAttackedWith(attack);
+    if (state->current() != BEING_ATTACKED){
 
-    life->decreseBy(damageInflicted);
+        PhysicalEntity::setAttackedWith(attack);
+        int damageInflicted = damage->boxAttackedWith(attack);
 
-    if (broke()){
-        return score->boxBroken();
-    }
-    else{
-        return score->boxAttackedWith(attack);
+        life->decreseBy(damageInflicted);
+
+        if (broke()){
+            return score->boxBroken();
+        }
+        else{
+            return score->boxAttackedWith(attack);
+        }
     }
 }
 

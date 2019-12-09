@@ -17,15 +17,17 @@ void Life::decreseBy(int amount) {
     current -= amount;
 
     if (current <= 0){
-        if (amountOfLifes > 1){
-            amountOfLifes --;
+        amountOfLifes --;
+        if (amountOfLifes > 0){
             current = startingAmount;
         }
         else{
             state->setDying();
         }
     }
-    appearance->update();
+    if (appearance != nullptr){
+        appearance->update();
+    }
 }
 
 void Life::initializeWith(int amount, int amountOfLifes) {

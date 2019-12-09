@@ -6,16 +6,18 @@
 
 int Barrel::setAttackedWith(AttackCode attack) {
 
-    PhysicalEntity::setAttackedWith(attack);
-    int damageInflicted = damage->barrelAttackedWith(attack);
+    if (state->current() != BEING_ATTACKED){
+        PhysicalEntity::setAttackedWith(attack);
+        int damageInflicted = damage->barrelAttackedWith(attack);
 
-    life->decreseBy(damageInflicted);
+        life->decreseBy(damageInflicted);
 
-    if (broke()){
-        return score->barrelBroken();
-    }
-    else{
-        return score->barrelAttackedWith(attack);
+        if (broke()){
+            return score->barrelBroken();
+        }
+        else{
+            return score->barrelAttackedWith(attack);
+        }
     }
 }
 

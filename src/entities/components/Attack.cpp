@@ -31,54 +31,64 @@ void Attack::handleCurrentState(){
         case CROUCH:
             addressPickIntent();
             break;
+        default:
+            stopAttacks();
+            break;
     }
 }
 
-void Attack::addressPunch(){
+void Attack::addressPunch(){ //se hace esta implementacion medio elaborada "al pedo" porque el acto de pegar dura mas que el de recibir el golpe y entonces podria pasar
+                            //que el mismo golpe le pegue dos o tres o mas veces hasta matarlo
 
-    list<Entity*>* punchables = collitionHandler->getAllPunchableWithinPunchingRange();
+    if (alreadyHasTargets()){
+        //pass
+    }
+    else{
+        targets = collitionHandler->getAllPunchableWithinPunchingRange();
 
-    for (auto punchable : *punchables){
+        for (auto target : *targets){
 
-        if (hasWeapon()){
-            owner->notifySuccessfulAttack(weapon->useOn(punchable));
-        }
-        else{
-            owner->notifySuccessfulAttack(punchable->setAttackedWith(PUNCH_ATTACK));
-        }
-        if (weaponBroke()){
-            throwWeapon();
+            if (hasWeapon()){
+                owner->notifySuccessfulAttack(weapon->useOn(target));
+            }
+            else{
+                owner->notifySuccessfulAttack(target->setAttackedWith(PUNCH_ATTACK));
+            }
+            if (weaponBroke()){
+                throwWeapon();
+            }
         }
     }
-
-    punchables->clear();
-    delete(punchables);
 }
 
 void Attack::addressKick() {
 
-    list<Entity*>* kickables = collitionHandler->getAllKickableWithinKickingRange();
-
-    for (auto kickable : *kickables){
-
-        owner->notifySuccessfulAttack(kickable->setAttackedWith(KICK_ATTACK));
+    if (alreadyHasTargets()){
+        //pass
     }
+    else{
+        targets = collitionHandler->getAllKickableWithinKickingRange();
 
-    kickables->clear();
-    delete(kickables);
+        for (auto target : *targets){
+
+            owner->notifySuccessfulAttack(target->setAttackedWith(KICK_ATTACK));
+        }
+    }
 }
 
 void Attack::addressJumpKick(){
 
-    list<Entity*>* kickables = collitionHandler->getAllKickableWithinKickingRange();
-
-    for (auto kickable : *kickables){
-
-        owner->notifySuccessfulAttack(kickable->setAttackedWith(JUMP_KICK_ATTACK));
+    if (alreadyHasTargets()){
+        //pass
     }
+    else{
+        targets = collitionHandler->getAllKickableWithinKickingRange();
 
-    kickables->clear();
-    delete(kickables);
+        for (auto target : *targets){
+
+            owner->notifySuccessfulAttack(target->setAttackedWith(JUMP_KICK_ATTACK));
+        }
+    }
 }
 
 void Attack::addressPickIntent(){
@@ -107,6 +117,36 @@ void Attack::throwWeapon() {
 }
 
 void Attack::setWeapon(Weapon *weapon) {
+    //state->equipWeapon(); TODO
     weapon->getPicked();
     this->weapon = weapon;
+}
+
+Attack::~Attack() {
+    if (targets != nullptr){
+        targets->clear();
+        delete(targets);
+    }
+}
+
+bool Attack::alreadyHasTargets() {
+
+    if (targets != nullptr){
+        return !targets->empty();
+    }
+    else{
+        return false;
+    }
+}
+
+void Attack::stopAttacks() {
+
+    if (targets != nullptr){
+        for (auto* target : *targets){
+            target->stopBeingAttacked();
+        }
+        targets->clear();
+        delete (targets);
+        targets = nullptr;
+    }
 }

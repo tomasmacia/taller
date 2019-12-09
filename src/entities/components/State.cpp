@@ -158,14 +158,31 @@ bool State::hasMovement(){
 
 void State::setFinished(){
 
-    if (isBlockingAction(_currentState)){
-
-        if (_currentState == DYING || _currentState == DEAD){
-            _currentState = DEAD;
-        }
-        else {
+    switch (_currentState){
+        case JUMP:
             _currentState = pickOneOngoingMovement();
-        }
+            break;
+        case PUNCH:
+            _currentState = pickOneOngoingMovement();
+            break;
+        case KICK:
+            _currentState = pickOneOngoingMovement();
+            break;
+        case JUMP_KICK:
+            _currentState = pickOneOngoingMovement();
+            break;
+        case CROUCH:
+            _currentState = pickOneOngoingMovement();
+            break;
+        case BEING_ATTACKED:
+            //pass
+            break;
+        case DYING:
+            _currentState = DEAD;
+            break;
+        case DEAD:
+            _currentState = DEAD;
+            break;
     }
 }
 
@@ -210,7 +227,15 @@ bool State::dead() {
 }
 
 void State::setBeingAttacked() {
-    _currentState = BEING_ATTACKED;
+    if (_currentState != DYING && _currentState != DEAD){
+        _currentState = BEING_ATTACKED;
+    }
+}
+
+void State::endBeingAttacked() {
+    if (_currentState != DYING && _currentState != DEAD){
+        _currentState = NONE;
+    }
 }
 
 void State::printState(Action incoming) {

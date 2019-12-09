@@ -34,8 +34,12 @@ public:
 
     void setDying();
     bool dead();
-
+    void endBeingAttacked();
     void setBeingAttacked();
+
+    void handleNewState(Action action);
+    void updateFacingState(Action action);
+    void printState(Action action);
 
 private:
     Will* _will = nullptr;
@@ -50,12 +54,6 @@ private:
     bool _facingLeft = false;
 
     bool disconnected = false;
-
-    void handleNewState(Action action);
-
-    void updateFacingState(Action action);
-
-    void printState(Action action);
 };
 
 
