@@ -1,0 +1,88 @@
+*) TODAS LAS ANIMACIONES TIENEN QUE ESTAR EN UN ARCHIVO png SEPARADO
+
+*) TODAS LAS ANIMACIONES DE ALGUIEN SIENDO PEGADO TIENEN QUE TENER UN EFECTO DE QUE COMO QUE SE AGRANDA UN POQUITO LA IMAGEN Y SE VUELVE UN POQUITO MAS BRILLANTE EN ALGUNOS FOTOGRAMAS DEL MEDIO PARA QUE HAGA COMO DE HIT MARKER
+
+
+
+CODY (cantidad = 9)
+============================================
+
+1) animacion de que le pegan a cody #
+    
+2) animacion de que cody pega con cuchillo  #
+
+3) animacion de que cody pega con tubo  #
+
+4) animacion de cody muriendo   #
+
+5) animacion de cody muerto titilando   #
+
+6) animacion de cody haciendo pickup de arma (que no se vea que arma) #
+
+7) foto de cody quieto con el cuchillo en la mano #
+
+8) foto de cody quieto con el tubo en la mano   #
+
+
+
+ENEMIGO (cantidad = 5)
+============================================
+
+12) animacion de que le pegan al enemigo    #
+
+13) foto de enemigo quieto  #
+
+14) animacion de enemigo pegando    #
+
+15) animacion de enemigo muriendo   #
+
+16) animacion del enemigo muerto titilando  #
+
+
+
+FINAL BOSS (cantidad = 6)
+============================================
+
+17) animacion de que le pegan al final boss #
+
+18) foto del final boss quieto  #
+
+19) animacion del final boss caminando  #
+
+20) animacion del final boss pegando    #
+
+21) animacion de final boss muriendo    #
+
+22) animacion de final boss muerto titilando    #
+
+
+
+CAJA (cantidad = 3)
+============================================
+
+23) animacion de que le pegan a la caja
+
+24) animacion de caja rompiendose   #
+
+25) animacion del caja rota titilando   #
+
+
+
+BARRIL (cantidad = 3)
+============================================
+
+26) animacion de que le pegan al barril
+
+27) animacion de barril rompiendose #
+
+28) animacion del barril roto titilando #
+
+
+
+VARIOS (cantidad = 11)
+============================================
+
+29) el numero 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 separados en foto (los de la foto de la carpeta) #
+
+30) una foto de un tamaño aprox al de un cody toda del color ese celeste y sin nada mas. Ese va a hacer de transparencia #
+
