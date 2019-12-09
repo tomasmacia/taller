@@ -13,6 +13,8 @@ class UtilityConfig {
 public:
     int amount;
     string standSprite;
+    string brokenSprite;
+    string damagedSprite;
     string beingAttacked;
     string dying;
     double knivesDropProb;

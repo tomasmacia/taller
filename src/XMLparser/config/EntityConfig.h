@@ -15,6 +15,10 @@ public:
     string crouch;
     string kick;
     string jumpkick;
+    string knifeHit;
+    string knifeStand;
+    string pipeHit;
+    string pipeStand;
     string pick;
     string beingAttacked;
     string dying;
