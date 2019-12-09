@@ -5,5 +5,5 @@
 #include "NullWill.h"
 
 Action NullWill::getNext() {
-    return NONE;
+    return LEFT;
 }

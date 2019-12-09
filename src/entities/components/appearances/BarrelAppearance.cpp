@@ -14,10 +14,8 @@ void BarrelAppearance::init() {
 
     DELAY = 3;
     STAND_IMAGE_AMOUNT = 1;
-    //PICK_IMAGE_AMOUNT = -1; todo
-    //BEING_ATTACKED_IMAGE_AMOUNT = -1;
-    //DYING_IMAGE_AMOUNT = -1;
-    //DEAD_IMAGE_AMOUNT = -1;
+    BEING_ATTACKED_IMAGE_AMOUNT = 6;
+    DYING_IMAGE_AMOUNT = 6;
 
     currentSprite = config.standSprite;
     _imageAmount  = STAND_IMAGE_AMOUNT;

@@ -20,10 +20,8 @@ void CharacterAppearance::init() {
     CROUCH_IMAGE_AMOUNT = 4;
     KICK_IMAGE_AMOUNT = 6;
     JUMP_KICK_IMAGE_AMOUNT = 13;
-    //PICK_IMAGE_AMOUNT = -1; todo
-    //BEING_ATTACKED_IMAGE_AMOUNT = -1;
-    //DYING_IMAGE_AMOUNT = -1;
-    //DEAD_IMAGE_AMOUNT = -1;
+    BEING_ATTACKED_IMAGE_AMOUNT = 4;
+    DYING_IMAGE_AMOUNT = 8;
 
     currentSprite = entityConfig.stand;
     _imageAmount  = STAND_IMAGE_AMOUNT;
