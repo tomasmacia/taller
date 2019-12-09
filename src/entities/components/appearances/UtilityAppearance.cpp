@@ -20,11 +20,12 @@ void UtilityAppearance::handleCurrentState(){
             break;
         case BEING_ATTACKED:
             currentSprite = config.beingAttacked;
-            std::cout<<currentSprite<<std::endl;
+            std::cout<<"attacked: "<<currentSprite<<std::endl;
             _imageAmount  = BEING_ATTACKED_IMAGE_AMOUNT;
             break;
         case DYING:
             currentSprite = config.dying;
+            std::cout<<"dying: "<<currentSprite<<std::endl;
             _imageAmount  = DYING_IMAGE_AMOUNT;
             break;
     }

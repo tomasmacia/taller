@@ -27,12 +27,12 @@ void EntityManager::initializeCollitionManager(){
 //=========================================================================================
 void EntityManager::update() {//se updatean todas seguro porque updateo las listas que formaban una particion de las entities
 
-    eraseDeadEntities();
-
     for(auto* e : backLayerBackgrounds) e->update();
     for(auto* e : physicalEntities) e->update();
     for(auto* e : frontLayerBackgrounds) e->update();
     for(auto* e : specialEntities) e->update();
+
+    eraseDeadEntities();
 }
 
 std::list<Sendable*>* EntityManager::generateSendables() {

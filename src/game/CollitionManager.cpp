@@ -18,6 +18,7 @@ CollitionBox *CollitionManager::createCharacterBlockingCollitionBox(int x, int y
 
     auto* newCollitionBox = new CollitionBox(x,y,z,w,h,d,newID,visual);
     _blockingCollitionBoxes->push_back(newCollitionBox);
+    _characterCollitionBoxes->push_back(newCollitionBox);
     newID++;
     return newCollitionBox;
 }
@@ -27,6 +28,7 @@ CollitionBox *CollitionManager::createEnemyBlockingCollitionBox(int x, int y, in
     auto* newCollitionBox = new CollitionBox(x,y,z,w,h,d,newID,visual);
     _blockingCollitionBoxes->push_back(newCollitionBox);
     _nonLevelPersistentCollitionBoxes->push_back(newCollitionBox);
+    _enemiesCollitionBoxes->push_back(newCollitionBox);
     newID++;
     return newCollitionBox;
 }
@@ -65,6 +67,7 @@ CollitionBox *CollitionManager::createBoxBlockingCollitionBox(int x, int y, int 
     auto* newCollitionBox = new CollitionBox(x,y,z,w,h,d,newID,visual);
     _blockingCollitionBoxes->push_back(newCollitionBox);
     _nonLevelPersistentCollitionBoxes->push_back(newCollitionBox);
+    _utilitiesCollitionBoxes->push_back(newCollitionBox);
     newID++;
     return newCollitionBox;
 }
@@ -74,6 +77,7 @@ CollitionBox *CollitionManager::createBarrelBlockingCollitionBox(int x, int y, i
     auto* newCollitionBox = new CollitionBox(x,y,z,w,h,d,newID,visual);
     _blockingCollitionBoxes->push_back(newCollitionBox);
     _nonLevelPersistentCollitionBoxes->push_back(newCollitionBox);
+    _utilitiesCollitionBoxes->push_back(newCollitionBox);
     newID++;
     return newCollitionBox;
 }
@@ -90,7 +94,15 @@ list<CollitionBox *> *CollitionManager::getListOfHittedCollitionBox(CollitionBox
 
     auto hitted = new list<CollitionBox*>();
 
-    for (auto* collitionBox: *_blockingCollitionBoxes){
+    for (auto* collitionBox: *_enemiesCollitionBoxes){
+        if (collitionBox->getID() != query->getID()){
+            if (collitionBox->intersectsWith(query)){
+                hitted->push_back(collitionBox);
+            }
+        }
+    }
+
+    for (auto* collitionBox: *_utilitiesCollitionBoxes){
         if (collitionBox->getID() != query->getID()){
             if (collitionBox->intersectsWith(query)){
                 hitted->push_back(collitionBox);
@@ -157,6 +169,8 @@ void CollitionManager::prepareForNextLevel() {
 void CollitionManager::clearNonLevelPersistentCollitionBoxes(){
     _nonLevelPersistentCollitionBoxes->clear();
     _weaponCollitionBoxes->clear();
+    _enemiesCollitionBoxes->clear();
+    _utilitiesCollitionBoxes->clear();
 }
 
 void CollitionManager::untrack(CollitionBox* collitionBox) {
@@ -164,6 +178,8 @@ void CollitionManager::untrack(CollitionBox* collitionBox) {
     _nonLevelPersistentCollitionBoxes->remove(collitionBox);
     _weaponCollitionBoxes->remove(collitionBox);
     _characterCollitionBoxes->remove(collitionBox);
+    _enemiesCollitionBoxes->remove(collitionBox);
+    _utilitiesCollitionBoxes->remove(collitionBox);
 }
 
 CollitionManager::~CollitionManager(){
@@ -175,4 +191,8 @@ CollitionManager::~CollitionManager(){
     delete(_weaponCollitionBoxes);
     _nonLevelPersistentCollitionBoxes->clear();
     delete(_nonLevelPersistentCollitionBoxes);
+    _enemiesCollitionBoxes->clear();
+    delete(_enemiesCollitionBoxes);
+    _utilitiesCollitionBoxes->clear();
+    delete(_utilitiesCollitionBoxes);
 }

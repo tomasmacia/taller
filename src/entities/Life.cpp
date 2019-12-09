@@ -21,9 +21,6 @@ void Life::decreseBy(int amount) {
         if (amountOfLifes > 0){
             current = startingAmount;
         }
-        else{
-            state->setDying();
-        }
     }
     if (appearance != nullptr){
         appearance->update();

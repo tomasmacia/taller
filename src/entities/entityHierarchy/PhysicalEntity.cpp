@@ -87,5 +87,12 @@ PhysicalEntity::~PhysicalEntity() {
 }
 
 void PhysicalEntity::stopBeingAttacked() {
-    state->endBeingAttacked();
+
+    if (lifeEmpty()){
+        state->setDying();
+        collitionHandler->eraseCollitionBoxes();
+    }
+    else{
+        state->endBeingAttacked();
+    }
 }

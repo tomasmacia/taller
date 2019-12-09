@@ -40,6 +40,8 @@ private:
     void clearNonLevelPersistentCollitionBoxes();
 
     list<CollitionBox*>* _blockingCollitionBoxes = nullptr;
+    list<CollitionBox*>* _enemiesCollitionBoxes = nullptr;
+    list<CollitionBox*>* _utilitiesCollitionBoxes = nullptr;
     list<CollitionBox*>* _nonLevelPersistentCollitionBoxes = nullptr;
     list<CollitionBox*>* _weaponCollitionBoxes = nullptr;
     list<CollitionBox*>* _characterCollitionBoxes = nullptr;
