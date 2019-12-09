@@ -12,6 +12,7 @@
         <crouch>C</crouch>
         <kick>A</kick>
         <jumpkick>S</jumpkick>
+        <mute>M</mute>
     </bindings>
     <screen>
         <width>800</width>
@@ -20,6 +21,29 @@
     <server>
         <players>2</players>
     </server>
+    <sounds>
+        <boss>
+            <death>resources/sfx/boss/death.wav</death>
+        </boss>
+        <music>
+            <soundtrack>resources/sfx/music/soundtrack.mp3</soundtrack>
+        </music>
+        <npc>
+            <death>resources/sfx/npcs/death.wav</death>
+            <hit>resources/sfx/npcs/hit.wav</hit>
+        </npc>
+        <player>
+            <death>resources/sfx/players/death.wav</death>
+            <great>resources/sfx/players/great.wav</great>
+            <hit>resources/sfx/players/hit.wav</hit>
+            <knifehit>resources/sfx/players/knifehit.wav</knifehit>
+            <pipehit>resources/sfx/players/pipehit.wav</pipehit>
+        </player>
+        <utility>
+            <barrelbreak>resources/sfx/utilities/barrelbreak.wav</barrelbreak>
+            <boxbreak>resources/sfx/utilities/boxbreak.wav</boxbreak>
+        </utility>
+    </sounds>
     <gameplay>
         <levels>
             <amount>3</amount>
@@ -78,7 +102,7 @@
             </level3>
         </levels>
         <characters>
-            <amount>4</amount>
+            <amount>2</amount>
             <character1>
                 <name>Cody Blue</name>
                 <standSprite>resources/sprites/players/blue/stand.png</standSprite>
@@ -88,6 +112,12 @@
                 <crouch>resources/sprites/players/blue/crouch.png</crouch>
                 <jumpkick>resources/sprites/players/blue/jumpkick.png</jumpkick>
                 <kick>resources/sprites/players/blue/kick.png</kick>
+                <death>resources/sprites/players/blue/death.png</death>
+                <attacked>resources/sprites/players/blue/gethit.png</attacked>
+                <knifehit>resources/sprites/players/blue/knifehit.png</knifehit>
+                <knifestand>resources/sprites/players/blue/knifestand.png</knifestand>
+                <pipehit>resources/sprites/players/blue/pipehit.png</pipehit>
+                <pipestand>resources/sprites/players/blue/pipestand.png</pipestand>
                 <disconnected>resources/sprites/players/gray/stand.png</disconnected>
             </character1>
             <character2>
@@ -99,52 +129,63 @@
                 <crouch>resources/sprites/players/red/crouch.png</crouch>
                 <jumpkick>resources/sprites/players/red/jumpkick.png</jumpkick>
                 <kick>resources/sprites/players/red/kick.png</kick>
+                <death>resources/sprites/players/red/death.png</death>
+                <attacked>resources/sprites/players/red/gethit.png</attacked>
+                <knifehit>resources/sprites/players/red/knifehit.png</knifehit>
+                <knifestand>resources/sprites/players/red/knifestand.png</knifestand>
+                <pipehit>resources/sprites/players/red/pipehit.png</pipehit>
+                <pipestand>resources/sprites/players/red/pipestand.png</pipestand>
                 <disconnected>resources/sprites/players/gray/stand.png</disconnected>
             </character2>
-            <character3>
-                <name>Cody Green</name>
-                <standSprite>resources/sprites/players/green/stand.png</standSprite>
-                <walk>resources/sprites/players/green/walk.png</walk>
-                <punch>resources/sprites/players/green/punch.png</punch>
-                <jump>resources/sprites/players/green/jump.png</jump>
-                <crouch>resources/sprites/players/green/crouch.png</crouch>
-                <jumpkick>resources/sprites/players/green/jumpkick.png</jumpkick>
-                <kick>resources/sprites/players/green/kick.png</kick>
-                <disconnected>resources/sprites/players/gray/stand.png</disconnected>
-            </character3>
-            <character4>
-                <name>Cody Yellow</name>
-                <standSprite>resources/sprites/players/yellow/stand.png</standSprite>
-                <walk>resources/sprites/players/yellow/walk.png</walk>
-                <punch>resources/sprites/players/yellow/punch.png</punch>
-                <jump>resources/sprites/players/yellow/jump.png</jump>
-                <crouch>resources/sprites/players/yellow/crouch.png</crouch>
-                <jumpkick>resources/sprites/players/yellow/jumpkick.png</jumpkick>
-                <kick>resources/sprites/players/yellow/kick.png</kick>
-                <disconnected>resources/sprites/players/gray/stand.png</disconnected>
-            </character4>
         </characters>
+        <boss>
+            <walk>resources/sprites/enemies/boss/walk.png</walk>
+            <death>resources/sprites/enemies/boss/death.png</death>
+            <punch>resources/sprites/enemies/boss/punch.png</punch>
+            <stand>resources/sprites/enemies/boss/stand.png</stand>
+            <attacked>resources/sprites/enemies/boss/kicked.png</attacked>
+        </boss>
         <enemies>
             <amount>0</amount>
             <npc1>
                 <difficulty>NONE</difficulty>
-                <walk>resources/sprites/enemies/enemy_walk.png</walk>
+                <walk>resources/sprites/enemies/npc/enemy_walk.png</walk>
+                <death>resources/sprites/enemies/npc/enemy_death.png</death>
+                <punch>resources/sprites/enemies/npc/enemy_punch.png</punch>
+                <stand>resources/sprites/enemies/npc/enemy_stand.png</stand>
+                <attacked>resources/sprites/enemies/npc/enemy_kicked.png</attacked>
             </npc1>
             <npc2>
                 <difficulty>NONE</difficulty>
-                <walk>resources/sprites/enemies/enemy_walk.png</walk>
+                <walk>resources/sprites/enemies/npc/enemy_walk.png</walk>
+                <death>resources/sprites/enemies/npc/enemy_death.png</death>
+                <punch>resources/sprites/enemies/npc/enemy_punch.png</punch>
+                <stand>resources/sprites/enemies/npc/enemy_stand.png</stand>
+                <attacked>resources/sprites/enemies/npc/enemy_kicked.png</attacked>
             </npc2>
             <npc3>
                 <difficulty>NONE</difficulty>
-                <walk>resources/sprites/enemies/enemy_walk.png</walk>
+                <walk>resources/sprites/enemies/npc/enemy_walk.png</walk>
+                <death>resources/sprites/enemies/npc/enemy_death.png</death>
+                <punch>resources/sprites/enemies/npc/enemy_punch.png</punch>
+                <stand>resources/sprites/enemies/npc/enemy_stand.png</stand>
+                <attacked>resources/sprites/enemies/npc/enemy_kicked.png</attacked>
             </npc3>
             <npc4>
                 <difficulty>NONE</difficulty>
-                <walk>resources/sprites/enemies/enemy_walk.png</walk>
+                <walk>resources/sprites/enemies/npc/enemy_walk.png</walk>
+                <death>resources/sprites/enemies/npc/enemy_death.png</death>
+                <punch>resources/sprites/enemies/npc/enemy_punch.png</punch>
+                <stand>resources/sprites/enemies/npc/enemy_stand.png</stand>
+                <attacked>resources/sprites/enemies/npc/enemy_kicked.png</attacked>
             </npc4>
             <npc5>
                 <difficulty>NONE</difficulty>
-                <walk>resources/sprites/enemies/enemy_walk.png</walk>
+                <walk>resources/sprites/enemies/npc/enemy_walk.png</walk>
+                <death>resources/sprites/enemies/npc/enemy_death.png</death>
+                <punch>resources/sprites/enemies/npc/enemy_punch.png</punch>
+                <stand>resources/sprites/enemies/npc/enemy_stand.png</stand>
+                <attacked>resources/sprites/enemies/npc/enemy_kicked.png</attacked>
             </npc5>
         </enemies>
         <weapons>
@@ -163,6 +204,8 @@
             <barrel>
                 <amount>0</amount>
                 <sprite>resources/sprites/utilities/barril.png</sprite>
+                <damaged>resources/sprites/utilities/barril_golpeado.png</damaged>
+                <broken>resources/sprites/utilities/barril_roto.png</broken>
                 <contains>
                     <knives>0.3</knives>
                     <tubes>0.7</tubes>
@@ -171,6 +214,8 @@
             <box>
                 <amount>0</amount>
                 <sprite>resources/sprites/utilities/caja.png</sprite>
+                <damaged>resources/sprites/utilities/caja_golpeada.png</damaged>
+                <broken>resources/sprites/utilities/caja_rota.png</broken>
                 <contains>
                     <knives>1</knives>
                     <tubes>0</tubes>

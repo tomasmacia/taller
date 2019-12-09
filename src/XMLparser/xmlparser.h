@@ -50,6 +50,8 @@ private:
 
     vector<CharacterXML> getGameplayCharacters(XMLElement *gameplay);
 
+    NPC getGameplayBoss(XMLElement *gameplay);
+
     vector<NPC> getGameplayNPCS(XMLElement *gameplay);
 
     Weapons getGameplayWeapons(XMLElement *gameplay);
@@ -75,11 +77,15 @@ private:
 
     Bindings wrapperBindingsModule(XMLElement *config, XMLElement *defaultConfig);
 
+    Sounds wrapperSoundsModule(XMLElement *config, XMLElement *defaultConfig);
+
     Gameplay wrapperGameplayModule(XMLElement *config, XMLElement *defaultConfig);
 
     vector<Level> wrapperGameplayLevelsModule(XMLElement *gameplay, XMLElement *defaultGameplay);
 
     vector<CharacterXML> wrapperGameplayCharactersModule(XMLElement *gameplay, XMLElement *defaultGameplay);
+
+    NPC wrapperGameplayBossModule(XMLElement *gameplay, XMLElement *defaultGameplay);
 
     vector<NPC> wrapperGameplayNPCSModule(XMLElement *gameplay, XMLElement *defaultGameplay);
 
@@ -99,6 +105,8 @@ private:
     vector<UserCredentials> wrapperUsersModule(XMLElement *credentials, XMLElement *defaultCredentials);
 
     vector<UserCredentials> getUserCredentials(XMLElement *credentials);
+
+    Sounds getSounds(XMLElement *config);
 };
 
 #endif //GAME_XMLPARSER_H

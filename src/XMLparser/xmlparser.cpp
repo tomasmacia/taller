@@ -80,6 +80,7 @@ Config* XMLParser::mapXMLDocumentToConfig(XMLDocument *doc, XMLDocument *docDefa
 
     config->loggerLevel = wrapperLoggerModule(configElement, defaultConfigElement);
     config->bindings = wrapperBindingsModule(configElement, defaultConfigElement);
+    config->sounds = wrapperSoundsModule(configElement, defaultConfigElement);
     config->screenResolution = wrapperScreenResolutionModule(configElement, defaultConfigElement);
     config->serverMaxPlayers = wrapperServerModule(configElement, defaultConfigElement);
     config->gameplay = wrapperGameplayModule(configElement, defaultConfigElement);
@@ -149,7 +150,56 @@ Bindings XMLParser::getBindings(XMLElement *config) {
     bindings.KICK = getSafeValueFromElement(bindingsElement, {"kick"}, charArrayToString, section);
     bindings.JUMPKICK = getSafeValueFromElement(bindingsElement, {"jumpkick"}, charArrayToString, section);
 
+    bindings.MUTE = getSafeValueFromElement(bindingsElement, {"mute"}, charArrayToString, section);
+
     return bindings;
+}
+
+Sounds XMLParser::wrapperSoundsModule(XMLElement *config, XMLElement *defaultConfig) {
+    Sounds sounds;
+    try {
+        sounds = getSounds(config);
+    } catch (string& msg) {
+        LogManager::logError(msg);
+        sounds = getSounds(defaultConfig);
+    }
+
+    return sounds;
+}
+
+Sounds XMLParser::getSounds(XMLElement *config) {
+    XMLElement *soundsElement = getXMLElementSafe(config, {"sounds"});
+    string section = "sounds";
+    Sounds sounds;
+
+    Boss boss;
+    boss.death = getSafeValueFromElement(soundsElement, {"boss", "death"}, charArrayToString, section);
+
+    Music music;
+    music.soundtrack = getSafeValueFromElement(soundsElement, {"music", "soundtrack"}, charArrayToString, section);
+
+    NpcSound npcSound;
+    npcSound.death = getSafeValueFromElement(soundsElement, {"npc", "death"}, charArrayToString, section);
+    npcSound.hit = getSafeValueFromElement(soundsElement, {"npc", "hit"}, charArrayToString, section);
+
+    PlayerSound playerSound;
+    playerSound.death = getSafeValueFromElement(soundsElement, {"player", "death"}, charArrayToString, section);
+    playerSound.great = getSafeValueFromElement(soundsElement, {"player", "great"}, charArrayToString, section);
+    playerSound.hit = getSafeValueFromElement(soundsElement, {"player", "hit"}, charArrayToString, section);
+    playerSound.knifeHit = getSafeValueFromElement(soundsElement, {"player", "knifehit"}, charArrayToString, section);
+    playerSound.pipeHit = getSafeValueFromElement(soundsElement, {"player", "pipehit"}, charArrayToString, section);
+
+    UtilitySound utilitySound;
+    utilitySound.barrelBreak = getSafeValueFromElement(soundsElement, {"utility", "barrelbreak"}, charArrayToString, section);
+    utilitySound.boxBreak = getSafeValueFromElement(soundsElement, {"utility", "boxbreak"}, charArrayToString, section);
+
+    sounds.boss = boss;
+    sounds.music = music;
+    sounds.npcs = npcSound;
+    sounds.players = playerSound;
+    sounds.utilities = utilitySound;
+
+    return sounds;
 }
 
 ScreenResolution XMLParser::wrapperScreenResolutionModule(XMLElement *config, XMLElement *defaultConfig) {
@@ -188,6 +238,7 @@ Gameplay XMLParser::getGameplaySettings(XMLElement *config, XMLElement *defaultC
 
     gameplay.levels = wrapperGameplayLevelsModule(gameplayElement, gameplayDefaultElement);
     gameplay.characters = wrapperGameplayCharactersModule(gameplayElement, gameplayDefaultElement);
+    gameplay.boss = wrapperGameplayBossModule(gameplayElement, gameplayDefaultElement);
     gameplay.npcs = wrapperGameplayNPCSModule(gameplayElement, gameplayDefaultElement);
     gameplay.weapons = wrapperGameplayWeaponsModule(gameplayElement, gameplayDefaultElement);
     gameplay.utilities = wrapperGameplayUtilitiesModule(gameplayElement, gameplayDefaultElement);
@@ -233,6 +284,32 @@ vector<CharacterXML> XMLParser::getGameplayCharacters(XMLElement *gameplay) {
     return mapSettingToVector(charactersElement, "character", XMLParser::mapCharacter, section);
 }
 
+NPC XMLParser::wrapperGameplayBossModule(XMLElement *gameplay, XMLElement *defaultGameplay) {
+    NPC boss;
+    try {
+        boss = getGameplayBoss(gameplay);
+    } catch (string& msg) {
+        LogManager::logError(msg);
+        boss = getGameplayBoss(defaultGameplay);
+    }
+
+    return boss;
+}
+
+NPC XMLParser::getGameplayBoss(XMLElement *gameplay) {
+    XMLElement *bossElement = getXMLElementSafe(gameplay, {"boss"});
+    string section = "boss";
+    NPC boss;
+
+    boss.stand = getSafeValueFromElement(bossElement, {"stand"}, charArrayToString, section);
+    boss.beingAttacked = getSafeValueFromElement(bossElement, {"attacked"}, charArrayToString, section);
+    boss.walk = getSafeValueFromElement(bossElement, {"walk"}, charArrayToString, section);
+    boss.dying = getSafeValueFromElement(bossElement, {"death"}, charArrayToString, section);
+    boss.punch = getSafeValueFromElement(bossElement, {"punch"}, charArrayToString, section);
+
+    return boss;
+}
+
 vector<NPC> XMLParser::wrapperGameplayNPCSModule(XMLElement *gameplay, XMLElement *defaultGameplay) {
     vector<NPC> npcs;
     try {
@@ -262,6 +339,12 @@ CharacterXML XMLParser::mapCharacter(XMLElement *characters, const string curren
     character.crouch = getSafeValueFromElement(characters, {currentChildName.c_str(), "crouch"}, charArrayToString, "characters");
     character.kick = getSafeValueFromElement(characters, {currentChildName.c_str(), "kick"}, charArrayToString, "characters");
     character.jumpkick = getSafeValueFromElement(characters, {currentChildName.c_str(), "jumpkick"}, charArrayToString, "characters");
+    character.dying = getSafeValueFromElement(characters, {currentChildName.c_str(), "death"}, charArrayToString, "characters");
+    character.beingAttacked = getSafeValueFromElement(characters, {currentChildName.c_str(), "attacked"}, charArrayToString, "characters");
+    character.knifeHit = getSafeValueFromElement(characters, {currentChildName.c_str(), "knifehit"}, charArrayToString, "characters");
+    character.knifeStand = getSafeValueFromElement(characters, {currentChildName.c_str(), "knifestand"}, charArrayToString, "characters");
+    character.pipeHit = getSafeValueFromElement(characters, {currentChildName.c_str(), "pipehit"}, charArrayToString, "characters");
+    character.pipeStand = getSafeValueFromElement(characters, {currentChildName.c_str(), "pipestand"}, charArrayToString, "characters");
     character.disconnected = getSafeValueFromElement(characters, {currentChildName.c_str(), "disconnected"}, charArrayToString, "characters");
 
     return character;
@@ -378,6 +461,8 @@ UtilityConfig XMLParser::getGameplayUtility(XMLElement *utilityElement) {
     UtilityConfig utility;
     utility.amount = getSafeValueFromElement(utilityElement, {"amount"}, atoi, "utilities");
     utility.standSprite = getSafeValueFromElement(utilityElement, {"sprite"}, charArrayToString, "utilities");
+    utility.damagedSprite = getSafeValueFromElement(utilityElement, {"damaged"}, charArrayToString, "utilities");
+    utility.brokenSprite = getSafeValueFromElement(utilityElement, {"broken"}, charArrayToString, "utilities");
     utility.knivesDropProb = getSafeValueFromElement(utilityElement, {"contains", "knives"}, atof, "utilities");
     utility.tubesDropProb = getSafeValueFromElement(utilityElement, {"contains", "tubes"}, atof, "utilities");
 

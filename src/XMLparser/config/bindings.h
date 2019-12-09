@@ -19,6 +19,7 @@ public:
     string CROUCH;
     string KICK;
     string JUMPKICK;
+    string MUTE;
 };
 
 
