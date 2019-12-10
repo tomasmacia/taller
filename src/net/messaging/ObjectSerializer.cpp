@@ -56,14 +56,15 @@ bool ObjectSerializer::validLoginFromServerMessage(vector<string>* currentParsed
 }
 
 bool ObjectSerializer::validSerializedObjectMessage(vector<string>* currentParsedMessage){
-    //SERIALIZED OBJECT: START, header,path,srcw,srch,srcx,srcy,dstw,dsth,dstx,dsty,bool
-    return currentParsedMessage->size() == 12 &&
+    //SERIALIZED OBJECT: START, header,path,srcw,srch,srcx,srcy,dstw,dsth,dstx,dsty,bool, header2, pathSound,isMusicBool
+    return currentParsedMessage->size() == 15 &&
             currentParsedMessage->at(0) == START_SYMBOL &&
-            currentParsedMessage->at(1) == to_string(RENDERABLE);
+            currentParsedMessage->at(1) == to_string(RENDERABLE) &&
+            currentParsedMessage->at(12) == to_string(SOUNDABLE);
 }
 
 bool ObjectSerializer::validSerializedSetOfObjectsMessage(vector<string>* serializedObjects){
-    return !serializedObjects->empty() && serializedObjects->at(0) == to_string(SET_OF_RENDERABLES);
+    return !serializedObjects->empty() && serializedObjects->at(0) == to_string(SET_OF_SENDABLES);
 }
 
 bool ObjectSerializer::validLoginFromClientMessage(vector<string>* currentParsedMessage) {
@@ -83,7 +84,7 @@ bool ObjectSerializer::validSerializedInputMessage(vector<string>* currentParsed
 //RECONSTRUCT
 //=========================================================================================
 
-Renderable* ObjectSerializer::reconstructRenderable(vector<string>* currentParsedMessage) {
+Sendable* ObjectSerializer::reconstructSendable(vector<string>* currentParsedMessage) {
 
     std::string path = currentParsedMessage->at(2);
     Rect src = {std::stoi(currentParsedMessage->at(5)), std::stoi(currentParsedMessage->at(6)), std::stoi(currentParsedMessage->at(3)),
@@ -92,7 +93,13 @@ Renderable* ObjectSerializer::reconstructRenderable(vector<string>* currentParse
                     std::stoi(currentParsedMessage->at(8))};
     bool flip = std::stoi(currentParsedMessage->at(11));
 
-    return  new Renderable(path, src, dst, flip);
+    string soundPath = currentParsedMessage->at(12);
+    bool isMusic = std::stoi(currentParsedMessage->at(13));
+
+    auto renderable = new Renderable(path,src,dst,flip);
+    auto soundable = new Soundable(soundPath,isMusic);
+
+    return  new Sendable(renderable,soundable);
 }
 
 tuple<Action,int> ObjectSerializer::reconstructInput(vector<string>* currentParsedMessage) {
@@ -119,14 +126,14 @@ tuple<Action,int> ObjectSerializer::reconstructInput(vector<string>* currentPars
     return make_tuple (reconstructedAction,reconstructedId);
 }
 
-void ObjectSerializer::reconstructRenderables(vector<string>* serializedPackages, std::list<Renderable*>* renderables){
+void ObjectSerializer::reconstructSendables(vector<string>* serializedPackages, std::list<Sendable*>* sendables){
 
     MessageParser parser = MessageParser();
 
     for (int i = 1; i < serializedPackages->size(); i++){                            // i empieza en 1 porque el 0 contiene el header
         parser.parse(serializedPackages->at(i),SEPARATOR.c_str()[0]);
         if (validSerializedObjectMessage(parser.getCurrent())){
-            renderables->push_back(reconstructRenderable(parser.getCurrent()));
+            sendables->push_back(reconstructSendable(parser.getCurrent()));
         }
     }
 }
@@ -158,33 +165,54 @@ string ObjectSerializer::getPingMessage(){
     return PING_CODE + END_OF_SERIALIZATION_SYMBOL;
 }
 
-string ObjectSerializer::serializeObject(Renderable* package){
+string ObjectSerializer::serializeObject(Sendable* sendable){
 
     std::string serializedObject;
+    std::string serializedRenderable;
+    std::string serializedSoundable;
 
-    if (package == nullptr){ return "";}
+    auto soundable = sendable->_soundable;
+    auto renderable = sendable->_renderable;
 
-    std::string path = package->getPath();
-    Rect src = package->getSrcRect();
-    Rect dst = package->getDstRect();
-    bool fliped = package->getFliped();
+    if (sendable == nullptr){
+        return "";
+    }
 
-    std::string srcW = to_string(src.w);
-    std::string srcH = to_string(src.h);
-    std::string srcX = to_string(src.x);
-    std::string srcY = to_string(src.y);
+    if (renderable != nullptr){
 
-    std::string dstW = to_string(dst.w);
-    std::string dstH = to_string(dst.h);
-    std::string dstX = to_string(dst.x);
-    std::string dstY = to_string(dst.y);
+        std::string path = renderable->getPath();
+        Rect src = renderable->getSrcRect();
+        Rect dst = renderable->getDstRect();
+        bool fliped = renderable->getFliped();
 
-    std::string flipedStr = to_string(fliped);
+        std::string srcW = to_string(src.w);
+        std::string srcH = to_string(src.h);
+        std::string srcX = to_string(src.x);
+        std::string srcY = to_string(src.y);
 
-    serializedObject = START_SYMBOL + SEPARATOR + to_string(RENDERABLE) + SEPARATOR + path + SEPARATOR +
-                       srcW + SEPARATOR + srcH + SEPARATOR + srcX + SEPARATOR + srcY + SEPARATOR +
-                       dstW + SEPARATOR + dstH + SEPARATOR + dstX + SEPARATOR + dstY + SEPARATOR +
-                       flipedStr;
+        std::string dstW = to_string(dst.w);
+        std::string dstH = to_string(dst.h);
+        std::string dstX = to_string(dst.x);
+        std::string dstY = to_string(dst.y);
+
+        std::string flipedStr = to_string(fliped);
+
+        serializedRenderable = to_string(RENDERABLE) + SEPARATOR + path + SEPARATOR +
+                           srcW + SEPARATOR + srcH + SEPARATOR + srcX + SEPARATOR + srcY + SEPARATOR +
+                           dstW + SEPARATOR + dstH + SEPARATOR + dstX + SEPARATOR + dstY + SEPARATOR +
+                           flipedStr;
+    }
+
+    if(soundable != nullptr){
+
+        std::string strIsMusic = to_string(soundable->getBoolMusic());
+        std::string strPath = soundable->getPath();
+
+        serializedSoundable = to_string(SOUNDABLE) + SEPARATOR + strPath + SEPARATOR + strIsMusic;
+
+    }
+
+    serializedObject = START_SYMBOL + SEPARATOR +  serializedRenderable + END_OF_RENDERABLE_SYMBOL + serializedSoundable;
 
     return serializedObject;
 }
@@ -211,14 +239,14 @@ string ObjectSerializer::serializeInput(Action action, int id){
     return addPadding(START_SYMBOL + SEPARATOR  + to_string(INPUT) + SEPARATOR + serializedAction + SEPARATOR + to_string(id) + SEPARATOR + END_OF_SERIALIZATION_SYMBOL);
 }
 
-std::string ObjectSerializer::serializeObjects(std::list<Sendable*>* packages){
+std::string ObjectSerializer::serializeObjects(std::list<Sendable*>* sendables){
 
     string serializedPackages = "";
 
-    for (auto package : *packages){
-        serializedPackages +=  serializeObject(package->_renderable) + OBJECT_SEPARATOR_SYMBOL;
+    for (auto sendable : *sendables){
+        serializedPackages += serializeObject(sendable) + OBJECT_SEPARATOR_SYMBOL;
     }
-    return addPadding(to_string(SET_OF_RENDERABLES) + OBJECT_SEPARATOR_SYMBOL + serializedPackages + END_OF_SERIALIZATION_SYMBOL);
+    return addPadding(to_string(SET_OF_SENDABLES) + OBJECT_SEPARATOR_SYMBOL + serializedPackages + END_OF_SERIALIZATION_SYMBOL); //TODO CAMBIARA  SET_OF_SENDABLES
 }
 
 string ObjectSerializer::addPadding(string message){

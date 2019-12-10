@@ -28,7 +28,7 @@ public:
     std::string getInvalidCredentialMessage();
     std::string getServerFullMessage();
     std::string getAlreadyLoggedInMessage();
-    std::string serializeObjects(std::list<Sendable*>* packages);
+    std::string serializeObjects(std::list<Sendable*>* sendables);
 
     //VALIDATE
     //===============================
@@ -40,9 +40,9 @@ public:
 
     //RECONSTRUCT
     //===============================
-    Renderable* reconstructRenderable(vector<string>* currentParsedMessage);
+    Sendable* reconstructSendable(vector<string>* currentParsedMessage);
     tuple<Action,int> reconstructInput(vector<string>* currentParsedMessage);
-    void reconstructRenderables(vector<string>* serializedPackages, std::list<Renderable*>* renderables);
+    void reconstructSendables(vector<string>* serializedPackages, std::list<Sendable*>* sendables);
 
     //SERIALIZATION
     //===============================
@@ -50,7 +50,7 @@ public:
     std::string serializedInvalidCredentialMessage();
     std::string serializedServerFullMessage();
     std::string serializedAlreadyLoggedInMessage();
-    string serializeObject(Renderable* package);
+    string serializeObject(Sendable* sendable);
     string serializeInput(Action action, int id);
     string serializeCredentials(string user, string pass);
     string getPingMessage();
@@ -105,9 +105,13 @@ private:
     string START_SYMBOL = "=";
     string FAILURE = "-1";
     int totalMessageLength = 1500;
+    string END_OF_RENDERABLE_SYMBOL = "|";
+
+
 
     static int contador;
     static int contadorFail;
+
 
 };
 

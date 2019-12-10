@@ -103,7 +103,7 @@ void Controller::clearAllInputs(){
 
 void Controller::reciveRenderables(vector<string>* serializedPagackes){
     cleanUpRenderables();
-    objectSerializer.reconstructRenderables(serializedPagackes,currentPackagesToRender);
+    objectSerializer.reconstructSendables(serializedPagackes, currentPackagesToRender);
 }
 
 //DATA TRANSFER INTERFACE
