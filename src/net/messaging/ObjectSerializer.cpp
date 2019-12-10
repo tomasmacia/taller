@@ -57,10 +57,16 @@ bool ObjectSerializer::validLoginFromServerMessage(vector<string>* currentParsed
 
 bool ObjectSerializer::validSerializedObjectMessage(vector<string>* currentParsedMessage){
     //SERIALIZED OBJECT: START, header,path,srcw,srch,srcx,srcy,dstw,dsth,dstx,dsty,bool, header2, pathSound,isMusicBool
-    return currentParsedMessage->size() == 15 &&
+    return (currentParsedMessage->size() == 15 &&
             currentParsedMessage->at(0) == START_SYMBOL &&
             currentParsedMessage->at(1) == to_string(RENDERABLE) &&
-            currentParsedMessage->at(12) == to_string(SOUNDABLE);
+            currentParsedMessage->at(12) == to_string(SOUNDABLE)) ||
+            (currentParsedMessage->size() == 12 &&
+             currentParsedMessage->at(0) == START_SYMBOL &&
+             currentParsedMessage->at(1) == to_string(RENDERABLE)) ||
+            (currentParsedMessage->size() == 3 &&
+             currentParsedMessage->at(0) == START_SYMBOL &&
+             currentParsedMessage->at(1) == to_string(SOUNDABLE));
 }
 
 bool ObjectSerializer::validSerializedSetOfObjectsMessage(vector<string>* serializedObjects){
@@ -86,18 +92,28 @@ bool ObjectSerializer::validSerializedInputMessage(vector<string>* currentParsed
 
 Sendable* ObjectSerializer::reconstructSendable(vector<string>* currentParsedMessage) {
 
-    std::string path = currentParsedMessage->at(2);
-    Rect src = {std::stoi(currentParsedMessage->at(5)), std::stoi(currentParsedMessage->at(6)), std::stoi(currentParsedMessage->at(3)),
+    Renderable* renderable = nullptr;
+    Soundable* soundable = nullptr;
+
+    if (currentParsedMessage->size() > 0){
+
+        std::string path = currentParsedMessage->at(2);
+        Rect src = {std::stoi(currentParsedMessage->at(5)), std::stoi(currentParsedMessage->at(6)), std::stoi(currentParsedMessage->at(3)),
                     std::stoi(currentParsedMessage->at(4))};
-    Rect dst = {std::stoi(currentParsedMessage->at(9)), std::stoi(currentParsedMessage->at(10)), std::stoi(currentParsedMessage->at(7)),
+        Rect dst = {std::stoi(currentParsedMessage->at(9)), std::stoi(currentParsedMessage->at(10)), std::stoi(currentParsedMessage->at(7)),
                     std::stoi(currentParsedMessage->at(8))};
-    bool flip = std::stoi(currentParsedMessage->at(11));
+        bool flip = std::stoi(currentParsedMessage->at(11));
 
-    string soundPath = currentParsedMessage->at(12);
-    bool isMusic = std::stoi(currentParsedMessage->at(13));
+        renderable = new Renderable(path,src,dst,flip);
+    }
 
-    auto renderable = new Renderable(path,src,dst,flip);
-    auto soundable = new Soundable(soundPath,isMusic);
+    if (currentParsedMessage->size() == 15){
+
+        string soundPath = currentParsedMessage->at(13);
+        bool isMusic = std::stoi(currentParsedMessage->at(14));
+
+        soundable = new Soundable(soundPath,isMusic);
+    }
 
     return  new Sendable(renderable,soundable);
 }
@@ -209,7 +225,6 @@ string ObjectSerializer::serializeObject(Sendable* sendable){
         std::string strPath = soundable->getPath();
 
         serializedSoundable = to_string(SOUNDABLE) + SEPARATOR + strPath + SEPARATOR + strIsMusic;
-
     }
 
     serializedObject = START_SYMBOL + SEPARATOR +  serializedRenderable + END_OF_RENDERABLE_SYMBOL + serializedSoundable;
