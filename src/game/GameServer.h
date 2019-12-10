@@ -95,6 +95,9 @@ private:
     //INIT
     //===============================
     void initWaitingScreen();
+    void ScoreScreen();
+    void finalScreen();
+    void renderPuntaje(int score,int x, int y,list<Sendable*>* wa);
     EntityManager* initLevelBuilder();
     void loadValidCredenctials();   //<user,pass>
     void initGameModel();
@@ -142,8 +145,8 @@ private:
 
     int maxPlayers{};
 
-    Sendable* waitingScreenRenderable = nullptr;
-    list<Sendable*>* waitingScreenContainer = nullptr;
+    Sendable* waitingScreenRenderable = nullptr, *scoreScreenRenderable = nullptr;
+    list<Sendable*>* waitingScreenContainer = nullptr, *scoreContainer = nullptr;
 
     Server* server = nullptr;
     EntityManager* entityManager = nullptr;

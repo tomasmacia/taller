@@ -21,6 +21,8 @@ public:
     int barrelBroken();
     int boxBroken();
 
+    int current = 0;
+
 private:
     int BROKEN_BOX_SCORE = 200;
     int BROKEN_BARREL_SCORE = 300;
@@ -32,7 +34,7 @@ private:
     int KNIFE_ATTACK_TO_ENEMY = 400;
     int TUBE_ATTACK_TO_ENEMY = 200;
 
-    int current = 0;
+    
 };
 
 

@@ -1,4 +1,5 @@
 #include "GameServer.h"
+#include <string.h>
 
 bool GameServer::hasInstance = false;
 
@@ -38,8 +39,19 @@ void GameServer::gameLoop(){
             sendUpdate();
             usleep(SLEEP_TIME);
         }
+        
+        ScoreScreen();
+        controller->sendUpdate(scoreContainer,server);
+        SDL_Delay(10000);
+
+
         LogManager::logInfo("[GAME]: Nivel terminado");
         LogManager::logInfo("=======================================");
+    }
+    if (isOn() ) {
+        finalScreen();
+        controller->sendUpdate(scoreContainer,server);
+        SDL_Delay(4000);
     }
     on = false;
     server->stopListening();
@@ -254,6 +266,187 @@ string GameServer::getNewColor() {
 
 //INIT
 //=========================================================================================
+void GameServer::finalScreen(){
+
+
+    scoreContainer = nullptr;
+    delete(scoreScreenRenderable);
+    scoreScreenRenderable = nullptr;
+
+    string path = "resources/sprites/gameComplete/complete.png";
+
+    ImageSize imageSize = ImageUtils::getImageSize(path);
+    int imageWidth = imageSize.width;
+    int imageHeight = imageSize.height;
+
+    int screenWidth = config->screenResolution.width;
+    int screenHeight = config->screenResolution.height;
+
+    Rect src = {0,0,imageWidth,imageHeight};
+    Rect dst = {0,0,screenWidth,screenHeight};
+
+    scoreScreenRenderable = new Sendable(new Renderable(path, src, dst, false), nullptr);
+    scoreContainer = new list<Sendable*>();
+    scoreContainer->push_back(scoreScreenRenderable);
+}
+
+
+void GameServer::ScoreScreen(){
+
+    scoreContainer = nullptr;
+    delete(scoreScreenRenderable);
+    scoreScreenRenderable = nullptr;
+
+
+    string path = "resources/sprites/MidLevel/mid.png";
+
+    ImageSize imageSize = ImageUtils::getImageSize(path);
+    int imageWidth = imageSize.width;
+    int imageHeight = imageSize.height;
+
+    int screenWidth = config->screenResolution.width;
+    int screenHeight = config->screenResolution.height;
+
+    Rect src = {0,0,imageWidth,imageHeight};
+    Rect dst = {0,0,screenWidth,screenHeight};
+
+    scoreScreenRenderable = new Sendable(new Renderable(path, src, dst, false), nullptr);
+    scoreContainer = new list<Sendable*>();
+    scoreContainer->push_back(scoreScreenRenderable);
+    int y= 300;
+    for (int i = 0; i < config->gameplay.characters.size(); i++)
+    {
+        std::cerr <<"0 dfd"<<std::endl;
+        renderPuntaje(12500,screenWidth-50,y,scoreContainer);
+        y+=50;
+       /*  renderPuntaje(5700,screenWidth-50,y,scoreContainer);
+        y+=50;
+        renderPuntaje(10500,screenWidth-50,y,scoreContainer);
+        y+=50; */
+    }
+
+}
+
+
+void GameServer::renderPuntaje(int score,int x, int y,list<Sendable*>* wa){
+    int score_ = score;
+    bool asd =true;
+    string path1;
+    int x_ = x, y_= y;
+    if (score != NULL ) {
+
+        while(asd)
+        {
+            
+            Sendable* c = nullptr;
+            ImageSize imageSize1;
+            int resto = score_ % 10;
+            //std::cerr <<score_<< " - " <<" - "<<std::to_string(score).length()<<std::endl;
+        
+
+            if (resto == 0){
+                 path1 = "resources/sprites/score/zero.png";
+
+                ImageSize imageSize1 = ImageUtils::getImageSize(path1);
+                std::cerr <<"0 dfd"<<std::endl;
+
+            }
+            else if (resto == 1)
+            {
+                path1 = "resources/sprites/score/one.png";
+
+                ImageSize imageSize1 = ImageUtils::getImageSize(path1);
+                std::cerr <<"1 d"<<std::endl;
+
+            }
+            else if (resto == 2)
+            {
+                path1 = "resources/sprites/score/two.png";
+
+                ImageSize imageSize1 = ImageUtils::getImageSize(path1);
+                std::cerr <<"2 dsds"<<std::endl;
+
+            }
+            else if (resto == 3)
+            {
+                 path1 = "resources/sprites/score/three.png";
+
+                ImageSize imageSize1 = ImageUtils::getImageSize(path1);
+                std::cerr <<"3"<<std::endl;
+
+            }
+            else if (resto == 4)
+            {
+                 path1 = "resources/sprites/score/four.png";
+
+                ImageSize imageSize1 = ImageUtils::getImageSize(path1);
+                std::cerr <<"4"<<std::endl;
+
+            }
+            else if (resto == 5)
+            {
+                path1 = "resources/sprites/score/five.png";
+
+                ImageSize imageSize1 = ImageUtils::getImageSize(path1);
+                std::cerr <<"5"<<std::endl;
+
+            }
+            else if (resto == 6)
+            {
+                path1 = "resources/sprites/score/six.png";
+
+                ImageSize imageSize1 = ImageUtils::getImageSize(path1);
+                std::cerr <<"6"<<std::endl;
+
+            }
+            else if (resto == 7)
+            {
+                path1 = "resources/sprites/score/seven.png";
+
+                ImageSize imageSize1 = ImageUtils::getImageSize(path1);
+                std::cerr <<"7"<<std::endl;
+
+            }
+            else if (resto == 8)
+            {
+                 path1 = "resources/sprites/score/eigth.png";
+
+                ImageSize imageSize1 = ImageUtils::getImageSize(path1);
+                std::cerr <<"8"<<std::endl;
+
+            }
+            else if (resto == 9)
+            {
+                 path1 = "resources/sprites/score/nine.png";
+
+                ImageSize imageSize1 = ImageUtils::getImageSize(path1);
+                std::cerr <<"9"<<std::endl;
+
+            }
+            int imageWidth1 = imageSize1.width;
+            int imageHeight1 = imageSize1.height;
+
+            int screenWidth1 = 30;
+            int screenHeight1 = 30;
+            x_ -=screenHeight1;
+
+            Rect src1 = {0,0,imageWidth1,imageHeight1};
+            Rect dst1 = {x_,y_,screenWidth1,screenHeight1};
+
+            c= new Sendable(new Renderable(path1, src1, dst1, false), nullptr);
+            wa->push_back(c);
+
+            score_ -= resto;
+            if (score_ <= 0){
+                asd =false;
+            }
+            score_ = score_/10;
+
+        }
+    }
+
+}
+
 void GameServer::initWaitingScreen() {
     string path = "resources/sprites/waitingScreens/waiting_for_your_teammates.png";
 
