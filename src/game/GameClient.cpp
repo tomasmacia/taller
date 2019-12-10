@@ -63,15 +63,20 @@ void GameClient::render() {
 }
 
 void GameClient::renderAllPackages(){
-    
+
     if (controller != nullptr){
         controllerMutex.lock();
         std::list<Sendable*>* packages = controller->getPackages();
 
         if (!packages->empty()){
             for (auto package : *packages) {
-                package->_renderable->render(&loadedTexturesMap);
-                package->_soundable->play(&loadedSoundsMap);
+                
+                if (package->hasRenderable()){
+                    package->_renderable->render(&loadedTexturesMap);
+                }
+                if (package->hasSoundable()){
+                    package->_soundable->play(&loadedSoundsMap);
+                }
             }
         }
         controllerMutex.unlock();

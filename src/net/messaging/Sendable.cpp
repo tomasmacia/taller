@@ -13,3 +13,11 @@ Sendable::~Sendable() {
     delete(_renderable);
     delete(_soundable);
 }
+
+bool Sendable::hasRenderable() {
+    return _renderable != nullptr;
+}
+
+bool Sendable::hasSoundable() {
+    return _soundable != nullptr;
+}
