@@ -73,7 +73,7 @@ private:
     }
     void destroy() override ;
 
-    void clearTextureMap();
+    void clearMaps();
     //GAME LOOP
     //===============================
     void gameLoop() override ;
@@ -91,6 +91,7 @@ private:
     //===============================
     void initInputSystem();
     void initRenderingSystem();
+    void initSoundSystem();
     void initLoggerMenu();
     void init() override ;
     void initSDL();
@@ -112,6 +113,9 @@ private:
     LoggerMenu* loggerMenu = nullptr;
     Client* client = nullptr;
     std::map<std::string, TextureWrapper*> loadedTexturesMap;
+    std::map<string, SoundWrapper *> loadedSoundsMap;
+
+    void initSDLMixer();
 };
 
 #endif //GAME_GAMECLIENT_H_
