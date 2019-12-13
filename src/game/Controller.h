@@ -43,8 +43,8 @@ public:
 
     //SETTERS
     //===============================
-    void setRenderable(Renderable* package){
-        currentPackagesToRender->push_back(package);
+    void setRenderable(Sendable* package){
+        currentPackagesToSend->push_back(package);
     }
 
     void setInput(tuple<Action,int> input){
@@ -56,8 +56,8 @@ public:
     std::list<std::tuple<Action,int>> getACopyOfNewInputs() {
         return *currentInput;
     }
-    std::list<Renderable*>* getPackages(){
-        return currentPackagesToRender;
+    std::list<Sendable*>* getPackages(){
+        return currentPackagesToSend;
     }
 
 private:
@@ -79,7 +79,7 @@ private:
     //ATRIBUTES
     //===============================
     std::list<std::tuple<Action,int>>* currentInput = nullptr;
-    std::list<Renderable*>* currentPackagesToRender = nullptr;
+    std::list<Sendable*>* currentPackagesToSend = nullptr;
     SDL_Event sdlEvent;
     Game* game = nullptr;
 

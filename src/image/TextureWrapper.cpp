@@ -74,18 +74,6 @@ void TextureWrapper::render(Rect* src, Rect* dest,bool flip = false) {
     }
 }
 
-void TextureWrapper::measureWidthAndHeighthOf(std::string spritePath,int* width, int* hegith){
-
-    //Solo para generar una textura temporal y medir el width del sprite
-    SDL_Surface* temporarySurface = IMG_Load( spritePath.c_str() );
-    SDL_Texture* temporaryTexture = SDL_CreateTextureFromSurface(staticGetRenderer(), temporarySurface );
-    SDL_QueryTexture(temporaryTexture, nullptr, nullptr, width, hegith);
-
-    //Libero memoria y cierro el SDL que abri en este metodo de forma temporal
-    SDL_FreeSurface(temporarySurface);
-    SDL_DestroyTexture(temporaryTexture);
-}
-
 //MANAGING RENDERER
 //=========================================================================================
 SDL_Renderer* TextureWrapper::staticGetRenderer(){

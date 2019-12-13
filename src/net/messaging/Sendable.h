@@ -18,6 +18,10 @@ public:
 
     Renderable* _renderable = nullptr;
     Soundable* _soundable = nullptr;
+
+    bool hasRenderable();
+
+    bool hasSoundable();
 };
 
 

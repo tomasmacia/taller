@@ -103,7 +103,7 @@ void Controller::clearAllInputs(){
 
 void Controller::reciveRenderables(vector<string>* serializedPagackes){
     cleanUpRenderables();
-    objectSerializer.reconstructRenderables(serializedPagackes,currentPackagesToRender);
+    objectSerializer.reconstructSendables(serializedPagackes, currentPackagesToSend);
 }
 
 //DATA TRANSFER INTERFACE
@@ -136,7 +136,7 @@ std::string Controller::getAlreadyLoggedInMessage() {
 Controller::Controller(Game* game) {
     this->game = game;
     currentInput = new std::list<std::tuple<Action,int>>();
-    currentPackagesToRender = new std::list<Renderable*>();
+    currentPackagesToSend = new std::list<Sendable*>();
     init();
     bind();
 }
@@ -281,18 +281,18 @@ void Controller::bind() {
 //DESTROY
 //=========================================================================================
 void Controller::cleanUpRenderables() {
-    for (auto package: *currentPackagesToRender){
+    for (auto package: *currentPackagesToSend){
         delete package;
     }
-    currentPackagesToRender->clear();
+    currentPackagesToSend->clear();
 }
 
 Controller::~Controller() {
     game = nullptr;
 
     cleanUpRenderables();
-    delete  currentPackagesToRender;
-    currentPackagesToRender = nullptr;
+    delete  currentPackagesToSend;
+    currentPackagesToSend = nullptr;
 
     currentInput->clear();
     delete  currentInput;

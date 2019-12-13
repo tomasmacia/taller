@@ -20,6 +20,7 @@ void GameClient::start() {
         if (isOn()){            //pregunto porque el loggerMenu lo podria haber cerrado al tocar ESC o QUIT
             initInputSystem();
             initRenderingSystem();
+            initSoundSystem();
 
             gameLoop();
         }
@@ -62,20 +63,20 @@ void GameClient::render() {
 }
 
 void GameClient::renderAllPackages(){
+
     if (controller != nullptr){
         controllerMutex.lock();
-        std::list<Renderable*>* packages = controller->getPackages();
+        std::list<Sendable*>* packages = controller->getPackages();
 
-        if (packages->empty()){
-            //cout<<endl;
-            //cout << "CLIENT-RENDER: EMPTY!!!!" <<endl;
-        }
-        else{
-            //cout<<endl;
-            //cout << "CLIENT-RENDER: amount: " << packages->size() << endl;
+        if (!packages->empty()){
             for (auto package : *packages) {
-                package->render(&loadedTexturesMap);
-                //cout << "CLIENT-RENDER: " << package->getPath() << endl;
+                
+                if (package->hasRenderable()){
+                    package->_renderable->render(&loadedTexturesMap);
+                }
+                if (package->hasSoundable()){
+                    package->_soundable->play(&loadedSoundsMap);
+                }
             }
         }
         controllerMutex.unlock();
@@ -150,6 +151,11 @@ void GameClient::initRenderingSystem(){
     LogManager::logDebug("[INIT]: inicializado SDL");
 }
 
+void GameClient::initSoundSystem(){
+    initSDLMixer();
+    LogManager::logDebug("[INIT]: inicializado SDL Mixer");
+}
+
 void GameClient::init() {
     initConfig();
     LogManager::logDebug("[INIT]: inicializado Config");
@@ -176,6 +182,19 @@ void GameClient::initSDL() {
     }
 }
 
+void GameClient::initSDLMixer() {
+
+    if( SDL_Init( SDL_INIT_EVERYTHING ) == -1 )
+    {
+        LogManager::logError("SDL MIXER no pudo inicializarse el");
+    }
+
+    if( Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 4096 ) == -1 )
+    {
+        LogManager::logError("SDL MIXER no pudo inicializarse");
+    }
+}
+
 //DESTROY
 //=========================================================================================
 
@@ -184,14 +203,19 @@ void GameClient::destroy() {
     loggerMenu = nullptr;
     delete(client);
     client = nullptr;
-    clearTextureMap();
+    clearMaps();
     baseClassFreeMemory();
     LogManager::logDebug("Memoria de Game Client liberada");
 }
 
-void GameClient::clearTextureMap(){
+void GameClient::clearMaps(){
 
     for(auto & itr : loadedTexturesMap)
+    {
+        delete itr.second;
+    }
+
+    for(auto & itr : loadedSoundsMap)
     {
         delete itr.second;
     }

@@ -41,6 +41,7 @@ void Game::baseClassFreeMemory(){
     controller = nullptr;
     delete(config);
     config = nullptr;
+    Mix_CloseAudio();
     SDL_DestroyWindow(this->window);
     SDL_DestroyRenderer(this->renderer);
     SDL_Quit();
