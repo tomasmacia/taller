@@ -313,7 +313,7 @@ void GameServer::ScoreScreen(){
     scoreScreenRenderable = new Sendable(new Renderable(path, src, dst, false), nullptr);
     scoreContainer = new list<Sendable*>();
     scoreContainer->push_back(scoreScreenRenderable);
-    int y= 300;
+    int y= (screenHeight/2);
     auto players = entityManager->getPlayers();
     for (auto a:players){
         CharacterName( y, a->getID(),scoreContainer);
@@ -331,7 +331,7 @@ void GameServer::CharacterName(int y, int id,list<Sendable*>* wa){
     std::map<int,User>::iterator it;
     it = loggedPlayersUserByID.find(id);
     auto user = it->second.name;
-    std::cerr << user<< std::endl;
+ //   std::cerr << user<< std::endl;
     if (user.compare("FRAN") == 0){
         path1="resources/sprites/score/fran.png";
     }
@@ -347,10 +347,6 @@ void GameServer::CharacterName(int y, int id,list<Sendable*>* wa){
     imageSize1 = ImageUtils::getImageSize(path1);
     int imageWidth1 = imageSize1.width;
     int imageHeight1 = imageSize1.height;
-
-    int screenWidth1 = 80;
-    int screenHeight1 = 30;
-
 
     Rect src1 = {0,0,imageWidth1,imageHeight1};
     Rect dst1 = {50,y,imageWidth1 * 2,imageHeight1 * 2};
@@ -379,76 +375,76 @@ void GameServer::renderPuntaje(int score,int x, int y,list<Sendable*>* wa){
                  path1 = "resources/sprites/score/zero.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
-                std::cerr << "0"<< std::endl;
+   //             std::cerr << "0"<< std::endl;
             }
             else if (resto == 1)
             {
                 path1 = "resources/sprites/score/one.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
-                std::cerr << "1"<< std::endl;
+    //            std::cerr << "1"<< std::endl;
             }
             else if (resto == 2)
             {
                 path1 = "resources/sprites/score/two.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
-                std::cerr << "2"<< std::endl;
+    //            std::cerr << "2"<< std::endl;
             }
             else if (resto == 3)
             {
                  path1 = "resources/sprites/score/three.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
-                std::cerr << "3"<< std::endl;
+     //           std::cerr << "3"<< std::endl;
             }
             else if (resto == 4)
             {
                  path1 = "resources/sprites/score/four.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
-                std::cerr << "4"<< std::endl;
+     //           std::cerr << "4"<< std::endl;
             }
             else if (resto == 5)
             {
                 path1 = "resources/sprites/score/five.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
-                std::cerr << "5"<< std::endl;
+       //         std::cerr << "5"<< std::endl;
             }
             else if (resto == 6)
             {
                 path1 = "resources/sprites/score/six.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
-                std::cerr << "6"<< std::endl;
+    //            std::cerr << "6"<< std::endl;
             }
             else if (resto == 7)
             {
                 path1 = "resources/sprites/score/seven.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
-                std::cerr << "7"<< std::endl;
+      //          std::cerr << "7"<< std::endl;
             }
             else if (resto == 8)
             {
                  path1 = "resources/sprites/score/eigth.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
-                std::cerr << "8"<< std::endl;
+      //          std::cerr << "8"<< std::endl;
             }
             else if (resto == 9)
             {
                  path1 = "resources/sprites/score/nine.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
-                std::cerr << "9"<< std::endl;
+      //          std::cerr << "9"<< std::endl;
             }
             int imageWidth1 = imageSize1.width;
             int imageHeight1 = imageSize1.height;
 
-            int screenWidth1 = 30;
-            int screenHeight1 = 30;
+            int screenWidth1 = 32;
+            int screenHeight1 = 32;
             x_ -= screenHeight1;
 
             Rect src1 = {0,0,imageWidth1,imageHeight1};
