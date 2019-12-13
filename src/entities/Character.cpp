@@ -54,6 +54,10 @@ int Character::getID() {
     return id->get();
 }
 
+int Character::getScore(){
+    return score->getCurrent();
+}
+
 Character::~Character() {
     delete(id);
     delete(scoreAppearance);

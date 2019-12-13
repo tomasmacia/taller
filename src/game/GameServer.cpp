@@ -39,10 +39,10 @@ void GameServer::gameLoop(){
             sendUpdate();
             usleep(SLEEP_TIME);
         }
-        
-        ScoreScreen();
-        controller->sendUpdate(scoreContainer,server);
-        SDL_Delay(10000);
+        if (isOn() ) {
+            ScoreScreen();
+            controller->sendUpdate(scoreContainer,server);
+            SDL_Delay(4000);}
 
 
         LogManager::logInfo("[GAME]: Nivel terminado");
@@ -314,15 +314,11 @@ void GameServer::ScoreScreen(){
     scoreContainer = new list<Sendable*>();
     scoreContainer->push_back(scoreScreenRenderable);
     int y= 300;
-    for (int i = 0; i < config->gameplay.characters.size(); i++)
-    {
-        std::cerr <<"0 dfd"<<std::endl;
-        renderPuntaje(12500,screenWidth-50,y,scoreContainer);
-        y+=50;
-       /*  renderPuntaje(5700,screenWidth-50,y,scoreContainer);
-        y+=50;
-        renderPuntaje(10500,screenWidth-50,y,scoreContainer);
-        y+=50; */
+    auto players = entityManager->getPlayers();
+   for (auto a:players){
+        renderPuntaje(a->getScore(),screenWidth-50,y,scoreContainer);
+        y+=50; 
+        
     }
 
 }
@@ -348,80 +344,60 @@ void GameServer::renderPuntaje(int score,int x, int y,list<Sendable*>* wa){
                  path1 = "resources/sprites/score/zero.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
-                std::cerr <<"0 dfd"<<std::endl;
-
             }
             else if (resto == 1)
             {
                 path1 = "resources/sprites/score/one.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
-                std::cerr <<"1 d"<<std::endl;
-
             }
             else if (resto == 2)
             {
                 path1 = "resources/sprites/score/two.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
-                std::cerr <<"2 dsds"<<std::endl;
-
             }
             else if (resto == 3)
             {
                  path1 = "resources/sprites/score/three.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
-                std::cerr <<"3"<<std::endl;
-
             }
             else if (resto == 4)
             {
                  path1 = "resources/sprites/score/four.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
-                std::cerr <<"4"<<std::endl;
-
             }
             else if (resto == 5)
             {
                 path1 = "resources/sprites/score/five.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
-                std::cerr <<"5"<<std::endl;
-
             }
             else if (resto == 6)
             {
                 path1 = "resources/sprites/score/six.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
-                std::cerr <<"6"<<std::endl;
-
             }
             else if (resto == 7)
             {
                 path1 = "resources/sprites/score/seven.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
-                std::cerr <<"7"<<std::endl;
-
             }
             else if (resto == 8)
             {
                  path1 = "resources/sprites/score/eigth.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
-                std::cerr <<"8"<<std::endl;
-
             }
             else if (resto == 9)
             {
                  path1 = "resources/sprites/score/nine.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
-                std::cerr <<"9"<<std::endl;
-
             }
             int imageWidth1 = imageSize1.width;
             int imageHeight1 = imageSize1.height;

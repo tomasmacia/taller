@@ -31,6 +31,7 @@ public:
     bool isDisconnected();
 
     int getID();
+    int getScore();
 
     //GETTERS
     //===============================

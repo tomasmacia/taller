@@ -49,3 +49,6 @@ int Score::enemyAttackedWith(AttackCode attackCode) {
             return TUBE_ATTACK_TO_ENEMY;
     }
 }
+int Score::getCurrent(){
+    return current;
+}
