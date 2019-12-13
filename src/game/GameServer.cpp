@@ -315,12 +315,48 @@ void GameServer::ScoreScreen(){
     scoreContainer->push_back(scoreScreenRenderable);
     int y= 300;
     auto players = entityManager->getPlayers();
-   for (auto a:players){
+    for (auto a:players){
+        CharacterName( y, a->getID(),scoreContainer);
         renderPuntaje(a->getScore(),screenWidth-50,y,scoreContainer);
+            
         y+=50; 
-        
     }
 
+}
+
+
+void GameServer::CharacterName(int y, int id,list<Sendable*>* wa){
+    string path1;
+    ImageSize imageSize1;
+    std::map<int,User>::iterator it;
+    it = loggedPlayersUserByID.find(id);
+    auto user = it->second.name;
+    std::cerr << user<< std::endl;
+    if (user.compare("FRAN") == 0){
+        path1="resources/sprites/score/fran.png";
+    }
+    if (user.compare("CRIS") == 0){
+        path1="resources/sprites/score/cris.png";
+    }
+    if (user.compare("AXEL") == 0){
+        path1="resources/sprites/score/axel.png";
+    }
+    if (user.compare("TOMI") == 0) {
+        path1="resources/sprites/score/tomi.png";
+    }
+    imageSize1 = ImageUtils::getImageSize(path1);
+    int imageWidth1 = imageSize1.width;
+    int imageHeight1 = imageSize1.height;
+
+    int screenWidth1 = 80;
+    int screenHeight1 = 30;
+
+
+    Rect src1 = {0,0,imageWidth1,imageHeight1};
+    Rect dst1 = {50,y,imageWidth1 * 2,imageHeight1 * 2};
+
+    Sendable* c = new Sendable(new Renderable(path1, src1, dst1, false), nullptr);
+    wa->push_back(c);
 }
 
 
@@ -337,77 +373,86 @@ void GameServer::renderPuntaje(int score,int x, int y,list<Sendable*>* wa){
             Sendable* c = nullptr;
             ImageSize imageSize1;
             int resto = score_ % 10;
-            //std::cerr <<score_<< " - " <<" - "<<std::to_string(score).length()<<std::endl;
-        
+
 
             if (resto == 0){
                  path1 = "resources/sprites/score/zero.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
+                std::cerr << "0"<< std::endl;
             }
             else if (resto == 1)
             {
                 path1 = "resources/sprites/score/one.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
+                std::cerr << "1"<< std::endl;
             }
             else if (resto == 2)
             {
                 path1 = "resources/sprites/score/two.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
+                std::cerr << "2"<< std::endl;
             }
             else if (resto == 3)
             {
                  path1 = "resources/sprites/score/three.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
+                std::cerr << "3"<< std::endl;
             }
             else if (resto == 4)
             {
                  path1 = "resources/sprites/score/four.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
+                std::cerr << "4"<< std::endl;
             }
             else if (resto == 5)
             {
                 path1 = "resources/sprites/score/five.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
+                std::cerr << "5"<< std::endl;
             }
             else if (resto == 6)
             {
                 path1 = "resources/sprites/score/six.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
+                std::cerr << "6"<< std::endl;
             }
             else if (resto == 7)
             {
                 path1 = "resources/sprites/score/seven.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
+                std::cerr << "7"<< std::endl;
             }
             else if (resto == 8)
             {
                  path1 = "resources/sprites/score/eigth.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
+                std::cerr << "8"<< std::endl;
             }
             else if (resto == 9)
             {
                  path1 = "resources/sprites/score/nine.png";
 
                 ImageSize imageSize1 = ImageUtils::getImageSize(path1);
+                std::cerr << "9"<< std::endl;
             }
             int imageWidth1 = imageSize1.width;
             int imageHeight1 = imageSize1.height;
 
             int screenWidth1 = 30;
             int screenHeight1 = 30;
-            x_ -=screenHeight1;
+            x_ -= screenHeight1;
 
             Rect src1 = {0,0,imageWidth1,imageHeight1};
-            Rect dst1 = {x_,y_,screenWidth1,screenHeight1};
+            Rect dst1 = {x_,y_,screenWidth1,screenHeight1 };
 
             c= new Sendable(new Renderable(path1, src1, dst1, false), nullptr);
             wa->push_back(c);

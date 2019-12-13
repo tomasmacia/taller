@@ -128,6 +128,10 @@ private:
     string processReconectionAndEmitSuccesMessage(const string& user, int newId);
     string getNewColor();
 
+
+
+    void CharacterName(int y, int id,list<Sendable*>* wa);
+
     //ATRIBUTES
     //===============================
     int SLEEP_TIME = 13000;
