@@ -53,6 +53,13 @@ void GameServer::update() {
 void GameServer::sendUpdate() {
     //auto* sendables = sceneDirector->generateSendables();
     auto* sendables = entityManager->generateSendables();
+
+    for (auto sendable : *sendables){
+        if (sendable->_soundable != nullptr){
+            cout<<"Se mando a emitir: "<<sendable->_soundable->getPath()<<endl;
+        }
+    }
+
     controller->sendUpdate(sendables, server);
 }
 
@@ -314,7 +321,6 @@ void GameServer::destroy() {
     }
     waitingScreenContainer->pop_front();
     waitingScreenContainer = nullptr;
-    delete(waitingScreenRenderable);
     waitingScreenRenderable = nullptr;
     delete(server);
     server = nullptr;

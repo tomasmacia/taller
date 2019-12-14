@@ -27,6 +27,7 @@ protected:
     State* state = nullptr;
 
     string _currentSoundPath = "NONE";
+    Action previous = NONE;
 
     virtual void handleCurrentState() = 0;
 };

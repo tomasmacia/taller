@@ -9,16 +9,23 @@ FinalBossSound::FinalBossSound(State *state, Sounds soundsConfig) : Sound(state,
 }
 
 void FinalBossSound::handleCurrentState() {
-    switch (state->current()){
-        case PUNCH:
-            _currentSoundPath = soundsConfig.npcs.hit;
-            state->endHittingFlag();
-            break;
-        case DYING:
-            _currentSoundPath = soundsConfig.boss.death;
-            break;
-        default:
-            _currentSoundPath = "NONE";
-            break;
+    if (state->current() != previous) {
+        switch (state->current()) {
+            case PUNCH:
+                if (state->isHitting()) {
+                    _currentSoundPath = soundsConfig.npcs.hit;
+                    state->endHittingFlag();
+                }
+                break;
+            case DYING:
+                _currentSoundPath = soundsConfig.boss.death;
+                break;
+            default:
+                _currentSoundPath = "NONE";
+                break;
+        }
+    }
+    else{
+        _currentSoundPath = "NONE";
     }
 }

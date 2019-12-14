@@ -73,3 +73,7 @@ int Character::setAttackedWith(AttackCode attackCode) {
 void Character::resetAt(int x, int y, int z) {
     setPosition(x,y,z);
 }
+
+void Character::removeWeapon() {
+    attack->dropWeapon();
+}

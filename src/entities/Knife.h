@@ -16,7 +16,6 @@ public:
           State *state, ScreenPosition *screenPosition, StateDrivenAppearance *appearance, Sound *sound, int w, int h, int d);
 
     int useOn(Entity* entity) override ;
-
     int KNIFE_LIFE_AMOUNT = 3;
 };
 

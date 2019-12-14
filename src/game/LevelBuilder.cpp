@@ -229,6 +229,7 @@ void LevelBuilder::resetPlayers() {
         z = screenResolutionHeight*0.15;
 
         player->resetAt(x,y,z);
+        player->removeWeapon();
         i++;
     }
     LogManager::logDebug("[LEVEL]: Jugadores preparados para siguiente nivel: " + std::to_string(amountOfPlayers));

@@ -104,6 +104,13 @@ void Controller::clearAllInputs(){
 void Controller::reciveRenderables(vector<string>* serializedPagackes){
     cleanUpRenderables();
     objectSerializer.reconstructSendables(serializedPagackes, currentPackagesToSend);
+
+
+    for (auto sendable : *currentPackagesToSend){
+        if (sendable->hasSoundable()){
+            cout<<"Se recibio para emitir: "<<sendable->_soundable->getPath()<<endl;
+        }
+    }
 }
 
 //DATA TRANSFER INTERFACE

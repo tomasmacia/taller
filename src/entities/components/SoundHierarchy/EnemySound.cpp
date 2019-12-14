@@ -9,17 +9,25 @@ EnemySound::EnemySound(State *state, Sounds soundsConfig) : Sound(state, soundsC
 }
 
 void EnemySound::handleCurrentState() {
-    switch (state->current()){
-        case PUNCH:
-            _currentSoundPath = soundsConfig.npcs.hit;
-            state->endHittingFlag();
-            break;
-        case DYING:
-            _currentSoundPath = soundsConfig.npcs.death;
-            break;
-        default:
-            _currentSoundPath = "NONE";
-            break;
+    if (state->current() != previous) {
+        previous = state->current();
+        switch (state->current()) {
+            case PUNCH:
+                if (state->isHitting()) {
+                    _currentSoundPath = soundsConfig.npcs.hit;
+                    state->endHittingFlag();
+                }
+                break;
+            case DYING:
+                _currentSoundPath = soundsConfig.npcs.death;
+                break;
+            default:
+                _currentSoundPath = "NONE";
+                break;
+        }
+    }
+    else{
+        _currentSoundPath = "NONE";
     }
 }
 

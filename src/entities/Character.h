@@ -30,6 +30,8 @@ public:
     void setDisconnected();
     bool isDisconnected();
 
+    void removeWeapon();
+
     int getID();
 
     //GETTERS

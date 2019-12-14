@@ -22,16 +22,16 @@ public:
     void addressKick();
     void addressJumpKick();
     void addressPickIntent();
+    void dropWeapon();
+
     void setWeapon(Weapon* weapon);
 
     void setOwner(AnimatedEntity* owner){
         this->owner = owner;
     }
-
 private:
     bool hasWeapon();
     bool weaponBroke();
-    void dropWeapon();
     void handleCurrentState();
 
     list<PhysicalEntity*>* targets = nullptr;

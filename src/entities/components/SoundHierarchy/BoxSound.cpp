@@ -8,13 +8,18 @@ BoxSound::BoxSound(State *state, Sounds soundsConfig) : Sound(state, soundsConfi
 }
 
 void BoxSound::handleCurrentState() {
-
-    switch (state->current()){
-        case DYING:
-            _currentSoundPath = soundsConfig.utilities.boxBreak;
-            break;
-        default:
-            _currentSoundPath = "NONE";
-            break;
+    if (state->current() != previous) {
+        previous = state->current();
+        switch (state->current()) {
+            case DYING:
+                _currentSoundPath = soundsConfig.utilities.boxBreak;
+                break;
+            default:
+                _currentSoundPath = "NONE";
+                break;
+        }
+    }
+    else{
+        _currentSoundPath = "NONE";
     }
 }

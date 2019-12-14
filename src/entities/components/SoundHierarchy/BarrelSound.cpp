@@ -9,12 +9,18 @@ BarrelSound::BarrelSound(State *state, Sounds soundsConfig) : Sound(state, sound
 }
 
 void BarrelSound::handleCurrentState() {
-    switch (state->current()){
-        case DYING:
-            _currentSoundPath = soundsConfig.utilities.barrelBreak;
-            break;
-        default:
-            _currentSoundPath = "NONE";
-            break;
+    if (state->current() != previous) {
+        previous = state->current();
+        switch (state->current()) {
+            case DYING:
+                _currentSoundPath = soundsConfig.utilities.barrelBreak;
+                break;
+            default:
+                _currentSoundPath = "NONE";
+                break;
+        }
+    }
+    else{
+        _currentSoundPath = "NONE";
     }
 }

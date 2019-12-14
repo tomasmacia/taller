@@ -2,6 +2,7 @@
 // Created by axel on 24/11/19.
 //
 
+#include <iostream>
 #include "Sound.h"
 
 Sound::Sound(State *state, Sounds soundsConfig) {
@@ -18,5 +19,11 @@ void Sound::update() {
 }
 
 Soundable *Sound::generateSoundable() {
-    return new Soundable(_currentSoundPath,false);
+
+    if (_currentSoundPath != "NONE"){
+        return new Soundable(_currentSoundPath,false);
+    }
+    else{
+        return nullptr;
+    }
 }

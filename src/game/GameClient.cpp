@@ -75,6 +75,7 @@ void GameClient::renderAllPackages(){
                     package->_renderable->render(&loadedTexturesMap);
                 }
                 if (package->hasSoundable()){
+                    cout<<"ejecuto sonido: "<<package->_soundable->getPath()<<endl;
                     package->_soundable->play(&loadedSoundsMap);
                 }
             }

@@ -43,7 +43,6 @@ void StateDrivenAppearance::loadNextImage(){
 }
 
 Renderable *StateDrivenAppearance::actuallyGenerateRenderable() {
-    cout<<currentSprite<<endl;
     return new Renderable(currentSprite,srcRect,destRect,isFliped());
 }
 
