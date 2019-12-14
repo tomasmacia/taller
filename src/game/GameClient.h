@@ -41,6 +41,7 @@ public:
     void end() override ;
     bool alreadyLoggedIn();
     void render();
+    void disconnected();
 
     void reciveRenderables(vector<string>* serializedPages);
 
@@ -86,10 +87,13 @@ private:
     void initLoggerMenu();
     void init() override ;
 
+    
+
     //ATRIBUTES
     //===============================
     static bool hasInstance;
     bool loggedIn = false;
+    bool disconnect = false;
 
     std:: mutex mu;
     std:: mutex controllerMutex;

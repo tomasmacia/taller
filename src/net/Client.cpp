@@ -227,6 +227,9 @@ void Client::checkConnection(){
    }
     connectionOn = false;
     LogManager::logError("[CLIENT]: conexion perdida");
+    if (gameClient->isOn()){
+        gameClient->disconnected();
+    }
 }
 
 bool Client::isConnected() {

@@ -47,6 +47,9 @@ void GameClient::gameLoop() {
         pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
         render();
     }
+    if (disconnect){
+        std::cerr << "Desconectado"<<std::endl; //Poner Imagen de desconeccion por 2 segundos masomenos
+    }
     
 }
 
@@ -101,6 +104,7 @@ void GameClient::notifyAboutClientConectionToServerAttemptDone(){
 
 void GameClient::end() {
     on = false;
+  //  disconnect = false;
     client->notifyGameStoppedRunning();
     LogManager::logDebug("[GAME]: señal de fin de programa emitida");
 }
@@ -163,6 +167,11 @@ void GameClient::init() {
 
     LogManager::logDebug("[INIT]: inicializado Config");
     LogManager::logDebug("=======================================");
+}
+
+
+void GameClient::disconnected(){
+    disconnect =true;
 }
 
 //DESTROY
