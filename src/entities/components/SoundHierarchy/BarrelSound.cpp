@@ -13,5 +13,8 @@ void BarrelSound::handleCurrentState() {
         case DYING:
             _currentSoundPath = soundsConfig.utilities.barrelBreak;
             break;
+        default:
+            _currentSoundPath = "NONE";
+            break;
     }
 }

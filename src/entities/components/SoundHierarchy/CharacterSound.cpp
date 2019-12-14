@@ -31,5 +31,8 @@ void CharacterSound::handleCurrentState() {
         case DYING:
             _currentSoundPath = soundsConfig.players.death;
             break;
+        default:
+            _currentSoundPath = "NONE";
+            break;
     }
 }

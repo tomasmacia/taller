@@ -13,5 +13,8 @@ void BoxSound::handleCurrentState() {
         case DYING:
             _currentSoundPath = soundsConfig.utilities.boxBreak;
             break;
+        default:
+            _currentSoundPath = "NONE";
+            break;
     }
 }

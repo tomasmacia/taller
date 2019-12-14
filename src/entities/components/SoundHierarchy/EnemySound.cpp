@@ -17,6 +17,9 @@ void EnemySound::handleCurrentState() {
         case DYING:
             _currentSoundPath = soundsConfig.npcs.death;
             break;
+        default:
+            _currentSoundPath = "NONE";
+            break;
     }
 }
 

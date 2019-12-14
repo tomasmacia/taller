@@ -17,5 +17,8 @@ void FinalBossSound::handleCurrentState() {
         case DYING:
             _currentSoundPath = soundsConfig.boss.death;
             break;
+        default:
+            _currentSoundPath = "NONE";
+            break;
     }
 }
