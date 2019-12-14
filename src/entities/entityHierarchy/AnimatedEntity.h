@@ -22,7 +22,7 @@ public:
 
     void update() override;
 
-    virtual void notifySuccessfulAttack(int score) { cout<<"pegue"<<endl;}
+    virtual void notifySuccessfulAttack(int score){}
     void drag();
 
 
@@ -39,6 +39,8 @@ public:
     int getWalkingSpeed(){
         return physics->getWalkingSpeed();
     }
+
+    void dropWeapon();
 
 protected:
     Will* will = nullptr;

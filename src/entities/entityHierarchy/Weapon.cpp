@@ -17,3 +17,7 @@ Weapon::Weapon(CollitionHandler *collitionHandler, Life *life, Damage *damage, S
                State *state, ScreenPosition *screenPosition, StateDrivenAppearance *appearance, Sound *sound, int w, int h, int d)
         : UnanimatedEntity(collitionHandler, life, damage, score, position, state, screenPosition, appearance, sound,w,h,d) {
 }
+
+void Weapon::discard() {
+    state->setDead();
+}

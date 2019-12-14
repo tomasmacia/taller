@@ -10,7 +10,7 @@
 #include "../components/Damage.h"
 #include "../Score.h"
 #include "../Life.h"
-#include "../components/Sound.h"
+#include "../components/SoundHierarchy/Sound.h"
 #include "../components/ScreenPosition.h"
 #include "../components/appearances/StateDrivenAppearance.h"
 

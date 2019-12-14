@@ -10,9 +10,6 @@
 
 using namespace std;
 
-int ObjectSerializer::contador = 0;
-int ObjectSerializer::contadorFail = 0;
-
 //API
 //=========================================================================================
 int ObjectSerializer::getIDFrom(vector<string>* currentParsedMessage){
@@ -46,7 +43,7 @@ string ObjectSerializer::getAlreadyLoggedInMessage() {
 //VALIDATE
 //=========================================================================================
 bool ObjectSerializer::validLoginFromServerMessage(vector<string>* currentParsedMessage){
-    //SERIALIZED LOGIN ID: //START,header,id,color
+    //SERIALIZED LOGIN ID: //START,header,type,color
     return  currentParsedMessage->size() == 4 &&
             currentParsedMessage->at(0) == START_SYMBOL &&
             (currentParsedMessage->at(1) == to_string(SUCCESS)
@@ -56,7 +53,7 @@ bool ObjectSerializer::validLoginFromServerMessage(vector<string>* currentParsed
 }
 
 bool ObjectSerializer::validSerializedObjectMessage(vector<string>* currentParsedMessage){
-    //SERIALIZED OBJECT: START, header,path,srcw,srch,srcx,srcy,dstw,dsth,dstx,dsty,bool, header2, pathSound,isMusicBool
+    //SERIALIZED OBJECT: START,header,path,srcw,srch,srcx,srcy,dstw,dsth,dstx,dsty,bool,header2,pathSound,isMusicBool
     return (currentParsedMessage->size() == 15 &&
             currentParsedMessage->at(0) == START_SYMBOL &&
             currentParsedMessage->at(1) == to_string(RENDERABLE) &&
@@ -81,7 +78,7 @@ bool ObjectSerializer::validLoginFromClientMessage(vector<string>* currentParsed
 }
 
 bool ObjectSerializer::validSerializedInputMessage(vector<string>* currentParsedMessage){
-    //SERIALIZED OBJECT: START,header,action,id
+    //SERIALIZED OBJECT: START,header,action,type
     return currentParsedMessage->size() == 4 &&
             currentParsedMessage->at(0) == START_SYMBOL &&
            (currentParsedMessage->at(1)) == to_string(INPUT);
@@ -95,27 +92,40 @@ Sendable* ObjectSerializer::reconstructSendable(vector<string>* currentParsedMes
     Renderable* renderable = nullptr;
     Soundable* soundable = nullptr;
 
-    if (currentParsedMessage->size() > 0){
+    if (currentParsedMessage->size() > 0) {
 
-        std::string path = currentParsedMessage->at(2);
-        Rect src = {std::stoi(currentParsedMessage->at(5)), std::stoi(currentParsedMessage->at(6)), std::stoi(currentParsedMessage->at(3)),
-                    std::stoi(currentParsedMessage->at(4))};
-        Rect dst = {std::stoi(currentParsedMessage->at(9)), std::stoi(currentParsedMessage->at(10)), std::stoi(currentParsedMessage->at(7)),
-                    std::stoi(currentParsedMessage->at(8))};
-        bool flip = std::stoi(currentParsedMessage->at(11));
+        if (currentParsedMessage->at(1) == to_string(RENDERABLE)){
 
-        renderable = new Renderable(path,src,dst,flip);
+            std::string path = currentParsedMessage->at(2);
+            Rect src = {std::stoi(currentParsedMessage->at(5)), std::stoi(currentParsedMessage->at(6)),
+                        std::stoi(currentParsedMessage->at(3)),
+                        std::stoi(currentParsedMessage->at(4))};
+            Rect dst = {std::stoi(currentParsedMessage->at(9)), std::stoi(currentParsedMessage->at(10)),
+                        std::stoi(currentParsedMessage->at(7)),
+                        std::stoi(currentParsedMessage->at(8))};
+            bool flip = std::stoi(currentParsedMessage->at(11));
+
+            renderable = new Renderable(path, src, dst, flip);
+
+            if (currentParsedMessage->size() == 15) {
+
+                string soundPath = currentParsedMessage->at(13);
+                bool isMusic = std::stoi(currentParsedMessage->at(14));
+
+                soundable = new Soundable(soundPath, isMusic);
+            }
+        }
+
+        if (currentParsedMessage->at(1) == to_string(SOUNDABLE)){
+
+            string soundPath = currentParsedMessage->at(2);
+            bool isMusic = std::stoi(currentParsedMessage->at(3));
+
+            soundable = new Soundable(soundPath, isMusic);
+        }
+
+        return new Sendable(renderable, soundable);
     }
-
-    if (currentParsedMessage->size() == 15){
-
-        string soundPath = currentParsedMessage->at(13);
-        bool isMusic = std::stoi(currentParsedMessage->at(14));
-
-        soundable = new Soundable(soundPath,isMusic);
-    }
-
-    return  new Sendable(renderable,soundable);
 }
 
 tuple<Action,int> ObjectSerializer::reconstructInput(vector<string>* currentParsedMessage) {
@@ -142,14 +152,14 @@ tuple<Action,int> ObjectSerializer::reconstructInput(vector<string>* currentPars
     return make_tuple (reconstructedAction,reconstructedId);
 }
 
-void ObjectSerializer::reconstructSendables(vector<string>* serializedPackages, std::list<Sendable*>* sendables){
+void ObjectSerializer::reconstructSendables(vector<string>* serializedPackages, std::list<Sendable*>* reconstructedPackages){
 
     MessageParser parser = MessageParser();
 
     for (int i = 1; i < serializedPackages->size(); i++){                            // i empieza en 1 porque el 0 contiene el header
         parser.parse(serializedPackages->at(i),SEPARATOR.c_str()[0]);
         if (validSerializedObjectMessage(parser.getCurrent())){
-            sendables->push_back(reconstructSendable(parser.getCurrent()));
+            reconstructedPackages->push_back(reconstructSendable(parser.getCurrent()));
         }
     }
 }
@@ -179,6 +189,28 @@ string ObjectSerializer::serializeCredentials(string user, string pass){
 
 string ObjectSerializer::getPingMessage(){
     return PING_CODE + END_OF_SERIALIZATION_SYMBOL;
+}
+
+string ObjectSerializer::serializeInput(Action action, int id){
+
+    std::string  serializedAction;
+
+    if (action == NONE){serializedAction = "NONE";}
+    if (action == UP){serializedAction = "UP";}
+    if (action == END_UP){serializedAction = "END_UP";}
+    if (action == DOWN){serializedAction = "DOWN";}
+    if (action == END_DOWN){serializedAction = "END_DOWN";}
+    if (action == LEFT){serializedAction = "LEFT";}
+    if (action == END_LEFT){serializedAction = "END_LEFT";}
+    if (action == RIGHT){serializedAction = "RIGHT";}
+    if (action == END_RIGHT){serializedAction = "END_RIGHT";}
+    if (action == JUMP){serializedAction = "JUMP";}
+    if (action == PUNCH){serializedAction = "PUNCH";}
+    if (action == KICK){serializedAction = "KICK";}
+    if (action == JUMP_KICK){serializedAction = "JUMP_KICK";}
+    if (action == CROUCH){serializedAction = "CROUCH";}
+
+    return addPadding(START_SYMBOL + SEPARATOR  + to_string(INPUT) + SEPARATOR + serializedAction + SEPARATOR + to_string(id) + SEPARATOR + END_OF_SERIALIZATION_SYMBOL);
 }
 
 string ObjectSerializer::serializeObject(Sendable* sendable){
@@ -214,9 +246,9 @@ string ObjectSerializer::serializeObject(Sendable* sendable){
         std::string flipedStr = to_string(fliped);
 
         serializedRenderable = to_string(RENDERABLE) + SEPARATOR + path + SEPARATOR +
-                           srcW + SEPARATOR + srcH + SEPARATOR + srcX + SEPARATOR + srcY + SEPARATOR +
-                           dstW + SEPARATOR + dstH + SEPARATOR + dstX + SEPARATOR + dstY + SEPARATOR +
-                           flipedStr;
+                               srcW + SEPARATOR + srcH + SEPARATOR + srcX + SEPARATOR + srcY + SEPARATOR +
+                               dstW + SEPARATOR + dstH + SEPARATOR + dstX + SEPARATOR + dstY + SEPARATOR +
+                               flipedStr;
     }
 
     if(soundable != nullptr){
@@ -227,41 +259,21 @@ string ObjectSerializer::serializeObject(Sendable* sendable){
         serializedSoundable = to_string(SOUNDABLE) + SEPARATOR + strPath + SEPARATOR + strIsMusic;
     }
 
-    serializedObject = START_SYMBOL + SEPARATOR +  serializedRenderable + END_OF_RENDERABLE_SYMBOL + serializedSoundable;
+    serializedObject = START_SYMBOL + SEPARATOR +  serializedRenderable + SEPARATOR + serializedSoundable;
 
     return serializedObject;
-}
-
-string ObjectSerializer::serializeInput(Action action, int id){
-
-    std::string  serializedAction;
-
-    if (action == NONE){serializedAction = "NONE";}
-    if (action == UP){serializedAction = "UP";}
-    if (action == END_UP){serializedAction = "END_UP";}
-    if (action == DOWN){serializedAction = "DOWN";}
-    if (action == END_DOWN){serializedAction = "END_DOWN";}
-    if (action == LEFT){serializedAction = "LEFT";}
-    if (action == END_LEFT){serializedAction = "END_LEFT";}
-    if (action == RIGHT){serializedAction = "RIGHT";}
-    if (action == END_RIGHT){serializedAction = "END_RIGHT";}
-    if (action == JUMP){serializedAction = "JUMP";}
-    if (action == PUNCH){serializedAction = "PUNCH";}
-    if (action == KICK){serializedAction = "KICK";}
-    if (action == JUMP_KICK){serializedAction = "JUMP_KICK";}
-    if (action == CROUCH){serializedAction = "CROUCH";}
-
-    return addPadding(START_SYMBOL + SEPARATOR  + to_string(INPUT) + SEPARATOR + serializedAction + SEPARATOR + to_string(id) + SEPARATOR + END_OF_SERIALIZATION_SYMBOL);
 }
 
 std::string ObjectSerializer::serializeObjects(std::list<Sendable*>* sendables){
 
     string serializedPackages = "";
 
+    int i = 0;
     for (auto sendable : *sendables){
         serializedPackages += serializeObject(sendable) + OBJECT_SEPARATOR_SYMBOL;
+        i++;
     }
-    return addPadding(to_string(SET_OF_SENDABLES) + OBJECT_SEPARATOR_SYMBOL + serializedPackages + END_OF_SERIALIZATION_SYMBOL); //TODO CAMBIARA  SET_OF_SENDABLES
+    return addPadding(to_string(SET_OF_SENDABLES) + OBJECT_SEPARATOR_SYMBOL + serializedPackages + END_OF_SERIALIZATION_SYMBOL);
 }
 
 string ObjectSerializer::addPadding(string message){

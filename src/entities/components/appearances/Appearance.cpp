@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Appearance.h"
 
 Appearance::Appearance(ScreenPosition *screenPosition) {

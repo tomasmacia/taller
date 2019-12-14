@@ -34,3 +34,7 @@ AnimatedEntity::~AnimatedEntity() {
     delete(physics);
     delete(attack);
 }
+
+void AnimatedEntity::dropWeapon() {
+    state->dropWeapon();
+}

@@ -14,4 +14,5 @@ Tube::Tube(CollitionHandler *collitionHandler, Life *life, Damage *damage, Score
         collitionHandler, life, damage, score, position, state, screenPosition, appearance, sound,w,h,d) {
 
     this->life->initializeWith(TUBE_LIFE_AMOUNT);
+    this->type = TUBE;
 }

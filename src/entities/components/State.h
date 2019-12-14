@@ -3,6 +3,7 @@
 
 #include "../../enumerates/Action.h"
 #include "Will.h"
+#include "../../enumerates/AttackCode.h"
 
 class State {
 public:
@@ -41,10 +42,29 @@ public:
     void updateFacingState(Action action);
     void printState(Action action);
 
+    void setDead();
+
+    void equipWeapon(AttackCode weaponID);
+
+    void dropWeapon();
+
+    AttackCode getWeapon();
+
+    bool isHitting();
+
+    void setHitting();
+
+    void endHittingFlag();
+
+    bool justPickedWeapon();
+
+    void endPickingFlag();
+
 private:
     Will* _will = nullptr;
 
     Action _currentState = NONE;
+    AttackCode _currentWeapon = NO_WEAPON;
 
     bool movingUp = false;
     bool movingDown = false;
@@ -52,6 +72,9 @@ private:
     bool movingRight = false;
 
     bool _facingLeft = false;
+
+    bool justHitted = false;
+    bool justPicked = false;
 
     bool disconnected = false;
 };

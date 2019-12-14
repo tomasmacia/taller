@@ -6,6 +6,7 @@
 #define GAME_ATTACKCODE_H
 
 enum AttackCode {
+    NO_WEAPON,
     PUNCH_ATTACK,
     KICK_ATTACK,
     JUMP_KICK_ATTACK,

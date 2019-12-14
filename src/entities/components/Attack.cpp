@@ -55,8 +55,12 @@ void Attack::addressPunch(){ //se hace esta implementacion medio elaborada "al p
                 owner->notifySuccessfulAttack(target->setAttackedWith(PUNCH_ATTACK));
             }
             if (weaponBroke()){
-                throwWeapon();
+                dropWeapon();
             }
+        }
+
+        if (!targets->empty()){
+            state->setHitting();
         }
     }
 }
@@ -73,6 +77,9 @@ void Attack::addressKick() {
 
             owner->notifySuccessfulAttack(target->setAttackedWith(KICK_ATTACK));
         }
+        if (!targets->empty()){
+            state->setHitting();
+        }
     }
 }
 
@@ -87,6 +94,9 @@ void Attack::addressJumpKick(){
         for (auto target : *targets){
 
             owner->notifySuccessfulAttack(target->setAttackedWith(JUMP_KICK_ATTACK));
+        }
+        if (!targets->empty()){
+            state->setHitting();
         }
     }
 }
@@ -112,12 +122,13 @@ bool Attack::weaponBroke() {
     }
 }
 
-void Attack::throwWeapon() {
+void Attack::dropWeapon() {
+    owner->dropWeapon();
     weapon = nullptr;
 }
 
 void Attack::setWeapon(Weapon *weapon) {
-    //state->equipWeapon(); TODO
+    state->equipWeapon(weapon->getType());
     weapon->getPicked();
     this->weapon = weapon;
 }
@@ -126,6 +137,9 @@ Attack::~Attack() {
     if (targets != nullptr){
         targets->clear();
         delete(targets);
+    }
+    if (weapon != nullptr){
+        weapon->discard();
     }
 }
 

@@ -1,3 +1,4 @@
+#include <iostream>
 #include "StateDrivenAppearance.h"
 
 StateDrivenAppearance::StateDrivenAppearance(ScreenPosition* screenPosition, State *state) : Appearance(screenPosition){
@@ -42,6 +43,7 @@ void StateDrivenAppearance::loadNextImage(){
 }
 
 Renderable *StateDrivenAppearance::actuallyGenerateRenderable() {
+    cout<<currentSprite<<endl;
     return new Renderable(currentSprite,srcRect,destRect,isFliped());
 }
 

@@ -20,7 +20,6 @@ void SoundWrapper::load(const std::string& path){
         if (music == nullptr){
 
             LogManager::logError("No se pudo cargar la musica " + path );
-            std::cout<<"No cargo la musica";
 
         }
     }
@@ -31,7 +30,6 @@ void SoundWrapper::load(const std::string& path){
         if (sound == nullptr){
 
             LogManager::logError("No se pudo cargar el sonido " + path );
-            std::cout<<"No cargo el sound";
         }
 
     }

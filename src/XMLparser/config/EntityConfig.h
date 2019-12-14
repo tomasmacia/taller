@@ -17,9 +17,10 @@ public:
     string jumpkick;
     string knifeHit;
     string knifeStand;
+    string knifeWalk;
     string pipeHit;
     string pipeStand;
-    string pick;
+    string pipeWalk;
     string beingAttacked;
     string dying;
 };

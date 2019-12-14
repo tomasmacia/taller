@@ -14,6 +14,7 @@ class CharacterXML : public EntityConfig {
 public:
     string name;
     string disconnected;
+
 };
 
 #endif //GAME_CHARACTERXML_H

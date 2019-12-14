@@ -31,7 +31,7 @@ public:
 private:
     bool hasWeapon();
     bool weaponBroke();
-    void throwWeapon();
+    void dropWeapon();
     void handleCurrentState();
 
     list<PhysicalEntity*>* targets = nullptr;

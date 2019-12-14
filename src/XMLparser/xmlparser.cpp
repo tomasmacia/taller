@@ -343,8 +343,10 @@ CharacterXML XMLParser::mapCharacter(XMLElement *characters, const string curren
     character.beingAttacked = getSafeValueFromElement(characters, {currentChildName.c_str(), "attacked"}, charArrayToString, "characters");
     character.knifeHit = getSafeValueFromElement(characters, {currentChildName.c_str(), "knifehit"}, charArrayToString, "characters");
     character.knifeStand = getSafeValueFromElement(characters, {currentChildName.c_str(), "knifestand"}, charArrayToString, "characters");
+    character.knifeWalk = getSafeValueFromElement(characters, {currentChildName.c_str(), "knifewalk"}, charArrayToString, "characters");
     character.pipeHit = getSafeValueFromElement(characters, {currentChildName.c_str(), "pipehit"}, charArrayToString, "characters");
     character.pipeStand = getSafeValueFromElement(characters, {currentChildName.c_str(), "pipestand"}, charArrayToString, "characters");
+    character.pipeWalk  = getSafeValueFromElement(characters, {currentChildName.c_str(), "pipewalk"}, charArrayToString, "characters");
     character.disconnected = getSafeValueFromElement(characters, {currentChildName.c_str(), "disconnected"}, charArrayToString, "characters");
 
     return character;

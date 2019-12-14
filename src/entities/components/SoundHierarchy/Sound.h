@@ -6,25 +6,29 @@
 #define GAME_SOUND_H
 
 #include <string>
-#include "State.h"
-#include "../../net/messaging/Soundable.h"
+#include <config/Sounds.h>
+#include "../State.h"
+#include "../../../net/messaging/Soundable.h"
 
 using namespace std;
 
 class Sound {
 
 public:
-    Sound(State* state);
+    Sound(State* state, Sounds soundsConfig);
 
     void update();
 
     string getCurrent();
     Soundable* generateSoundable();
 
-private:
+protected:
+    Sounds soundsConfig;
     State* state = nullptr;
 
-    string _currentSoundPath;
+    string _currentSoundPath = "NONE";
+
+    virtual void handleCurrentState() = 0;
 };
 
 

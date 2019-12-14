@@ -5,6 +5,9 @@
 #ifndef GAME_SOUNDS_H
 #define GAME_SOUNDS_H
 
+#include <string>
+using namespace std;
+
 class Boss {
 public:
     string death;

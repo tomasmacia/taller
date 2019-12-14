@@ -17,8 +17,15 @@ public:
     virtual int useOn(Entity* entity);
     void getPicked();
 
+    AttackCode getType(){
+        return type;
+    }
+
+    void discard();
+
 protected:
     int USES_AMOUNT = 3;
+    AttackCode type;
 };
 
 

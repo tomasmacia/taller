@@ -116,8 +116,10 @@
                 <attacked>resources/sprites/players/blue/gethit.png</attacked>
                 <knifehit>resources/sprites/players/blue/knifehit.png</knifehit>
                 <knifestand>resources/sprites/players/blue/knifestand.png</knifestand>
+                <knifewalk>resources/sprites/players/blue/knifewalk.png</knifewalk>
                 <pipehit>resources/sprites/players/blue/pipehit.png</pipehit>
                 <pipestand>resources/sprites/players/blue/pipestand.png</pipestand>
+                <pipewalk>resources/sprites/players/blue/pipewalk.png</pipewalk>
                 <disconnected>resources/sprites/players/gray/stand.png</disconnected>
             </character1>
         </characters>

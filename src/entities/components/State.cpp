@@ -175,7 +175,7 @@ void State::setFinished(){
             _currentState = pickOneOngoingMovement();
             break;
         case BEING_ATTACKED:
-            //pass
+            _currentState = pickOneOngoingMovement();
             break;
         case DYING:
             _currentState = DEAD;
@@ -297,4 +297,41 @@ void State::printState(Action incoming) {
             std::cout<<"QUIT"<<std::endl;
             break;
     }
+}
+
+void State::setDead() {
+    _currentState = DEAD;
+}
+
+void State::equipWeapon(AttackCode weapon) {
+    _currentWeapon = weapon;
+    justPicked = true;
+}
+
+void State::dropWeapon() {
+    _currentWeapon = NO_WEAPON;
+}
+
+AttackCode State::getWeapon() {
+    return _currentWeapon;
+}
+
+bool State::isHitting() {
+    return justHitted;
+}
+
+void State::setHitting() {
+    justHitted = true;
+}
+
+void State::endHittingFlag() {
+    justHitted = false;
+}
+
+bool State::justPickedWeapon() {
+    return justPicked;
+}
+
+void State::endPickingFlag() {
+    justPicked = false;
 }

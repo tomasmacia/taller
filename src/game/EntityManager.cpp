@@ -7,6 +7,11 @@
 
 #include "../entities/components/appearances/CharacterAppearance.h"
 #include "../entities/components/appearances/EnemyAppearance.h"
+#include "../entities/components/SoundHierarchy/CharacterSound.h"
+#include "../entities/components/SoundHierarchy/EnemySound.h"
+#include "../entities/components/SoundHierarchy/NullSound.h"
+#include "../entities/components/SoundHierarchy/BoxSound.h"
+#include "../entities/components/SoundHierarchy/BarrelSound.h"
 
 //CONSTRUCTOR
 //=========================================================================================
@@ -204,7 +209,7 @@ Character *EntityManager::createCharacter(int x, int y, int z, int id) {
 
     auto characterConfig = config->gameplay.characters.at(players.size());
     auto* appearance = new CharacterAppearance(w, h,position, screenPosition, state, characterConfig);
-    auto* sound = new Sound(state);
+    auto* sound = new CharacterSound(state,config->sounds);
     auto* damage = new Damage();
     auto* life = new Life(state);
     auto* score = new Score();
@@ -253,7 +258,7 @@ Enemy *EntityManager::createEnemy() {
     }
 
     auto* appearance = new EnemyAppearance(w, h, screenPosition, state, config->gameplay.npcs.front());
-    auto* sound = new Sound(state);
+    auto* sound = new EnemySound(state,config->sounds);
     auto* damage = new Damage();
     auto* life = new Life(state);
     auto* score = new Score();
@@ -294,7 +299,7 @@ Knife* EntityManager::createKnife() {
     }
 
     auto* appearance = new KnifeAppearance(w, h, screenPosition, state, config->gameplay.weapons.knife);
-    auto* sound = new Sound(state);
+    auto* sound = new NullSound(state,config->sounds);
 
     return new Knife(collitionHandler,
                      life, damage, score, position,
@@ -331,7 +336,7 @@ Tube* EntityManager::createTube() {
     }
 
     auto* appearance = new TubeAppearance(w, h, screenPosition, state, config->gameplay.weapons.tube);
-    auto* sound = new Sound(state);
+    auto* sound = new NullSound(state,config->sounds);
 
     return new Tube(collitionHandler,
                     life, damage, score, position,
@@ -368,7 +373,7 @@ Box* EntityManager::createBox() {
     }
 
     auto* appearance = new BoxAppearance(w, h, screenPosition, state, config->gameplay.utilities.box);
-    auto* sound = new Sound(state);
+    auto* sound = new BoxSound(state,config->sounds);
 
     return new Box(collitionHandler,
                    life, damage, score, position,
@@ -405,7 +410,7 @@ Barrel* EntityManager::createBarrel() {
     }
 
     auto* appearance = new BarrelAppearance(w, h, screenPosition, state, config->gameplay.utilities.barrel);
-    auto* sound = new Sound(state);
+    auto* sound = new BarrelSound(state,config->sounds);
 
     return new Barrel(collitionHandler,
                       life, damage, score, position,
@@ -584,7 +589,7 @@ Box* EntityManager::createBox(int x, int y, int z) {
     }
 
     auto* appearance = new BoxAppearance(w, h, screenPosition, state, config->gameplay.utilities.box);
-    auto* sound = new Sound(state);
+    auto* sound = new BoxSound(state,config->sounds);
 
     return new Box(collitionHandler,
                    life, damage, score, position,
@@ -636,7 +641,7 @@ Enemy *EntityManager::createEnemy(int x, int y, int z) {
     }
 
     auto* appearance = new EnemyAppearance(w, h, screenPosition, state, config->gameplay.npcs.front());
-    auto* sound = new Sound(state);
+    auto* sound = new EnemySound(state,config->sounds);
     auto* damage = new Damage();
     auto* life = new Life(state);
     auto* score = new Score();

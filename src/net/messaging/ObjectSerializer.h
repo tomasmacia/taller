@@ -42,7 +42,7 @@ public:
     //===============================
     Sendable* reconstructSendable(vector<string>* currentParsedMessage);
     tuple<Action,int> reconstructInput(vector<string>* currentParsedMessage);
-    void reconstructSendables(vector<string>* serializedPackages, std::list<Sendable*>* sendables);
+    void reconstructSendables(vector<string>* serializedPackages, std::list<Sendable*>* reconstructedPackages);
 
     //SERIALIZATION
     //===============================
@@ -105,14 +105,6 @@ private:
     string START_SYMBOL = "=";
     string FAILURE = "-1";
     int totalMessageLength = 1500;
-    string END_OF_RENDERABLE_SYMBOL = "|";
-
-
-
-    static int contador;
-    static int contadorFail;
-
-
 };
 
 
