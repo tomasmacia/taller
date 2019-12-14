@@ -102,13 +102,17 @@ void Controller::clearAllInputs(){
 }
 
 void Controller::reciveRenderables(vector<string>* serializedPagackes){
-    cleanUpRenderables();
+    //cout<<"DISPATCH"<<endl;
+    //cleanUpRenderables();
     objectSerializer.reconstructSendables(serializedPagackes, currentPackagesToSend);
 
-
     for (auto sendable : *currentPackagesToSend){
+
+        if (sendable->hasRenderable()){
+            //cout<<"Se recibio para renderear: "<<sendable->_renderable->getPath()<<endl;
+        }
         if (sendable->hasSoundable()){
-            cout<<"Se recibio para emitir: "<<sendable->_soundable->getPath()<<endl;
+            //cout<<"Se recibio para emitir: "<<sendable->_soundable->getPath()<<endl;
         }
     }
 }
@@ -304,4 +308,12 @@ Controller::~Controller() {
     currentInput->clear();
     delete  currentInput;
     currentInput = nullptr;
+}
+
+void Controller::untrackLastSendables() {
+    currentPackagesToSend->clear();
+}
+
+bool Controller::hasNewPackages() {
+    return !currentPackagesToSend->empty();
 }

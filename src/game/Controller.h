@@ -28,6 +28,7 @@ public:
     void clearAllInputs();
     void checkIfCloseRelatedInputWasPulsed();
     void reciveRenderables(vector<string>* serializedPagackes);
+    void cleanUpRenderables();
 
     //DATA TRANSFER INTERFACE
     //===============================
@@ -60,6 +61,10 @@ public:
         return currentPackagesToSend;
     }
 
+    void untrackLastSendables();
+
+    bool hasNewPackages();
+
 private:
 
     //INPUT PROCESING
@@ -71,10 +76,6 @@ private:
     //===============================
     void init();
     void bind();
-
-    //DESTROY
-    //===============================
-    void cleanUpRenderables();
 
     //ATRIBUTES
     //===============================

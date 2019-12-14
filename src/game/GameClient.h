@@ -112,10 +112,13 @@ private:
 
     LoggerMenu* loggerMenu = nullptr;
     Client* client = nullptr;
+    std::list<Sendable*>* previousPackages = nullptr;
     std::map<std::string, TextureWrapper*> loadedTexturesMap;
     std::map<string, SoundWrapper *> loadedSoundsMap;
 
     void initSDLMixer();
+
+    void erasePreviousPackages();
 };
 
 #endif //GAME_GAMECLIENT_H_

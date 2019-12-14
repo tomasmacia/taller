@@ -42,6 +42,6 @@ protected:
     ScreenPosition* _screenPosition = nullptr;
 
     bool transparent = false;
-    string TRANSPARENT_SPRITE = "resources/sprites/enemies/npc/fondo_celeste.png"; //TODO ojo hardcodeado
+    string TRANSPARENT_SPRITE = "resources/sprites/fondo_celeste.png"; //TODO ojo hardcodeado
 };
 #endif //RENDER_COMPONENT_H

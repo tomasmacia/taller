@@ -63,21 +63,23 @@ void GameClient::render() {
 }
 
 void GameClient::renderAllPackages(){
-
+    //cout<<"GAME LOOP"<<endl;
     if (controller != nullptr){
         controllerMutex.lock();
-        std::list<Sendable*>* packages = controller->getPackages();
 
-        if (!packages->empty()){
-            for (auto package : *packages) {
-                
-                if (package->hasRenderable()){
-                    package->_renderable->render(&loadedTexturesMap);
-                }
-                if (package->hasSoundable()){
-                    cout<<"ejecuto sonido: "<<package->_soundable->getPath()<<endl;
-                    package->_soundable->play(&loadedSoundsMap);
-                }
+        if (controller->hasNewPackages()){
+            erasePreviousPackages();
+            previousPackages->splice(previousPackages->end(),*controller->getPackages()); //se transfieren los punteros trackeados en Controller vaciando la lista de Controller
+        }
+
+        for (auto package : *previousPackages) { // si ya se, es raro que si vinieron paquetes nuevos usemos el previousPackages pero eso que estos ahora estan actualizados
+
+            if (package->hasRenderable()){
+                package->_renderable->render(&loadedTexturesMap);
+            }
+            if (package->hasSoundable()){
+                //cout<<"ejecuto sonido: "<<package->_soundable->getPath()<<endl;
+                package->_soundable->play(&loadedSoundsMap);
             }
         }
         controllerMutex.unlock();
@@ -149,6 +151,7 @@ void GameClient::initInputSystem(){
 
 void GameClient::initRenderingSystem(){
     initSDL();
+    previousPackages = new list<Sendable*>();
     LogManager::logDebug("[INIT]: inicializado SDL");
 }
 
@@ -200,6 +203,9 @@ void GameClient::initSDLMixer() {
 //=========================================================================================
 
 void GameClient::destroy() {
+    erasePreviousPackages();
+    delete(previousPackages);
+    previousPackages = nullptr;
     delete(loggerMenu);
     loggerMenu = nullptr;
     delete(client);
@@ -220,4 +226,12 @@ void GameClient::clearMaps(){
     {
         delete itr.second;
     }
+}
+
+void GameClient::erasePreviousPackages() {
+
+    for (auto package : *previousPackages){
+        delete(package);
+    }
+    previousPackages->clear();
 }
