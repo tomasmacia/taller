@@ -496,6 +496,7 @@ void EntityManager::eraseDeadEntities() {
     for (auto e: physicalEntities){
         if (e->dead()){
             delete(e);
+            cout<<"a dead entity has been correctly eliminated from the game"<<endl;
             toUntrack.push_back(e);
         }
     }

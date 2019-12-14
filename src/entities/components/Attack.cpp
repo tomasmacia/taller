@@ -102,7 +102,6 @@ void Attack::addressJumpKick(){
 }
 
 void Attack::addressPickIntent(){
-
     auto* pickable = collitionHandler->getClosestPickeableWithinPickingRange();
     if (pickable != nullptr){
         setWeapon((Weapon*) pickable);
@@ -123,11 +122,15 @@ bool Attack::weaponBroke() {
 }
 
 void Attack::dropWeapon() {
-    owner->dropWeapon();
+    state->dropWeapon();
+    weapon->discard();
     weapon = nullptr;
 }
 
 void Attack::setWeapon(Weapon *weapon) {
+    if (hasWeapon()){
+        dropWeapon();
+    }
     state->equipWeapon(weapon->getType());
     weapon->getPicked();
     this->weapon = weapon;
