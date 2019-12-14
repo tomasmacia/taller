@@ -72,15 +72,17 @@ void GameClient::renderAllPackages(){
             previousPackages->splice(previousPackages->end(),*controller->getPackages()); //se transfieren los punteros trackeados en Controller vaciando la lista de Controller
         }
 
+        int i  = 0;
         for (auto package : *previousPackages) { // si ya se, es raro que si vinieron paquetes nuevos usemos el previousPackages pero eso que estos ahora estan actualizados
 
             if (package->hasRenderable()){
                 package->_renderable->render(&loadedTexturesMap);
             }
             if (package->hasSoundable()){
-                //cout<<"ejecuto sonido: "<<package->_soundable->getPath()<<endl;
+                //cout<<"ejecuto sonido: "<<package->_soundable->getPath()<<" ,cant total paquetes a ejecutar: "<<previousPackages->size()<<" | i = "<<i<<endl;
                 package->_soundable->play(&loadedSoundsMap);
             }
+            i++;
         }
         controllerMutex.unlock();
     }

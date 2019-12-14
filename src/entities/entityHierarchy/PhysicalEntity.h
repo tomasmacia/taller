@@ -21,7 +21,6 @@ public:
                    State* state, ScreenPosition* screenPosition, StateDrivenAppearance* appearance, Sound* sound, int w, int h, int d);
     virtual ~PhysicalEntity();
 
-    virtual void update() override ;
     list<Sendable*> generateSendable() override ;
 
     virtual int setAttackedWith(AttackCode attackCode) override ;

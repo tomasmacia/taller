@@ -19,9 +19,11 @@ AnimatedEntity::AnimatedEntity(CollitionHandler* collitionHandler, Life *life, D
 void AnimatedEntity::update() {
 
     will->update();
-    PhysicalEntity::update();
-    physics->update();
+    state->update();
     attack->update();
+    sound->update();
+    appearance->update();
+    physics->update();
 }
 
 void AnimatedEntity::drag() {

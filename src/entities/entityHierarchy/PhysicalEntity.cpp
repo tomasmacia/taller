@@ -23,12 +23,6 @@ PhysicalEntity::PhysicalEntity(CollitionHandler* collitionHandler, Life *life, D
     this->sound = sound;
 }
 
-void PhysicalEntity::update() {
-    state->update();
-    sound->update();
-    appearance->update();
-}
-
 list<Sendable*> PhysicalEntity::generateSendable() {
 
     list<Sendable*> sendables;

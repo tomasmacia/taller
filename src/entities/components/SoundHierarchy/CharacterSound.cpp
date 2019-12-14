@@ -12,6 +12,16 @@ void CharacterSound::handleCurrentState() {
     if (state->current() != previous){
         previous = state->current();
         switch (state->current()){
+            case KICK:
+                if (state->isHitting()){
+                    _currentSoundPath = soundsConfig.players.hit;
+                }
+                break;
+            case JUMP_KICK:
+                if (state->isHitting()){
+                    _currentSoundPath = soundsConfig.players.hit;
+                }
+                break;
             case PUNCH:
                 if (state->isHitting()){
                     switch (state->getWeapon()){

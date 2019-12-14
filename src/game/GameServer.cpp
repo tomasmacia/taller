@@ -54,11 +54,12 @@ void GameServer::sendUpdate() {
     //auto* sendables = sceneDirector->generateSendables();
     auto* sendables = entityManager->generateSendables();
 
+    /*
     for (auto sendable : *sendables){
         if (sendable->_soundable != nullptr){
-            cout<<"Se mando a emitir: "<<sendable->_soundable->getPath()<<endl;
+            cout<<"Se mando a emitir: "<<sendable->_soundable->getPath()<<" ,cant total paquetes a enviar: "<<sendables->size()<<endl;
         }
-    }
+    }*/
 
     controller->sendUpdate(sendables, server);
 }

@@ -15,3 +15,9 @@ UnanimatedEntity::UnanimatedEntity(CollitionHandler *collitionHandler, Life *lif
 bool UnanimatedEntity::broke() {
     return lifeEmpty();
 }
+
+void UnanimatedEntity::update() {
+    state->update();
+    sound->update();
+    appearance->update();
+}

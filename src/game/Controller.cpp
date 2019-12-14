@@ -103,18 +103,16 @@ void Controller::clearAllInputs(){
 
 void Controller::reciveRenderables(vector<string>* serializedPagackes){
     //cout<<"DISPATCH"<<endl;
-    //cleanUpRenderables();
     objectSerializer.reconstructSendables(serializedPagackes, currentPackagesToSend);
 
+    /*
+    int i = 0;
     for (auto sendable : *currentPackagesToSend){
-
-        if (sendable->hasRenderable()){
-            //cout<<"Se recibio para renderear: "<<sendable->_renderable->getPath()<<endl;
-        }
         if (sendable->hasSoundable()){
-            //cout<<"Se recibio para emitir: "<<sendable->_soundable->getPath()<<endl;
+            cout<<"Se recibio para emitir: "<<sendable->_soundable->getPath()<<" ,cant total recibidos: "<<currentPackagesToSend->size()<<" | i = "<<i<<endl;
         }
-    }
+        i++;
+    }*/
 }
 
 //DATA TRANSFER INTERFACE
