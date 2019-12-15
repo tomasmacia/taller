@@ -66,7 +66,7 @@ void GameClient::disconnectScreen(){
     SDL_RenderClear(renderer);
     
     TextureWrapper* screen = new TextureWrapper();
-    screen->loadFromFile("resources/sprites/disconnection.png");
+    screen->loadFromFile("resources/sprites/screens/disconnection.png");
 
     int imageWidth = screen->getWidth();
     int imageHeight = screen->getHeight();

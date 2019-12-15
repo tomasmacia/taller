@@ -269,7 +269,7 @@ string GameServer::getNewColor() {
 //INIT
 //=========================================================================================
 void GameServer::initWaitingScreen() {
-    string path = "resources/sprites/waitingScreens/waiting_for_your_teammates.png";
+    string path = "resources/sprites/screens/waiting_for_your_teammates.png";
 
     ImageSize imageSize = ImageUtils::getImageSize(path);
     int imageWidth = imageSize.width;
