@@ -73,6 +73,7 @@ private:
         destroy();
     }
     void destroy() override ;
+    void erasePreviousPackages();
 
     void clearMaps();
     //GAME LOOP
@@ -93,10 +94,12 @@ private:
     //===============================
     void initInputSystem();
     void initRenderingSystem();
+    void initScreens();
     void initSoundSystem();
     void initLoggerMenu();
     void init() override ;
     void initSDL();
+    void initSDLMixer();
 
     
 
@@ -115,15 +118,13 @@ private:
     std::condition_variable waitForConnection;
     std::thread clientConnectionThread;
 
+    TextureWrapper* disconectionScreen = nullptr;
+
     LoggerMenu* loggerMenu = nullptr;
     Client* client = nullptr;
     std::list<Sendable*>* previousPackages = nullptr;
     std::map<std::string, TextureWrapper*> loadedTexturesMap;
     std::map<string, SoundWrapper *> loadedSoundsMap;
-
-    void initSDLMixer();
-
-    void erasePreviousPackages();
 };
 
 #endif //GAME_GAMECLIENT_H_

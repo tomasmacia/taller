@@ -20,6 +20,7 @@ void GameClient::start() {
         if (isOn()){            //pregunto porque el loggerMenu lo podria haber cerrado al tocar ESC o QUIT
             initInputSystem();
             initRenderingSystem();
+            initScreens();
             initSoundSystem();
             client->client_noBlock(); //que el send y recv al cliente no bloqueen el juego
 
@@ -64,9 +65,6 @@ void GameClient::pollAndSendInput() {
 
 void GameClient::disconnectScreen(){
     SDL_RenderClear(renderer);
-    
-    TextureWrapper* disconectionScreen = new TextureWrapper();
-    disconectionScreen->loadFromFile("resources/sprites/screens/disconnection.png");
 
     int imageWidth = disconectionScreen->getWidth();
     int imageHeight = disconectionScreen->getHeight();
@@ -185,6 +183,11 @@ void GameClient::initRenderingSystem(){
     LogManager::logDebug("[INIT]: inicializado SDL");
 }
 
+void GameClient::initScreens(){
+    disconectionScreen = new TextureWrapper();
+    disconectionScreen->loadFromFile("resources/sprites/screens/disconnection.png");
+}
+
 void GameClient::initSoundSystem(){
     initSDLMixer();
     LogManager::logDebug("[INIT]: inicializado SDL Mixer");
@@ -246,6 +249,8 @@ void GameClient::destroy() {
     delete(client);
     client = nullptr;
     clearMaps();
+    delete (disconectionScreen);
+    disconectionScreen = nullptr;
     baseClassFreeMemory();
     LogManager::logDebug("Memoria de Game Client liberada");
 }
