@@ -38,9 +38,9 @@ void Controller::checkIfCloseRelatedInputWasPulsed(){
 
 list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
     Action action;
-    list<string> serializedInputs;
     int playerId = game->getPlayerId(); //cada pc tiene uno asignado al principio y es unico
     std::string serializedInput;
+    std::list<std::string> serializedInputs;
 
     while (SDL_PollEvent(&sdlEvent)) {
 

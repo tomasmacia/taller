@@ -135,7 +135,7 @@ private:
     float ENEMY_WIDTH_SCALE = 0.2;
     float ENEMY_HEIGHT_SCALE = 0.5;
     float BOSS_WIDTH_SCALE = 0.3;
-    float BOSS_HEIGHT_SCALE = 0.6;
+    float BOSS_HEIGHT_SCALE = 0.5;
     float UTILITY_WIDTH_SCALE = 0.2;
     float UTILITY_HEIGHT_SCALE = 0.5;
     float WEAPON_WIDTH_SCALE = 0.2;

@@ -142,7 +142,7 @@ private:
 
     int maxPlayers{};
 
-    Sendable* waitingScreenRenderable = nullptr;
+    Sendable* waitingScreenSendable = nullptr;
     list<Sendable*>* waitingScreenContainer = nullptr;
 
     Server* server = nullptr;

@@ -1,4 +1,8 @@
 #include "GameServer.h"
+#include "Controller.h"
+#include "LevelBuilder.h"
+
+#include <iostream>
 
 bool GameServer::hasInstance = false;
 
@@ -275,9 +279,9 @@ void GameServer::initWaitingScreen() {
     Rect src = {0,0,imageWidth,imageHeight};
     Rect dst = {0,0,screenWidth,screenHeight};
 
-    waitingScreenRenderable = new Sendable(new Renderable(path, src, dst, false), nullptr);
+    waitingScreenSendable = new Sendable(new Renderable(path, src, dst, false), nullptr);
     waitingScreenContainer = new list<Sendable*>();
-    waitingScreenContainer->push_back(waitingScreenRenderable);
+    waitingScreenContainer->push_back(waitingScreenSendable);
 }
 
 void GameServer::initGameModel() {
@@ -322,7 +326,7 @@ void GameServer::destroy() {
     }
     waitingScreenContainer->pop_front();
     waitingScreenContainer = nullptr;
-    waitingScreenRenderable = nullptr;
+    waitingScreenSendable = nullptr;
     delete(server);
     server = nullptr;
     delete(levelBuilder);

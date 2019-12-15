@@ -128,6 +128,7 @@ void EntityManager::addFinalBoss() {
     enemies.push_back(boss);
     physicalEntities.push_back(boss);
     finalBoss = boss;
+    bossIsDead = false;
 }
 
 void EntityManager::addEnemy() {
