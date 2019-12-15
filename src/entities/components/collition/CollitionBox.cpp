@@ -20,7 +20,9 @@ CollitionBox::CollitionBox(int centerX, int centerY, int centerZ, int w, int h, 
     center = new Point(centerX,centerY,centerZ);
     calculateAndAssignCorners(center->x, center->y, center->z);
     calculateCandidates();
-    lastMove = candidateMoves.front();
+    lastMove = candidateMoves->front();
+
+    discardedMoves = new list<Point*>();
 }
 
 void CollitionBox::calculateAndAssignCorners(int centerX, int centerY, int centerZ) {
@@ -105,12 +107,12 @@ void CollitionBox::moveOneUnitInTheDirectionOf(Point* destination) {
 
     int minDistance = center->distanceWith(destination);
     int distance = center->distanceWith(destination);
-    Point* bestMove = candidateMoves.front();
+    Point* bestMove = candidateMoves->front();
     bool inDiscardedMoves;
 
-    for (auto* candidateMove : candidateMoves){
+    for (auto* candidateMove : *candidateMoves){
 
-        inDiscardedMoves = (std::find(discardedMoves.begin(), discardedMoves.end(), candidateMove) != discardedMoves.end());
+        inDiscardedMoves = (std::find(discardedMoves->begin(), discardedMoves->end(), candidateMove) != discardedMoves->end());
 
         if (!inDiscardedMoves){
             center->plus(*candidateMove);
@@ -134,10 +136,12 @@ CollitionBox::~CollitionBox() {
     }
     corners.clear();
     delete (center);
-    for (auto c : candidateMoves){
+    for (auto c : *candidateMoves){
         delete(c);
     }
-    candidateMoves.clear();
+    candidateMoves->clear();
+    delete(candidateMoves);
+    delete (discardedMoves);
 }
 
 Entity *CollitionBox::getOwner() {
@@ -170,13 +174,16 @@ void CollitionBox::setScreenPosition(ScreenPosition *screenPosition) {
 }
 
 void CollitionBox::calculateCandidates() {
-    candidateMoves.push_back(new Point(-1,0,0));
-    candidateMoves.push_back(new Point(0,-1,0));
-    candidateMoves.push_back(new Point(0,0,-1));
-    candidateMoves.push_back(new Point(0,0,0));
-    candidateMoves.push_back(new Point(1,0,0));
-    candidateMoves.push_back(new Point(0,1,0));
-    candidateMoves.push_back(new Point(0,0,1));
+
+    candidateMoves = new list<Point*>();
+
+    candidateMoves->push_back(new Point(-1,0,0));
+    candidateMoves->push_back(new Point(0,-1,0));
+    candidateMoves->push_back(new Point(0,0,-1));
+    candidateMoves->push_back(new Point(0,0,0));
+    candidateMoves->push_back(new Point(1,0,0));
+    candidateMoves->push_back(new Point(0,1,0));
+    candidateMoves->push_back(new Point(0,0,1));
 }
 
 void CollitionBox::restorePreviousPosition() {
@@ -184,7 +191,7 @@ void CollitionBox::restorePreviousPosition() {
 }
 
 void CollitionBox::discardLastMoveAsCandidate() {
-    discardedMoves.push_back(lastMove);
+    discardedMoves->push_back(lastMove);
 }
 
 Point *CollitionBox::getCenter() {
@@ -192,7 +199,7 @@ Point *CollitionBox::getCenter() {
 }
 
 void CollitionBox::clearDiscardedMoves() {
-    discardedMoves.clear();
+    discardedMoves->clear();
 }
 
 void CollitionBox::setAt(int x, int y, int z) {

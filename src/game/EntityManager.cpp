@@ -84,7 +84,7 @@ void EntityManager::prepareForNextLevel(){
 void EntityManager::reconectPlayerByID(int id, int newID) {
     for (auto player : players){
         if (player->getID() == id){
-            player->setConnected(id);
+            player->setConnected(newID);
         }
     }
 }

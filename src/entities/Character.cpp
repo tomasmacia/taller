@@ -75,5 +75,7 @@ void Character::resetAt(int x, int y, int z) {
 }
 
 void Character::removeWeapon() {
-    attack->dropWeapon();
+    if (attack->hasWeapon()){
+        attack->dropWeapon();
+    }
 }

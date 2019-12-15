@@ -68,8 +68,8 @@ private:
     Point* center = nullptr;
 
     Point* lastMove = nullptr;
-    list<Point*> candidateMoves;
-    list<Point*> discardedMoves;
+    list<Point*>* candidateMoves = nullptr;
+    list<Point*>* discardedMoves = nullptr;
 
     ScreenPosition* screenPosition = nullptr;
 

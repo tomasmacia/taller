@@ -22,7 +22,7 @@ Screen::Screen(int width, int height, int levelWidth, int levelDepth, CollitionM
 }
 
 void Screen::reset(int levelWidth){
-    ScreenCollitionHandler* screenCollitionHandler = (ScreenCollitionHandler*) collitionHandler;
+    auto* screenCollitionHandler = (ScreenCollitionHandler*) collitionHandler;
 
     currentX = 0;
     currentLevelWidth = levelWidth;
