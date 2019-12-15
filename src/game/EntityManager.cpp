@@ -84,7 +84,7 @@ void EntityManager::prepareForNextLevel(){
 void EntityManager::reconectPlayerByID(int id, int newID) {
     for (auto player : players){
         if (player->getID() == id){
-            player->setConnected(id);
+            player->setConnected(newID);
         }
     }
 }
@@ -496,6 +496,7 @@ void EntityManager::eraseDeadEntities() {
     for (auto e: physicalEntities){
         if (e->dead()){
             delete(e);
+            cout<<"a dead entity has been correctly eliminated from the game"<<endl;
             toUntrack.push_back(e);
         }
     }

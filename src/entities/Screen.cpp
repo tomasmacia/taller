@@ -22,7 +22,7 @@ Screen::Screen(int width, int height, int levelWidth, int levelDepth, CollitionM
 }
 
 void Screen::reset(int levelWidth){
-    ScreenCollitionHandler* screenCollitionHandler = (ScreenCollitionHandler*) collitionHandler;
+    auto* screenCollitionHandler = (ScreenCollitionHandler*) collitionHandler;
 
     currentX = 0;
     currentLevelWidth = levelWidth;
@@ -62,7 +62,7 @@ bool Screen::playerIsConnected(Character* player) {
 }
 
 bool Screen::inLeftLimit(Character* player) {
-    return (player->getX() <= currentX);
+    return (player->getLeftLimitX() <= currentX);
 }
 
 bool Screen::atTheEnd() {
@@ -97,7 +97,7 @@ bool Screen::marginSurpased() {
 }
 
 bool Screen::touchingMargin(Character* player) {
-    return (player->getX() >= (currentX + windowWidth - marginWidth));
+    return (player->getRightLimitX() >= (currentX + windowWidth - marginWidth));
 }
 
 void Screen::scroll() {

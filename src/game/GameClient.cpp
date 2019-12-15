@@ -43,8 +43,6 @@ void GameClient::gameLoop() {
         pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
         render();
     }
-
-
 }
 
 void GameClient::pollAndSendInput() {
@@ -153,7 +151,6 @@ void GameClient::initInputSystem(){
 
 void GameClient::initRenderingSystem(){
     initSDL();
-    previousPackages = new list<Sendable*>();
     LogManager::logDebug("[INIT]: inicializado SDL");
 }
 
@@ -163,6 +160,7 @@ void GameClient::initSoundSystem(){
 }
 
 void GameClient::init() {
+    previousPackages = new list<Sendable*>();
     initConfig();
     LogManager::logDebug("[INIT]: inicializado Config");
     LogManager::logDebug("=======================================");

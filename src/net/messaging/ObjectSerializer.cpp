@@ -44,7 +44,7 @@ string ObjectSerializer::getAlreadyLoggedInMessage() {
 //=========================================================================================
 bool ObjectSerializer::validLoginFromServerMessage(vector<string>* currentParsedMessage){
     //SERIALIZED LOGIN ID: //START,header,type,color
-    return  currentParsedMessage->size() == 4 &&
+    return  (currentParsedMessage->size() == 4 || currentParsedMessage->size() == 3) &&
             currentParsedMessage->at(0) == START_SYMBOL &&
             (currentParsedMessage->at(1) == to_string(SUCCESS)
              || currentParsedMessage->at(1) == to_string(INVALID_CREDENTIAL)

@@ -90,3 +90,11 @@ void PhysicalEntity::stopBeingAttacked() {
         state->endBeingAttacked();
     }
 }
+
+int PhysicalEntity::getLeftLimitX() {
+    return position->getX() - w/2;
+}
+
+int PhysicalEntity::getRightLimitX() {
+    return position->getX() + w/2;
+}
