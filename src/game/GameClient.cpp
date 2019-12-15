@@ -16,11 +16,13 @@ void GameClient::start() {
 
     if (isOn()){                //pregunto porque el Client lo podria haber cerrado al no conectarse
         loggerMenu->open();
-
+       
         if (isOn()){            //pregunto porque el loggerMenu lo podria haber cerrado al tocar ESC o QUIT
             initInputSystem();
             initRenderingSystem();
+            initScreens();
             initSoundSystem();
+            client->client_noBlock(); //que el send y recv al cliente no bloqueen el juego
 
             gameLoop();
         }
@@ -35,13 +37,21 @@ void GameClient::start() {
     LogManager::logInfo("=======================================");
 }
 
+
 //GAME LOOP
 //=========================================================================================
 
 void GameClient::gameLoop() {
+    init_music();
     while (isOn()) {
         pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
-        render();
+        if (disconnect){
+            disconnectScreen();
+        //   SDL_Delay(2000);
+        }
+        else {
+            render();
+        }
     }
 }
 
@@ -52,6 +62,25 @@ void GameClient::pollAndSendInput() {
     }
         //cout<<"CLIENT-FROM MODEL: "<<serializedInput<<endl;
 }
+
+void GameClient::disconnectScreen(){
+    SDL_RenderClear(renderer);
+
+    int imageWidth = disconectionScreen->getWidth();
+    int imageHeight = disconectionScreen->getHeight();
+
+    int screenWidth = config->screenResolution.width;
+    int screenHeight = config->screenResolution.height;
+
+    Rect src = {0,0,imageWidth,imageHeight};
+    Rect dst = {0,0,screenWidth,screenHeight};
+
+    disconectionScreen->render(&src, &dst, false);
+    
+    SDL_RenderPresent(renderer);
+
+}
+
 
 void GameClient::render() {
 
@@ -154,6 +183,11 @@ void GameClient::initRenderingSystem(){
     LogManager::logDebug("[INIT]: inicializado SDL");
 }
 
+void GameClient::initScreens(){
+    disconectionScreen = new TextureWrapper();
+    disconectionScreen->loadFromFile("resources/sprites/screens/disconnection.png");
+}
+
 void GameClient::initSoundSystem(){
     initSDLMixer();
     LogManager::logDebug("[INIT]: inicializado SDL Mixer");
@@ -164,6 +198,10 @@ void GameClient::init() {
     initConfig();
     LogManager::logDebug("[INIT]: inicializado Config");
     LogManager::logDebug("=======================================");
+}
+
+void GameClient::disconnected(){
+    disconnect =true;
 }
 
 void GameClient::initSDL() {
@@ -211,6 +249,8 @@ void GameClient::destroy() {
     delete(client);
     client = nullptr;
     clearMaps();
+    delete (disconectionScreen);
+    disconectionScreen = nullptr;
     baseClassFreeMemory();
     LogManager::logDebug("Memoria de Game Client liberada");
 }

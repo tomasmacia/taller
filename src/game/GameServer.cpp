@@ -219,6 +219,7 @@ string GameServer::processConectionAndEmitSuccesMessage(const string& name, cons
     loggedPlayersUserByID.insert({ id, user });
     loggedPlayersIDbyUser.insert({user.name,id});
     addNewIDToGame(id);
+    server->client_noBlock(id);
 
     return controller->getSuccesfullLoginMessage(user.color, id);
 }
@@ -239,6 +240,7 @@ string GameServer::processReconectionAndEmitSuccesMessage(const string& name, in
     if (entityManager != nullptr){
         entityManager->reconectPlayerByID(oldID, newID);
     }
+    server->client_noBlock(newID);
 
     return controller->getSuccesfullLoginMessage(user.color,newID);
 }
@@ -267,7 +269,7 @@ string GameServer::getNewColor() {
 //INIT
 //=========================================================================================
 void GameServer::initWaitingScreen() {
-    string path = "resources/sprites/waitingScreens/waiting_for_your_teammates.png";
+    string path = "resources/sprites/screens/waiting_for_your_teammates.png";
 
     ImageSize imageSize = ImageUtils::getImageSize(path);
     int imageWidth = imageSize.width;

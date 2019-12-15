@@ -40,7 +40,8 @@ public:
     void notifyAboutClientConectionToServerAttemptDone();
     void end() override ;
     void render();
-
+    void disconnected();
+    
     void reciveRenderables(vector<string>* serializedPages);
 
     static bool isActive(){
@@ -72,6 +73,7 @@ private:
         destroy();
     }
     void destroy() override ;
+    void erasePreviousPackages();
 
     void clearMaps();
     //GAME LOOP
@@ -86,15 +88,20 @@ private:
     void closeClient();
     bool hasClientAttemptedConection();
     void waitUntilConnectionStablished();
+    void disconnectScreen();
 
     //INIT
     //===============================
     void initInputSystem();
     void initRenderingSystem();
+    void initScreens();
     void initSoundSystem();
     void initLoggerMenu();
     void init() override ;
     void initSDL();
+    void initSDLMixer();
+
+    
 
     //ATRIBUTES
     //===============================
@@ -104,21 +111,20 @@ private:
     static bool hasInstance;
 
     bool loggedIn = false;
+    bool disconnect = false;
 
     std:: mutex mu;
     std:: mutex controllerMutex;
     std::condition_variable waitForConnection;
     std::thread clientConnectionThread;
 
+    TextureWrapper* disconectionScreen = nullptr;
+
     LoggerMenu* loggerMenu = nullptr;
     Client* client = nullptr;
     std::list<Sendable*>* previousPackages = nullptr;
     std::map<std::string, TextureWrapper*> loadedTexturesMap;
     std::map<string, SoundWrapper *> loadedSoundsMap;
-
-    void initSDLMixer();
-
-    void erasePreviousPackages();
 };
 
 #endif //GAME_GAMECLIENT_H_
