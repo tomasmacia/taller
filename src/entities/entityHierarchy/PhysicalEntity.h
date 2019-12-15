@@ -26,6 +26,8 @@ public:
     virtual int setAttackedWith(AttackCode attackCode) override ;
     bool lifeEmpty();
     bool dead();
+    int getLeftLimitX();
+    int getRightLimitX();
     int getX();
     int getY();
     int getZ();
