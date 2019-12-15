@@ -65,15 +65,19 @@ void GameClient::pollAndSendInput() {
 void GameClient::disconnectScreen(){
     SDL_RenderClear(renderer);
     
-    TextureWrapper* screen = new TextureWrapper();
-    screen->loadFromFile("resources/sprites/screens/disconnection.png");
+    TextureWrapper* disconectionScreen = new TextureWrapper();
+    disconectionScreen->loadFromFile("resources/sprites/screens/disconnection.png");
 
-    int imageWidth = screen->getWidth();
-    int imageHeight = screen->getHeight();
+    int imageWidth = disconectionScreen->getWidth();
+    int imageHeight = disconectionScreen->getHeight();
+
+    int screenWidth = config->screenResolution.width;
+    int screenHeight = config->screenResolution.height;
 
     Rect src = {0,0,imageWidth,imageHeight};
+    Rect dst = {0,0,screenWidth,screenHeight};
 
-    screen->render(&src,NULL,false);
+    disconectionScreen->render(&src, &dst, false);
     
     SDL_RenderPresent(renderer);
 
