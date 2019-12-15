@@ -42,7 +42,7 @@ public:
     bool alreadyLoggedIn();
     void render();
     void disconnected();
-
+    
     void reciveRenderables(vector<string>* serializedPages);
 
     static bool isActive(){
@@ -79,6 +79,7 @@ private:
     void closeClient();
     bool hasClientAttemptedConection();
     void waitUntilConnectionStablished();
+    void disconnectScreen();
 
     //INIT
     //===============================

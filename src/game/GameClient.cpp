@@ -45,11 +45,15 @@ void GameClient::gameLoop() {
     init_music();
     while (isOn()) {
         pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
-        render();
+        if (disconnect){
+            disconnectScreen();
+        //   SDL_Delay(2000);
+        }
+        else {
+            render();
+        }
     }
-    if (disconnect){
-        std::cerr << "Desconectado"<<std::endl; //Poner Imagen de desconeccion por 2 segundos masomenos
-    }
+
     
 }
 
@@ -59,6 +63,24 @@ void GameClient::pollAndSendInput() {
         client->setToSend(input);
     }
 }
+
+void GameClient::disconnectScreen(){
+    SDL_RenderClear(renderer);
+    
+    TextureWrapper* screen = new TextureWrapper();
+    screen->loadFromFile("resources/sprites/disconnection.png");
+
+    int imageWidth = screen->getWidth();
+    int imageHeight = screen->getHeight();
+
+    SDL_Rect src = {0,0,imageWidth,imageHeight};
+
+    screen->render(&src,NULL,false);
+    
+    SDL_RenderPresent(renderer);
+
+}
+
 
 void GameClient::render() {
 
@@ -104,7 +126,6 @@ void GameClient::notifyAboutClientConectionToServerAttemptDone(){
 
 void GameClient::end() {
     on = false;
-  //  disconnect = false;
     client->notifyGameStoppedRunning();
     LogManager::logDebug("[GAME]: señal de fin de programa emitida");
 }
@@ -173,6 +194,7 @@ void GameClient::init() {
 void GameClient::disconnected(){
     disconnect =true;
 }
+
 
 //DESTROY
 //=========================================================================================

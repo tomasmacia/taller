@@ -58,7 +58,8 @@ bool Client::start(){
     send.join();
     dispatch.join();
 
-    gameClient->end();
+    
+  //  gameClient->end();
 }
 
 
@@ -179,6 +180,7 @@ int Client::send(std::string msg) {
         int n = ::send(socketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
         if (n < 0) {
             error("ERROR sending");
+            gameClient->end();
             return n;
         }
         if (n == 0) {
@@ -202,6 +204,9 @@ std::string Client::receive() {
         int n = recv(socketFD, buff, MAX_BYTES_BUFFER - 1, 0);
         if (n < 0) {
             error("ERROR reading");
+            if (gameClient->isOn()){
+                gameClient->disconnected();
+            }
             return objectSerializer.getFailure();
         }
         if (n == 0) {
@@ -227,9 +232,7 @@ void Client::checkConnection(){
    }
     connectionOn = false;
     LogManager::logError("[CLIENT]: conexion perdida");
-    if (gameClient->isOn()){
-        gameClient->disconnected();
-    }
+
 }
 
 bool Client::isConnected() {

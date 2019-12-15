@@ -46,6 +46,7 @@ std::list<std::string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFOR
 
         if (sdlEvent.type == SDL_QUIT){
             game->end();
+            
         }
 
         if( (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)){
