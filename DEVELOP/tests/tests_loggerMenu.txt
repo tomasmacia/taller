@@ -1,0 +1,25 @@
+=============================================================
+1)
+ME INTENTO LOGGEAR CON CREDENCIALES INVALIDAS
+
+El server me avisa "credenciales invalidas" y no me loggea ni me deja jugar y no me transmite info, el logger debe informar esto en cliente y server
+=============================================================
+2)
+ME INTENTO LOGGEAR CON CREDENCIALES VALIDAS SIN HABERSE LOGEADO ANTES ALGUIEN CON ESAS CREDENCIALES Y CON SERVER NO LLENO
+
+El server me avisa que todo OK y me loggea, me deja jugar y me transmite info si es que el juego arranca o esta andando, el logger debe informar esto en cliente y server
+=============================================================
+3)
+ME INTENTO LOGGEAR CON CREDENCIALES VALIDAS SIN HABERSE LOGEADO ANTES ALGUIEN CON ESAS CREDENCIALES Y CON SERVER LLENO
+
+El server me avisa que "server full" y no me loggea ni me deja jugar y no me transmite info, el logger debe informar esto en cliente y server
+=============================================================
+4)
+ME LOGGEO CON CREDENCIALES VALIDAS HABIENDOSE LOGEADO ANTES ALGUIEN CON ESAS CREDENCIALES Y ESTANDO ESE ALGUIEN DESCONECTADO
+
+El server me avisa que "todo OK, reconectandose" y me loggea, me deja jugar y me transmite info si es que el juego arranca o esta andando, el logger debe informar esto en cliente y server
+=============================================================
+5)
+ME LOGGEO CON CREDENCIALES VALIDAS HABIENDOSE LOGEADO ANTES ALGUIEN CON ESAS CREDENCIALES Y ESTANDO ESE ALGUIEN CONECTADO
+
+El server me avisa que "me dice que ya esta logeado jugando" y no me loggea ni me deja jugar y no me transmite info andando, el logger debe informar esto en cliente y server

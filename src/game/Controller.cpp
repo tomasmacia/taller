@@ -7,8 +7,10 @@
 #include <tuple>
 #include <utility>
 
+
 #include "Controller.h"
-#include "IDPlayer.h"
+#include "../net/messaging/IDManager.h"
+#include "../net/Server.h"
 
 #include <iostream>
 
@@ -34,7 +36,7 @@ void Controller::checkIfCloseRelatedInputWasPulsed(){
 }
 
 
-std::list<std::string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
+list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
     Action action;
     int playerId = game->getPlayerId(); //cada pc tiene uno asignado al principio y es unico
     std::string serializedInput;
@@ -108,20 +110,29 @@ void Controller::clearAllInputs(){
 }
 
 void Controller::reciveRenderables(vector<string>* serializedPagackes){
-    cleanUpRenderables();
-    objectSerializer.reconstructRenderables(serializedPagackes,currentPackagesToRender);
+    //cout<<"DISPATCH"<<endl;
+    objectSerializer.reconstructSendables(serializedPagackes, currentPackagesToSend);
+
+    /*
+    int i = 0;
+    for (auto sendable : *currentPackagesToSend){
+        if (sendable->hasSoundable()){
+            cout<<"Se recibio para emitir: "<<sendable->_soundable->getPath()<<" ,cant total recibidos: "<<currentPackagesToSend->size()<<" | i = "<<i<<endl;
+        }
+        i++;
+    }*/
 }
 
 //DATA TRANSFER INTERFACE
 //=========================================================================================
 
-void Controller::sendUpdate(std::list<ToClientPack*>* toClientsPackages, Server* server) {
+void Controller::sendUpdate(std::list<Sendable*>* toClientsPackages, Server* server) {
     string serializedPackages = objectSerializer.serializeObjects(toClientsPackages); //TODO HEAVY IN PERFORMANCE
     server->setToBroadcast(serializedPackages);
 }
 
-std::string Controller::getSuccesfullLoginMessage(int userId){
-    return objectSerializer.getSuccesfullLoginMessage(userId);
+std::string Controller::getSuccesfullLoginMessage(string color, int userId){
+    return objectSerializer.getSuccesfullLoginMessage(color, userId);
 }
 
 std::string Controller::getInvalidCredentialMessage() {
@@ -142,7 +153,7 @@ std::string Controller::getAlreadyLoggedInMessage() {
 Controller::Controller(Game* game) {
     this->game = game;
     currentInput = new std::list<std::tuple<Action,int>>();
-    currentPackagesToRender = new std::list<ToClientPack*>();
+    currentPackagesToSend = new std::list<Sendable*>();
     init();
     bind();
 }
@@ -287,20 +298,28 @@ void Controller::bind() {
 //DESTROY
 //=========================================================================================
 void Controller::cleanUpRenderables() {
-    for (auto package: *currentPackagesToRender){
+    for (auto package: *currentPackagesToSend){
         delete package;
     }
-    currentPackagesToRender->clear();
+    currentPackagesToSend->clear();
 }
 
 Controller::~Controller() {
     game = nullptr;
 
     cleanUpRenderables();
-    delete  currentPackagesToRender;
-    currentPackagesToRender = nullptr;
+    delete  currentPackagesToSend;
+    currentPackagesToSend = nullptr;
 
     currentInput->clear();
     delete  currentInput;
     currentInput = nullptr;
+}
+
+void Controller::untrackLastSendables() {
+    currentPackagesToSend->clear();
+}
+
+bool Controller::hasNewPackages() {
+    return !currentPackagesToSend->empty();
 }

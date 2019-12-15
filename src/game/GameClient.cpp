@@ -1,11 +1,8 @@
 #include <SDL2/SDL.h>
 
-#include "../LogLib/Logger.h"
+#include "../logger/Logger.h"
 #include "Controller.h"
 #include "LoggerMenu.h"
-#include "MessageId.h"
-
-#include <iostream>
 
 bool GameClient::hasInstance = false;
 
@@ -23,7 +20,9 @@ void GameClient::start() {
         if (isOn()){            //pregunto porque el loggerMenu lo podria haber cerrado al tocar ESC o QUIT
             initInputSystem();
             initRenderingSystem();
+            initSoundSystem();
             client->client_noBlock(); //que el send y recv al cliente no bloqueen el juego
+
             gameLoop();
         }
     }
@@ -53,15 +52,14 @@ void GameClient::gameLoop() {
             render();
         }
     }
-
-    
 }
 
 void GameClient::pollAndSendInput() {
-    std::list<std::string> serializedInputs = controller->pollAndProcessInput();
-    for (auto& input : serializedInputs){
+    std::list<string> serializedInputs = controller->pollAndProcessInput();
+    for (auto &input : serializedInputs) {
         client->setToSend(input);
     }
+        //cout<<"CLIENT-FROM MODEL: "<<serializedInput<<endl;
 }
 
 void GameClient::disconnectScreen(){
@@ -73,7 +71,7 @@ void GameClient::disconnectScreen(){
     int imageWidth = screen->getWidth();
     int imageHeight = screen->getHeight();
 
-    SDL_Rect src = {0,0,imageWidth,imageHeight};
+    Rect src = {0,0,imageWidth,imageHeight};
 
     screen->render(&src,NULL,false);
     
@@ -90,21 +88,26 @@ void GameClient::render() {
 }
 
 void GameClient::renderAllPackages(){
+    //cout<<"GAME LOOP"<<endl;
     if (controller != nullptr){
         controllerMutex.lock();
-        std::list<ToClientPack*>* packages = controller->getPackages();
 
-        if (packages->empty()){
-            //cout<<endl;
-            //cout << "CLIENT-RENDER: EMPTY!!!!" <<endl;
+        if (controller->hasNewPackages()){
+            erasePreviousPackages();
+            previousPackages->splice(previousPackages->end(),*controller->getPackages()); //se transfieren los punteros trackeados en Controller vaciando la lista de Controller
         }
-        else{
-            //cout<<endl;
-            //cout << "CLIENT-RENDER: amount: " << packages->size() << endl;
-            for (auto package : *packages) {
-                package->render(&loadedTexturesMap);
-                //cout << "CLIENT-RENDER: " << package->getPath() << endl;
+
+        int i  = 0;
+        for (auto package : *previousPackages) { // si ya se, es raro que si vinieron paquetes nuevos usemos el previousPackages pero eso que estos ahora estan actualizados
+
+            if (package->hasRenderable()){
+                package->_renderable->render(&loadedTexturesMap);
             }
+            if (package->hasSoundable()){
+                //cout<<"ejecuto sonido: "<<package->_soundable->getPath()<<" ,cant total paquetes a ejecutar: "<<previousPackages->size()<<" | i = "<<i<<endl;
+                package->_soundable->play(&loadedSoundsMap);
+            }
+            i++;
         }
         controllerMutex.unlock();
     }
@@ -130,10 +133,6 @@ void GameClient::end() {
     LogManager::logDebug("[GAME]: señal de fin de programa emitida");
 }
 
-bool GameClient::alreadyLoggedIn() {
-    return loggedIn;
-}
-
 void GameClient::reciveRenderables(vector<string>* serializedPages){
     if (controller != nullptr){
         controllerMutex.lock();
@@ -141,7 +140,6 @@ void GameClient::reciveRenderables(vector<string>* serializedPages){
         controllerMutex.unlock();
     }
 }
-
 
 //CLIENT RELATED
 //=========================================================================================
@@ -183,36 +181,88 @@ void GameClient::initRenderingSystem(){
     LogManager::logDebug("[INIT]: inicializado SDL");
 }
 
-void GameClient::init() {
-    initConfig();
+void GameClient::initSoundSystem(){
+    initSDLMixer();
+    LogManager::logDebug("[INIT]: inicializado SDL Mixer");
+}
 
+void GameClient::init() {
+    previousPackages = new list<Sendable*>();
+    initConfig();
     LogManager::logDebug("[INIT]: inicializado Config");
     LogManager::logDebug("=======================================");
 }
-
 
 void GameClient::disconnected(){
     disconnect =true;
 }
 
+void GameClient::initSDL() {
+    if( SDL_Init(SDL_INIT_VIDEO) == 0 ) {
+        if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG) {
+            LogManager::logError("Fallo SDL_Image");
+        }
+
+        int windowWidth = this->config->screenResolution.width;
+        int windowHeight = this->config->screenResolution.height;
+
+        string title = "FINAL FIGHT: Usuario: " + this->user + " Color: " + this->color;
+        this->window = SDL_CreateWindow( title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowWidth, windowHeight, 0);
+        this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_PRESENTVSYNC);
+    }
+
+    if (this->window == nullptr || this->renderer == nullptr) {
+        this->on = false;
+        LogManager::logError("SDL no pudo inicializarse");
+    }
+}
+
+void GameClient::initSDLMixer() {
+
+    if( SDL_Init( SDL_INIT_EVERYTHING ) == -1 )
+    {
+        LogManager::logError("SDL MIXER no pudo inicializarse el");
+    }
+
+    if( Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 4096 ) == -1 )
+    {
+        LogManager::logError("SDL MIXER no pudo inicializarse");
+    }
+}
 
 //DESTROY
 //=========================================================================================
 
 void GameClient::destroy() {
+    erasePreviousPackages();
+    delete(previousPackages);
+    previousPackages = nullptr;
     delete(loggerMenu);
     loggerMenu = nullptr;
     delete(client);
     client = nullptr;
-    clearTextureMap();
+    clearMaps();
     baseClassFreeMemory();
     LogManager::logDebug("Memoria de Game Client liberada");
 }
 
-void GameClient::clearTextureMap(){
+void GameClient::clearMaps(){
 
-    for(std::map<std::string, TextureWrapper*>::iterator itr = loadedTexturesMap.begin(); itr != loadedTexturesMap.end(); itr++)
+    for(auto & itr : loadedTexturesMap)
     {
-        delete itr->second;
+        delete itr.second;
     }
+
+    for(auto & itr : loadedSoundsMap)
+    {
+        delete itr.second;
+    }
+}
+
+void GameClient::erasePreviousPackages() {
+
+    for (auto package : *previousPackages){
+        delete(package);
+    }
+    previousPackages->clear();
 }

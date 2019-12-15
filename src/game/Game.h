@@ -5,8 +5,8 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 
-#include "../LogLib/LogManager.h"
-#include "../parser/config/config.h"
+#include "../logger/LogManager.h"
+#include "../XMLparser/config/config.h"
 
 class Controller;
 
@@ -58,10 +58,10 @@ protected:
     virtual void init() = 0;
     virtual void initController();
     void initConfig();
-    void initSDL();
 
     //ATRIBUTES
     //===============================
+
     bool on = true;
     int playerId = -1;
 

@@ -225,6 +225,7 @@ void LoggerMenu::OnEvent(SDL_Event* Event) {
                         inputed_password = input;
 
                         if (user != "" && inputed_password != ""){
+                            gameClient->setPlayerName(user);
                             ValidarCredenciales();
                         }
                         else{

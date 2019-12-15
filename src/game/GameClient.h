@@ -7,10 +7,10 @@
 #include <condition_variable>
 #include <mutex>
 
-#include "ToClientPack.h"
+#include "../net/messaging/Renderable.h"
 #include "Game.h"
 #include "../net/Client.h"
-#include "ToClientPack.h"
+#include "../net/messaging/Renderable.h"
 
 class LoggerMenu;
 class Client;
@@ -39,7 +39,6 @@ public:
     void setPlayerId(int id);
     void notifyAboutClientConectionToServerAttemptDone();
     void end() override ;
-    bool alreadyLoggedIn();
     void render();
     void disconnected();
     
@@ -54,6 +53,15 @@ public:
     void setLogged(){
         loggedIn = true;
     }
+
+    void setPlayerName(string name){
+        this->user = name;
+    }
+
+    void setPlayerColor(string color){
+        this->color = color;
+    }
+
 private:
 
     GameClient() {
@@ -66,7 +74,7 @@ private:
     }
     void destroy() override ;
 
-    void clearTextureMap();
+    void clearMaps();
     //GAME LOOP
     //===============================
     void gameLoop() override ;
@@ -85,14 +93,20 @@ private:
     //===============================
     void initInputSystem();
     void initRenderingSystem();
+    void initSoundSystem();
     void initLoggerMenu();
     void init() override ;
+    void initSDL();
 
     
 
     //ATRIBUTES
     //===============================
+    string color = "";
+    string user = "";
+
     static bool hasInstance;
+
     bool loggedIn = false;
     bool disconnect = false;
 
@@ -103,8 +117,13 @@ private:
 
     LoggerMenu* loggerMenu = nullptr;
     Client* client = nullptr;
+    std::list<Sendable*>* previousPackages = nullptr;
     std::map<std::string, TextureWrapper*> loadedTexturesMap;
+    std::map<string, SoundWrapper *> loadedSoundsMap;
 
+    void initSDLMixer();
+
+    void erasePreviousPackages();
 };
 
 #endif //GAME_GAMECLIENT_H_

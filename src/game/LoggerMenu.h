@@ -9,10 +9,11 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
-#include "../parser/CLIArgumentParser.h"
-#include "../parser/config/config.h"
-#include "../parser/xmlparser.h"
-#include "../LogLib/LogManager.h"
+
+#include "../CLIAparser/CLIArgumentParser.h"
+#include "config/config.h"
+#include "xmlparser.h"
+#include "../logger/LogManager.h"
 #include "../net/Client.h"
 #include "GameClient.h"
 
