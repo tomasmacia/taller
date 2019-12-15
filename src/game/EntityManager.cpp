@@ -226,8 +226,8 @@ Enemy *EntityManager::createEnemy() {
 
     int w = (int)((float)config->screenResolution.width*ENEMY_WIDTH_SCALE);
     int h = (int)((float)config->screenResolution.height*ENEMY_HEIGHT_SCALE);
-    int walkingSpeed = config->screenResolution.width/WAKING_SPEED_FACTOR;
-    int jumpingSpeed = config->screenResolution.height/JUMPING_SPEED_FACTOR;
+    int walkingSpeed = config->screenResolution.width * WAKING_SPEED_FACTOR;
+    int jumpingSpeed = config->screenResolution.height * JUMPING_SPEED_FACTOR;
 
     int x = validPositionGenerator.x();
     int y = validPositionGenerator.y();
@@ -614,8 +614,8 @@ void EntityManager::addEnemy(int x, int y, int z) {
 Enemy *EntityManager::createEnemy(int x, int y, int z) {
     int w = (int)((float)config->screenResolution.width*ENEMY_WIDTH_SCALE);
     int h = (int)((float)config->screenResolution.height*ENEMY_HEIGHT_SCALE);
-    int walkingSpeed = config->screenResolution.width/WAKING_SPEED_FACTOR;
-    int jumpingSpeed = config->screenResolution.height/JUMPING_SPEED_FACTOR;
+    int walkingSpeed = config->screenResolution.width * WAKING_SPEED_FACTOR;
+    int jumpingSpeed = config->screenResolution.height * JUMPING_SPEED_FACTOR;
 
     int centerX = x + w/2;
     int centerY = y + h/2;

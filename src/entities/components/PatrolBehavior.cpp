@@ -27,13 +27,13 @@ void PatrolBehavior::update(){
 
     if (playerDetectCounter >= PLAYER_DETECTION_DELAY){
         playerDetectCounter = 0;
-        //checkForNearbyPlayer();
-//        Character *target = getNearPlayer();
-//        if (target != nullptr) {
-//            //this->owner->changeBehavior(new PursuitBehavior(this->target,this->owner,manager,subjectPosition));
-//            this->owner->switchBehavior(TARGET);
-//            ((PursuitBehavior*)this->owner->getCurrentBehavior())->switchTarget(target); // ASCO
-//        }
+        checkForNearbyPlayer();
+        Character *target = getNearPlayer();
+        if (target != nullptr) {
+            //this->owner->changeBehavior(new PursuitBehavior(this->target,this->owner,manager,subjectPosition));
+            this->owner->switchBehavior(TARGET);
+            ((PursuitBehavior*)this->owner->getCurrentBehavior())->switchTarget(target); // ASCO
+        }
     }
     playerDetectCounter++;
 }
