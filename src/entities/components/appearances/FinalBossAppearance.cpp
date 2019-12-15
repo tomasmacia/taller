@@ -13,7 +13,7 @@ FinalBossAppearance::FinalBossAppearance(int w, int h, ScreenPosition* screenPos
 
 void FinalBossAppearance::init() {
 
-    DELAY = 3;
+    DELAY = 4;
     STAND_IMAGE_AMOUNT = 1;
     WALK_IMAGE_AMOUNT = 7;
     JUMP_IMAGE_AMOUNT = 13;
@@ -24,8 +24,8 @@ void FinalBossAppearance::init() {
     BEING_ATTACKED_IMAGE_AMOUNT = 1;
     DYING_IMAGE_AMOUNT = 11;
 
-    currentSprite = entityConfig.walk;
-    _imageAmount  = WALK_IMAGE_AMOUNT;
+    currentSprite = entityConfig.stand;
+    _imageAmount  = STAND_IMAGE_AMOUNT;
     _imageCounter = 0;
     getCurrentSpriteDimentions();
 }

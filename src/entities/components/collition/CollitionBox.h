@@ -60,6 +60,8 @@ public:
 
     void setAt(int x, int y, int z);
 
+    //void discardTheOpositeOfLastMoveAsCandidate();
+
 protected:
     bool anyCornerIntersectsWith(CollitionBox* collitionBox);
 
@@ -70,10 +72,10 @@ private:
     Point* lastMove = nullptr;
     list<Point*>* candidateMoves = nullptr;
     list<Point*>* discardedMoves = nullptr;
+    std::list<Point*>* corners;
+    //map<Point*,Point*>* oposites = nullptr;
 
     ScreenPosition* screenPosition = nullptr;
-
-    std::list<Point*> corners;
     Entity* owner = nullptr;
     int id;
     int w;

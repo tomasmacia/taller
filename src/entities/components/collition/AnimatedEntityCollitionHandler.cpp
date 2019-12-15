@@ -78,8 +78,10 @@ void AnimatedEntityCollitionHandler::moveTowardsDestinationAndCorrect(Point *des
     bool startOfTheCorrection = true;
     while (!_blockingCollitionBox->arrived() || startOfTheCorrection){
         startOfTheCorrection = false;
+        //_blockingCollitionBox->clearDiscardedMoves();
 
         _blockingCollitionBox->moveOneUnitInTheDirectionOf(destination);
+        //_blockingCollitionBox->discardTheOpositeOfLastMoveAsCandidate();
 
         if (_collitionManager->anyBlockingCollitionsWith(_blockingCollitionBox)){
             _blockingCollitionBox->restorePreviousPosition();

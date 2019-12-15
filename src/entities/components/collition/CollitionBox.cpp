@@ -21,25 +21,25 @@ CollitionBox::CollitionBox(int centerX, int centerY, int centerZ, int w, int h, 
     calculateAndAssignCorners(center->x, center->y, center->z);
     calculateCandidates();
     lastMove = candidateMoves->front();
-
-    discardedMoves = new list<Point*>();
 }
 
 void CollitionBox::calculateAndAssignCorners(int centerX, int centerY, int centerZ) {
 
-    corners.push_back(new Point(center->x - w/2, center->y - h/2, center->z - d/2));
-    corners.push_back(new Point(center->x - w/2, center->y - h/2, center->z + d/2));
-    corners.push_back(new Point(center->x - w/2, center->y + h/2, center->z - d/2));
-    corners.push_back(new Point(center->x - w/2, center->y + h/2, center->z + d/2));
-    corners.push_back(new Point(center->x + w/2, center->y - h/2, center->z - d/2));
-    corners.push_back(new Point(center->x + w/2, center->y - h/2, center->z + d/2));
-    corners.push_back(new Point(center->x + w/2, center->y + h/2, center->z - d/2));
-    corners.push_back(new Point(center->x + w/2, center->y + h/2, center->z + d/2));
+    corners = new list<Point*>();
+
+    corners->push_back(new Point(center->x - w/2, center->y - h/2, center->z - d/2));
+    corners->push_back(new Point(center->x - w/2, center->y - h/2, center->z + d/2));
+    corners->push_back(new Point(center->x - w/2, center->y + h/2, center->z - d/2));
+    corners->push_back(new Point(center->x - w/2, center->y + h/2, center->z + d/2));
+    corners->push_back(new Point(center->x + w/2, center->y - h/2, center->z - d/2));
+    corners->push_back(new Point(center->x + w/2, center->y - h/2, center->z + d/2));
+    corners->push_back(new Point(center->x + w/2, center->y + h/2, center->z - d/2));
+    corners->push_back(new Point(center->x + w/2, center->y + h/2, center->z + d/2));
 }
 
 bool CollitionBox::anyCornerIntersectsWith(CollitionBox* query) {
 
-    for (auto corner : corners){
+    for (auto corner : *corners){
         if (query->hasInsideItsVolume(corner)){
             /*
             string path;
@@ -65,9 +65,9 @@ bool CollitionBox::anyCornerIntersectsWith(CollitionBox* query) {
 
 bool CollitionBox::hasInsideItsVolume(Point* corner){
 
-    int x = corners.front()->x;
-    int y = corners.front()->y;
-    int z = corners.front()->z;
+    int x = corners->front()->x;
+    int y = corners->front()->y;
+    int z = corners->front()->z;
 
     return  (x <= corner->x && corner->x <= x + w)
             &&
@@ -78,7 +78,7 @@ bool CollitionBox::hasInsideItsVolume(Point* corner){
 
 void CollitionBox::moveBy(int xAmount, int yAmount, int zAmount) {
 
-    for (auto corner : corners){
+    for (auto corner : *corners){
         corner->moveBy(xAmount,yAmount,zAmount);
     }
     center->moveBy(xAmount,yAmount,zAmount);
@@ -86,7 +86,7 @@ void CollitionBox::moveBy(int xAmount, int yAmount, int zAmount) {
 
 void CollitionBox::moveBy(Point delta) {
 
-    for (auto corner : corners){
+    for (auto corner : *corners){
         corner->moveBy(delta);
     }
     center->moveBy(delta);
@@ -131,10 +131,10 @@ void CollitionBox::moveOneUnitInTheDirectionOf(Point* destination) {
 
 CollitionBox::~CollitionBox() {
 
-    for (auto c : corners){
+    for (auto c : *corners){
         delete(c);
     }
-    corners.clear();
+    corners->clear();
     delete (center);
     for (auto c : *candidateMoves){
         delete(c);
@@ -176,14 +176,34 @@ void CollitionBox::setScreenPosition(ScreenPosition *screenPosition) {
 void CollitionBox::calculateCandidates() {
 
     candidateMoves = new list<Point*>();
+    discardedMoves = new list<Point*>();
+    //oposites = new map<Point*,Point*>();
 
-    candidateMoves->push_back(new Point(-1,0,0));
-    candidateMoves->push_back(new Point(0,-1,0));
-    candidateMoves->push_back(new Point(0,0,-1));
-    candidateMoves->push_back(new Point(0,0,0));
-    candidateMoves->push_back(new Point(1,0,0));
-    candidateMoves->push_back(new Point(0,1,0));
-    candidateMoves->push_back(new Point(0,0,1));
+    auto m1 = new Point(-1,0,0);
+    auto m2 = new Point(0,-1,0);
+    auto m3 = new Point(0,0,-1);
+    auto m4 = new Point(0,0,0);
+    auto m5 = new Point(1,0,0);
+    auto m6 = new Point(0,1,0);
+    auto m7 = new Point(0,0,1);
+
+    candidateMoves->push_back(m1);
+    candidateMoves->push_back(m2);
+    candidateMoves->push_back(m3);
+    candidateMoves->push_back(m4);
+    candidateMoves->push_back(m5);
+    candidateMoves->push_back(m6);
+    candidateMoves->push_back(m7);
+
+    /*
+    oposites->insert({m1,m5});
+    oposites->insert({m2,m6});
+    oposites->insert({m3,m7});
+    oposites->insert({m4,m4});
+    oposites->insert({m5,m1});
+    oposites->insert({m6,m2});
+    oposites->insert({m7,m3});
+     */
 }
 
 void CollitionBox::restorePreviousPosition() {
@@ -205,3 +225,7 @@ void CollitionBox::clearDiscardedMoves() {
 void CollitionBox::setAt(int x, int y, int z) {
     moveBy(x - center->x,y - center->y,z - center->z);
 }
+/*
+void CollitionBox::discardTheOpositeOfLastMoveAsCandidate() {
+    discardedMoves->push_back(oposites->at(lastMove));
+}*/

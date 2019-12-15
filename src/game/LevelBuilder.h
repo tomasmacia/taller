@@ -69,6 +69,8 @@ private:
     float FLOOR_SPEED_RATIO = 1;   //este TIENE que ser 1
     float MIDDLE_SPEED_RATIO = 0.6;
     float FAR_SPEED_RATIO = 0.4;
+
+    void initializeFinalBoss();
 };
 
 

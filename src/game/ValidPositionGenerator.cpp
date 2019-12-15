@@ -23,3 +23,7 @@ int ValidPositionGenerator::z(){
     return (rand() % _levelDepth);
 }
 
+int ValidPositionGenerator::endOfLevelX() {
+    return _levelWidth;
+}
+

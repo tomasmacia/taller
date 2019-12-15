@@ -7,8 +7,9 @@
 
 
 #include "entityHierarchy/AnimatedEntity.h"
+#include "Enemy.h"
 
-class FinalBoss : public AnimatedEntity {
+class FinalBoss : public Enemy {
 
 public:
     FinalBoss(CollitionHandler* collitionHandler, Life *life, Damage *damage, Score* score, Position *position,
@@ -17,7 +18,7 @@ public:
 
     int setAttackedWith(AttackCode attack) override ;
 
-    bool isFinalBoss(){return true;}
+    bool isFinalBoss() override {return true;}
 private:
     int FINAL_BOSS_LIFE_AMOUNT = 500;
 };
