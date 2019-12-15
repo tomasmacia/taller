@@ -152,6 +152,8 @@ Bindings XMLParser::getBindings(XMLElement *config) {
 
     bindings.MUTE = getSafeValueFromElement(bindingsElement, {"mute"}, charArrayToString, section);
 
+    bindings.TEST = getSafeValueFromElement(bindingsElement, {"test"}, charArrayToString, section);
+
     return bindings;
 }
 

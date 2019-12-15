@@ -20,6 +20,7 @@ public:
     string KICK;
     string JUMPKICK;
     string MUTE;
+    string TEST;
 };
 
 

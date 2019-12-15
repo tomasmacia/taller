@@ -13,6 +13,7 @@
         <kick>A</kick>
         <jumpkick>S</jumpkick>
         <mute>M</mute>
+        <test>T</test>
     </bindings>
     <screen>
         <width>800</width>
