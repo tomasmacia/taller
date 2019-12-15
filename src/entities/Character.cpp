@@ -79,3 +79,7 @@ void Character::removeWeapon() {
         attack->dropWeapon();
     }
 }
+
+int Character::getScore(){
+    return score->getCurrent();
+}

@@ -33,6 +33,7 @@ public:
     void removeWeapon();
 
     int getID();
+    int getScore();
 
     //GETTERS
     //===============================

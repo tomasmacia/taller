@@ -106,6 +106,11 @@ private:
     void closeServer();
     void waitUnitAllPlayersConnected();
     bool notAllPlayersDisconnected();
+    void ScoreScreen();
+    void finalScreen();
+    void renderPuntaje(int score,int x, int y,list<Sendable*>* wa);
+    void CharacterName(int y, int id,list<Sendable*>* wa);
+    void cleanScreens();
 
     //CONTROLLER RELATED
     //===============================
@@ -142,8 +147,8 @@ private:
 
     int maxPlayers{};
 
-    Sendable* waitingScreenSendable = nullptr;
-    list<Sendable*>* waitingScreenContainer = nullptr;
+    Sendable* waitingScreenSendable = nullptr, * scoreScreenRenderable = nullptr;
+    list<Sendable*>* waitingScreenContainer = nullptr, *scoreContainer = nullptr;
 
     Server* server = nullptr;
     EntityManager* entityManager = nullptr;
