@@ -3,14 +3,18 @@
 
 #include "PatrolBehavior.h"
 
-const int PURSUIT_MAX_DURATION = 100;
-const float PUNCH_RANGE = 20;
+const int PURSUIT_MAX_DURATION = 1000;
+const int PUNCH_RANGE = 20;
 
 class PursuitBehavior : public Will{
     public:
         PursuitBehavior(Character* target, IA* owner,EntityManager* manager,Position* subjectPosition);
         void update() override;
         Action getNext() override;
+
+        void switchTarget(Character* newTarget) {
+            this->target = newTarget;
+        }
 
     private:
 

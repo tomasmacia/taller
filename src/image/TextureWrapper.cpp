@@ -2,7 +2,7 @@
 // Created by Tomás Macía on 15/10/2019.
 //
 
-#include <SDL2/SDL_image.h>
+#include <SDL_image.h>
 #include "TextureWrapper.h"
 #include "../game/GameClient.h"
 #include "../game/GameServer.h"

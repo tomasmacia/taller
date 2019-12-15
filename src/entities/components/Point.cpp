@@ -3,6 +3,7 @@
 //
 
 #include "Point.h"
+#include <cmath>
 
 Point::Point(int x, int y, int z) {
     this->x = x;
@@ -37,6 +38,10 @@ int Point::distanceWith(Point *other) {
     int diffZ = z - other->z;
 
     return diffX*diffX + diffY*diffY + diffZ*diffZ;
+}
+
+int Point::distanceTo(Point *other) {
+    return (int) sqrt((double) distanceWith(other));
 }
 
 void Point::save() {

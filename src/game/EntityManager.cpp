@@ -248,8 +248,8 @@ Enemy *EntityManager::createEnemy() {
     auto* position = new Position(centerX, centerY, centerZ, collitionHandler);
     auto* screenPosition = new ScreenPosition(w,h,DEFAULT_COLLITION_BOX_DEPTH,position,screen);
 
-    //auto* will = new IA(this,position);
-    auto* will = new NullWill();
+    auto* will = new IA(this, position);
+    // auto* will = new NullWill();
     auto* state = new State(will);
     auto* physics = new Physics(state,position,walkingSpeed,jumpingSpeed);
 
@@ -632,8 +632,8 @@ Enemy *EntityManager::createEnemy(int x, int y, int z) {
     auto* position = new Position(centerX, centerY, centerZ, collitionHandler);
     auto* screenPosition = new ScreenPosition(w,h,DEFAULT_COLLITION_BOX_DEPTH,position,screen);
 
-    //auto* will = new IA(this,position);
-    auto* will = new NullWill();
+    auto* will = new IA(this, position);
+    //auto* will = new NullWill();
     auto* state = new State(will);
     auto* physics = new Physics(state,position,walkingSpeed,jumpingSpeed);
 

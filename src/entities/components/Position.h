@@ -32,6 +32,10 @@ public:
     int getZ() {
         return point->z;
     }
+
+    int getDistanceTo(Position *other) {
+        return point->distanceTo(other->point);
+    }
 private:
     Point* point = nullptr;
     CollitionHandler* _collitionHandler = nullptr;

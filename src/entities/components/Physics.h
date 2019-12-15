@@ -31,7 +31,7 @@ private:
     float DEFAULT_JUMPING_VELOCITY_Y;
 
     float _accelerationX = 0;
-    float _accelerationY = DEFAULT_JUMPING_ACCELERATION_Y;
+    float _accelerationY = 0;
     float _accelerationZ = 0;
 
     float DEFAULT_WALKING_VELOCITY_X;

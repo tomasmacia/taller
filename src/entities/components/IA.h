@@ -4,6 +4,8 @@
 #include "../../enumerates/Action.h"
 #include "Will.h"
 #include <list>
+#include <map>
+#include "EnemyBehaviorType.h"
 #include "../game/EntityManager.h"
 
 class IA : public Will {
@@ -12,6 +14,11 @@ public:
     void update() override;
     Action getNext() override;
     void changeBehavior(Will* newBehavior);
+    void switchBehavior(EnemyBehaviorType);
+
+    Will* getCurrentBehavior() {
+        return behavior;
+    }
 
 private:
 
@@ -20,6 +27,7 @@ private:
     int counter = 0;
     int side = 1;
     Will* behavior;
+    std::map<EnemyBehaviorType, Will*> behaviors;
     EntityManager* em;
 };
 

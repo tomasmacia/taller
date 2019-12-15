@@ -11,6 +11,7 @@
 #include "Controller.h"
 #include "../net/messaging/IDManager.h"
 #include "../net/Server.h"
+#include "../utils/MapUtils.h"
 
 #include <iostream>
 
@@ -28,7 +29,7 @@ void Controller::lisentToInputForClosing(){
 void Controller::checkIfCloseRelatedInputWasPulsed(){
     Action action;
     while (SDL_PollEvent(&sdlEvent)) {
-        action = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
+        action = MapUtils::getOrDefault(actions, sdlEvent.key.keysym.scancode, NONE);
         if (sdlEvent.type == SDL_QUIT){
             game->end();
         }
@@ -44,7 +45,7 @@ list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
 
     while (SDL_PollEvent(&sdlEvent)) {
 
-        action = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
+        action = MapUtils::getOrDefault(actions, sdlEvent.key.keysym.scancode, NONE);
 
         if (sdlEvent.type == SDL_QUIT){
             game->end();
@@ -84,18 +85,6 @@ list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
     return serializedInputs;
 }
 
-template <typename K, typename V>
-V Controller::getWithDefault(const std::map<K,V> &map, const K &key, const V &defaultValue) {
-    V value;
-    auto pos = map.find(key);
-    if (pos != map.end()) {
-        value = pos->second;
-    } else {
-        value = defaultValue;
-    }
-
-    return value;
-}
 
 void Controller::clearAllInputs(){
     currentInput->clear();
