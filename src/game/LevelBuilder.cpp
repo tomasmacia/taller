@@ -166,6 +166,8 @@ void LevelBuilder::initializePlayers() {
         z = screenResolutionHeight*0.15;
 
         auto *player = _entityManager->addPlayer(x,y,z,newPlayerID);
+        player->setPositionYToScore(10 + (i * (screenResolutionHeight/15)));
+        player->setPositionXToScore(screenResolutionWidth * .75);
         _screen->setPlayer(player);
 
     }

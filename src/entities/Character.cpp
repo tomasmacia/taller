@@ -20,10 +20,11 @@ Character::Character(CollitionHandler* collitionHandler, Life *life, Damage *dam
 
 list<Sendable *> Character::generateSendable() {
     list<Sendable *> sendables = PhysicalEntity::generateSendable();
+  //  auto scoreAppearanceSendable = new Sendable(scoreAppearance->generateRenderable(), nullptr);
+   // sendables.push_back(scoreAppearanceSendable);
+    return scoreAppearance->numerRenderabls(score->getCurrent(),sendables);    
+    //return sendables;
 
-    auto scoreAppearanceSendable = new Sendable(scoreAppearance->generateRenderable(), nullptr);
-    sendables.push_back(scoreAppearanceSendable);
-    return sendables;
 }
 
 void Character::notifySuccessfulAttack(int score) {
@@ -82,4 +83,12 @@ void Character::removeWeapon() {
 
 int Character::getScore(){
     return score->getCurrent();
+}
+
+void Character::setPositionYToScore(int a){
+    scoreAppearance->setPositionYSCore(a);
+}
+
+void Character::setPositionXToScore(int a){
+    scoreAppearance->setPositionXSCore(a);
 }
