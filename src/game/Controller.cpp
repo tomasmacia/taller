@@ -332,3 +332,7 @@ void Controller::sendPlayerDiedMessage(Server* server, int id) {
 void Controller::sendGameStartedMessage(Server *server) {
     server->setToBroadcast(objectSerializer.getGameStartedMessage());
 }
+
+string Controller::getGameStartedMessage() {
+    return objectSerializer.getGameStartedMessage();
+}

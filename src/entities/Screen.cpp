@@ -12,7 +12,7 @@ Screen::Screen(int width, int height, int levelWidth, int levelDepth, CollitionM
     this->currentX = 0;
     this->windowWidth = width;
     this->windowHeight = height;
-    this->marginWidth = windowWidth/3;
+    this->marginWidth = windowWidth * 0.2;
     this->offScreenTolerance = 2*marginWidth;
     this->currentLevelWidth = levelWidth;
     this->levelDepth = levelDepth;

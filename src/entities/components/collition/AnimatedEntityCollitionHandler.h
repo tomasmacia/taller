@@ -21,6 +21,9 @@ public:
     void moveAllCollitionBoxesKeepingRelativeDistancesTo(Point* destination);
     void correctDestination(Point* destination);
     void moveTowardsDestinationAndCorrect(Point* destination);
+    void setDisconected();
+
+    void setConnected();
 
 private:
     CollitionBox* _blockingCollitionBox = nullptr;

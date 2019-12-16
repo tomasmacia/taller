@@ -71,6 +71,8 @@ public:
 
     void sendGameStartedMessage(Server *server);
 
+    string getGameStartedMessage();
+
 private:
 
     //INPUT PROCESING

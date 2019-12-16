@@ -48,7 +48,7 @@ public:
 
     //API
     //===============================
-    std::string validateLogin(const string& user,const std::string& pass, int userId);
+    void handleLogin(const string& user, const std::string& pass, int userId);
     void addNewIDToGame(int id);
     void reemplazePreviousIDWith(int oldID, int newID);
     void reciveNewInput(tuple<Action,int> input);
@@ -120,7 +120,7 @@ private:
     bool userInLoggedPlayers(const string& user);
     bool IDInDisconnectedPlayers(const string& user);
     string processConectionAndEmitSuccesMessage(const string& user, const string& pass, int id);
-    string processReconectionAndEmitSuccesMessage(const string& user, int newId);
+    void processReconectionAndEmitSuccesMessage(const string& user, int newId);
     string getNewColor();
 
     //ATRIBUTES

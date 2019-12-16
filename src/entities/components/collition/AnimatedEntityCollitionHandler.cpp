@@ -91,3 +91,17 @@ void AnimatedEntityCollitionHandler::moveTowardsDestinationAndCorrect(Point *des
     destination->setAt(_blockingCollitionBox->getCenter());
     _blockingCollitionBox->clearDiscardedMoves();
 }
+
+void AnimatedEntityCollitionHandler::setDisconected() {
+
+    for (auto collitionBox : *_collitionBoxes){
+        _collitionManager->ignoreBlockingCollitionBox(collitionBox->getID());
+    }
+}
+
+void AnimatedEntityCollitionHandler::setConnected() {
+
+    for (auto collitionBox : *_collitionBoxes){
+        _collitionManager->stopIgnoringBlockingCollitionBox(collitionBox->getID());
+    }
+}

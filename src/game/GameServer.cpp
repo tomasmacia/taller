@@ -83,29 +83,34 @@ void GameServer::sendUpdate() {
 //API
 //=========================================================================================
 
-std::string GameServer::validateLogin(const std::string& user,const std::string& pass, int userId){
+void GameServer::handleLogin(const std::string& user, const std::string& pass, int userId){
 
+    string toSendMessage;
 
     if (credentialsAreValid(user,pass)){
         if (userAlreadyLoggedIn(user)){
             if (userIsDisconnected(user)){
-                return processReconectionAndEmitSuccesMessage(user,userId);
+                processReconectionAndEmitSuccesMessage(user,userId);
             }
             else{
-                return controller->getAlreadyLoggedInMessage();
+                toSendMessage = controller->getAlreadyLoggedInMessage();
+                server->setToSendToSpecific(toSendMessage,userId);
             }
         }
         else{
             if (serverFull()){
-                return controller->getServerFullMessage();
+                toSendMessage = controller->getServerFullMessage();
+                server->setToSendToSpecific(toSendMessage,userId);
             }
             else{
-                return processConectionAndEmitSuccesMessage(user, pass, userId);
+                toSendMessage = processConectionAndEmitSuccesMessage(user, pass, userId);
+                server->setToSendToSpecific(toSendMessage,userId);
             }
         }
     }
     else{
-        return controller->getInvalidCredentialMessage();
+        toSendMessage = controller->getInvalidCredentialMessage();
+        server->setToSendToSpecific(toSendMessage,userId);
     }
 }
 
@@ -233,7 +238,7 @@ string GameServer::processConectionAndEmitSuccesMessage(const string& name, cons
     return controller->getSuccesfullLoginMessage(user.color, id);
 }
 
-string GameServer::processReconectionAndEmitSuccesMessage(const string& name, int newID){
+void GameServer::processReconectionAndEmitSuccesMessage(const string& name, int newID){
 
     int oldID = loggedPlayersIDbyUser.at(name);
     User user = loggedPlayersUserByID.at(oldID);
@@ -250,8 +255,8 @@ string GameServer::processReconectionAndEmitSuccesMessage(const string& name, in
         entityManager->reconectPlayerByID(oldID, newID);
     }
     server->client_noBlock(newID);
-
-    return controller->getSuccesfullLoginMessage(user.color,newID);
+    server->setToSendToSpecific(controller->getSuccesfullLoginMessage(user.color,newID),newID);
+    server->setToSendToSpecific(controller->getGameStartedMessage(),newID);
 }
 
 string GameServer::getNewColor() {
