@@ -157,7 +157,7 @@ bool CollitionManager::anyBlockingCollitionsWith(CollitionBox *query) {
             player->drag();
         }
         delete(otherIgnored);
-        
+
         return false;
     }
     else{
