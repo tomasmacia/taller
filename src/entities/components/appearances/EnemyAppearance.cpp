@@ -19,7 +19,7 @@ void EnemyAppearance::init() {
     KICK_IMAGE_AMOUNT = 6;
     JUMP_KICK_IMAGE_AMOUNT = 13;
     CROUCH_IMAGE_AMOUNT = 4;
-    BEING_ATTACKED_IMAGE_AMOUNT = 1;
+    BEING_ATTACKED_IMAGE_AMOUNT = 4;
     DYING_IMAGE_AMOUNT = 7;
 
     currentSprite = entityConfig.stand;

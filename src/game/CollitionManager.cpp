@@ -149,7 +149,7 @@ bool CollitionManager::anyBlockingCollitionsWith(CollitionBox *query) {
     bool isIgnored = (std::find(_ignoredCollitionBoxes->begin(), _ignoredCollitionBoxes->end(), query) != _ignoredCollitionBoxes->end());
 
     if (isIgnored){
-        return anyBlockingCollitionsInWith(_ignoredCollitionBoxes,query);
+        return anyBlockingCollitionsInWith(_ignoredCollitionBoxes,query) || query->intersectsWith(leftScreen0BlockingCollitionBox);
     }
     else{
         return anyBlockingCollitionsInWith(_blockingCollitionBoxes,query);
@@ -252,4 +252,8 @@ void CollitionManager::stopIgnoringBlockingCollitionBox(int id) {
         _ignoredCollitionBoxes->remove(toStopIgnoringCollitionBox);
         _blockingCollitionBoxes->push_back(toStopIgnoringCollitionBox);
     }
+}
+
+void CollitionManager::setLeftScreenBlockingCollitionBox(CollitionBox *pBox) {
+    leftScreen0BlockingCollitionBox = pBox;
 }

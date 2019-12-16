@@ -40,6 +40,8 @@ public:
 
     void stopIgnoringBlockingCollitionBox(int id);
 
+    void setLeftScreenBlockingCollitionBox(CollitionBox *pBox);
+
 private:
     CollitionBox* findCollitionBoxByID(int id);
     void clearNonLevelPersistentCollitionBoxes();
@@ -51,6 +53,7 @@ private:
     list<CollitionBox*>* _weaponCollitionBoxes = nullptr;
     list<CollitionBox*>* _characterCollitionBoxes = nullptr;
     list<CollitionBox*>* _ignoredCollitionBoxes = nullptr;
+    CollitionBox* leftScreen0BlockingCollitionBox = nullptr;
 
     int newID = 0;
 };
