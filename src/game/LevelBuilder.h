@@ -5,9 +5,10 @@
 #ifndef GAME_LEVELBUILDER_H
 #define GAME_LEVELBUILDER_H
 
-#include "EntityManager.h"
 #include "../entities/Screen.h"
+#include "Controller.h"
 
+class EntityManager;
 class Entity;
 class LevelBuilder {
 public:

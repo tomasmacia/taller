@@ -1,5 +1,6 @@
 
 #include "EntityManager.h"
+#include "GameServer.h"
 
 #include "../entities/components/InputPoller.h"
 #include "../entities/components/IA.h"
@@ -24,6 +25,10 @@ EntityManager::EntityManager(Controller* controller, Config* config){
 
     this->controller = controller;
     this->config = config;
+}
+
+void EntityManager::setGame(GameServer *gameServer) {
+    this->gameServer = gameServer;
 }
 
 void EntityManager::initializeCollitionManager(){
@@ -562,6 +567,7 @@ void EntityManager::eraseDeadEntities() {
     for (auto e: physicalEntities){
         if (e->dead()){
             if (e->isFinalBoss()){finalBoss = nullptr;} //mea culpa
+            if (e->isCharacter()){gameServer->notifyPlayerDied(((Character*)e)->getID());} //mea culpa
             delete(e);
             cout<<"a dead entity has been correctly eliminated from the game"<<endl;
             toUntrack.push_back(e);

@@ -66,6 +66,8 @@ public:
         return entityManager;
     }
 
+    void notifyPlayerDied(int id);
+
 private:
     GameServer() {
         init();
@@ -144,6 +146,8 @@ private:
     LevelBuilder* levelBuilder = nullptr;
 
     void sendEndMessage();
+
+    void sendGameStartedMessage();
 };
 
 #endif //GAME_GAMESERVER_H_

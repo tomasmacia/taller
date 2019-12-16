@@ -3,6 +3,8 @@
 #include "../logger/Logger.h"
 #include "Controller.h"
 #include "LoggerMenu.h"
+#include "GameClient.h"
+
 
 bool GameClient::hasInstance = false;
 
@@ -42,10 +44,30 @@ void GameClient::start() {
 //=========================================================================================
 
 void GameClient::gameLoop() {
-    init_music();
+    initGameMusic();
     sceneDirector->initDisconectionScreen();
     while (isOn()) {
         pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
+
+        if (disconnect || playerDied){
+            if (!youDiedMusicPlaying){
+
+                initYouDiedOrDisconnectedMusic();
+                gameMusic->play();
+                youDiedMusicPlaying = true;
+                normalGameMusicPlaying = false;
+            }
+        }
+
+        else if (gameStarted){
+            if (!normalGameMusicPlaying){
+
+                gameMusic->play();
+                normalGameMusicPlaying = true;
+                youDiedMusicPlaying = false;
+            }
+        }
+
         if (disconnect && !endOfGame){
             sceneDirector->renderDisconectionScreen(renderer, &loadedTexturesMap);
         }
@@ -124,6 +146,32 @@ void GameClient::reciveRenderables(vector<string>* serializedPages){
     }
 }
 
+void GameClient::notifyEndOfGame() {
+    endOfGame = true;
+}
+
+void GameClient::processPlayerDeath(int id) {
+    if (id == playerId){
+        playerDied = true;
+    }
+}
+
+void GameClient::notifyGameStart() {
+    gameStarted = true;
+}
+
+//SOUND
+//===============================
+
+void GameClient::initGameMusic() {
+    gameMusic = new SoundWrapper(true);
+    gameMusic->load(GAME_MUSIC_PATH);
+}
+
+void GameClient::initYouDiedOrDisconnectedMusic() {
+    gameMusic->load(YOU_DIED_OR_DISCONNECTED_MUSIC_PATH);
+}
+
 //CLIENT RELATED
 //=========================================================================================
 void GameClient::startClient() {
@@ -177,7 +225,7 @@ void GameClient::init() {
 }
 
 void GameClient::disconnected(){
-    disconnect =true;
+    disconnect = true;
 }
 
 void GameClient::initSDL() {
@@ -224,6 +272,7 @@ void GameClient::destroy() {
     loggerMenu = nullptr;
     delete(client);
     client = nullptr;
+    delete (gameMusic);
     clearMaps();
     baseClassFreeMemory();
     LogManager::logDebug("Memoria de Game Client liberada");
@@ -248,8 +297,4 @@ void GameClient::erasePreviousPackages() {
         delete(package);
     }
     previousPackages->clear();
-}
-
-void GameClient::notifyEndOfGame() {
-    endOfGame = true;
 }

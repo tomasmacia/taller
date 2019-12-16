@@ -59,8 +59,7 @@ bool Client::start(){
     send.join();
     dispatch.join();
 
-    
-  //  gameClient->end();
+    gameClient->disconnected();
 }
 
 
@@ -139,6 +138,14 @@ void Client::dispatchThread() {
             else if (objectSerializer.validEndOfGameMessage(messageParser.parse(message, objectSerializer.getSeparatorCharacter()))){
                 processEndOfGame();
             }
+
+            else if (objectSerializer.validPlayerDiedMessage(messageParser.parse(message, objectSerializer.getSeparatorCharacter()))){
+                processPlayerDeath();
+            }
+
+            else if (objectSerializer.validGameStartedMessage(messageParser.parse(message, objectSerializer.getSeparatorCharacter()))){
+                processGameStart();
+            }
         }
         incomingQueueMutex.unlock();
     }
@@ -160,12 +167,21 @@ void Client::processResponseFromServer() {
 
 void Client::processRenderableSerializedObject() {//TODO HEAVY IN PERFORMANCE
     gameClient->reciveRenderables(messageParser.getCurrent());
-    //gameClient->render();
 }
 
 void Client::processEndOfGame() {
     gameClient->notifyEndOfGame();
 }
+
+void Client::processPlayerDeath() {
+    int id = std::stoi(messageParser.getCurrent()->at(2));
+    gameClient->processPlayerDeath(id);
+}
+
+void Client::processGameStart() {
+    gameClient->notifyGameStart();
+}
+
 
 //ACTUAL DATA TRANSFER
 //=========================================================================================
@@ -193,6 +209,7 @@ int Client::send(const std::string& msg) {
 
     return bytesSent;
 }
+
 
 std::string Client::receive() {
 
@@ -222,7 +239,6 @@ std::string Client::receive() {
     std::string parsed = messageParser.extractMeaningfulMessageFromStream(buff,MAX_BYTES_BUFFER, end,padding);
     return parsed;
 }
-
 
 //DISCONECTION RELATED
 //=========================================================================================

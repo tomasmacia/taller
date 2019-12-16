@@ -25,6 +25,7 @@ public:
     virtual bool isEnemy(){return false;}
     virtual bool isFinalBoss(){return false;}
     virtual bool isScreen(){return false;}
+    virtual bool isCharacter(){return false;}
 
 protected:
     CollitionHandler* collitionHandler = nullptr;

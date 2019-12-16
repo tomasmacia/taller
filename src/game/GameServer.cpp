@@ -32,6 +32,7 @@ void GameServer::start() {
 
 void GameServer::gameLoop(){
 
+    sendGameStartedMessage();
     while (isOn() && levelBuilder->hasNextLevel() && notAllPlayersDisconnected()) {
 
         levelBuilder->loadNext();
@@ -175,6 +176,15 @@ void GameServer::sendEndMessage() {
     controller->sendEndMessage(server);
 }
 
+void GameServer::notifyPlayerDied(int id) {
+    controller->sendPlayerDiedMessage(server,id);
+}
+
+void GameServer::sendGameStartedMessage() {
+    controller->sendGameStartedMessage(server);
+}
+
+
 //LOGIN RELATED
 //=========================================================================================
 bool GameServer::serverFull(){
@@ -275,6 +285,7 @@ void GameServer::initController() {
 
 void GameServer::initGameModel() {
     entityManager = initLevelBuilder();
+    entityManager->setGame(this);
     LogManager::logDebug("[INIT]: inicializado EntityManager");
     LogManager::logDebug("[INIT]: inicializado LevelBuilder");
     LogManager::logInfo("[INIT]: Modelo inicializado");

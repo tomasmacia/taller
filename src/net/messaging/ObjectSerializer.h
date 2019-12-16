@@ -31,7 +31,10 @@ public:
     std::string serializeObjects(std::list<Sendable*>* sendables);
 
     //VALIDATE
-    //===============================
+    //===============================validGameStartedMessage
+    bool validGameStartedMessage(vector<string> *currentParsedMessage);
+    bool validEndOfGameMessage(vector<string> *currentParsedMessage);
+    bool validPlayerDiedMessage(vector<string> *currentParsedMessage);
     bool validLoginFromServerMessage(vector<string>* currentParsedMessage);
     bool validSerializedObjectMessage(vector<string>* currentParsedMessage);
     bool validSerializedSetOfObjectsMessage(vector<string>* currentParsedMessage);
@@ -46,6 +49,9 @@ public:
 
     //SERIALIZATION
     //===============================
+    string getGameStartedMessage();
+    string getEndOfGameMessage();
+    string getPlayerDiedMessage(int id);
     std::string serializedSuccesfullLoginMessage(string color, int userId);
     std::string serializedInvalidCredentialMessage();
     std::string serializedServerFullMessage();
@@ -94,10 +100,6 @@ public:
     char getEndOfSerializationSymbol(){
         return END_OF_SERIALIZATION_SYMBOL.c_str()[0];
     }
-
-    string getEndOfGameMessage();
-
-    bool validEndOfGameMessage(vector<string> *pVector);
 
 private:
     string END_OF_SERIALIZATION_SYMBOL = "&";

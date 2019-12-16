@@ -85,6 +85,10 @@ private:
     list<string> incomingMessagesQueue;
 
     void processEndOfGame();
+
+    void processPlayerDeath();
+
+    void processGameStart();
 };
 
 #endif //GAME_CLIENT_H

@@ -29,6 +29,8 @@
 #include "../entities/Score.h"
 #include "../entities/FinalBoss.h"
 
+
+class GameServer;
 class Controller;
 class EntityManager {
 public:
@@ -82,6 +84,8 @@ public:
 
     bool bossKilled();
 
+    void setGame(GameServer *gameServer);
+
 private:
     //SORTING
     //===============================
@@ -120,6 +124,7 @@ private:
     //for performance
     std::list<Sendable*>* packagesToClients = nullptr;
 
+    GameServer *gameServer = nullptr;
     CollitionManager* collitionManager = nullptr;
     Controller* controller = nullptr;
     Config* config = nullptr;

@@ -64,9 +64,6 @@ list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
             if (sdlEvent.key.keysym.sym == SDLK_m){
                 game->pauseResumeMusic();
             }
-            if (sdlEvent.key.keysym.sym == SDLK_n){
-                game->sound();
-            }
 
             if (action == UP || action == DOWN || action == LEFT || action == RIGHT ||
                 action == NONE){//no bloqueante
@@ -326,4 +323,12 @@ bool Controller::hasNewPackages() {
 
 void Controller::sendEndMessage(Server* server) {
     server->setToBroadcast(objectSerializer.getEndOfGameMessage());
+}
+
+void Controller::sendPlayerDiedMessage(Server* server, int id) {
+    server->setToBroadcast(objectSerializer.getPlayerDiedMessage(id));
+}
+
+void Controller::sendGameStartedMessage(Server *server) {
+    server->setToBroadcast(objectSerializer.getGameStartedMessage());
 }

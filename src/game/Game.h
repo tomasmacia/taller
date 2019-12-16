@@ -22,6 +22,7 @@ public:
     //===============================
     virtual void end();
     bool isOn();
+    void pauseResumeMusic();
 
     //GETTERS
     //===============================
@@ -41,8 +42,6 @@ public:
         return playerId;
     }
 
-    void pauseResumeMusic();
-    void sound();
 protected:
 
     //GAME LOOP
@@ -73,15 +72,6 @@ protected:
 
     SDL_Window *window = nullptr;
     SDL_Renderer *renderer = nullptr;
-
-    //SOUND
-    //===============================
-    Mix_Music* music;
-    Mix_Chunk* sound1;
-    void init_music();
-    void close_music();
-    
-
 };
 
 #endif

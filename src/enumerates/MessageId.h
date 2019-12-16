@@ -16,6 +16,8 @@ enum MessageId {
     ALREADY_LOGGED_IN_CREDENTIAL,
     SERVER_FULL,
     END,
+    PLAYER_DIED,
+    GAME_STARTED,
     UNDEFINED
 };
 

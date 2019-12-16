@@ -67,6 +67,10 @@ public:
 
     void sendEndMessage(Server* server);
 
+    void sendPlayerDiedMessage(Server* server, int id);
+
+    void sendGameStartedMessage(Server *server);
+
 private:
 
     //INPUT PROCESING

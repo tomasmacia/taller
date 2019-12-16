@@ -41,9 +41,10 @@ public:
     void end() override ;
     void render();
     void disconnected();
-    
     void reciveRenderables(vector<string>* serializedPages);
-
+    void notifyEndOfGame();
+    void processPlayerDeath(int id);
+    void notifyGameStart();
     static bool isActive(){
         return hasInstance;
     }
@@ -53,16 +54,12 @@ public:
     void setLogged(){
         loggedIn = true;
     }
-
     void setPlayerName(string name){
         this->user = name;
     }
-
     void setPlayerColor(string color){
         this->color = color;
     }
-
-    void notifyEndOfGame();
 
 private:
 
@@ -100,7 +97,8 @@ private:
     void init() override ;
     void initSDL();
     void initSDLMixer();
-
+    void initGameMusic();
+    void initYouDiedOrDisconnectedMusic();
     
 
     //ATRIBUTES
@@ -108,8 +106,18 @@ private:
     string color = "";
     string user = "";
 
+    string GAME_MUSIC_PATH = "resources/sfx/music/soundtrack.wav";
+    string YOU_DIED_OR_DISCONNECTED_MUSIC_PATH = "NONE";
+
+    bool youDiedMusicPlaying = false;
+    bool normalGameMusicPlaying = false;
+
+    SoundWrapper* gameMusic = nullptr;
+
     static bool hasInstance;
 
+    bool gameStarted = false;
+    bool playerDied = false;
     bool endOfGame = false;
     bool loggedIn = false;
     bool disconnect = false;
