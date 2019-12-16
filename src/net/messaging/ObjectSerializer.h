@@ -95,6 +95,10 @@ public:
         return END_OF_SERIALIZATION_SYMBOL.c_str()[0];
     }
 
+    string getEndOfGameMessage();
+
+    bool validEndOfGameMessage(vector<string> *pVector);
+
 private:
     string END_OF_SERIALIZATION_SYMBOL = "&";
     string PING_CODE = "###";

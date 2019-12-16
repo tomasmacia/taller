@@ -15,6 +15,7 @@ enum MessageId {
     INVALID_CREDENTIAL,
     ALREADY_LOGGED_IN_CREDENTIAL,
     SERVER_FULL,
+    END,
     UNDEFINED
 };
 

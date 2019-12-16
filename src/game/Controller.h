@@ -65,6 +65,8 @@ public:
 
     bool hasNewPackages();
 
+    void sendEndMessage(Server* server);
+
 private:
 
     //INPUT PROCESING

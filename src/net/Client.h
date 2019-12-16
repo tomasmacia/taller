@@ -83,6 +83,8 @@ private:
 
     list<string> toSendMessagesQueue;
     list<string> incomingMessagesQueue;
+
+    void processEndOfGame();
 };
 
 #endif //GAME_CLIENT_H

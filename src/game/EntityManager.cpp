@@ -40,7 +40,7 @@ void EntityManager::update() {//se updatean todas seguro porque updateo las list
     for(auto* e : frontLayerBackgrounds) e->update();
     for(auto* e : specialEntities) e->update();
 
-    if (finalBoss->dead()){
+    if (finalBoss == nullptr || finalBoss->dead()){
         bossIsDead = true;
     }
 
@@ -245,8 +245,8 @@ FinalBoss *EntityManager::createFinalBoss() {
 
     int w = (int)((float)config->screenResolution.width*BOSS_WIDTH_SCALE);
     int h = (int)((float)config->screenResolution.height*BOSS_HEIGHT_SCALE);
-    int walkingSpeed = config->screenResolution.width/WAKING_SPEED_FACTOR;
-    int jumpingSpeed = config->screenResolution.height/JUMPING_SPEED_FACTOR;
+    int walkingSpeed = config->screenResolution.width*WAKING_SPEED_FACTOR;
+    int jumpingSpeed = config->screenResolution.height*JUMPING_SPEED_FACTOR;
 
     int x = validPositionGenerator.endOfLevelX() - 2*w;
     int y = validPositionGenerator.y();
@@ -292,8 +292,8 @@ Enemy *EntityManager::createEnemy() {
 
     int w = (int)((float)config->screenResolution.width*ENEMY_WIDTH_SCALE);
     int h = (int)((float)config->screenResolution.height*ENEMY_HEIGHT_SCALE);
-    int walkingSpeed = config->screenResolution.width/WAKING_SPEED_FACTOR;
-    int jumpingSpeed = config->screenResolution.height/JUMPING_SPEED_FACTOR;
+    int walkingSpeed = config->screenResolution.width*WAKING_SPEED_FACTOR;
+    int jumpingSpeed = config->screenResolution.height*JUMPING_SPEED_FACTOR;
 
     int x = validPositionGenerator.x();
     int y = validPositionGenerator.y();
@@ -561,6 +561,7 @@ void EntityManager::eraseDeadEntities() {
     list<PhysicalEntity*> toUntrack;
     for (auto e: physicalEntities){
         if (e->dead()){
+            if (e->isFinalBoss()){finalBoss = nullptr;} //mea culpa
             delete(e);
             cout<<"a dead entity has been correctly eliminated from the game"<<endl;
             toUntrack.push_back(e);
@@ -630,93 +631,4 @@ struct EntityComparator
 
 void EntityManager::sortEntitiesByZ() {
     physicalEntities.sort(EntityComparator());
-}
-
-Box* EntityManager::createBox(int x, int y, int z) {
-
-    int w = (int)((float)config->screenResolution.width*UTILITY_WIDTH_SCALE);
-    int h = (int)((float)config->screenResolution.height*UTILITY_HEIGHT_SCALE);
-
-    int centerX = x + w/2;
-    int centerY = y + h/2;
-    int centerZ = z + DEFAULT_COLLITION_BOX_DEPTH/2;
-
-    auto* collitionBox = collitionManager->createBoxBlockingCollitionBox(centerX, centerY, centerZ,w * NORMAL_COLLITON_BOX_SCALE_FACTOR_WIDTH, h * NORMAL_COLLITON_BOX_SCALE_FACTOR_HEIGHT, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
-    auto* collitionHandler = new CollitionHandler(collitionManager);
-    collitionHandler->addCollitionBox(collitionBox);
-
-    auto* damage = new Damage();
-    auto* score = new Score();
-    auto* position = new Position(centerX, centerY, centerZ, collitionHandler);
-    auto* will = new NullWill();
-    auto* state = new State(will);
-    auto* life = new Life(state);
-    auto* screenPosition = new ScreenPosition(w,h,DEFAULT_COLLITION_BOX_DEPTH,position,screen);
-
-    if (VISUAL_COLLITION_BOX){
-        collitionHandler->setToAllCollitionBoxScreenPosition(screenPosition);
-    }
-
-    auto* appearance = new BoxAppearance(w, h, screenPosition, state, config->gameplay.utilities.box);
-    auto* sound = new BoxSound(state,config->sounds);
-
-    return new Box(collitionHandler,
-                   life, damage, score, position,
-                   state, screenPosition, appearance, sound,w,h,DEFAULT_COLLITION_BOX_DEPTH);
-}
-
-void EntityManager::addBox(int x, int y, int z) {
-    auto* box = createBox(x,y,z);
-    nonLevelPersistentEntities.push_back((Entity*) box);
-    unanimatedEntities.push_back(box);
-    physicalEntities.push_back(box);
-}
-
-void EntityManager::addEnemy(int x, int y, int z) {
-    Enemy* enemy = createEnemy(x,y,z);
-    nonLevelPersistentEntities.push_back((Entity*) enemy);
-    enemies.push_back(enemy);
-    physicalEntities.push_back(enemy);
-}
-
-Enemy *EntityManager::createEnemy(int x, int y, int z) {
-    int w = (int)((float)config->screenResolution.width*ENEMY_WIDTH_SCALE);
-    int h = (int)((float)config->screenResolution.height*ENEMY_HEIGHT_SCALE);
-    int walkingSpeed = config->screenResolution.width/WAKING_SPEED_FACTOR;
-    int jumpingSpeed = config->screenResolution.height/JUMPING_SPEED_FACTOR;
-
-    int centerX = x + w/2;
-    int centerY = y + h/2;
-    int centerZ = z + DEFAULT_COLLITION_BOX_DEPTH/2;
-
-
-    auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(centerX, centerY, centerZ, w * NORMAL_COLLITON_BOX_SCALE_FACTOR_WIDTH, h * NORMAL_COLLITON_BOX_SCALE_FACTOR_HEIGHT, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
-    auto* pickBox = new CollitionBox(centerX, centerY, centerZ, w, h, DEFAULT_COLLITION_BOX_DEPTH * PICK_COLLITON_BOX_SCALE_FACTOR, collitionBox->getID(),false);
-    auto* punchBox = new CollitionBox(centerX, centerY, centerZ, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH * ATTACK_COLLITON_BOX_SCALE_FACTOR,collitionBox->getID(),false);
-    auto* kickBox = new CollitionBox(centerX, centerY, centerZ, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH * ATTACK_COLLITON_BOX_SCALE_FACTOR,collitionBox->getID(),false);
-    auto* collitionHandler = new AnimatedEntityCollitionHandler(collitionManager, punchBox, kickBox, collitionBox, pickBox);
-
-
-    auto* position = new Position(centerX, centerY, centerZ, collitionHandler);
-    auto* screenPosition = new ScreenPosition(w,h,DEFAULT_COLLITION_BOX_DEPTH,position,screen);
-
-    //auto* will = new IA(this,position);
-    auto* will = new NullWill();
-    auto* state = new State(will);
-    auto* physics = new Physics(state,position,walkingSpeed,jumpingSpeed);
-
-    if (VISUAL_COLLITION_BOX){
-        collitionHandler->setToAllCollitionBoxScreenPosition(screenPosition);
-    }
-
-    auto* appearance = new EnemyAppearance(w, h, screenPosition, state, config->gameplay.npcs.front());
-    auto* sound = new EnemySound(state,config->sounds);
-    auto* damage = new Damage();
-    auto* life = new Life(state);
-    auto* score = new Score();
-    auto* attack = new Attack(state, collitionHandler);
-
-    return new Enemy(collitionHandler, life, damage, score, position,
-                     state, screenPosition, appearance, sound,
-                     will, physics, attack,w,h,DEFAULT_COLLITION_BOX_DEPTH);
 }

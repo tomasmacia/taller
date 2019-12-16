@@ -323,3 +323,7 @@ void Controller::untrackLastSendables() {
 bool Controller::hasNewPackages() {
     return !currentPackagesToSend->empty();
 }
+
+void Controller::sendEndMessage(Server* server) {
+    server->setToBroadcast(objectSerializer.getEndOfGameMessage());
+}

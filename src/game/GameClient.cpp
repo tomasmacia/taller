@@ -275,3 +275,7 @@ void GameClient::erasePreviousPackages() {
     }
     previousPackages->clear();
 }
+
+void GameClient::notifyEndOfGame() {
+
+}

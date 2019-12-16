@@ -135,6 +135,10 @@ void Client::dispatchThread() {
                 //cout<<endl;
                 //cout<<"CLIENT-DISPATCH: "<< message <<endl;
             }
+
+            else if (objectSerializer.validEndOfGameMessage(messageParser.parse(message, objectSerializer.getSeparatorCharacter()))){
+                processEndOfGame();
+            }
         }
         incomingQueueMutex.unlock();
     }
@@ -157,6 +161,10 @@ void Client::processResponseFromServer() {
 void Client::processRenderableSerializedObject() {//TODO HEAVY IN PERFORMANCE
     gameClient->reciveRenderables(messageParser.getCurrent());
     //gameClient->render();
+}
+
+void Client::processEndOfGame() {
+    gameClient->notifyEndOfGame();
 }
 
 //ACTUAL DATA TRANSFER

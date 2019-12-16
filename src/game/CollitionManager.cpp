@@ -47,7 +47,6 @@ CollitionBox *CollitionManager::createBackgroundBlockingCollitionBox(int x, int 
 CollitionBox *CollitionManager::createKnifeBlockingCollitionBox(int x, int y, int z, int w, int h, int d, bool visual) {
 
     auto* newCollitionBox = new CollitionBox(x,y,z,w,h,d,newID,visual);
-    _blockingCollitionBoxes->push_back(newCollitionBox);
     _weaponCollitionBoxes->push_back(newCollitionBox);
     _nonLevelPersistentCollitionBoxes->push_back(newCollitionBox);
     newID++;
@@ -57,7 +56,6 @@ CollitionBox *CollitionManager::createKnifeBlockingCollitionBox(int x, int y, in
 CollitionBox *CollitionManager::createTubeBlockingCollitionBox(int x, int y, int z, int w, int h, int d, bool visual) {
 
     auto* newCollitionBox = new CollitionBox(x,y,z,w,h,d,newID,visual);
-    _blockingCollitionBoxes->push_back(newCollitionBox);
     _weaponCollitionBoxes->push_back(newCollitionBox);
     _nonLevelPersistentCollitionBoxes->push_back(newCollitionBox);
     newID++;

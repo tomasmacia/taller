@@ -42,6 +42,15 @@ string ObjectSerializer::getAlreadyLoggedInMessage() {
 
 //VALIDATE
 //=========================================================================================
+
+bool ObjectSerializer::validEndOfGameMessage(vector<string> *currentParsedMessage) {
+    //SERIALIZED LOGIN ID: //START,header
+    return  currentParsedMessage->size() == 2 &&
+            currentParsedMessage->at(0) == START_SYMBOL &&
+            currentParsedMessage->at(1) == to_string(END);
+}
+
+
 bool ObjectSerializer::validLoginFromServerMessage(vector<string>* currentParsedMessage){
     //SERIALIZED LOGIN ID: //START,header,type,color
     return  (currentParsedMessage->size() == 4 || currentParsedMessage->size() == 3) &&
@@ -166,6 +175,10 @@ void ObjectSerializer::reconstructSendables(vector<string>* serializedPackages, 
 
 //SERIALIZATION
 //=========================================================================================
+
+string ObjectSerializer::getEndOfGameMessage() {
+    return addPadding(START_SYMBOL + SEPARATOR + to_string(END) + SEPARATOR +  END_OF_SERIALIZATION_SYMBOL);
+}
 
 string ObjectSerializer::serializedSuccesfullLoginMessage(string color, int id){
     return addPadding(START_SYMBOL + SEPARATOR + to_string(SUCCESS) + SEPARATOR + to_string(id) + SEPARATOR + color + SEPARATOR +  END_OF_SERIALIZATION_SYMBOL);

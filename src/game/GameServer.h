@@ -12,7 +12,7 @@
 #include "Game.h"
 #include "EntityManager.h"
 #include "LevelBuilder.h"
-#include "LevelBuilder.h"
+#include "SceneDirector.h"
 #include "Controller.h"
 
 #include "../enumerates/Action.h"
@@ -53,12 +53,9 @@ public:
     void addNewIDToGame(int id);
     void reemplazePreviousIDWith(int oldID, int newID);
     void reciveNewInput(tuple<Action,int> input);
-    int getCurrentLevelWidth();
     static bool isActive();
-    bool playersCanMove();
     void connectionLostWith(int id);
     bool isIDLogged(int ID);
-    void sendWaitingScreen();
 
     //GETTERS
     //===============================
@@ -141,18 +138,20 @@ private:
 
     std::map<std::string,std::string> validCredentials;             //<name,pass>
     std::map<std::string,std::string> loggedPlayersPassByUser;      //<name,pass>
-    std::map<std::string,int> loggedPlayersIDbyUser;                //<name,type>
-    std::map<int,User> loggedPlayersUserByID;                       //<type,user>
-    std::map<std::string,int> disconectedPlayers;                   //<name,type>
+    std::map<std::string,int> loggedPlayersIDbyUser;                //<name,ID>
+    std::map<int,User> loggedPlayersUserByID;                       //<ID,user>
+    std::map<std::string,int> disconectedPlayers;                   //<name,ID>
 
     int maxPlayers{};
 
-    Sendable* waitingScreenSendable = nullptr, * scoreScreenRenderable = nullptr;
-    list<Sendable*>* waitingScreenContainer = nullptr, *scoreContainer = nullptr;
-
+    SceneDirector* sceneDirector = nullptr;
     Server* server = nullptr;
     EntityManager* entityManager = nullptr;
     LevelBuilder* levelBuilder = nullptr;
+
+    void sendEndMessage();
+
+    void initSceneDirector();
 };
 
 #endif //GAME_GAMESERVER_H_

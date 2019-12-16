@@ -47,12 +47,10 @@ public:
     //===============================
     Character* addPlayer(int x, int y, int z,int id);
     void addEnemy();
-    void addEnemy(int x, int y, int z);
     void addFinalBoss();
     void addKnife();
     void addTube();
     void addBox();
-    void addBox(int x, int y, int z);
     void addBarrel();
     void addFar(const string& spritePath, float parallaxSpeed);
     void addMiddle(const string& spritePath, float parallaxSpeed);
@@ -64,12 +62,10 @@ public:
     //===============================
     Character* createCharacter(int x, int y, int z, int id);
     Enemy* createEnemy();
-    Enemy* createEnemy(int x, int y, int z);
     FinalBoss *createFinalBoss();
     Knife* createKnife();
     Tube* createTube();
     Box* createBox();
-    Box* createBox(int x, int y, int z);
     Barrel* createBarrel();
     Background* createFar(const string& spritePath, float parallaxSpeed);
     Background* createMiddle(const string& spritePath, float parallaxSpeed);

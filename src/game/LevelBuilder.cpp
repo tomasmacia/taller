@@ -170,9 +170,6 @@ void LevelBuilder::initializePlayers() {
 
     }
     LogManager::logDebug("[LEVEL]: Jugadores inicializados: " + std::to_string(amountOfPlayers));
-
-    _entityManager->addBox(50,0,50);
-    _entityManager->addEnemy(150,0,50);
 }
 
 void LevelBuilder::initializeEnemies() {
