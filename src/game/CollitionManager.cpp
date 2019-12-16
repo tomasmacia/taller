@@ -6,6 +6,7 @@
 #include <algorithm>
 #include "CollitionManager.h"
 #include "../entities/entityHierarchy/Entity.h"
+#include "../entities/Character.h"
 
 CollitionManager::CollitionManager() {
 
@@ -149,24 +150,30 @@ bool CollitionManager::anyBlockingCollitionsWith(CollitionBox *query) {
     bool isIgnored = (std::find(_ignoredCollitionBoxes->begin(), _ignoredCollitionBoxes->end(), query) != _ignoredCollitionBoxes->end());
 
     if (isIgnored){
-        return anyBlockingCollitionsInWith(_ignoredCollitionBoxes,query) || query->intersectsWith(leftScreen0BlockingCollitionBox);
+        auto otherIgnored = getCollitionsInWith(_ignoredCollitionBoxes,query);
+
+        for (auto ignored : *otherIgnored){
+            auto player = (Character*) ignored->getOwner();
+            player->drag();
+        }
+        return false;
     }
     else{
         return anyBlockingCollitionsInWith(_blockingCollitionBoxes,query);
     }
 }
 
-list<CollitionBox*>* CollitionManager::getCollitionsWith(CollitionBox *query) {
+list<CollitionBox*>* CollitionManager::getCollitionsInWith(list<CollitionBox*>* toCheck, CollitionBox* query) {
 
     auto collitions = new list<CollitionBox*>();
-    for (auto collitionBox : *_blockingCollitionBoxes){
+    for (auto collitionBox : *toCheck){
         if (collitionBox->getID() != query->getID() ){
             if (collitionBox->intersectsWith(query)){
                 //cout<<"query: "<<query->getID()<<", intersected: "<<collitionBox->getID()<<endl;
                 if (!((query->getOwner()->isScreen() && collitionBox->getOwner()->isEnemy())
-                 || (query->getOwner()->isScreen() && collitionBox->getOwner()->isFinalBoss())
-                 || (query->getOwner()->isEnemy() && collitionBox->getOwner()->isScreen())
-                 || (query->getOwner()->isFinalBoss() && collitionBox->getOwner()->isScreen()))){
+                      || (query->getOwner()->isScreen() && collitionBox->getOwner()->isFinalBoss())
+                      || (query->getOwner()->isEnemy() && collitionBox->getOwner()->isScreen())
+                      || (query->getOwner()->isFinalBoss() && collitionBox->getOwner()->isScreen()))){
 
                     collitions->push_back(collitionBox);
                 }

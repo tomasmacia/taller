@@ -20,7 +20,6 @@ public:
 
     void prepareForNextLevel();
     void untrack(CollitionBox* collitionBox);
-    list<CollitionBox*>* getCollitionsWith(CollitionBox* query);
 
     list<CollitionBox*>* getListOfHittedCollitionBox(CollitionBox* query);
     CollitionBox* getFirstPickedCollitionBox(CollitionBox* query);
@@ -36,10 +35,9 @@ public:
 
     bool anyBlockingCollitionsInWith(list<CollitionBox*>* collitionBoxes, CollitionBox *queryCollitionBox);
     bool anyBlockingCollitionsWith(CollitionBox* queryCollitionBox);
+    list<CollitionBox*>* getCollitionsInWith(list<CollitionBox*>* toCheck, CollitionBox* query);
     void ignoreBlockingCollitionBox(int id);
-
     void stopIgnoringBlockingCollitionBox(int id);
-
     void setLeftScreenBlockingCollitionBox(CollitionBox *pBox);
 
 private:
