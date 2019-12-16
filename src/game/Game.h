@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 
+#include "SceneDirector.h"
 #include "../logger/LogManager.h"
 #include "../XMLparser/config/config.h"
 
@@ -58,6 +59,7 @@ protected:
     virtual void init() = 0;
     virtual void initController();
     void initConfig();
+    void initSceneDirector();
 
     //ATRIBUTES
     //===============================
@@ -65,6 +67,7 @@ protected:
     bool on = true;
     int playerId = -1;
 
+    SceneDirector* sceneDirector = nullptr;
     Controller *controller = nullptr;
     Config *config = nullptr;
 

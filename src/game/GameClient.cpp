@@ -19,8 +19,8 @@ void GameClient::start() {
        
         if (isOn()){            //pregunto porque el loggerMenu lo podria haber cerrado al tocar ESC o QUIT
             initInputSystem();
+            initSceneDirector();
             initRenderingSystem();
-            initScreens();
             initSoundSystem();
             client->client_noBlock(); //que el send y recv al cliente no bloqueen el juego
 
@@ -43,11 +43,11 @@ void GameClient::start() {
 
 void GameClient::gameLoop() {
     init_music();
+    sceneDirector->initDisconectionScreen();
     while (isOn()) {
         pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
-        if (disconnect){
-            disconnectScreen();
-        //   SDL_Delay(2000);
+        if (disconnect && !endOfGame){
+            sceneDirector->renderDisconectionScreen(renderer, &loadedTexturesMap);
         }
         else {
             render();
@@ -62,25 +62,6 @@ void GameClient::pollAndSendInput() {
     }
         //cout<<"CLIENT-FROM MODEL: "<<serializedInput<<endl;
 }
-
-void GameClient::disconnectScreen(){
-    SDL_RenderClear(renderer);
-
-    int imageWidth = disconectionScreen->getWidth();
-    int imageHeight = disconectionScreen->getHeight();
-
-    int screenWidth = config->screenResolution.width;
-    int screenHeight = config->screenResolution.height;
-
-    Rect src = {0,0,imageWidth,imageHeight};
-    Rect dst = {0,0,screenWidth,screenHeight};
-
-    disconectionScreen->render(&src, &dst, false);
-    
-    SDL_RenderPresent(renderer);
-
-}
-
 
 void GameClient::render() {
 
@@ -183,11 +164,6 @@ void GameClient::initRenderingSystem(){
     LogManager::logDebug("[INIT]: inicializado SDL");
 }
 
-void GameClient::initScreens(){
-    disconectionScreen = new TextureWrapper();
-    disconectionScreen->loadFromFile("resources/sprites/screens/disconnection.png");
-}
-
 void GameClient::initSoundSystem(){
     initSDLMixer();
     LogManager::logDebug("[INIT]: inicializado SDL Mixer");
@@ -249,8 +225,6 @@ void GameClient::destroy() {
     delete(client);
     client = nullptr;
     clearMaps();
-    delete (disconectionScreen);
-    disconectionScreen = nullptr;
     baseClassFreeMemory();
     LogManager::logDebug("Memoria de Game Client liberada");
 }
@@ -277,5 +251,5 @@ void GameClient::erasePreviousPackages() {
 }
 
 void GameClient::notifyEndOfGame() {
-
+    endOfGame = true;
 }

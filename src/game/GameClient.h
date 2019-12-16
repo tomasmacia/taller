@@ -90,13 +90,11 @@ private:
     void closeClient();
     bool hasClientAttemptedConection();
     void waitUntilConnectionStablished();
-    void disconnectScreen();
 
     //INIT
     //===============================
     void initInputSystem();
     void initRenderingSystem();
-    void initScreens();
     void initSoundSystem();
     void initLoggerMenu();
     void init() override ;
@@ -112,6 +110,7 @@ private:
 
     static bool hasInstance;
 
+    bool endOfGame = false;
     bool loggedIn = false;
     bool disconnect = false;
 
@@ -119,8 +118,6 @@ private:
     std:: mutex controllerMutex;
     std::condition_variable waitForConnection;
     std::thread clientConnectionThread;
-
-    TextureWrapper* disconectionScreen = nullptr;
 
     LoggerMenu* loggerMenu = nullptr;
     Client* client = nullptr;

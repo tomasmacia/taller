@@ -5,10 +5,9 @@
 #include "SceneDirector.h"
 #include "../net/Server.h"
 
-SceneDirector::SceneDirector(Controller *controller, Server* server, Config* config) {
+SceneDirector::SceneDirector(Controller *controller, Config* config) {
     this->config = config;
     this->controller = controller;
-    this->server = server;
 }
 
 void SceneDirector::initWaitingScreen() {
@@ -40,15 +39,37 @@ void SceneDirector::initScoreScreen(const std::list<Character*>& players, const 
     }
 }
 
-void SceneDirector::sendWaitingScreen() {
+void SceneDirector::initDisconectionScreen() {
+
+    disconectionScreen = initScreen(DISCONECTION_SCREEN_PATH)->_renderable;
+}
+
+void SceneDirector::initYouDiedScreen() {
+
+    youDiedScreen = initScreen(YOU_DIED_SCREEN_PATH)->_renderable;
+}
+
+void SceneDirector::renderDisconectionScreen(SDL_Renderer* renderer, std::map<std::string, TextureWrapper*>* loadedTexturesMap) {
+    SDL_RenderClear(renderer);
+    disconectionScreen->render(loadedTexturesMap);
+    SDL_RenderPresent(renderer);
+}
+
+void SceneDirector::renderYouDiedScreen(SDL_Renderer* renderer, std::map<std::string, TextureWrapper*>* loadedTexturesMap) {
+    SDL_RenderClear(renderer);
+    youDiedScreen->render(loadedTexturesMap);
+    SDL_RenderPresent(renderer);
+}
+
+void SceneDirector::sendWaitingScreen(Server* server) {
     controller->sendUpdate(waitingScreenContainer,server);
 }
 
-void SceneDirector::sendEndOfGameScreen() {
+void SceneDirector::sendEndOfGameScreen(Server* server) {
     controller->sendUpdate(endOfGameScreenContainer,server);
 }
 
-void SceneDirector::sendScoreScreen() {
+void SceneDirector::sendScoreScreen(Server* server) {
     controller->sendUpdate(scoreScreenContainer,server);
 }
 
@@ -226,6 +247,9 @@ SceneDirector::~SceneDirector() {
         }
         delete(scoreScreenContainer);
     }
+
+    delete(disconectionScreen);
+    delete(youDiedScreen);
 }
 
 

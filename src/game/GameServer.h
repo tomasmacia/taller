@@ -12,7 +12,6 @@
 #include "Game.h"
 #include "EntityManager.h"
 #include "LevelBuilder.h"
-#include "SceneDirector.h"
 #include "Controller.h"
 
 #include "../enumerates/Action.h"
@@ -103,11 +102,6 @@ private:
     void closeServer();
     void waitUnitAllPlayersConnected();
     bool notAllPlayersDisconnected();
-    void ScoreScreen();
-    void finalScreen();
-    void renderPuntaje(int score,int x, int y,list<Sendable*>* wa);
-    void CharacterName(int y, int id,list<Sendable*>* wa);
-    void cleanScreens();
 
     //CONTROLLER RELATED
     //===============================
@@ -130,6 +124,7 @@ private:
     //ATRIBUTES
     //===============================
     int SLEEP_TIME = 13000;
+    int WAIT_TIME = 2000000;
     Color currentColor = BLUE;
 
     static bool hasInstance;
@@ -144,14 +139,11 @@ private:
 
     int maxPlayers{};
 
-    SceneDirector* sceneDirector = nullptr;
     Server* server = nullptr;
     EntityManager* entityManager = nullptr;
     LevelBuilder* levelBuilder = nullptr;
 
     void sendEndMessage();
-
-    void initSceneDirector();
 };
 
 #endif //GAME_GAMESERVER_H_

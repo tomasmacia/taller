@@ -34,6 +34,13 @@ void Game::initController() {
     controller = new Controller(this);
 }
 
+void Game::initSceneDirector() {
+    sceneDirector = new SceneDirector(controller,config);
+
+    LogManager::logDebug("[INIT]: creado el Scene Director");
+    LogManager::logDebug("=======================================");
+}
+
 //DESTROY
 //=========================================================================================
 

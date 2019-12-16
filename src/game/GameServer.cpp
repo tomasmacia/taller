@@ -45,8 +45,8 @@ void GameServer::gameLoop(){
         }
          if (notAllPlayersDisconnected()) {
             sceneDirector->initScoreScreen(entityManager->getPlayers(),loggedPlayersUserByID);
-            sceneDirector->sendScoreScreen();
-            SDL_Delay(4000);
+            sceneDirector->sendScoreScreen(server);
+             usleep(WAIT_TIME);
         }
 
         LogManager::logInfo("[GAME]: Nivel terminado");
@@ -54,8 +54,8 @@ void GameServer::gameLoop(){
     }
     if (notAllPlayersDisconnected() ) {
         sceneDirector->initEndOfGameScreen();
-        sceneDirector->sendEndOfGameScreen();
-        SDL_Delay(4000);
+        sceneDirector->sendEndOfGameScreen(server);
+        usleep(WAIT_TIME);
     } 
     on = false;
     server->stopListening();
@@ -147,7 +147,7 @@ void GameServer::waitUnitAllPlayersConnected(){
     sceneDirector->initWaitingScreen();
     while ((loggedPlayersPassByUser.size() != maxPlayers) ||
             (!disconectedPlayers.empty())){
-        sceneDirector->sendWaitingScreen();
+        sceneDirector->sendWaitingScreen(server);
         usleep(SLEEP_TIME);
     }
 }
@@ -287,13 +287,6 @@ void GameServer::init() {
 
     LogManager::logDebug("[INIT]: inicializado Config");
     LogManager::logDebug("[INIT]: cargado credenciales");
-    LogManager::logDebug("=======================================");
-}
-
-void GameServer::initSceneDirector() {
-    sceneDirector = new SceneDirector(controller,server,config);
-
-    LogManager::logDebug("[INIT]: creado el Scene Director");
     LogManager::logDebug("=======================================");
 }
 
