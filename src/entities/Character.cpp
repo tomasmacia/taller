@@ -38,17 +38,21 @@ bool Character::isDisconnected() {
 
 void Character::setConnected(int newID) {
     CharacterAppearance* characterAppearance = (CharacterAppearance*) this->appearance;
+    auto* animatedEntityCollitionHandler = (AnimatedEntityCollitionHandler*) this->collitionHandler;
 
     state->setConnected();
     characterAppearance->setConnected();
+    animatedEntityCollitionHandler->setConnected();
     id->setNew(newID);
 }
 
 void Character::setDisconnected() {
-    CharacterAppearance* characterAppearance = (CharacterAppearance*) this->appearance;
+    auto* characterAppearance = (CharacterAppearance*) this->appearance;
+    auto* animatedEntityCollitionHandler = (AnimatedEntityCollitionHandler*) this->collitionHandler;
 
     state->setDisconnected();
     characterAppearance->setDisconnected();
+    animatedEntityCollitionHandler->setDisconected();
 }
 
 int Character::getID() {

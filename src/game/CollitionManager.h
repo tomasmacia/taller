@@ -20,7 +20,6 @@ public:
 
     void prepareForNextLevel();
     void untrack(CollitionBox* collitionBox);
-    list<CollitionBox*>* getCollitionsWith(CollitionBox* query);
 
     list<CollitionBox*>* getListOfHittedCollitionBox(CollitionBox* query);
     CollitionBox* getFirstPickedCollitionBox(CollitionBox* query);
@@ -34,9 +33,15 @@ public:
     CollitionBox* createBarrelBlockingCollitionBox(int x, int y, int z, int w, int h, int d, bool visual);
     CollitionBox* createScreenBlockingCollitionBox(int x, int y, int z, int w, int h, int d, bool visual);
 
+    bool anyBlockingCollitionsInWith(list<CollitionBox*>* collitionBoxes, CollitionBox *queryCollitionBox);
     bool anyBlockingCollitionsWith(CollitionBox* queryCollitionBox);
+    list<CollitionBox*>* getCollitionsInWith(list<CollitionBox*>* toCheck, CollitionBox* query);
+    void ignoreBlockingCollitionBox(int id);
+    void stopIgnoringBlockingCollitionBox(int id);
+    void setLeftScreenBlockingCollitionBox(CollitionBox *pBox);
 
 private:
+    CollitionBox* findCollitionBoxByID(int id);
     void clearNonLevelPersistentCollitionBoxes();
 
     list<CollitionBox*>* _blockingCollitionBoxes = nullptr;
@@ -45,6 +50,9 @@ private:
     list<CollitionBox*>* _nonLevelPersistentCollitionBoxes = nullptr;
     list<CollitionBox*>* _weaponCollitionBoxes = nullptr;
     list<CollitionBox*>* _characterCollitionBoxes = nullptr;
+    list<CollitionBox*>* _ignoredCollitionBoxes = nullptr;
+    CollitionBox* leftScreen0BlockingCollitionBox = nullptr;
+
     int newID = 0;
 };
 

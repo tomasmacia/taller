@@ -27,4 +27,5 @@ void UtilityAppearance::handleCurrentState(){
             _imageAmount  = DYING_IMAGE_AMOUNT;
             break;
     }
+    getCurrentSpriteDimentions();
 }

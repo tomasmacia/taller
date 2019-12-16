@@ -197,7 +197,7 @@ int Client::send(const std::string& msg) {
         int n = ::send(socketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
         if (n < 0) {
             error("ERROR sending");
-            gameClient->end();
+            //gameClient->end();
             return n;
         }
         if (n == 0) {
