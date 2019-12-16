@@ -20,6 +20,8 @@ public:
         return behavior;
     }
 
+    ~IA() override;
+
 private:
 
     Action _currentAction = NONE;

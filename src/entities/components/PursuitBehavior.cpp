@@ -1,4 +1,5 @@
 #include "PursuitBehavior.h"
+#include "AttackingBehavior.h"
 #include "EnemyBehaviorType.h"
 
 PursuitBehavior::PursuitBehavior(Character* target, IA* owner, EntityManager* manager, Position* subjectPosition){
@@ -9,12 +10,24 @@ PursuitBehavior::PursuitBehavior(Character* target, IA* owner, EntityManager* ma
 };
 
 void PursuitBehavior::update() {
+
+    if (nearTarget) {
+        this->owner->switchBehavior(ATTACKING);
+        ((AttackingBehavior*) this->owner->getCurrentBehavior())->switchTarget(target); // ASCO
+        return;
+    }
+
     pursuitDurationCounter++;
-    if (pursuitDurationCounter >= PURSUIT_MAX_DURATION){
-        //this->owner->changeBehavior(new PatrolBehavior(owner,manager,subjectPosition));
+    if (pursuitDurationCounter >= PURSUIT_MAX_DURATION) {
+//        if (getDistanceToTarget() <= PUNCH_RANGE) {
+//            this->owner->switchBehavior(ATTACKING);
+//            ((AttackingBehavior*) this->owner->getCurrentBehavior())->switchTarget(target); // ASCO
+//        }
+
         this->owner->switchBehavior(PATROL);
+
         pursuitDurationCounter = 0;
-    };
+    }
 }
 
 Action PursuitBehavior::getNext() {
@@ -36,6 +49,7 @@ Action PursuitBehavior::getNext() {
     int distance = position.getDistanceTo(subjectPosition);
 
     if (distance >= PUNCH_RANGE) {
+        nearTarget = false;
         if (abs(xdif) < abs(zdif)) {
             if (zdif > 0) {
                 result = UP;
@@ -49,6 +63,8 @@ Action PursuitBehavior::getNext() {
                 result = LEFT;
             }
         }
+    } else {
+        nearTarget = true;
     }
 
     if (result == NONE) {
@@ -56,4 +72,8 @@ Action PursuitBehavior::getNext() {
     }
 
     return result;
+}
+
+int PursuitBehavior::getDistanceToTarget() {
+    return this->target->getPosition()->getDistanceTo(subjectPosition);
 }

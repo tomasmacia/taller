@@ -8,7 +8,8 @@
 
 enum EnemyBehaviorType {
     PATROL,
-    TARGET
+    TARGET,
+    ATTACKING
 };
 
 

@@ -7,23 +7,24 @@ PatrolBehavior::PatrolBehavior(IA* owner, EntityManager* manager, Position* subj
 }
 
 Action PatrolBehavior::getNext(){
-    if (side == 1){
-        return RIGHT;
-    } else {
-        return LEFT;
-    }
+    return NONE;
+//    if (side == 1){
+//        return RIGHT;
+//    } else {
+//        return LEFT;
+//    }
 }
 
 void PatrolBehavior::update(){
-    if (sideChangeCounter >= SIDE_CHANGE_DELAY){
-        sideChangeCounter = 0;
-         if (side == 1){
-            side ++;
-        } else {
-            side =1;
-        }
-    }
-    sideChangeCounter++;
+//    if (sideChangeCounter >= SIDE_CHANGE_DELAY){
+//        sideChangeCounter = 0;
+//         if (side == 1){
+//            side ++;
+//        } else {
+//            side =1;
+//        }
+//    }
+//    sideChangeCounter++;
 
     if (playerDetectCounter >= PLAYER_DETECTION_DELAY){
         playerDetectCounter = 0;

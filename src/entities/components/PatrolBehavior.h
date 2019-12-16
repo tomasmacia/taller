@@ -7,7 +7,7 @@
 
 
 const int SIDE_CHANGE_DELAY = 60;
-const int PLAYER_DETECTION_DELAY = 600;
+const int PLAYER_DETECTION_DELAY = 300;
 const int PLAYER_DETECTION_RANGE = 1000;
 
 
@@ -16,6 +16,10 @@ class PatrolBehavior : public Will{
         PatrolBehavior(IA* owner, EntityManager* manager, Position* subjectPosition);
         void update() override;
         Action getNext() override;
+
+        ~PatrolBehavior() override {
+
+        }
 
     private:
 

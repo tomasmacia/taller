@@ -12,7 +12,11 @@ class NullWill : public Will{
 
 public:
     void update() override {}
-    Action getNext() override ;
+    Action getNext() override;
+
+    ~NullWill() override {
+
+    };
 };
 
 
