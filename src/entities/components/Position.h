@@ -21,6 +21,18 @@ public:
         point->z = zPos;
     }
 
+    void setX(int xPos) {
+        point->x = xPos;
+    }
+
+    void setY(int yPos) {
+        point->y = yPos;
+    }
+
+    void setZ(int zPos) {
+        point->z = zPos;
+    }
+
     int getX() {
         return point->x;
     }

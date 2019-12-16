@@ -19,11 +19,23 @@ void PursuitBehavior::update() {
 
 Action PursuitBehavior::getNext() {
     Action result = NONE;
-    int distance = target->getPosition()->getDistanceTo(subjectPosition);
+    int xdif = target->getX() - subjectPosition->getX();
+    int zdif = target->getZ() - subjectPosition->getZ();
+
+    int offset = 0;
+
+    if (xdif > 0) {
+        xdif -= 120;
+        offset = -120;
+    } else {
+        xdif += 120;
+        offset = 120;
+    }
+
+    Position position(target->getX() + offset, target->getY(), target->getZ(), nullptr);
+    int distance = position.getDistanceTo(subjectPosition);
 
     if (distance >= PUNCH_RANGE) {
-        int xdif = target->getX() - subjectPosition->getX();
-        int zdif = target->getZ() - subjectPosition->getZ();
         if (abs(xdif) < abs(zdif)) {
             if (zdif > 0) {
                 result = UP;
@@ -37,6 +49,10 @@ Action PursuitBehavior::getNext() {
                 result = LEFT;
             }
         }
+    }
+
+    if (result == NONE) {
+        result = END_MOVEMENT;
     }
 
     return result;
