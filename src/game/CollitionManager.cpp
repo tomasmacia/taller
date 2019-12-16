@@ -156,6 +156,8 @@ bool CollitionManager::anyBlockingCollitionsWith(CollitionBox *query) {
             auto player = (Character*) ignored->getOwner();
             player->drag();
         }
+        delete(otherIgnored);
+        
         return false;
     }
     else{
