@@ -15,6 +15,9 @@ class Background : public Entity{
 
 public:
     Background(BackgroundAppearance* appearance);
+
+    Background(BackgroundCollitionHandler *pHandler, BackgroundAppearance *pAppearance);
+
     ~Background() override;
 
     //API

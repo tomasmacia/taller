@@ -538,7 +538,7 @@ Background* EntityManager::createFloor(const string& spritePath, float parallaxS
     auto* collitionHandler = new BackgroundCollitionHandler(collitionManager, collitionBoxes);
 
 
-    return new Background(appearance);
+    return new Background(collitionHandler,appearance);
 }
 
 Background* EntityManager::createOverlay(const string& spritePath, float parallaxSpeed) {
