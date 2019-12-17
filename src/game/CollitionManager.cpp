@@ -3,8 +3,10 @@
 //
 
 #include <iostream>
+#include <algorithm>
 #include "CollitionManager.h"
 #include "../entities/entityHierarchy/Entity.h"
+#include "../entities/Character.h"
 
 CollitionManager::CollitionManager() {
 
@@ -14,6 +16,7 @@ CollitionManager::CollitionManager() {
     _characterCollitionBoxes = new list<CollitionBox*>();
     _enemiesCollitionBoxes = new list<CollitionBox*>();
     _utilitiesCollitionBoxes = new list<CollitionBox*>();
+    _ignoredCollitionBoxes = new list<CollitionBox*>();
 }
 
 CollitionBox *CollitionManager::createCharacterBlockingCollitionBox(int x, int y, int z, int w, int h, int d, bool visual) {
@@ -47,7 +50,6 @@ CollitionBox *CollitionManager::createBackgroundBlockingCollitionBox(int x, int 
 CollitionBox *CollitionManager::createKnifeBlockingCollitionBox(int x, int y, int z, int w, int h, int d, bool visual) {
 
     auto* newCollitionBox = new CollitionBox(x,y,z,w,h,d,newID,visual);
-    _blockingCollitionBoxes->push_back(newCollitionBox);
     _weaponCollitionBoxes->push_back(newCollitionBox);
     _nonLevelPersistentCollitionBoxes->push_back(newCollitionBox);
     newID++;
@@ -57,7 +59,6 @@ CollitionBox *CollitionManager::createKnifeBlockingCollitionBox(int x, int y, in
 CollitionBox *CollitionManager::createTubeBlockingCollitionBox(int x, int y, int z, int w, int h, int d, bool visual) {
 
     auto* newCollitionBox = new CollitionBox(x,y,z,w,h,d,newID,visual);
-    _blockingCollitionBoxes->push_back(newCollitionBox);
     _weaponCollitionBoxes->push_back(newCollitionBox);
     _nonLevelPersistentCollitionBoxes->push_back(newCollitionBox);
     newID++;
@@ -126,16 +127,16 @@ CollitionBox *CollitionManager::getFirstPickedCollitionBox(CollitionBox *query) 
     return nullptr;
 }
 
-bool CollitionManager::anyBlockingCollitionsWith(CollitionBox *query) {
+bool CollitionManager::anyBlockingCollitionsInWith(list<CollitionBox*>* collitionBoxes, CollitionBox *queryCollitionBox) {
 
-    for (auto* collitionBox: *_blockingCollitionBoxes){
-        if (collitionBox->getID() != query->getID()){
-            if (collitionBox->intersectsWith(query)){
+    for (auto* collitionBox: *collitionBoxes){
+        if (collitionBox->getID() != queryCollitionBox->getID()){
+            if (collitionBox->intersectsWith(queryCollitionBox)){
                 //cout<<"query: "<<query->getID()<<", intersected: "<<collitionBox->getID()<<endl;
-                if (!((query->getOwner()->isScreen() && collitionBox->getOwner()->isEnemy())
-                      || (query->getOwner()->isScreen() && collitionBox->getOwner()->isFinalBoss())
-                      || (query->getOwner()->isEnemy() && collitionBox->getOwner()->isScreen())
-                      || (query->getOwner()->isFinalBoss() && collitionBox->getOwner()->isScreen()))){
+                if (!((queryCollitionBox->getOwner()->isScreen() && collitionBox->getOwner()->isEnemy())
+                      || (queryCollitionBox->getOwner()->isScreen() && collitionBox->getOwner()->isFinalBoss())
+                      || (queryCollitionBox->getOwner()->isEnemy() && collitionBox->getOwner()->isScreen())
+                      || (queryCollitionBox->getOwner()->isFinalBoss() && collitionBox->getOwner()->isScreen()))){
                     return true;
                 }
             }
@@ -144,17 +145,37 @@ bool CollitionManager::anyBlockingCollitionsWith(CollitionBox *query) {
     return false;
 }
 
-list<CollitionBox*>* CollitionManager::getCollitionsWith(CollitionBox *query) {
+bool CollitionManager::anyBlockingCollitionsWith(CollitionBox *query) {
+
+    bool isIgnored = (std::find(_ignoredCollitionBoxes->begin(), _ignoredCollitionBoxes->end(), query) != _ignoredCollitionBoxes->end());
+
+    if (isIgnored){
+        auto otherIgnored = getCollitionsInWith(_ignoredCollitionBoxes,query);
+
+        for (auto ignored : *otherIgnored){
+            auto player = (Character*) ignored->getOwner();
+            player->drag();
+        }
+        delete(otherIgnored);
+
+        return false;
+    }
+    else{
+        return anyBlockingCollitionsInWith(_blockingCollitionBoxes,query);
+    }
+}
+
+list<CollitionBox*>* CollitionManager::getCollitionsInWith(list<CollitionBox*>* toCheck, CollitionBox* query) {
 
     auto collitions = new list<CollitionBox*>();
-    for (auto collitionBox : *_blockingCollitionBoxes){
+    for (auto collitionBox : *toCheck){
         if (collitionBox->getID() != query->getID() ){
             if (collitionBox->intersectsWith(query)){
                 //cout<<"query: "<<query->getID()<<", intersected: "<<collitionBox->getID()<<endl;
                 if (!((query->getOwner()->isScreen() && collitionBox->getOwner()->isEnemy())
-                 || (query->getOwner()->isScreen() && collitionBox->getOwner()->isFinalBoss())
-                 || (query->getOwner()->isEnemy() && collitionBox->getOwner()->isScreen())
-                 || (query->getOwner()->isFinalBoss() && collitionBox->getOwner()->isScreen()))){
+                      || (query->getOwner()->isScreen() && collitionBox->getOwner()->isFinalBoss())
+                      || (query->getOwner()->isEnemy() && collitionBox->getOwner()->isScreen())
+                      || (query->getOwner()->isFinalBoss() && collitionBox->getOwner()->isScreen()))){
 
                     collitions->push_back(collitionBox);
                 }
@@ -197,4 +218,51 @@ CollitionManager::~CollitionManager(){
     delete(_enemiesCollitionBoxes);
     _utilitiesCollitionBoxes->clear();
     delete(_utilitiesCollitionBoxes);
+    _ignoredCollitionBoxes->clear();
+    delete(_ignoredCollitionBoxes);
+}
+
+void CollitionManager::ignoreBlockingCollitionBox(int id) {
+
+    auto toIgnoreCollitionBox = findCollitionBoxByID(id);
+
+    if (toIgnoreCollitionBox != nullptr){
+
+        _blockingCollitionBoxes->remove(toIgnoreCollitionBox);
+        _ignoredCollitionBoxes->push_back(toIgnoreCollitionBox);
+    }
+}
+
+CollitionBox* CollitionManager::findCollitionBoxByID(int id) {
+
+    for (auto collitionBox : *_blockingCollitionBoxes){
+
+        if (collitionBox->getID() == id){
+            return collitionBox;
+        }
+    }
+
+    for (auto collitionBox : *_ignoredCollitionBoxes){ // si no estaba en los collition box de bloqueo entonces busco en los ignorados
+
+        if (collitionBox->getID() == id){
+            return collitionBox;
+        }
+    }
+
+    return nullptr;
+}
+
+void CollitionManager::stopIgnoringBlockingCollitionBox(int id) {
+
+    auto toStopIgnoringCollitionBox = findCollitionBoxByID(id);
+
+    if (toStopIgnoringCollitionBox != nullptr){
+
+        _ignoredCollitionBoxes->remove(toStopIgnoringCollitionBox);
+        _blockingCollitionBoxes->push_back(toStopIgnoringCollitionBox);
+    }
+}
+
+void CollitionManager::setLeftScreenBlockingCollitionBox(CollitionBox *pBox) {
+    leftScreen0BlockingCollitionBox = pBox;
 }

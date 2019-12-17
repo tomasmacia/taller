@@ -3,6 +3,8 @@
 #include "../logger/Logger.h"
 #include "Controller.h"
 #include "LoggerMenu.h"
+#include "GameClient.h"
+
 
 bool GameClient::hasInstance = false;
 
@@ -16,11 +18,13 @@ void GameClient::start() {
 
     if (isOn()){                //pregunto porque el Client lo podria haber cerrado al no conectarse
         loggerMenu->open();
-
+       
         if (isOn()){            //pregunto porque el loggerMenu lo podria haber cerrado al tocar ESC o QUIT
             initInputSystem();
+            initSceneDirector();
             initRenderingSystem();
             initSoundSystem();
+            client->client_noBlock(); //que el send y recv al cliente no bloqueen el juego
 
             gameLoop();
         }
@@ -35,13 +39,41 @@ void GameClient::start() {
     LogManager::logInfo("=======================================");
 }
 
+
 //GAME LOOP
 //=========================================================================================
 
 void GameClient::gameLoop() {
+    initGameMusic();
+    sceneDirector->initDisconectionScreen();
     while (isOn()) {
         pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
-        render();
+
+        if (disconnect || playerDied){
+            if (!youDiedMusicPlaying){
+
+                initYouDiedOrDisconnectedMusic();
+                gameMusic->play();
+                youDiedMusicPlaying = true;
+                normalGameMusicPlaying = false;
+            }
+        }
+
+        else if (gameStarted){
+            if (!normalGameMusicPlaying){
+
+                gameMusic->play();
+                normalGameMusicPlaying = true;
+                youDiedMusicPlaying = false;
+            }
+        }
+
+        if (disconnect && !endOfGame){
+            sceneDirector->renderDisconectionScreen(renderer, &loadedTexturesMap);
+        }
+        else {
+            render();
+        }
     }
 }
 
@@ -114,6 +146,32 @@ void GameClient::reciveRenderables(vector<string>* serializedPages){
     }
 }
 
+void GameClient::notifyEndOfGame() {
+    endOfGame = true;
+}
+
+void GameClient::processPlayerDeath(int id) {
+    if (id == playerId){
+        playerDied = true;
+    }
+}
+
+void GameClient::notifyGameStart() {
+    gameStarted = true;
+}
+
+//SOUND
+//===============================
+
+void GameClient::initGameMusic() {
+    gameMusic = new SoundWrapper(true);
+    gameMusic->load(GAME_MUSIC_PATH);
+}
+
+void GameClient::initYouDiedOrDisconnectedMusic() {
+    gameMusic->load(YOU_DIED_OR_DISCONNECTED_MUSIC_PATH);
+}
+
 //CLIENT RELATED
 //=========================================================================================
 void GameClient::startClient() {
@@ -166,6 +224,10 @@ void GameClient::init() {
     LogManager::logDebug("=======================================");
 }
 
+void GameClient::disconnected(){
+    disconnect = true;
+}
+
 void GameClient::initSDL() {
     if( SDL_Init(SDL_INIT_VIDEO) == 0 ) {
         if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG) {
@@ -210,6 +272,7 @@ void GameClient::destroy() {
     loggerMenu = nullptr;
     delete(client);
     client = nullptr;
+    delete (gameMusic);
     clearMaps();
     baseClassFreeMemory();
     LogManager::logDebug("Memoria de Game Client liberada");

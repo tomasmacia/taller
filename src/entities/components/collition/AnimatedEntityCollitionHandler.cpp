@@ -78,8 +78,10 @@ void AnimatedEntityCollitionHandler::moveTowardsDestinationAndCorrect(Point *des
     bool startOfTheCorrection = true;
     while (!_blockingCollitionBox->arrived() || startOfTheCorrection){
         startOfTheCorrection = false;
+        //_blockingCollitionBox->clearDiscardedMoves();
 
         _blockingCollitionBox->moveOneUnitInTheDirectionOf(destination);
+        //_blockingCollitionBox->discardTheOpositeOfLastMoveAsCandidate();
 
         if (_collitionManager->anyBlockingCollitionsWith(_blockingCollitionBox)){
             _blockingCollitionBox->restorePreviousPosition();
@@ -88,4 +90,18 @@ void AnimatedEntityCollitionHandler::moveTowardsDestinationAndCorrect(Point *des
     }
     destination->setAt(_blockingCollitionBox->getCenter());
     _blockingCollitionBox->clearDiscardedMoves();
+}
+
+void AnimatedEntityCollitionHandler::setDisconected() {
+
+    for (auto collitionBox : *_collitionBoxes){
+        _collitionManager->ignoreBlockingCollitionBox(collitionBox->getID());
+    }
+}
+
+void AnimatedEntityCollitionHandler::setConnected() {
+
+    for (auto collitionBox : *_collitionBoxes){
+        _collitionManager->stopIgnoringBlockingCollitionBox(collitionBox->getID());
+    }
 }

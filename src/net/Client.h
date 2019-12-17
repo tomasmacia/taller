@@ -27,6 +27,7 @@ public:
     void sendCredentials(string user, string pass);
     bool hasAchievedConnectionAttempt();
     void notifyGameStoppedRunning();
+    void client_noBlock();
 
 private:
     //THREADS
@@ -82,6 +83,12 @@ private:
 
     list<string> toSendMessagesQueue;
     list<string> incomingMessagesQueue;
+
+    void processEndOfGame();
+
+    void processPlayerDeath();
+
+    void processGameStart();
 };
 
 #endif //GAME_CLIENT_H

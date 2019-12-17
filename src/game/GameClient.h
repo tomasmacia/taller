@@ -40,9 +40,11 @@ public:
     void notifyAboutClientConectionToServerAttemptDone();
     void end() override ;
     void render();
-
+    void disconnected();
     void reciveRenderables(vector<string>* serializedPages);
-
+    void notifyEndOfGame();
+    void processPlayerDeath(int id);
+    void notifyGameStart();
     static bool isActive(){
         return hasInstance;
     }
@@ -52,11 +54,9 @@ public:
     void setLogged(){
         loggedIn = true;
     }
-
     void setPlayerName(string name){
         this->user = name;
     }
-
     void setPlayerColor(string color){
         this->color = color;
     }
@@ -72,6 +72,7 @@ private:
         destroy();
     }
     void destroy() override ;
+    void erasePreviousPackages();
 
     void clearMaps();
     //GAME LOOP
@@ -95,15 +96,31 @@ private:
     void initLoggerMenu();
     void init() override ;
     void initSDL();
+    void initSDLMixer();
+    void initGameMusic();
+    void initYouDiedOrDisconnectedMusic();
+    
 
     //ATRIBUTES
     //===============================
     string color = "";
     string user = "";
 
+    string GAME_MUSIC_PATH = "resources/sfx/music/soundtrack.wav";
+    string YOU_DIED_OR_DISCONNECTED_MUSIC_PATH = "resources/sfx/music/Curb_Your_Enthusiasm_theme_song.wav";
+
+    bool youDiedMusicPlaying = false;
+    bool normalGameMusicPlaying = false;
+
+    SoundWrapper* gameMusic = nullptr;
+
     static bool hasInstance;
 
+    bool gameStarted = false;
+    bool playerDied = false;
+    bool endOfGame = false;
     bool loggedIn = false;
+    bool disconnect = false;
 
     std:: mutex mu;
     std:: mutex controllerMutex;
@@ -115,10 +132,6 @@ private:
     std::list<Sendable*>* previousPackages = nullptr;
     std::map<std::string, TextureWrapper*> loadedTexturesMap;
     std::map<string, SoundWrapper *> loadedSoundsMap;
-
-    void initSDLMixer();
-
-    void erasePreviousPackages();
 };
 
 #endif //GAME_GAMECLIENT_H_

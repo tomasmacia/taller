@@ -1,5 +1,6 @@
 
 #include "EntityManager.h"
+#include "GameServer.h"
 
 #include "../entities/components/InputPoller.h"
 #include "../entities/components/IA.h"
@@ -12,6 +13,9 @@
 #include "../entities/components/SoundHierarchy/NullSound.h"
 #include "../entities/components/SoundHierarchy/BoxSound.h"
 #include "../entities/components/SoundHierarchy/BarrelSound.h"
+#include "../entities/FinalBoss.h"
+#include "../entities/components/SoundHierarchy/FinalBossSound.h"
+#include "../entities/components/appearances/FinalBossAppearance.h"
 
 //CONSTRUCTOR
 //=========================================================================================
@@ -21,6 +25,10 @@ EntityManager::EntityManager(Controller* controller, Config* config){
 
     this->controller = controller;
     this->config = config;
+}
+
+void EntityManager::setGame(GameServer *gameServer) {
+    this->gameServer = gameServer;
 }
 
 void EntityManager::initializeCollitionManager(){
@@ -36,6 +44,10 @@ void EntityManager::update() {//se updatean todas seguro porque updateo las list
     for(auto* e : physicalEntities) e->update();
     for(auto* e : frontLayerBackgrounds) e->update();
     for(auto* e : specialEntities) e->update();
+
+    if (finalBoss == nullptr || finalBoss->dead()){
+        bossIsDead = true;
+    }
 
     eraseDeadEntities();
 }
@@ -102,6 +114,10 @@ void EntityManager::setLevelParameters(int levelWidth, int levelHeight, int leve
     validPositionGenerator.set(levelWidth,levelHeight,levelDepth);
 }
 
+bool EntityManager::bossKilled() {
+    return bossIsDead;
+}
+
 //ADDING NEW ENTITIES
 //=========================================================================================
 Character* EntityManager::addPlayer(int x, int y, int z, int id) {
@@ -109,6 +125,15 @@ Character* EntityManager::addPlayer(int x, int y, int z, int id) {
     players.push_back(character);
     physicalEntities.push_back(character);
     return character;
+}
+
+void EntityManager::addFinalBoss() {
+    FinalBoss* boss = createFinalBoss();
+    nonLevelPersistentEntities.push_back((Entity*) boss);
+    enemies.push_back(boss);
+    physicalEntities.push_back(boss);
+    finalBoss = boss;
+    bossIsDead = false;
 }
 
 void EntityManager::addEnemy() {
@@ -221,6 +246,52 @@ Character *EntityManager::createCharacter(int x, int y, int z, int id) {
                           will, physics, attack, idComponent, scoreAppearance,w,h,DEFAULT_COLLITION_BOX_DEPTH);
 }
 
+FinalBoss *EntityManager::createFinalBoss() {
+
+    int w = (int)((float)config->screenResolution.width*BOSS_WIDTH_SCALE);
+    int h = (int)((float)config->screenResolution.height*BOSS_HEIGHT_SCALE);
+    int walkingSpeed = config->screenResolution.width*WAKING_SPEED_FACTOR;
+    int jumpingSpeed = config->screenResolution.height*JUMPING_SPEED_FACTOR;
+
+    int x = validPositionGenerator.endOfLevelX() - 2*w;
+    int y = validPositionGenerator.y();
+    int z = validPositionGenerator.z();
+
+    int centerX = x + w/2;
+    int centerY = y + h/2;
+    int centerZ = z + DEFAULT_COLLITION_BOX_DEPTH/2;
+
+
+    auto* collitionBox = collitionManager->createEnemyBlockingCollitionBox(centerX, centerY, centerZ, w * NORMAL_COLLITON_BOX_SCALE_FACTOR_WIDTH, h * NORMAL_COLLITON_BOX_SCALE_FACTOR_HEIGHT, DEFAULT_COLLITION_BOX_DEPTH,VISUAL_COLLITION_BOX);
+    auto* pickBox = new CollitionBox(centerX, centerY, centerZ, w, h, DEFAULT_COLLITION_BOX_DEPTH * PICK_COLLITON_BOX_SCALE_FACTOR, collitionBox->getID(),false);
+    auto* punchBox = new CollitionBox(centerX, centerY, centerZ, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH * ATTACK_COLLITON_BOX_SCALE_FACTOR,collitionBox->getID(),false);
+    auto* kickBox = new CollitionBox(centerX, centerY, centerZ, w * ATTACK_COLLITON_BOX_SCALE_FACTOR, h, DEFAULT_COLLITION_BOX_DEPTH * ATTACK_COLLITON_BOX_SCALE_FACTOR,collitionBox->getID(),false);
+    auto* collitionHandler = new AnimatedEntityCollitionHandler(collitionManager, punchBox, kickBox, collitionBox, pickBox);
+
+
+    auto* position = new Position(centerX, centerY, centerZ, collitionHandler);
+    auto* screenPosition = new ScreenPosition(w,h,DEFAULT_COLLITION_BOX_DEPTH,position,screen);
+
+    //auto* will = new IA(this,position);
+    auto* will = new NullWill();
+    auto* state = new State(will);
+    auto* physics = new Physics(state,position,walkingSpeed,jumpingSpeed);
+
+    if (VISUAL_COLLITION_BOX){
+        collitionHandler->setToAllCollitionBoxScreenPosition(screenPosition);
+    }
+
+    auto* appearance = new FinalBossAppearance(w, h, screenPosition, state, config->gameplay.boss);
+    auto* sound = new FinalBossSound(state,config->sounds);
+    auto* damage = new Damage();
+    auto* life = new Life(state);
+    auto* score = new Score();
+    auto* attack = new Attack(state, collitionHandler);
+
+    return new FinalBoss(collitionHandler, life, damage, score, position,
+                     state, screenPosition, appearance, sound,
+                     will, physics, attack,w,h,DEFAULT_COLLITION_BOX_DEPTH);
+}
 
 Enemy *EntityManager::createEnemy() {
 
@@ -495,6 +566,8 @@ void EntityManager::eraseDeadEntities() {
     list<PhysicalEntity*> toUntrack;
     for (auto e: physicalEntities){
         if (e->dead()){
+            if (e->isFinalBoss()){finalBoss = nullptr;} //mea culpa
+            if (e->isCharacter()){gameServer->notifyPlayerDied(((Character*)e)->getID());} //mea culpa
             delete(e);
             cout<<"a dead entity has been correctly eliminated from the game"<<endl;
             toUntrack.push_back(e);
@@ -543,6 +616,8 @@ EntityManager::~EntityManager() {
 
     delete collitionManager;
     collitionManager = nullptr;
+
+    finalBoss = nullptr;
 }
 
 //SORTING

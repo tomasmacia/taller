@@ -25,7 +25,6 @@ public:
 
     void eraseCollitionBoxes();
 
-    bool hasVisualCollitionBox();
     void setToAllCollitionBoxScreenPosition(ScreenPosition *pPosition);
 
     list<Sendable*> generateSendable();

@@ -3,7 +3,9 @@
 
 #include <SDL2/SDL.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 
+#include "SceneDirector.h"
 #include "../logger/LogManager.h"
 #include "../XMLparser/config/config.h"
 
@@ -20,6 +22,7 @@ public:
     //===============================
     virtual void end();
     bool isOn();
+    void pauseResumeMusic();
 
     //GETTERS
     //===============================
@@ -55,6 +58,7 @@ protected:
     virtual void init() = 0;
     virtual void initController();
     void initConfig();
+    void initSceneDirector();
 
     //ATRIBUTES
     //===============================
@@ -62,6 +66,7 @@ protected:
     bool on = true;
     int playerId = -1;
 
+    SceneDirector* sceneDirector = nullptr;
     Controller *controller = nullptr;
     Config *config = nullptr;
 

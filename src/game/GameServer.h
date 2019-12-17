@@ -12,7 +12,6 @@
 #include "Game.h"
 #include "EntityManager.h"
 #include "LevelBuilder.h"
-#include "LevelBuilder.h"
 #include "Controller.h"
 
 #include "../enumerates/Action.h"
@@ -49,16 +48,13 @@ public:
 
     //API
     //===============================
-    std::string validateLogin(const string& user,const std::string& pass, int userId);
+    void handleLogin(const string& user, const std::string& pass, int userId);
     void addNewIDToGame(int id);
     void reemplazePreviousIDWith(int oldID, int newID);
     void reciveNewInput(tuple<Action,int> input);
-    int getCurrentLevelWidth();
     static bool isActive();
-    bool playersCanMove();
     void connectionLostWith(int id);
     bool isIDLogged(int ID);
-    void sendWaitingScreen();
 
     //GETTERS
     //===============================
@@ -69,6 +65,8 @@ public:
     EntityManager* getManager() {
         return entityManager;
     }
+
+    void notifyPlayerDied(int id);
 
 private:
     GameServer() {
@@ -122,12 +120,13 @@ private:
     bool userInLoggedPlayers(const string& user);
     bool IDInDisconnectedPlayers(const string& user);
     string processConectionAndEmitSuccesMessage(const string& user, const string& pass, int id);
-    string processReconectionAndEmitSuccesMessage(const string& user, int newId);
+    void processReconectionAndEmitSuccesMessage(const string& user, int newId);
     string getNewColor();
 
     //ATRIBUTES
     //===============================
     int SLEEP_TIME = 13000;
+    int WAIT_TIME = 2000000;
     Color currentColor = BLUE;
 
     static bool hasInstance;
@@ -136,18 +135,19 @@ private:
 
     std::map<std::string,std::string> validCredentials;             //<name,pass>
     std::map<std::string,std::string> loggedPlayersPassByUser;      //<name,pass>
-    std::map<std::string,int> loggedPlayersIDbyUser;                //<name,type>
-    std::map<int,User> loggedPlayersUserByID;                       //<type,user>
-    std::map<std::string,int> disconectedPlayers;                   //<name,type>
+    std::map<std::string,int> loggedPlayersIDbyUser;                //<name,ID>
+    std::map<int,User> loggedPlayersUserByID;                       //<ID,user>
+    std::map<std::string,int> disconectedPlayers;                   //<name,ID>
 
     int maxPlayers{};
-
-    Sendable* waitingScreenRenderable = nullptr;
-    list<Sendable*>* waitingScreenContainer = nullptr;
 
     Server* server = nullptr;
     EntityManager* entityManager = nullptr;
     LevelBuilder* levelBuilder = nullptr;
+
+    void sendEndMessage();
+
+    void sendGameStartedMessage();
 };
 
 #endif //GAME_GAMESERVER_H_

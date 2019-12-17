@@ -20,6 +20,7 @@ public:
     int enemyKilled();
     int barrelBroken();
     int boxBroken();
+    int getCurrent();
 
 private:
     int BROKEN_BOX_SCORE = 200;

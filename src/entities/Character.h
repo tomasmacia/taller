@@ -33,6 +33,9 @@ public:
     void removeWeapon();
 
     int getID();
+    int getScore();
+
+    bool isCharacter() override {return true;}
 
     //GETTERS
     //===============================

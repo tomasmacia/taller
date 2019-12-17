@@ -45,7 +45,7 @@ bool LevelBuilder::hasNextLevel(){
 }
 
 bool LevelBuilder::levelFinished(){
-    return _screen->isAtEnd();
+    return _screen->isAtEnd() && _entityManager->bossKilled();
 }
 
 //MANAGING OWN STATE
@@ -66,6 +66,7 @@ void LevelBuilder::initialize() {
     initializeCamera();
     initializeWorld();
     initializePlayers();
+    initializeFinalBoss();
     initializeEnemies();
     initializeWeapons();
     initializeUtilities();
@@ -81,6 +82,7 @@ void LevelBuilder::initializeNextLevel() {
     resetCamera();
     initializeWorld();
     resetPlayers();
+    initializeFinalBoss();
     initializeEnemies();
     initializeWeapons();
     initializeUtilities();
@@ -138,7 +140,7 @@ void LevelBuilder::initializeLevelDimentions(){
 
     currentLevelWidth = (float)floorSpriteWidth/ scaleFactor;
     currentlevelHeight = _config->screenResolution.height;
-    currentlevelDepth = _config->screenResolution.height * 0.25;
+    currentlevelDepth = _config->screenResolution.height * 0.20;
 
     _entityManager->setLevelParameters(currentLevelWidth, currentlevelHeight, currentlevelDepth);
 }
@@ -182,6 +184,14 @@ void LevelBuilder::initializeEnemies() {
         _entityManager->addEnemy();
     }
     LogManager::logDebug("[LEVEL]: Enemigos inicializados: " + std::to_string(amountOfEnemies));
+}
+
+void LevelBuilder::initializeFinalBoss() {
+    LogManager::logDebug("[LEVEL]: Inicializando Final Boss");
+
+    _entityManager->addFinalBoss();
+
+    LogManager::logDebug("[LEVEL]: Final Boss inicializado");
 }
 
 void LevelBuilder::initializeWeapons() {

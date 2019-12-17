@@ -115,18 +115,16 @@ void UserConnection::dispatchThread() {
 //=========================================================================================
 void UserConnection::processLoginFromTheClient() {
 
-    string toSendMessage;
-
     if (objectSerializer.validLoginFromClientMessage(messageParser.getCurrent())){
 
         string user = objectSerializer.getUserFrom(messageParser.getCurrent());
         string pass = objectSerializer.getPassFrom(messageParser.getCurrent());
-        toSendMessage = gameServer->validateLogin(user,pass,userId);
+        gameServer->handleLogin(user, pass, userId);
     }
     else{
-        toSendMessage = objectSerializer.getInvalidCredentialMessage();
+        string toSendMessage = objectSerializer.getInvalidCredentialMessage();
+        server->setToSendToSpecific(toSendMessage,userId);
     }
-    server->setToSendToSpecific(toSendMessage,userId);
 }
 
 void UserConnection::processInput() {//TODO HEAVY IN PERFORMANCE

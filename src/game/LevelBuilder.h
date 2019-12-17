@@ -5,9 +5,10 @@
 #ifndef GAME_LEVELBUILDER_H
 #define GAME_LEVELBUILDER_H
 
-#include "EntityManager.h"
 #include "../entities/Screen.h"
+#include "Controller.h"
 
+class EntityManager;
 class Entity;
 class LevelBuilder {
 public:
@@ -69,6 +70,8 @@ private:
     float FLOOR_SPEED_RATIO = 1;   //este TIENE que ser 1
     float MIDDLE_SPEED_RATIO = 0.6;
     float FAR_SPEED_RATIO = 0.4;
+
+    void initializeFinalBoss();
 };
 
 

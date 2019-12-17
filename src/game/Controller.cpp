@@ -39,9 +39,9 @@ void Controller::checkIfCloseRelatedInputWasPulsed(){
 
 list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
     Action action;
-    list<string> serializedInputs;
     int playerId = game->getPlayerId(); //cada pc tiene uno asignado al principio y es unico
     std::string serializedInput;
+    std::list<std::string> serializedInputs;
 
     while (SDL_PollEvent(&sdlEvent)) {
 
@@ -49,17 +49,22 @@ list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
 
         if (sdlEvent.type == SDL_QUIT){
             game->end();
+            
         }
 
         if( (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)){
 
-            if (action != NONE) {
+            if (action != NONE ) {
                 serializedInput = objectSerializer.serializeInput(action,playerId);
                 serializedInputs.push_back(serializedInput);
             }
         }
 
         if ((sdlEvent.type == SDL_KEYUP && sdlEvent.key.repeat == 0 )){
+
+            if (sdlEvent.key.keysym.sym == SDLK_m){
+                game->pauseResumeMusic();
+            }
 
             if (action == UP || action == DOWN || action == LEFT || action == RIGHT ||
                 action == NONE){//no bloqueante
@@ -303,4 +308,20 @@ void Controller::untrackLastSendables() {
 
 bool Controller::hasNewPackages() {
     return !currentPackagesToSend->empty();
+}
+
+void Controller::sendEndMessage(Server* server) {
+    server->setToBroadcast(objectSerializer.getEndOfGameMessage());
+}
+
+void Controller::sendPlayerDiedMessage(Server* server, int id) {
+    server->setToBroadcast(objectSerializer.getPlayerDiedMessage(id));
+}
+
+void Controller::sendGameStartedMessage(Server *server) {
+    server->setToBroadcast(objectSerializer.getGameStartedMessage());
+}
+
+string Controller::getGameStartedMessage() {
+    return objectSerializer.getGameStartedMessage();
 }

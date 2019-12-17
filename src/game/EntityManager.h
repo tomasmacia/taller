@@ -27,7 +27,10 @@
 #include "../entities/Background.h"
 #include "../entities/Life.h"
 #include "../entities/Score.h"
+#include "../entities/FinalBoss.h"
 
+
+class GameServer;
 class Controller;
 class EntityManager {
 public:
@@ -46,27 +49,25 @@ public:
     //===============================
     Character* addPlayer(int x, int y, int z,int id);
     void addEnemy();
-    void addEnemy(int x, int y, int z);
+    void addFinalBoss();
     void addKnife();
     void addTube();
     void addBox();
-    void addBox(int x, int y, int z);
     void addBarrel();
     void addFar(const string& spritePath, float parallaxSpeed);
     void addMiddle(const string& spritePath, float parallaxSpeed);
     void addFloor(const string& spritePath, float parallaxSpeed);
     void addOverlay(const string& spritePath, float parallaxSpeed);
-    Screen* addScreen(int screenWidth, int screenHeight, int levelWidth, int levelDepth);
 
+    Screen* addScreen(int screenWidth, int screenHeight, int levelWidth, int levelDepth);
     //CREATING ENTITIES
     //===============================
     Character* createCharacter(int x, int y, int z, int id);
     Enemy* createEnemy();
-    Enemy* createEnemy(int x, int y, int z);
+    FinalBoss *createFinalBoss();
     Knife* createKnife();
     Tube* createTube();
     Box* createBox();
-    Box* createBox(int x, int y, int z);
     Barrel* createBarrel();
     Background* createFar(const string& spritePath, float parallaxSpeed);
     Background* createMiddle(const string& spritePath, float parallaxSpeed);
@@ -80,6 +81,21 @@ public:
     std::list<Character*> getPlayers(){
         return players;
     }
+
+    bool bossKilled();
+
+    void setGame(GameServer *gameServer);
+
+
+    // TEMP TEST
+    //==============================
+    Box *createBox(int x, int y, int z);
+
+    void addBox(int x, int y, int z);
+
+    void addEnemy(int x, int y, int z);
+
+    Enemy *createEnemy(int x, int y, int z);
 
 private:
     //SORTING
@@ -112,12 +128,14 @@ private:
     std::list<PhysicalEntity*> physicalEntities;          //only utilities, weapons, enemies and players
     std::list<Background*> backLayerBackgrounds;
     std::list<Background*> frontLayerBackgrounds;
+    FinalBoss* finalBoss = nullptr;
 
     ValidPositionGenerator validPositionGenerator;
 
     //for performance
     std::list<Sendable*>* packagesToClients = nullptr;
 
+    GameServer *gameServer = nullptr;
     CollitionManager* collitionManager = nullptr;
     Controller* controller = nullptr;
     Config* config = nullptr;
@@ -128,6 +146,8 @@ private:
     float CHARACTER_HEIGHT_SCALE = 0.5;
     float ENEMY_WIDTH_SCALE = 0.2;
     float ENEMY_HEIGHT_SCALE = 0.5;
+    float BOSS_WIDTH_SCALE = 0.3;
+    float BOSS_HEIGHT_SCALE = 0.5;
     float UTILITY_WIDTH_SCALE = 0.2;
     float UTILITY_HEIGHT_SCALE = 0.5;
     float WEAPON_WIDTH_SCALE = 0.2;
@@ -145,5 +165,7 @@ private:
     float ATTACK_COLLITON_BOX_SCALE_FACTOR = 1.1;
     float NORMAL_COLLITON_BOX_SCALE_FACTOR_WIDTH = 0.5;
     float NORMAL_COLLITON_BOX_SCALE_FACTOR_HEIGHT = 1;
+
+    bool bossIsDead = false;
 };
 #endif //GAME_ENTITYMANAGER_H

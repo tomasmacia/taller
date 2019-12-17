@@ -42,6 +42,28 @@ string ObjectSerializer::getAlreadyLoggedInMessage() {
 
 //VALIDATE
 //=========================================================================================
+bool ObjectSerializer::validGameStartedMessage(vector<string> *currentParsedMessage) {
+    //SERIALIZED LOGIN ID: //START,header
+    return  currentParsedMessage->size() == 2 &&
+            currentParsedMessage->at(0) == START_SYMBOL &&
+            currentParsedMessage->at(1) == to_string(GAME_STARTED);
+}
+
+bool ObjectSerializer::validPlayerDiedMessage(vector<string> *currentParsedMessage) {
+    //SERIALIZED LOGIN ID: //START,header,id
+    return  currentParsedMessage->size() == 3 &&
+            currentParsedMessage->at(0) == START_SYMBOL &&
+            currentParsedMessage->at(1) == to_string(PLAYER_DIED);
+}
+
+
+bool ObjectSerializer::validEndOfGameMessage(vector<string> *currentParsedMessage) {
+    //SERIALIZED LOGIN ID: //START,header
+    return  currentParsedMessage->size() == 2 &&
+            currentParsedMessage->at(0) == START_SYMBOL &&
+            currentParsedMessage->at(1) == to_string(END);
+}
+
 bool ObjectSerializer::validLoginFromServerMessage(vector<string>* currentParsedMessage){
     //SERIALIZED LOGIN ID: //START,header,type,color
     return  (currentParsedMessage->size() == 4 || currentParsedMessage->size() == 3) &&
@@ -166,6 +188,17 @@ void ObjectSerializer::reconstructSendables(vector<string>* serializedPackages, 
 
 //SERIALIZATION
 //=========================================================================================
+string ObjectSerializer::getGameStartedMessage() {
+    return addPadding(START_SYMBOL + SEPARATOR + to_string(GAME_STARTED) + SEPARATOR +  END_OF_SERIALIZATION_SYMBOL);
+}
+
+string ObjectSerializer::getPlayerDiedMessage(int id) {
+    return addPadding(START_SYMBOL + SEPARATOR + to_string(PLAYER_DIED) + SEPARATOR + to_string(id) + SEPARATOR + END_OF_SERIALIZATION_SYMBOL);
+}
+
+string ObjectSerializer::getEndOfGameMessage() {
+    return addPadding(START_SYMBOL + SEPARATOR + to_string(END) + SEPARATOR +  END_OF_SERIALIZATION_SYMBOL);
+}
 
 string ObjectSerializer::serializedSuccesfullLoginMessage(string color, int id){
     return addPadding(START_SYMBOL + SEPARATOR + to_string(SUCCESS) + SEPARATOR + to_string(id) + SEPARATOR + color + SEPARATOR +  END_OF_SERIALIZATION_SYMBOL);

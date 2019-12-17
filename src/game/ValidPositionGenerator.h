@@ -12,6 +12,8 @@ public:
     int y();
     int z();
 
+    int endOfLevelX();
+
 private:
     int _levelWidth, _levelHeight, _levelDepth;
     std::clock_t start = std::clock();
