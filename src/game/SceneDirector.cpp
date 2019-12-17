@@ -26,6 +26,16 @@ void SceneDirector::initEndOfGameScreen(){
 
 void SceneDirector::initScoreScreen(const std::list<Character*>& players, const std::map<int,User>& loggedPlayersUserByID) {
 
+    if (scoreScreenContainer != nullptr){
+        for (auto sendable : *scoreScreenContainer){
+            delete(sendable);
+        }
+        delete(scoreScreenContainer);
+    }
+    if (scoreScreen != nullptr){
+        delete (scoreScreen);
+    }
+
     scoreScreenContainer = new list<Sendable*>();
     scoreScreen = initScreen(SCORE_SCREEN_PATH);
     scoreScreenContainer->push_back(scoreScreen);

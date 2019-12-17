@@ -133,6 +133,8 @@ private:
 
     std::thread listenConnectionsThread;
 
+    int conectedAndPlayingPlayersAmount;
+
     std::map<std::string,std::string> validCredentials;             //<name,pass>
     std::map<std::string,std::string> loggedPlayersPassByUser;      //<name,pass>
     std::map<std::string,int> loggedPlayersIDbyUser;                //<name,ID>

@@ -18,7 +18,6 @@ void GameServer::start() {
     initGameModel();
     gameLoop();
 
-    sendEndMessage();
     closeServer();          //se cierra el thread se server getY (previamente se cierran los 4 threads child)
 
     LogManager::logInfo("[GAME]: Juego terminado");
@@ -44,7 +43,7 @@ void GameServer::gameLoop(){
             sendUpdate();
             usleep(SLEEP_TIME);
         }
-         if (notAllPlayersDisconnected()) {
+         if (thereIsAtLeastOnePlayerAliveAndConnected()) {
             sceneDirector->initScoreScreen(entityManager->getPlayers(),loggedPlayersUserByID);
             sceneDirector->sendScoreScreen(server);
              usleep(WAIT_TIME);
@@ -57,6 +56,7 @@ void GameServer::gameLoop(){
         sceneDirector->initEndOfGameScreen();
         sceneDirector->sendEndOfGameScreen(server);
         usleep(WAIT_TIME);
+        sendEndMessage();
     } 
     on = false;
     server->stopListening();
@@ -136,7 +136,7 @@ bool GameServer::isIDLogged(int ID){
 }
 
 bool GameServer::thereIsAtLeastOnePlayerAliveAndConnected() {
-    return (deadPlayers.size() + disconectedPlayers.size()) < loggedPlayersIDbyUser.size();
+    return conectedAndPlayingPlayersAmount > 0;
 }
 
 //SERVER RELATED
@@ -169,10 +169,17 @@ bool GameServer::notAllPlayersDisconnected(){
 
 void GameServer::connectionLostWith(int id){
 
-    if (loggedPlayersUserByID.count(id)){
+    bool logged = loggedPlayersUserByID.count(id);
+    bool dead = deadPlayers.count(id);
+
+    if (logged){
 
         string name = loggedPlayersUserByID.at(id).name;
         disconectedPlayers.insert({name,id});
+
+        if (!dead){
+            conectedAndPlayingPlayersAmount --;
+        }
     }
     if (entityManager != nullptr){
         entityManager->disconectPlayerByID(id);
@@ -187,6 +194,7 @@ void GameServer::sendEndMessage() {
 }
 
 void GameServer::notifyPlayerDied(int id) {
+    conectedAndPlayingPlayersAmount --;
     controller->sendPlayerDiedMessage(server,id);
     deadPlayers.insert({id,loggedPlayersUserByID.at(id).name});
 }
@@ -260,6 +268,17 @@ void GameServer::processReconectionAndEmitSuccesMessage(const string& name, int 
     if (entityManager != nullptr){
         entityManager->reconectPlayerByID(oldID, newID);
     }
+
+    bool dead = deadPlayers.count(oldID);
+
+    if (dead) {
+        deadPlayers.erase(oldID);
+        deadPlayers.insert({newID, user.name});
+    }
+    else {
+        conectedAndPlayingPlayersAmount++;
+    }
+
     server->client_noBlock(newID);
     server->setToSendToSpecific(controller->getSuccesfullLoginMessage(user.color,newID),newID);
     server->setToSendToSpecific(controller->getGameStartedMessage(),newID);
@@ -295,6 +314,7 @@ void GameServer::initController() {
 }
 
 void GameServer::initGameModel() {
+    conectedAndPlayingPlayersAmount = maxPlayers;
     entityManager = initLevelBuilder();
     entityManager->setGame(this);
     LogManager::logDebug("[INIT]: inicializado EntityManager");

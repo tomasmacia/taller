@@ -33,7 +33,7 @@ list<PhysicalEntity*>* AnimatedEntityCollitionHandler::getAllPunchableWithinPunc
 
     if (_blockingCollitionBox->getOwner()->isCharacter()){
 
-        boxes = _collitionManager->getListOfHittedNonCharacterCollitionBox(_punchBox);
+        boxes = _collitionManager->getListOfHittedCharacterCollitionBox(_punchBox);
     }
     else{
         boxes = _collitionManager->getListOfHittedCharacterCollitionBox(_punchBox);
