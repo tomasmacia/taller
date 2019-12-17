@@ -17,6 +17,16 @@ public:
     Renderable* actuallyGenerateRenderable() override ;
     void loadNextImage() override ;
     //todo
+    void hit();
+    void noLifes();
+    void setYPosition(int a);
+
+private:
+    string base = "resources/sprites/score/Blue/100v2.png";
+    int golpes=0;
+    bool resetLife = true;
+    int YPosition;
+
 };
 
 

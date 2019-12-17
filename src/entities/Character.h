@@ -31,6 +31,7 @@ public:
     bool isDisconnected();
     void setPositionYToScore(int a);
     void setPositionXToScore(int a);
+    void setPositionYToLife(int a);
 
     void removeWeapon();
 

@@ -3,6 +3,7 @@
 //
 
 #include "Life.h"
+#include <iostream>
 
 Life::Life(State *state) {
     this->state = state;
@@ -23,8 +24,13 @@ void Life::decreseBy(int amount) {
         }
     }
     if (appearance != nullptr){
+        if (amountOfLifes == 0){
+            appearance->noLifes();
+        }
         appearance->update();
+
     }
+
 }
 
 void Life::initializeWith(int amount, int amountOfLifes) {
@@ -37,8 +43,8 @@ void Life::initializeWith(int amount, int amountOfLifes) {
 list<Sendable *> Life::generateSendable() {
     list<Sendable*> sendables;
 
-    auto renderable = appearance->generateRenderable(); //TODO
-    sendables.push_back(new Sendable(renderable, nullptr));
+   // auto renderable = appearance->generateRenderable(); //TODO
+   // sendables.push_back(new Sendable(renderable, nullptr));
 
     return sendables;
 }

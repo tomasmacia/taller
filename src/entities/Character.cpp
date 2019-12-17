@@ -20,8 +20,10 @@ Character::Character(CollitionHandler* collitionHandler, Life *life, Damage *dam
 
 list<Sendable *> Character::generateSendable() {
     list<Sendable *> sendables = PhysicalEntity::generateSendable();
-  //  auto scoreAppearanceSendable = new Sendable(scoreAppearance->generateRenderable(), nullptr);
-   // sendables.push_back(scoreAppearanceSendable);
+    auto a=new Sendable(life->getAppearance()->actuallyGenerateRenderable(),nullptr);
+    sendables.push_back(a);
+    //auto scoreAppearanceSendable = new Sendable(scoreAppearance->generateRenderable(), nullptr);
+    //sendables.push_back(scoreAppearanceSendable);
     return scoreAppearance->numerRenderabls(score->getCurrent(),sendables);    
     //return sendables;
 
@@ -30,6 +32,9 @@ list<Sendable *> Character::generateSendable() {
 void Character::notifySuccessfulAttack(int score) {
     this->score->increaseBy(score);
     this->scoreAppearance->update();
+    //life->getAppearance()->hit();
+    //life->decreseBy(20);
+    //std::cerr<<life->current<<" - "<<life->amountOfLifes<< std::endl;
 }
 
 bool Character::isDisconnected() {
@@ -72,6 +77,8 @@ int Character::setAttackedWith(AttackCode attackCode) {
         int damageInflicted = damage->characterAttackedWith(attackCode);
 
         life->decreseBy(damageInflicted);
+        life->getAppearance()->hit();
+
     }
 }
 
@@ -82,6 +89,7 @@ void Character::resetAt(int x, int y, int z) {
 void Character::removeWeapon() {
     if (attack->hasWeapon()){
         attack->dropWeapon();
+
     }
 }
 
@@ -95,4 +103,8 @@ void Character::setPositionYToScore(int a){
 
 void Character::setPositionXToScore(int a){
     scoreAppearance->setPositionXSCore(a);
+}
+
+void Character::setPositionYToLife(int a){
+    life->setYPositionToLifeBar(a);
 }
