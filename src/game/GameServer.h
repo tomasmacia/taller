@@ -126,7 +126,7 @@ private:
     //ATRIBUTES
     //===============================
     int SLEEP_TIME = 13000;
-    int WAIT_TIME = 2000000;
+    int WAIT_TIME = 4000000;
     Color currentColor = BLUE;
 
     static bool hasInstance;
