@@ -21,7 +21,7 @@ void FinalBossAppearance::init() {
     KICK_IMAGE_AMOUNT = 6;
     JUMP_KICK_IMAGE_AMOUNT = 13;
     CROUCH_IMAGE_AMOUNT = 4;
-    BEING_ATTACKED_IMAGE_AMOUNT = 4;
+    BEING_ATTACKED_IMAGE_AMOUNT = 5;
     DYING_IMAGE_AMOUNT = 11;
 
     currentSprite = entityConfig.stand;
