@@ -79,6 +79,8 @@ private:
     int enemiesPerHorde;
     vector<int> hordeCheckPoints;
     int currentCheckPointNumber;
+
+    void spawnHorde();
 };
 
 

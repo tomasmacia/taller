@@ -59,13 +59,16 @@ void LevelBuilder::update() {
     if ((currentCheckPointNumber + 1) != hordeCheckPoints.size()){
 
         if (_screen->currentX >= hordeCheckPoints.at(currentCheckPointNumber + 1) ){
-
-            for (int i = 0; i < enemiesPerHorde; i++){
-                _entityManager->addEnemy();
-                cout<<"Se spawnea un enemy"<<endl;
-            }
+            spawnHorde();
             currentCheckPointNumber++;
         }
+    }
+}
+
+void LevelBuilder::spawnHorde() {
+    for (int i = 0; i < enemiesPerHorde; i++){
+        _entityManager->addEnemy();
+        cout<<"Se spawnea un enemy"<<endl;
     }
 }
 
@@ -78,8 +81,8 @@ void LevelBuilder::initialize() {
     LogManager::logInfo("[LEVEL]: Inicializando NIVEL " + std::to_string(currentLevel));
 
     initializeLevelDimentions();
-    initializeEnemySpawns();
     initializeCamera();
+    initializeEnemySpawns();
     initializeWorld();
     initializePlayers();
     initializeFinalBoss();
@@ -95,8 +98,8 @@ void LevelBuilder::initializeNextLevel() {
     LogManager::logInfo("[LEVEL]: Inicializando NIVEL " + std::to_string(currentLevel));
 
     initializeLevelDimentions();
-    initializeEnemySpawns();
     resetCamera();
+    initializeEnemySpawns();
     initializeWorld();
     resetPlayers();
     initializeFinalBoss();
@@ -169,6 +172,8 @@ void LevelBuilder::initializeEnemySpawns() {
         hordeCheckPoints.push_back(i*(currentLevelWidth/HORDE_AMOUNT));
     }
     currentCheckPointNumber = 0;
+
+    spawnHorde();
 }
 
 void LevelBuilder::initializePlayers() {
@@ -186,7 +191,7 @@ void LevelBuilder::initializePlayers() {
     IDManager::getInstance().initIDCounter();
     for (int i = 0; i < amountOfPlayers; i++) {
         int newPlayerID = IDManager::getInstance().getNextId();
-        
+
         x = offset*(i+1);
         y = 0;
         z = screenResolutionHeight*0.15;
