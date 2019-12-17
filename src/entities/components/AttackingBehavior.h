@@ -25,6 +25,8 @@ public:
     }
 
 private:
+    const int PUNCH_DELAY = 40;
+    int framesSinceLastPunch = 0;
     IA *owner;
     EntityManager *em;
     Position *subjectPosition;

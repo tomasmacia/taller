@@ -11,9 +11,16 @@ AttackingBehavior::AttackingBehavior(IA *owner, EntityManager *manager, Position
 }
 
 void AttackingBehavior::update() {
-
+    framesSinceLastPunch++;
 }
 
 Action AttackingBehavior::getNext() {
-    return PUNCH;
+    Action action = NONE;
+
+    if (framesSinceLastPunch >= PUNCH_DELAY) {
+        framesSinceLastPunch = 0;
+        action = PUNCH;
+    }
+
+    return action;
 }
