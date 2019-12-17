@@ -15,17 +15,26 @@ public:
 
     void update() override;
     Renderable* actuallyGenerateRenderable() override ;
+    Renderable* GenerateRenderableToDisconnect(bool disconnect);
     void loadNextImage() override ;
     //todo
-    void hit();
+    void hit( int damage);
     void noLifes();
     void setYPosition(int a);
+    void setXPosition(int a);
+    void pickColor(int a);
+
+
 
 private:
-    string base = "resources/sprites/score/Blue/100v2.png";
-    int golpes=0;
+    string base;
+    string life0,life20,life40,life60,life80,lifecomplete;
+
+    string lifegrey;
+    string life20grey,life40grey,life60grey,life80grey,lifecompletegrey;
+    int life=100;
     bool resetLife = true;
-    int YPosition;
+    int YPosition,XPosition;
 
 };
 

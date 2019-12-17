@@ -166,9 +166,34 @@ void LevelBuilder::initializePlayers() {
         z = screenResolutionHeight*0.15;
 
         auto *player = _entityManager->addPlayer(x,y,z,newPlayerID);
-        player->setPositionYToScore(10 + (i * (screenResolutionHeight/15)));
-        player->setPositionXToScore(screenResolutionWidth * .75);
-        player->setPositionYToLife(i * (screenResolutionHeight/15));
+
+        if (i == 1  or i== 3){
+            if(i == 1){
+                player->setPositionYToScore(10);
+                player->setPositionYToLife(30);
+            }
+            else {
+                player->setPositionYToScore(screenResolutionWidth/10);
+                player->setPositionYToLife((screenResolutionWidth/10) + 20);
+            }
+            player->setPositionXToScore((screenResolutionWidth * .9));
+            player->setPositionXToLife(40+(screenResolutionWidth/2));
+        }
+
+        else {
+            if(i == 0){
+                player->setPositionYToScore(10);
+                player->setPositionYToLife(30);
+            }
+            else {
+                player->setPositionYToScore(screenResolutionWidth/10);
+                player->setPositionYToLife((screenResolutionWidth/10) + 20);
+            }
+            player->setPositionXToScore(screenResolutionWidth * .4);
+            player->setPositionXToLife(40);
+        }
+
+        player->setColorLifeBar(i);
         _screen->setPlayer(player);
 
     }

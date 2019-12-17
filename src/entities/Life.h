@@ -37,6 +37,9 @@ public:
     void setYPositionToLifeBar(int a){
         appearance->setYPosition(a);
     }
+    void setXPositionToLifeBar(int a){
+        appearance->setXPosition(a);
+    }
 
 private:
     

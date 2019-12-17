@@ -18,6 +18,7 @@ void Life::decreseBy(int amount) {
     current -= amount;
 
     if (current <= 0){
+        
         amountOfLifes --;
         if (amountOfLifes > 0){
             current = startingAmount;

@@ -20,12 +20,12 @@ Character::Character(CollitionHandler* collitionHandler, Life *life, Damage *dam
 
 list<Sendable *> Character::generateSendable() {
     list<Sendable *> sendables = PhysicalEntity::generateSendable();
-    auto a=new Sendable(life->getAppearance()->actuallyGenerateRenderable(),nullptr);
-    sendables.push_back(a);
-    //auto scoreAppearanceSendable = new Sendable(scoreAppearance->generateRenderable(), nullptr);
-    //sendables.push_back(scoreAppearanceSendable);
+    auto lifebar=new Sendable(life->getAppearance()->actuallyGenerateRenderable(),nullptr);
+    sendables.push_back(lifebar);
+    auto lifergrey =new Sendable(life->getAppearance()->GenerateRenderableToDisconnect(isDisconnected()),nullptr);
+    sendables.push_back(lifergrey);
     return scoreAppearance->numerRenderabls(score->getCurrent(),sendables);    
-    //return sendables;
+
 
 }
 
@@ -75,9 +75,8 @@ int Character::setAttackedWith(AttackCode attackCode) {
 
         AnimatedEntity::setAttackedWith(attackCode);
         int damageInflicted = damage->characterAttackedWith(attackCode);
-
+        life->getAppearance()->hit(damageInflicted);
         life->decreseBy(damageInflicted);
-        life->getAppearance()->hit();
 
     }
 }
@@ -107,4 +106,12 @@ void Character::setPositionXToScore(int a){
 
 void Character::setPositionYToLife(int a){
     life->setYPositionToLifeBar(a);
+}
+
+void Character::setPositionXToLife(int a){
+    life->setXPositionToLifeBar(a);
+}
+
+void Character::setColorLifeBar(int a){
+    life->getAppearance()->pickColor(a);
 }

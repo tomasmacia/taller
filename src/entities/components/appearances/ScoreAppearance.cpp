@@ -22,7 +22,6 @@ void ScoreAppearance::loadNextImage() {
 }
 
 list<Sendable *>  ScoreAppearance::numerRenderabls(int score,list<Sendable *> sendables ){
-    list<Sendable*> sendable2 = sendables;
     bool asd =true;
     string path1;
     int score_ = score;
@@ -30,12 +29,12 @@ list<Sendable *>  ScoreAppearance::numerRenderabls(int score,list<Sendable *> se
     int y= positionYscore;
     if (score_>=0 ) {
 
-        while(asd)
+        for (int i = 0; i < 5; i++)
         {
             ImageSize imageSize1;
             int resto = score_ % 10;
 
-            if (resto == 0){
+            if (resto <= 0){
                 path1 = "resources/sprites/score/zero.png";
 
                 imageSize1 = ImageUtils::getImageSize(path1);
@@ -114,15 +113,13 @@ list<Sendable *>  ScoreAppearance::numerRenderabls(int score,list<Sendable *> se
             x_-= 16;
 
             Sendable* c= new Sendable(new Renderable(path1, src1, dst1, false),nullptr);
-            sendable2.push_back(c);
+            sendables.push_back(c);
 
             score_ -= resto;
-            if (score_ <= 0){
-                asd =false;
-            }
+
             score_ = score_/10;
 
         }
     }
-    return sendable2;
+    return sendables;
 }
