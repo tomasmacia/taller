@@ -24,10 +24,7 @@ void AnimatedEntity::update() {
     sound->update();
     appearance->update();
     physics->update();
-/*
-    if (state->isFliped()){
-        collitionHandler->reflectAttackCollitionBox();
-    }*/
+    collitionHandler->update();
 }
 
 void AnimatedEntity::drag() {

@@ -32,6 +32,9 @@ public:
     int getZ() {
         return point->z;
     }
+
+    Point *get();
+
 private:
     Point* point = nullptr;
     CollitionHandler* _collitionHandler = nullptr;

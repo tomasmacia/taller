@@ -13,7 +13,8 @@ using namespace std;
 class Character;
 class Screen : public Entity{
 public:
-    Screen(int width, int height, int levelWidth, int levelDepth, CollitionManager* collitionManager);
+    Screen(int width, int height, int levelWidth, int levelDepth,
+           CollitionManager *collitionManager);
 
     void update() override ;
     list<Sendable*> generateSendable() override ;

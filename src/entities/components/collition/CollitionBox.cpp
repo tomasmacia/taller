@@ -25,15 +25,15 @@ CollitionBox::CollitionBox(int centerX, int centerY, int centerZ, int w, int h, 
 
 void CollitionBox::calculateAndAssignCorners(int centerX, int centerY, int centerZ) {
 
-    corners = new list<Point*>();
+    corners = new vector<Point*>();
 
     corners->push_back(new Point(center->x - w/2, center->y - h/2, center->z - d/2));
     corners->push_back(new Point(center->x - w/2, center->y - h/2, center->z + d/2));
-    corners->push_back(new Point(center->x - w/2, center->y + h/2, center->z - d/2));
+    corners->push_back(new Point(center->x - w/2, center->y + h/2, center->z - d/2));       //esta es la esquina que le importa al SDL
     corners->push_back(new Point(center->x - w/2, center->y + h/2, center->z + d/2));
     corners->push_back(new Point(center->x + w/2, center->y - h/2, center->z - d/2));
     corners->push_back(new Point(center->x + w/2, center->y - h/2, center->z + d/2));
-    corners->push_back(new Point(center->x + w/2, center->y + h/2, center->z - d/2));
+    corners->push_back(new Point(center->x + w/2, center->y + h/2, center->z - d/2));       //esta es la esquina que le importa al SDL
     corners->push_back(new Point(center->x + w/2, center->y + h/2, center->z + d/2));
 }
 
@@ -65,15 +65,27 @@ bool CollitionBox::anyCornerIntersectsWith(CollitionBox* query) {
 
 bool CollitionBox::hasInsideItsVolume(Point* corner){
 
-    int x = corners->front()->x;
-    int y = corners->front()->y;
-    int z = corners->front()->z;
+    int xMin,yMin,zMin,xMax,yMax,zMax;
 
-    return  (x <= corner->x && corner->x <= x + w)
+    if (corners->at(0)->x <= corners->at(7)->x){
+        xMin = corners->at(0)->x;
+        xMax = corners->at(7)->x;
+    }
+    else{
+        xMin = corners->at(7)->x;
+        xMax = corners->at(0)->x;
+    }
+
+    yMin = corners->at(0)->y;
+    zMin = corners->at(0)->z;
+    yMax = corners->at(0)->y + h;
+    zMax = corners->at(0)->z + d;
+
+    return  (xMin <= corner->x && corner->x <= xMax)
             &&
-            (y <= corner->y && corner->y <= y + h)
+            (yMin <= corner->y && corner->y <= yMax)
             &&
-            (z <= corner->z && corner->z <= z + d);
+            (zMin <= corner->z && corner->z <= zMax);
 }
 
 void CollitionBox::moveBy(int xAmount, int yAmount, int zAmount) {
@@ -129,21 +141,6 @@ void CollitionBox::moveOneUnitInTheDirectionOf(Point* destination) {
     lastMove = bestMove;
 }
 
-CollitionBox::~CollitionBox() {
-
-    for (auto c : *corners){
-        delete(c);
-    }
-    corners->clear();
-    delete (center);
-    for (auto c : *candidateMoves){
-        delete(c);
-    }
-    candidateMoves->clear();
-    delete(candidateMoves);
-    delete (discardedMoves);
-}
-
 Entity *CollitionBox::getOwner() {
     return owner;
 }
@@ -160,8 +157,20 @@ Sendable *CollitionBox::generateSendable() {
 
     if (screenPosition->onScreen()){
 
-        int x = screenPosition->getX() + (screenPosition->getWidth() - w)/2;
-        int y = screenPosition->getY() + (screenPosition->getHeight() - h)/2;;
+        //int x = screenPosition->getXWithPos(corners->at(2)) + (screenPosition->getWidth() - w)/2;
+        //int y = screenPosition->getYWithPos(corners->at(2)) + (screenPosition->getHeight() - h)/2;
+
+        int x,y;
+
+        if (corners->at(0)->x <= corners->at(7)->x){
+            x = screenPosition->getXWithPos(corners->at(2));
+            y = screenPosition->getYWithPos(corners->at(2));
+        }
+        else{
+            x = screenPosition->getXWithPos(corners->at(6));
+            y = screenPosition->getYWithPos(corners->at(6));
+        }
+
         return new Sendable(new Renderable("NULL_PATH",Rect(0,0,w,h),Rect(x,y,w,h),false), nullptr);
     }
     else{
@@ -225,7 +234,49 @@ void CollitionBox::clearDiscardedMoves() {
 void CollitionBox::setAt(int x, int y, int z) {
     moveBy(x - center->x,y - center->y,z - center->z);
 }
-/*
-void CollitionBox::discardTheOpositeOfLastMoveAsCandidate() {
-    discardedMoves->push_back(oposites->at(lastMove));
-}*/
+
+void CollitionBox::reflectInXRespectTo(Point *point) {
+
+    //cout<<"reflexion: "<<endl;
+    //cout<<"antes: "<<center->x<<endl;
+    for (auto corner : *corners){
+        corner->applyHomothetyInX(-1, point);
+    }
+    center->applyHomothetyInX(-1, point);
+    //cout<<"desp: "<<center->x<<endl;
+}
+
+int CollitionBox::getWidth() {
+    return w;
+}
+
+void CollitionBox::adaptWidthToRespectTo(int newWidth, Point* point) {
+
+    float scale = (float)newWidth / (float)w;
+
+    //cout<<"cambio de arma: "<<endl;
+    //cout<<"w: "<<w<<endl;
+    //cout<<"newWidth: "<<newWidth<<endl;
+    //cout<<"scale: "<<scale<<endl;
+    for (auto corner : *corners){
+        corner->applyHomothetyInX(scale,point);
+    }
+    center->applyHomothetyInX(scale,point);
+
+    w = newWidth;
+}
+
+CollitionBox::~CollitionBox() {
+
+    for (auto c : *corners){
+        delete(c);
+    }
+    corners->clear();
+    delete (center);
+    for (auto c : *candidateMoves){
+        delete(c);
+    }
+    candidateMoves->clear();
+    delete(candidateMoves);
+    delete (discardedMoves);
+}

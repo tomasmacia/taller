@@ -11,6 +11,10 @@ Position::Position(int x, int y, int z, CollitionHandler* collitionHandler) {
     _collitionHandler = collitionHandler;
 }
 
+Point *Position::get() {
+    return point;
+}
+
 void Position::tryToMoveTo(int newX, int newY, int newZ) {
     auto* collitionHandler = (AnimatedEntityCollitionHandler*) _collitionHandler;
 
@@ -18,8 +22,8 @@ void Position::tryToMoveTo(int newX, int newY, int newZ) {
 
     collitionHandler->correctDestination(destination);
 
-    setPosition(destination->x,destination->y,destination->z);
     collitionHandler->moveAllCollitionBoxesKeepingRelativeDistancesTo(destination);
+    setPosition(destination->x,destination->y,destination->z);
 
     //cout<<"position: "<<"x: "<<destination->getX<<", y: "<<destination->getY<<", z: "<<destination->getZ<<endl;
 

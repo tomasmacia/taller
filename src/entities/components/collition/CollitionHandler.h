@@ -31,6 +31,8 @@ public:
 
     void setAllCollitionBoxCenterAt(int x, int y, int z);
 
+    virtual void update() {}
+
 protected:
     CollitionManager* _collitionManager = nullptr;
 

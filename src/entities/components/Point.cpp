@@ -55,6 +55,10 @@ Point Point::delta() {
     return Point(x - savedX, y - savedY, z - savedZ);
 }
 
+Point Point::minus(Point* other) {
+    return Point(x - other->x, y - other->y, z - other->z);
+}
+
 Point Point::oposite() {
     return Point(-x,-y,-z);
 }
@@ -71,4 +75,8 @@ void Point::setAt(Point *pPoint) {
 
 bool Point::coincidesWith(Point *otherPoint) {
     return x == otherPoint->x && y == otherPoint->y && z == otherPoint->z;
+}
+
+void Point::applyHomothetyInX(float scale, Point *point) {
+    this->x = (float)(point->x) + scale * (float)(this->x - point->x);
 }

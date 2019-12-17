@@ -68,12 +68,14 @@ void GameClient::gameLoop() {
             }
         }
 
+        render();
+        /*
         if (disconnect && !endOfGame){
             sceneDirector->renderDisconectionScreen(renderer, &loadedTexturesMap);
         }
         else {
             render();
-        }
+        }*/
     }
 }
 

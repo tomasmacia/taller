@@ -6,8 +6,8 @@
 #include "Character.h"
 
 
-Screen::Screen(int width, int height, int levelWidth, int levelDepth, CollitionManager* collitionManager){
-
+Screen::Screen(int width, int height, int levelWidth, int levelDepth,
+               CollitionManager *collitionManager) {
 
     this->currentX = 0;
     this->windowWidth = width;

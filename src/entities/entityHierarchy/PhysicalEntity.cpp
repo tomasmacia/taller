@@ -97,3 +97,7 @@ int PhysicalEntity::getLeftLimitX() {
 int PhysicalEntity::getRightLimitX() {
     return position->getX() + w/2;
 }
+
+Point *PhysicalEntity::getPos() {
+    return position->get();
+}

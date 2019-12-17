@@ -29,6 +29,9 @@ public:
 
     int getHeight();
 
+    int getXWithPos(Point *point);
+    int getYWithPos(Point *point);
+
 private:
     int x;
     int y;

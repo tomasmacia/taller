@@ -18,8 +18,12 @@ public:
     void save();
     void restore();
     Point delta();
+    Point minus(Point* other);
     Point oposite();
     bool isZero();
+    void setAt(Point *pPoint);
+    bool coincidesWith(Point *otherPoint);
+    void applyHomothetyInX(float scale, Point *point);
 
     int savedX;
     int savedY;
@@ -28,10 +32,6 @@ public:
     int x;
     int y;
     int z;
-
-    void setAt(Point *pPoint);
-
-    bool coincidesWith(Point *otherPoint);
 };
 
 

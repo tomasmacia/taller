@@ -12,7 +12,7 @@
 class Life : public Entity{
 
 public:
-    Life(State* state);
+    Life(State *state);
 
     void update() override {}
     void initializeWith(int amount, int amountOfLifes = 1);
