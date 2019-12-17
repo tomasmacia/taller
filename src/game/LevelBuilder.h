@@ -33,6 +33,8 @@ public:
     }
 
 
+    void update();
+
 private:
     //INITIALIZING
     //===============================
@@ -41,8 +43,10 @@ private:
     void initializeCamera();
     void initializeWorld();
     void initializeLevelDimentions();
+    void initializeEnemySpawns();
     void initializePlayers();
     void initializeEnemies();
+    void initializeFinalBoss();
     void initializeUtilities();
     void initializeWeapons();
     void resetCamera();
@@ -65,13 +69,18 @@ private:
     int currentlevelHeight = 300;  //ONLY USED ON ERROR
     int currentlevelDepth = 100;   //ONLY USED ON ERROR
 
-    //un numero entre 0 y 1. 1 significa nada de parallax y 0 es quieto
+    //un numero entre 0 y 1. 1 significa nada de parallax getY 0 es quieto
     float OVERLAY_SPEED_RATIO = 1; //este TIENE que ser 1
     float FLOOR_SPEED_RATIO = 1;   //este TIENE que ser 1
     float MIDDLE_SPEED_RATIO = 0.6;
     float FAR_SPEED_RATIO = 0.4;
 
-    void initializeFinalBoss();
+    int HORDE_AMOUNT = 5;
+    int enemiesPerHorde;
+    vector<int> hordeCheckPoints;
+    int currentCheckPointNumber;
+
+    void spawnHorde();
 };
 
 

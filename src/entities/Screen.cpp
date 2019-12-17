@@ -6,8 +6,8 @@
 #include "Character.h"
 
 
-Screen::Screen(int width, int height, int levelWidth, int levelDepth, CollitionManager* collitionManager){
-
+Screen::Screen(int width, int height, int levelWidth, int levelDepth,
+               CollitionManager *collitionManager) {
 
     this->currentX = 0;
     this->windowWidth = width;
@@ -125,7 +125,7 @@ bool Screen::onScreen(int x, int y){
 
     return (x <= (windowWidth + offScreenTolerance) && x >= -offScreenTolerance)
             &&
-           (y <= (windowHeight + offScreenTolerance) && y >= -offScreenTolerance); //este luce raro pero es porque el eje y en SDL esta al revez
+           (y <= (windowHeight + offScreenTolerance) && y >= -offScreenTolerance); //este luce raro pero es porque el eje getY en SDL esta al revez
 }
 
 bool Screen::isAtEnd(){
@@ -134,4 +134,16 @@ bool Screen::isAtEnd(){
 
 list<Sendable*> Screen::generateSendable() {
     return collitionHandler->generateSendable();
+}
+
+void Screen::removePlayer(int id) {
+
+    Character* playerToRemove = nullptr;
+    for (auto player : _players){
+        if (player->getID() == id){
+            playerToRemove = player;
+            break;
+        }
+    }
+    _players.remove(playerToRemove);
 }

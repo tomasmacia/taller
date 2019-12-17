@@ -36,28 +36,20 @@ public:
     void setDying();
     bool dead();
     void endBeingAttacked();
+    void setDead();
     void setBeingAttacked();
 
     void handleNewState(Action action);
     void updateFacingState(Action action);
+
     void printState(Action action);
-
-    void setDead();
-
     void equipWeapon(AttackCode weaponID);
-
     void dropWeapon();
-
     AttackCode getWeapon();
-
     bool isHitting();
-
     void setHitting();
-
     void endHittingFlag();
-
     bool justPickedWeapon();
-
     void endPickingFlag();
 
 private:

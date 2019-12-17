@@ -70,7 +70,7 @@
 28-10-2019 03:01:23 [DEBUG] : Inicializando armas
 28-10-2019 03:01:23 [DEBUG] : Armas inicializadas: 5
 28-10-2019 03:01:23 [DEBUG] : Tubos de metal inicializados: 10
-28-10-2019 03:01:23 [DEBUG] : Inicializando cajas y barriles
+28-10-2019 03:01:23 [DEBUG] : Inicializando cajas getY barriles
 28-10-2019 03:01:23 [DEBUG] : Cajas inicializadas: 1
 28-10-2019 03:01:23 [DEBUG] : Barriles inicializados: 3
 28-10-2019 03:01:23 [INFO] : =======================================

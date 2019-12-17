@@ -10,7 +10,7 @@ void GameServer::start() {
     LogManager::logInfo("[GAME]: Se inicia Game");
 
     initController();
-    startServer();          //1 thread de listen de conexiones nuevas y 4 threads por cliente nuevo
+    startServer();          //1 thread de listen de conexiones nuevas getY 4 threads por cliente nuevo
     initSceneDirector();
 
     waitUnitAllPlayersConnected();
@@ -19,7 +19,7 @@ void GameServer::start() {
     gameLoop();
 
     sendEndMessage();
-    closeServer();          //se cierra el thread se server y (previamente se cierran los 4 threads child)
+    closeServer();          //se cierra el thread se server getY (previamente se cierran los 4 threads child)
 
     LogManager::logInfo("[GAME]: Juego terminado");
     LogManager::logInfo("=======================================");
@@ -33,13 +33,13 @@ void GameServer::start() {
 void GameServer::gameLoop(){
 
     sendGameStartedMessage();
-    while (isOn() && levelBuilder->hasNextLevel() && notAllPlayersDisconnected()) {
+    while (isOn() && levelBuilder->hasNextLevel() && thereIsAtLeastOnePlayerAliveAndConnected()) {
 
         levelBuilder->loadNext();
         LogManager::logInfo("=======================================");
         LogManager::logInfo("[GAME]: se inicia game loop de este nivel");
 
-        while (isOn() && !levelBuilder->levelFinished() && notAllPlayersDisconnected()) {
+        while (isOn() && !levelBuilder->levelFinished() && thereIsAtLeastOnePlayerAliveAndConnected()) {
             update();
             sendUpdate();
             usleep(SLEEP_TIME);
@@ -64,6 +64,7 @@ void GameServer::gameLoop(){
 
 void GameServer::update() {
     entityManager->update();
+    levelBuilder->update();
     controller->clearAllInputs();
 }
 
@@ -134,6 +135,10 @@ bool GameServer::isIDLogged(int ID){
     return loggedPlayersUserByID.count( ID );
 }
 
+bool GameServer::thereIsAtLeastOnePlayerAliveAndConnected() {
+    return (deadPlayers.size() + disconectedPlayers.size()) < loggedPlayersIDbyUser.size();
+}
+
 //SERVER RELATED
 //=========================================================================================
 void GameServer::startServer(){
@@ -183,6 +188,7 @@ void GameServer::sendEndMessage() {
 
 void GameServer::notifyPlayerDied(int id) {
     controller->sendPlayerDiedMessage(server,id);
+    deadPlayers.insert({id,loggedPlayersUserByID.at(id).name});
 }
 
 void GameServer::sendGameStartedMessage() {

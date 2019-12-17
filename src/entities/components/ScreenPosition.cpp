@@ -37,3 +37,11 @@ int ScreenPosition::getWidth() {
 int ScreenPosition::getHeight() {
     return height;
 }
+
+int ScreenPosition::getXWithPos(Point *point) {
+    return point->x - _screen->currentX;
+}
+
+int ScreenPosition::getYWithPos(Point *point) {
+    return _screen->getWindowHeight() - (point->y + point->z);
+}

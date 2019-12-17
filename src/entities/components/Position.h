@@ -48,6 +48,9 @@ public:
     int getDistanceTo(Position *other) {
         return point->distanceTo(other->point);
     }
+
+    Point *get();
+
 private:
     Point* point = nullptr;
     CollitionHandler* _collitionHandler = nullptr;

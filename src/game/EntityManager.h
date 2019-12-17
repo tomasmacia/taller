@@ -34,7 +34,7 @@ class GameServer;
 class Controller;
 class EntityManager {
 public:
-    EntityManager(Controller* controller, Config* config);
+    EntityManager(Controller *controller, Config *config);
     ~EntityManager();
 
     //API
@@ -89,10 +89,6 @@ public:
 
     // TEMP TEST
     //==============================
-    Box *createBox(int x, int y, int z);
-
-    void addBox(int x, int y, int z);
-
     void addEnemy(int x, int y, int z);
 
     Enemy *createEnemy(int x, int y, int z);
@@ -123,14 +119,14 @@ private:
     std::list<UnanimatedEntity*> unanimatedEntities;
 
     //estas listas forman una particion de todas las entities
-    // es decir, toda entity esta en alguna y si esta en una no esta en las otras
+    // es decir, toda entity esta en alguna getY si esta en una no esta en las otras
     std::list<Entity*> specialEntities;                       //camera and levelLimits
     std::list<PhysicalEntity*> physicalEntities;          //only utilities, weapons, enemies and players
     std::list<Background*> backLayerBackgrounds;
     std::list<Background*> frontLayerBackgrounds;
     FinalBoss* finalBoss = nullptr;
 
-    ValidPositionGenerator validPositionGenerator;
+    ValidPositionGenerator* validPositionGenerator = nullptr;
 
     //for performance
     std::list<Sendable*>* packagesToClients = nullptr;
@@ -156,6 +152,10 @@ private:
     float JUMPING_SPEED_FACTOR = 0.03;
 
     bool VISUAL_COLLITION_BOX = false;
+    bool VISUAL_PICK = false;
+    bool VISUAL_PUNCH = false;
+    bool VISUAL_KICK = true;
+
     int NON_TRACKABLE_COLLITION_BOX_ID = -1;
     int DEFAULT_COLLITION_BOX_WIDTH = 5;
     int DEFAULT_COLLITION_BOX_HEIGHT = 5;
@@ -167,5 +167,7 @@ private:
     float NORMAL_COLLITON_BOX_SCALE_FACTOR_HEIGHT = 1;
 
     bool bossIsDead = false;
+
+    void correctlyRemovePlayer(Character *character);
 };
 #endif //GAME_ENTITYMANAGER_H

@@ -39,6 +39,8 @@ public:
 
     void stopBeingAttacked();
 
+    Point* getPos() override ;
+
 protected:
     int w,h,d;
 

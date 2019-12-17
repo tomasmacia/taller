@@ -24,6 +24,7 @@ void AnimatedEntity::update() {
     sound->update();
     appearance->update();
     physics->update();
+    collitionHandler->update();
 }
 
 void AnimatedEntity::drag() {

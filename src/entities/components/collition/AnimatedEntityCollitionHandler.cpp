@@ -3,10 +3,32 @@
 //
 #include "AnimatedEntityCollitionHandler.h"
 
-AnimatedEntityCollitionHandler::AnimatedEntityCollitionHandler(CollitionManager *collitionManager,
+AnimatedEntityCollitionHandler::AnimatedEntityCollitionHandler(State* state, CollitionManager *collitionManager,
                                                                CollitionBox *punchBox, CollitionBox *kickBox,
                                                                CollitionBox *collitionBox, CollitionBox *pickBox)
 
+
+                                                               :CollitionHandler(collitionManager){
+    _state = state;
+
+    _blockingCollitionBox = collitionBox;
+    _punchBox = punchBox;
+    _kickBox = kickBox;
+    _pickBox = pickBox;
+
+    addCollitionBox(_blockingCollitionBox);
+    addCollitionBox(_punchBox);
+    addCollitionBox(_kickBox);
+    addCollitionBox(_pickBox);
+
+    lastFacingState = _state->facingRight();
+    lastAttack = state->getWeapon();
+    normalPunchingWidth = _punchBox->getWidth();
+}
+
+AnimatedEntityCollitionHandler::AnimatedEntityCollitionHandler(CollitionManager *collitionManager,
+                                                               CollitionBox *punchBox, CollitionBox *kickBox,
+                                                               CollitionBox *collitionBox, CollitionBox *pickBox)
 
                                                                :CollitionHandler(collitionManager){
     _blockingCollitionBox = collitionBox;
@@ -20,17 +42,33 @@ AnimatedEntityCollitionHandler::AnimatedEntityCollitionHandler(CollitionManager 
     addCollitionBox(_pickBox);
 }
 
-list<PhysicalEntity*> *AnimatedEntityCollitionHandler::getAllPunchableWithinPunchingRange() {
+void AnimatedEntityCollitionHandler::setState(State *state) {
+    _state = state;
+    lastFacingState = _state->facingRight();
+    lastAttack = _state->getWeapon();
+    normalPunchingWidth = _punchBox->getWidth();
+}
+
+list<PhysicalEntity*>* AnimatedEntityCollitionHandler::getAllPunchableWithinPunchingRange() {
 
     auto* punchables = new list<PhysicalEntity*>();
-    auto* boxes = _collitionManager->getListOfHittedCollitionBox(_punchBox);
+    list<CollitionBox*>* boxes = nullptr;
 
-    for (auto colitionBox : *boxes){
-        punchables->push_back((PhysicalEntity*) colitionBox->getOwner());
+    if (_blockingCollitionBox->getOwner()->isCharacter()){
+
+        boxes = _collitionManager->getListOfHittedNonCharacterCollitionBox(_punchBox);
+    }
+    else{
+        boxes = _collitionManager->getListOfHittedCharacterCollitionBox(_punchBox);
     }
 
-    boxes->clear();
-    delete(boxes);
+    if (boxes != nullptr){
+        for (auto colitionBox : *boxes){
+            punchables->push_back((PhysicalEntity*) colitionBox->getOwner());
+        }
+        boxes->clear();
+        delete(boxes);
+    }
 
     return punchables;
 }
@@ -38,14 +76,23 @@ list<PhysicalEntity*> *AnimatedEntityCollitionHandler::getAllPunchableWithinPunc
 list<PhysicalEntity*>* AnimatedEntityCollitionHandler::getAllKickableWithinKickingRange() {
 
     auto* kickeables = new list<PhysicalEntity*>();
-    auto* boxes = _collitionManager->getListOfHittedCollitionBox(_kickBox);
+    list<CollitionBox*>* boxes = nullptr;
 
-    for (auto colitionBox : *boxes){
-        kickeables->push_back((PhysicalEntity*) colitionBox->getOwner());
+    if (_blockingCollitionBox->getOwner()->isCharacter()){
+
+        boxes = _collitionManager->getListOfHittedNonCharacterCollitionBox(_kickBox);
+    }
+    else{
+        boxes = _collitionManager->getListOfHittedCharacterCollitionBox(_kickBox);
     }
 
-    boxes->clear();
-    delete(boxes);
+    if (boxes != nullptr){
+        for (auto colitionBox : *boxes){
+            kickeables->push_back((PhysicalEntity*) colitionBox->getOwner());
+        }
+        boxes->clear();
+        delete(boxes);
+    }
 
     return kickeables;
 }
@@ -64,9 +111,19 @@ PhysicalEntity *AnimatedEntityCollitionHandler::getClosestPickeableWithinPicking
 
 void AnimatedEntityCollitionHandler::moveAllCollitionBoxesKeepingRelativeDistancesTo(Point *destination) {
 
+    auto delta = destination->minus(_blockingCollitionBox->getOwner()->getPos());
+
+    /*
     for (auto collitionBox : *_collitionBoxes){
-        collitionBox->setAt(destination->x,destination->y,destination->z);
+        if (collitionBox->getID() != _blockingCollitionBox->getID()){
+            collitionBox->moveBy(delta);
+        }
     }
+     */
+
+    _punchBox->moveBy(delta);
+    _kickBox->moveBy(delta);
+    _pickBox->moveBy(delta);
 }
 
 void AnimatedEntityCollitionHandler::correctDestination(Point *destination) {
@@ -103,5 +160,59 @@ void AnimatedEntityCollitionHandler::setConnected() {
 
     for (auto collitionBox : *_collitionBoxes){
         _collitionManager->stopIgnoringBlockingCollitionBox(collitionBox->getID());
+    }
+}
+
+void AnimatedEntityCollitionHandler::update() {
+
+    if (playerFliped()){
+        reflectAllAttackCollitionBox();
+    }
+
+    if (attackChanged()){
+        adaptPunchingBox();
+    }
+}
+
+void AnimatedEntityCollitionHandler::reflectAllAttackCollitionBox() {
+
+    _punchBox->reflectInXRespectTo(_blockingCollitionBox->getOwner()->getPos());
+    _kickBox->reflectInXRespectTo(_blockingCollitionBox->getOwner()->getPos());
+}
+
+bool AnimatedEntityCollitionHandler::playerFliped() {
+
+    if (lastFacingState != _state->facingRight()){
+        lastFacingState = _state->facingRight();
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+bool AnimatedEntityCollitionHandler::attackChanged() {
+
+    if (lastAttack != _state->getWeapon()){
+        lastAttack = _state->getWeapon();
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+void AnimatedEntityCollitionHandler::adaptPunchingBox() {
+
+    switch (lastAttack){
+        case NO_WEAPON:
+            _punchBox->adaptWidthToRespectTo(normalPunchingWidth, _punchBox->getOwner()->getPos());
+            break;
+        case KNIFE:
+            _punchBox->adaptWidthToRespectTo(normalPunchingWidth * KNIFE_WIDTH_SCALE_FACTOR,_punchBox->getOwner()->getPos());
+            break;
+        case TUBE:
+            _punchBox->adaptWidthToRespectTo(normalPunchingWidth * TUBE_WIDTH_SCALE_FACTOR,_punchBox->getOwner()->getPos());
+            break;
     }
 }
