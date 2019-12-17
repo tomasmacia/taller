@@ -26,6 +26,7 @@ void PursuitBehavior::update() {
 
         this->owner->switchBehavior(PATROL);
 
+        nearTarget = false;
         pursuitDurationCounter = 0;
     }
 }
@@ -35,14 +36,13 @@ Action PursuitBehavior::getNext() {
     int xdif = target->getX() - subjectPosition->getX();
     int zdif = target->getZ() - subjectPosition->getZ();
 
-    int offset = 0;
+    int offset = 100;
 
     if (xdif > 0) {
-        xdif -= 120;
-        offset = -120;
+        xdif -= offset;
+        offset *= -1;
     } else {
-        xdif += 120;
-        offset = 120;
+        xdif += offset;
     }
 
     Position position(target->getX() + offset, target->getY(), target->getZ(), nullptr);

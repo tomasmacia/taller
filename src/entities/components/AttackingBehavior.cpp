@@ -3,6 +3,7 @@
 //
 
 #include "AttackingBehavior.h"
+#include "PursuitBehavior.h"
 
 AttackingBehavior::AttackingBehavior(IA *owner, EntityManager *manager, Position *subjectPosition) {
     this->owner = owner;
@@ -11,6 +12,12 @@ AttackingBehavior::AttackingBehavior(IA *owner, EntityManager *manager, Position
 }
 
 void AttackingBehavior::update() {
+    if (getDistanceToTarget() >= DISTANCE_TO_START_PURSUIT) {
+        this->owner->switchBehavior(TARGET);
+        ((PursuitBehavior*) this->owner->getCurrentBehavior())->switchTarget(target); // ASCO
+        framesSinceLastPunch = 0;
+        return;
+    }
     framesSinceLastPunch++;
 }
 
@@ -23,4 +30,8 @@ Action AttackingBehavior::getNext() {
     }
 
     return action;
+}
+
+int AttackingBehavior::getDistanceToTarget() {
+    return this->target->getPosition()->getDistanceTo(subjectPosition);
 }

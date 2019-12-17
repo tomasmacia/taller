@@ -26,11 +26,14 @@ public:
 
 private:
     const int PUNCH_DELAY = 40;
+    const int DISTANCE_TO_START_PURSUIT = 130;
     int framesSinceLastPunch = 0;
     IA *owner;
     EntityManager *em;
     Position *subjectPosition;
-    Character *target;
+    Character *target = nullptr;
+
+    int getDistanceToTarget();
 };
 
 

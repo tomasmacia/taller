@@ -173,7 +173,7 @@ void LevelBuilder::initializePlayers() {
 
     _entityManager->addBox(50,0,50);
     _entityManager->addEnemy(150,0,50);
-    _entityManager->addEnemy(650,0,50);
+    //_entityManager->addEnemy(650,0,50);
 }
 
 void LevelBuilder::initializeEnemies() {
