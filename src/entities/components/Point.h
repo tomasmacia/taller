@@ -30,6 +30,8 @@ public:
     int z;
 
     void setAt(Point *pPoint);
+
+    bool coincidesWith(Point *otherPoint);
 };
 
 

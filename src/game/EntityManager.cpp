@@ -19,12 +19,13 @@
 
 //CONSTRUCTOR
 //=========================================================================================
-EntityManager::EntityManager(Controller* controller, Config* config){
+EntityManager::EntityManager(Controller *controller, Config *config){
     packagesToClients = new list<Sendable*>();
     initializeCollitionManager();
 
     this->controller = controller;
     this->config = config;
+    this->validPositionGenerator = new ValidPositionGenerator(DEFAULT_COLLITION_BOX_WIDTH,DEFAULT_COLLITION_BOX_HEIGHT,DEFAULT_COLLITION_BOX_DEPTH);
 }
 
 void EntityManager::setGame(GameServer *gameServer) {
@@ -111,7 +112,7 @@ void EntityManager::disconectPlayerByID(int id){
 
 void EntityManager::setLevelParameters(int levelWidth, int levelHeight, int levelDepth) {
 
-    validPositionGenerator.set(levelWidth,levelHeight,levelDepth);
+    validPositionGenerator->set(levelWidth,levelHeight,levelDepth);
 }
 
 bool EntityManager::bossKilled() {
@@ -253,9 +254,11 @@ FinalBoss *EntityManager::createFinalBoss() {
     int walkingSpeed = config->screenResolution.width*WAKING_SPEED_FACTOR;
     int jumpingSpeed = config->screenResolution.height*JUMPING_SPEED_FACTOR;
 
-    int x = validPositionGenerator.endOfLevelX() - 2*w;
-    int y = validPositionGenerator.y();
-    int z = validPositionGenerator.z();
+    validPositionGenerator->generateNewPos();
+
+    int x = validPositionGenerator->endOfLevelX() - 2*w;
+    int y = validPositionGenerator->getY();
+    int z = validPositionGenerator->getZ();
 
     int centerX = x + w/2;
     int centerY = y + h/2;
@@ -300,9 +303,11 @@ Enemy *EntityManager::createEnemy() {
     int walkingSpeed = config->screenResolution.width*WAKING_SPEED_FACTOR;
     int jumpingSpeed = config->screenResolution.height*JUMPING_SPEED_FACTOR;
 
-    int x = validPositionGenerator.x();
-    int y = validPositionGenerator.y();
-    int z = validPositionGenerator.z();
+    validPositionGenerator->generateNewPosAround(screen->currentX + w/2, 2 * w);
+
+    int x = validPositionGenerator->getX();
+    int y = validPositionGenerator->getY();
+    int z = validPositionGenerator->getZ();
 
     int centerX = x + w/2;
     int centerY = y + h/2;
@@ -345,9 +350,11 @@ Knife* EntityManager::createKnife() {
     int w = (int)((float)config->screenResolution.width*WEAPON_WIDTH_SCALE);
     int h = (int)((float)config->screenResolution.height*WEAPON_HEIGHT_SCALE);
 
-    int x = validPositionGenerator.x();
-    int y = validPositionGenerator.y();
-    int z = validPositionGenerator.z();
+    validPositionGenerator->generateNewPos();
+
+    int x = validPositionGenerator->getX();
+    int y = validPositionGenerator->getY();
+    int z = validPositionGenerator->getZ();
 
     int centerX = x + w/2;
     int centerY = y + h/2;
@@ -382,9 +389,11 @@ Tube* EntityManager::createTube() {
     int w = (int)((float)config->screenResolution.width*WEAPON_WIDTH_SCALE);
     int h = (int)((float)config->screenResolution.height*WEAPON_HEIGHT_SCALE);
 
-    int x = validPositionGenerator.x();
-    int y = validPositionGenerator.y();
-    int z = validPositionGenerator.z();
+    validPositionGenerator->generateNewPos();
+
+    int x = validPositionGenerator->getX();
+    int y = validPositionGenerator->getY();
+    int z = validPositionGenerator->getZ();
 
     int centerX = x + w/2;
     int centerY = y + h/2;
@@ -419,9 +428,11 @@ Box* EntityManager::createBox() {
     int w = (int)((float)config->screenResolution.width*UTILITY_WIDTH_SCALE);
     int h = (int)((float)config->screenResolution.height*UTILITY_HEIGHT_SCALE);
 
-    int x = validPositionGenerator.x();
-    int y = validPositionGenerator.y();
-    int z = validPositionGenerator.z();
+    validPositionGenerator->generateNewPos();
+
+    int x = validPositionGenerator->getX();
+    int y = validPositionGenerator->getY();
+    int z = validPositionGenerator->getZ();
 
     int centerX = x + w/2;
     int centerY = y + h/2;
@@ -456,9 +467,11 @@ Barrel* EntityManager::createBarrel() {
     int w = (int)((float)config->screenResolution.width*UTILITY_WIDTH_SCALE);
     int h = (int)((float)config->screenResolution.height*UTILITY_HEIGHT_SCALE);
 
-    int x = validPositionGenerator.x();
-    int y = validPositionGenerator.y();
-    int z = validPositionGenerator.z();
+    validPositionGenerator->generateNewPos();
+
+    int x = validPositionGenerator->getX();
+    int y = validPositionGenerator->getY();
+    int z = validPositionGenerator->getZ();
 
     int centerX = x + w/2;
     int centerY = y + h/2;
@@ -567,7 +580,7 @@ void EntityManager::eraseDeadEntities() {
     for (auto e: physicalEntities){
         if (e->dead()){
             if (e->isFinalBoss()){finalBoss = nullptr;} //mea culpa
-            if (e->isCharacter()){gameServer->notifyPlayerDied(((Character*)e)->getID());} //mea culpa
+            if (e->isCharacter()){correctlyRemovePlayer((Character*)e);} //mea culpa
             delete(e);
             cout<<"a dead entity has been correctly eliminated from the game"<<endl;
             toUntrack.push_back(e);
@@ -608,7 +621,7 @@ EntityManager::~EntityManager() {
     frontLayerBackgrounds.clear();
 
     for (auto package: *packagesToClients){
-        delete package;
+        delete(package);
     }
     packagesToClients->clear();
     delete packagesToClients;
@@ -618,6 +631,9 @@ EntityManager::~EntityManager() {
     collitionManager = nullptr;
 
     finalBoss = nullptr;
+
+    delete (validPositionGenerator);
+    validPositionGenerator = nullptr;
 }
 
 //SORTING
@@ -637,4 +653,9 @@ struct EntityComparator
 
 void EntityManager::sortEntitiesByZ() {
     physicalEntities.sort(EntityComparator());
+}
+
+void EntityManager::correctlyRemovePlayer(Character *character) {
+    gameServer->notifyPlayerDied((character)->getID());
+    screen->removePlayer(character->getID());
 }

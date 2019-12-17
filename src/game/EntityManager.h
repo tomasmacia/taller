@@ -34,7 +34,7 @@ class GameServer;
 class Controller;
 class EntityManager {
 public:
-    EntityManager(Controller* controller, Config* config);
+    EntityManager(Controller *controller, Config *config);
     ~EntityManager();
 
     //API
@@ -112,14 +112,14 @@ private:
     std::list<UnanimatedEntity*> unanimatedEntities;
 
     //estas listas forman una particion de todas las entities
-    // es decir, toda entity esta en alguna y si esta en una no esta en las otras
+    // es decir, toda entity esta en alguna getY si esta en una no esta en las otras
     std::list<Entity*> specialEntities;                       //camera and levelLimits
     std::list<PhysicalEntity*> physicalEntities;          //only utilities, weapons, enemies and players
     std::list<Background*> backLayerBackgrounds;
     std::list<Background*> frontLayerBackgrounds;
     FinalBoss* finalBoss = nullptr;
 
-    ValidPositionGenerator validPositionGenerator;
+    ValidPositionGenerator* validPositionGenerator = nullptr;
 
     //for performance
     std::list<Sendable*>* packagesToClients = nullptr;
@@ -156,5 +156,7 @@ private:
     float NORMAL_COLLITON_BOX_SCALE_FACTOR_HEIGHT = 1;
 
     bool bossIsDead = false;
+
+    void correctlyRemovePlayer(Character *character);
 };
 #endif //GAME_ENTITYMANAGER_H

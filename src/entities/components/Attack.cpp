@@ -37,7 +37,7 @@ void Attack::handleCurrentState(){
     }
 }
 
-void Attack::addressPunch(){ //se hace esta implementacion medio elaborada "al pedo" porque el acto de pegar dura mas que el de recibir el golpe y entonces podria pasar
+void Attack::addressPunch(){ //se hace esta implementacion medio elaborada "al pedo" porque el acto de pegar dura mas que el de recibir el golpe getY entonces podria pasar
                             //que el mismo golpe le pegue dos o tres o mas veces hasta matarlo
 
     if (alreadyHasTargets()){

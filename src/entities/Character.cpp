@@ -21,6 +21,7 @@ Character::Character(CollitionHandler* collitionHandler, Life *life, Damage *dam
 list<Sendable *> Character::generateSendable() {
     list<Sendable *> sendables = PhysicalEntity::generateSendable();
 
+    sendables.splice(sendables.end(),life->generateSendable());
     auto scoreAppearanceSendable = new Sendable(scoreAppearance->generateRenderable(), nullptr);
     sendables.push_back(scoreAppearanceSendable);
     return sendables;
@@ -72,6 +73,7 @@ int Character::setAttackedWith(AttackCode attackCode) {
 
         life->decreseBy(damageInflicted);
     }
+    return 0;
 }
 
 void Character::resetAt(int x, int y, int z) {

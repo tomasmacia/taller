@@ -68,3 +68,7 @@ void Point::setAt(Point *pPoint) {
     y = pPoint->y;
     z = pPoint->z;
 }
+
+bool Point::coincidesWith(Point *otherPoint) {
+    return x == otherPoint->x && y == otherPoint->y && z == otherPoint->z;
+}

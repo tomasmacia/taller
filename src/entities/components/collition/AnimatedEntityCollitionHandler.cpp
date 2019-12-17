@@ -20,17 +20,26 @@ AnimatedEntityCollitionHandler::AnimatedEntityCollitionHandler(CollitionManager 
     addCollitionBox(_pickBox);
 }
 
-list<PhysicalEntity*> *AnimatedEntityCollitionHandler::getAllPunchableWithinPunchingRange() {
+list<PhysicalEntity*>* AnimatedEntityCollitionHandler::getAllPunchableWithinPunchingRange() {
 
     auto* punchables = new list<PhysicalEntity*>();
-    auto* boxes = _collitionManager->getListOfHittedCollitionBox(_punchBox);
+    list<CollitionBox*>* boxes = nullptr;
 
-    for (auto colitionBox : *boxes){
-        punchables->push_back((PhysicalEntity*) colitionBox->getOwner());
+    if (_blockingCollitionBox->getOwner()->isCharacter()){
+
+        boxes = _collitionManager->getListOfHittedNonCharacterCollitionBox(_punchBox);
+    }
+    else{
+        boxes = _collitionManager->getListOfHittedCharacterCollitionBox(_punchBox);
     }
 
-    boxes->clear();
-    delete(boxes);
+    if (boxes != nullptr){
+        for (auto colitionBox : *boxes){
+            punchables->push_back((PhysicalEntity*) colitionBox->getOwner());
+        }
+        boxes->clear();
+        delete(boxes);
+    }
 
     return punchables;
 }
@@ -38,14 +47,23 @@ list<PhysicalEntity*> *AnimatedEntityCollitionHandler::getAllPunchableWithinPunc
 list<PhysicalEntity*>* AnimatedEntityCollitionHandler::getAllKickableWithinKickingRange() {
 
     auto* kickeables = new list<PhysicalEntity*>();
-    auto* boxes = _collitionManager->getListOfHittedCollitionBox(_kickBox);
+    list<CollitionBox*>* boxes = nullptr;
 
-    for (auto colitionBox : *boxes){
-        kickeables->push_back((PhysicalEntity*) colitionBox->getOwner());
+    if (_blockingCollitionBox->getOwner()->isCharacter()){
+
+        boxes = _collitionManager->getListOfHittedNonCharacterCollitionBox(_kickBox);
+    }
+    else{
+        boxes = _collitionManager->getListOfHittedCharacterCollitionBox(_kickBox);
     }
 
-    boxes->clear();
-    delete(boxes);
+    if (boxes != nullptr){
+        for (auto colitionBox : *boxes){
+            kickeables->push_back((PhysicalEntity*) colitionBox->getOwner());
+        }
+        boxes->clear();
+        delete(boxes);
+    }
 
     return kickeables;
 }

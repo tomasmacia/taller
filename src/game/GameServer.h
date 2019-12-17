@@ -138,6 +138,7 @@ private:
     std::map<std::string,int> loggedPlayersIDbyUser;                //<name,ID>
     std::map<int,User> loggedPlayersUserByID;                       //<ID,user>
     std::map<std::string,int> disconectedPlayers;                   //<name,ID>
+    std::map<int,std::string> deadPlayers;                          //<ID,name>
 
     int maxPlayers{};
 
@@ -148,6 +149,8 @@ private:
     void sendEndMessage();
 
     void sendGameStartedMessage();
+
+    bool thereIsAtLeastOnePlayerAliveAndConnected();
 };
 
 #endif //GAME_GAMESERVER_H_

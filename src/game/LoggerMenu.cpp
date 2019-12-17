@@ -73,14 +73,14 @@ void LoggerMenu::open() {
 void LoggerMenu::processResponse(){
 
     if (response == SUCCESS){
-        MensajeEmergente("User y Passwors Aceptados");
-        LogManager::logInfo("[LOGIN]: User y Passwors Aceptados");
+        MensajeEmergente("User y Passwords Aceptados");
+        LogManager::logInfo("[LOGIN]: User y Passwords Aceptados");
         succesfulLogin = true;
         gameClient->setLogged();
     }
     if (response == INVALID_CREDENTIAL){
-        MensajeEmergente("User y Passwors no existentes");
-        LogManager::logInfo("[LOGIN]: User y Passwors no existentes");
+        MensajeEmergente("User y Passwords no existentes");
+        LogManager::logInfo("[LOGIN]: User y Passwords no existentes");
     }
     if (response ==ALREADY_LOGGED_IN_CREDENTIAL){
         MensajeEmergente("User ya logeado");

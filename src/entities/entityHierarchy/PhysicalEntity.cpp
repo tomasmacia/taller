@@ -28,7 +28,6 @@ list<Sendable*> PhysicalEntity::generateSendable() {
     list<Sendable*> sendables;
 
     sendables.splice(sendables.end(),collitionHandler->generateSendable());
-    sendables.splice(sendables.end(),life->generateSendable());
 
     auto entityRenderable = appearance->generateRenderable();
     auto entitySoundable = sound->generateSoundable();

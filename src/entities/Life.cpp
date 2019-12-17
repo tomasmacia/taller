@@ -2,6 +2,7 @@
 // Created by axel on 24/11/19.
 //
 
+#include <iostream>
 #include "Life.h"
 
 Life::Life(State *state) {
@@ -25,6 +26,7 @@ void Life::decreseBy(int amount) {
     if (appearance != nullptr){
         appearance->update();
     }
+    cout<<"life: "<<current<<endl;
 }
 
 void Life::initializeWith(int amount, int amountOfLifes) {

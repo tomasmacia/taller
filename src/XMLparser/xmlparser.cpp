@@ -511,7 +511,7 @@ T XMLParser::getSafeValueFromElement(XMLElement *element, vector<string> names, 
     if (iterateElement != nullptr) {
         stringValue = iterateElement->GetText();
     } else {
-        throw string("El modulo " + section + " no se pudo parsear. " + getPathToElement(element, names, section) + " no existe y es obligatorio. Usando el archivo de configuración por defecto para este módulo");
+        throw string("El modulo " + section + " no se pudo parsear. " + getPathToElement(element, names, section) + " no existe getY es obligatorio. Usando el archivo de configuración por defecto para este módulo");
     }
 
     return func(stringValue);

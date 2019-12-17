@@ -38,7 +38,7 @@ void Controller::checkIfCloseRelatedInputWasPulsed(){
 
 list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
     Action action;
-    int playerId = game->getPlayerId(); //cada pc tiene uno asignado al principio y es unico
+    int playerId = game->getPlayerId(); //cada pc tiene uno asignado al principio getY es unico
     std::string serializedInput;
     std::list<std::string> serializedInputs;
 
@@ -226,13 +226,13 @@ void Controller::init() {
     scancodes.insert(std::make_pair("w", SDL_SCANCODE_W));
 
     scancodes.insert(std::make_pair("X", SDL_SCANCODE_X));
-    scancodes.insert(std::make_pair("x", SDL_SCANCODE_X));
+    scancodes.insert(std::make_pair("getX", SDL_SCANCODE_X));
 
     scancodes.insert(std::make_pair("Y", SDL_SCANCODE_Y));
-    scancodes.insert(std::make_pair("y", SDL_SCANCODE_Y));
+    scancodes.insert(std::make_pair("getY", SDL_SCANCODE_Y));
 
     scancodes.insert(std::make_pair("Z", SDL_SCANCODE_Z));
-    scancodes.insert(std::make_pair("z", SDL_SCANCODE_Z));
+    scancodes.insert(std::make_pair("getZ", SDL_SCANCODE_Z));
 
     scancodes.insert(std::make_pair("CONTROL", SDL_SCANCODE_LCTRL));
     scancodes.insert(std::make_pair("LCTRL", SDL_SCANCODE_LCTRL));

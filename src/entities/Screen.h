@@ -53,6 +53,8 @@ public:
 
     bool isScreen(){return true;}
 
+    void removePlayer(int id);
+
 private:
     int windowHeight, windowWidth, levelDepth;
     int marginWidth , offScreenTolerance;
@@ -73,7 +75,8 @@ private:
     bool cameraHasReachedLimit();
     bool aPlayerSurpasedRightLimit();
 
-    void scroll();};
+    void scroll();
+};
 
 
 #endif //GAME_CAMERAPOSITIONCOMPONENT_H

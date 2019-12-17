@@ -54,6 +54,21 @@ void LevelBuilder::prepareForNextLevel(){
     _entityManager->prepareForNextLevel();
 }
 
+void LevelBuilder::update() {
+
+    if ((currentCheckPointNumber + 1) != hordeCheckPoints.size()){
+
+        if (_screen->currentX >= hordeCheckPoints.at(currentCheckPointNumber + 1) ){
+
+            for (int i = 0; i < enemiesPerHorde; i++){
+                _entityManager->addEnemy();
+                cout<<"Se spawnea un enemy"<<endl;
+            }
+            currentCheckPointNumber++;
+        }
+    }
+}
+
 //INITIALIZING LEVEL
 //=========================================================================================
 void LevelBuilder::initialize() {
@@ -63,11 +78,12 @@ void LevelBuilder::initialize() {
     LogManager::logInfo("[LEVEL]: Inicializando NIVEL " + std::to_string(currentLevel));
 
     initializeLevelDimentions();
+    initializeEnemySpawns();
     initializeCamera();
     initializeWorld();
     initializePlayers();
     initializeFinalBoss();
-    initializeEnemies();
+    //initializeEnemies();
     initializeWeapons();
     initializeUtilities();
 }
@@ -79,11 +95,12 @@ void LevelBuilder::initializeNextLevel() {
     LogManager::logInfo("[LEVEL]: Inicializando NIVEL " + std::to_string(currentLevel));
 
     initializeLevelDimentions();
+    initializeEnemySpawns();
     resetCamera();
     initializeWorld();
     resetPlayers();
     initializeFinalBoss();
-    initializeEnemies();
+    //initializeEnemies();
     initializeWeapons();
     initializeUtilities();
 }
@@ -143,6 +160,15 @@ void LevelBuilder::initializeLevelDimentions(){
     currentlevelDepth = _config->screenResolution.height * 0.20;
 
     _entityManager->setLevelParameters(currentLevelWidth, currentlevelHeight, currentlevelDepth);
+}
+
+void LevelBuilder::initializeEnemySpawns() {
+    enemiesPerHorde = _config->gameplay.npcs.size() / HORDE_AMOUNT;
+
+    for (int i = 0; i < HORDE_AMOUNT; i++){
+        hordeCheckPoints.push_back(i*(currentLevelWidth/HORDE_AMOUNT));
+    }
+    currentCheckPointNumber = 0;
 }
 
 void LevelBuilder::initializePlayers() {
@@ -206,7 +232,7 @@ void LevelBuilder::initializeWeapons() {
 }
 
 void LevelBuilder::initializeUtilities() {
-    LogManager::logDebug("[LEVEL]: Inicializando cajas y barriles");
+    LogManager::logDebug("[LEVEL]: Inicializando cajas getY barriles");
 
     for (int i = 0; i < _config->gameplay.utilities.box.amount;i++) {
         _entityManager->addBox();

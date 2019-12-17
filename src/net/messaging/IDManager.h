@@ -7,7 +7,7 @@
 
 #include <vector>
 
-class IDManager { //cada pc tiene asignado un player type y es unico
+class IDManager { //cada pc tiene asignado un player type getY es unico
 
 public:
     //SINGLETON
