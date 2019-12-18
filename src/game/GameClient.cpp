@@ -302,3 +302,7 @@ void GameClient::erasePreviousPackages() {
     }
     previousPackages->clear();
 }
+
+void GameClient::directSendToServer(string message) {
+    client->setToSend(message);
+}

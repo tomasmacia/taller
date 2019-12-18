@@ -54,6 +54,10 @@ public:
 
     void resetAt(int x, int y, int z);
 
+    void setTestMode();
+
+    void removeTestMode();
+
 private:
     int AMOUNT_OF_LIFES_CHARACTER = 3;
     int CHARACTER_LIFE_AMOUNT = 100;

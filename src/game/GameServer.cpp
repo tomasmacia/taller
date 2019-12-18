@@ -139,6 +139,18 @@ bool GameServer::thereIsAtLeastOnePlayerAliveAndConnected() {
     return conectedAndPlayingPlayersAmount > 0;
 }
 
+void GameServer::recibeTestModeSignal() {
+
+    inTestMode = !inTestMode;
+
+    if (inTestMode){
+        entityManager->setTestMode();
+    }
+    else{
+        entityManager->removeTestMode();
+    }
+}
+
 //SERVER RELATED
 //=========================================================================================
 void GameServer::startServer(){

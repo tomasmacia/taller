@@ -52,40 +52,53 @@ list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
             
         }
 
-        if( (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)){
+        if (action == TEST && (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)){
 
-            if (action != NONE ) {
-                serializedInput = objectSerializer.serializeInput(action,playerId);
-                serializedInputs.push_back(serializedInput);
-            }
+            cout<<"mande test"<<endl;
+            auto gameClient = (GameClient*) game;
+
+            serializedInput = objectSerializer.serializeInput(action,playerId);
+            gameClient->directSendToServer(serializedInput);
+
         }
+        else{
 
-        if ((sdlEvent.type == SDL_KEYUP && sdlEvent.key.repeat == 0 )){
+            if( (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)){
 
-            if (sdlEvent.key.keysym.sym == SDLK_m){
-                game->pauseResumeMusic();
-            }
-
-            if (action == UP || action == DOWN || action == LEFT || action == RIGHT ||
-                action == NONE){//no bloqueante
-                switch (action) {
-                    case UP:
-                        action = END_UP;
-                        break;
-                    case DOWN:
-                        action = END_DOWN;
-                        break;
-                    case LEFT:
-                        action = END_LEFT;
-                        break;
-                    case RIGHT:
-                        action = END_RIGHT;
-                        break;
+                if (action != NONE ) {
+                    serializedInput = objectSerializer.serializeInput(action,playerId);
+                    serializedInputs.push_back(serializedInput);
                 }
-                serializedInput = objectSerializer.serializeInput(action,playerId);
-                serializedInputs.push_back(serializedInput);
+            }
+
+            if ((sdlEvent.type == SDL_KEYUP && sdlEvent.key.repeat == 0 )){
+
+                if (sdlEvent.key.keysym.sym == SDLK_m){
+                    game->pauseResumeMusic();
+                }
+
+                if (action == UP || action == DOWN || action == LEFT || action == RIGHT ||
+                    action == NONE){//no bloqueante
+                    switch (action) {
+                        case UP:
+                            action = END_UP;
+                            break;
+                        case DOWN:
+                            action = END_DOWN;
+                            break;
+                        case LEFT:
+                            action = END_LEFT;
+                            break;
+                        case RIGHT:
+                            action = END_RIGHT;
+                            break;
+                    }
+                    serializedInput = objectSerializer.serializeInput(action,playerId);
+                    serializedInputs.push_back(serializedInput);
+                }
             }
         }
+
     }
     return serializedInputs;
 }
@@ -278,6 +291,7 @@ void Controller::bind() {
     actions.insert(std::make_pair(scancodes.at(bindings.CROUCH), CROUCH));
     actions.insert(std::make_pair(scancodes.at(bindings.KICK), KICK));
 
+    actions.insert(std::make_pair(scancodes.at(bindings.TEST), TEST));
     actions.insert(std::make_pair(SDL_SCANCODE_ESCAPE, QUIT));
 }
 

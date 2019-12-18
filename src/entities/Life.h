@@ -41,8 +41,12 @@ public:
         appearance->setXPosition(a);
     }
 
+    void setTestMode();
+
+    void removeTestMode();
+
 private:
-    
+    bool inTestMode = false;
     int startingAmount;
     
 
