@@ -59,6 +59,10 @@ void GameClient::gameLoop() {
             }
         }
 
+        else if(endOfGame){
+            pauseMusic();
+        }
+
         else if (gameStarted){
             if (!normalGameMusicPlaying){
 
@@ -66,10 +70,6 @@ void GameClient::gameLoop() {
                 normalGameMusicPlaying = true;
                 youDiedMusicPlaying = false;
             }
-        }
-
-        else if(endOfGame){
-            pauseMusic();
         }
 
         if (disconnect && !endOfGame){

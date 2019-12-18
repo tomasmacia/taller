@@ -145,9 +145,11 @@ void GameServer::recibeTestModeSignal() {
 
     if (inTestMode){
         entityManager->setTestMode();
+        LogManager::logInfo("[GAME]: modo test activado");
     }
     else{
         entityManager->removeTestMode();
+        LogManager::logInfo("[GAME]: modo test desactivado");
     }
 }
 
