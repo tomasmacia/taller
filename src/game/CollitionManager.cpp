@@ -93,6 +93,25 @@ CollitionBox *CollitionManager::createScreenBlockingCollitionBox(int x, int y, i
     return newCollitionBox;
 }
 
+list<CollitionBox *> *CollitionManager::getListOfHittedNonCharacterCollitionBox(CollitionBox *query) {
+    return getListOfHittedCollitionBox(query);
+}
+
+list<CollitionBox *> *CollitionManager::getListOfHittedCharacterCollitionBox(CollitionBox *query) {
+
+    auto hitted = new list<CollitionBox*>();
+
+    for (auto* collitionBox: *_characterCollitionBoxes){
+        if (collitionBox->getID() != query->getID()){
+            if (collitionBox->intersectsWith(query)){
+                hitted->push_back(collitionBox);
+            }
+        }
+    }
+
+    return hitted;
+}
+
 list<CollitionBox *> *CollitionManager::getListOfHittedCollitionBox(CollitionBox *query) {
 
     auto hitted = new list<CollitionBox*>();

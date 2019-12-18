@@ -49,7 +49,7 @@ void GameClient::gameLoop() {
     while (isOn()) {
         pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
 
-        if (disconnect || playerDied){
+        if ((disconnect || playerDied) && !endOfGame){
             if (!youDiedMusicPlaying){
 
                 initYouDiedOrDisconnectedMusic();
@@ -66,6 +66,10 @@ void GameClient::gameLoop() {
                 normalGameMusicPlaying = true;
                 youDiedMusicPlaying = false;
             }
+        }
+
+        else if(endOfGame){
+            pauseMusic();
         }
 
         if (disconnect && !endOfGame){

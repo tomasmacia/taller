@@ -34,7 +34,7 @@ class GameServer;
 class Controller;
 class EntityManager {
 public:
-    EntityManager(Controller* controller, Config* config);
+    EntityManager(Controller *controller, Config *config);
     ~EntityManager();
 
     //API
@@ -86,6 +86,13 @@ public:
 
     void setGame(GameServer *gameServer);
 
+
+    // TEMP TEST
+    //==============================
+    void addEnemy(int x, int y, int z);
+
+    Enemy *createEnemy(int x, int y, int z);
+
 private:
     //SORTING
     //===============================
@@ -119,7 +126,7 @@ private:
     std::list<Background*> frontLayerBackgrounds;
     FinalBoss* finalBoss = nullptr;
 
-    ValidPositionGenerator validPositionGenerator;
+    ValidPositionGenerator* validPositionGenerator = nullptr;
 
     //for performance
     std::list<Sendable*>* packagesToClients = nullptr;
@@ -145,6 +152,10 @@ private:
     float JUMPING_SPEED_FACTOR = 0.03;
 
     bool VISUAL_COLLITION_BOX = false;
+    bool VISUAL_PICK = false;
+    bool VISUAL_PUNCH = false;
+    bool VISUAL_KICK = false;
+
     int NON_TRACKABLE_COLLITION_BOX_ID = -1;
     int DEFAULT_COLLITION_BOX_WIDTH = 5;
     int DEFAULT_COLLITION_BOX_HEIGHT = 5;
@@ -156,5 +167,7 @@ private:
     float NORMAL_COLLITON_BOX_SCALE_FACTOR_HEIGHT = 1;
 
     bool bossIsDead = false;
+
+    void correctlyRemovePlayer(Character *character);
 };
 #endif //GAME_ENTITYMANAGER_H

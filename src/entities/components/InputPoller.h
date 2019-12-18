@@ -19,6 +19,10 @@ public:
     void update() override ;
     Action getNext() override;
 
+    ~InputPoller() override {
+
+    }
+
 private:
     void selectAndStoreInputsFromIncoming(std::list<std::tuple<Action,int>>& inputs);
 

@@ -2,6 +2,7 @@
 // Created by axel on 24/11/19.
 //
 
+#include <iostream>
 #include "Life.h"
 #include <iostream>
 
@@ -31,7 +32,6 @@ void Life::decreseBy(int amount) {
         appearance->update();
 
     }
-
 }
 
 void Life::initializeWith(int amount, int amountOfLifes) {

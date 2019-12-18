@@ -63,6 +63,12 @@ void State::updateMovementState(Action incoming){
         case END_RIGHT:
             movingRight = false;
             break;
+        case END_MOVEMENT:
+            movingUp = false;
+            movingDown = false;
+            movingLeft = false;
+            movingRight = false;
+            break;
     }
 }
 
@@ -144,7 +150,7 @@ bool State::isBlockingAction(Action action){
 
 bool State::isEndOfMovement(Action action){
     return ((action == END_UP) || (action == END_DOWN) ||
-            (action == END_LEFT) || (action == END_RIGHT));
+            (action == END_LEFT) || (action == END_RIGHT) || action == END_MOVEMENT);
 }
 
 bool State::isAMovement(Action action){

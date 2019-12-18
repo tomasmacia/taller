@@ -53,14 +53,13 @@ public:
     void discardLastMoveAsCandidate();
     void calculateAndAssignCorners(int centerX, int centerY, int centerZ);
     void calculateCandidates();
-
     Point *getCenter();
-
     void clearDiscardedMoves();
-
     void setAt(int x, int y, int z);
-
     //void discardTheOpositeOfLastMoveAsCandidate();
+    void reflectInXRespectTo(Point *point);
+    int getWidth();
+    void adaptWidthToRespectTo(int newWidth, Point* point);
 
 protected:
     bool anyCornerIntersectsWith(CollitionBox* collitionBox);
@@ -72,7 +71,7 @@ private:
     Point* lastMove = nullptr;
     list<Point*>* candidateMoves = nullptr;
     list<Point*>* discardedMoves = nullptr;
-    std::list<Point*>* corners;
+    std::vector<Point*>* corners;
     //map<Point*,Point*>* oposites = nullptr;
 
     ScreenPosition* screenPosition = nullptr;

@@ -28,7 +28,6 @@ list<Sendable*> PhysicalEntity::generateSendable() {
     list<Sendable*> sendables;
 
     sendables.splice(sendables.end(),collitionHandler->generateSendable());
-    sendables.splice(sendables.end(),life->generateSendable());
 
     auto entityRenderable = appearance->generateRenderable();
     auto entitySoundable = sound->generateSoundable();
@@ -97,4 +96,8 @@ int PhysicalEntity::getLeftLimitX() {
 
 int PhysicalEntity::getRightLimitX() {
     return position->getX() + w/2;
+}
+
+Point *PhysicalEntity::getPos() {
+    return position->get();
 }

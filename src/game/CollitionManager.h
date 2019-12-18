@@ -22,6 +22,8 @@ public:
     void untrack(CollitionBox* collitionBox);
 
     list<CollitionBox*>* getListOfHittedCollitionBox(CollitionBox* query);
+    list<CollitionBox *> *getListOfHittedNonCharacterCollitionBox(CollitionBox *query);
+    list<CollitionBox *> *getListOfHittedCharacterCollitionBox(CollitionBox *query);
     CollitionBox* getFirstPickedCollitionBox(CollitionBox* query);
 
     CollitionBox* createCharacterBlockingCollitionBox(int x, int y, int z, int w, int h, int d, bool visual);

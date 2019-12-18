@@ -1,6 +1,6 @@
 1) Que no haya bugs en el input
 
-2) Arreglar lo del titulo que indica quien es quien y su color 
+2) Arreglar lo del titulo que indica quien es quien y su color
 (andaba bien pero se rompia el logeo)
 
 3) al final el delete en el logger se elimina porque sino da seg fault al querer logear los destructores de los objetos al final en el main

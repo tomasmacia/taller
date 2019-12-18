@@ -20,6 +20,11 @@ bool Game::isOn(){
     return on;
 }
 
+void Game::pauseMusic(){
+    Mix_PauseMusic();
+    std::cerr<< "Pausando Musica"<<std::endl;
+}
+
 void Game::pauseResumeMusic(){
     if (Mix_PausedMusic() == 1){
         Mix_ResumeMusic();

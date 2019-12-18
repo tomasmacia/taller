@@ -4,11 +4,11 @@
 
 #include "Background.h"
 
-Background::Background(CollitionHandler *collitionHandler, BackgroundAppearance* appearance) : Entity(collitionHandler) {
-    this->appearance = appearance;
+Background::Background(BackgroundCollitionHandler *pHandler, BackgroundAppearance *pAppearance) : Entity(pHandler){
+    this->appearance = pAppearance;
 }
 
-Background::Background(BackgroundAppearance *appearance) {
+Background::Background(BackgroundAppearance* appearance) {
     this->appearance = appearance;
 }
 

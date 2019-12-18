@@ -13,7 +13,8 @@ using namespace std;
 class Character;
 class Screen : public Entity{
 public:
-    Screen(int width, int height, int levelWidth, int levelDepth, CollitionManager* collitionManager);
+    Screen(int width, int height, int levelWidth, int levelDepth,
+           CollitionManager *collitionManager);
 
     void update() override ;
     list<Sendable*> generateSendable() override ;
@@ -53,6 +54,8 @@ public:
 
     bool isScreen(){return true;}
 
+    void removePlayer(int id);
+
 private:
     int windowHeight, windowWidth, levelDepth;
     int marginWidth , offScreenTolerance;
@@ -73,7 +76,8 @@ private:
     bool cameraHasReachedLimit();
     bool aPlayerSurpasedRightLimit();
 
-    void scroll();};
+    void scroll();
+};
 
 
 #endif //GAME_CAMERAPOSITIONCOMPONENT_H

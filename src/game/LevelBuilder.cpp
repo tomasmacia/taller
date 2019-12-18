@@ -54,6 +54,24 @@ void LevelBuilder::prepareForNextLevel(){
     _entityManager->prepareForNextLevel();
 }
 
+void LevelBuilder::update() {
+
+    if ((currentCheckPointNumber + 1) != hordeCheckPoints.size()){
+
+        if (_screen->currentX >= hordeCheckPoints.at(currentCheckPointNumber + 1) ){
+            spawnHorde();
+            currentCheckPointNumber++;
+        }
+    }
+}
+
+void LevelBuilder::spawnHorde() {
+    for (int i = 0; i < enemiesPerHorde; i++){
+        _entityManager->addEnemy();
+        cout<<"Se spawnea un enemy"<<endl;
+    }
+}
+
 //INITIALIZING LEVEL
 //=========================================================================================
 void LevelBuilder::initialize() {
@@ -64,10 +82,11 @@ void LevelBuilder::initialize() {
 
     initializeLevelDimentions();
     initializeCamera();
+    initializeEnemySpawns();
     initializeWorld();
     initializePlayers();
     initializeFinalBoss();
-    initializeEnemies();
+    //initializeEnemies();
     initializeWeapons();
     initializeUtilities();
 }
@@ -80,10 +99,11 @@ void LevelBuilder::initializeNextLevel() {
 
     initializeLevelDimentions();
     resetCamera();
+    initializeEnemySpawns();
     initializeWorld();
     resetPlayers();
     initializeFinalBoss();
-    initializeEnemies();
+    //initializeEnemies();
     initializeWeapons();
     initializeUtilities();
 }
@@ -145,6 +165,17 @@ void LevelBuilder::initializeLevelDimentions(){
     _entityManager->setLevelParameters(currentLevelWidth, currentlevelHeight, currentlevelDepth);
 }
 
+void LevelBuilder::initializeEnemySpawns() {
+    enemiesPerHorde = _config->gameplay.npcs.size() / HORDE_AMOUNT;
+
+    for (int i = 0; i < HORDE_AMOUNT; i++){
+        hordeCheckPoints.push_back(i*(currentLevelWidth/HORDE_AMOUNT));
+    }
+    currentCheckPointNumber = 0;
+
+    spawnHorde();
+}
+
 void LevelBuilder::initializePlayers() {
     LogManager::logDebug("[LEVEL]: Inicializando PJ");
 
@@ -160,7 +191,7 @@ void LevelBuilder::initializePlayers() {
     IDManager::getInstance().initIDCounter();
     for (int i = 0; i < amountOfPlayers; i++) {
         int newPlayerID = IDManager::getInstance().getNextId();
-        
+
         x = offset*(i+1);
         y = 0;
         z = screenResolutionHeight*0.15;
@@ -198,6 +229,9 @@ void LevelBuilder::initializePlayers() {
 
     }
     LogManager::logDebug("[LEVEL]: Jugadores inicializados: " + std::to_string(amountOfPlayers));
+
+    _entityManager->addEnemy(150,0,50);
+    //_entityManager->addEnemy(650,0,50);
 }
 
 void LevelBuilder::initializeEnemies() {

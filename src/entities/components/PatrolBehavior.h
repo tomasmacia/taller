@@ -6,9 +6,9 @@
 #include "PursuitBehavior.h"
 
 
-const int SIDE_CHANGE_DELAY = 50;
-const int PLAYER_DETECTION_DELAY = 20;
-const float PLAYER_DETECTION_RANGE = 1000;
+const int SIDE_CHANGE_DELAY = 60;
+const int PLAYER_DETECTION_DELAY = 300;
+const int PLAYER_DETECTION_RANGE = 1000;
 
 
 class PatrolBehavior : public Will{
@@ -16,6 +16,10 @@ class PatrolBehavior : public Will{
         PatrolBehavior(IA* owner, EntityManager* manager, Position* subjectPosition);
         void update() override;
         Action getNext() override;
+
+        ~PatrolBehavior() override {
+
+        }
 
     private:
 
@@ -29,6 +33,7 @@ class PatrolBehavior : public Will{
         Position* subjectPosition;
 
         void checkForNearbyPlayer();
+        Character *getNearPlayer();
 
 };
 

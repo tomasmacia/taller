@@ -24,9 +24,7 @@ list<Sendable *> Character::generateSendable() {
     sendables.push_back(lifebar);
     auto lifergrey =new Sendable(life->getAppearance()->GenerateRenderableToDisconnect(isDisconnected()),nullptr);
     sendables.push_back(lifergrey);
-    return scoreAppearance->numerRenderabls(score->getCurrent(),sendables);    
-
-
+    return scoreAppearance->numerRenderabls(score->getCurrent(),sendables);
 }
 
 void Character::notifySuccessfulAttack(int score) {
@@ -46,9 +44,12 @@ void Character::setConnected(int newID) {
     auto* animatedEntityCollitionHandler = (AnimatedEntityCollitionHandler*) this->collitionHandler;
 
     state->setConnected();
-    characterAppearance->setConnected();
-    animatedEntityCollitionHandler->setConnected();
     id->setNew(newID);
+
+    if (!dead()){
+        characterAppearance->setConnected();
+        animatedEntityCollitionHandler->setConnected();
+    }
 }
 
 void Character::setDisconnected() {
@@ -56,8 +57,11 @@ void Character::setDisconnected() {
     auto* animatedEntityCollitionHandler = (AnimatedEntityCollitionHandler*) this->collitionHandler;
 
     state->setDisconnected();
-    characterAppearance->setDisconnected();
-    animatedEntityCollitionHandler->setDisconected();
+
+    if (!dead()){
+        characterAppearance->setDisconnected();
+        animatedEntityCollitionHandler->setDisconected();
+    }
 }
 
 int Character::getID() {
@@ -79,6 +83,7 @@ int Character::setAttackedWith(AttackCode attackCode) {
         life->decreseBy(damageInflicted);
 
     }
+    return 0;
 }
 
 void Character::resetAt(int x, int y, int z) {

@@ -3,6 +3,7 @@
 //
 
 #include "Point.h"
+#include <cmath>
 
 Point::Point(int x, int y, int z) {
     this->x = x;
@@ -39,6 +40,10 @@ int Point::distanceWith(Point *other) {
     return diffX*diffX + diffY*diffY + diffZ*diffZ;
 }
 
+int Point::distanceTo(Point *other) {
+    return (int) sqrt((double) distanceWith(other));
+}
+
 void Point::save() {
     savedX = x;
     savedY = y;
@@ -55,6 +60,10 @@ Point Point::delta() {
     return Point(x - savedX, y - savedY, z - savedZ);
 }
 
+Point Point::minus(Point* other) {
+    return Point(x - other->x, y - other->y, z - other->z);
+}
+
 Point Point::oposite() {
     return Point(-x,-y,-z);
 }
@@ -67,4 +76,12 @@ void Point::setAt(Point *pPoint) {
     x = pPoint->x;
     y = pPoint->y;
     z = pPoint->z;
+}
+
+bool Point::coincidesWith(Point *otherPoint) {
+    return x == otherPoint->x && y == otherPoint->y && z == otherPoint->z;
+}
+
+void Point::applyHomothetyInX(float scale, Point *point) {
+    this->x = (float)(point->x) + scale * (float)(this->x - point->x);
 }

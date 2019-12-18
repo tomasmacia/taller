@@ -33,6 +33,8 @@ public:
     }
 
 
+    void update();
+
 private:
     //INITIALIZING
     //===============================
@@ -41,8 +43,10 @@ private:
     void initializeCamera();
     void initializeWorld();
     void initializeLevelDimentions();
+    void initializeEnemySpawns();
     void initializePlayers();
     void initializeEnemies();
+    void initializeFinalBoss();
     void initializeUtilities();
     void initializeWeapons();
     void resetCamera();
@@ -71,7 +75,12 @@ private:
     float MIDDLE_SPEED_RATIO = 0.6;
     float FAR_SPEED_RATIO = 0.4;
 
-    void initializeFinalBoss();
+    int HORDE_AMOUNT = 5;
+    int enemiesPerHorde;
+    vector<int> hordeCheckPoints;
+    int currentCheckPointNumber;
+
+    void spawnHorde();
 };
 
 
