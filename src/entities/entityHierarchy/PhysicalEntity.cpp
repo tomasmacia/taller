@@ -31,8 +31,11 @@ list<Sendable*> PhysicalEntity::generateSendable() {
 
     auto entityRenderable = appearance->generateRenderable();
     auto entitySoundable = sound->generateSoundable();
-    auto entitySendable = new Sendable(entityRenderable, entitySoundable);
-    sendables.push_back(entitySendable);
+
+    if (entityRenderable != nullptr || entitySoundable != nullptr) {
+        auto entitySendable = new Sendable(entityRenderable, entitySoundable);
+        sendables.push_back(entitySendable);
+    }
 
     return sendables;
 }
