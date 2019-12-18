@@ -19,6 +19,7 @@ void Life::decreseBy(int amount) {
 
     if (!inTestMode) {
         current -= amount;
+        appearance->hit(amount);
 
         if (current <= 0){
 
