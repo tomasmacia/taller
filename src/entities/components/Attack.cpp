@@ -123,11 +123,8 @@ bool Attack::weaponBroke() {
 
 void Attack::dropWeapon() {
     state->dropWeapon();
-
-    if (hasWeapon()){
-        weapon->discard();
-        weapon = nullptr;
-    }
+    weapon->discard();
+    weapon = nullptr;
 }
 
 void Attack::setWeapon(Weapon *weapon) {
