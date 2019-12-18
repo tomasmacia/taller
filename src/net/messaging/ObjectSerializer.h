@@ -11,6 +11,7 @@
 #include "Sendable.h"
 #include "../../enumerates/Action.h"
 #include "../../enumerates/MessageId.h"
+#include "../../utils/ResourcesUtils.h"
 
 using namespace std;
 
@@ -18,6 +19,10 @@ using namespace std;
 class ObjectSerializer {
 
 public:
+
+    ObjectSerializer(Config* config) {
+        this->resourcesUtils = new ResourcesUtils(config);
+    }
 
     //API
     //===============================
@@ -113,6 +118,7 @@ private:
     string START_SYMBOL = "=";
     string FAILURE = "-1";
     int totalMessageLength = 1500;
+    ResourcesUtils *resourcesUtils;
 };
 
 

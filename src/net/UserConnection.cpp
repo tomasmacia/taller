@@ -54,8 +54,8 @@ void UserConnection::readThread() {
     while(isConnected()) {
         incomingMessage = server->receive(socketFD);
         //cout<<"SERVER-READ"<<endl;
-        if (incomingMessage == objectSerializer.getFailure()){ continue;}
-        if (incomingMessage == objectSerializer.getPingCode()){ continue;}
+        if (incomingMessage == objectSerializer->getFailure()){ continue;}
+        if (incomingMessage == objectSerializer->getPingCode()){ continue;}
         else{
             incomingQueueMutex.lock();
             incomingMessagesQueue.push_back(incomingMessage);
@@ -95,17 +95,17 @@ void UserConnection::dispatchThread() {
             string message = incomingMessagesQueue.front();
             incomingMessagesQueue.pop_front();
 
-            messageParser.parse(message, objectSerializer.getSeparatorCharacter());
+            messageParser.parse(message, objectSerializer->getSeparatorCharacter());
 
-            if (objectSerializer.validLoginFromClientMessage(messageParser.getCurrent())){
+            if (objectSerializer->validLoginFromClientMessage(messageParser.getCurrent())){
                 processLoginFromTheClient();
             }
 
-            else if (objectSerializer.validSerializedTestModeMessage(messageParser.getCurrent())){
+            else if (objectSerializer->validSerializedTestModeMessage(messageParser.getCurrent())){
                 processTestMode();
             }
 
-            else if (objectSerializer.validSerializedInputMessage(messageParser.getCurrent())){
+            else if (objectSerializer->validSerializedInputMessage(messageParser.getCurrent())){
                 processInput();
             }
             //cout<<"SERVER-DISPATCH: "<< message <<endl;
@@ -118,23 +118,23 @@ void UserConnection::dispatchThread() {
 //=========================================================================================
 void UserConnection::processLoginFromTheClient() {
 
-    if (objectSerializer.validLoginFromClientMessage(messageParser.getCurrent())){
+    if (objectSerializer->validLoginFromClientMessage(messageParser.getCurrent())){
 
-        string user = objectSerializer.getUserFrom(messageParser.getCurrent());
-        string pass = objectSerializer.getPassFrom(messageParser.getCurrent());
+        string user = objectSerializer->getUserFrom(messageParser.getCurrent());
+        string pass = objectSerializer->getPassFrom(messageParser.getCurrent());
         gameServer->handleLogin(user, pass, userId);
     }
     else{
-        string toSendMessage = objectSerializer.getInvalidCredentialMessage();
+        string toSendMessage = objectSerializer->getInvalidCredentialMessage();
         server->setToSendToSpecific(toSendMessage,userId);
     }
 }
 
 void UserConnection::processInput() {//TODO HEAVY IN PERFORMANCE
 
-    if (objectSerializer.validSerializedInputMessage(messageParser.getCurrent())){
+    if (objectSerializer->validSerializedInputMessage(messageParser.getCurrent())){
 
-        auto input = objectSerializer.reconstructInput(messageParser.getCurrent());
+        auto input = objectSerializer->reconstructInput(messageParser.getCurrent());
         gameServer->reciveNewInput(input);
     }
 }
@@ -176,7 +176,7 @@ bool UserConnection::connectionOff(){
     if (!isConnected()){
         return true;
     } else {
-        return server->send(objectSerializer.getPingMessage(), socketFD) < 0;
+        return server->send(objectSerializer->getPingMessage(), socketFD) < 0;
     }
 }
 
@@ -192,4 +192,5 @@ UserConnection::UserConnection(int socket, int userId, Server *server,GameServer
     this->userId = userId;
     this->server = server;
     this->gameServer = gameServer;
+    this->objectSerializer = new ObjectSerializer(gameServer->getConfig());
 }
