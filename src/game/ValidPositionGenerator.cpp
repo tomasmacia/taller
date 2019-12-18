@@ -91,7 +91,7 @@ int ValidPositionGenerator::generateY() {
 
 int ValidPositionGenerator::generateZ() {
     srand (std::clock() - start);
-    return (rand() % _levelDepth);
+    return (rand() % (_levelDepth - _collitonBoxStandartDepth - 1 ));
 }
 
 bool ValidPositionGenerator::overlapsWith(Point *pPoint, int x, int y, int z) {

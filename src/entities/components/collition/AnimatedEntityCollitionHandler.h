@@ -43,7 +43,7 @@ private:
     int normalPunchingWidth;
 
     float KNIFE_WIDTH_SCALE_FACTOR = 1;
-    float TUBE_WIDTH_SCALE_FACTOR = 1;
+    float TUBE_WIDTH_SCALE_FACTOR = 1.2;
 
     CollitionBox* _blockingCollitionBox = nullptr;
     CollitionBox* _punchBox = nullptr;
