@@ -23,6 +23,7 @@ public:
     virtual void end();
     bool isOn();
     void pauseResumeMusic();
+    void pauseMusic();
 
     //GETTERS
     //===============================

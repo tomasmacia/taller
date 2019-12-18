@@ -41,9 +41,12 @@ void Character::setConnected(int newID) {
     auto* animatedEntityCollitionHandler = (AnimatedEntityCollitionHandler*) this->collitionHandler;
 
     state->setConnected();
-    characterAppearance->setConnected();
-    animatedEntityCollitionHandler->setConnected();
     id->setNew(newID);
+
+    if (!dead()){
+        characterAppearance->setConnected();
+        animatedEntityCollitionHandler->setConnected();
+    }
 }
 
 void Character::setDisconnected() {
@@ -51,8 +54,11 @@ void Character::setDisconnected() {
     auto* animatedEntityCollitionHandler = (AnimatedEntityCollitionHandler*) this->collitionHandler;
 
     state->setDisconnected();
-    characterAppearance->setDisconnected();
-    animatedEntityCollitionHandler->setDisconected();
+
+    if (!dead()){
+        characterAppearance->setDisconnected();
+        animatedEntityCollitionHandler->setDisconected();
+    }
 }
 
 int Character::getID() {
