@@ -76,6 +76,10 @@ std::list<Sendable*>* EntityManager::generateSendables() {
         packagesToClients->splice(packagesToClients->end(),e->generateSendable());
     }
 
+    for(auto* e : players){
+        packagesToClients->splice(packagesToClients->end(),e->generateScoreAndLifeSendable());
+    }
+
     return packagesToClients;
 }
 
@@ -575,11 +579,13 @@ void EntityManager::eraseDeadEntities() {
     list<PhysicalEntity*> toUntrack;
     for (auto e: physicalEntities){
         if (e->dead()){
-            if (e->isFinalBoss()){finalBoss = nullptr;} //mea culpa
-            if (e->isCharacter()){correctlyRemovePlayer((Character*)e);} //mea culpa
-            delete(e);
-            cout<<"a dead entity has been correctly eliminated from the game"<<endl;
-            toUntrack.push_back(e);
+            if (e->isCharacter()){ handlePlayerDeath((Character *) e);} //mea culpa
+            else{
+                if (e->isFinalBoss()){finalBoss = nullptr;} //mea culpa
+                delete(e);
+                cout<<"a dead entity has been correctly eliminated from the game"<<endl;
+                toUntrack.push_back(e);
+            }
         }
     }
     for (auto e: toUntrack){
@@ -651,9 +657,14 @@ void EntityManager::sortEntitiesByZ() {
     physicalEntities.sort(EntityComparator());
 }
 
-void EntityManager::correctlyRemovePlayer(Character *character) {
-    gameServer->notifyPlayerDied((character)->getID());
-    screen->removePlayer(character->getID());
+void EntityManager::handlePlayerDeath(Character *character) {
+
+    if (!character->turnedToDead()){
+
+        character->turnToDead();
+        gameServer->notifyPlayerDied((character)->getID());
+        screen->removePlayer(character->getID());
+    }
 }
 
 

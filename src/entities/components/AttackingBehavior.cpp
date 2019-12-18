@@ -12,6 +12,12 @@ AttackingBehavior::AttackingBehavior(IA *owner, EntityManager *manager, Position
 }
 
 void AttackingBehavior::update() {
+    if (target->isDisconnected() || target->dead()) { // start patrol, waiting for near players
+        this->owner->switchBehavior(PATROL);
+        framesSinceLastPunch = 0;
+        return;
+    }
+
     if (getDistanceToTarget() >= DISTANCE_TO_START_PURSUIT) {
         this->owner->switchBehavior(TARGET);
         ((PursuitBehavior*) this->owner->getCurrentBehavior())->switchTarget(target); // ASCO

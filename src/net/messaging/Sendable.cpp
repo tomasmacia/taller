@@ -10,8 +10,16 @@ Sendable::Sendable(Renderable *renderable, Soundable *soundable) {
 }
 
 Sendable::~Sendable() {
-    delete(_renderable);
-    delete(_soundable);
+
+    if (_renderable != nullptr){
+
+        delete(_renderable);
+    }
+
+    if (_soundable != nullptr){
+
+        delete(_soundable);
+    }
 }
 
 bool Sendable::hasRenderable() {

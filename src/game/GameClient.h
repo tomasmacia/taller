@@ -110,9 +110,6 @@ private:
     string GAME_MUSIC_PATH = "resources/sfx/music/soundtrack.wav";
     string YOU_DIED_OR_DISCONNECTED_MUSIC_PATH = "resources/sfx/music/Curb_Your_Enthusiasm_theme_song.wav";
 
-    bool youDiedMusicPlaying = false;
-    bool normalGameMusicPlaying = false;
-
     SoundWrapper* gameMusic = nullptr;
 
     static bool hasInstance;

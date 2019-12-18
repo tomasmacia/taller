@@ -7,7 +7,7 @@
 
 
 const int SIDE_CHANGE_DELAY = 60;
-const int PLAYER_DETECTION_DELAY = 300;
+const int PLAYER_DETECTION_DELAY = 30;
 const int PLAYER_DETECTION_RANGE = 1000;
 
 

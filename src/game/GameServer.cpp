@@ -53,10 +53,10 @@ void GameServer::gameLoop(){
         LogManager::logInfo("=======================================");
     }
     if (notAllPlayersDisconnected() ) {
+        sendEndMessage();
         sceneDirector->initEndOfGameScreen();
         sceneDirector->sendEndOfGameScreen(server);
         usleep(WAIT_TIME);
-        sendEndMessage();
     } 
     on = false;
     server->stopListening();
@@ -145,9 +145,11 @@ void GameServer::recibeTestModeSignal() {
 
     if (inTestMode){
         entityManager->setTestMode();
+        LogManager::logInfo("[GAME]: modo test activado");
     }
     else{
         entityManager->removeTestMode();
+        LogManager::logInfo("[GAME]: modo test desactivado");
     }
 }
 

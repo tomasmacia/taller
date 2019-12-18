@@ -19,10 +19,14 @@ Character::Character(CollitionHandler* collitionHandler, Life *life, Damage *dam
 }
 
 list<Sendable *> Character::generateSendable() {
-    list<Sendable *> sendables = PhysicalEntity::generateSendable();
+    return PhysicalEntity::generateSendable();
+}
+
+list<Sendable *> Character::generateScoreAndLifeSendable() {
+    list<Sendable *> sendables;
     auto lifebar=new Sendable(life->getAppearance()->actuallyGenerateRenderable(),nullptr);
     sendables.push_back(lifebar);
-    auto lifergrey =new Sendable(life->getAppearance()->GenerateRenderableToDisconnect(isDisconnected()),nullptr);
+    auto lifergrey =new Sendable(life->getAppearance()->GenerateRenderableToDisconnect(isDisconnected() || dead()),nullptr);
     sendables.push_back(lifergrey);
     return scoreAppearance->numerRenderabls(score->getCurrent(),sendables);
 }
@@ -79,7 +83,6 @@ int Character::setAttackedWith(AttackCode attackCode) {
 
         AnimatedEntity::setAttackedWith(attackCode);
         int damageInflicted = damage->characterAttackedWith(attackCode);
-        life->getAppearance()->hit(damageInflicted);
         life->decreseBy(damageInflicted);
 
     }
@@ -127,4 +130,14 @@ void Character::setTestMode() {
 
 void Character::removeTestMode() {
     life->removeTestMode();
+}
+
+void Character::turnToDead() {
+    appearance->setTransparent();
+    collitionHandler->eraseCollitionBoxes();
+    markedAsDead = true;
+}
+
+bool Character::turnedToDead() {
+    return markedAsDead;
 }

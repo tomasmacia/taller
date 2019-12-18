@@ -15,6 +15,10 @@ void AnimatedAppearance::handleCurrentState(){
     if (_state->current() != previous) {
         previous = _state->current();
         switch (_state->current()) {
+            case END_JUMP:
+                currentSprite = entityConfig.stand;
+                _imageAmount = END_JUMP_IMAGE_AMOUNT;
+                break;
             case JUMP:
                 currentSprite = entityConfig.jump;
                 _imageAmount = JUMP_IMAGE_AMOUNT;

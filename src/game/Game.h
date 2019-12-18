@@ -67,6 +67,9 @@ protected:
     bool on = true;
     int playerId = -1;
 
+    bool youDiedMusicPlaying = false;
+    bool normalGameMusicPlaying = false;
+
     SceneDirector* sceneDirector = nullptr;
     Controller *controller = nullptr;
     Config *config = nullptr;

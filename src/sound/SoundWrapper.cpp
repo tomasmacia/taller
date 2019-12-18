@@ -43,6 +43,9 @@ void SoundWrapper::play() {
 
             LogManager::logError("No se pudo reproducir la musica");
         }
+        else{
+            LogManager::logInfo("[GAME]: Musica On");
+        }
 
     }
 

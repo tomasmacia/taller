@@ -27,11 +27,10 @@ Renderable *LifeAppearance::actuallyGenerateRenderable() {
     return c; 
 }
 
-Renderable *LifeAppearance::GenerateRenderableToDisconnect(bool disconnect) {
+Renderable *LifeAppearance::GenerateRenderableToDisconnect(bool disconnectOrDead) {
 
-    if (disconnect){
+    if (disconnectOrDead){
         ImageSize imageSize1;
-
         imageSize1 = ImageUtils::getImageSize(lifegrey);
         int imageWidth1 = imageSize1.width;
         int imageHeight1 = imageSize1.height;
@@ -52,8 +51,11 @@ Renderable *LifeAppearance::GenerateRenderableToDisconnect(bool disconnect) {
 void LifeAppearance::loadNextImage() {
     if (!resetLife){
         base = life0;
+        lifegrey = life0;
+
     }
     else {
+
         if((life == 0)){
             base = life0;
             life = 100;      
