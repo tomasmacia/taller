@@ -16,21 +16,23 @@ bool Life::empty() {
 }
 
 void Life::decreseBy(int amount) {
-    current -= amount;
 
-    if (current <= 0){
-        
-        amountOfLifes --;
-        if (amountOfLifes > 0){
-            current = startingAmount;
-        }
-    }
-    if (appearance != nullptr){
-        if (amountOfLifes == 0){
-            appearance->noLifes();
-        }
-        appearance->update();
+    if (!inTestMode) {
+        current -= amount;
 
+        if (current <= 0){
+
+            amountOfLifes --;
+            if (amountOfLifes > 0){
+                current = startingAmount;
+            }
+        }
+        if (appearance != nullptr){
+            if (amountOfLifes == 0){
+                appearance->noLifes();
+            }
+            appearance->update();
+        }
     }
 }
 
@@ -48,4 +50,12 @@ list<Sendable *> Life::generateSendable() {
    // sendables.push_back(new Sendable(renderable, nullptr));
 
     return sendables;
+}
+
+void Life::setTestMode() {
+    inTestMode = true;
+}
+
+void Life::removeTestMode() {
+    inTestMode = false;
 }

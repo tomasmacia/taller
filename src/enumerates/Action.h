@@ -25,6 +25,7 @@ enum Action {
     BEING_ATTACKED,
     DYING,
     DEAD,
+    TEST,
     QUIT,
 };
 

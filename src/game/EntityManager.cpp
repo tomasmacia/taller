@@ -707,3 +707,17 @@ Enemy *EntityManager::createEnemy(int x, int y, int z) {
                      state, screenPosition, appearance, sound,
                      will, physics, attack,w,h,DEFAULT_COLLITION_BOX_DEPTH);
 }
+
+void EntityManager::setTestMode() {
+
+    for (auto player : players){
+        player->setTestMode();
+    }
+}
+
+void EntityManager::removeTestMode() {
+
+    for (auto player : players){
+        player->removeTestMode();
+    }
+}

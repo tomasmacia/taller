@@ -3,7 +3,6 @@
 //
 #include "../../game/GameServer.h"
 #include "InputPoller.h"
-#include "State.h"
 #include "../../game/Controller.h"
 #include "ID.h"
 

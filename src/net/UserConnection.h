@@ -76,6 +76,8 @@ private:
     void setConnectionOff();
     int packageCount;
     int packageSent;
+
+    void processTestMode();
 };
 
 

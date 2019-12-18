@@ -75,6 +75,8 @@ public:
     Background* createOverlay(const string& spritePath, float parallaxSpeed);
 
     void setLevelParameters( int levelWidth, int levelHeight, int levelDepth);
+    void setTestMode();
+    void removeTestMode();
 
     //GETTERS
     //===============================

@@ -120,3 +120,11 @@ void Character::setPositionXToLife(int a){
 void Character::setColorLifeBar(int a){
     life->getAppearance()->pickColor(a);
 }
+
+void Character::setTestMode() {
+    life->setTestMode();
+}
+
+void Character::removeTestMode() {
+    life->removeTestMode();
+}
