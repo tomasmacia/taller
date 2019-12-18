@@ -119,7 +119,7 @@ private:
     std::list<UnanimatedEntity*> unanimatedEntities;
 
     //estas listas forman una particion de todas las entities
-    // es decir, toda entity esta en alguna getY si esta en una no esta en las otras
+    // es decir, toda entity esta en alguna y si esta en una no esta en las otras
     std::list<Entity*> specialEntities;                       //camera and levelLimits
     std::list<PhysicalEntity*> physicalEntities;          //only utilities, weapons, enemies and players
     std::list<Background*> backLayerBackgrounds;

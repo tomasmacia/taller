@@ -25,7 +25,7 @@ void Position::tryToMoveTo(int newX, int newY, int newZ) {
     collitionHandler->moveAllCollitionBoxesKeepingRelativeDistancesTo(destination);
     setPosition(destination->x,destination->y,destination->z);
 
-    //cout<<"position: "<<"x: "<<destination->getX<<", y: "<<destination->getY<<", z: "<<destination->getZ<<endl;
+    //cout<<"position: "<<"x: "<<destination->x<<", y: "<<destination->y<<", z: "<<destination->z<<endl;
 
     delete(destination);
 }

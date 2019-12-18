@@ -56,7 +56,7 @@ bool CollitionBox::anyCornerIntersectsWith(CollitionBox* query) {
                 }
             }
 
-            cout<<"corner colliding: from: "<<path<<" ,x: "<<corner->getX<<" ,y: "<<corner->getY<<" ,z: "<<corner->getZ<<endl;*/
+            cout<<"corner colliding: from: "<<path<<" ,x: "<<corner->x<<" ,y: "<<corner->y<<" ,z: "<<corner->z<<endl;*/
             return true;
         }
     }

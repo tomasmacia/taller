@@ -11,7 +11,7 @@ bool GameClient::hasInstance = false;
 void GameClient::start() {
     LogManager::logInfo("[GAME]: Se inicia GameClient");
 
-    startClient();               //1 thread de listen de conexiones nuevas y 3 threads para read, send getY dispatch
+    startClient();               //1 thread de listen de conexiones nuevas y 3 threads para read, send y dispatch
     initLoggerMenu();
 
     waitUntilConnectionStablished();
@@ -24,7 +24,7 @@ void GameClient::start() {
             initSceneDirector();
             initRenderingSystem();
             initSoundSystem();
-            client->client_noBlock(); //que el send getY recv al cliente no bloqueen el juego
+            client->client_noBlock(); //que el send y recv al cliente no bloqueen el juego
 
             gameLoop();
         }

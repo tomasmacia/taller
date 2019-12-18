@@ -203,7 +203,7 @@ UserConnection* Server::addNewConnection(int newSocketFD){
 
 //ERROR
 //=========================================================================================
-void Server::error(string msg) {   //Cierra el server getY en el destructor se cierra las conexiones
+void Server::error(string msg) {   //Cierra el server y en el destructor se cierra las conexiones
     LogManager::logError("[SERVER]: " + msg);
 }
 

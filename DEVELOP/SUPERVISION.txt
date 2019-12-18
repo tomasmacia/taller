@@ -29,7 +29,7 @@ Cuando hay un jugador logeado pero desconectado y el otro que esta loggeado y co
 (DESPUES DE VARIOS CAMBIOS, CON ALGO DE RELACION CON ESTO, NO PASO MAS)
 
 8)
-Hubo una vez donde en la latpop hice de server y con dos jugadores avance un poco getY tiro seg fault
+Hubo una vez donde en la latpop hice de server y con dos jugadores avance un poco y tiro seg fault
 (DESPUES DE VARIOS CAMBIOS, APARENTEMENTE SIN RELACION CON ESTO, NO PASO MAS)
 
 9)
