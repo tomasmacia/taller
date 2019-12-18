@@ -31,8 +31,10 @@ void State::handleNewState(Action incoming) {
         if (incoming != NONE){
             _currentState = incoming;
         }
+
         if (isEndOfMovement(incoming)) {
-            restoreMovementFromOngoing(incoming);
+            //restoreMovementFromOngoing(incoming);
+            _currentState = pickOneOngoingMovement();
         }
     }
 }
@@ -74,7 +76,7 @@ void State::updateMovementState(Action incoming){
 
 void State::restoreMovementFromOngoing(Action incoming) {
 
-    _currentState = incoming;
+    //_currentState = incoming;
 
     switch (incoming){
         case END_UP:

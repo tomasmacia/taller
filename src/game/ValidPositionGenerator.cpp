@@ -96,12 +96,12 @@ int ValidPositionGenerator::generateZ() {
 
 bool ValidPositionGenerator::overlapsWith(Point *pPoint, int x, int y, int z) {
 
-    int minX = pPoint->x - _collitonBoxStandartWidth/2;
-    int maxX = pPoint->x + _collitonBoxStandartWidth/2;
-    int minY = pPoint->y - _collitonBoxStandartHeight/2;
-    int maxY = pPoint->y + _collitonBoxStandartHeight/2;
-    int minZ = pPoint->z - _collitonBoxStandartDepth/2;
-    int maxZ = pPoint->z + _collitonBoxStandartDepth/2;
+    int minX = pPoint->x - _collitonBoxStandartWidth;
+    int maxX = pPoint->x + _collitonBoxStandartWidth;
+    int minY = pPoint->y - _collitonBoxStandartHeight;
+    int maxY = pPoint->y + _collitonBoxStandartHeight;
+    int minZ = pPoint->z - _collitonBoxStandartDepth;
+    int maxZ = pPoint->z + _collitonBoxStandartDepth;
 
     return minX <= x && x <= maxX   &&
            minY <= y && y <= maxY   &&

@@ -335,6 +335,7 @@ Enemy *EntityManager::createEnemy() {
     auto* screenPosition = new ScreenPosition(w,h,DEFAULT_COLLITION_BOX_DEPTH,position,screen);
 
     auto* will = new IA(this,position);
+    //auto* will = new NullWill();
     auto* state = new State(will);
     collitionHandler->setState(state);
 
