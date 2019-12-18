@@ -283,7 +283,8 @@ FinalBoss *EntityManager::createFinalBoss() {
     auto* position = new Position(centerX, centerY, centerZ, collitionHandler);
     auto* screenPosition = new ScreenPosition(w,h,DEFAULT_COLLITION_BOX_DEPTH,position,screen);
 
-    auto* will = new IA(this,position);
+    //auto* will = new IA(this,position);
+    auto* will = new NullWill();
     auto* state = new State(will);
 
     auto* physics = new Physics(state,position,walkingSpeed,jumpingSpeed);
@@ -333,7 +334,8 @@ Enemy *EntityManager::createEnemy() {
     auto* position = new Position(centerX, centerY, centerZ, collitionHandler);
     auto* screenPosition = new ScreenPosition(w,h,DEFAULT_COLLITION_BOX_DEPTH,position,screen);
 
-    auto* will = new IA(this,position);
+    //auto* will = new IA(this,position);
+    auto* will = new NullWill();
     auto* state = new State(will);
     collitionHandler->setState(state);
 
