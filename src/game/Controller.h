@@ -87,7 +87,7 @@ private:
     SDL_Event sdlEvent;
     Game* game = nullptr;
 
-    ObjectSerializer objectSerializer;
+    ObjectSerializer* objectSerializer = nullptr;
     std::map<SDL_Scancode, Action> actions;
 
     std::map<std::string, SDL_Scancode> scancodes;

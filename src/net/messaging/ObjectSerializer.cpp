@@ -126,7 +126,7 @@ Sendable* ObjectSerializer::reconstructSendable(vector<string>* currentParsedMes
 
         if (currentParsedMessage->at(1) == to_string(RENDERABLE)){
 
-            std::string path = currentParsedMessage->at(2);
+            std::string path = resourcesUtils->getResource(stoi(currentParsedMessage->at(2)));
             Rect src = {std::stoi(currentParsedMessage->at(5)), std::stoi(currentParsedMessage->at(6)),
                         std::stoi(currentParsedMessage->at(3)),
                         std::stoi(currentParsedMessage->at(4))};
@@ -271,7 +271,7 @@ string ObjectSerializer::serializeObject(Sendable* sendable){
 
     if (renderable != nullptr){
 
-        std::string path = renderable->getPath();
+        std::string path = to_string(resourcesUtils->getId(renderable->getPath()));
         Rect src = renderable->getSrcRect();
         Rect dst = renderable->getDstRect();
         bool fliped = renderable->getFliped();

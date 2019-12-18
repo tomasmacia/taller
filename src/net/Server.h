@@ -76,7 +76,7 @@ private:
 
     GameServer* gameServer = nullptr;
     MessageParser messageParser;
-    ObjectSerializer objectSerializer;
+    ObjectSerializer *objectSerializer = nullptr;
 
     int nextConectionIDtoAssign = 0;
     int socketFD;

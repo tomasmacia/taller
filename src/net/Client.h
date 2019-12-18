@@ -78,7 +78,7 @@ private:
     bool connectionAttemptMade = false;
 
     MessageParser messageParser;
-    ObjectSerializer objectSerializer;
+    ObjectSerializer *objectSerializer = nullptr;
     GameClient* gameClient = nullptr;
 
     list<string> toSendMessagesQueue;
