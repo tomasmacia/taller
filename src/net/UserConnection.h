@@ -74,8 +74,6 @@ private:
     list<string> incomingMessagesQueue;
 
     void setConnectionOff();
-    int packageCount;
-    int packageSent;
 
     void processTestMode();
 };

@@ -284,7 +284,7 @@ FinalBoss *EntityManager::createFinalBoss() {
     auto* screenPosition = new ScreenPosition(w,h,DEFAULT_COLLITION_BOX_DEPTH,position,screen);
 
     auto* will = new IA(this,position);
-    //auto* will = new NullWill();
+    will->setFinalBoss(true);
     auto* state = new State(will);
 
     auto* physics = new Physics(state,position,walkingSpeed,jumpingSpeed);

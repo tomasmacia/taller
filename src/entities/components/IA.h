@@ -20,6 +20,14 @@ public:
         return behavior;
     }
 
+    void setFinalBoss(bool finalBoss) {
+        this->isFinalBoss = finalBoss;
+    }
+
+    bool finalBoss() {
+        return this->isFinalBoss;
+    }
+
     ~IA() override;
 
 private:
@@ -31,6 +39,7 @@ private:
     Will* behavior;
     std::map<EnemyBehaviorType, Will*> behaviors;
     EntityManager* em;
+    bool isFinalBoss;
 };
 
 #endif //GAME_IA_H
