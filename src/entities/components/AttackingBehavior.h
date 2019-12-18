@@ -25,7 +25,9 @@ public:
     }
 
 private:
-    const int PUNCH_DELAY = 60;
+    const int NORMAL_PUNCH_DELAY = 60;
+    const int BOSS_PUNCH_DELAY = 60;
+    int PUNCH_DELAY = NORMAL_PUNCH_DELAY;
     const int DISTANCE_TO_START_PURSUIT = 130;
     int framesSinceLastPunch = 0;
     IA *owner;

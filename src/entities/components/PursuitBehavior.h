@@ -3,8 +3,6 @@
 
 #include "PatrolBehavior.h"
 
-const int PURSUIT_MAX_DURATION = 600;
-const int PUNCH_RANGE = 20;
 
 class PursuitBehavior : public Will {
 public:
@@ -23,6 +21,11 @@ private:
     int getDistanceToTarget();
 
     int pursuitDurationCounter = 0;
+
+    const int ENEMY_PUNCH_RANGE = 20;
+    const int PURSUIT_MAX_DURATION = 600;
+    const int BOSS_PUNCH_RANGE = 30;
+    int PUNCH_RANGE = ENEMY_PUNCH_RANGE;
     bool nearTarget = false;
     Character* target;
     IA* owner;

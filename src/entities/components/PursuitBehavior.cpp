@@ -12,9 +12,14 @@ PursuitBehavior::PursuitBehavior(Character* target, IA* owner, EntityManager* ma
 void PursuitBehavior::update() {
 
     if (nearTarget) {
+        PUNCH_RANGE = ENEMY_PUNCH_RANGE;
         this->owner->switchBehavior(ATTACKING);
         ((AttackingBehavior*) this->owner->getCurrentBehavior())->switchTarget(target); // ASCO
         return;
+    }
+
+    if (owner->finalBoss()) {
+        PUNCH_RANGE = BOSS_PUNCH_RANGE;
     }
 
     pursuitDurationCounter++;
@@ -23,7 +28,7 @@ void PursuitBehavior::update() {
 //            this->owner->switchBehavior(ATTACKING);
 //            ((AttackingBehavior*) this->owner->getCurrentBehavior())->switchTarget(target); // ASCO
 //        }
-
+        PUNCH_RANGE = ENEMY_PUNCH_RANGE;
         this->owner->switchBehavior(PATROL);
 
         nearTarget = false;
