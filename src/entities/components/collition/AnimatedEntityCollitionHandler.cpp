@@ -168,7 +168,7 @@ void AnimatedEntityCollitionHandler::update() {
     if (playerFliped()){
         reflectAllAttackCollitionBox();
     }
-
+    
     if (attackChanged()){
         adaptPunchingBox();
     }

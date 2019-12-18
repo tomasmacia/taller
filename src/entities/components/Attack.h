@@ -41,7 +41,6 @@ private:
     Weapon* weapon = nullptr;
 
     bool alreadyHasTargets();
-
     void stopAttacks();
 };
 
