@@ -22,7 +22,7 @@ list<Sendable *> Character::generateSendable() {
     list<Sendable *> sendables = PhysicalEntity::generateSendable();
     auto lifebar=new Sendable(life->getAppearance()->actuallyGenerateRenderable(),nullptr);
     sendables.push_back(lifebar);
-    auto lifergrey =new Sendable(life->getAppearance()->GenerateRenderableToDisconnect(isDisconnected()),nullptr);
+    auto lifergrey =new Sendable(life->getAppearance()->GenerateRenderableToDisconnect(isDisconnected() || dead()),nullptr);
     sendables.push_back(lifergrey);
     return scoreAppearance->numerRenderabls(score->getCurrent(),sendables);
 }
@@ -127,4 +127,9 @@ void Character::setTestMode() {
 
 void Character::removeTestMode() {
     life->removeTestMode();
+}
+
+void Character::turnToDead() {
+    appearance->setTransparent();
+    collitionHandler->eraseCollitionBoxes();
 }

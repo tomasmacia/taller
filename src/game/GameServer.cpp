@@ -53,10 +53,10 @@ void GameServer::gameLoop(){
         LogManager::logInfo("=======================================");
     }
     if (notAllPlayersDisconnected() ) {
+        sendEndMessage();
         sceneDirector->initEndOfGameScreen();
         sceneDirector->sendEndOfGameScreen(server);
         usleep(WAIT_TIME);
-        sendEndMessage();
     } 
     on = false;
     server->stopListening();

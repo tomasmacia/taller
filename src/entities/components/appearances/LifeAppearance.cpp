@@ -27,9 +27,9 @@ Renderable *LifeAppearance::actuallyGenerateRenderable() {
     return c; 
 }
 
-Renderable *LifeAppearance::GenerateRenderableToDisconnect(bool disconnect) {
+Renderable *LifeAppearance::GenerateRenderableToDisconnect(bool disconnectOrDead) {
 
-    if (disconnect){
+    if (disconnectOrDead){
         ImageSize imageSize1;
 
         imageSize1 = ImageUtils::getImageSize(lifegrey);

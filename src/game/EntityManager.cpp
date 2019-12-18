@@ -575,9 +575,11 @@ void EntityManager::eraseDeadEntities() {
     list<PhysicalEntity*> toUntrack;
     for (auto e: physicalEntities){
         if (e->dead()){
-            if (e->isFinalBoss()){finalBoss = nullptr;} //mea culpa
-            if (e->isCharacter()){correctlyRemovePlayer((Character*)e);} //mea culpa
-            delete(e);
+            if (e->isCharacter()){ handlePlayerDeath((Character *) e);} //mea culpa
+            else{
+                if (e->isFinalBoss()){finalBoss = nullptr;} //mea culpa
+                delete(e);
+            }
             cout<<"a dead entity has been correctly eliminated from the game"<<endl;
             toUntrack.push_back(e);
         }
@@ -651,9 +653,10 @@ void EntityManager::sortEntitiesByZ() {
     physicalEntities.sort(EntityComparator());
 }
 
-void EntityManager::correctlyRemovePlayer(Character *character) {
+void EntityManager::handlePlayerDeath(Character *character) {
     gameServer->notifyPlayerDied((character)->getID());
     screen->removePlayer(character->getID());
+    character->turnToDead();
 }
 
 

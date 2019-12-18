@@ -15,7 +15,7 @@ public:
 
     void update() override;
     Renderable* actuallyGenerateRenderable() override ;
-    Renderable* GenerateRenderableToDisconnect(bool disconnect);
+    Renderable* GenerateRenderableToDisconnect(bool disconnectOrDead);
     void loadNextImage() override ;
     //todo
     void hit( int damage);

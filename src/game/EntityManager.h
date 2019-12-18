@@ -170,6 +170,6 @@ private:
 
     bool bossIsDead = false;
 
-    void correctlyRemovePlayer(Character *character);
+    void handlePlayerDeath(Character *character);
 };
 #endif //GAME_ENTITYMANAGER_H
