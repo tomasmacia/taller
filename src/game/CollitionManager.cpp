@@ -101,9 +101,14 @@ list<CollitionBox *> *CollitionManager::getListOfHittedCharacterCollitionBox(Col
 
     auto hitted = new list<CollitionBox*>();
 
+    bool isIgnored;
+
     for (auto* collitionBox: *_characterCollitionBoxes){
+
+        isIgnored = (std::find(_ignoredCollitionBoxes->begin(), _ignoredCollitionBoxes->end(), collitionBox) != _ignoredCollitionBoxes->end());
+
         if (collitionBox->getID() != query->getID()){
-            if (collitionBox->intersectsWith(query)){
+            if (!isIgnored && collitionBox->intersectsWith(query)){
                 hitted->push_back(collitionBox);
             }
         }
