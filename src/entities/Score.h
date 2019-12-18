@@ -30,7 +30,7 @@ private:
     int PUNCH_TO_ENEMY = 100;
     int KICK_TO_ENEMY = 400;
     int JUMP_KICK_TO_ENEMY = 400;
-    int KNIFE_ATTACK_TO_ENEMY = 400;
+    int KNIFE_ATTACK_TO_ENEMY = 150;
     int TUBE_ATTACK_TO_ENEMY = 200;
 
     int current = 0;
