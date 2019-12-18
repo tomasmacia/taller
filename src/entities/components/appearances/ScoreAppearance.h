@@ -15,11 +15,22 @@ public:
     ScoreAppearance(ScreenPosition *screenPosition, Score *score);
     Renderable* actuallyGenerateRenderable() override ;
     void loadNextImage() override ;
+    list<Sendable *>  numerRenderabls(int score,list<Sendable *> sendables );
+    
+    void setPositionYSCore(int a){
+        positionYscore =a;
+    };
 
+
+    void setPositionXSCore(int a){
+        positionXscore =a;
+    };
     void update();
 
 private:
     Score* score = nullptr;
+    int positionYscore,positionXscore;
+
 };
 
 

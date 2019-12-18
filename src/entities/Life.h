@@ -32,11 +32,19 @@ public:
     int getAmountOfLifes(){
         return amountOfLifes;
     }
+    int current;int amountOfLifes = 1;
+
+    void setYPositionToLifeBar(int a){
+        appearance->setYPosition(a);
+    }
+    void setXPositionToLifeBar(int a){
+        appearance->setXPosition(a);
+    }
 
 private:
-    int amountOfLifes = 1;
+    
     int startingAmount;
-    int current;
+    
 
     LifeAppearance* appearance = nullptr;
     State* state = nullptr;

@@ -9,7 +9,7 @@
 #include "../CLIAparser/CLIArgumentParser.h"
 #include "UserConnection.h"
 
-#define MAX_BYTES_BUFFER 1500
+#define MAX_BYTES_BUFFER 3000
 
 #if __APPLE__
 #define MSG_NOSIGNAL 0x2000 /* don't raise SIGPIPE */
