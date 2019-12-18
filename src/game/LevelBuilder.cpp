@@ -240,7 +240,7 @@ void LevelBuilder::initializeWeapons() {
 }
 
 void LevelBuilder::initializeUtilities() {
-    LogManager::logDebug("[LEVEL]: Inicializando cajas getY barriles");
+    LogManager::logDebug("[LEVEL]: Inicializando cajas y barriles");
 
     for (int i = 0; i < _config->gameplay.utilities.box.amount;i++) {
         _entityManager->addBox();

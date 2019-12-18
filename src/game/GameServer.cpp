@@ -10,7 +10,7 @@ void GameServer::start() {
     LogManager::logInfo("[GAME]: Se inicia Game");
 
     initController();
-    startServer();          //1 thread de listen de conexiones nuevas getY 4 threads por cliente nuevo
+    startServer();          //1 thread de listen de conexiones nuevas y 4 threads por cliente nuevo
     initSceneDirector();
 
     waitUnitAllPlayersConnected();
@@ -19,7 +19,7 @@ void GameServer::start() {
     gameLoop();
 
     sendEndMessage();
-    closeServer();          //se cierra el thread se server getY (previamente se cierran los 4 threads child)
+    closeServer();          //se cierra el thread se server y (previamente se cierran los 4 threads child)
 
     LogManager::logInfo("[GAME]: Juego terminado");
     LogManager::logInfo("=======================================");

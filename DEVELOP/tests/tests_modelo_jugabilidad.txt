@@ -32,7 +32,7 @@ Se pasa de nivel
 7)
 HABIENDO DOS JUGADORES SE LLEGA AL FINAL DE NIVEL Y UNO NO SOBREPASA LA PANTALLA
 
-Queda la camara trabada getY no se pasa de nivel
+Queda la camara trabada y no se pasa de nivel
 ===========================================================
 8)
 HABIENDO DOS JUGADORES AL PRINCIPIO DE CADA NIVEL

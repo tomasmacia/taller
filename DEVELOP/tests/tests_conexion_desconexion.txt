@@ -42,7 +42,7 @@ Juego sigue normal pero con jugador grisado, freeseado y arrastrado por scroll, 
 9)
 JUEGO ANDANDO Y SE DESCONECTA EL CUARTO QUE SE CONECTO
 
-Juego sigue normal pero con jugador grisado, freeseado y arrastrado por scroll, el logger debe informar esto en cliente getY server
+Juego sigue normal pero con jugador grisado, freeseado y arrastrado por scroll, el logger debe informar esto en cliente y server
 =============================================================
 10)
 JUEGO ANDANDO Y SE DESCONECTAN TODOS (#,falta probar)

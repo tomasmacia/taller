@@ -60,7 +60,7 @@ MUSICA Y SONIDOS:
 
     27) Debe haber musica de fondo todo el juego
     28) Se tiene que poder quitar o poenr la musica con una tecla
-    29) Los golpes, patadas, caidas, saltos getY destruccion de objetos tienen que tener sonido
+    29) Los golpes, patadas, caidas, saltos y destruccion de objetos tienen que tener sonido
     $5) Ademas del ruido de los golpes estaria bueno que cuando le pegas a un enemigo, el enemigo haga ruido
     $6) Ademas del ruido de los golpes estaria bueno que cuando se le pega a un jugador, el jugador haga ruido
 

@@ -12,7 +12,7 @@ El server me avisa que todo OK y me loggea, me deja jugar y me transmite info si
 3)
 ME INTENTO LOGGEAR CON CREDENCIALES VALIDAS SIN HABERSE LOGEADO ANTES ALGUIEN CON ESAS CREDENCIALES Y CON SERVER LLENO
 
-El server me avisa que "server full" y no me loggea ni me deja jugar y no me transmite info, el logger debe informar esto en cliente getY server
+El server me avisa que "server full" y no me loggea ni me deja jugar y no me transmite info, el logger debe informar esto en cliente y server
 =============================================================
 4)
 ME LOGGEO CON CREDENCIALES VALIDAS HABIENDOSE LOGEADO ANTES ALGUIEN CON ESAS CREDENCIALES Y ESTANDO ESE ALGUIEN DESCONECTADO

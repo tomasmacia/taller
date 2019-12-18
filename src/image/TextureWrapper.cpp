@@ -80,7 +80,7 @@ SDL_Renderer* TextureWrapper::staticGetRenderer(){
 
     SDL_Renderer* _renderer = nullptr;
 
-    if (GameClient::isActive()){                                //hago esto porque si no pregunto y pido directamente me va a crear una instancia de Game getY no quiero
+    if (GameClient::isActive()){                                //hago esto porque si no pregunto y pido directamente me va a crear una instancia de Game y no quiero
         _renderer = GameClient::getInstance().getRenderer();
     }
     else if (GameServer::isActive()){
