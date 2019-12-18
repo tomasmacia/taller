@@ -19,6 +19,8 @@ IA::IA(EntityManager* em, Position* subjectPosition) {
 
     this->behavior = patrolBehavior;
     this->em = em;
+
+    this->isFinalBoss = false;
 }
 
 void IA::update(){

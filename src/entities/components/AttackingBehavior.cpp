@@ -12,13 +12,18 @@ AttackingBehavior::AttackingBehavior(IA *owner, EntityManager *manager, Position
 }
 
 void AttackingBehavior::update() {
+    if (owner->finalBoss()) {
+        PUNCH_DELAY = BOSS_PUNCH_DELAY;
+    }
     if (target->isDisconnected() || target->dead()) { // start patrol, waiting for near players
+        PUNCH_DELAY = NORMAL_PUNCH_DELAY;
         this->owner->switchBehavior(PATROL);
         framesSinceLastPunch = 0;
         return;
     }
 
     if (getDistanceToTarget() >= DISTANCE_TO_START_PURSUIT) {
+        PUNCH_DELAY = NORMAL_PUNCH_DELAY;
         this->owner->switchBehavior(TARGET);
         ((PursuitBehavior*) this->owner->getCurrentBehavior())->switchTarget(target); // ASCO
         framesSinceLastPunch = 0;
