@@ -133,7 +133,7 @@
             <attacked>resources/sprites/enemies/boss/kicked.png</attacked>
         </boss>
         <enemies>
-            <amount>1</amount>
+            <amount>5</amount>
             <npc1>
                 <difficulty>NONE</difficulty>
                 <walk>resources/sprites/enemies/npc/enemy_walk.png</walk>
