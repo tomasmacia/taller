@@ -20,16 +20,19 @@ Character::Character(CollitionHandler* collitionHandler, Life *life, Damage *dam
 
 list<Sendable *> Character::generateSendable() {
     list<Sendable *> sendables = PhysicalEntity::generateSendable();
-
-    sendables.splice(sendables.end(),life->generateSendable());
-    auto scoreAppearanceSendable = new Sendable(scoreAppearance->generateRenderable(), nullptr);
-    sendables.push_back(scoreAppearanceSendable);
-    return sendables;
+    auto lifebar=new Sendable(life->getAppearance()->actuallyGenerateRenderable(),nullptr);
+    sendables.push_back(lifebar);
+    auto lifergrey =new Sendable(life->getAppearance()->GenerateRenderableToDisconnect(isDisconnected()),nullptr);
+    sendables.push_back(lifergrey);
+    return scoreAppearance->numerRenderabls(score->getCurrent(),sendables);
 }
 
 void Character::notifySuccessfulAttack(int score) {
     this->score->increaseBy(score);
     this->scoreAppearance->update();
+    //life->getAppearance()->hit();
+    //life->decreseBy(20);
+    //std::cerr<<life->current<<" - "<<life->amountOfLifes<< std::endl;
 }
 
 bool Character::isDisconnected() {
@@ -76,8 +79,9 @@ int Character::setAttackedWith(AttackCode attackCode) {
 
         AnimatedEntity::setAttackedWith(attackCode);
         int damageInflicted = damage->characterAttackedWith(attackCode);
-
+        life->getAppearance()->hit(damageInflicted);
         life->decreseBy(damageInflicted);
+
     }
     return 0;
 }
@@ -89,9 +93,30 @@ void Character::resetAt(int x, int y, int z) {
 void Character::removeWeapon() {
     if (attack->hasWeapon()){
         attack->dropWeapon();
+
     }
 }
 
 int Character::getScore(){
     return score->getCurrent();
+}
+
+void Character::setPositionYToScore(int a){
+    scoreAppearance->setPositionYSCore(a);
+}
+
+void Character::setPositionXToScore(int a){
+    scoreAppearance->setPositionXSCore(a);
+}
+
+void Character::setPositionYToLife(int a){
+    life->setYPositionToLifeBar(a);
+}
+
+void Character::setPositionXToLife(int a){
+    life->setXPositionToLifeBar(a);
+}
+
+void Character::setColorLifeBar(int a){
+    life->getAppearance()->pickColor(a);
 }

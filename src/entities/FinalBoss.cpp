@@ -3,11 +3,6 @@
 //
 
 #include "FinalBoss.h"
-
-//
-// Created by axel on 24/11/19.
-//
-
 #include "Enemy.h"
 
 FinalBoss::FinalBoss(CollitionHandler *collitionHandler, Life *life, Damage *damage, Score *score, Position *position,

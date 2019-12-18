@@ -29,6 +29,11 @@ public:
     void setConnected(int newID);
     void setDisconnected();
     bool isDisconnected();
+    void setPositionYToScore(int a);
+    void setPositionXToScore(int a);
+    void setPositionYToLife(int a);
+    void setPositionXToLife(int a);
+    void setColorLifeBar(int a);
 
     void removeWeapon();
 
