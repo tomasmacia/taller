@@ -14,7 +14,7 @@
 
 using namespace std;
 
-#define MAX_BYTES_BUFFER 2800
+#define MAX_BYTES_BUFFER 2500
 
 
 #if __APPLE__
