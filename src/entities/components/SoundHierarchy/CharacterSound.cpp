@@ -13,7 +13,7 @@ void CharacterSound::handleCurrentState() {
         previous = state->current();
         switch (state->current()){
             case END_JUMP:
-                //_currentSoundPath = soundsConfig.players.endjump;
+                _currentSoundPath = soundsConfig.players.jump;
                 break;
             case KICK:
                 if (state->isHitting()){
