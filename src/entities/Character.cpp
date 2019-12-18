@@ -135,4 +135,9 @@ void Character::removeTestMode() {
 void Character::turnToDead() {
     appearance->setTransparent();
     collitionHandler->eraseCollitionBoxes();
+    markedAsDead = true;
+}
+
+bool Character::turnedToDead() {
+    return markedAsDead;
 }

@@ -583,9 +583,9 @@ void EntityManager::eraseDeadEntities() {
             else{
                 if (e->isFinalBoss()){finalBoss = nullptr;} //mea culpa
                 delete(e);
+                cout<<"a dead entity has been correctly eliminated from the game"<<endl;
+                toUntrack.push_back(e);
             }
-            cout<<"a dead entity has been correctly eliminated from the game"<<endl;
-            toUntrack.push_back(e);
         }
     }
     for (auto e: toUntrack){
@@ -658,9 +658,13 @@ void EntityManager::sortEntitiesByZ() {
 }
 
 void EntityManager::handlePlayerDeath(Character *character) {
-    gameServer->notifyPlayerDied((character)->getID());
-    screen->removePlayer(character->getID());
-    character->turnToDead();
+
+    if (!character->turnedToDead()){
+
+        character->turnToDead();
+        gameServer->notifyPlayerDied((character)->getID());
+        screen->removePlayer(character->getID());
+    }
 }
 
 

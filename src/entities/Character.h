@@ -61,9 +61,13 @@ public:
 
     void turnToDead();
 
+    bool turnedToDead();
+
 private:
     int AMOUNT_OF_LIFES_CHARACTER = 3;
     int CHARACTER_LIFE_AMOUNT = 100;
+
+    bool markedAsDead = false;
 
     ID* id = nullptr;
     ScoreAppearance* scoreAppearance = nullptr;
