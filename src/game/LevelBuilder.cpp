@@ -166,7 +166,15 @@ void LevelBuilder::initializeLevelDimentions(){
 }
 
 void LevelBuilder::initializeEnemySpawns() {
-    enemiesPerHorde = _config->gameplay.npcs.size() / HORDE_AMOUNT;
+
+
+    if (_config->gameplay.npcs.size() < HORDE_AMOUNT){
+        enemiesPerHorde = 1;
+        HORDE_AMOUNT = enemiesPerHorde;
+    }
+    else{
+        enemiesPerHorde = _config->gameplay.npcs.size() / HORDE_AMOUNT;
+    }
 
     for (int i = 0; i < HORDE_AMOUNT; i++){
         hordeCheckPoints.push_back(i*(currentLevelWidth/HORDE_AMOUNT));
