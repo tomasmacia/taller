@@ -606,6 +606,11 @@ void EntityManager::untrackDead(PhysicalEntity *entity) {
 }
 
 void EntityManager::destroyNonLevelPersistentEntities() {
+
+    for (auto player : players){
+        player->dropWeapon();
+    }
+
     for(auto* e : nonLevelPersistentEntities){
         delete e;
         e = nullptr;
