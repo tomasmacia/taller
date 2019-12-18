@@ -12,7 +12,7 @@ CODY (cantidad = 6)
 
 5) sonido de pick up de arma
 
-6) sonido de golpe de puño (es el mismo para patada getY salto con patada)
+6) sonido de golpe de puño (es el mismo para patada y salto con patada)
 
 
 

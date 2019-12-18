@@ -33,6 +33,10 @@ public:
     int getZ();
     void setPosition(int x, int y, int z);
 
+    Position* getPosition() {
+        return position;
+    }
+
     void stopBeingAttacked();
 
     Point* getPos() override ;

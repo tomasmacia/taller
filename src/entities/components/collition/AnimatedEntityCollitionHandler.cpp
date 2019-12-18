@@ -26,6 +26,29 @@ AnimatedEntityCollitionHandler::AnimatedEntityCollitionHandler(State* state, Col
     normalPunchingWidth = _punchBox->getWidth();
 }
 
+AnimatedEntityCollitionHandler::AnimatedEntityCollitionHandler(CollitionManager *collitionManager,
+                                                               CollitionBox *punchBox, CollitionBox *kickBox,
+                                                               CollitionBox *collitionBox, CollitionBox *pickBox)
+
+                                                               :CollitionHandler(collitionManager){
+    _blockingCollitionBox = collitionBox;
+    _punchBox = punchBox;
+    _kickBox = kickBox;
+    _pickBox = pickBox;
+
+    addCollitionBox(_blockingCollitionBox);
+    addCollitionBox(_punchBox);
+    addCollitionBox(_kickBox);
+    addCollitionBox(_pickBox);
+}
+
+void AnimatedEntityCollitionHandler::setState(State *state) {
+    _state = state;
+    lastFacingState = _state->facingRight();
+    lastAttack = _state->getWeapon();
+    normalPunchingWidth = _punchBox->getWidth();
+}
+
 list<PhysicalEntity*>* AnimatedEntityCollitionHandler::getAllPunchableWithinPunchingRange() {
 
     auto* punchables = new list<PhysicalEntity*>();

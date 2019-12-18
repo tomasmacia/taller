@@ -9,6 +9,6 @@
 
 5) poner en la config para que no haya que agrega n cosas y que alcance con cambiarle el amount (adaptar el parser en consecuencia)
 
-6) refatorizar para que sea, desde el diseño, facil cambiar lo que se muestra en pantalla (hasta ahora se usa de forma separada el levelBuilder getY el LoggerMenu) estaria bueno que este todo integrado para que sea facil agregar pantallas de seleccion, de desconexion, de fin de nivel, de fin de juego, etc
+6) refatorizar para que sea, desde el diseño, facil cambiar lo que se muestra en pantalla (hasta ahora se usa de forma separada el levelBuilder y el LoggerMenu) estaria bueno que este todo integrado para que sea facil agregar pantallas de seleccion, de desconexion, de fin de nivel, de fin de juego, etc
 
 7) refactorizar la relacion que hay entre State PhysiscComponent, Appearance e InputPoller

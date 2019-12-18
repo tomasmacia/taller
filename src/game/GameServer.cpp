@@ -10,7 +10,7 @@ void GameServer::start() {
     LogManager::logInfo("[GAME]: Se inicia Game");
 
     initController();
-    startServer();          //1 thread de listen de conexiones nuevas getY 4 threads por cliente nuevo
+    startServer();          //1 thread de listen de conexiones nuevas y 4 threads por cliente nuevo
     initSceneDirector();
 
     waitUnitAllPlayersConnected();

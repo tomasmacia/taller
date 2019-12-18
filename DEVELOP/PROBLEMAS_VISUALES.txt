@@ -49,7 +49,7 @@ si el server se desconecta durante la etapa en la que el login esta esperando re
 (ES UN CASO EXTREMADAMENTE RARO QUE SE DE Y SE SUELE DAR DURANTE EL DEBUGGING)
 
 25)
-Al jugar con 2 pj's y desconectar y conectar muchas veces (me paso con 12 desconecciones intercaladas, 2 veces uno, 3 veces otro getY asi. Pero podrian ser menos) en algun momento un cliente queda frizado y al intentar conectar el otro la pantalla queda negra.
+Al jugar con 2 pj's y desconectar y conectar muchas veces (me paso con 12 desconecciones intercaladas, 2 veces uno, 3 veces otro y asi. Pero podrian ser menos) en algun momento un cliente queda frizado y al intentar conectar el otro la pantalla queda negra.
 Al parecer el server responde, porque al apretar up, down,left,etc, el server muestra que recibio eso. Pero no lo muestra a los clientes.
 Por ultimo si en ese estado, frizado y pantalla negra, cierro ambos clientes, el server no se cierra.
 ACTUALIZACION

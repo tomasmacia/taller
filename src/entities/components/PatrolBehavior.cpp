@@ -7,29 +7,33 @@ PatrolBehavior::PatrolBehavior(IA* owner, EntityManager* manager, Position* subj
 }
 
 Action PatrolBehavior::getNext(){
-    if (side == 1){
-        return RIGHT;
-    } else {
-        return LEFT;
-    }
+    return NONE;
+//    if (side == 1){
+//        return RIGHT;
+//    } else {
+//        return LEFT;
+//    }
 }
 
 void PatrolBehavior::update(){
-    if (sideChangeCounter >= SIDE_CHANGE_DELAY){
-        sideChangeCounter = 0;
-         if (side == 1){
-            side ++;
-        } else {
-            side =1;
-        }
-    }
-    sideChangeCounter++;
+//    if (sideChangeCounter >= SIDE_CHANGE_DELAY){
+//        sideChangeCounter = 0;
+//         if (side == 1){
+//            side ++;
+//        } else {
+//            side =1;
+//        }
+//    }
+//    sideChangeCounter++;
 
     if (playerDetectCounter >= PLAYER_DETECTION_DELAY){
         playerDetectCounter = 0;
         checkForNearbyPlayer();
-        if (this->playerDetected){
-            this->owner->changeBehavior(new PursuitBehavior(this->target,this->owner,manager,subjectPosition));
+        Character *target = getNearPlayer();
+        if (target != nullptr) {
+            //this->owner->changeBehavior(new PursuitBehavior(this->target,this->owner,manager,subjectPosition));
+            this->owner->switchBehavior(TARGET);
+            ((PursuitBehavior*)this->owner->getCurrentBehavior())->switchTarget(target); // ASCO
         }
     }
     playerDetectCounter++;
@@ -42,4 +46,16 @@ void PatrolBehavior::checkForNearbyPlayer(){
             target = i;
         }
     }
+}
+
+Character* PatrolBehavior::getNearPlayer() {
+    Character *nearCharacter = nullptr;
+
+    for(auto const& player : manager->getPlayers()) {
+        if (player->getPosition()->getDistanceTo(this->subjectPosition) < PLAYER_DETECTION_RANGE) {
+            nearCharacter = player;
+        }
+    }
+
+    return nearCharacter;
 }

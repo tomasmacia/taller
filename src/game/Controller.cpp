@@ -11,6 +11,7 @@
 #include "Controller.h"
 #include "../net/messaging/IDManager.h"
 #include "../net/Server.h"
+#include "../utils/MapUtils.h"
 
 #include <iostream>
 
@@ -28,7 +29,7 @@ void Controller::lisentToInputForClosing(){
 void Controller::checkIfCloseRelatedInputWasPulsed(){
     Action action;
     while (SDL_PollEvent(&sdlEvent)) {
-        action = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
+        action = MapUtils::getOrDefault(actions, sdlEvent.key.keysym.scancode, NONE);
         if (sdlEvent.type == SDL_QUIT){
             game->end();
         }
@@ -38,13 +39,13 @@ void Controller::checkIfCloseRelatedInputWasPulsed(){
 
 list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
     Action action;
-    int playerId = game->getPlayerId(); //cada pc tiene uno asignado al principio getY es unico
+    int playerId = game->getPlayerId(); //cada pc tiene uno asignado al principio y es unico
     std::string serializedInput;
     std::list<std::string> serializedInputs;
 
     while (SDL_PollEvent(&sdlEvent)) {
 
-        action = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
+        action = MapUtils::getOrDefault(actions, sdlEvent.key.keysym.scancode, NONE);
 
         if (sdlEvent.type == SDL_QUIT){
             game->end();
@@ -89,18 +90,6 @@ list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
     return serializedInputs;
 }
 
-template <typename K, typename V>
-V Controller::getWithDefault(const std::map<K,V> &map, const K &key, const V &defaultValue) {
-    V value;
-    auto pos = map.find(key);
-    if (pos != map.end()) {
-        value = pos->second;
-    } else {
-        value = defaultValue;
-    }
-
-    return value;
-}
 
 void Controller::clearAllInputs(){
     currentInput->clear();
@@ -226,13 +215,13 @@ void Controller::init() {
     scancodes.insert(std::make_pair("w", SDL_SCANCODE_W));
 
     scancodes.insert(std::make_pair("X", SDL_SCANCODE_X));
-    scancodes.insert(std::make_pair("getX", SDL_SCANCODE_X));
+    scancodes.insert(std::make_pair("x", SDL_SCANCODE_X));
 
     scancodes.insert(std::make_pair("Y", SDL_SCANCODE_Y));
-    scancodes.insert(std::make_pair("getY", SDL_SCANCODE_Y));
+    scancodes.insert(std::make_pair("y", SDL_SCANCODE_Y));
 
     scancodes.insert(std::make_pair("Z", SDL_SCANCODE_Z));
-    scancodes.insert(std::make_pair("getZ", SDL_SCANCODE_Z));
+    scancodes.insert(std::make_pair("z", SDL_SCANCODE_Z));
 
     scancodes.insert(std::make_pair("CONTROL", SDL_SCANCODE_LCTRL));
     scancodes.insert(std::make_pair("LCTRL", SDL_SCANCODE_LCTRL));

@@ -15,6 +15,11 @@ public:
     AnimatedEntityCollitionHandler(State* state, CollitionManager* collitionManager, CollitionBox* punchBox, CollitionBox* kickBox, CollitionBox* collitionBox,
                                     CollitionBox* pickBox);
 
+    AnimatedEntityCollitionHandler(CollitionManager *collitionManager, CollitionBox *punchBox, CollitionBox *kickBox,
+                                   CollitionBox *collitionBox, CollitionBox *pickBox);
+
+    void setState(State *state);
+
     void update() override ;
 
     void reflectAllAttackCollitionBox();

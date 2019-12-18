@@ -15,6 +15,7 @@ public:
     void moveBy(Point delta);
     void plus(Point delta);
     int distanceWith(Point* other);
+    int distanceTo(Point* other);
     void save();
     void restore();
     Point delta();

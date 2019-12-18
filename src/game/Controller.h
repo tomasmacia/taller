@@ -75,11 +75,6 @@ public:
 
 private:
 
-    //INPUT PROCESING
-    //===============================
-    template <typename K, typename V>
-    V getWithDefault(const std::map<K,V> &map, const K &key, const V &defaultValue);
-
     //INIT
     //===============================
     void init();

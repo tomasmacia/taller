@@ -13,6 +13,7 @@ class Will {
 public:
     virtual void update() = 0;
     virtual Action getNext() = 0;
+    virtual ~Will() {};
 };
 
 
