@@ -45,6 +45,7 @@ public:
     void notifyEndOfGame();
     void processPlayerDeath(int id);
     void notifyGameStart();
+    void directSendToServer(string basicString);
     static bool isActive(){
         return hasInstance;
     }

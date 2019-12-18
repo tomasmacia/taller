@@ -42,6 +42,14 @@ string ObjectSerializer::getAlreadyLoggedInMessage() {
 
 //VALIDATE
 //=========================================================================================
+bool ObjectSerializer::validSerializedTestModeMessage(vector<string> *currentParsedMessage) {
+    //SERIALIZED OBJECT: START,header,action,type
+    return currentParsedMessage->size() == 4 &&
+           currentParsedMessage->at(0) == START_SYMBOL &&
+           currentParsedMessage->at(1)== to_string(INPUT) &&
+           currentParsedMessage->at(2) == "TEST";
+}
+
 bool ObjectSerializer::validGameStartedMessage(vector<string> *currentParsedMessage) {
     //SERIALIZED LOGIN ID: //START,header
     return  currentParsedMessage->size() == 2 &&
@@ -170,6 +178,7 @@ tuple<Action,int> ObjectSerializer::reconstructInput(vector<string>* currentPars
     if (action == "KICK"){reconstructedAction = KICK;}
     if (action == "JUMP_KICK"){reconstructedAction = JUMP_KICK;}
     if (action == "CROUCH"){reconstructedAction = CROUCH;}
+    if (action == "TEST"){reconstructedAction = TEST;}
 
     return make_tuple (reconstructedAction,reconstructedId);
 }
@@ -242,6 +251,7 @@ string ObjectSerializer::serializeInput(Action action, int id){
     if (action == KICK){serializedAction = "KICK";}
     if (action == JUMP_KICK){serializedAction = "JUMP_KICK";}
     if (action == CROUCH){serializedAction = "CROUCH";}
+    if (action == TEST){serializedAction = "TEST";}
 
     return addPadding(START_SYMBOL + SEPARATOR  + to_string(INPUT) + SEPARATOR + serializedAction + SEPARATOR + to_string(id) + SEPARATOR + END_OF_SERIALIZATION_SYMBOL);
 }

@@ -102,6 +102,10 @@ void UserConnection::dispatchThread() {
                 processLoginFromTheClient();
             }
 
+            else if (objectSerializer.validSerializedTestModeMessage(messageParser.getCurrent())){
+                processTestMode();
+            }
+
             else if (objectSerializer.validSerializedInputMessage(messageParser.getCurrent())){
                 processInput();
             }
@@ -134,6 +138,10 @@ void UserConnection::processInput() {//TODO HEAVY IN PERFORMANCE
         auto input = objectSerializer.reconstructInput(messageParser.getCurrent());
         gameServer->reciveNewInput(input);
     }
+}
+
+void UserConnection::processTestMode() {
+    gameServer->recibeTestModeSignal();
 }
 
 //DISCONECTION RELATED

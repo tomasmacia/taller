@@ -68,6 +68,8 @@ public:
 
     void notifyPlayerDied(int id);
 
+    void recibeTestModeSignal();
+
 private:
     GameServer() {
         init();
@@ -128,6 +130,8 @@ private:
     int SLEEP_TIME = 13000;
     int WAIT_TIME = 4000000;
     Color currentColor = BLUE;
+
+    bool inTestMode = false;
 
     static bool hasInstance;
 

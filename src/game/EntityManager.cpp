@@ -266,8 +266,6 @@ FinalBoss *EntityManager::createFinalBoss() {
     int centerZ = z + DEFAULT_COLLITION_BOX_DEPTH/2;
 
     //auto* will = new IA(this,position);
-    auto* will = new NullWill();
-    auto* state = new State(will);
 
     int punchRange = (float)w * 0.5;
     int kickRange = (float)w * 0.6;
@@ -276,13 +274,18 @@ FinalBoss *EntityManager::createFinalBoss() {
     auto* pickBox = new CollitionBox(centerX, centerY, centerZ, w, h, DEFAULT_COLLITION_BOX_DEPTH * PICK_COLLITON_BOX_SCALE_FACTOR, collitionBox->getID(),VISUAL_PICK);
     auto* punchBox = new CollitionBox(centerX + punchRange/2, centerY, centerZ, punchRange, h, DEFAULT_COLLITION_BOX_DEPTH * ATTACK_COLLITON_BOX_SCALE_FACTOR,collitionBox->getID(),VISUAL_PUNCH);
     auto* kickBox = new CollitionBox(centerX + kickRange/2, centerY, centerZ, kickRange, h, DEFAULT_COLLITION_BOX_DEPTH * ATTACK_COLLITON_BOX_SCALE_FACTOR,collitionBox->getID(),VISUAL_KICK);
-    auto* collitionHandler = new AnimatedEntityCollitionHandler(state,collitionManager, punchBox, kickBox, collitionBox, pickBox);
+    auto* collitionHandler = new AnimatedEntityCollitionHandler(collitionManager, punchBox, kickBox, collitionBox, pickBox);
 
     auto* position = new Position(centerX, centerY, centerZ, collitionHandler);
     auto* screenPosition = new ScreenPosition(w,h,DEFAULT_COLLITION_BOX_DEPTH,position,screen);
+
+    auto* will = new IA(this,position);
+    auto* state = new State(will);
+
     auto* physics = new Physics(state,position,walkingSpeed,jumpingSpeed);
 
     collitionHandler->setToAllCollitionBoxScreenPosition(screenPosition);
+    collitionHandler->setState(state);
 
     auto* appearance = new FinalBossAppearance(w, h, screenPosition, state, config->gameplay.boss);
     auto* sound = new FinalBossSound(state,config->sounds);
@@ -328,7 +331,6 @@ Enemy *EntityManager::createEnemy() {
 
     auto* will = new IA(this,position);
     auto* state = new State(will);
-
     collitionHandler->setState(state);
 
     auto* physics = new Physics(state,position,walkingSpeed,jumpingSpeed);
@@ -706,4 +708,18 @@ Enemy *EntityManager::createEnemy(int x, int y, int z) {
     return new Enemy(collitionHandler, life, damage, score, position,
                      state, screenPosition, appearance, sound,
                      will, physics, attack,w,h,DEFAULT_COLLITION_BOX_DEPTH);
+}
+
+void EntityManager::setTestMode() {
+
+    for (auto player : players){
+        player->setTestMode();
+    }
+}
+
+void EntityManager::removeTestMode() {
+
+    for (auto player : players){
+        player->removeTestMode();
+    }
 }
