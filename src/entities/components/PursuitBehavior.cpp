@@ -18,7 +18,7 @@ void PursuitBehavior::update() {
     }
 
     pursuitDurationCounter++;
-    if (pursuitDurationCounter >= PURSUIT_MAX_DURATION) {
+    if (pursuitDurationCounter >= PURSUIT_MAX_DURATION || target->isDisconnected() || target->dead()) {
 //        if (getDistanceToTarget() <= PUNCH_RANGE) {
 //            this->owner->switchBehavior(ATTACKING);
 //            ((AttackingBehavior*) this->owner->getCurrentBehavior())->switchTarget(target); // ASCO
