@@ -76,6 +76,10 @@ std::list<Sendable*>* EntityManager::generateSendables() {
         packagesToClients->splice(packagesToClients->end(),e->generateSendable());
     }
 
+    for(auto* e : players){
+        packagesToClients->splice(packagesToClients->end(),e->generateScoreAndLifeSendable());
+    }
+
     return packagesToClients;
 }
 

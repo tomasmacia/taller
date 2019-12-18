@@ -19,7 +19,11 @@ Character::Character(CollitionHandler* collitionHandler, Life *life, Damage *dam
 }
 
 list<Sendable *> Character::generateSendable() {
-    list<Sendable *> sendables = PhysicalEntity::generateSendable();
+    return PhysicalEntity::generateSendable();
+}
+
+list<Sendable *> Character::generateScoreAndLifeSendable() {
+    list<Sendable *> sendables;
     auto lifebar=new Sendable(life->getAppearance()->actuallyGenerateRenderable(),nullptr);
     sendables.push_back(lifebar);
     auto lifergrey =new Sendable(life->getAppearance()->GenerateRenderableToDisconnect(isDisconnected() || dead()),nullptr);

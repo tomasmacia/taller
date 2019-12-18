@@ -17,6 +17,7 @@ enum Action {
     RIGHT,
     END_RIGHT,
     END_MOVEMENT,
+    END_JUMP,
     JUMP,
     PUNCH,
     KICK,

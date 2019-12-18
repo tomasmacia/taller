@@ -22,6 +22,7 @@ public:
     //API
     //===============================
     list<Sendable*> generateSendable() override;
+    list<Sendable *> generateScoreAndLifeSendable();
 
     int setAttackedWith(AttackCode attackCode) override;
     void notifySuccessfulAttack(int score) override;

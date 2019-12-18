@@ -166,7 +166,7 @@ void State::setFinished(){
 
     switch (_currentState){
         case JUMP:
-            _currentState = pickOneOngoingMovement();
+            _currentState = END_JUMP;
             break;
         case PUNCH:
             _currentState = pickOneOngoingMovement();
@@ -175,6 +175,9 @@ void State::setFinished(){
             _currentState = pickOneOngoingMovement();
             break;
         case JUMP_KICK:
+            _currentState = END_JUMP;
+            break;
+        case END_JUMP:
             _currentState = pickOneOngoingMovement();
             break;
         case CROUCH:
