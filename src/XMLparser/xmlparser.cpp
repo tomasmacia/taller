@@ -190,6 +190,7 @@ Sounds XMLParser::getSounds(XMLElement *config) {
     playerSound.hit = getSafeValueFromElement(soundsElement, {"player", "hit"}, charArrayToString, section);
     playerSound.knifeHit = getSafeValueFromElement(soundsElement, {"player", "knifehit"}, charArrayToString, section);
     playerSound.pipeHit = getSafeValueFromElement(soundsElement, {"player", "pipehit"}, charArrayToString, section);
+    playerSound.jump = getSafeValueFromElement(soundsElement, {"player", "jump"}, charArrayToString, section);
 
     UtilitySound utilitySound;
     utilitySound.barrelBreak = getSafeValueFromElement(soundsElement, {"utility", "barrelbreak"}, charArrayToString, section);

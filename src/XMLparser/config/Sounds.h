@@ -31,6 +31,7 @@ public:
     string hit;
     string knifeHit;
     string pipeHit;
+    string jump;
 };
 
 class UtilitySound {
