@@ -95,6 +95,16 @@ public:
         idsToResources.emplace(make_pair(i, config->gameplay.utilities.barrel.brokenSprite));
         i++;
 
+        idsToResources.emplace(make_pair(i, config->gameplay.utilities.box.standSprite));
+        i++;
+        idsToResources.emplace(make_pair(i, config->gameplay.utilities.box.damagedSprite));
+        i++;
+        idsToResources.emplace(make_pair(i, config->gameplay.utilities.box.brokenSprite));
+        i++;
+
+        idsToResources.emplace(make_pair(i, string("resources/sprites/fondo_celeste.png")));
+        i++;
+
         for (auto &npc : config->gameplay.npcs) {
             idsToResources.emplace(make_pair(i, npc.walk));
             i++;
