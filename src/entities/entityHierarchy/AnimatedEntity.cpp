@@ -39,5 +39,5 @@ AnimatedEntity::~AnimatedEntity() {
 }
 
 void AnimatedEntity::dropWeapon() {
-    attack->dropWeapon();
+    state->dropWeapon();
 }
