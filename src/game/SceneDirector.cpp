@@ -26,23 +26,13 @@ void SceneDirector::initEndOfGameScreen(){
 
 void SceneDirector::initScoreScreen(const std::list<Character*>& players, const std::map<int,User>& loggedPlayersUserByID) {
 
-    if (scoreScreenContainer != nullptr){
-        for (auto sendable : *scoreScreenContainer){
-            delete(sendable);
-        }
-        delete(scoreScreenContainer);
-    }
-    if (scoreScreen != nullptr){
-        delete (scoreScreen);
-    }
-
     scoreScreenContainer = new list<Sendable*>();
     scoreScreen = initScreen(SCORE_SCREEN_PATH);
     scoreScreenContainer->push_back(scoreScreen);
 
     int y = (config->screenResolution.height/2);
     for (auto a:players){
-        
+
         renderPuntaje(a->getScore(),config->screenResolution.width-50,y,scoreScreenContainer);
         CharacterName( y, a->getID(),scoreScreenContainer,loggedPlayersUserByID);
         y+=50;
@@ -85,9 +75,9 @@ void SceneDirector::sendScoreScreen(Server* server) {
 
 Sendable* SceneDirector::initScreen(string path) {
 
-    ImageSize imageSize = ImageUtils::getImageSize(path);
-    int imageWidth = imageSize.width;
-    int imageHeight = imageSize.height;
+    //ImageSize imageSize = ImageUtils::getImageSize(path);
+    int imageWidth = 500;
+    int imageHeight = 375;
 
     int screenWidth = config->screenResolution.width;
     int screenHeight = config->screenResolution.height;
@@ -128,101 +118,6 @@ void SceneDirector::CharacterName(int y, int id,list<Sendable*>* scoreScreenCont
     scoreScreenContainer->push_back(c);
 }
 
-void SceneDirector::renderPuntaje(int score,int x, int y,list<Sendable*>* scoreScreenContainer){
-    int score_ = score;
-    bool asd =true;
-    string path1;
-    int x_ = x, y_= y;
-    if (score >= 0 ) {
-
-        while(asd)
-        {
-            Sendable* c = nullptr;
-            ImageSize imageSize1;
-            int resto = score_ % 10;
-
-            if (resto == 0){
-                path1 = "resources/sprites/score/zero.png";
-
-                imageSize1 = ImageUtils::getImageSize(path1);
-            }
-             if (resto == 1)
-            {
-                path1 = "resources/sprites/score/one.png";
-
-                imageSize1 = ImageUtils::getImageSize(path1);
-            }
-             if (resto == 2)
-            {
-                path1 = "resources/sprites/score/two.png";
-
-                imageSize1 = ImageUtils::getImageSize(path1);
-            }
-             if (resto == 3)
-            {
-                path1 = "resources/sprites/score/three.png";
-
-                imageSize1 = ImageUtils::getImageSize(path1);
-            }
-             if (resto == 4)
-            {
-                path1 = "resources/sprites/score/four.png";
-
-                imageSize1 = ImageUtils::getImageSize(path1);
-            }
-            if (resto == 5)
-            {
-                path1 = "resources/sprites/score/five.png";
-
-                imageSize1 = ImageUtils::getImageSize(path1);
-            }
-             if (resto == 6)
-            {
-                path1 = "resources/sprites/score/six.png";
-
-                imageSize1 = ImageUtils::getImageSize(path1);
-            }
-             if (resto == 7)
-            {
-                path1 = "resources/sprites/score/seven.png";
-
-                imageSize1 = ImageUtils::getImageSize(path1);
-            }
-             if (resto == 8)
-            {
-                path1 = "resources/sprites/score/eigth.png";
-
-                imageSize1 = ImageUtils::getImageSize(path1);
-            }
-             if (resto == 9)
-            {
-                path1 = "resources/sprites/score/nine.png";
-
-                imageSize1 = ImageUtils::getImageSize(path1);
-            }
-            int imageWidth1 = imageSize1.width;
-            int imageHeight1 = imageSize1.height;
-
-            int screenWidth1 = 32;
-            int screenHeight1 = 32;
-            x_ -= screenHeight1;
-
-            Rect src1 = {0,0,imageWidth1,imageHeight1};
-            Rect dst1 = {x_,y_,screenWidth1,screenHeight1 };
-
-            c= new Sendable(new Renderable(path1, src1, dst1, false), nullptr);
-            scoreScreenContainer->push_back(c);
-
-            score_ -= resto;
-            if (score_ <= 0){
-                asd =false;
-            }
-            score_ = score_/10;
-
-        }
-    }
-}
-
 SceneDirector::~SceneDirector() {
 
     if (waitingScreenContainer != nullptr){
@@ -248,6 +143,102 @@ SceneDirector::~SceneDirector() {
 
     delete(disconectionScreen);
     delete(youDiedScreen);
+}
+
+void SceneDirector::renderPuntaje(int score, int x, int y, list<Sendable *> *contenedor) {
+
+    int score_ = score;
+    bool asd =true;
+    string path1;
+    int x_ = x, y_= y;
+    Sendable* c = nullptr;
+    if (score >= 0 ) {
+
+        while(asd)
+        {
+
+            int resto = score_ % 10;
+
+            if (resto == 0){
+                path1 = "resources/sprites/score/zero.png";
+
+                //imageSize1 = ImageUtils::getImageSize(path1);
+            }
+            if (resto == 1)
+            {
+                path1 = "resources/sprites/score/one.png";
+
+                //imageSize1 = ImageUtils::getImageSize(path1);
+            }
+            if (resto == 2)
+            {
+                path1 = "resources/sprites/score/two.png";
+
+                //imageSize1 = ImageUtils::getImageSize(path1);
+            }
+            if (resto == 3)
+            {
+                path1 = "resources/sprites/score/three.png";
+
+                //imageSize1 = ImageUtils::getImageSize(path1);
+            }
+            if (resto == 4)
+            {
+                path1 = "resources/sprites/score/four.png";
+
+                //imageSize1 = ImageUtils::getImageSize(path1);
+            }
+            if (resto == 5)
+            {
+                path1 = "resources/sprites/score/five.png";
+
+                //imageSize1 = ImageUtils::getImageSize(path1);
+            }
+            if (resto == 6)
+            {
+                path1 = "resources/sprites/score/six.png";
+
+                //imageSize1 = ImageUtils::getImageSize(path1);
+            }
+            if (resto == 7)
+            {
+                path1 = "resources/sprites/score/seven.png";
+
+                //imageSize1 = ImageUtils::getImageSize(path1);
+            }
+            if (resto == 8)
+            {
+                path1 = "resources/sprites/score/eigth.png";
+
+                //imageSize1 = ImageUtils::getImageSize(path1);
+            }
+            if (resto == 9)
+            {
+                path1 = "resources/sprites/score/nine.png";
+
+                //imageSize1 = ImageUtils::getImageSize(path1);
+            }
+            int imageWidth1 = 16;
+            int imageHeight1 = 16;
+
+            int screenWidth1 = 32;
+            int screenHeight1 = 32;
+            x_ -= screenHeight1;
+
+            Rect src1 = {0,0,imageWidth1,imageHeight1};
+            Rect dst1 = {x_,y_,screenWidth1,screenHeight1 };
+
+            c = new Sendable(new Renderable(path1, src1, dst1, false), nullptr);
+            contenedor->push_back(c);
+
+            score_ -= resto;
+            if (score_ <= 0){
+                asd =false;
+            }
+            score_ = score_/10;
+
+        }
+    }
 }
 
 

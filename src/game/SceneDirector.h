@@ -34,7 +34,7 @@ public:
 private:
     Sendable* initScreen(string path);
     void CharacterName(int y, int id, list<Sendable *> *scoreScreenContainer, std::map<int,User> loggedPlayersUserByID);
-    void renderPuntaje(int score, int x, int y, list<Sendable *> *scoreScreenContainer);
+    void renderPuntaje(int score, int x, int y,list<Sendable*>* contenedor);
 
     string WAITING_SCREEN_PATH = "resources/sprites/screens/waiting_for_your_teammates.png";
     string END_OF_GAME_SCREEN_PATH = "resources/sprites/screens/complete.png";
