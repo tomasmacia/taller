@@ -33,6 +33,10 @@ void PursuitBehavior::update() {
 
 Action PursuitBehavior::getNext() {
     Action result = NONE;
+
+    if (pursuitDurationCounter == PURSUIT_MAX_DURATION) {
+        return END_MOVEMENT;
+    }
     int xdif = target->getX() - subjectPosition->getX();
     int zdif = target->getZ() - subjectPosition->getZ();
 
