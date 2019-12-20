@@ -1,0 +1,119 @@
+=============================================================
+1)
+SE CONECTA ANTES EL CLIENTE QUE EL SERVER Y LUEGO EL SERVER
+
+Error por consola GameClient, el logger debe informar esto en cliente
+=============================================================
+2)
+SE CONECTA ANTES EL SERVER Y  NADIE MAS
+
+Se inicia el GameServer pero no el modelo y queda esperando, el logger debe informar esto en server
+=============================================================
+3)
+ME INTENTO LOGGEAR CON CREDENCIALES INVALIDAS
+
+El server me avisa "credenciales invalidas" y no me loggea ni me deja jugar y no me transmite info, el logger debe informar esto en cliente y server
+=============================================================
+4)
+ME INTENTO LOGGEAR CON CREDENCIALES VALIDAS SIN HABERSE LOGEADO ANTES ALGUIEN CON ESAS CREDENCIALES Y CON SERVER NO LLENO
+
+El server me avisa que todo OK y me loggea, me deja jugar y me transmite info si es que el juego arranca o esta andando, el logger debe informar esto en cliente y server
+=============================================================
+5)
+SE CONECTA ANTES EL SERVER QUE EL CLIENTE Y LUEGO EL CLIENTE PERO SOLO UNO
+
+Se inicia el GameServer pero no el modelo y queda esperando, el logger debe informar esto en cliente y server
+=============================================================
+6)
+SE CONECTA ANTES EL SERVER QUE EL CLIENTE Y SE CONECTAN LOS CUATRO
+
+Arranca el juego normal, el logger debe informar esto en cliente y server
+=============================================================
+7)
+ME INTENTO LOGGEAR CON CREDENCIALES VALIDAS SIN HABERSE LOGEADO ANTES ALGUIEN CON ESAS CREDENCIALES Y CON SERVER LLENO
+
+El server me avisa que "server full" y no me loggea ni me deja jugar y no me transmite info, el logger debe informar esto en cliente y server
+=============================================================
+8)
+AL TOCAR ESC O QUIT EN EL CLIENTE SE CIERRA ESE CLIENTE Y NINGUNO MAS
+=============================================================
+9)
+JUEGO ANDANDO Y SE DESCONECTA EL PRIMERO QUE SE CONECTO
+
+Juego sigue normal pero con jugador grisado, freeseado y arrastrado por scroll, el logger debe informar esto en cliente y server
+=============================================================
+10)
+DESCONECTAR EL CABLE DE UN CLIENTE
+
+que no se trabe nadie salvo el desconectado para el que le aparece un mensaje
+=============================================================
+11)
+JUEGO ANDANDO Y SE DESCONECTA EL SEGUNDO QUE SE CONECTO
+
+Juego sigue normal pero con jugador grisado, freeseado y arrastrado por scroll, el logger debe informar esto en cliente y server
+=============================================================
+12)
+ME LOGGEO CON CREDENCIALES VALIDAS HABIENDOSE LOGEADO ANTES ALGUIEN CON ESAS CREDENCIALES Y ESTANDO ESE ALGUIEN DESCONECTADO
+
+El server me avisa que "todo OK, reconectandose" y me loggea, me deja jugar y me transmite info si es que el juego arranca o esta andando, el logger debe informar esto en cliente y server
+=============================================================
+13)
+ME LOGGEO CON CREDENCIALES VALIDAS HABIENDOSE LOGEADO ANTES ALGUIEN CON ESAS CREDENCIALES Y ESTANDO ESE ALGUIEN CONECTADO
+
+El server me avisa que "me dice que ya esta logeado jugando" y no me loggea ni me deja jugar y no me transmite info andando, el logger debe informar esto en cliente y server
+=============================================================
+14)
+JUEGO ANDANDO Y SE RECONECTA EL PRIMERO QUE SE CONECTO
+
+Juego sigue normal y se restituye el color y control del jugador grisado y se 
+restituye la restriccion con los limites de camara y la camara, el logger debe informar esto en cliente y server
+=============================================================
+15)
+JUEGO ANDANDO Y SE DESCONECTA EL TERCERO QUE SE CONECTO
+
+Juego sigue normal pero con jugador grisado, freeseado y arrastrado por scroll, el logger debe informar esto en cliente y server
+=============================================================
+16)
+JUEGO ANDANDO Y SE RECONECTA EL SEGUNDO QUE SE CONECTO
+
+Juego sigue normal y se restituye el color y control del jugador grisado y se 
+restituye la restriccion con los limites de camara y la camara, el logger debe informar esto en cliente y server
+=============================================================
+17)
+JUEGO ANDANDO Y SE DESCONECTA EL CUARTO QUE SE CONECTO
+
+Juego sigue normal pero con jugador grisado, freeseado y arrastrado por scroll, el logger debe informar esto en cliente y server
+=============================================================
+18)
+JUEGO ANDANDO Y SE RECONECTA EL TERCERO QUE SE CONECTO
+
+Juego sigue normal y se restituye el color y control del jugador grisado y se 
+restituye la restriccion con los limites de camara y la camara, el logger debe informar esto en cliente y server
+=============================================================
+19)
+JUEGO ANDANDO Y SE RECONECTA EL CUARTO QUE SE CONECTO
+
+Juego sigue normal y se restituye el color y control del jugador grisado y se 
+restituye la restriccion con los limites de camara y la camara, el logger debe informar esto en cliente y server
+=============================================================
+20)
+JUEGO ANDANDO Y SE DESCONECTAN TODOS
+
+Juego termina, el logger debe informar esto en cliente y server
+=============================================================
+21)
+SE CIERRA EL SERVER ANTES QUE LOS CLIENTES
+
+Los clientes cierran sin romper, el logger debe informar esto en cliente y server
+=============================================================
+22)
+DESCONECTAR EL CABLE DEL SERVER
+
+se traben todos y que en pantalla aparezca un mensaje de desconexion
+=============================================================
+
+
+
+
+
+

@@ -1,0 +1,2 @@
+
+el sonido se genera siempre aun si el objeto no esta en escena
