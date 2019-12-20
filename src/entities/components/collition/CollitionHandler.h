@@ -23,7 +23,7 @@ public:
     void dragToRight(int amount);
     void setOwnerToAllCollitionBox(Entity* owner);
 
-    void eraseCollitionBoxes();
+    virtual void eraseCollitionBoxes();
 
     void setToAllCollitionBoxScreenPosition(ScreenPosition *pPosition);
 

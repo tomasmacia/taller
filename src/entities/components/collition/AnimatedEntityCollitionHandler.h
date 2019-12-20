@@ -21,6 +21,7 @@ public:
     void setState(State *state);
 
     void update() override ;
+    void eraseCollitionBoxes() override ;
 
     void reflectAllAttackCollitionBox();
     list<PhysicalEntity*>* getAllPunchableWithinPunchingRange();
