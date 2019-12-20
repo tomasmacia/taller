@@ -60,6 +60,7 @@ int Server::send(string msg, int someSocketFD) {
             int n = ::send(someSocketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
             if (n < 0) {
                 error("ERROR sending");
+                beginDisconectionWith(socketIDMap.at(someSocketFD));
                 return n;
             }
             if (n == 0) {
@@ -86,6 +87,7 @@ string Server::receive(int someSocketFD) {
         int n = recv(someSocketFD, buff, MAX_BYTES_BUFFER - 1, 0);
         if (n < 0) {
             error("ERROR reading");
+            beginDisconectionWith(socketIDMap.at(someSocketFD));
             return objectSerializer->getFailure();
         }
         if (n == 0) {
@@ -197,6 +199,7 @@ int Server::accept() {                  //INSTANCIA Y AGREGA CONECCION AL MAP
 UserConnection* Server::addNewConnection(int newSocketFD){
     auto userConnection = new UserConnection(newSocketFD, nextConectionIDtoAssign, this,gameServer);
     this->connections.insert({ nextConectionIDtoAssign, userConnection });
+    this->socketIDMap.insert({ newSocketFD, nextConectionIDtoAssign });
     nextConectionIDtoAssign++; //esto asegura que la ID sea unica
 
     return userConnection;
@@ -211,11 +214,21 @@ void Server::error(string msg) {   //Cierra el server y en el destructor se cier
 //DISCONECTION RELATED
 //=========================================================================================
 
-void Server::removeConnection(int id){
-    delete connections.at(id);
-    connections.erase(id);
-    gameServer->connectionLostWith(id);
-    cout<<"CHECKING THREAD: borre la userConnection: "<<id<<endl;
+void Server::removeConnection(int ID){
+
+    int toRemoveSocket = -1;
+    for( auto const& [socket, id] : socketIDMap) {
+        if (id == ID){
+            toRemoveSocket = socket;
+            break;
+        }
+    }
+
+    delete connections.at(ID);
+    connections.erase(ID);
+    socketIDMap.erase(toRemoveSocket);
+    gameServer->connectionLostWith(ID);
+    cout<<"CHECKING THREAD: borre la userConnection: "<<ID<<endl;
     cout << "CHECKING THREAD: tengo "<< connections.size()<<" conexiones"<<endl;
     cout << "================================================================"<<endl;
     cout<<endl;
@@ -241,7 +254,6 @@ void Server::client_noBlock(int a) {
             perror("no puedo desbloquear socket");
         }
         setsockopt(it->second->getSock(),SOL_SOCKET,SO_SNDTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
-     //   setsockopt(it->second->getSock(),SOL_SOCKET,SO_RCVTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
     }
 
 }
@@ -252,4 +264,8 @@ Server::~Server() {
     for(std::map<int, UserConnection*>::iterator itr = connections.begin(); itr != connections.end(); itr++) {
         delete itr->second;
     }
+}
+
+void Server::beginDisconectionWith(int id) {
+    connections.at(id)->setConnectionOff();
 }
