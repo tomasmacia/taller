@@ -113,16 +113,14 @@ void Server::listenThread(){
         cout << "================================================================"<<endl;
         cout<<endl;
         int newConnectionSocketFD = accept();
-        auto newUserConnection = addNewConnection(newConnectionSocketFD);
-        if (newUserConnection != nullptr) {
-
-            connectionThreads.push_back(std::thread(&UserConnection::start,newUserConnection));
+        if (newConnectionSocketFD >= 0){
+            auto newUserConnection = addNewConnection(newConnectionSocketFD);
+            connectionThreads.emplace_back(&UserConnection::start,newUserConnection);
             cout << "LISTEN THREAD: connection stablished with ID: " << newUserConnection->getId()<< endl;
             cout << "================================================================"<<endl;
             cout<<endl;
         }
     }
-
 
     UserConnection* userConnection;
     for (auto c: connections){

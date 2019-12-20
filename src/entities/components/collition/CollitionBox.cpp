@@ -237,13 +237,13 @@ void CollitionBox::setAt(int x, int y, int z) {
 
 void CollitionBox::reflectInXRespectTo(Point *point) {
 
-    cout<<"reflexion: "<<endl;
-    cout<<"antes: "<<center->x<<endl;
+    //cout<<"reflexion: "<<endl;
+    //cout<<"antes: "<<center->x<<endl;
     for (auto corner : *corners){
         corner->applyHomothetyInX(-1, point);
     }
     center->applyHomothetyInX(-1, point);
-    cout<<"desp: "<<center->x<<endl;
+    //cout<<"desp: "<<center->x<<endl;
 }
 
 int CollitionBox::getWidth() {
@@ -254,17 +254,17 @@ void CollitionBox::adaptWidthToRespectTo(int newWidth, Point* point) {
 
     float scale = (float)newWidth / (float)w;
 
-    cout<<"cambio de arma: "<<endl;
-    cout<<"w: "<<w<<endl;
-    cout<<"newWidth: "<<newWidth<<endl;
-    cout<<"scale: "<<scale<<endl;
+    //cout<<"cambio de arma: "<<endl;
+    //cout<<"w: "<<w<<endl;
+    //cout<<"newWidth: "<<newWidth<<endl;
+    //cout<<"scale: "<<scale<<endl;
     for (auto corner : *corners){
         corner->applyHomothetyInX(scale,point);
     }
     center->applyHomothetyInX(scale,point);
 
     w = newWidth;
-    cout<<"modified w: "<<w<<endl;
+    //cout<<"modified w: "<<w<<endl;
 }
 
 CollitionBox::~CollitionBox() {
