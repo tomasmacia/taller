@@ -137,9 +137,8 @@ void GameClient::notifyAboutClientConectionToServerAttemptDone(){
 }
 
 void GameClient::end() {
-    on = false;
+    Game::end();
     client->notifyGameStoppedRunning();
-    LogManager::logDebug("[GAME]: señal de fin de programa emitida");
 }
 
 void GameClient::reciveRenderables(vector<string>* serializedPages){
@@ -247,7 +246,7 @@ void GameClient::initSDL() {
     }
 
     if (this->window == nullptr || this->renderer == nullptr) {
-        this->on = false;
+        end();
         LogManager::logError("SDL no pudo inicializarse");
     }
 }
@@ -305,4 +304,8 @@ void GameClient::erasePreviousPackages() {
 
 void GameClient::directSendToServer(string message) {
     client->setToSend(message);
+}
+
+void GameClient::connected() {
+    disconnect = false;
 }

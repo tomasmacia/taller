@@ -32,18 +32,18 @@ void GameServer::start() {
 void GameServer::gameLoop(){
 
     sendGameStartedMessage();
-    while (isOn() && levelBuilder->hasNextLevel() && thereIsAtLeastOnePlayerAliveAndConnected()) {
+    while (isOn() && levelBuilder->hasNextLevel() && thereIsAtLeastOnePlayerAliveAndConnected()) { //levels loop
 
         levelBuilder->loadNext();
         LogManager::logInfo("=======================================");
         LogManager::logInfo("[GAME]: se inicia game loop de este nivel");
 
-        while (isOn() && !levelBuilder->levelFinished() && thereIsAtLeastOnePlayerAliveAndConnected()) {
+        while (isOn() && !levelBuilder->levelFinished() && thereIsAtLeastOnePlayerAliveAndConnected()) { //game loop
             update();
             sendUpdate();
             usleep(SLEEP_TIME);
         }
-         if (thereIsAtLeastOnePlayerAliveAndConnected()) {
+         if (thereIsAtLeastOnePlayerAliveAndConnected()) { //score screen
             sceneDirector->initScoreScreen(entityManager->getPlayers(),loggedPlayersUserByID);
             sceneDirector->sendScoreScreen(server);
              usleep(WAIT_TIME);
@@ -52,13 +52,13 @@ void GameServer::gameLoop(){
         LogManager::logInfo("[GAME]: Nivel terminado");
         LogManager::logInfo("=======================================");
     }
-    if (notAllPlayersDisconnected() ) {
+    if (notAllPlayersDisconnected() ) { //end screen
         sendEndMessage();
         sceneDirector->initEndOfGameScreen();
         sceneDirector->sendEndOfGameScreen(server);
         usleep(WAIT_TIME);
     } 
-    on = false;
+    end();
     server->stopListening();
 }
 

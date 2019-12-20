@@ -25,7 +25,7 @@ using namespace std;
 //API
 //=========================================================================================
 void Client::notifyGameStoppedRunning(){
-    connectionOn = false;
+    setConnectionOff();
 }
 
 bool Client::hasAchievedConnectionAttempt() {
@@ -196,7 +196,7 @@ int Client::send(const std::string& msg) {
         int n = ::send(socketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
         if (n < 0) {
             error("ERROR sending");
-            //gameClient->end();
+            setConnectionOff();
             return n;
         }
         if (n == 0) {
@@ -221,9 +221,7 @@ std::string Client::receive() {
         int n = recv(socketFD, buff, MAX_BYTES_BUFFER - 1, 0);
         if (n < 0) {
             error("ERROR reading");
-            if (gameClient->isOn()){
-                gameClient->disconnected();
-            }
+            setConnectionOff();
             return objectSerializer->getFailure();
         }
         if (n == 0) {
@@ -246,7 +244,7 @@ void Client::checkConnection(){
     while (!connectionOff()){
         usleep(100000);
    }
-    connectionOn = false;
+    setConnectionOff();
     LogManager::logError("[CLIENT]: conexion perdida");
 
 }
@@ -263,6 +261,9 @@ bool Client::isConnected() {
 
 void Client::setConnectionOff() {
     connectionMutex.lock();
+    if (gameClient->isOn()){    //es por la pantalla de desconexion
+        gameClient->disconnected();
+    }
     connectionOn = false;
     connectionMutex.unlock();
 }
@@ -293,8 +294,6 @@ void Client::error(const char *msg) {
 //=========================================================================================
 Client::Client(GameClient* gameClient) {
     maxBytesBuffer = MAX_BYTES_BUFFER;
-    //char buf[MAX_BYTES_BUFFER];
-    //buffer = buf;
     this->gameClient = gameClient;
     this->objectSerializer = new ObjectSerializer(gameClient->getConfig());
 }
@@ -317,11 +316,14 @@ int Client::connectToServer() {
     serverAddress.sin_family = AF_INET;
     inet_pton(AF_INET, strServerAddress.c_str(), &(serverAddress.sin_addr));
     serverAddress.sin_port = htons(stoi(strPort));
-
     if (connect(socketFD, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) < 0) {
         error("ERROR connecting");
         cout<<"Connection to server failed"<<endl;
         gameClient->end();
+    }
+    else{
+        gameClient->connected();
+        connectionOn = true;
     }
     LogManager::logInfo("[CLIENT]: Conexion establecida");
     connectionAttemptMade = true;
