@@ -82,7 +82,9 @@ private:
     int socketFD;
     std::vector<std::thread> connectionThreads;
     std::map<int,UserConnection*> connections;
+    std::map<int,int> socketIDMap;
 
+    void beginDisconectionWith(int id);
 };
 
 
