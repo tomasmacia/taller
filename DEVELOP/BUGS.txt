@@ -22,8 +22,6 @@ a veces la musica en un cliente no se escucha (paso en el cliente no server)
 
 a veces al principio de un nivel anda como lento y desp mejora
 
-murio uno y se salieron los dos por seg fault en el server
-
 [ERROR] : No se pudo reproducir el sonido  (tira a lo loco)
 
 [SERVER]: ERROR reading (tira a lo loco)
@@ -33,3 +31,6 @@ murio uno y se salieron los dos por seg fault en el server
 
 (SOLVED)(ESTABA COMENTADO EL CODIGO CORRESPONDIENTE)
 al terminar el programa, se queda la pantalla freezeada y no aparece ni musica meme ni la pantalla de fin (salvo que ganes
+
+(SOLVED)(ERA QUE BORRABA LOS COLLITON BOX PERO NO NULLEABA EL POINTER)
+murio uno y se salieron los dos por seg fault en el server

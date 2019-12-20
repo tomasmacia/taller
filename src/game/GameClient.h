@@ -62,6 +62,8 @@ public:
         this->color = color;
     }
 
+    void connected();
+
 private:
 
     GameClient() {

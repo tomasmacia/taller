@@ -36,7 +36,6 @@ void Controller::checkIfCloseRelatedInputWasPulsed(){
     }
 }
 
-
 list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
     Action action;
     int playerId = game->getPlayerId(); //cada pc tiene uno asignado al principio y es unico
