@@ -27,15 +27,17 @@ a veces al principio de un nivel anda como lento y desp mejora
 [SERVER]: ERROR reading (tira a lo loco)
 
 
+
+murieron los dos y el server cerro pero la imagne de los clients quedo congelada pero se podia cerrar con la curcecita
+
 el logger diec "Musica On" y esto es demasiado vago. Mejorar
+
+agregar cantidad de vidas
 
 (ARREGLAR)
 20-12-2019 17:23:32 [INFO] : [XML]: configs/2p.xmlis the path to the config file.
 20-12-2019 17:23:32 [INFO] : [XML]:  is the path to the credentials file.
 
-
-
-ojo que me parece que cuando falla el accept esta creando una conexion de ID neagtiva cuando deberia ignoralo alltogheter
 
 
 (SOLVED)(ESTABA COMENTADO EL CODIGO CORRESPONDIENTE)
