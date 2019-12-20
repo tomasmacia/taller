@@ -50,13 +50,13 @@ void GameClient::gameLoop() {
         pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
 
         if ((disconnect || playerDied) && !endOfGame){
-//            if (!youDiedMusicPlaying){
-//
-//                initYouDiedOrDisconnectedMusic();
-//                gameMusic->play();
-//                youDiedMusicPlaying = true;
-//                normalGameMusicPlaying = false;
-//            }
+            if (!youDiedMusicPlaying){
+
+                initYouDiedOrDisconnectedMusic();
+                gameMusic->play();
+                youDiedMusicPlaying = true;
+                normalGameMusicPlaying = false;
+            }
         }
 
         else if(endOfGame){
@@ -72,8 +72,7 @@ void GameClient::gameLoop() {
             }
         }
 
-        //if (disconnect && !endOfGame){
-        if (false){
+        if (disconnect && !endOfGame){
             sceneDirector->renderDisconectionScreen(renderer, &loadedTexturesMap);
         }
         else {

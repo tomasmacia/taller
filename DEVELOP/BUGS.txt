@@ -1,0 +1,19 @@
+al terminar el programa, se queda la pantalla freezeada y no aparece ni musica meme ni la pantalla de fin (salvo que ganes)
+
+a veces en el cliente que esta en la misma pc que el server le aparecen mal muchos sprites (estan como mal mapeados) pero en el cliente en la otra pc que no es server le aparecen bien
+
+a veces con laptop server y client y pc client aparecen seg faults (a la vez teniendo mal los spirtes)
+
+se rompe la hitting bos
+
+anda mal el input
+
+salta y queda visualmente arriba
+
+el ruido de caida de salto suena con delay
+
+a veces pego al aire y suena golpe
+
+en el tercer golpe el arma se rompe pero parce que se rompio en la segunda por como esta lo del sprite
+
+a veces tira el esperando server y entra el client en el server pero el client no se entera
