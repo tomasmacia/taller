@@ -24,7 +24,7 @@ void GameClient::start() {
             initSceneDirector();
             initRenderingSystem();
             initSoundSystem();
-            client->client_noBlock(); //que el send y recv al cliente no bloqueen el juego
+            //client->client_noBlock(); //que el send y recv al cliente no bloqueen el juego
 
             gameLoop();
         }
