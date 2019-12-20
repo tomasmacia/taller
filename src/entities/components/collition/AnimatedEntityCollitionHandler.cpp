@@ -165,12 +165,15 @@ void AnimatedEntityCollitionHandler::setConnected() {
 
 void AnimatedEntityCollitionHandler::update() {
 
-    if (playerFliped()){
-        reflectAllAttackCollitionBox();
-    }
-    
-    if (attackChanged()){
-        adaptPunchingBox();
+    if (!_collitionBoxes->empty()){
+
+        if (playerFliped()){
+            reflectAllAttackCollitionBox();
+        }
+
+        if (attackChanged()){
+            adaptPunchingBox();
+        }
     }
 }
 
@@ -215,4 +218,12 @@ void AnimatedEntityCollitionHandler::adaptPunchingBox() {
             _punchBox->adaptWidthToRespectTo(normalPunchingWidth * TUBE_WIDTH_SCALE_FACTOR,_punchBox->getOwner()->getPos());
             break;
     }
+}
+
+void AnimatedEntityCollitionHandler::eraseCollitionBoxes() {
+    CollitionHandler::eraseCollitionBoxes();
+    _blockingCollitionBox = nullptr;
+    _punchBox = nullptr;
+    _kickBox = nullptr;
+    _pickBox = nullptr;
 }

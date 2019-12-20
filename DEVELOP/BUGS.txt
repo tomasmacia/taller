@@ -1,10 +1,8 @@
-al terminar el programa, se queda la pantalla freezeada y no aparece ni musica meme ni la pantalla de fin (salvo que ganes)
-
 a veces en el cliente que esta en la misma pc que el server le aparecen mal muchos sprites (estan como mal mapeados) pero en el cliente en la otra pc que no es server le aparecen bien
 
 a veces con laptop server y client y pc client aparecen seg faults (a la vez teniendo mal los spirtes)
 
-se rompe la hitting bos
+se rompe la hitting box
 
 anda mal el input
 
@@ -17,3 +15,21 @@ a veces pego al aire y suena golpe
 en el tercer golpe el arma se rompe pero parce que se rompio en la segunda por como esta lo del sprite
 
 a veces tira el esperando server y entra el client en el server pero el client no se entera
+
+a veces un numero del score esta amarillo
+
+a veces la musica en un cliente no se escucha (paso en el cliente no server)
+
+a veces al principio de un nivel anda como lento y desp mejora
+
+murio uno y se salieron los dos por seg fault en el server
+
+[ERROR] : No se pudo reproducir el sonido  (tira a lo loco)
+
+[SERVER]: ERROR reading (tira a lo loco)
+
+
+
+
+(SOLVED)(ESTABA COMENTADO EL CODIGO CORRESPONDIENTE)
+al terminar el programa, se queda la pantalla freezeada y no aparece ni musica meme ni la pantalla de fin (salvo que ganes

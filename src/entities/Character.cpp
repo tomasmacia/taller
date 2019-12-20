@@ -133,8 +133,10 @@ void Character::removeTestMode() {
 }
 
 void Character::turnToDead() {
+    auto animatedCollitionHandler = (AnimatedEntityCollitionHandler*) collitionHandler;
+
     appearance->setTransparent();
-    collitionHandler->eraseCollitionBoxes();
+    animatedCollitionHandler->eraseCollitionBoxes();
     markedAsDead = true;
 }
 
