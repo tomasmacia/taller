@@ -14,12 +14,7 @@
 
 using namespace std;
 
-<<<<<<< Updated upstream
 #define MAX_BYTES_BUFFER 2500
-=======
-#define MAX_BYTES_BUFFER 1000
->>>>>>> Stashed changes
-
 
 #if __APPLE__
 #define MSG_NOSIGNAL 0x2000 /* don't raise SIGPIPE */
