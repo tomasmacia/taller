@@ -16,7 +16,6 @@ using namespace std;
 
 #define MAX_BYTES_BUFFER 2500
 
-
 #if __APPLE__
 #define MSG_NOSIGNAL 0x2000 /* don't raise SIGPIPE */
 #endif	// __APPLE__
