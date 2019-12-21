@@ -2,6 +2,7 @@
 // Created by axel on 1/11/19.
 //
 
+#include <utility>
 #include <vector>
 #include <string>
 #include <cstring>
@@ -26,15 +27,17 @@ string MessageParser::extractMeaningfulMessageFromStream(char *buffer, int buffe
                                                          char startSerializationSymbol, char endSerializationChar, char padding){
 
     string extractedMessage = "";
-    bool hasReadStartSymbol = false;
+    string parsed;
+    bool hasStartSymbol = false;
+    bool hasEndSymbol = false;
 
     for (int i = 0; i < bufferLength; i++){
         if (buffer[i] == startSerializationSymbol){
-            hasReadStartSymbol = true;
+            hasStartSymbol = true;
         }
     }
 
-    if (hasReadStartSymbol){
+    if (hasStartSymbol){
         int i = 0;
         while (buffer[i] != endSerializationChar){
 
@@ -48,14 +51,20 @@ string MessageParser::extractMeaningfulMessageFromStream(char *buffer, int buffe
         }
 
         if (buffer[i] == endSerializationChar){
-            return extractedMessage;
+            hasEndSymbol = true;
         }
+    }
+
+    if (hasStartSymbol && hasEndSymbol){
+        parsed = extractedMessage;
     }
     else{
         string corrupt = buffer;
-        LogManager::logDebug("[PARSER]: mensaje corrupto recibido: " + corrupt);
-        return failureMessage;
+        LogManager::logDebug("[PARSER]: mensaje corrupto recibido de long: " + to_string(bufferLength) + "| content: " + corrupt);
+        parsed = std::move(failureMessage);
+        cout<<buffer<<endl;
     }
+    return parsed;
 }
 
 void MessageParser::clear(){
