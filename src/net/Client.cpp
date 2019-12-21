@@ -244,7 +244,7 @@ std::string Client::receive() {
     char start = objectSerializer->getStartSerializationSymbol();
     string failureMessage = objectSerializer->getFailure();
     std::string parsed = messageParser.extractMeaningfulMessageFromStream(buff,MAX_BYTES_BUFFER, failureMessage, start, end,padding);
-
+    //cout << "CLIENT-READ: " << parsed << endl;
     return parsed;
 }
 
