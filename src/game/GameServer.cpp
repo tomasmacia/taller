@@ -185,10 +185,10 @@ void GameServer::connectionLostWith(int id){
 
     bool logged = loggedPlayersUserByID.count(id);
     bool dead = deadPlayers.count(id);
+    string name = loggedPlayersUserByID.at(id).name;
 
     if (logged){
 
-        string name = loggedPlayersUserByID.at(id).name;
         disconectedPlayers.insert({name,id});
 
         if (!dead){
@@ -198,7 +198,7 @@ void GameServer::connectionLostWith(int id){
     if (entityManager != nullptr){
         entityManager->disconectPlayerByID(id);
     }
-    LogManager::logInfo("[GAME]: se proceso al jugador desconectado");
+    LogManager::logInfo("[GAME]: se proceso al jugador desconectado: " + to_string(id) + " | " + name);
 }
 
 //CONTROLLER RELATED
@@ -212,7 +212,7 @@ void GameServer::notifyPlayerDied(int id) {
     conectedAndPlayingPlayersAmount --;
     controller->sendPlayerDiedMessage(server,id);
     deadPlayers.insert({id,loggedPlayersUserByID.at(id).name});
-    LogManager::logInfo("[GAME]: se proceso al jugador muerto");
+    LogManager::logInfo("[GAME]: se proceso al jugador muerto: " + to_string(id) + " | " + loggedPlayersUserByID.at(id).name);
 }
 
 void GameServer::sendGameStartedMessage() {
@@ -265,7 +265,7 @@ string GameServer::processConectionAndEmitSuccesMessage(const string& name, cons
     addNewIDToGame(id);
     server->client_noBlock(id);
 
-    LogManager::logInfo("[GAME]: se proceso al jugador conectdado");
+    LogManager::logInfo("[GAME]: se proceso al jugador conectado: " + to_string(id) + " | " + user.name);
     return controller->getSuccesfullLoginMessage(user.color, id);
 }
 
@@ -299,7 +299,7 @@ void GameServer::processReconectionAndEmitSuccesMessage(const string& name, int 
     server->client_noBlock(newID);
     server->setToSendToSpecific(controller->getSuccesfullLoginMessage(user.color,newID),newID);
     server->setToSendToSpecific(controller->getGameStartedMessage(),newID);
-    LogManager::logInfo("[GAME]: se proceso al jugador reconectado");
+    LogManager::logInfo("[GAME]: se proceso al jugador reconectado: " + to_string(newID) + " | " + user.name);
 }
 
 string GameServer::getNewColor() {

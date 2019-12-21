@@ -13,12 +13,11 @@ anda mal el input
 salta y queda visualmente arriba
 
 a veces pego al aire y suena golpe
-
-a veces la musica en un cliente no se escucha (paso en el cliente no server)
-
 [ERROR] : No se pudo reproducir el sonido  (tira a lo loco)
 
 a veces al principio de un nivel anda como lento y desp mejora
+
+a veces la musica en un cliente no se escucha (paso en el cliente no server)
 
 murieron los dos y el server cerro pero la imagne de los clients quedo congelada pero se podia cerrar con la curcecita
 
