@@ -188,10 +188,10 @@ void GameServer::connectionLostWith(int id){
 
     bool logged = loggedPlayersUserByID.count(id);
     bool dead = deadPlayers.count(id);
-    string name = loggedPlayersUserByID.at(id).name;
+    string name = "UNKNOWN";
 
     if (logged){
-
+        name = loggedPlayersUserByID.at(id).name;
         disconectedPlayers.insert({name,id});
 
         if (!dead){
