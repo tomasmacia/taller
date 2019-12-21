@@ -232,7 +232,7 @@ string ObjectSerializer::serializeCredentials(string user, string pass){
 }
 
 string ObjectSerializer::getPingMessage(){
-    return PING_CODE + END_OF_SERIALIZATION_SYMBOL;
+    return START_SYMBOL + PING_CODE + END_OF_SERIALIZATION_SYMBOL;
 }
 
 string ObjectSerializer::serializeInput(Action action, int id){
