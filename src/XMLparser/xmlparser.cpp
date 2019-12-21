@@ -11,7 +11,7 @@ using namespace tinyxml2;
 
 
 Config* XMLParser::parse(string pathToConfig) {
-    LogManager::logInfo("[XML]: " + pathToConfig + "is the path to the config file.");
+    LogManager::logInfo("[XML]: " + pathToConfig + " is the path to the config file.");
     XMLDocument doc;
     loadFile(&doc, pathToConfig, DEFAULT_CONFIG_PATH, "config");
 

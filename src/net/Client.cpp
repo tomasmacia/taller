@@ -198,7 +198,7 @@ int Client::send(const std::string& msg) {
     while (bytesSent < MAX_BYTES_BUFFER - 1) {
         int n = ::send(socketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
         if (n < 0 && errno != EAGAIN) {
-            error("[CLIENT] error sending | errno: " + to_string(errno));
+            error("error sending | errno: " + to_string(errno));
             setConnectionOff();
             return n;
         }
@@ -227,7 +227,7 @@ std::string Client::receive() {
                 return objectSerializer->getFailure();
             }
             else{
-                error("[CLIENT] error reading | errno: " + to_string(errno));
+                error("error reading | errno: " + to_string(errno));
                 setConnectionOff();
             }
         }
@@ -256,8 +256,7 @@ void Client::checkConnection(){
         usleep(100000);
    }
     setConnectionOff();
-    LogManager::logError("[CLIENT]: conexion perdida");
-
+    LogManager::logInfo("conexion perdida");
 }
 
 bool Client::isConnected() {
