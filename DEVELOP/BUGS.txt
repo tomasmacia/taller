@@ -1,5 +1,3 @@
-a veces en el cliente que esta en la misma pc que el server le aparecen mal muchos sprites (estan como mal mapeados) pero en el cliente en la otra pc que no es server le aparecen bien
-
 a veces con laptop server y client y pc client aparecen seg faults (a la vez teniendo mal los spirtes)
 
 se rompe la hitting box
@@ -16,15 +14,13 @@ en el tercer golpe el arma se rompe pero parce que se rompio en la segunda por c
 
 a veces tira el esperando server y entra el client en el server pero el client no se entera
 
-a veces un numero del score esta amarillo
-
 a veces la musica en un cliente no se escucha (paso en el cliente no server)
 
 a veces al principio de un nivel anda como lento y desp mejora
 
 [ERROR] : No se pudo reproducir el sonido  (tira a lo loco)
 
-[SERVER]: ERROR reading (tira a lo loco)
+
 
 
 
@@ -45,3 +41,12 @@ al terminar el programa, se queda la pantalla freezeada y no aparece ni musica m
 
 (SOLVED)(ERA QUE BORRABA LOS COLLITON BOX PERO NO NULLEABA EL POINTER)
 murio uno y se salieron los dos por seg fault en el server
+
+(SOLVED)(EL PROBLEMA ERA QUE FALTABA CORTAR EL JUEGO DEL LADO CLIENTE Y SERVER AL FALLAR LA CONEXION Y NO SOLO LOGEAR)
+[SERVER]: ERROR reading (tira a lo loco)
+
+(SOLVED) (ERA EL 8 Y ESTABA MAL MAPEADO)
+a veces un numero del score esta amarillo
+
+(SOLVED) (ERA LA CONFIG QUE ESTABA MAL A VECES POR TENER DISTINTAS CANTIDADES DE PATHS)
+a veces en el cliente que esta en la misma pc que el server le aparecen mal muchos sprites (estan como mal mapeados) pero en el cliente en la otra pc que no es server le aparecen bien
