@@ -1,7 +1,8 @@
 /* The port number is passed as an argument */
-#include "Server.h"
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
+#include "Server.h"
 #include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -58,7 +59,7 @@ int Server::send(string msg, int someSocketFD) {
     while (bytesSent < MAX_BYTES_BUFFER - 1) {
 
             int n = ::send(someSocketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
-            if (n < 0) {
+            if (n < 0 && errno != EAGAIN) {
                 error("ERROR sending");
                 beginDisconectionWith(socketIDMap.at(someSocketFD));
                 return n;
@@ -70,7 +71,7 @@ int Server::send(string msg, int someSocketFD) {
 
         bytesSent += n;
         }
-
+        //cout << "SERVER-SEND: " << msg << endl;
         return bytesSent;
     }
 
@@ -85,7 +86,7 @@ string Server::receive(int someSocketFD) {
 
     while (bytesRead < MAX_BYTES_BUFFER - 1) {
         int n = recv(someSocketFD, buff, MAX_BYTES_BUFFER - 1, 0);
-        if (n < 0) {
+        if (n < 0 && errno != EAGAIN) {
             error("ERROR reading");
             beginDisconectionWith(socketIDMap.at(someSocketFD));
             return objectSerializer->getFailure();
@@ -258,14 +259,14 @@ void Server::client_noBlock(int a) {
 
 }
 
+void Server::beginDisconectionWith(int id) {
+    connections.at(id)->setConnectionOff();
+}
+
 //DESTROY
 //=========================================================================================
 Server::~Server() {
-    for(std::map<int, UserConnection*>::iterator itr = connections.begin(); itr != connections.end(); itr++) {
+    for (std::map<int, UserConnection *>::iterator itr = connections.begin(); itr != connections.end(); itr++) {
         delete itr->second;
     }
-}
-
-void Server::beginDisconectionWith(int id) {
-    connections.at(id)->setConnectionOff();
 }

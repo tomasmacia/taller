@@ -162,6 +162,10 @@ bool UserConnection::isConnected() {
     isConnected = connectionOn;
     isConnectedMutex.unlock();
 
+    if (!isConnected){
+        int x = 0;
+    }
+
     return isConnected;
 }
 
