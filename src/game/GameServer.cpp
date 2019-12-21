@@ -198,6 +198,7 @@ void GameServer::connectionLostWith(int id){
     if (entityManager != nullptr){
         entityManager->disconectPlayerByID(id);
     }
+    LogManager::logInfo("[GAME]: se proceso al jugador desconectado");
 }
 
 //CONTROLLER RELATED
@@ -211,6 +212,7 @@ void GameServer::notifyPlayerDied(int id) {
     conectedAndPlayingPlayersAmount --;
     controller->sendPlayerDiedMessage(server,id);
     deadPlayers.insert({id,loggedPlayersUserByID.at(id).name});
+    LogManager::logInfo("[GAME]: se proceso al jugador muerto");
 }
 
 void GameServer::sendGameStartedMessage() {
@@ -263,6 +265,7 @@ string GameServer::processConectionAndEmitSuccesMessage(const string& name, cons
     addNewIDToGame(id);
     server->client_noBlock(id);
 
+    LogManager::logInfo("[GAME]: se proceso al jugador conectdado");
     return controller->getSuccesfullLoginMessage(user.color, id);
 }
 
@@ -296,6 +299,7 @@ void GameServer::processReconectionAndEmitSuccesMessage(const string& name, int 
     server->client_noBlock(newID);
     server->setToSendToSpecific(controller->getSuccesfullLoginMessage(user.color,newID),newID);
     server->setToSendToSpecific(controller->getGameStartedMessage(),newID);
+    LogManager::logInfo("[GAME]: se proceso al jugador reconectado");
 }
 
 string GameServer::getNewColor() {

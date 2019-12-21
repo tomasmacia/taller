@@ -21,6 +21,7 @@ public:
     ~SoundWrapper();
 
 private:
+    std::string path;
     bool isMusic;
     Mix_Chunk *sound = nullptr;
     Mix_Music *music = nullptr;

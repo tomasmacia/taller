@@ -278,7 +278,7 @@ void GameClient::destroy() {
     delete (gameMusic);
     clearMaps();
     baseClassFreeMemory();
-    LogManager::logDebug("Memoria de Game Client liberada");
+    LogManager::logDebug("[GAME]: Memoria de Game Client liberada");
 }
 
 void GameClient::clearMaps(){

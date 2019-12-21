@@ -267,7 +267,7 @@ void LevelBuilder::initializeWeapons() {
     for (int i = 0; i < _config->gameplay.weapons.knife.amount;i++) {
         _entityManager->addKnife();
     }
-    LogManager::logDebug("[LEVEL]: Armas inicializadas: " + std::to_string(_config->gameplay.weapons.knife.amount));
+    LogManager::logDebug("[LEVEL]: cuchillos inicializadas: " + std::to_string(_config->gameplay.weapons.knife.amount));
 
     for (int i = 0; i < _config->gameplay.weapons.tube.amount;i++) {
         _entityManager->addTube();
