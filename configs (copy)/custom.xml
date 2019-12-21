@@ -20,7 +20,7 @@
         <height>600</height>
     </screen>
     <server>
-        <players>1</players>
+        <players>3</players>
     </server>
     <sounds>
         <boss>
