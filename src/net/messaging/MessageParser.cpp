@@ -62,7 +62,12 @@ string MessageParser::extractMeaningfulMessageFromStream(char *buffer, int buffe
         string corrupt = buffer;
         LogManager::logDebug("[PARSER]: mensaje corrupto recibido de long: " + to_string(bufferLength) + "| content: " + corrupt);
         parsed = std::move(failureMessage);
-        cout<<buffer<<endl;
+        cout<<"buffer: "<<buffer<<endl;
+        cout<<"extracted: "<<extractedMessage<<endl;
+        cout<<"hasStartSymbol: "<<hasStartSymbol<<endl;
+        cout<<"hasEndSymbol: "<<hasEndSymbol<<endl;
+        cout<<"=========="<<endl;
+        cout<<endl;
     }
     return parsed;
 }
