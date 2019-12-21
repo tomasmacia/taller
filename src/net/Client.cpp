@@ -220,16 +220,21 @@ std::string Client::receive() {
 
     while (bytesRead < MAX_BYTES_BUFFER - 1) {
         int n = recv(socketFD, buff, MAX_BYTES_BUFFER - 1, 0);
-        if (n < 0 && errno != EAGAIN) {
-            error("ERROR reading");
-            setConnectionOff();
+        if (n < 0){
+            if (errno == EAGAIN){
+                return objectSerializer->getFailure();
+            }
+            else{
+                error("[CLIENT] error reading | errno: " + to_string(errno));
+                setConnectionOff();
+            }
+        }
+        else if (n == 0) {
             return objectSerializer->getFailure();
         }
-        if (n == 0) {
-            return objectSerializer->getFailure();
+        else{
+            bytesRead += n;
         }
-
-        bytesRead += n;
     }
 
     char end = objectSerializer->getEndOfSerializationSymbol();
@@ -289,9 +294,8 @@ int Client::disconnectFromServer() {
 
 //ERROR
 //=========================================================================================
-void Client::error(const char *msg) {
+void Client::error(basic_string<char, char_traits<char>, allocator<char>> msg) {
     LogManager::logError(msg);
-    setConnectionOff();
 }
 
 //INIT & CONSTRUCTOR

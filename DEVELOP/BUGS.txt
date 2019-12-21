@@ -12,19 +12,11 @@ a veces pego al aire y suena golpe
 
 en el tercer golpe el arma se rompe pero parce que se rompio en la segunda por como esta lo del sprite
 
-a veces tira el esperando server y entra el client en el server pero el client no se entera
-
 a veces la musica en un cliente no se escucha (paso en el cliente no server)
 
 a veces al principio de un nivel anda como lento y desp mejora
 
 [ERROR] : No se pudo reproducir el sonido  (tira a lo loco)
-
-a veces se me pone la pantalla toda negra en el lciente miesntras esta ne wiating for teammates
-
-
-
-
 
 murieron los dos y el server cerro pero la imagne de los clients quedo congelada pero se podia cerrar con la curcecita
 
@@ -35,6 +27,16 @@ agregar cantidad de vidas
 (ARREGLAR)
 20-12-2019 17:23:32 [INFO] : [XML]: configs/2p.xmlis the path to the config file.
 20-12-2019 17:23:32 [INFO] : [XML]:  is the path to the credentials file.
+
+
+
+aparece a veces una pantalla amarilla en vez de waiting (eran config para 4p)
+a veces se me pone la pantalla toda negra en el lciente miesntras esta ne wiating for teammates
+
+un config de sp (y tamb para 4p) no me recibe el input (ni nada a partir del login) el server
+
+a veces tira el esperando server y entra el client en el server pero el client no se entera
+
 
 
 

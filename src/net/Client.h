@@ -58,7 +58,7 @@ private:
 
     //ERROR
     //===============================
-    void error(const char* msg);
+    void error(basic_string<char, char_traits<char>, allocator<char>> msg);
 
     //INIT
     //===============================
