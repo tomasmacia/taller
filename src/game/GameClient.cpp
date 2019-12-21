@@ -151,16 +151,19 @@ void GameClient::reciveRenderables(vector<string>* serializedPages){
 
 void GameClient::notifyEndOfGame() {
     endOfGame = true;
+    LogManager::logInfo("[GAME]: Señal de fin de juego recibida desde el server");
 }
 
 void GameClient::processPlayerDeath(int id) {
     if (id == playerId){
         playerDied = true;
     }
+    LogManager::logInfo("[GAME]: Señal de jugador muerto recibida desde el server");
 }
 
 void GameClient::notifyGameStart() {
     gameStarted = true;
+    LogManager::logInfo("[GAME]: Señal de principio de juego recibida desde el server");
 }
 
 //SOUND
@@ -229,6 +232,7 @@ void GameClient::init() {
 
 void GameClient::disconnected(){
     disconnect = true;
+    LogManager::logInfo("[GAME]: Señal de desconexion recibida de Client");
 }
 
 void GameClient::initSDL() {
@@ -308,4 +312,5 @@ void GameClient::directSendToServer(string message) {
 
 void GameClient::connected() {
     disconnect = false;
+    LogManager::logInfo("[GAME]: Señal de conexion recibida desde el Client");
 }
