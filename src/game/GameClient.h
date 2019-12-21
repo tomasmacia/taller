@@ -132,6 +132,10 @@ private:
     std::list<Sendable*>* previousPackages = nullptr;
     std::map<std::string, TextureWrapper*> loadedTexturesMap;
     std::map<string, SoundWrapper *> loadedSoundsMap;
+
+    void updateMusic();
+
+    void updateRendering();
 };
 
 #endif //GAME_GAMECLIENT_H_
