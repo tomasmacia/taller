@@ -60,7 +60,7 @@ int Server::send(string msg, int someSocketFD) {
 
             int n = ::send(someSocketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
             if (n < 0 && errno != EAGAIN) {
-                error("ERROR sending");
+                error("[SERVER] error sending | errno: " + to_string(errno));
                 beginDisconectionWith(socketIDMap.at(someSocketFD));
                 return n;
             }
@@ -108,7 +108,9 @@ string Server::receive(int someSocketFD) {
     char start = objectSerializer->getStartSerializationSymbol();
     string failureMessage = objectSerializer->getFailure();
     std::string parsed = messageParser.extractMeaningfulMessageFromStream(buff,MAX_BYTES_BUFFER, failureMessage, start, end,padding);
-    cout << "SERVER-READ: " << parsed << endl;
+    if (parsed == failureMessage){
+        cout << "SERVER-READ: " << parsed << endl;
+    }
     return parsed;
 }
 
