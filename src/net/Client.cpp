@@ -331,13 +331,13 @@ int Client::connectToServer() {
         gameClient->end();
     }
     else{
+        LogManager::logInfo("[CLIENT]: Conexion establecida");
         gameClient->connected();
         connectionOn = true;
 
         int flag = 1;
         //setsockopt(socketFD, SOL_SOCKET, SO_KEEPALIVE, (void *)&flag, sizeof(flag));
     }
-    LogManager::logInfo("[CLIENT]: Conexion establecida");
     connectionAttemptMade = true;
 
     return socketFD;

@@ -48,36 +48,8 @@ void GameClient::gameLoop() {
     sceneDirector->initDisconectionScreen();
     while (isOn()) {
         pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
-
-        if ((disconnect || playerDied) && !endOfGame){
-            if (!youDiedMusicPlaying){
-
-                initYouDiedOrDisconnectedMusic();
-                gameMusic->play();
-                youDiedMusicPlaying = true;
-                normalGameMusicPlaying = false;
-            }
-        }
-
-        else if(endOfGame){
-            pauseMusic();
-        }
-
-        else if (gameStarted){
-            if (!normalGameMusicPlaying){
-
-                gameMusic->play();
-                normalGameMusicPlaying = true;
-                youDiedMusicPlaying = false;
-            }
-        }
-
-        if (disconnect && !endOfGame){
-            sceneDirector->renderDisconectionScreen(renderer, &loadedTexturesMap);
-        }
-        else {
-            render();
-        }
+        updateMusic();
+        updateRendering();
     }
 }
 
@@ -87,6 +59,40 @@ void GameClient::pollAndSendInput() {
         client->setToSend(input);
     }
         //cout<<"CLIENT-FROM MODEL: "<<serializedInput<<endl;
+}
+
+void GameClient::updateMusic() {
+    if ((disconnect || playerDied) && !endOfGame){
+        if (!youDiedMusicPlaying){
+
+            initYouDiedOrDisconnectedMusic();
+            gameMusic->play();
+            youDiedMusicPlaying = true;
+            normalGameMusicPlaying = false;
+        }
+    }
+
+    else if(endOfGame){
+        pauseMusic();
+    }
+
+    else if (gameStarted){
+        if (!normalGameMusicPlaying){
+
+            gameMusic->play();
+            normalGameMusicPlaying = true;
+            youDiedMusicPlaying = false;
+        }
+    }
+}
+
+void GameClient::updateRendering() {
+    if (disconnect && !endOfGame){
+        sceneDirector->renderDisconectionScreen(renderer, &loadedTexturesMap);
+    }
+    else {
+        render();
+    }
 }
 
 void GameClient::render() {
@@ -167,7 +173,7 @@ void GameClient::notifyGameStart() {
 }
 
 //SOUND
-//===============================
+//=========================================================================================
 
 void GameClient::initGameMusic() {
     gameMusic = new SoundWrapper(true);

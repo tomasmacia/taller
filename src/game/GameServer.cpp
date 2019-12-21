@@ -43,12 +43,11 @@ void GameServer::gameLoop(){
             sendUpdate();
             usleep(SLEEP_TIME);
         }
-         if (thereIsAtLeastOnePlayerAliveAndConnected()) { //score screen
+        if (thereIsAtLeastOnePlayerAliveAndConnected()) { //score screen
             sceneDirector->initScoreScreen(entityManager->getPlayers(),loggedPlayersUserByID);
             sceneDirector->sendScoreScreen(server);
              usleep(WAIT_TIME);
         }
-
         LogManager::logInfo("[GAME]: Nivel terminado");
         LogManager::logInfo("=======================================");
     }
