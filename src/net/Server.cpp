@@ -73,7 +73,7 @@ int Server::send(string msg, int someSocketFD) {
             bytesSent += n;
         }
     }
-    //cout << "SERVER-SEND: " << msg << endl;
+    cout << "SERVER-SEND: " << msg << endl;
     return bytesSent;
 }
 

@@ -18,7 +18,7 @@ public:
     int barrelAttackedWith(AttackCode attackCode);
 
 private:
-    int ENEMY_TO_CHARACTER_DAMAGE = 20;
+    int ENEMY_TO_CHARACTER_DAMAGE = 1000;
     int PUNCH_DAMAGE_TO_ENEMY = 20;
     int KICK_DAMAGE_TO_ENEMY = 75;
     int JUMP_KICK_DAMAGE_TO_ENEMY = 75;

@@ -10,6 +10,7 @@
 
 #include "../../enumerates/MessageId.h"
 #include "MessageParser.h"
+#include "../../logger/LogManager.h"
 
 using namespace std;
 
@@ -51,6 +52,8 @@ string MessageParser::extractMeaningfulMessageFromStream(char *buffer, int buffe
         }
     }
     else{
+        string corrupt = buffer;
+        LogManager::logDebug("[PARSER]: mensaje corrupto recibido: " + corrupt);
         return failureMessage;
     }
 }
