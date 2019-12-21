@@ -13,7 +13,7 @@
 
 void Game::end(){
     on = false;
-    LogManager::logDebug("señal de fin de programa emitida");
+    LogManager::logDebug("[GAME]: señal de fin de programa emitida");
 }
 
 bool Game::isOn(){

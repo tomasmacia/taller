@@ -254,7 +254,7 @@ void Client::checkConnection(){
         usleep(100000);
    }
     setConnectionOff();
-    LogManager::logInfo("conexion perdida");
+    LogManager::logInfo("[CLIENT]: conexion perdida");
 }
 
 bool Client::isConnected() {
