@@ -57,23 +57,24 @@ int Server::send(string msg, int someSocketFD) {
     int bytesSent = 0;
 
     while (bytesSent < MAX_BYTES_BUFFER - 1) {
-
-            int n = ::send(someSocketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
-            if (n < 0 && errno != EAGAIN) {
+        int n = ::send(someSocketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
+        if (n <= 0){
+            if (errno != EAGAIN){
                 error("error sending | errno: " + to_string(errno));
                 beginDisconectionWith(socketIDMap.at(someSocketFD));
+                return 1; //TODO puede estar mal
+            }
+            else{
                 return n;
             }
-            if (n == 0) {
-                return n;
-            
-            }
-
-        bytesSent += n;
         }
-        //cout << "SERVER-SEND: " << msg << endl;
-        return bytesSent;
+        else{
+            bytesSent += n;
+        }
     }
+    //cout << "SERVER-SEND: " << msg << endl;
+    return bytesSent;
+}
 
 string Server::receive(int someSocketFD) {
     // TODO REVISAR. Hay que fijarse que someSocketFD este en la lista de conexiones?
@@ -110,7 +111,7 @@ string Server::receive(int someSocketFD) {
     std::string parsed = messageParser.extractMeaningfulMessageFromStream(buff,MAX_BYTES_BUFFER, failureMessage, start, end,padding);
     if (parsed == failureMessage){
     }
-    cout << "SERVER-READ: " << parsed << endl;
+    //cout << "SERVER-READ: " << parsed << endl;
     return parsed;
 }
 
