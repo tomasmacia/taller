@@ -20,7 +20,7 @@
         <height>600</height>
     </screen>
     <server>
-        <players>2</players>
+        <players>3</players>
     </server>
     <sounds>
         <boss>
@@ -46,18 +46,6 @@
             <boxbreak>resources/sfx/utilities/boxbreak.wav</boxbreak>
         </utility>
     </sounds>
-    <score>
-        <zero>resources/sprites/score/numbers/zero.png</zero>
-        <one>resources/sprites/score/numbers/one.png</one>
-        <two>resources/sprites/score/numbers/two.png</two>
-        <three>resources/sprites/score/numbers/three.png</three>
-        <four>resources/sprites/score/numbers/four.png</four>
-        <five>resources/sprites/score/numbers/five.png</five>
-        <six>resources/sprites/score/numbers/six.png</six>
-        <seven>resources/sprites/score/numbers/seven.png</seven>
-        <eight>resources/sprites/score/numbers/eight.png</eight>
-        <nine>resources/sprites/score/numbers/nine.png</nine>
-    </score>
     <gameplay>
         <levels>
             <amount>3</amount>

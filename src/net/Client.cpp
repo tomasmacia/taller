@@ -240,11 +240,6 @@ std::string Client::receive() {
     string failureMessage = objectSerializer->getFailure();
     std::string parsed = messageParser.extractMeaningfulMessageFromStream(buff,MAX_BYTES_BUFFER, failureMessage, start, end,padding);
 
-    if (parsed != objectSerializer->getPingCode()){
-        int x = 1;
-    }
-
-
     return parsed;
 }
 
