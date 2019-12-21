@@ -157,8 +157,8 @@ void GameClient::notifyEndOfGame() {
 void GameClient::processPlayerDeath(int id) {
     if (id == playerId){
         playerDied = true;
+        LogManager::logInfo("[GAME]: Señal de jugador muerto recibida desde el server");
     }
-    LogManager::logInfo("[GAME]: Señal de jugador muerto recibida desde el server");
 }
 
 void GameClient::notifyGameStart() {

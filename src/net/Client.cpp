@@ -59,7 +59,7 @@ bool Client::start(){
     send.join();
     dispatch.join();
 
-    gameClient->disconnected();
+    //gameClient->disconnected();
 
     return true;
 }
@@ -197,18 +197,20 @@ int Client::send(const std::string& msg) {
 
     while (bytesSent < MAX_BYTES_BUFFER - 1) {
         int n = ::send(socketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
-        if (n < 0 && errno != EAGAIN) {
-            error("error sending | errno: " + to_string(errno));
-            setConnectionOff();
-            return n;
+        if (n <= 0){
+            if (errno != EAGAIN){
+                error("error sending | errno: " + to_string(errno));
+                setConnectionOff();
+                return 1; //TODO puede estar mal
+            }
+            else{
+                return n;
+            }
         }
-        if (n == 0) {
-            return n;
+        else{
+            bytesSent += n;
         }
-
-        bytesSent += n;
     }
-
     return bytesSent;
 }
 
@@ -296,7 +298,7 @@ int Client::disconnectFromServer() {
 //ERROR
 //=========================================================================================
 void Client::error(basic_string<char, char_traits<char>, allocator<char>> msg) {
-    LogManager::logError(msg);
+    LogManager::logError("[CLIENT]: " + msg);
 }
 
 //INIT & CONSTRUCTOR
