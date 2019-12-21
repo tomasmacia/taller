@@ -21,20 +21,38 @@ vector<string>* MessageParser::parse(string rawMessage, char separatorCharacter)
     return lastParsedMessage;
 }
 
-string MessageParser::extractMeaningfulMessageFromStream(char *buffer, int bufferLength, char endSerializationChar, char padding){
+string MessageParser::extractMeaningfulMessageFromStream(char *buffer, int bufferLength, string failureMessage,
+                                                         char startSerializationSymbol, char endSerializationChar, char padding){
 
     string extractedMessage = "";
-    int i = 0;
-    while (buffer[i] != endSerializationChar){
-        if (buffer[i] != padding){
-            extractedMessage += buffer[i];
+    bool hasReadStartSymbol = false;
+
+    for (int i = 0; i < bufferLength; i++){
+        if (buffer[i] == startSerializationSymbol){
+            hasReadStartSymbol = true;
         }
-        if (i == bufferLength){
-            break;
-        }
-        i++;
     }
-    return extractedMessage;
+
+    if (hasReadStartSymbol){
+        int i = 0;
+        while (buffer[i] != endSerializationChar){
+
+            if (buffer[i] != padding){
+                extractedMessage += buffer[i];
+            }
+            if (i == bufferLength){
+                break;
+            }
+            i++;
+        }
+
+        if (buffer[i] == endSerializationChar){
+            return extractedMessage;
+        }
+    }
+    else{
+        return failureMessage;
+    }
 }
 
 void MessageParser::clear(){
