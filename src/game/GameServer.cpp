@@ -140,16 +140,20 @@ bool GameServer::thereIsAtLeastOnePlayerAliveAndConnected() {
 
 void GameServer::recibeTestModeSignal() {
 
-    inTestMode = !inTestMode;
+    if (entityManager != nullptr){
 
-    if (inTestMode){
-        entityManager->setTestMode();
-        LogManager::logInfo("[GAME]: modo test activado");
+        inTestMode = !inTestMode;
+
+        if (inTestMode){
+            entityManager->setTestMode();
+            LogManager::logInfo("[GAME]: modo test activado");
+        }
+        else{
+            entityManager->removeTestMode();
+            LogManager::logInfo("[GAME]: modo test desactivado");
+        }
     }
-    else{
-        entityManager->removeTestMode();
-        LogManager::logInfo("[GAME]: modo test desactivado");
-    }
+
 }
 
 //SERVER RELATED

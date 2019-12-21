@@ -37,6 +37,7 @@ void Controller::checkIfCloseRelatedInputWasPulsed(){
 }
 
 list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
+    auto gameClient = (GameClient*) game;
     Action action;
     int playerId = game->getPlayerId(); //cada pc tiene uno asignado al principio y es unico
     std::string serializedInput;
@@ -46,58 +47,57 @@ list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
 
         action = MapUtils::getOrDefault(actions, sdlEvent.key.keysym.scancode, NONE);
 
-        if (sdlEvent.type == SDL_QUIT){
+        if (sdlEvent.type == SDL_QUIT) {
             game->end();
-            
-        }
-
-        if (action == TEST && (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)){
-
-            cout<<"mande test"<<endl;
-            auto gameClient = (GameClient*) game;
-
-            serializedInput = objectSerializer->serializeInput(action,playerId);
-            gameClient->directSendToServer(serializedInput);
 
         }
-        else{
 
-            if( (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)){
+        if (!gameClient->hasDeadPlayer()) {
 
-                if (action != NONE ) {
-                    serializedInput = objectSerializer->serializeInput(action,playerId);
-                    serializedInputs.push_back(serializedInput);
-                }
+            if (action == TEST && (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)) {
+
+                serializedInput = objectSerializer->serializeInput(action, playerId);
+                gameClient->directSendToServer(serializedInput);
+
             }
+            else {
 
-            if ((sdlEvent.type == SDL_KEYUP && sdlEvent.key.repeat == 0 )){
+                if ((sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)) {
 
-                if (sdlEvent.key.keysym.sym == SDLK_m){
-                    game->pauseResumeMusic();
-                }
-
-                if (action == UP || action == DOWN || action == LEFT || action == RIGHT ||
-                    action == NONE){//no bloqueante
-                    switch (action) {
-                        case UP:
-                            action = END_UP;
-                            break;
-                        case DOWN:
-                            action = END_DOWN;
-                            break;
-                        case LEFT:
-                            action = END_LEFT;
-                            break;
-                        case RIGHT:
-                            action = END_RIGHT;
-                            break;
+                    if (action != NONE) {
+                        serializedInput = objectSerializer->serializeInput(action, playerId);
+                        serializedInputs.push_back(serializedInput);
                     }
-                    serializedInput = objectSerializer->serializeInput(action,playerId);
-                    serializedInputs.push_back(serializedInput);
+                }
+
+                if ((sdlEvent.type == SDL_KEYUP && sdlEvent.key.repeat == 0)) {
+
+                    if (sdlEvent.key.keysym.sym == SDLK_m) {
+                        game->pauseResumeMusic();
+                    }
+
+                    if (action == UP || action == DOWN || action == LEFT || action == RIGHT ||
+                        action == NONE) {//no bloqueante
+                        switch (action) {
+                            case UP:
+                                action = END_UP;
+                                break;
+                            case DOWN:
+                                action = END_DOWN;
+                                break;
+                            case LEFT:
+                                action = END_LEFT;
+                                break;
+                            case RIGHT:
+                                action = END_RIGHT;
+                                break;
+                        }
+                        serializedInput = objectSerializer->serializeInput(action, playerId);
+                        serializedInputs.push_back(serializedInput);
+                    }
                 }
             }
         }
-
     }
     return serializedInputs;
 }

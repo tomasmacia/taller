@@ -43,6 +43,7 @@ void Server::setToBroadcast(string message) {
 
 void Server::stopListening(){
     shutdown();
+    LogManager::logInfo("[SERVER]: Se hace el shutdown del socket");
 }
 
 //ACTUAL DATA TRANSFER

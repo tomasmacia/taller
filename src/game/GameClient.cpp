@@ -172,6 +172,10 @@ void GameClient::notifyGameStart() {
     LogManager::logInfo("[GAME]: Señal de principio de juego recibida desde el server");
 }
 
+bool GameClient::hasDeadPlayer(){
+    return playerDied;
+}
+
 //SOUND
 //=========================================================================================
 
