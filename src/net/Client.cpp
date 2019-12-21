@@ -3,6 +3,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h> // for inet_pton -> string to in_addr
+#include <errno.h>
 #include "../CLIAparser/CLIArgumentParser.h"
 
 #include "../logger/LogManager.h"
@@ -196,7 +197,7 @@ int Client::send(const std::string& msg) {
 
     while (bytesSent < MAX_BYTES_BUFFER - 1) {
         int n = ::send(socketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
-        if (n < 0) {
+        if (n < 0 && errno != EAGAIN) {
             error("ERROR sending");
             setConnectionOff();
             return n;
@@ -221,7 +222,7 @@ std::string Client::receive() {
 
     while (bytesRead < MAX_BYTES_BUFFER - 1) {
         int n = recv(socketFD, buff, MAX_BYTES_BUFFER - 1, 0);
-        if (n < 0) {
+        if (n < 0 && errno != EAGAIN) {
             error("ERROR reading");
             setConnectionOff();
             return objectSerializer->getFailure();
