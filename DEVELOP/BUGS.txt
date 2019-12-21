@@ -23,6 +23,8 @@ murieron los dos y el server cerro pero la imagne de los clients quedo congelada
 
 con dos clientes uno desconectado y los dos en pc con laptop server, cuando el no desconectado muere, el server no cierra, el juego no termina y el desconectado no puede reentrar y la pantalla del muerto queda fija pero la puedo cerrar con crucecita y el server aun asi no cierr
 
+teniendo laptop server y dos clientes en pc, uno de los clientes se desconecta de pc y se reconecta en laptop y desp muere. Aparece un error de que no se pudo cargar una imagen y desp aparece la pantalla de desconexion al morir y el jugador que estaba conectado y no muerteo en pc queda sin que se pueda mover aun recibiendo el server su input y cuando toco la crucesita del ciente muerto se vuelve a poder mover el clietne no muerto
+
 ===============================================================
 
 (SOLVED)(ESTABA COMENTADO EL CODIGO CORRESPONDIENTE)

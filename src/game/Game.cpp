@@ -24,7 +24,7 @@ void Game::pauseMusic(){
 
     if (normalGameMusicPlaying ||  youDiedMusicPlaying){
         Mix_PauseMusic();
-        LogManager::logInfo("[GAME]: Musica Off");
+        LogManager::logInfo("[GAME]: Pausando musica");
         std::cerr<< "Pausando Musica"<<std::endl;
         youDiedMusicPlaying = false;
         normalGameMusicPlaying = false;
@@ -35,12 +35,12 @@ void Game::pauseResumeMusic(){
     if (Mix_PausedMusic() == 1){
         Mix_ResumeMusic();
         std::cerr<< "Reanudando Musica"<<std::endl;
-        LogManager::logInfo("[GAME]: Musica On");
+        LogManager::logInfo("[GAME]: Reanudando musica");
     }
     else {
         Mix_PauseMusic();
         std::cerr<< "Pausando Musica"<<std::endl;
-        LogManager::logInfo("[GAME]: Musica Off");
+        LogManager::logInfo("[GAME]: Pausando musica");
     }
 }
 
