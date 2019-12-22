@@ -14,14 +14,6 @@ a veces pego al aire y suena golpe
 
 a veces al principio de un nivel anda como lento y desp mejora
 
-a veces la musica en un cliente no se escucha (paso en el cliente no server)
-
-murieron los dos y el server cerro pero la imagne de los clients quedo congelada pero se podia cerrar con la curcecita
-
-con dos clientes uno desconectado y los dos en pc con laptop server, cuando el no desconectado muere, el server no cierra, el juego no termina y el desconectado no puede reentrar y la pantalla del muerto queda fija pero la puedo cerrar con crucecita y el server aun asi no cierr
-
-teniendo laptop server y dos clientes en pc, uno de los clientes se desconecta de pc y se reconecta en laptop y desp muere. Aparece un error de que no se pudo cargar una imagen y desp aparece la pantalla de desconexion al morir y el jugador que estaba conectado y no muerteo en pc queda sin que se pueda mover aun recibiendo el server su input y cuando toco la crucesita del ciente muerto se vuelve a poder mover el clietne no muerto
-
 ===============================================================
 
 (SOLVED)(ESTABA COMENTADO EL CODIGO CORRESPONDIENTE)
@@ -56,12 +48,24 @@ a veces tira el esperando server y entra el client en el server pero el client n
 (NO PASO MAS)(ADEMAS EL TEMA DEL MAL MAPEO DE SPRITES DE ARREGLO ASI QUE QUIZAS NO VUELVA A PASAR)
 a veces con laptop server y client y pc client aparecen seg faults (a la vez teniendo mal los spirtes)
 
-(SOLVED parcialmente)(ERA QUE LE ESTABA LLEGANDO UN PATH VACIO PRODUCTO, no se como, DEL ERROR EN EL INPUT DE SIEMPRE)
-[ERROR] : No se pudo reproducir el sonido  (tira a lo loco)
-
 (HECHO)
 el logger diec "Musica On" y esto es demasiado vago. Mejorar
 
 (HECHO)
 agregar cantidad de vidas
+
+(SOLVED parcialmente)(ERA QUE LE ESTABA LLEGANDO UN PATH VACIO PRODUCTO, no se como, DEL ERROR EN EL INPUT DE SIEMPRE)
+[ERROR] : No se pudo reproducir el sonido  (tira a lo loco)
+
+(SOLVED)(PARECE QUE TENIA QUE VER CON MENSAJES CORRUPTOS Y ESTOS CON COMO SE IMPLEMNTABA EL WHILE DE SEND Y RECV)
+a veces la musica en un cliente no se escucha (paso en el cliente no server)
+
+(SOLVED)(PARECE QUE TENIA QUE VER CON MENSAJES CORRUPTOS Y ESTOS CON COMO SE IMPLEMNTABA EL WHILE DE SEND Y RECV)
+murieron los dos y el server cerro pero la imagne de los clients quedo congelada pero se podia cerrar con la curcecita
+
+(SOLVED)(PARECE QUE TENIA QUE VER CON MENSAJES CORRUPTOS Y ESTOS CON COMO SE IMPLEMNTABA EL WHILE DE SEND Y RECV)
+con dos clientes uno desconectado y los dos en pc con laptop server, cuando el no desconectado muere, el server no cierra, el juego no termina y el desconectado no puede reentrar y la pantalla del muerto queda fija pero la puedo cerrar con crucecita y el server aun asi no cierr
+
+(SOLVED)(PARECE QUE TENIA QUE VER CON MENSAJES CORRUPTOS Y ESTOS CON COMO SE IMPLEMNTABA EL WHILE DE SEND Y RECV)
+teniendo laptop server y dos clientes en pc, uno de los clientes se desconecta de pc y se reconecta en laptop y desp muere. Aparece un error de que no se pudo cargar una imagen y desp aparece la pantalla de desconexion al morir y el jugador que estaba conectado y no muerteo en pc queda sin que se pueda mover aun recibiendo el server su input y cuando toco la crucesita del ciente muerto se vuelve a poder mover el clietne no muerto
 

@@ -117,7 +117,7 @@ private:
     int FAILURE_AKNOWLEDGE_SIGNAL = -1;
     string START_SYMBOL = "=";
     string FAILURE = "-1";
-    int totalMessageLength = 1500;
+    int totalMessageLength = 3000;
     ResourcesUtils *resourcesUtils;
 };
 

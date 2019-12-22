@@ -54,9 +54,11 @@ void GameServer::gameLoop(){
     if (notAllPlayersDisconnected() ) { //end screen
         sendEndMessage();
         sceneDirector->initEndOfGameScreen();
-        sceneDirector->sendEndOfGameScreen(server);
-        usleep(WAIT_TIME);
-    } 
+
+        for (int i = 0; i < END_SCREEN_SEND_AMOUNT; i++){ //esto es porque la ser de lo ultimo que manda el server hay que mandarlo varias veces para que llegue
+            sceneDirector->sendEndOfGameScreen(server);
+        }
+    }
     end();
     server->stopListening();
 }
