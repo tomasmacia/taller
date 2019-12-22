@@ -8,6 +8,7 @@
 #include <utility>
 
 
+
 #include "Controller.h"
 #include "../net/messaging/IDManager.h"
 #include "../net/Server.h"
@@ -46,6 +47,8 @@ list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
     while (SDL_PollEvent(&sdlEvent)) {
 
         action = MapUtils::getOrDefault(actions, sdlEvent.key.keysym.scancode, NONE);
+
+        checkMovementPairs(action,sdlEvent);
 
         if (sdlEvent.type == SDL_QUIT) {
             game->end();
@@ -104,6 +107,53 @@ list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
     return serializedInputs;
 }
 
+void Controller::checkMovementPairs(Action action, SDL_Event event) {
+
+    if (event.type == SDL_KEYDOWN && event.key.repeat == 0){
+
+        switch (action){
+            case UP:
+                upMovements.push(action);
+                break;
+            case DOWN:
+                downMovements.push(action);
+                break;
+            case LEFT:
+                leftMovements.push(action);
+                break;
+            case RIGHT:
+                rigthMovements.push(action);
+                break;
+        }
+    }
+    if (event.type == SDL_KEYUP && event.key.repeat == 0) {
+
+        switch (action) {
+            case UP:
+                upMovements.pop();
+                break;
+            case DOWN:
+                downMovements.pop();
+                break;
+            case LEFT:
+                leftMovements.pop();
+                break;
+            case RIGHT:
+                rigthMovements.pop();
+                break;
+        }
+    }
+
+    if ((action == UP || action == DOWN || action == LEFT || action == RIGHT) && event.key.repeat == 0){
+
+        cout<<"balance UP: "<<upMovements.size()<<endl;
+        cout<<"balance DOWN: "<<downMovements.size()<<endl;
+        cout<<"balance LEFT: "<<leftMovements.size()<<endl;
+        cout<<"balance RIGHT: "<<rigthMovements.size()<<endl;
+        cout<<"============="<<endl;
+        cout<<endl;
+    }
+}
 
 void Controller::clearAllInputs(){
     currentInput->clear();
