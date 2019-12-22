@@ -59,7 +59,7 @@ bool Client::start(){
     send.join();
     dispatch.join();
 
-    //gameClient->disconnected();
+    gameClient->disconnected();
 
     return true;
 }

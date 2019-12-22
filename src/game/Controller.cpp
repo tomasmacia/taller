@@ -52,6 +52,10 @@ list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
 
         }
 
+        if (sdlEvent.key.keysym.sym == SDLK_m) {
+            game->pauseResumeMusic();
+        }
+
         if (!gameClient->hasDeadPlayer()) {
 
             if (action == TEST && (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)) {
@@ -71,10 +75,6 @@ list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
                 }
 
                 if ((sdlEvent.type == SDL_KEYUP && sdlEvent.key.repeat == 0)) {
-
-                    if (sdlEvent.key.keysym.sym == SDLK_m) {
-                        game->pauseResumeMusic();
-                    }
 
                     if (action == UP || action == DOWN || action == LEFT || action == RIGHT ||
                         action == NONE) {//no bloqueante
