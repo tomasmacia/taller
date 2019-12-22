@@ -1,13 +1,13 @@
 /* The port number is passed as an argument */
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
-#include "Server.h"
+#include <cstdio>
+#include <cstring>
+#include <cerrno>
 #include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include "../CLIAparser/CLIArgumentParser.h"
+#include "Server.h"
 #include "UserConnection.h"
 
 #define MAX_BYTES_BUFFER 2500
@@ -189,6 +189,7 @@ int Server::accept() {                  //INSTANCIA Y AGREGA CONECCION AL MAP
 
 UserConnection* Server::addNewConnection(int newSocketFD){
     auto userConnection = new UserConnection(newSocketFD, nextConectionIDtoAssign, this,gameServer);
+    client_noBlock(newSocketFD);
     this->connections.insert({ nextConectionIDtoAssign, userConnection });
     this->socketIDMap.insert({ newSocketFD, nextConectionIDtoAssign });
     nextConectionIDtoAssign++; //esto asegura que la ID sea unica
@@ -234,19 +235,29 @@ int Server::close() {
 }
 
 
-void Server::client_noBlock(int a) {
-    struct timeval tv{} ;
-    tv.tv_usec =10000;
-    tv.tv_sec = 1;
 
-    auto it = connections.find(a);
+void Server::client_noBlock(int socket) {
+    struct timeval tv ;
+    tv.tv_usec =10000;
+    tv.tv_sec = 0;
+
+    fcntl(socket,F_SETFL,O_NONBLOCK);
+
+    setsockopt(socket,SOL_SOCKET,SO_SNDTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
+    setsockopt(socket,SOL_SOCKET,SO_RCVTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
+/*
+    struct timeval tv ;
+    tv.tv_usec =10000;
+    tv.tv_sec = 0;
+
+    std::map<int, UserConnection*>::iterator it = connections.find(a);
     if (it != connections.end()) {
         if (fcntl(it->second->getSock(),F_SETFL,O_NONBLOCK)<0){
             perror("no puedo desbloquear socket");
         }
         setsockopt(it->second->getSock(),SOL_SOCKET,SO_SNDTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
         setsockopt(it->second->getSock(),SOL_SOCKET,SO_RCVTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
-    }
+    }*/
 }
 
 void Server::beginDisconectionWith(int id) {

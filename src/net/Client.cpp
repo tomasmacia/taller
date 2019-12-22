@@ -1,9 +1,9 @@
-#include <unistd.h>
 #include <cstring>
+#include <cerrno>
+#include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <arpa/inet.h> // for inet_pton -> string to in_addr
-#include <errno.h>
+#include <arpa/inet.h>
 #include "../CLIAparser/CLIArgumentParser.h"
 
 #include "../logger/LogManager.h"
@@ -62,14 +62,16 @@ bool Client::start(){
     //gameClient->disconnected();
 }
 
-
 void Client::client_noBlock() {
-    struct timeval tv{} ;
+    struct timeval tv ;
     tv.tv_usec =10000;
-    tv.tv_sec = 1;
+    tv.tv_sec = 0;
+
+    //fcntl(socket,F_SETFL,O_NONBLOCK);
 
     setsockopt(socketFD,SOL_SOCKET,SO_SNDTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
     setsockopt(socketFD,SOL_SOCKET,SO_RCVTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
+
 }
 
 //THREADS
