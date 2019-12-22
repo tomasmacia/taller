@@ -129,6 +129,7 @@ private:
     //===============================
     int SLEEP_TIME = 13000;
     int WAIT_TIME = 4000000;
+    int END_SCREEN_SEND_AMOUNT = 10;
     Color currentColor = BLUE;
 
     bool inTestMode = false;
