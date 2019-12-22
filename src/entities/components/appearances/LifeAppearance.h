@@ -16,6 +16,7 @@ public:
     void update() override;
     Renderable* actuallyGenerateRenderable() override ;
     Renderable* GenerateRenderableToDisconnect(bool disconnectOrDead);
+    Renderable* GenerateRenderableToCantLife();
     void loadNextImage() override ;
     //todo
     void hit( int damage);
@@ -23,11 +24,12 @@ public:
     void setYPosition(int a);
     void setXPosition(int a);
     void pickColor(int a);
+    void setLifes(int lifes);
 
 
 
 private:
-    string base;
+    string base, _lifes;
     string life0,life20,life40,life60,life80,lifecomplete;
 
     string lifegrey;
