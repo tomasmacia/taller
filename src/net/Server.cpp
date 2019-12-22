@@ -59,6 +59,7 @@ int Server::send(string msg, int someSocketFD) {
     int n;
     while (bytesSent < MAX_BYTES_BUFFER) {
         n = ::send(someSocketFD, buff, MAX_BYTES_BUFFER, MSG_NOSIGNAL);
+        cout << "SERVER-SEND: " << buff << endl;
         if (n <= 0){
             if (errno != EAGAIN){
                 error("error sending | errno: " + to_string(errno));
@@ -70,7 +71,6 @@ int Server::send(string msg, int someSocketFD) {
             bytesSent += n;
         }
     }
-    cout << "SERVER-SEND: " << msg << endl;
     return bytesSent;
 }
 
