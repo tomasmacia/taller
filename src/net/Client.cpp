@@ -201,6 +201,7 @@ int Client::send(const std::string& msg) {
                 error("error sending | errno: " + to_string(errno));
                 setConnectionOff();
             }
+            return n;
         }
     }
     return n;
