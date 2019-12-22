@@ -266,7 +266,7 @@ string GameServer::processConectionAndEmitSuccesMessage(const string& name, cons
     loggedPlayersUserByID.insert({ id, user });
     loggedPlayersIDbyUser.insert({user.name,id});
     addNewIDToGame(id);
-    server->client_noBlock(id);
+    //server->client_noBlock(id);
 
     LogManager::logInfo("[GAME]: se proceso al jugador conectado: " + to_string(id) + " | " + user.name);
     return controller->getSuccesfullLoginMessage(user.color, id);
@@ -299,7 +299,7 @@ void GameServer::processReconectionAndEmitSuccesMessage(const string& name, int 
         conectedAndPlayingPlayersAmount++;
     }
 
-    server->client_noBlock(newID);
+    //server->client_noBlock(newID);
     server->setToSendToSpecific(controller->getSuccesfullLoginMessage(user.color,newID),newID);
     server->setToSendToSpecific(controller->getGameStartedMessage(),newID);
     LogManager::logInfo("[GAME]: se proceso al jugador reconectado: " + to_string(newID) + " | " + user.name);
