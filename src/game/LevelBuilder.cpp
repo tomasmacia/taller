@@ -55,14 +55,14 @@ void LevelBuilder::prepareForNextLevel(){
 }
 
 void LevelBuilder::update() {
-
+    /*
     if ((currentCheckPointNumber + 1) != hordeCheckPoints.size()){
 
         if (_screen->currentX >= hordeCheckPoints.at(currentCheckPointNumber + 1) ){
             spawnHorde();
             currentCheckPointNumber++;
         }
-    }
+    }*/
 }
 
 void LevelBuilder::spawnHorde() {
@@ -82,10 +82,10 @@ void LevelBuilder::initialize() {
 
     initializeLevelDimentions();
     initializeCamera();
-    initializeEnemySpawns();
+    //initializeEnemySpawns();
     initializeWorld();
     initializePlayers();
-    initializeFinalBoss();
+    //initializeFinalBoss();
     //initializeEnemies();
     initializeWeapons();
     initializeUtilities();

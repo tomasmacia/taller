@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+using namespace std;
 
 State::State(Will* will){
     _will = will;
@@ -9,6 +10,7 @@ State::State(Will* will){
 
 void State::update(){
     auto incoming = _will->getNext();
+    //checkMovementPairs(incoming);
     //printState(incoming);
     setIncoming(incoming);
 }
@@ -345,4 +347,45 @@ bool State::justPickedWeapon() {
 
 void State::endPickingFlag() {
     justPicked = false;
+}
+
+void State::checkMovementPairs(Action action) {
+
+    if (action == UP || action == DOWN || action == LEFT || action == RIGHT ||
+        action == END_UP || action == END_DOWN || action == END_LEFT || action == END_RIGHT){
+
+        switch (action){
+            case UP:
+                upMovements.push(action);
+                break;
+            case DOWN:
+                downMovements.push(action);
+                break;
+            case LEFT:
+                leftMovements.push(action);
+                break;
+            case RIGHT:
+                rigthMovements.push(action);
+                break;
+            case END_UP:
+                upMovements.pop();
+                break;
+            case END_DOWN:
+                downMovements.pop();
+                break;
+            case END_LEFT:
+                leftMovements.pop();
+                break;
+            case END_RIGHT:
+                rigthMovements.pop();
+                break;
+        }
+
+        cout<<"balance UP: "<<upMovements.size()<<endl;
+        cout<<"balance DOWN: "<<downMovements.size()<<endl;
+        cout<<"balance LEFT: "<<leftMovements.size()<<endl;
+        cout<<"balance RIGHT: "<<rigthMovements.size()<<endl;
+        cout<<"============="<<endl;
+        cout<<endl;
+    }
 }

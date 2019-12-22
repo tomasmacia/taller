@@ -48,7 +48,7 @@ list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
 
         action = MapUtils::getOrDefault(actions, sdlEvent.key.keysym.scancode, NONE);
 
-        checkMovementPairs(action,sdlEvent);
+        //checkMovementPairs(action,sdlEvent);
 
         if (sdlEvent.type == SDL_QUIT) {
             game->end();

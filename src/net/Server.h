@@ -85,6 +85,8 @@ private:
     std::map<int,int> socketIDMap;
 
     void beginDisconectionWith(int id);
+
+    void printMovement(char buff[2500]);
 };
 
 
