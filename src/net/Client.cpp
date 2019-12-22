@@ -220,6 +220,7 @@ std::string Client::receive() {
 
     while (bytesRead < MAX_BYTES_BUFFER) {
         n = recv(socketFD, buff, MAX_BYTES_BUFFER, 0);
+        cout << "CLIENT-READ: " << buff << endl;
         if (n <= 0){
             if (errno != EAGAIN){
                 error("error reading | errno: " + to_string(errno));
