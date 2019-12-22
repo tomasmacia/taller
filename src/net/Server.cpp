@@ -53,21 +53,18 @@ int Server::send(string msg, int someSocketFD) {
 
     char buff[MAX_BYTES_BUFFER]{0};
     strncpy(buff, msg.c_str(), sizeof(buff));
-    buff[sizeof(buff) - 1] = 0;
+    //buff[sizeof(buff) - 1] = 0;
 
     int bytesSent = 0;
-
-    while (bytesSent < MAX_BYTES_BUFFER - 1) {
-        int n = ::send(someSocketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
+    int n;
+    while (bytesSent < MAX_BYTES_BUFFER) {
+        n = ::send(socketFD, buff, MAX_BYTES_BUFFER, MSG_NOSIGNAL);
         if (n <= 0){
             if (errno != EAGAIN){
                 error("error sending | errno: " + to_string(errno));
                 beginDisconectionWith(socketIDMap.at(someSocketFD));
-                return 1; //TODO puede estar mal
             }
-            else{
-                return n;
-            }
+            return n;
         }
         else{
             bytesSent += n;
@@ -85,19 +82,15 @@ string Server::receive(int someSocketFD) {
     //size_t size = MAX_BYTES_BUFFER;
 
     int bytesRead = 0;
+    int n;
 
-    while (bytesRead < MAX_BYTES_BUFFER - 1) {
-        int n = recv(someSocketFD, buff, MAX_BYTES_BUFFER - 1, 0);
-        if (n < 0){
-            if (errno == EAGAIN){
-                return objectSerializer->getFailure();
-            }
-            else{
+    while (bytesRead < MAX_BYTES_BUFFER) {
+        n = recv(socketFD, buff, MAX_BYTES_BUFFER, 0);
+        if (n <= 0){
+            if (errno != EAGAIN){
                 error("error reading | errno: " + to_string(errno));
                 beginDisconectionWith(socketIDMap.at(someSocketFD));
             }
-        }
-        else if (n == 0) {
             return objectSerializer->getFailure();
         }
         else{
