@@ -3,9 +3,11 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
 
-#include "../LogLib/LogManager.h"
-#include "../parser/config/config.h"
+#include "SceneDirector.h"
+#include "../logger/LogManager.h"
+#include "../XMLparser/config/config.h"
 
 class Controller;
 
@@ -20,6 +22,8 @@ public:
     //===============================
     virtual void end();
     bool isOn();
+    void pauseResumeMusic();
+    void pauseMusic();
 
     //GETTERS
     //===============================
@@ -55,13 +59,18 @@ protected:
     virtual void init() = 0;
     virtual void initController();
     void initConfig();
-    void initSDL();
+    void initSceneDirector();
 
     //ATRIBUTES
     //===============================
+
     bool on = true;
     int playerId = -1;
 
+    bool youDiedMusicPlaying = false;
+    bool normalGameMusicPlaying = false;
+
+    SceneDirector* sceneDirector = nullptr;
     Controller *controller = nullptr;
     Config *config = nullptr;
 

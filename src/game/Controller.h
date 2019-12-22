@@ -10,13 +10,12 @@
 #include <SDL2/SDL_scancode.h>
 #include <string>
 #include <list>
-#include "Action.h"
+#include "../enumerates/Action.h"
 #include "Game.h"
-#include "ToClientPack.h"
-#include "../net/Server.h"
+#include "../net/messaging/Sendable.h"
 #include "GameClient.h"
 
-
+class Server;
 class Controller {
 public:
     Controller(Game* game);
@@ -24,16 +23,17 @@ public:
 
     //API
     //===============================
-    std::list<std::string> pollAndProcessInput();
+    std::list<string> pollAndProcessInput();
     //bool hasNewInput();
     void clearAllInputs();
     void checkIfCloseRelatedInputWasPulsed();
     void reciveRenderables(vector<string>* serializedPagackes);
+    void cleanUpRenderables();
 
     //DATA TRANSFER INTERFACE
     //===============================
-    void sendUpdate(std::list<ToClientPack*>* toClientsPackages, Server* server);
-    std::string getSuccesfullLoginMessage(int userId);
+    void sendUpdate(std::list<Sendable*>* toClientsPackages, Server* server);
+    std::string getSuccesfullLoginMessage(string color, int userId);
     std::string getInvalidCredentialMessage();
     std::string getServerFullMessage();
     std::string getAlreadyLoggedInMessage();
@@ -44,8 +44,8 @@ public:
 
     //SETTERS
     //===============================
-    void setRenderable(ToClientPack* package){
-        currentPackagesToRender->push_back(package);
+    void setRenderable(Sendable* package){
+        currentPackagesToSend->push_back(package);
     }
 
     void setInput(tuple<Action,int> input){
@@ -57,30 +57,33 @@ public:
     std::list<std::tuple<Action,int>> getACopyOfNewInputs() {
         return *currentInput;
     }
-    std::list<ToClientPack*>* getPackages(){
-        return currentPackagesToRender;
+    std::list<Sendable*>* getPackages(){
+        return currentPackagesToSend;
     }
 
-private:
+    void untrackLastSendables();
 
-    //INPUT PROCESING
-    //===============================
-    template <typename K, typename V>
-    V getWithDefault(const std::map<K,V> &map, const K &key, const V &defaultValue);
+    bool hasNewPackages();
+
+    void sendEndMessage(Server* server);
+
+    void sendPlayerDiedMessage(Server* server, int id);
+
+    void sendGameStartedMessage(Server *server);
+
+    string getGameStartedMessage();
+
+private:
 
     //INIT
     //===============================
     void init();
     void bind();
 
-    //DESTROY
-    //===============================
-    void cleanUpRenderables();
-
     //ATRIBUTES
     //===============================
     std::list<std::tuple<Action,int>>* currentInput = nullptr;
-    std::list<ToClientPack*>* currentPackagesToRender = nullptr;
+    std::list<Sendable*>* currentPackagesToSend = nullptr;
     SDL_Event sdlEvent;
     Game* game = nullptr;
 

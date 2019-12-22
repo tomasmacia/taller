@@ -79,7 +79,6 @@ void UserConnection::sendThread() {
 
             if (!message.empty()) {
                 int n = server->send(message, socketFD);
-                packageSent += 1;
                 //cout << "SERVER-SEND: " << message << endl;
             }
         }
@@ -102,6 +101,10 @@ void UserConnection::dispatchThread() {
                 processLoginFromTheClient();
             }
 
+            else if (objectSerializer.validSerializedTestModeMessage(messageParser.getCurrent())){
+                processTestMode();
+            }
+
             else if (objectSerializer.validSerializedInputMessage(messageParser.getCurrent())){
                 processInput();
             }
@@ -115,18 +118,16 @@ void UserConnection::dispatchThread() {
 //=========================================================================================
 void UserConnection::processLoginFromTheClient() {
 
-    string toSendMessage;
-
     if (objectSerializer.validLoginFromClientMessage(messageParser.getCurrent())){
 
         string user = objectSerializer.getUserFrom(messageParser.getCurrent());
         string pass = objectSerializer.getPassFrom(messageParser.getCurrent());
-        toSendMessage = gameServer->validateLogin(user,pass,userId);
+        gameServer->handleLogin(user, pass, userId);
     }
     else{
-        toSendMessage = objectSerializer.getInvalidCredentialMessage();
+        string toSendMessage = objectSerializer.getInvalidCredentialMessage();
+        server->setToSendToSpecific(toSendMessage,userId);
     }
-    server->setToSendToSpecific(toSendMessage,userId);
 }
 
 void UserConnection::processInput() {//TODO HEAVY IN PERFORMANCE
@@ -136,6 +137,10 @@ void UserConnection::processInput() {//TODO HEAVY IN PERFORMANCE
         auto input = objectSerializer.reconstructInput(messageParser.getCurrent());
         gameServer->reciveNewInput(input);
     }
+}
+
+void UserConnection::processTestMode() {
+    gameServer->recibeTestModeSignal();
 }
 
 //DISCONECTION RELATED
@@ -187,6 +192,4 @@ UserConnection::UserConnection(int socket, int userId, Server *server,GameServer
     this->userId = userId;
     this->server = server;
     this->gameServer = gameServer;
-    this->packageCount = 0;
-    this->packageSent = 0;
 }

@@ -1,0 +1,57 @@
+=========================================(PROBLEMAS VISUALES)
+=========================================(BUGS)
+
+26) Que no haya bugs en el input
+
+27) Arreglar lo del titulo que indica quien es quien y su color 
+(andaba bien pero se rompia el logeo)
+
+=========================================(FEATURES)
+
+
+=========================================(SUPERVISION)
+1)
+Se ve apenas trabado al ojo porque aprox 1 de cada 3 renders se hace usando la anterior porque es como que no llega lo suficientemente rapido los paquetes
+(PARECE QUE NO ES GRAN COSA)
+
+3)
+Cuando pongo muchos jugadores y no pongo sleep en el cliente, si en el server y pongo que cuando no tiene renderables que use los anteriores, me anda en camara lenta
+(YA NO PASA TANTO Y TENIA QUE VER CON QUE PONIA TODO EN LA MISMA MAQUINA)
+
+5)
+Conecte anduvo, desconecte anduvo, Conecte anduvo, desconecte rompio los dos
+(APARENTEMENTE ERA PORQUE TOCABA ESC Y LOS DOS OIAN ESO Y CERRABAN)
+(APARENTEMENTE NO PASA SI USAS QUIT EN LA MISMAS CONDICIONES)
+
+7)
+A veces cuando cierro el primer cliente en conectarse se cierra todos o casi todos 
+(APARENTEMENTE ERA PORQUE TOCABA ESC Y LOS DOS OIAN ESO Y CERRABAN)
+(APARENTEMENTE NO PASA SI USAS QUIT EN LA MISMAS CONDICIONES)
+
+11)
+salto y caigo abajo
+(CAMBIE VARIAS COSAS CON MUCHO SENTIDO Y PARECE QUE AHORA NO FALLA NUNCA)
+
+15)
+seg fault al caminar al costado a veces
+(POR EL MENSAJE DE TODO PADDING)(DEBERIA ESTAR SOLUCIONADO PERO NO LO PUEDO REPRODUCIR, NO ME PASA)
+
+18)
+Cuando hay un jugador logeado pero desconectado y el otro que esta loggeado y conectado llega al final de los tres niveles se queda trabado en el game loop el conectado pero queda trabado fuera de la pantalla y el server esta cerrado correctamente y ademas si toco ESC o QUIT no me responde
+(DESPUES DE VARIOS CAMBIOS, CON ALGO DE RELACION CON ESTO, NO PASO MAS)
+
+19)
+Hubo una vez donde en la latpop hice de server y con dos jugadores avance un poco y tiro seg fault
+(DESPUES DE VARIOS CAMBIOS, APARENTEMENTE SIN RELACION CON ESTO, NO PASO MAS)
+
+23)
+si el server se desconecta durante la etapa en la que el login esta esperando respuesta, queda trabado
+(ES UN CASO EXTREMADAMENTE RARO QUE SE DE Y SE SUELE DAR DURANTE EL DEBUGGING)
+
+25)
+Al jugar con 2 pj's y desconectar y conectar muchas veces (me paso con 12 desconecciones intercaladas, 2 veces uno, 3 veces otro y asi. Pero podrian ser menos) en algun momento un cliente queda frizado y al intentar conectar el otro la pantalla queda negra.
+Al parecer el server responde, porque al apretar up, down,left,etc, el server muestra que recibio eso. Pero no lo muestra a los clientes.
+Por ultimo si en ese estado, frizado y pantalla negra, cierro ambos clientes, el server no se cierra.
+ACTUALIZACION
+El server no cierra pero sigue funcionando, si despues de un rato(nose que tanto) vuelvo a conectar los clientes  anteriormente usados, los conecta bien y es como si no hubiese pasado nada. Y si los cierro, el server responde correctamente y se cierra. 
+Como mencione antes, el server responde porque me marca que aprete tal cosa en los clientes, por lo que llego a entender por alguna razon los clientes no renderizan nada o algo por el estilo.

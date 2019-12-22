@@ -1,19 +1,20 @@
 #include <unistd.h>
-#include <string.h>
+#include <cstring>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h> // for inet_pton -> string to in_addr
-#include <CLIArgumentParser.h>
+#include "../CLIAparser/CLIArgumentParser.h"
 
-#include "../LogLib/LogManager.h"
-#include "../game/MessageId.h"
+#include "../logger/LogManager.h"
+#include "../enumerates/MessageId.h"
 #include "Client.h"
 
 #include <iostream>
+#include <utility>
 
 using namespace std;
 
-#define MAX_BYTES_BUFFER 1500
+#define MAX_BYTES_BUFFER 2500
 
 
 #if __APPLE__
@@ -33,10 +34,10 @@ bool Client::hasAchievedConnectionAttempt() {
 }
 
 void Client::sendCredentials(string user, string pass){
-    setToSend(objectSerializer.serializeCredentials(user,pass));
+    setToSend(objectSerializer.serializeCredentials(std::move(user),std::move(pass)));
 }
 
-void Client::setToSend(std::string message){
+void Client::setToSend(const std::string& message){
     sendQueueMutex.lock();
     toSendMessagesQueue.push_back(message);
     sendQueueMutex.unlock();
@@ -58,7 +59,17 @@ bool Client::start(){
     send.join();
     dispatch.join();
 
-    gameClient->end();
+    gameClient->disconnected();
+}
+
+
+void Client::client_noBlock() {
+    struct timeval tv ;
+    tv.tv_usec =100000;
+    tv.tv_sec = 1;
+
+    setsockopt(socketFD,SOL_SOCKET,SO_RCVTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
+    
 }
 
 //THREADS
@@ -100,8 +111,6 @@ void Client::sendThread() {
 
 void Client::dispatchThread() {
 
-    int totalDispatched = 0;
-    int validRenderablesPackDispatched = 0;
     while(isConnected()) {
         incomingQueueMutex.lock();
         if (!incomingMessagesQueue.empty()){
@@ -125,6 +134,18 @@ void Client::dispatchThread() {
                 //cout<<endl;
                 //cout<<"CLIENT-DISPATCH: "<< message <<endl;
             }
+
+            else if (objectSerializer.validEndOfGameMessage(messageParser.parse(message, objectSerializer.getSeparatorCharacter()))){
+                processEndOfGame();
+            }
+
+            else if (objectSerializer.validPlayerDiedMessage(messageParser.parse(message, objectSerializer.getSeparatorCharacter()))){
+                processPlayerDeath();
+            }
+
+            else if (objectSerializer.validGameStartedMessage(messageParser.parse(message, objectSerializer.getSeparatorCharacter()))){
+                processGameStart();
+            }
         }
         incomingQueueMutex.unlock();
     }
@@ -140,28 +161,35 @@ void Client::processResponseFromServer() {
 
     if (messageParser.getHeader() == SUCCESS){
         gameClient->setPlayerId(id);
+        gameClient->setPlayerColor(messageParser.getCurrent()->at(messageParser.getCurrent()->size()-1));
     }
 }
 
 void Client::processRenderableSerializedObject() {//TODO HEAVY IN PERFORMANCE
     gameClient->reciveRenderables(messageParser.getCurrent());
-    //gameClient->render();
 }
 
-bool Client::alreadyLoggedIn() {
-    return gameClient->alreadyLoggedIn();
+void Client::processEndOfGame() {
+    gameClient->notifyEndOfGame();
 }
+
+void Client::processPlayerDeath() {
+    int id = std::stoi(messageParser.getCurrent()->at(2));
+    gameClient->processPlayerDeath(id);
+}
+
+void Client::processGameStart() {
+    gameClient->notifyGameStart();
+}
+
 
 //ACTUAL DATA TRANSFER
 //=========================================================================================
-int Client::send(std::string msg) {
+int Client::send(const std::string& msg) {
 
     char buff[MAX_BYTES_BUFFER]{0};
     strncpy(buff, msg.c_str(), sizeof(buff));
     buff[sizeof(buff) - 1] = 0;
-
-    //int len = msg.size();
-    //char bufferSend[len];//este buffer tiene que que ser otro distinto al de atributo
 
     int bytesSent = 0;
 
@@ -169,6 +197,7 @@ int Client::send(std::string msg) {
         int n = ::send(socketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
         if (n < 0) {
             error("ERROR sending");
+            //gameClient->end();
             return n;
         }
         if (n == 0) {
@@ -181,6 +210,7 @@ int Client::send(std::string msg) {
     return bytesSent;
 }
 
+
 std::string Client::receive() {
 
     char buff[MAX_BYTES_BUFFER]{0};
@@ -192,6 +222,9 @@ std::string Client::receive() {
         int n = recv(socketFD, buff, MAX_BYTES_BUFFER - 1, 0);
         if (n < 0) {
             error("ERROR reading");
+            if (gameClient->isOn()){
+                gameClient->disconnected();
+            }
             return objectSerializer.getFailure();
         }
         if (n == 0) {
@@ -207,7 +240,6 @@ std::string Client::receive() {
     return parsed;
 }
 
-
 //DISCONECTION RELATED
 //=========================================================================================
 void Client::checkConnection(){
@@ -217,6 +249,7 @@ void Client::checkConnection(){
    }
     connectionOn = false;
     LogManager::logError("[CLIENT]: conexion perdida");
+
 }
 
 bool Client::isConnected() {

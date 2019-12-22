@@ -1,11 +1,11 @@
 #include "Game.h"
-#include "../LogLib/LogManager.h"
+#include "../logger/LogManager.h"
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 
+#include <iostream>
 #include <algorithm>
-#include "../parser/CLIArgumentParser.h"
-#include "../parser/xmlparser.h"
+#include "../CLIAparser/CLIArgumentParser.h"
+#include "../XMLparser/xmlparser.h"
 #include "Controller.h"
 
 //API
@@ -19,6 +19,31 @@ void Game::end(){
 bool Game::isOn(){
     return on;
 }
+
+void Game::pauseMusic(){
+
+    if (normalGameMusicPlaying ||  youDiedMusicPlaying){
+        Mix_PauseMusic();
+        LogManager::logInfo("[GAME]: Musica Off");
+        std::cerr<< "Pausando Musica"<<std::endl;
+        youDiedMusicPlaying = false;
+        normalGameMusicPlaying = false;
+    }
+}
+
+void Game::pauseResumeMusic(){
+    if (Mix_PausedMusic() == 1){
+        Mix_ResumeMusic();
+        std::cerr<< "Reanudando Musica"<<std::endl;
+        LogManager::logInfo("[GAME]: Musica On");
+    }
+    else {
+        Mix_PauseMusic();
+        std::cerr<< "Pausando Musica"<<std::endl;
+        LogManager::logInfo("[GAME]: Musica Off");
+    }
+}
+
 
 //INIT
 //=========================================================================================
@@ -34,23 +59,11 @@ void Game::initController() {
     controller = new Controller(this);
 }
 
-void Game::initSDL() {
-    if( SDL_Init(SDL_INIT_VIDEO) == 0 ) {
-        if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG) {
-            LogManager::logError("Fallo SDL_Image");
-        }
+void Game::initSceneDirector() {
+    sceneDirector = new SceneDirector(controller,config);
 
-        int windowWidth = this->config->screenResolution.width;
-        int windowHeight = this->config->screenResolution.height;
-
-        this->window = SDL_CreateWindow("Final Fight", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowWidth, windowHeight, 0);
-        this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_PRESENTVSYNC);
-    }
-
-    if (this->window == nullptr || this->renderer == nullptr) {
-        this->on = false;
-        LogManager::logError("SDL no pudo inicializarse");
-    }
+    LogManager::logDebug("[INIT]: creado el Scene Director");
+    LogManager::logDebug("=======================================");
 }
 
 //DESTROY
@@ -61,7 +74,9 @@ void Game::baseClassFreeMemory(){
     controller = nullptr;
     delete(config);
     config = nullptr;
+    Mix_CloseAudio();
     SDL_DestroyWindow(this->window);
     SDL_DestroyRenderer(this->renderer);
+    Mix_CloseAudio();
     SDL_Quit();
 }

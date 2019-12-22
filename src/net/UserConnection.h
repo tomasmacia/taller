@@ -8,8 +8,8 @@
 #include "Server.h"
 #include <mutex>
 #include <thread>
-#include "../game/MessageParser.h"
-#include "../game/ObjectSerializer.h"
+#include "messaging/MessageParser.h"
+#include "messaging/ObjectSerializer.h"
 
 // UserConnection at Server level
 class UserConnection {
@@ -30,7 +30,10 @@ public:
     int getId(){
         return  userId;
     }
-
+    
+    int getSock(){
+        return socketFD;
+    }
 private:
 
     //THREADS
@@ -58,8 +61,9 @@ private:
     std::mutex sendQueueMutex;
     std::mutex incomingQueueMutex;
     std::mutex isConnectedMutex;
-    int socketFD;
+    
     int userId;
+    int socketFD;
 
     Server *server = nullptr;
     GameServer* gameServer = nullptr;
@@ -70,8 +74,8 @@ private:
     list<string> incomingMessagesQueue;
 
     void setConnectionOff();
-    int packageCount;
-    int packageSent;
+
+    void processTestMode();
 };
 
 

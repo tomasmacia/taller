@@ -10,8 +10,8 @@
 #include <thread>
 #include <condition_variable>
 #include <mutex>
-#include "../game/MessageParser.h"
-#include "../game/ObjectSerializer.h"
+#include "messaging/MessageParser.h"
+#include "messaging/ObjectSerializer.h"
 #include "../game/GameClient.h"
 
 class GameClient;
@@ -22,11 +22,12 @@ public:
 
     //API
     //===============================
-    void setToSend(std::string message);
+    void setToSend(const std::string& message);
     bool start();
     void sendCredentials(string user, string pass);
     bool hasAchievedConnectionAttempt();
     void notifyGameStoppedRunning();
+    void client_noBlock();
 
 private:
     //THREADS
@@ -38,7 +39,7 @@ private:
 
     //ACTUAL DATA TRANSFER
     //===============================
-    int send(std::string msg);
+    int send(const std::string& msg);
     string receive();
 
     //DISPATCHING OF INCOMMING MESSAGES
@@ -69,7 +70,7 @@ private:
     std::mutex connectionMutex;
     std::mutex sendQueueMutex;
     std::mutex incomingQueueMutex;
-    int socketFD;
+    int socketFD{};
     int maxBytesBuffer;
     //char* buffer;
 
@@ -82,6 +83,12 @@ private:
 
     list<string> toSendMessagesQueue;
     list<string> incomingMessagesQueue;
+
+    void processEndOfGame();
+
+    void processPlayerDeath();
+
+    void processGameStart();
 };
 
 #endif //GAME_CLIENT_H

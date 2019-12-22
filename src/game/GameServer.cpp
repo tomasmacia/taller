@@ -1,14 +1,6 @@
 #include "GameServer.h"
 #include "Controller.h"
 #include "LevelBuilder.h"
-#include "../LogLib/Logger.h"
-#include "../LogLib/LogManager.h"
-#include "../parser/CLIArgumentParser.h"
-#include "../parser/xmlparser.h"
-#include <unistd.h>
-
-#include "IDPlayer.h"
-#include "../utils/ImageUtils.h"
 
 #include <iostream>
 
@@ -19,14 +11,14 @@ void GameServer::start() {
 
     initController();
     startServer();          //1 thread de listen de conexiones nuevas y 4 threads por cliente nuevo
+    initSceneDirector();
 
-    initWaitingScreen();
     waitUnitAllPlayersConnected();
 
     initGameModel();
     gameLoop();
 
-    closeServer();          //se cierra el thread se server y (previamente se cierran los 4 threads child)
+    closeServer();          //se cierra el thread se server getY (previamente se cierran los 4 threads child)
 
     LogManager::logInfo("[GAME]: Juego terminado");
     LogManager::logInfo("=======================================");
@@ -39,77 +31,96 @@ void GameServer::start() {
 
 void GameServer::gameLoop(){
 
-    while (isOn() && levelBuilder->hasNextLevel() && notAllPlayersDisconnected()) {
+    sendGameStartedMessage();
+    while (isOn() && levelBuilder->hasNextLevel() && thereIsAtLeastOnePlayerAliveAndConnected()) {
 
         levelBuilder->loadNext();
         LogManager::logInfo("=======================================");
         LogManager::logInfo("[GAME]: se inicia game loop de este nivel");
 
-        while (isOn() && !levelBuilder->levelFinished() && notAllPlayersDisconnected()) {
+        while (isOn() && !levelBuilder->levelFinished() && thereIsAtLeastOnePlayerAliveAndConnected()) {
             update();
             sendUpdate();
             usleep(SLEEP_TIME);
         }
-        LogManager::logInfo("[GAME]: fin de game loop de este nivel");
+         if (thereIsAtLeastOnePlayerAliveAndConnected()) {
+            sceneDirector->initScoreScreen(entityManager->getPlayers(),loggedPlayersUserByID);
+            sceneDirector->sendScoreScreen(server);
+             usleep(WAIT_TIME);
+        }
+
+        LogManager::logInfo("[GAME]: Nivel terminado");
         LogManager::logInfo("=======================================");
     }
+    if (notAllPlayersDisconnected() ) {
+        sendEndMessage();
+        sceneDirector->initEndOfGameScreen();
+        sceneDirector->sendEndOfGameScreen(server);
+        usleep(WAIT_TIME);
+    } 
     on = false;
     server->stopListening();
 }
 
 void GameServer::update() {
-    manager->update();
+    entityManager->update();
+    levelBuilder->update();
     controller->clearAllInputs();
 }
 
 void GameServer::sendUpdate() {
-    controller->sendUpdate(manager->generateRenderables(),server);
+    auto* sendables = entityManager->generateSendables();
+
+    /*
+    for (auto sendable : *sendables){
+        if (sendable->_soundable != nullptr){
+            cout<<"Se mando a emitir: "<<sendable->_soundable->getPath()<<" ,cant total paquetes a enviar: "<<sendables->size()<<endl;
+        }
+    }*/
+
+    controller->sendUpdate(sendables, server);
 }
 
 //API
 //=========================================================================================
 
-std::string GameServer::validateLogin(std::string user, std::string pass, int userId){
+void GameServer::handleLogin(const std::string& user, const std::string& pass, int userId){
 
+    string toSendMessage;
 
     if (credentialsAreValid(user,pass)){
         if (userAlreadyLoggedIn(user)){
             if (userIsDisconnected(user)){
-                return processReconectionAndEmitSuccesMessage(user,userId);
+                processReconectionAndEmitSuccesMessage(user,userId);
             }
             else{
-                return controller->getAlreadyLoggedInMessage();
+                toSendMessage = controller->getAlreadyLoggedInMessage();
+                server->setToSendToSpecific(toSendMessage,userId);
             }
         }
         else{
             if (serverFull()){
-                return controller->getServerFullMessage();
+                toSendMessage = controller->getServerFullMessage();
+                server->setToSendToSpecific(toSendMessage,userId);
             }
             else{
-                return processConectionAndEmitSuccesMessage(user, pass, userId);
+                toSendMessage = processConectionAndEmitSuccesMessage(user, pass, userId);
+                server->setToSendToSpecific(toSendMessage,userId);
             }
         }
     }
     else{
-        return controller->getInvalidCredentialMessage();
+        toSendMessage = controller->getInvalidCredentialMessage();
+        server->setToSendToSpecific(toSendMessage,userId);
     }
 }
 
-void GameServer::endLevel(){
-    LogManager::logInfo("[GAME]: Nivel terminado");
-    levelBuilder->endLevel();
-}
-
 void GameServer::addNewIDToGame(int id) {
-    IDPlayer::getInstance().addNewIdPlayer(id);
+    IDManager::getInstance().addNewIdPlayer(id);
 }
 
 void GameServer::reemplazePreviousIDWith(int oldID, int newID) {
-    IDPlayer::getInstance().reemplaze(oldID, newID);
-}
-
-int GameServer::getCurrentLevelWidth(){
-    return levelBuilder->getCurrentLevelWidth();
+    IDManager::getInstance().reemplaze(oldID, newID);
 }
 
 void GameServer::reciveNewInput(tuple<Action,int> input){
@@ -120,16 +131,26 @@ bool GameServer::isActive(){
     return hasInstance;
 }
 
-bool GameServer::playersCanMove(){
-    return loggedPlayersPassByUser.size() == maxPlayers;
-}
-
 bool GameServer::isIDLogged(int ID){
     return loggedPlayersUserByID.count( ID );
 }
 
-void GameServer::sendWaitingScreen() {
-    controller->sendUpdate(waitingScreenContainer,server);
+bool GameServer::thereIsAtLeastOnePlayerAliveAndConnected() {
+    return conectedAndPlayingPlayersAmount > 0;
+}
+
+void GameServer::recibeTestModeSignal() {
+
+    inTestMode = !inTestMode;
+
+    if (inTestMode){
+        entityManager->setTestMode();
+        LogManager::logInfo("[GAME]: modo test activado");
+    }
+    else{
+        entityManager->removeTestMode();
+        LogManager::logInfo("[GAME]: modo test desactivado");
+    }
 }
 
 //SERVER RELATED
@@ -148,9 +169,10 @@ void GameServer::closeServer(){
 
 void GameServer::waitUnitAllPlayersConnected(){
 
+    sceneDirector->initWaitingScreen();
     while ((loggedPlayersPassByUser.size() != maxPlayers) ||
             (!disconectedPlayers.empty())){
-        sendWaitingScreen();
+        sceneDirector->sendWaitingScreen(server);
         usleep(SLEEP_TIME);
     }
 }
@@ -161,27 +183,40 @@ bool GameServer::notAllPlayersDisconnected(){
 
 void GameServer::connectionLostWith(int id){
 
-    if (loggedPlayersUserByID.count(id)){
+    bool logged = loggedPlayersUserByID.count(id);
+    bool dead = deadPlayers.count(id);
 
-        string user = loggedPlayersUserByID.at(id);
-        disconectedPlayers.insert({user,id});
+    if (logged){
+
+        string name = loggedPlayersUserByID.at(id).name;
+        disconectedPlayers.insert({name,id});
+
+        if (!dead){
+            conectedAndPlayingPlayersAmount --;
+        }
     }
-    if (manager != nullptr){
-        manager->disconectPlayerByID(id);
+    if (entityManager != nullptr){
+        entityManager->disconectPlayerByID(id);
     }
 }
 
 //CONTROLLER RELATED
 //=========================================================================================
 
-void GameServer::initController() {
-    controller = new Controller(this);
-    LogManager::logDebug("[INIT]: inicializado Controller");
+void GameServer::sendEndMessage() {
+    controller->sendEndMessage(server);
 }
 
-void GameServer::closeController(){
-    //lisentToInputForClosing.join();
+void GameServer::notifyPlayerDied(int id) {
+    conectedAndPlayingPlayersAmount --;
+    controller->sendPlayerDiedMessage(server,id);
+    deadPlayers.insert({id,loggedPlayersUserByID.at(id).name});
 }
+
+void GameServer::sendGameStartedMessage() {
+    controller->sendGameStartedMessage(server);
+}
+
 
 //LOGIN RELATED
 //=========================================================================================
@@ -189,88 +224,114 @@ bool GameServer::serverFull(){
     return loggedPlayersPassByUser.size() == maxPlayers;
 }
 
-bool GameServer::credentialsAreValid(string user, string pass){
+bool GameServer::credentialsAreValid(const string& user, const string& pass){
     return validUser(user) && validPass(user,pass);
 }
 
-bool GameServer::userAlreadyLoggedIn(string user){
+bool GameServer::userAlreadyLoggedIn(const string& user){
     return userInLoggedPlayers(user);
 }
 
-bool GameServer::userIsDisconnected(string user){
+bool GameServer::userIsDisconnected(const string& user){
     return IDInDisconnectedPlayers(user);
 }
 
-bool GameServer::validUser(string user){
+bool GameServer::validUser(const string& user){
     return validCredentials.find(user) != validCredentials.end();
 }
 
-bool GameServer::validPass(string user, string pass){
+bool GameServer::validPass(const string& user, const string& pass){
     return validCredentials.at(user) == pass;
 }
 
-bool GameServer::userInLoggedPlayers(string user){
+bool GameServer::userInLoggedPlayers(const string& user){
     return loggedPlayersPassByUser.find(user) != loggedPlayersPassByUser.end();
 }
 
-bool GameServer::IDInDisconnectedPlayers(string user){
+bool GameServer::IDInDisconnectedPlayers(const string& user){
     return disconectedPlayers.find(user) != disconectedPlayers.end();
 }
 
-string GameServer::processConectionAndEmitSuccesMessage(string user, string pass, int id){
+string GameServer::processConectionAndEmitSuccesMessage(const string& name, const string& pass, int id){
 
-    loggedPlayersPassByUser.insert({ user, pass });
+    User user(name,this->getNewColor());
+
+
+    loggedPlayersPassByUser.insert({ user.name, pass });
     loggedPlayersUserByID.insert({ id, user });
-    loggedPlayersIDbyUser.insert({user,id});
+    loggedPlayersIDbyUser.insert({user.name,id});
     addNewIDToGame(id);
+    server->client_noBlock(id);
 
-    return controller->getSuccesfullLoginMessage(id);
+    return controller->getSuccesfullLoginMessage(user.color, id);
 }
 
-string GameServer::processReconectionAndEmitSuccesMessage(string user, int newID){
+void GameServer::processReconectionAndEmitSuccesMessage(const string& name, int newID){
 
-    int oldID = loggedPlayersIDbyUser.at(user);
+    int oldID = loggedPlayersIDbyUser.at(name);
+    User user = loggedPlayersUserByID.at(oldID);
+
     loggedPlayersUserByID.erase(oldID);
     loggedPlayersUserByID.insert({newID,user});
 
-    loggedPlayersIDbyUser.at(user) = newID;
+    loggedPlayersIDbyUser.at(user.name) = newID;
 
     reemplazePreviousIDWith(oldID, newID);
 
-    disconectedPlayers.erase(user);
-    if (manager != nullptr){
-        manager->reconectPlayerByID(oldID, newID);
+    disconectedPlayers.erase(user.name);
+    if (entityManager != nullptr){
+        entityManager->reconectPlayerByID(oldID, newID);
     }
 
-    return controller->getSuccesfullLoginMessage(newID);
+    bool dead = deadPlayers.count(oldID);
+
+    if (dead) {
+        deadPlayers.erase(oldID);
+        deadPlayers.insert({newID, user.name});
+    }
+    else {
+        conectedAndPlayingPlayersAmount++;
+    }
+
+    server->client_noBlock(newID);
+    server->setToSendToSpecific(controller->getSuccesfullLoginMessage(user.color,newID),newID);
+    server->setToSendToSpecific(controller->getGameStartedMessage(),newID);
+}
+
+string GameServer::getNewColor() {
+    switch (currentColor){
+        case BLUE:
+            currentColor = RED;
+            return "BLUE";
+        case RED:
+            currentColor = GREEN;
+            return "RED";
+        case GREEN:
+            currentColor = YELLOW;
+            return "GREEN";
+        case YELLOW:
+            currentColor = COLOR_UNDEFINED;
+            return "YELLOW";
+        case COLOR_UNDEFINED:
+            LogManager::logError("[LOGIN]: tried to assign undefined color");
+            return "COLOR_UNDEFINED";
+    }
 }
 
 
 //INIT
 //=========================================================================================
-void GameServer::initWaitingScreen() {
-    string path = "resources/sprites/waitingScreens/waiting_for_your_teammates.png";
 
-    ImageSize imageSize = ImageUtils::getImageSize(path);
-    int imageWidth = imageSize.width;
-    int imageHeight = imageSize.height;
-
-    int screenWidth = config->screenResolution.width;
-    int screenHeight = config->screenResolution.height;
-
-
-    SDL_Rect src = {0,0,imageWidth,imageHeight};
-    SDL_Rect dst = {0,0,screenWidth,screenHeight};
-
-    waitingScreenRenderable = new ToClientPack(path,src,dst,false);
-    waitingScreenContainer = new list<ToClientPack*>();
-    waitingScreenContainer->push_back(waitingScreenRenderable);
+void GameServer::initController() {
+    controller = new Controller(this);
+    LogManager::logDebug("[INIT]: inicializado Controller");
 }
 
 void GameServer::initGameModel() {
-    initECSManager();
-    initLevelBuilder();
-    LogManager::logDebug("[INIT]: inicializado Manager");
+    conectedAndPlayingPlayersAmount = maxPlayers;
+    entityManager = initLevelBuilder();
+    entityManager->setGame(this);
+    LogManager::logDebug("[INIT]: inicializado EntityManager");
     LogManager::logDebug("[INIT]: inicializado LevelBuilder");
     LogManager::logInfo("[INIT]: Modelo inicializado");
 }
@@ -296,31 +357,22 @@ void GameServer::loadValidCredenctials(){
     }
 }
 
-void GameServer::initECSManager() {
-    this->manager = new Manager();
-}
-
-void GameServer::initLevelBuilder() {
-    this->levelBuilder = new LevelBuilder();
+EntityManager* GameServer::initLevelBuilder() {
+    this->levelBuilder = new LevelBuilder(controller, config);
+    return levelBuilder->getEntityManager();
 }
 
 //DESTROY
 //=========================================================================================
 
 void GameServer::destroy() {
-    if (!waitingScreenContainer->empty()){
-        delete(waitingScreenContainer->front());
-    }
-    waitingScreenContainer->pop_front();
-    waitingScreenContainer = nullptr;
-    delete(waitingScreenRenderable);
-    waitingScreenRenderable = nullptr;
+
     delete(server);
     server = nullptr;
     delete(levelBuilder);
     levelBuilder = nullptr;
-    delete(manager);
-    manager = nullptr;
+    delete(sceneDirector);
+    sceneDirector = nullptr;
     baseClassFreeMemory();
-    LogManager::logDebug("Memoria de Game Server liberada");
+    //LogManager::logDebug("Memoria de Game Server liberada");
 }

@@ -1,0 +1,24 @@
+//
+// Created by axel on 2/11/19.
+//
+
+#ifndef GAME_MESSAGEID_H
+#define GAME_MESSAGEID_H
+
+enum MessageId {
+    INPUT,
+    USER_PASS,
+    SET_OF_SENDABLES,
+    RENDERABLE,
+    SOUNDABLE,
+    SUCCESS,
+    INVALID_CREDENTIAL,
+    ALREADY_LOGGED_IN_CREDENTIAL,
+    SERVER_FULL,
+    END,
+    PLAYER_DIED,
+    GAME_STARTED,
+    UNDEFINED
+};
+
+#endif //GAME_MESSAGEID_H
