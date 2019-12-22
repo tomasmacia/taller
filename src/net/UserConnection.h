@@ -68,7 +68,7 @@ private:
     Server *server = nullptr;
     GameServer* gameServer = nullptr;
     MessageParser messageParser;
-    ObjectSerializer objectSerializer;
+    ObjectSerializer *objectSerializer = nullptr;
 
     list<string> toSendMessagesQueue;
     list<string> incomingMessagesQueue;

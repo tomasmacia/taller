@@ -57,7 +57,7 @@ list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
             cout<<"mande test"<<endl;
             auto gameClient = (GameClient*) game;
 
-            serializedInput = objectSerializer.serializeInput(action,playerId);
+            serializedInput = objectSerializer->serializeInput(action,playerId);
             gameClient->directSendToServer(serializedInput);
 
         }
@@ -66,7 +66,7 @@ list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
             if( (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)){
 
                 if (action != NONE ) {
-                    serializedInput = objectSerializer.serializeInput(action,playerId);
+                    serializedInput = objectSerializer->serializeInput(action,playerId);
                     serializedInputs.push_back(serializedInput);
                 }
             }
@@ -93,7 +93,7 @@ list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
                             action = END_RIGHT;
                             break;
                     }
-                    serializedInput = objectSerializer.serializeInput(action,playerId);
+                    serializedInput = objectSerializer->serializeInput(action,playerId);
                     serializedInputs.push_back(serializedInput);
                 }
             }
@@ -110,7 +110,7 @@ void Controller::clearAllInputs(){
 
 void Controller::reciveRenderables(vector<string>* serializedPagackes){
     //cout<<"DISPATCH"<<endl;
-    objectSerializer.reconstructSendables(serializedPagackes, currentPackagesToSend);
+    objectSerializer->reconstructSendables(serializedPagackes, currentPackagesToSend);
 
     /*
     int i = 0;
@@ -126,24 +126,24 @@ void Controller::reciveRenderables(vector<string>* serializedPagackes){
 //=========================================================================================
 
 void Controller::sendUpdate(std::list<Sendable*>* toClientsPackages, Server* server) {
-    string serializedPackages = objectSerializer.serializeObjects(toClientsPackages); //TODO HEAVY IN PERFORMANCE
+    string serializedPackages = objectSerializer->serializeObjects(toClientsPackages); //TODO HEAVY IN PERFORMANCE
     server->setToBroadcast(serializedPackages);
 }
 
 std::string Controller::getSuccesfullLoginMessage(string color, int userId){
-    return objectSerializer.getSuccesfullLoginMessage(color, userId);
+    return objectSerializer->getSuccesfullLoginMessage(color, userId);
 }
 
 std::string Controller::getInvalidCredentialMessage() {
-    return objectSerializer.getInvalidCredentialMessage();
+    return objectSerializer->getInvalidCredentialMessage();
 }
 
 std::string Controller::getServerFullMessage(){
-    return objectSerializer.getServerFullMessage();
+    return objectSerializer->getServerFullMessage();
 }
 
 std::string Controller::getAlreadyLoggedInMessage() {
-    return objectSerializer.getAlreadyLoggedInMessage();
+    return objectSerializer->getAlreadyLoggedInMessage();
 }
 
 //INIT & CONSTRUCTOR
@@ -151,6 +151,7 @@ std::string Controller::getAlreadyLoggedInMessage() {
 
 Controller::Controller(Game* game) {
     this->game = game;
+    this->objectSerializer = new ObjectSerializer(game->getConfig());
     currentInput = new std::list<std::tuple<Action,int>>();
     currentPackagesToSend = new std::list<Sendable*>();
     init();
@@ -325,17 +326,17 @@ bool Controller::hasNewPackages() {
 }
 
 void Controller::sendEndMessage(Server* server) {
-    server->setToBroadcast(objectSerializer.getEndOfGameMessage());
+    server->setToBroadcast(objectSerializer->getEndOfGameMessage());
 }
 
 void Controller::sendPlayerDiedMessage(Server* server, int id) {
-    server->setToBroadcast(objectSerializer.getPlayerDiedMessage(id));
+    server->setToBroadcast(objectSerializer->getPlayerDiedMessage(id));
 }
 
 void Controller::sendGameStartedMessage(Server *server) {
-    server->setToBroadcast(objectSerializer.getGameStartedMessage());
+    server->setToBroadcast(objectSerializer->getGameStartedMessage());
 }
 
 string Controller::getGameStartedMessage() {
-    return objectSerializer.getGameStartedMessage();
+    return objectSerializer->getGameStartedMessage();
 }

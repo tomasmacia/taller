@@ -34,7 +34,7 @@ bool Client::hasAchievedConnectionAttempt() {
 }
 
 void Client::sendCredentials(string user, string pass){
-    setToSend(objectSerializer.serializeCredentials(std::move(user),std::move(pass)));
+    setToSend(objectSerializer->serializeCredentials(std::move(user),std::move(pass)));
 }
 
 void Client::setToSend(const std::string& message){
@@ -80,8 +80,8 @@ void Client::readThread() {
     while(isConnected()) {
         incomingMessage = receive();
         //cout<<"CLIENT-READ"<<endl;
-        if (incomingMessage == objectSerializer.getFailure()){ continue;}
-        if (incomingMessage == objectSerializer.getPingCode()){ continue;}
+        if (incomingMessage == objectSerializer->getFailure()){ continue;}
+        if (incomingMessage == objectSerializer->getPingCode()){ continue;}
         else{
             incomingQueueMutex.lock();
             incomingMessagesQueue.push_back(incomingMessage);
@@ -119,7 +119,7 @@ void Client::dispatchThread() {
             incomingMessagesQueue.pop_front();
             //totalDispatched++;
 
-            if (objectSerializer.validSerializedSetOfObjectsMessage(messageParser.parse(message, objectSerializer.getObjectSeparator()))){
+            if (objectSerializer->validSerializedSetOfObjectsMessage(messageParser.parse(message, objectSerializer->getObjectSeparator()))){
                 processRenderableSerializedObject();
                 //validRenderablesPackDispatched++;
                 //cout<<endl;
@@ -129,21 +129,21 @@ void Client::dispatchThread() {
                 //cout<<"CLIENT-DISPATCH: "<< message <<endl;
             }
 
-            else if (objectSerializer.validLoginFromServerMessage(messageParser.parse(message, objectSerializer.getSeparatorCharacter()))){
+            else if (objectSerializer->validLoginFromServerMessage(messageParser.parse(message, objectSerializer->getSeparatorCharacter()))){
                 processResponseFromServer();
                 //cout<<endl;
                 //cout<<"CLIENT-DISPATCH: "<< message <<endl;
             }
 
-            else if (objectSerializer.validEndOfGameMessage(messageParser.parse(message, objectSerializer.getSeparatorCharacter()))){
+            else if (objectSerializer->validEndOfGameMessage(messageParser.parse(message, objectSerializer->getSeparatorCharacter()))){
                 processEndOfGame();
             }
 
-            else if (objectSerializer.validPlayerDiedMessage(messageParser.parse(message, objectSerializer.getSeparatorCharacter()))){
+            else if (objectSerializer->validPlayerDiedMessage(messageParser.parse(message, objectSerializer->getSeparatorCharacter()))){
                 processPlayerDeath();
             }
 
-            else if (objectSerializer.validGameStartedMessage(messageParser.parse(message, objectSerializer.getSeparatorCharacter()))){
+            else if (objectSerializer->validGameStartedMessage(messageParser.parse(message, objectSerializer->getSeparatorCharacter()))){
                 processGameStart();
             }
         }
@@ -155,7 +155,7 @@ void Client::dispatchThread() {
 //=========================================================================================
 void Client::processResponseFromServer() {
 
-    int id = objectSerializer.getIDFrom(messageParser.getCurrent());
+    int id = objectSerializer->getIDFrom(messageParser.getCurrent());
 
     gameClient->setServerAknowledgeToLogin(messageParser.getHeader());
 
@@ -225,17 +225,17 @@ std::string Client::receive() {
             if (gameClient->isOn()){
                 gameClient->disconnected();
             }
-            return objectSerializer.getFailure();
+            return objectSerializer->getFailure();
         }
         if (n == 0) {
-            return objectSerializer.getFailure();
+            return objectSerializer->getFailure();
         }
 
         bytesRead += n;
     }
 
-    char end = objectSerializer.getEndOfSerializationSymbol();
-    char padding = objectSerializer.getPaddingSymbol();
+    char end = objectSerializer->getEndOfSerializationSymbol();
+    char padding = objectSerializer->getPaddingSymbol();
     std::string parsed = messageParser.extractMeaningfulMessageFromStream(buff,MAX_BYTES_BUFFER, end,padding);
     return parsed;
 }
@@ -274,7 +274,7 @@ bool Client::connectionOff(){
         return true;
     }
     else {
-        return send(objectSerializer.getPingMessage()) < 0;
+        return send(objectSerializer->getPingMessage()) < 0;
     }
 }
 
@@ -297,6 +297,7 @@ Client::Client(GameClient* gameClient) {
     //char buf[MAX_BYTES_BUFFER];
     //buffer = buf;
     this->gameClient = gameClient;
+    this->objectSerializer = new ObjectSerializer(gameClient->getConfig());
 }
 
 int Client::create() {

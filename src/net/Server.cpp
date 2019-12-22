@@ -86,17 +86,17 @@ string Server::receive(int someSocketFD) {
         int n = recv(someSocketFD, buff, MAX_BYTES_BUFFER - 1, 0);
         if (n < 0) {
             error("ERROR reading");
-            return objectSerializer.getFailure();
+            return objectSerializer->getFailure();
         }
         if (n == 0) {
-            return objectSerializer.getFailure();
+            return objectSerializer->getFailure();
         }
 
         bytesRead += n;
     }
 
-    char end = objectSerializer.getEndOfSerializationSymbol();
-    char padding = objectSerializer.getPaddingSymbol();
+    char end = objectSerializer->getEndOfSerializationSymbol();
+    char padding = objectSerializer->getPaddingSymbol();
     std::string parsed = messageParser.extractMeaningfulMessageFromStream(buff,MAX_BYTES_BUFFER, end,padding);
     return parsed;
 }
@@ -140,6 +140,7 @@ Server::Server(GameServer* gameServer) {
     this->maxConnections = gameServer->getMaxPlayers();
     maxBytesBuffer = MAX_BYTES_BUFFER;
     this->gameServer = gameServer;
+    this->objectSerializer = new ObjectSerializer(gameServer->getConfig());
 }
 
 void Server::init(){
