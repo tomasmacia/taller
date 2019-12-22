@@ -33,7 +33,7 @@ public:
     void removeConnection(int id);
     void stopListening();
     int close();
-    void client_noBlock(int a);
+    void client_noBlock(int socket);
 
     
     //ACTUAL DATA TRANSFER
