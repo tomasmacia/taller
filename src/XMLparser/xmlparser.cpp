@@ -82,6 +82,7 @@ Config* XMLParser::mapXMLDocumentToConfig(XMLDocument *doc, XMLDocument *docDefa
     config->bindings = wrapperBindingsModule(configElement, defaultConfigElement);
     config->sounds = wrapperSoundsModule(configElement, defaultConfigElement);
     config->screenResolution = wrapperScreenResolutionModule(configElement, defaultConfigElement);
+    config->score = wrapperScoreModule(configElement, defaultConfigElement);
     config->serverMaxPlayers = wrapperServerModule(configElement, defaultConfigElement);
     config->gameplay = wrapperGameplayModule(configElement, defaultConfigElement);
 
@@ -203,6 +204,38 @@ Sounds XMLParser::getSounds(XMLElement *config) {
     sounds.utilities = utilitySound;
 
     return sounds;
+}
+
+ScoreConfig XMLParser::wrapperScoreModule(XMLElement *config, XMLElement *defaultConfig) {
+    ScoreConfig score;
+    try {
+        score = getScoreConfig(config);
+    } catch (string& msg) {
+        LogManager::logError(msg);
+        score = getScoreConfig(defaultConfig);
+    }
+
+    return score;
+}
+
+ScoreConfig XMLParser::getScoreConfig(XMLElement *config) {
+    XMLElement *scoreElement = getXMLElementSafe(config, {"score"});
+    string section = "score";
+    ScoreConfig score;
+
+    score.zero = getSafeValueFromElement(scoreElement, {"zero"}, charArrayToString, section);
+    score.one = getSafeValueFromElement(scoreElement, {"one"}, charArrayToString, section);
+    score.two = getSafeValueFromElement(scoreElement, {"two"}, charArrayToString, section);
+    score.three = getSafeValueFromElement(scoreElement, {"three"}, charArrayToString, section);
+    score.four = getSafeValueFromElement(scoreElement, {"four"}, charArrayToString, section);
+    score.five = getSafeValueFromElement(scoreElement, {"five"}, charArrayToString, section);
+    score.six = getSafeValueFromElement(scoreElement, {"six"}, charArrayToString, section);
+    score.seven = getSafeValueFromElement(scoreElement, {"seven"}, charArrayToString, section);
+    score.eight = getSafeValueFromElement(scoreElement, {"eight"}, charArrayToString, section);
+    score.eight = getSafeValueFromElement(scoreElement, {"eight"}, charArrayToString, section);
+    score.nine = getSafeValueFromElement(scoreElement, {"nine"}, charArrayToString, section);
+
+    return score;
 }
 
 ScreenResolution XMLParser::wrapperScreenResolutionModule(XMLElement *config, XMLElement *defaultConfig) {

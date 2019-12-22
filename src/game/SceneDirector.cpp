@@ -160,61 +160,61 @@ void SceneDirector::renderPuntaje(int score, int x, int y, list<Sendable *> *con
             int resto = score_ % 10;
 
             if (resto == 0){
-                path1 = "resources/sprites/score/zero.png";
+                path1 = config->score.zero;
 
                 //imageSize1 = ImageUtils::getImageSize(path1);
             }
             if (resto == 1)
             {
-                path1 = "resources/sprites/score/one.png";
+                path1 = config->score.one;
 
                 //imageSize1 = ImageUtils::getImageSize(path1);
             }
             if (resto == 2)
             {
-                path1 = "resources/sprites/score/two.png";
+                path1 = config->score.two;
 
                 //imageSize1 = ImageUtils::getImageSize(path1);
             }
             if (resto == 3)
             {
-                path1 = "resources/sprites/score/three.png";
+                path1 = config->score.three;
 
                 //imageSize1 = ImageUtils::getImageSize(path1);
             }
             if (resto == 4)
             {
-                path1 = "resources/sprites/score/four.png";
+                path1 = config->score.four;
 
                 //imageSize1 = ImageUtils::getImageSize(path1);
             }
             if (resto == 5)
             {
-                path1 = "resources/sprites/score/five.png";
+                path1 = config->score.five;
 
                 //imageSize1 = ImageUtils::getImageSize(path1);
             }
             if (resto == 6)
             {
-                path1 = "resources/sprites/score/six.png";
+                path1 = config->score.six;
 
                 //imageSize1 = ImageUtils::getImageSize(path1);
             }
             if (resto == 7)
             {
-                path1 = "resources/sprites/score/seven.png";
+                path1 = config->score.seven;
 
                 //imageSize1 = ImageUtils::getImageSize(path1);
             }
             if (resto == 8)
             {
-                path1 = "resources/sprites/score/eigth.png";
+                path1 = config->score.eight;
 
                 //imageSize1 = ImageUtils::getImageSize(path1);
             }
             if (resto == 9)
             {
-                path1 = "resources/sprites/score/nine.png";
+                path1 = config->score.nine;
 
                 //imageSize1 = ImageUtils::getImageSize(path1);
             }

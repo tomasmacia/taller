@@ -263,6 +263,7 @@ set(SOURCE_FILES
         src/XMLparser/config/gameplay.h
         src/XMLparser/config/level.h
         src/XMLparser/config/npc.h
+        src/XMLparser/config/ScoreConfig.h
         src/XMLparser/config/screenresolution.h
         src/XMLparser/config/Sounds.h
         src/XMLparser/config/utilities.h
