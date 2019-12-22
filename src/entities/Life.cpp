@@ -27,7 +27,9 @@ void Life::decreseBy(int amount) {
             if (amountOfLifes > 0){
                 current = startingAmount;
             }
+
         }
+        appearance->setLifes(amountOfLifes);
         if (appearance != nullptr){
             if (amountOfLifes == 0){
                 appearance->noLifes();
@@ -42,6 +44,7 @@ void Life::initializeWith(int amount, int amountOfLifes) {
     this->amountOfLifes = amountOfLifes;
     startingAmount = amount;
     current = amount;
+    appearance->setLifes(amountOfLifes);
 }
 
 list<Sendable *> Life::generateSendable() {
