@@ -142,7 +142,7 @@ public:
         i++;
         idsToResources.emplace(make_pair(i, string("resources/sprites/score/seven.png")));
         i++;
-        idsToResources.emplace(make_pair(i, string("resources/sprites/score/eight.png")));
+        idsToResources.emplace(make_pair(i, string("resources/sprites/score/eigth.png")));
         i++;
         idsToResources.emplace(make_pair(i, string("resources/sprites/score/nine.png")));
         i++;

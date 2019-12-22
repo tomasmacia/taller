@@ -2,17 +2,25 @@ el ruido de caida de salto suena con delay
 
 en el tercer golpe el arma se rompe pero parce que se rompio en la segunda por como esta lo del sprite
 
+mejorar IA queda pegando a la nada si te moves un poquito para abajo o arriba
+
+mejorar IA queda pegando a la nada si te pones atras de el
+
+ver perdida de memoria
+
 ===============================================================
 
 se rompe la hitting box
 
-anda mal el input (NO ES DE RED)
+anda mal el input (NO ES DE RED)(NOSE)
 
 salta y queda visualmente arriba
 
 a veces pego al aire y suena golpe
 
 a veces al principio de un nivel anda como lento y desp mejora
+
+si pongo 2 clientes pc, 2 clientes latpop y server laptop, cuando desconecto cable laptop, se desconectan primero los clientes pc al instante, un rato desp el server y un buen rato desp los clientes laptop(NO BLOQUEANTE)
 
 ===============================================================
 
