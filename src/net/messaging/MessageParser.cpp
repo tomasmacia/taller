@@ -37,12 +37,14 @@ string MessageParser::extractMeaningfulMessageFromStream(char *buffer, int buffe
         }
     }
 
+    int count = 0;
     if (hasStartSymbol){
         int i = 0;
         while (buffer[i] != endSerializationChar){
 
             if (buffer[i] != padding){
                 extractedMessage += buffer[i];
+                count++;
             }
             if (i == bufferLength){
                 break;
@@ -60,13 +62,9 @@ string MessageParser::extractMeaningfulMessageFromStream(char *buffer, int buffe
     }
     else{
         string corrupt = buffer;
-        LogManager::logDebug("[PARSER]: mensaje corrupto recibido de long: " + to_string(bufferLength) + "| content: " + corrupt);
+        LogManager::logDebug("[PARSER]: mensaje corrupto recibido de long: " + to_string(count) + "| content: " + corrupt);
         parsed = std::move(failureMessage);
         cout<<"buffer: "<<buffer<<endl;
-        cout<<"extracted: "<<extractedMessage<<endl;
-        cout<<"hasStartSymbol: "<<hasStartSymbol<<endl;
-        cout<<"hasEndSymbol: "<<hasEndSymbol<<endl;
-        cout<<"=========="<<endl;
         cout<<endl;
     }
     return parsed;
