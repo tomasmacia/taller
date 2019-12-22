@@ -14,6 +14,8 @@ a veces pego al aire y suena golpe
 
 a veces al principio de un nivel anda como lento y desp mejora
 
+latpop server no bloqueant cliente pc cierro cliente estando jugando el server no cierra (hice una desconexion antes)
+
 ===============================================================
 
 (SOLVED)(ESTABA COMENTADO EL CODIGO CORRESPONDIENTE)

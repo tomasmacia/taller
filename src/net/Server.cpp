@@ -64,6 +64,7 @@ int Server::send(string msg, int someSocketFD) {
                 error("error sending | errno: " + to_string(errno));
                 beginDisconectionWith(socketIDMap.at(someSocketFD));
             }
+            return n;
         }
     }
     return n;
