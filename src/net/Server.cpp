@@ -164,6 +164,13 @@ int Server::bind() {
 
     serverAddress.sin_port = htons(stoi(strPort));
 
+    struct timeval tv;
+    tv.tv_sec = 0;
+    tv.tv_usec = 10000;
+    if (setsockopt(socketFD, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv) < 0) {
+        error("ERROR setting timeout");
+    }
+
     if (::bind(socketFD, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) < 0) {
         error("ERROR on binding");
     }
@@ -231,18 +238,18 @@ int Server::close() {
 
 
 void Server::client_noBlock(int a) {
-    struct timeval tv ;
-    tv.tv_usec =10000;
-    tv.tv_sec = 0;
-
-    std::map<int, UserConnection*>::iterator it = connections.find(a);
-    if (it != connections.end()) {
-        if (fcntl(it->second->getSock(),F_SETFL,O_NONBLOCK)<0){
-            perror("no puedo desbloquear socket");
-        }
-        setsockopt(it->second->getSock(),SOL_SOCKET,SO_SNDTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
-     //   setsockopt(it->second->getSock(),SOL_SOCKET,SO_RCVTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
-    }
+//    struct timeval tv ;
+//    tv.tv_usec =10000;
+//    tv.tv_sec = 0;
+//
+//    std::map<int, UserConnection*>::iterator it = connections.find(a);
+//    if (it != connections.end()) {
+//        if (fcntl(it->second->getSock(),F_SETFL,O_NONBLOCK)<0){
+//            perror("no puedo desbloquear socket");
+//        }
+//        setsockopt(it->second->getSock(),SOL_SOCKET,SO_SNDTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
+//     //   setsockopt(it->second->getSock(),SOL_SOCKET,SO_RCVTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
+//    }
 
 }
 
