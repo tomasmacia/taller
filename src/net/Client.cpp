@@ -189,47 +189,36 @@ int Client::send(const std::string& msg) {
 
     char buff[MAX_BYTES_BUFFER]{0};
     strncpy(buff, msg.c_str(), sizeof(buff));
-    //buff[sizeof(buff) - 1] = 0;
 
-    int bytesSent = 0;
-    int n;
-    while (bytesSent < MAX_BYTES_BUFFER) {
+    int n = 0;
+
+    while (n != MAX_BYTES_BUFFER) {
         n = ::send(socketFD, buff, MAX_BYTES_BUFFER, MSG_NOSIGNAL);
         if (n <= 0){
             if (errno != EAGAIN){
                 error("error sending | errno: " + to_string(errno));
                 setConnectionOff();
             }
-            return n;
-        }
-        else{
-            bytesSent += n;
         }
     }
-    return bytesSent;
+    return n;
 }
 
 
 std::string Client::receive() {
 
     char buff[MAX_BYTES_BUFFER]{0};
-    //size_t size = MAX_BYTES_BUFFER;
+    int n = 0;
 
-    int bytesRead = 0;
-    int n;
-
-    while (bytesRead < MAX_BYTES_BUFFER) {
+    while (n != MAX_BYTES_BUFFER) {
         n = recv(socketFD, buff, MAX_BYTES_BUFFER, 0);
-        cout << "CLIENT-READ: " << buff << endl;
+        //cout << "CLIENT-READ: " << buff << endl;
         if (n <= 0){
             if (errno != EAGAIN){
                 error("error reading | errno: " + to_string(errno));
                 setConnectionOff();
             }
             return objectSerializer->getFailure();
-        }
-        else{
-            bytesRead += n;
         }
     }
 

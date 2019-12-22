@@ -53,11 +53,10 @@ int Server::send(string msg, int someSocketFD) {
 
     char buff[MAX_BYTES_BUFFER]{0};
     strncpy(buff, msg.c_str(), sizeof(buff));
-    //buff[sizeof(buff) - 1] = 0;
 
-    int bytesSent = 0;
-    int n;
-    while (bytesSent < MAX_BYTES_BUFFER) {
+    int n = 0;
+
+    while (n != MAX_BYTES_BUFFER) {
         n = ::send(someSocketFD, buff, MAX_BYTES_BUFFER, MSG_NOSIGNAL);
         cout << "SERVER-SEND: " << buff << endl;
         if (n <= 0){
@@ -65,26 +64,17 @@ int Server::send(string msg, int someSocketFD) {
                 error("error sending | errno: " + to_string(errno));
                 beginDisconectionWith(socketIDMap.at(someSocketFD));
             }
-            return n;
-        }
-        else{
-            bytesSent += n;
         }
     }
-    return bytesSent;
+    return n;
 }
 
 string Server::receive(int someSocketFD) {
-    // TODO REVISAR. Hay que fijarse que someSocketFD este en la lista de conexiones?
-
 
     char buff[MAX_BYTES_BUFFER]{0};
-    //size_t size = MAX_BYTES_BUFFER;
+    int n = 0;
 
-    int bytesRead = 0;
-    int n;
-
-    while (bytesRead < MAX_BYTES_BUFFER) {
+    while (n != MAX_BYTES_BUFFER) {
         n = recv(someSocketFD, buff, MAX_BYTES_BUFFER, 0);
         if (n <= 0){
             if (errno != EAGAIN){
@@ -92,9 +82,6 @@ string Server::receive(int someSocketFD) {
                 beginDisconectionWith(socketIDMap.at(someSocketFD));
             }
             return objectSerializer->getFailure();
-        }
-        else{
-            bytesRead += n;
         }
     }
 
