@@ -38,23 +38,21 @@ string MessageParser::extractMeaningfulMessageFromStream(char *buffer, int buffe
     }
 
     int count = 0;
-    if (hasStartSymbol){
-        int i = 0;
-        while (buffer[i] != endSerializationChar){
+    int i = 0;
+    while (buffer[i] != endSerializationChar){
 
-            if (buffer[i] != padding){
-                extractedMessage += buffer[i];
-                count++;
-            }
-            if (i == bufferLength){
-                break;
-            }
-            i++;
+        if (buffer[i] != padding){
+            extractedMessage += buffer[i];
+            count++;
         }
+        if (i == bufferLength){
+            break;
+        }
+        i++;
+    }
 
-        if (buffer[i] == endSerializationChar){
-            hasEndSymbol = true;
-        }
+    if (buffer[i] == endSerializationChar){
+        hasEndSymbol = true;
     }
 
     if (hasStartSymbol && hasEndSymbol){
