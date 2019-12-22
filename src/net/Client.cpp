@@ -66,12 +66,12 @@ bool Client::start(){
 
 
 void Client::client_noBlock() {
-    struct timeval tv ;
-    tv.tv_usec =100000;
+    struct timeval tv{} ;
+    tv.tv_usec =10000;
     tv.tv_sec = 1;
 
+    setsockopt(socketFD,SOL_SOCKET,SO_SNDTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
     setsockopt(socketFD,SOL_SOCKET,SO_RCVTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
-    
 }
 
 //THREADS
