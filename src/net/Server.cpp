@@ -58,7 +58,7 @@ int Server::send(string msg, int someSocketFD) {
     int bytesSent = 0;
     int n;
     while (bytesSent < MAX_BYTES_BUFFER) {
-        n = ::send(socketFD, buff, MAX_BYTES_BUFFER, MSG_NOSIGNAL);
+        n = ::send(someSocketFD, buff, MAX_BYTES_BUFFER, MSG_NOSIGNAL);
         if (n <= 0){
             if (errno != EAGAIN){
                 error("error sending | errno: " + to_string(errno));
