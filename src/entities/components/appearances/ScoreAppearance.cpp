@@ -3,6 +3,7 @@
 //
 
 #include "ScoreAppearance.h"
+#include "../../../game/GameServer.h"
 #include <iostream>
 
 ScoreAppearance::ScoreAppearance(ScreenPosition *screenPosition, Score *score) : Appearance(screenPosition) {
@@ -35,70 +36,70 @@ list<Sendable *>  ScoreAppearance::numerRenderabls(int score,list<Sendable *> se
             int resto = score_ % 10;
 
             if (resto <= 0){
-                path1 = "resources/sprites/score/zero.png";
+                path1 = GameServer::getInstance().getConfig()->score.zero;
 
                 imageSize1 = ImageUtils::getImageSize(path1);
           //                   std::cerr << "0"<< std::endl;
             }
              if (resto == 1)
             {
-                path1 = "resources/sprites/score/one.png";
+                path1 = GameServer::getInstance().getConfig()->score.one;
 
                 imageSize1 = ImageUtils::getImageSize(path1);
           //                  std::cerr << "1"<< std::endl;
             }
              if (resto == 2)
             {
-                path1 = "resources/sprites/score/two.png";
+                path1 = GameServer::getInstance().getConfig()->score.two;
 
                 imageSize1 = ImageUtils::getImageSize(path1);
          //                  std::cerr << "2"<< std::endl;
             }
              if (resto == 3)
             {
-                path1 = "resources/sprites/score/three.png";
+                path1 = GameServer::getInstance().getConfig()->score.three;
 
                 imageSize1 = ImageUtils::getImageSize(path1);
          //                  std::cerr << "3"<< std::endl;
             }
              if (resto == 4)
             {
-                path1 = "resources/sprites/score/four.png";
+                path1 = GameServer::getInstance().getConfig()->score.four;
 
                 imageSize1 = ImageUtils::getImageSize(path1);
            //                std::cerr << "4"<< std::endl;
             }
              if (resto == 5)
             {
-                path1 = "resources/sprites/score/five.png";
+                path1 = GameServer::getInstance().getConfig()->score.five;
 
                 imageSize1 = ImageUtils::getImageSize(path1);
           //               std::cerr << "5"<< std::endl;
             }
              if (resto == 6)
             {
-                path1 = "resources/sprites/score/six.png";
+                path1 = GameServer::getInstance().getConfig()->score.six;
 
                 imageSize1 = ImageUtils::getImageSize(path1);
            //                 std::cerr << "6"<< std::endl;
             }
              if (resto == 7)
             {
-                path1 = "resources/sprites/score/seven.png";
+                path1 = GameServer::getInstance().getConfig()->score.seven;
 
                 imageSize1 = ImageUtils::getImageSize(path1);
            //               std::cerr << "7"<< std::endl;
             }
              if (resto == 8)
             {
-                path1 = "resources/sprites/score/eigth.png";
+                path1 = GameServer::getInstance().getConfig()->score.eight;
 
                 imageSize1 = ImageUtils::getImageSize(path1);
           //                std::cerr << "8"<< std::endl;
             }
              if (resto == 9)
             {
-                path1 = "resources/sprites/score/nine.png";
+                path1 = GameServer::getInstance().getConfig()->score.nine;
 
                 imageSize1 = ImageUtils::getImageSize(path1);
             //              std::cerr << "9"<< std::endl;

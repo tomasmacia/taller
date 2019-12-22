@@ -9,6 +9,7 @@
 #include "bindings.h"
 #include "gameplay.h"
 #include "Sounds.h"
+#include "ScoreConfig.h"
 #include "screenresolution.h"
 
 using namespace std;
@@ -20,6 +21,7 @@ public:
     Bindings bindings;
     Sounds sounds;
     ScreenResolution screenResolution;
+    ScoreConfig score;
     Gameplay gameplay;
 };
 

@@ -118,6 +118,27 @@ public:
             i++;
         }
 
+        idsToResources.emplace(make_pair(i, config->score.zero));
+        i++;
+        idsToResources.emplace(make_pair(i, config->score.one));
+        i++;
+        idsToResources.emplace(make_pair(i, config->score.two));
+        i++;
+        idsToResources.emplace(make_pair(i, config->score.three));
+        i++;
+        idsToResources.emplace(make_pair(i, config->score.four));
+        i++;
+        idsToResources.emplace(make_pair(i, config->score.five));
+        i++;
+        idsToResources.emplace(make_pair(i, config->score.six));
+        i++;
+        idsToResources.emplace(make_pair(i, config->score.seven));
+        i++;
+        idsToResources.emplace(make_pair(i, config->score.eight));
+        i++;
+        idsToResources.emplace(make_pair(i, config->score.nine));
+        i++;
+
         idsToResources.emplace(make_pair(i, string("resources/sprites/score/fran.png")));
         i++;
         idsToResources.emplace(make_pair(i, string("resources/sprites/score/cris.png")));
@@ -125,26 +146,6 @@ public:
         idsToResources.emplace(make_pair(i, string("resources/sprites/score/axel.png")));
         i++;
         idsToResources.emplace(make_pair(i, string("resources/sprites/score/tomi.png")));
-        i++;
-        idsToResources.emplace(make_pair(i, string("resources/sprites/score/zero.png")));
-        i++;
-        idsToResources.emplace(make_pair(i, string("resources/sprites/score/one.png")));
-        i++;
-        idsToResources.emplace(make_pair(i, string("resources/sprites/score/two.png")));
-        i++;
-        idsToResources.emplace(make_pair(i, string("resources/sprites/score/three.png")));
-        i++;
-        idsToResources.emplace(make_pair(i, string("resources/sprites/score/four.png")));
-        i++;
-        idsToResources.emplace(make_pair(i, string("resources/sprites/score/five.png")));
-        i++;
-        idsToResources.emplace(make_pair(i, string("resources/sprites/score/six.png")));
-        i++;
-        idsToResources.emplace(make_pair(i, string("resources/sprites/score/seven.png")));
-        i++;
-        idsToResources.emplace(make_pair(i, string("resources/sprites/score/eight.png")));
-        i++;
-        idsToResources.emplace(make_pair(i, string("resources/sprites/score/nine.png")));
         i++;
 
         idsToResources.emplace(make_pair(i, string("resources/sprites/score/Blue/0v2.png")));
