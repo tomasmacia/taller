@@ -52,7 +52,7 @@ list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
 
         }
 
-        if (sdlEvent.key.keysym.sym == SDLK_m (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)) {
+        if (sdlEvent.key.keysym.sym == SDLK_m && (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)) {
             game->pauseResumeMusic();
         }
 
