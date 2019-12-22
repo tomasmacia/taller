@@ -105,8 +105,13 @@ void UserConnection::dispatchThread() {
                 processTestMode();
             }
 
-            else if (objectSerializer->validSerializedInputMessage(messageParser.getCurrent())){
+            else if (objectSerializer->validSerializedInputMessage(messageParser.getCurrent())){ //TODO podria fallar el input aca
                 processInput();
+            }
+            else{
+                if (message != "=###"){
+                    cout<<"DESCARTE: "<<message<<endl;
+                }
             }
             //cout<<"SERVER-DISPATCH: "<< message <<endl;
         }
@@ -134,7 +139,7 @@ void UserConnection::processInput() {//TODO HEAVY IN PERFORMANCE
 
     if (objectSerializer->validSerializedInputMessage(messageParser.getCurrent())){
 
-        auto input = objectSerializer->reconstructInput(messageParser.getCurrent());
+        auto input = objectSerializer->reconstructInput(messageParser.getCurrent()); //TODO podria fallar inputs
         gameServer->reciveNewInput(input);
     }
 }

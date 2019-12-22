@@ -35,16 +35,47 @@ void InputPoller::selectAndStoreInputsFromIncoming(std::list<std::tuple<Action,i
 
     std::tuple<Action,int> currentInput;
     int currentInputPlayerId;
-    Action currentInputAction;
     int thisPlayerId = _id->get();
 
     while (!inputs.empty()){
 
         currentInput = inputs.front();
-        currentInputAction = std::get<0>(currentInput);
         currentInputPlayerId = std::get<1>(currentInput);
 
+
+        string action;
+        switch (std::get<0>(currentInput)){
+        case UP:
+            action = "UP";
+            break;
+        case END_UP:
+            action = "END_UP";
+            break;
+        case DOWN:
+            action = "DOWN";
+            break;
+        case END_DOWN:
+            action = "END_DOWN";
+            break;
+        case LEFT:
+            action = "LEFT";
+            break;
+        case END_LEFT:
+            action = "END_LEFT";
+            break;
+        case RIGHT:
+            action = "RIGHT";
+            break;
+        case END_RIGHT:
+            action = "END_RIGHT";
+            break;
+        }
+
+        cout<<"ACTION: "<<action<<endl;
+
+
         if (currentInputPlayerId == thisPlayerId) {
+            cout<<std::get<1>(currentInput)<<endl;
             playerInputs.push_back(currentInput);
         }
         inputs.pop_front();
