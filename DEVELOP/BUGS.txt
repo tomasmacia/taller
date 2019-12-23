@@ -18,6 +18,8 @@ salta y queda visualmente arriba
 
 a veces pego al aire y suena golpe
 
+Si camino y saltas, al terminar el salto el movimiento no sigue(no se mueve) hasta que termina el sonido.A veces cody se queda caminando(sin moverse) a una altura ligeramente mayor hasta que termine el sonido y luego sigue bien
+
 a veces al principio de un nivel anda como lento y desp mejora
 
 si pongo 2 clientes pc, 2 clientes latpop y server laptop, cuando desconecto cable laptop, se desconectan primero los clientes pc al instante, un rato desp el server y un buen rato desp los clientes laptop(NO BLOQUEANTE)
