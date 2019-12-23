@@ -1,20 +1,21 @@
+
+ver perdida de memoria
+
 mejorar IA queda pegando a la nada si te moves un poquito para abajo o arriba
 
 mejorar IA queda pegando a la nada si te pones atras de el
 
-ver perdida de memoria
-
-===============================================================
-
 ver que se quiere hacer con los movimientos multiples y opuestos y los efectos michael jackson
 
-en el tercer golpe el arma se rompe pero parce que se rompio en la segunda por como esta lo del sprite
+a veces al principio de un nivel anda como lento y desp mejora
 
 se rompe la hitting box
 
-a veces pego al aire y suena golpe
+cuando la vida del atacado esta vacia el atacante le borra sus collition box y comienza a morir (no esta bueno si el atacado es un cody que tiene varias vidas)
 
-a veces al principio de un nivel anda como lento y desp mejora
+en el tercer golpe el arma se rompe pero parce que se rompio en la segunda por como esta lo del sprite
+
+a veces pego al aire y suena golpe
 
 si pongo 2 clientes pc, 2 clientes latpop y server laptop, cuando desconecto cable laptop, se desconectan primero los clientes pc al instante, un rato desp el server y un buen rato desp los clientes laptop(NO BLOQUEANTE)
 
