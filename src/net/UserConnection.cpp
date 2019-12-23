@@ -108,10 +108,10 @@ void UserConnection::dispatchThread() {
             else if (objectSerializer->validSerializedInputMessage(messageParser.getCurrent())){ //TODO podria fallar el input aca
                 processInput();
             }
-            else{
+            else{/*
                 if (message != "=###"){
                     cout<<"DESCARTE: "<<message<<endl;
-                }
+                }*/
             }
             //cout<<"SERVER-DISPATCH: "<< message <<endl;
         }

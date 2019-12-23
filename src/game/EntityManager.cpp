@@ -220,7 +220,7 @@ Character *EntityManager::createCharacter(int x, int y, int z, int id) {
     int centerZ = z + DEFAULT_COLLITION_BOX_DEPTH/2;
 
     auto* idComponent = new ID(id);
-    auto* will = new InputPoller(controller, idComponent);
+    auto* will = new InputPoller();
     auto* state = new State(will);
 
     int punchRange = (float)w * 0.5;
@@ -739,5 +739,18 @@ void EntityManager::removeTestMode() {
 
     for (auto player : players){
         player->removeTestMode();
+    }
+}
+
+void EntityManager::setInput(tuple<Action, int> input) {
+
+    auto action = std::get<0>(input);
+    auto id = std::get<1>(input);
+
+    for (auto player : players){
+        if (player->getID() == id){
+            player->setAction(action);
+            break;
+        }
     }
 }

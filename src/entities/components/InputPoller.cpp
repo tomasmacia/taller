@@ -1,36 +1,38 @@
 //
 // Created by Tomás Macía on 16/10/2019.
 //
-#include "../../game/GameServer.h"
 #include "InputPoller.h"
-#include "../../game/Controller.h"
-#include "ID.h"
 
-InputPoller::InputPoller(Controller *controller, ID *id) {
-    _controller = controller;
-    _id = id;
+void InputPoller::set(Action action) {
+    mu.lock();
+    playerInputs.push_back(action);
+    mu.unlock();
 }
 
+/*
 void InputPoller::update() {
     std::list<std::tuple<Action,int>> inputs = _controller->getACopyOfNewInputs(); //obtengo una copia de todos los inputs de todos los clientes
     selectAndStoreInputsFromIncoming(inputs);
-}
+}*/
 
 Action InputPoller::getNext() {
 
     Action next;
 
+    mu.lock();
     if (!playerInputs.empty()){
 
-        next = std::get<0>(playerInputs.front());
+        next = playerInputs.front();
         playerInputs.pop_front();
     }
     else{
         next = NONE;
     }
+    mu.unlock();
+
     return next;
 }
-
+/*
 void InputPoller::selectAndStoreInputsFromIncoming(std::list<std::tuple<Action,int>>& inputs){
 
     std::tuple<Action,int> currentInput;
@@ -71,13 +73,12 @@ void InputPoller::selectAndStoreInputsFromIncoming(std::list<std::tuple<Action,i
             break;
         }
 
-        cout<<"ACTION: "<<action<<endl;
-
+        cout<<"INPUTPOLLER: "<<action<<endl;
 
         if (currentInputPlayerId == thisPlayerId) {
-            cout<<std::get<1>(currentInput)<<endl;
             playerInputs.push_back(currentInput);
         }
         inputs.pop_front();
     }
 }
+*/

@@ -6,30 +6,25 @@
 #define GAME_INPUTPOLLER_H
 
 #include <list>
+#include <mutex>
 #include "../../enumerates/Action.h"
-#include "../../game/Controller.h"
-#include "ID.h"
 #include "Will.h"
 
 
 class InputPoller : public Will {
 public:
-    InputPoller(Controller* controller, ID* id);
-
-    void update() override ;
+    void update() override {}
+    void set(Action action);
     Action getNext() override;
 
-    ~InputPoller() override {
-
-    }
+    ~InputPoller() override = default;
 
 private:
-    void selectAndStoreInputsFromIncoming(std::list<std::tuple<Action,int>>& inputs);
+    //void selectAndStoreInputsFromIncoming(std::list<std::tuple<Action,int>>& inputs);
 
-    std::list<std::tuple<Action,int>> playerInputs;
+    std::mutex mu;
 
-    Controller* _controller = nullptr;
-    ID* _id = nullptr;
+    std::list<Action> playerInputs;
 };
 
 
