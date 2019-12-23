@@ -85,8 +85,8 @@ PhysicalEntity::~PhysicalEntity() {
 void PhysicalEntity::stopBeingAttacked() {
 
     if (lifeEmpty()){
-        state->setDying();
-        collitionHandler->eraseCollitionBoxes();
+        state->setDying();                          //TODO PELIGROSISIMO! si la vida no maneja a tiempo el reponerse, si el entity tiene mas de una vida esto rompe todo
+        collitionHandler->eraseCollitionBoxes();    //TODO PELIGROSISIMO! si la vida no maneja a tiempo el reponerse, si el entity tiene mas de una vida esto rompe todo
     }
     else{
         state->endBeingAttacked();
