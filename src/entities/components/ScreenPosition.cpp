@@ -15,7 +15,7 @@ ScreenPosition::ScreenPosition(int width, int height, int depth, Position *posit
 
 void ScreenPosition::update(){
     x = _spacePosition->getX() - _screen->currentX - width/2;
-    y = _screen->getWindowHeight() - (_spacePosition->getY() + _spacePosition->getZ()) - height + height/2;
+    y = _screen->getWindowHeight() - (_spacePosition->getY() + _spacePosition->getZ()) - height/2;
 }
 
 int ScreenPosition::getX() {
