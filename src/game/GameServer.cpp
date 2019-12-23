@@ -66,7 +66,6 @@ void GameServer::gameLoop(){
 void GameServer::update() {
     entityManager->update();
     levelBuilder->update();
-    controller->clearAllInputs();
 }
 
 void GameServer::sendUpdate() {
@@ -125,7 +124,7 @@ void GameServer::reemplazePreviousIDWith(int oldID, int newID) {
 }
 
 void GameServer::reciveNewInput(tuple<Action,int> input){
-    return controller->setInput(input);
+    return entityManager->setInput(input);
 }
 
 bool GameServer::isActive(){

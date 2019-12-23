@@ -132,6 +132,8 @@ private:
     int END_SCREEN_SEND_AMOUNT = 10;
     Color currentColor = BLUE;
 
+    std::mutex inputMutex;
+
     bool inTestMode = false;
 
     static bool hasInstance;

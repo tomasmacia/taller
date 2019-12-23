@@ -9,6 +9,7 @@
 #include "components/ID.h"
 #include "Score.h"
 #include "components/appearances/ScoreAppearance.h"
+#include "components/InputPoller.h"
 
 class Character : public AnimatedEntity{
 
@@ -35,6 +36,7 @@ public:
     void setPositionYToLife(int a);
     void setPositionXToLife(int a);
     void setColorLifeBar(int a);
+    void setAction(Action action);
 
     void removeWeapon();
 
@@ -71,5 +73,6 @@ private:
 
     ID* id = nullptr;
     ScoreAppearance* scoreAppearance = nullptr;
+    InputPoller* inputPoller = nullptr;
 };
 #endif //GAME_CHARACTER_H

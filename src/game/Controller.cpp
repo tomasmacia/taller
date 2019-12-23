@@ -16,26 +16,8 @@
 
 #include <iostream>
 
-//THREADS
-//=========================================================================================
-void Controller::lisentToInputForClosing(){
-    while(game->isOn()){
-        checkIfCloseRelatedInputWasPulsed();
-    }
-}
-
 //PROCESSING
 //=========================================================================================
-
-void Controller::checkIfCloseRelatedInputWasPulsed(){
-    Action action;
-    while (SDL_PollEvent(&sdlEvent)) {
-        action = MapUtils::getOrDefault(actions, sdlEvent.key.keysym.scancode, NONE);
-        if (sdlEvent.type == SDL_QUIT){
-            game->end();
-        }
-    }
-}
 
 list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
     auto gameClient = (GameClient*) game;
@@ -155,10 +137,6 @@ void Controller::checkMovementPairs(Action action, SDL_Event event) {
     }
 }
 
-void Controller::clearAllInputs(){
-    currentInput->clear();
-}
-
 void Controller::reciveRenderables(vector<string>* serializedPagackes){
     //cout<<"DISPATCH"<<endl;
     objectSerializer->reconstructSendables(serializedPagackes, currentPackagesToSend);
@@ -203,7 +181,6 @@ std::string Controller::getAlreadyLoggedInMessage() {
 Controller::Controller(Game* game) {
     this->game = game;
     this->objectSerializer = new ObjectSerializer(game->getConfig());
-    currentInput = new std::list<std::tuple<Action,int>>();
     currentPackagesToSend = new std::list<Sendable*>();
     init();
     bind();
@@ -362,10 +339,6 @@ Controller::~Controller() {
     cleanUpRenderables();
     delete  currentPackagesToSend;
     currentPackagesToSend = nullptr;
-
-    currentInput->clear();
-    delete  currentInput;
-    currentInput = nullptr;
 }
 
 bool Controller::hasNewPackages() {

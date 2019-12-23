@@ -16,6 +16,8 @@ Character::Character(CollitionHandler* collitionHandler, Life *life, Damage *dam
     this->life->initializeWith(CHARACTER_LIFE_AMOUNT, AMOUNT_OF_LIFES_CHARACTER);
     this->id = id;
     this->scoreAppearance = scoreAppearance;
+
+    inputPoller = (InputPoller*) will;
 }
 
 list<Sendable *> Character::generateSendable() {
@@ -144,4 +146,8 @@ void Character::turnToDead() {
 
 bool Character::turnedToDead() {
     return markedAsDead;
+}
+
+void Character::setAction(Action action) {
+    inputPoller->set(action);
 }

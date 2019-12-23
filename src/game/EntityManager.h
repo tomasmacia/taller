@@ -95,6 +95,8 @@ public:
 
     Enemy *createEnemy(int x, int y, int z);
 
+    void setInput(tuple<Action, int> input);
+
 private:
     //SORTING
     //===============================
