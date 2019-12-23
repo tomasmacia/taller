@@ -327,12 +327,23 @@ void State::setDead() {
 }
 
 void State::equipWeapon(AttackCode weapon) {
+    prevWeapon = _currentWeapon;
     _currentWeapon = weapon;
     justPicked = true;
 }
 
 void State::dropWeapon() {
+    prevWeapon = _currentWeapon;
     _currentWeapon = NO_WEAPON;
+    dropingWeaponFlag = true;
+}
+
+bool State::dropingWeapon() {
+    return dropingWeaponFlag;
+}
+
+void State::endDropingWeapon() {
+    dropingWeaponFlag = false;
 }
 
 AttackCode State::getWeapon() {
@@ -398,4 +409,8 @@ void State::checkMovementPairs(Action action) {
         cout<<"============="<<endl;
         cout<<endl;
     }
+}
+
+AttackCode State::getPrevWeapon() {
+    return prevWeapon;
 }

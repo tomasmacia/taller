@@ -47,6 +47,8 @@ public:
     void printState(Action action);
     void equipWeapon(AttackCode weaponID);
     void dropWeapon();
+    bool dropingWeapon();
+    void endDropingWeapon();
     AttackCode getWeapon();
     bool isHitting();
     void setHitting();
@@ -54,6 +56,8 @@ public:
     bool justPickedWeapon();
     void endPickingFlag();
     void checkMovementPairs(Action action);
+
+    AttackCode getPrevWeapon();
 
 private:
     Will* _will = nullptr;
@@ -70,6 +74,8 @@ private:
 
     bool justHitted = false;
     bool justPicked = false;
+    bool dropingWeaponFlag = false;
+    AttackCode prevWeapon = NO_WEAPON;
 
     bool disconnected = false;
 
