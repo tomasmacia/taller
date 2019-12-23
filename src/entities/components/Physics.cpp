@@ -40,7 +40,7 @@ void Physics::update() {
     int newZ = (int)((float)prevZ + _velocityZ);
 
     Action current = _state->current();
-    if (_state->isAMovement(current) || current == JUMP || current == JUMP_KICK){
+    if (_state->isAMovement(current) || current == JUMP || current == JUMP_KICK || current == END_JUMP){
         _position->tryToMoveTo(newX, newY, newZ);
     }
 }
