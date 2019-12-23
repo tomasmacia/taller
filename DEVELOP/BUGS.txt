@@ -1,5 +1,3 @@
-el ruido de caida de salto suena con delay
-
 en el tercer golpe el arma se rompe pero parce que se rompio en la segunda por como esta lo del sprite
 
 mejorar IA queda pegando a la nada si te moves un poquito para abajo o arriba
@@ -12,11 +10,11 @@ ver perdida de memoria
 
 se rompe la hitting box
 
-anda mal el input (NO ES DE RED)(NOSE)
+a veces pego al aire y suena golpe
 
 salta y queda visualmente arriba
 
-a veces pego al aire y suena golpe
+el ruido de caida de salto suena con delay
 
 Si camino y saltas, al terminar el salto el movimiento no sigue(no se mueve) hasta que termina el sonido.A veces cody se queda caminando(sin moverse) a una altura ligeramente mayor hasta que termine el sonido y luego sigue bien
 
@@ -79,3 +77,5 @@ con dos clientes uno desconectado y los dos en pc con laptop server, cuando el n
 (SOLVED)(PARECE QUE TENIA QUE VER CON MENSAJES CORRUPTOS Y ESTOS CON COMO SE IMPLEMNTABA EL WHILE DE SEND Y RECV)
 teniendo laptop server y dos clientes en pc, uno de los clientes se desconecta de pc y se reconecta en laptop y desp muere. Aparece un error de que no se pudo cargar una imagen y desp aparece la pantalla de desconexion al morir y el jugador que estaba conectado y no muerteo en pc queda sin que se pueda mover aun recibiendo el server su input y cuando toco la crucesita del ciente muerto se vuelve a poder mover el clietne no muerto
 
+(SOLVED)(ERA QUE EN UN THREAD BORRABA LOS INPUTS Y EN OTRO LOS METIA EN CONTROLLER Y POR ESO ERA A VECES SI Y A VECES NO)
+anda mal el input (NO ES DE RED)(NOSE)
