@@ -22,6 +22,8 @@ public:
     vector<string>* parse(string rawMessage, char separatorCharacter);
     string extractMeaningfulMessageFromStream(char *buffer, int bufferLength, string failureMessage,
                                               char startSerializationSymbol, char endSerializationChar, char padding);
+    string cleanRawMessageFromBuffer(char *buffer, int bufferLength, string failureMessage,
+                              char startSerializationSymbol, char endSerializationChar, char padding);
     void clear();
     MessageId getHeader();
 
