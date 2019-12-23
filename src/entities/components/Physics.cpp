@@ -97,6 +97,9 @@ void Physics::handleCurrentState(){
                 jumpKick();
             }
             break;
+        case END_JUMP:
+            none();
+            break;
         case CROUCH:
             crouch();
             break;

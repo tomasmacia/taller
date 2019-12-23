@@ -1,3 +1,5 @@
+mejorar parser para que filtre el principio
+
 
 ver perdida de memoria
 
