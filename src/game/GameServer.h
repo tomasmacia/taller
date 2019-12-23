@@ -94,7 +94,6 @@ private:
 
     //INIT
     //===============================
-    void initWaitingScreen();
     EntityManager* initLevelBuilder();
     void loadValidCredenctials();   //<user,pass>
     void initGameModel();
@@ -131,8 +130,6 @@ private:
     int WAIT_TIME = 4000000;
     int END_SCREEN_SEND_AMOUNT = 10;
     Color currentColor = BLUE;
-
-    std::mutex inputMutex;
 
     bool inTestMode = false;
 

@@ -141,6 +141,8 @@ private:
     Config* config = nullptr;
     Screen* screen = nullptr;
 
+    std::mutex mu;
+
     //Parametros de construccion de entidades
     float CHARACTER_WIDTH_SCALE = 0.3;
     float CHARACTER_HEIGHT_SCALE = 0.5;

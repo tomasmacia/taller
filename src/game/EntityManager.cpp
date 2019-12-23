@@ -2,7 +2,6 @@
 #include "EntityManager.h"
 #include "GameServer.h"
 
-#include "../entities/components/InputPoller.h"
 #include "../entities/components/IA.h"
 #include "../entities/components/NullWill.h"
 
@@ -42,7 +41,11 @@ void EntityManager::initializeCollitionManager(){
 void EntityManager::update() {//se updatean todas seguro porque updateo las listas que formaban una particion de las entities
 
     for(auto* e : backLayerBackgrounds) e->update();
-    for(auto* e : physicalEntities) e->update();
+    mu.lock();
+    for(auto* e : players) e->update();
+    mu.unlock();
+    for(auto* e : enemies) e->update();
+    for(auto* e : unanimatedEntities) e->update();
     for(auto* e : frontLayerBackgrounds) e->update();
     for(auto* e : specialEntities) e->update();
 
@@ -747,10 +750,12 @@ void EntityManager::setInput(tuple<Action, int> input) {
     auto action = std::get<0>(input);
     auto id = std::get<1>(input);
 
+    mu.lock();
     for (auto player : players){
         if (player->getID() == id){
             player->setAction(action);
             break;
         }
     }
+    mu.unlock();
 }
