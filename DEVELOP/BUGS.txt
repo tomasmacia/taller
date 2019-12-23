@@ -5,17 +5,13 @@ mejorar IA queda pegando a la nada si te moves un poquito para abajo o arriba
 
 mejorar IA queda pegando a la nada si te pones atras de el
 
-ver que se quiere hacer con los movimientos multiples y opuestos y los efectos michael jackson
-
 a veces al principio de un nivel anda como lento y desp mejora
 
 se rompe la hitting box
 
-cuando la vida del atacado esta vacia el atacante le borra sus collition box y comienza a morir (no esta bueno si el atacado es un cody que tiene varias vidas)
+hay veces que la animacion del salto termina antes de tiempo
 
-en el tercer golpe el arma se rompe pero parce que se rompio en la segunda por como esta lo del sprite
-
-a veces pego al aire y suena golpe
+al terminar de saltar elige un movimiento pero es bloqueante
 
 si pongo 2 clientes pc, 2 clientes latpop y server laptop, cuando desconecto cable laptop, se desconectan primero los clientes pc al instante, un rato desp el server y un buen rato desp los clientes laptop(NO BLOQUEANTE)
 
@@ -87,3 +83,12 @@ el ruido de caida de salto suena con delay
 
 (SOLVED)(HABIA QUE PONER QUE TAMB ACTUE LA GRAVEDAD EN CASO DE END_JUMP)
 Si camino y saltas, al terminar el salto el movimiento no sigue(no se mueve) hasta que termina el sonido.A veces cody se queda caminando(sin moverse) a una altura ligeramente mayor hasta que termine el sonido y luego sigue bien
+
+(NO ES UN PROBLEMA PERO ES PREOCUPANTE)(A TENER EN CUENTA)(LIFE SE OCUPA A TIEMPO DE LAS VIDAS MULTIPLES)
+cuando la vida del atacado esta vacia el atacante le borra sus collition box y comienza a morir (no esta bueno si el atacado es un cody que tiene varias vidas)
+
+(SOLVED)(ERA QUE FALTABA AVISAR EN LOS CASOS DE PATADA QUE SE TERMINE EL ESTADO DE HITTING EN STATE)
+a veces pego al aire y suena golpe
+
+(SOLVED)(COSTO PERO ERA PONER PARA QUE RECORDARA EL ESTADO DEL ARMA ANTERIOR EN SONIDO Y APPEARANCE)
+en el tercer golpe el arma se rompe pero parce que se rompio en la segunda por como esta lo del sprite

@@ -35,6 +35,7 @@ protected:
     int TUBE_WALK_IMAGE_AMOUNT;
 
     Action previous = NONE;
+    bool weaponWasBeingDroped = false;
 };
 
 

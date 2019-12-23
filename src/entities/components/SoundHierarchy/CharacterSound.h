@@ -15,6 +15,7 @@ public:
 
     void handleCurrentState() override ;
 
+    bool weaponWasBeingDroped = false;
 };
 
 

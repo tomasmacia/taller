@@ -2,7 +2,6 @@
 // Created by axelmpm on 14/12/19.
 //
 
-#include <iostream>
 #include "CharacterSound.h"
 
 CharacterSound::CharacterSound(State *state, Sounds soundsConfig) : Sound(state, soundsConfig) {
@@ -10,7 +9,11 @@ CharacterSound::CharacterSound(State *state, Sounds soundsConfig) : Sound(state,
 }
 
 void CharacterSound::handleCurrentState() {
-    if (state->current() != previous){
+
+    if (state->current() != previous || weaponWasBeingDroped) {
+        if (weaponWasBeingDroped){
+            weaponWasBeingDroped = false;
+        }
         previous = state->current();
         switch (state->current()){
             case END_JUMP:
@@ -30,16 +33,18 @@ void CharacterSound::handleCurrentState() {
                 break;
             case PUNCH:
                 if (state->isHitting()){
-                    switch (state->getWeapon()){
-                        case NO_WEAPON:
-                            _currentSoundPath = soundsConfig.players.hit;
-                            break;
-                        case KNIFE:
-                            _currentSoundPath = soundsConfig.players.knifeHit;
-                            break;
-                        case TUBE:
-                            _currentSoundPath = soundsConfig.players.pipeHit;
-                            break;
+                    auto currentWeapon = state->getWeapon();
+                    auto prevWeapon = state->getPrevWeapon();
+                    bool isDroping = state->dropingWeapon();
+
+                    if (currentWeapon == NO_WEAPON && !isDroping){
+                        _currentSoundPath = soundsConfig.players.hit;
+                    }
+                    else if(currentWeapon == KNIFE || (isDroping && prevWeapon == KNIFE)){
+                        _currentSoundPath = soundsConfig.players.knifeHit;
+                    }
+                    else if(currentWeapon == TUBE || (isDroping && prevWeapon == TUBE)){
+                        _currentSoundPath = soundsConfig.players.pipeHit;
                     }
                     state->endHittingFlag();
                 }
