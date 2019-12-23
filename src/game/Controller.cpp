@@ -368,10 +368,6 @@ Controller::~Controller() {
     currentInput = nullptr;
 }
 
-void Controller::untrackLastSendables() {
-    currentPackagesToSend->clear();
-}
-
 bool Controller::hasNewPackages() {
     return !currentPackagesToSend->empty();
 }

@@ -11,6 +11,7 @@
 #include <string>
 #include <list>
 #include <stack>
+#include <mutex>
 #include "../enumerates/Action.h"
 #include "Game.h"
 #include "../net/messaging/Sendable.h"
@@ -80,19 +81,25 @@ public:
         }
 
         cout<<"INPUT RECIBIDA: ACTION: "<<action<<" ID: "<<std::get<1>(input)<<endl;*/
-        return currentInput->push_back(input);
+        mu.lock();
+        currentInput->push_back(input);
+        mu.unlock();
     }
 
     //GETTERS
     //===============================
     std::list<std::tuple<Action,int>> getACopyOfNewInputs() {
-        return *currentInput;
+        std::list<std::tuple<Action,int>> copy;
+        mu.lock();
+        if (!currentInput->empty()){
+            copy = *currentInput;
+        }
+        mu.unlock();
+        return copy;
     }
     std::list<Sendable*>* getPackages(){
         return currentPackagesToSend;
     }
-
-    void untrackLastSendables();
 
     bool hasNewPackages();
 
@@ -117,6 +124,8 @@ private:
     std::list<Sendable*>* currentPackagesToSend = nullptr;
     SDL_Event sdlEvent;
     Game* game = nullptr;
+
+    std::mutex mu;
 
     ObjectSerializer* objectSerializer = nullptr;
     std::map<SDL_Scancode, Action> actions;
