@@ -54,6 +54,9 @@ private:
     void endRight();
 
     bool alreadyJumping = false;
+    bool stuckInTheAir = false;
+
+    int prevYToJump = 0;
 };
 
 #endif //GAME_PHYSICS_H
