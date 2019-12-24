@@ -87,7 +87,7 @@ void GameServer::sendUpdate() {
 void GameServer::handleLogin(const std::string& user, const std::string& pass, int userId){
 
     string toSendMessage;
-    usleep(2000000);
+    //usleep(2000000);
 
     if (credentialsAreValid(user,pass)){
         if (userAlreadyLoggedIn(user)){
