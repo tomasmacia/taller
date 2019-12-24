@@ -81,6 +81,7 @@ private:
     AttackCode prevWeapon = NO_WEAPON;
 
     bool heeHee = false;
+    bool doneHeeheeRecently = false;
 
     bool disconnected = false;
 

@@ -43,6 +43,11 @@ void State::handleNewState(Action incoming) {
 }
 
 void State::updateMovementState(Action incoming){
+
+    if (incoming != NONE){
+        doneHeeheeRecently = false;
+    }
+
     switch (incoming){
         case UP:
             movingUp = true;
@@ -407,13 +412,14 @@ AttackCode State::getPrevWeapon() {
 }
 
 void State::checkAndUpdateIfHeeHee() {
-    if ((_currentState == RIGHT && facingLeft()) || (_currentState == LEFT && facingRight())){
+    if (!doneHeeheeRecently && ((_currentState == RIGHT && facingLeft()) || (_currentState == LEFT && facingRight()))){
         heeHee = true;
     }
 }
 
 void State::endHeeHee(){
     heeHee = false;
+    doneHeeheeRecently = true;
 }
 
 bool State::isHeeHee() {
