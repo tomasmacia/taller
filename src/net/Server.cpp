@@ -77,6 +77,7 @@ string Server::receive(int someSocketFD) {
 
     while (n != MAX_BYTES_BUFFER) {
         n = recv(someSocketFD, buff, MAX_BYTES_BUFFER, 0);
+        cout << "SERVER-READ: " << buff << endl;
         //printMovement(buff);
         if (n <= 0){
             if (errno != EAGAIN){
