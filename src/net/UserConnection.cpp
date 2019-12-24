@@ -55,7 +55,7 @@ void UserConnection::readThread() {
         incomingMessage = server->receive(socketFD);
         //cout<<"SERVER-READ"<<endl;
         if (incomingMessage == objectSerializer->getFailure()){ continue;}
-        if (incomingMessage == objectSerializer->getPingCode()){ continue;}
+        if (incomingMessage == objectSerializer->getParsedPingMessage()){ continue;}
         else{
             incomingQueueMutex.lock();
             incomingMessagesQueue.push_back(incomingMessage);

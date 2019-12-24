@@ -16,7 +16,7 @@
 using namespace std;
 
 
-class ObjectSerializer {
+class  ObjectSerializer {
 
 public:
 
@@ -37,6 +37,7 @@ public:
 
     //VALIDATE
     //===============================validGameStartedMessage
+    bool validSerializedTestModeMessage(vector<string> *pVector);
     bool validGameStartedMessage(vector<string> *currentParsedMessage);
     bool validEndOfGameMessage(vector<string> *currentParsedMessage);
     bool validPlayerDiedMessage(vector<string> *currentParsedMessage);
@@ -65,6 +66,7 @@ public:
     string serializeInput(Action action, int id);
     string serializeCredentials(string user, string pass);
     string getPingMessage();
+    string getParsedPingMessage();
     string addPadding(string message);
 
     //GETTERS
@@ -105,8 +107,6 @@ public:
     char getEndOfSerializationSymbol(){
         return END_OF_SERIALIZATION_SYMBOL.c_str()[0];
     }
-
-    bool validSerializedTestModeMessage(vector<string> *pVector);
 
 private:
     string END_OF_SERIALIZATION_SYMBOL = "&";

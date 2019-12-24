@@ -84,7 +84,7 @@ string Server::receive(int someSocketFD) {
 
     while (bytesRead < MAX_BYTES_BUFFER) {
         n = recv(someSocketFD, buff, MAX_BYTES_BUFFER, 0);
-        rawMessage += messageParser.cleanRawMessageFromBuffer(buff,MAX_BYTES_BUFFER, failureMessage, start, end,padding);
+        rawMessage += messageParser.cleanRawMessageFromBuffer(buff, MAX_BYTES_BUFFER);
         if (n <= 0){
             if (errno != EAGAIN){
                 error("error reading | errno: " + to_string(errno));
