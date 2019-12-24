@@ -47,8 +47,6 @@ void Physics::update() {
 
 void Physics::handleCurrentState(){
 
-
-
     if (_state->current() != JUMP && _state->current() != JUMP_KICK){
         alreadyJumping = false;
     }

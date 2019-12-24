@@ -56,8 +56,11 @@ public:
     bool justPickedWeapon();
     void endPickingFlag();
     void checkMovementPairs(Action action);
-
     AttackCode getPrevWeapon();
+    void checkAndUpdateIfHeeHee();
+    void endHeeHee();
+
+    bool isHeeHee();
 
 private:
     Will* _will = nullptr;
@@ -76,6 +79,8 @@ private:
     bool justPicked = false;
     bool dropingWeaponFlag = false;
     AttackCode prevWeapon = NO_WEAPON;
+
+    bool heeHee = false;
 
     bool disconnected = false;
 

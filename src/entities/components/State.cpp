@@ -20,6 +20,7 @@ void State::setIncoming(Action incoming){
     updateMovementState(incoming);
     updateFacingState(incoming);;
     handleNewState(incoming);
+    checkAndUpdateIfHeeHee();
 }
 
 void State::handleNewState(Action incoming) {
@@ -403,4 +404,18 @@ void State::checkMovementPairs(Action action) {
 
 AttackCode State::getPrevWeapon() {
     return prevWeapon;
+}
+
+void State::checkAndUpdateIfHeeHee() {
+    if ((_currentState == RIGHT && facingLeft()) || (_currentState == LEFT && facingRight())){
+        heeHee = true;
+    }
+}
+
+void State::endHeeHee(){
+    heeHee = false;
+}
+
+bool State::isHeeHee() {
+    return heeHee;
 }

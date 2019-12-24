@@ -4,15 +4,11 @@ mejorar IA queda pegando a la nada si te moves un poquito para abajo o arriba
 
 mejorar IA queda pegando a la nada si te pones atras de el
 
-a veces al principio de un nivel anda como lento y desp mejora
-
-se rompe la hitting box
+a veces al principio de un nivel anda como lento y desp mejorar
 
 hay veces que la animacion del salto termina antes de tiempo
 
-si pongo 2 clientes pc, 2 clientes latpop y server laptop, cuando desconecto cable laptop, se desconectan primero los clientes pc al instante, un rato desp el server y un buen rato desp los clientes laptop(NO BLOQUEANTE)
-
-arreglar el "esperando server" en cris y fran
+si pongo 2 clientes pc, 2 clientes latpop y server laptop, cuando desconecto cable laptop, se desconectan primero los clientes pc al instante, un rato desp el server y un buen rato desp los clientes laptop (NO BLOQUEANTE)
 
 ===============================================================
 
@@ -95,3 +91,9 @@ al terminar de saltar elige un movimiento pero es bloqueante
 
 (HECHO)
 mejorar parser para que filtre el principio
+
+(SOLVED)(AL CARGAR EL NUEVO LEVEL SE PONIAN TODAS LAS HITTING BOX EN EL CENTRO DEL PJ)
+se rompe la hitting box
+
+(SOLVED?)(NO PASO MAS)(DESPUES DE CAMBIAR LA FORMA EN QUE SE ACUMULABA EN EL BUFFER DE RECV DE SERVER Y CLIENT NO PASO MAS)
+arreglar el "esperando server" en cris y fran
