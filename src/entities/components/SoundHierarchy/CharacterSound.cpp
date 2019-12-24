@@ -15,7 +15,6 @@ void CharacterSound::handleCurrentState() {
         state->endHeeHee();
     }
     else {
-
         if (state->current() != previous || weaponWasBeingDroped) {
             if (weaponWasBeingDroped) {
                 weaponWasBeingDroped = false;
