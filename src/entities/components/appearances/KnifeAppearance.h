@@ -12,6 +12,8 @@ class KnifeAppearance : public WeaponAppearance {
 public:
     KnifeAppearance(int w, int h, ScreenPosition* screenPosition, State* state, WeaponConfig config);
 
+    ~KnifeAppearance() override = default;
+
 protected:
     void init() override ;
 };

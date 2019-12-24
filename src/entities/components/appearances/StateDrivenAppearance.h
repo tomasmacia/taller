@@ -14,6 +14,8 @@ public:
 
     bool isFliped();
 
+    virtual ~StateDrivenAppearance() {};
+
 protected:
     virtual void handleCurrentState() = 0;
     virtual void init() = 0;

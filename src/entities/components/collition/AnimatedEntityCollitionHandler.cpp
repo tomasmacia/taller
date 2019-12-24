@@ -214,5 +214,7 @@ void AnimatedEntityCollitionHandler::adaptPunchingBox() {
         case TUBE:
             _punchBox->adaptWidthToRespectTo(normalPunchingWidth * TUBE_WIDTH_SCALE_FACTOR,_punchBox->getOwner()->getPos());
             break;
+        default:
+            break;
     }
 }

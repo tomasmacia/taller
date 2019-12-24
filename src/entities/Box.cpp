@@ -20,6 +20,8 @@ int Box::setAttackedWith(AttackCode attack) {
             return score->boxAttackedWith(attack);
         }
     }
+
+    return 0; // TODO: tiene sentido?
 }
 
 Box::Box(CollitionHandler *collitionHandler, Life *life, Damage *damage, Score *score, Position *position, State *state,

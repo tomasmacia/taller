@@ -19,6 +19,8 @@ int Barrel::setAttackedWith(AttackCode attack) {
             return score->barrelAttackedWith(attack);
         }
     }
+
+    return 0;
 }
 
 Barrel::Barrel(CollitionHandler *collitionHandler, Life *life, Damage *damage, Score *score, Position *position,

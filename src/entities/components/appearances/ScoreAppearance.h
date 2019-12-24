@@ -25,7 +25,7 @@ public:
     void setPositionXSCore(int a){
         positionXscore =a;
     };
-    void update();
+    void update() override;
 
 private:
     Score* score = nullptr;

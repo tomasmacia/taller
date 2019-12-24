@@ -6,6 +6,8 @@
 
 int Weapon::useOn(Entity *entity) {
     life->decreseBy(1);
+
+    return 1;
 }
 
 void Weapon::getPicked() {

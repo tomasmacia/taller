@@ -12,6 +12,8 @@ class BarrelAppearance : public UtilityAppearance {
 public:
     BarrelAppearance(int w, int h, ScreenPosition* screenPosition, State* state, UtilityConfig config);
 
+    ~BarrelAppearance() override = default;
+
 protected:
     void init() override ;
 };

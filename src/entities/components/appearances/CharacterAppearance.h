@@ -9,6 +9,8 @@ class CharacterAppearance : public AnimatedAppearance {
 public:
     CharacterAppearance(int w, int h, Position* position, ScreenPosition* screenPosition, State* state, CharacterXML characterConfig);
 
+    ~CharacterAppearance() override = default;
+
     void setConnected();
     void setDisconnected();
 

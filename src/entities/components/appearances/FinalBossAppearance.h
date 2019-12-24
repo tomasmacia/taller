@@ -12,6 +12,8 @@ class FinalBossAppearance : public AnimatedAppearance{
 public:
     FinalBossAppearance(int w, int h, ScreenPosition* screenPosition, State* state, NPC npcConfig);
 
+    ~FinalBossAppearance() override = default;
+
 protected:
     void init() override ;
 };

@@ -12,6 +12,8 @@ class WeaponAppearance : public StateDrivenAppearance {
 public:
     WeaponAppearance(int w, int h, ScreenPosition *screenPosition, State *state, WeaponConfig config);
 
+    ~WeaponAppearance() override = default;
+
     void handleCurrentState() override{}
 
 protected:

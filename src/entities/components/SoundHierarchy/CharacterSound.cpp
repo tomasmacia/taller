@@ -37,6 +37,8 @@ void CharacterSound::handleCurrentState() {
                         case TUBE:
                             _currentSoundPath = soundsConfig.players.pipeHit;
                             break;
+                        default:
+                            break;
                     }
                     state->endHittingFlag();
                 }

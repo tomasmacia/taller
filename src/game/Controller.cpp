@@ -92,6 +92,8 @@ list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
                         case RIGHT:
                             action = END_RIGHT;
                             break;
+                        default:
+                            break;
                     }
                     serializedInput = objectSerializer->serializeInput(action,playerId);
                     serializedInputs.push_back(serializedInput);

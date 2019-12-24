@@ -43,6 +43,8 @@ void AnimatedAppearance::handleCurrentState(){
                 currentSprite = entityConfig.dying;
                 _imageAmount  = DYING_IMAGE_AMOUNT;
                 break;
+            default:
+                break;
         }
         if (_state->current() == PUNCH) {
             switch (_state->getWeapon()) {
@@ -57,6 +59,8 @@ void AnimatedAppearance::handleCurrentState(){
                 case TUBE:
                     currentSprite = entityConfig.pipeHit;
                     _imageAmount = TUBE_ATTACK_IMAGE_AMOUNT;
+                    break;
+                default:
                     break;
             }
         }
@@ -75,6 +79,8 @@ void AnimatedAppearance::handleCurrentState(){
                         currentSprite = entityConfig.pipeWalk;
                         _imageAmount = TUBE_WALK_IMAGE_AMOUNT;
                         break;
+                    default:
+                        break;
                 }
             }
             else {
@@ -90,6 +96,8 @@ void AnimatedAppearance::handleCurrentState(){
                     case TUBE:
                         currentSprite = entityConfig.pipeStand;
                         _imageAmount = STAND_IMAGE_AMOUNT;
+                        break;
+                    default:
                         break;
                 }
             }

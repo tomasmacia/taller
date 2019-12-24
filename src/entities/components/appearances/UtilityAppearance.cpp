@@ -26,6 +26,8 @@ void UtilityAppearance::handleCurrentState(){
             currentSprite = config.brokenSprite;
             _imageAmount  = DYING_IMAGE_AMOUNT;
             break;
+        default:
+            break;
     }
     getCurrentSpriteDimentions();
 }

@@ -12,6 +12,8 @@ class UtilityAppearance : public StateDrivenAppearance {
 public:
     UtilityAppearance(ScreenPosition *screenPosition, State *state, UtilityConfig config);
 
+    ~UtilityAppearance() override = default;
+
     void handleCurrentState() override ;
 
 protected:

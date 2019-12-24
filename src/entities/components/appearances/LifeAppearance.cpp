@@ -56,7 +56,7 @@ void LifeAppearance::loadNextImage() {
     }
     else {
 
-        if((life == 0)){
+        if(life == 0) {
             base = life0;
             life = 100;      
         }
