@@ -101,13 +101,13 @@ string Server::receive(int someSocketFD) {
             }
         }
         else{
-            cout << "SERVER-READ BUFFER: " << n << " " << buff << endl;
+            //cout << "SERVER-READ BUFFER: " << n << " " << buff << endl;
         }
         bytesRead += n;
     }
-    cout << "SERVER-READ COMPLETO: " << rawMessage << endl;
+    //cout << "SERVER-READ COMPLETO: " << rawMessage << endl;
     std::string parsed = messageParser.extractMeaningfulMessageFromStream(const_cast<char *>(rawMessage.c_str()), MAX_BYTES_BUFFER, failureMessage, start, end, padding);
-    cout << "SERVER-READ PARSED: " << parsed << endl;
+    //cout << "SERVER-READ PARSED: " << parsed << endl;
     return parsed;
 }
 

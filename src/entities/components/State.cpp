@@ -148,7 +148,7 @@ bool State::isNotBlockingAction(Action action){
 
 bool State::isBlockingAction(Action action){
     return  (action == JUMP || action == PUNCH ||
-            action == KICK || action == JUMP_KICK ||
+            action == KICK || action == JUMP_KICK || action == END_JUMP ||
             action == CROUCH || action == DYING || action == DEAD || action == BEING_ATTACKED);
 }
 

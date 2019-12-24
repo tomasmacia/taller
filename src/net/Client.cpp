@@ -196,7 +196,7 @@ int Client::send(const std::string& msg) {
 
     while (n != MAX_BYTES_BUFFER) {
         n = ::send(socketFD, buff, MAX_BYTES_BUFFER, MSG_NOSIGNAL);
-        cout << "CLIENT-SEND: " << buff << endl;
+        //cout << "CLIENT-SEND: " << buff << endl;
         if (n <= 0){
             if (errno != EAGAIN){
                 error("error sending | errno: " + to_string(errno));
