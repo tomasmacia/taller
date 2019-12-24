@@ -92,7 +92,12 @@ string Server::receive(int someSocketFD) {
                 return objectSerializer->getFailure();
             }
             else{
-
+                if (bytesRead > 0){
+                    continue;
+                }
+                else{
+                    return objectSerializer->getFailure();
+                }
             }
         }
         else{
