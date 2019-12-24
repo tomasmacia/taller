@@ -74,11 +74,18 @@ string Server::receive(int someSocketFD) {
 
     char buff[MAX_BYTES_BUFFER]{0};
     int n = 0;
+    int bytesRead = 0;
+    string rawMessage = "";
 
-    while (n != MAX_BYTES_BUFFER) {
-        n = recv(someSocketFD, buff, MAX_BYTES_BUFFER, 0);
-        cout << "SERVER-READ: " << buff << endl;
-        //printMovement(buff);
+    char end = objectSerializer->getEndOfSerializationSymbol();
+    char padding = objectSerializer->getPaddingSymbol();
+    char start = objectSerializer->getStartSerializationSymbol();
+    string failureMessage = objectSerializer->getFailure();
+
+    while (bytesRead < MAX_BYTES_BUFFER) {
+        n = recv(socketFD, buff, MAX_BYTES_BUFFER, 0);
+        rawMessage += messageParser.cleanRawMessageFromBuffer(buff,MAX_BYTES_BUFFER, failureMessage, start, end,padding);
+        //cout << "SERVER-READ BUFFER: " << n << " " << buff << endl;
         if (n <= 0){
             if (errno != EAGAIN){
                 error("error reading | errno: " + to_string(errno));
@@ -86,14 +93,11 @@ string Server::receive(int someSocketFD) {
             }
             return objectSerializer->getFailure();
         }
+        //cout << "SERVER-READ COMPLETO: " << rawMessage << endl;
+        bytesRead += n;
     }
-
-    char end = objectSerializer->getEndOfSerializationSymbol();
-    char padding = objectSerializer->getPaddingSymbol();
-    char start = objectSerializer->getStartSerializationSymbol();
-    string failureMessage = objectSerializer->getFailure();
-    std::string parsed = messageParser.extractMeaningfulMessageFromStream(buff,MAX_BYTES_BUFFER, failureMessage, start, end,padding);
-    //cout << "SERVER-READ: " << parsed << endl;
+    std::string parsed = messageParser.extractMeaningfulMessageFromStream(const_cast<char *>(rawMessage.c_str()), MAX_BYTES_BUFFER, failureMessage, start, end, padding);
+    //cout << "SERVER-READ PARSED: " << parsed << endl;
     return parsed;
 }
 
