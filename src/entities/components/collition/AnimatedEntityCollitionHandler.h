@@ -36,6 +36,10 @@ public:
     bool attackChanged();
     void adaptPunchingBox();
 
+    void setBlockingCollitionBoxAt(Point *pPoint);
+
+    void setAllCollitionBoxesKeepingRelativeDistancesTo(Point *pos);
+
 private:
     State* _state = nullptr;
 
