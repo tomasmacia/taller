@@ -83,21 +83,26 @@ string Server::receive(int someSocketFD) {
     string failureMessage = objectSerializer->getFailure();
 
     while (bytesRead < MAX_BYTES_BUFFER) {
-        n = recv(socketFD, buff, MAX_BYTES_BUFFER, 0);
+        n = recv(someSocketFD, buff, MAX_BYTES_BUFFER, 0);
         rawMessage += messageParser.cleanRawMessageFromBuffer(buff,MAX_BYTES_BUFFER, failureMessage, start, end,padding);
-        //cout << "SERVER-READ BUFFER: " << n << " " << buff << endl;
         if (n <= 0){
             if (errno != EAGAIN){
                 error("error reading | errno: " + to_string(errno));
                 beginDisconectionWith(socketIDMap.at(someSocketFD));
+                return objectSerializer->getFailure();
             }
-            return objectSerializer->getFailure();
+            else{
+
+            }
         }
-        //cout << "SERVER-READ COMPLETO: " << rawMessage << endl;
+        else{
+            cout << "SERVER-READ BUFFER: " << n << " " << buff << endl;
+        }
         bytesRead += n;
     }
+    cout << "SERVER-READ COMPLETO: " << rawMessage << endl;
     std::string parsed = messageParser.extractMeaningfulMessageFromStream(const_cast<char *>(rawMessage.c_str()), MAX_BYTES_BUFFER, failureMessage, start, end, padding);
-    //cout << "SERVER-READ PARSED: " << parsed << endl;
+    cout << "SERVER-READ PARSED: " << parsed << endl;
     return parsed;
 }
 
