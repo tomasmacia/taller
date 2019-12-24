@@ -85,7 +85,7 @@ void Client::readThread() {
         incomingMessage = receive();
         //cout<<"CLIENT-READ"<<endl;
         if (incomingMessage == objectSerializer->getFailure()){ continue;}
-        if (incomingMessage == objectSerializer->getPingCode()){ continue;}
+        if (incomingMessage == objectSerializer->getParsedPingMessage()){ continue;}
         else{
             incomingQueueMutex.lock();
             incomingMessagesQueue.push_back(incomingMessage);
@@ -225,7 +225,7 @@ std::string Client::receive() {
 
     while (bytesRead < MAX_BYTES_BUFFER) {
         n = recv(socketFD, buff, MAX_BYTES_BUFFER, 0);
-        rawMessage += messageParser.cleanRawMessageFromBuffer(buff,MAX_BYTES_BUFFER, failureMessage, start, end,padding);
+        rawMessage += messageParser.cleanRawMessageFromBuffer(buff, MAX_BYTES_BUFFER);
         //cout << "CLIENT-READ BUFFER: " << n << " " << buff << endl;
         if (n <= 0){
             if (errno != EAGAIN){
@@ -234,9 +234,9 @@ std::string Client::receive() {
             }
             return objectSerializer->getFailure();
         }
-        //cout << "CLIENT-READ COMPLETO: " << rawMessage << endl;
         bytesRead += n;
     }
+    //cout << "CLIENT-READ COMPLETO: " << rawMessage << endl;
     std::string parsed = messageParser.extractMeaningfulMessageFromStream(const_cast<char *>(rawMessage.c_str()), MAX_BYTES_BUFFER, failureMessage, start, end, padding);
     //cout << "CLIENT-READ PARSED: " << parsed << endl;
     return parsed;

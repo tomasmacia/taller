@@ -8,11 +8,7 @@ a veces al principio de un nivel anda como lento y desp mejora
 
 se rompe la hitting box
 
-mejorar parser para que filtre el principio
-
 hay veces que la animacion del salto termina antes de tiempo
-
-al terminar de saltar elige un movimiento pero es bloqueante
 
 si pongo 2 clientes pc, 2 clientes latpop y server laptop, cuando desconecto cable laptop, se desconectan primero los clientes pc al instante, un rato desp el server y un buen rato desp los clientes laptop(NO BLOQUEANTE)
 
@@ -93,3 +89,9 @@ a veces pego al aire y suena golpe
 
 (SOLVED)(COSTO PERO ERA PONER PARA QUE RECORDARA EL ESTADO DEL ARMA ANTERIOR EN SONIDO Y APPEARANCE)
 en el tercer golpe el arma se rompe pero parce que se rompio en la segunda por como esta lo del sprite
+
+(SOLVED)(ERA QUE HABIA QUE PONER COMO BLOQUEANTE AL END_JUMP)
+al terminar de saltar elige un movimiento pero es bloqueante
+
+(HECHO)
+mejorar parser para que filtre el principio
