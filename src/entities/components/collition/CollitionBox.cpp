@@ -171,7 +171,7 @@ Sendable *CollitionBox::generateSendable() {
             y = screenPosition->getYWithPos(corners->at(6));
         }
 
-        return new Sendable(new Renderable("NULL_PATH",Rect(0,0,w,h),Rect(x,y,w,h),false), nullptr);
+        return new Sendable(new Renderable("resources/sprites/fondo_amarillo.png",Rect(0,0,w,h),Rect(x,y,w,h),false), nullptr);
     }
     else{
         return new Sendable(nullptr, nullptr);

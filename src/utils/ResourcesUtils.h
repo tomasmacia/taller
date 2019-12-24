@@ -219,6 +219,8 @@ public:
         i++;
         idsToResources.emplace(make_pair(i, string("resources/sprites/screens/complete.png")));
         i++;
+        idsToResources.emplace(make_pair(i, string("resources/sprites/fondo_amarillo.png")));
+        i++;
 
         for( auto const& [key, val] : idsToResources) {
             resourcesToIds.emplace(make_pair(val, key));

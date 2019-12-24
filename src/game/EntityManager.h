@@ -159,8 +159,8 @@ private:
 
     bool VISUAL_COLLITION_BOX = false;
     bool VISUAL_PICK = false;
-    bool VISUAL_PUNCH = false;
-    bool VISUAL_KICK = false;
+    bool VISUAL_PUNCH = true;
+    bool VISUAL_KICK = true;
 
     int NON_TRACKABLE_COLLITION_BOX_ID = -1;
     int DEFAULT_COLLITION_BOX_WIDTH = 5;
