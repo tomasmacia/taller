@@ -40,6 +40,7 @@
             <knifehit>resources/sfx/players/knifehit.wav</knifehit>
             <pipehit>resources/sfx/players/pipehit.wav</pipehit>
             <jump>resources/sfx/players/landing.wav</jump>
+            <heehee>resources/sfx/players/heehee.wav</heehee>
         </player>
         <utility>
             <barrelbreak>resources/sfx/utilities/barrelbreak.wav</barrelbreak>
