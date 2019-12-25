@@ -105,7 +105,7 @@ MessageId MessageParser::getHeader(){
 vector<string>* MessageParser::split(const string& s, const char& c)
 {
     string buff{""};
-    vector<string>* v = new vector<string>();
+    vector<string>* v = lastParsedMessage;
 
     for(auto n:s)
     {

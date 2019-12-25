@@ -14,12 +14,15 @@ Sendable::~Sendable() {
     if (_renderable != nullptr){
 
         delete(_renderable);
+        _renderable = nullptr;
     }
 
     if (_soundable != nullptr){
 
         delete(_soundable);
+        _soundable = nullptr;
     }
+
 }
 
 bool Sendable::hasRenderable() {
