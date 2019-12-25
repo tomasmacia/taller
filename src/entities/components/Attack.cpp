@@ -102,9 +102,11 @@ void Attack::addressJumpKick(){
 }
 
 void Attack::addressPickIntent(){
-    auto* pickable = collitionHandler->getClosestPickeableWithinPickingRange();
-    if (pickable != nullptr){
-        setWeapon((Weapon*) pickable);
+    if (!hasWeapon()){
+        auto* pickable = collitionHandler->getClosestPickeableWithinPickingRange();
+        if (pickable != nullptr){
+            setWeapon((Weapon*) pickable);
+        }
     }
 }
 
