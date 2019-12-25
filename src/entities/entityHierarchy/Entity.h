@@ -27,7 +27,9 @@ public:
     virtual bool isScreen(){return false;}
     virtual bool isCharacter(){return false;}
 
-    virtual Point* getPos() {};
+    virtual Point* getPos() {
+        return nullptr;
+    };
 
 protected:
     CollitionHandler* collitionHandler = nullptr;

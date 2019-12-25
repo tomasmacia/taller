@@ -12,6 +12,8 @@ class TubeAppearance : public WeaponAppearance {
 public:
     TubeAppearance(int w, int h, ScreenPosition* screenPosition, State* state, WeaponConfig config);
 
+    ~TubeAppearance() override = default;
+
 protected:
     void init() override ;
 };

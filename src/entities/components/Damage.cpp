@@ -17,6 +17,8 @@ int Damage::enemyAttackedWith(AttackCode attackCode) {
             return KNIFE_DAMAGE_TO_ENEMY;
         case TUBE:
             return TUBE_DAMAGE_TO_ENEMY;
+        default:
+            return 0; // TODO tiene sentido?
     }
 }
 

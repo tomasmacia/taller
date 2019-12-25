@@ -52,7 +52,9 @@ public:
 
     int currentX = 0;
 
-    bool isScreen(){return true;}
+    bool isScreen() override {
+        return true;
+    }
 
     void removePlayer(int id);
 

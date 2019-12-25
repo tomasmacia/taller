@@ -9,6 +9,8 @@ class EnemyAppearance : public AnimatedAppearance {
 public:
     EnemyAppearance(int w, int h, ScreenPosition* screenPosition, State* state, NPC npcConfig);
 
+    ~EnemyAppearance() override = default;
+
 protected:
     void init() override ;
 };

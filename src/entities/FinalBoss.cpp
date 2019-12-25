@@ -32,4 +32,6 @@ int FinalBoss::setAttackedWith(AttackCode attack) {
             return score->enemyAttackedWith(attack);
         }
     }
+
+    return 0; // TODO tiene sentido?
 }

@@ -14,6 +14,8 @@ class AnimatedAppearance : public StateDrivenAppearance{
 public:
     AnimatedAppearance(ScreenPosition* screenPosition, State* state, EntityConfig entityConfig);
 
+    ~AnimatedAppearance() override = default;
+
     void handleCurrentState() override ;
 
 protected:

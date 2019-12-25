@@ -71,6 +71,8 @@ void State::updateMovementState(Action incoming){
             movingLeft = false;
             movingRight = false;
             break;
+        default:
+            break;
     }
 }
 
@@ -99,6 +101,8 @@ void State::restoreMovementFromOngoing(Action incoming) {
                 _currentState = RIGHT;
             }
             break;
+        default:
+            break;
     }
 }
 
@@ -113,6 +117,8 @@ void State::updateFacingState(Action incoming) {
             if (facingRight()){
                 flip();
             }
+            break;
+        default:
             break;
     }
 }
@@ -193,6 +199,8 @@ void State::setFinished(){
             break;
         case DEAD:
             _currentState = DEAD;
+            break;
+        default:
             break;
     }
 }
@@ -306,6 +314,8 @@ void State::printState(Action incoming) {
             break;
         case QUIT:
             std::cout<<"QUIT"<<std::endl;
+            break;
+        default:
             break;
     }
 }

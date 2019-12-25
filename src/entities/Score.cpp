@@ -47,6 +47,8 @@ int Score::enemyAttackedWith(AttackCode attackCode) {
             return KNIFE_ATTACK_TO_ENEMY;
         case TUBE:
             return TUBE_ATTACK_TO_ENEMY;
+        default:
+            return 0; // TODO tiene sentido?
     }
 }
 

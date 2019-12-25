@@ -156,6 +156,8 @@ Sendable* ObjectSerializer::reconstructSendable(vector<string>* currentParsedMes
 
         return new Sendable(renderable, soundable);
     }
+
+    return nullptr;
 }
 
 tuple<Action,int> ObjectSerializer::reconstructInput(vector<string>* currentParsedMessage) {

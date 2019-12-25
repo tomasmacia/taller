@@ -110,6 +110,8 @@ void Physics::handleCurrentState(){
             break;
         case QUIT:
             break;
+        default:
+            break;
     }
 }
 

@@ -12,6 +12,8 @@ class BoxAppearance : public UtilityAppearance {
 public:
     BoxAppearance(int w, int h, ScreenPosition* screenPosition, State* state, UtilityConfig config);
 
+    ~BoxAppearance() override = default;
+
 protected:
     void init() override ;
 };
