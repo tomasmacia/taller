@@ -108,6 +108,9 @@ void GameClient::renderAllPackages(){
         controllerMutex.lock();
 
         if (controller->hasNewPackages()){
+            if (!previousPackages->empty()){
+                int x = 0;
+            }
             erasePreviousPackages();
             previousPackages->splice(previousPackages->end(),*controller->getPackages()); //se transfieren los punteros trackeados en Controller vaciando la lista de Controller
         }
@@ -148,6 +151,7 @@ void GameClient::end() {
 }
 
 void GameClient::reciveRenderables(vector<string>* serializedPages){
+
     if (controller != nullptr){
         controllerMutex.lock();
         controller->reciveRenderables(serializedPages);
@@ -309,9 +313,10 @@ void GameClient::clearMaps(){
 }
 
 void GameClient::erasePreviousPackages() {
-
-    for (auto package : *previousPackages){
-        delete(package);
+    int x = 0;
+    for (Sendable* package : *previousPackages){
+        delete package;
+        x++;
     }
     previousPackages->clear();
 }
