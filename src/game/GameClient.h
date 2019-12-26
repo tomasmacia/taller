@@ -117,7 +117,7 @@ private:
     string YOU_DIED_OR_DISCONNECTED_MUSIC_PATH = "resources/sfx/music/Curb_Your_Enthusiasm_theme_song.wav";
     string VICTORY_MUSIC_PATH = "resources/sfx/music/we_are_the_champions.wav";
     string LOSSING_MUSIC_PATH = "resources/sfx/music/dun_dun_dun.wav";
-    int END_SCREEN_FRAMES = 100;
+    int END_SCREEN_FRAMES = 1000;
 
     SoundWrapper* gameMusic = nullptr;
 
@@ -130,6 +130,7 @@ private:
     bool disconnect = false;
     bool gameWon = false;
     bool gameLost = false;
+
 
     std:: mutex mu;
     std:: mutex controllerMutex;

@@ -16,6 +16,7 @@ public:
     SoundWrapper(bool isMusic);
 
     void play();
+    void play(int cant);
     void load(const std::string& path);
     bool playing();
     ~SoundWrapper();

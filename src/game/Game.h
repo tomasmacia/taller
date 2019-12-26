@@ -69,6 +69,8 @@ protected:
 
     bool youDiedMusicPlaying = false;
     bool normalGameMusicPlaying = false;
+    bool gameWonMusicPlaying = false;
+    bool gameLostMusicPlaying = false;
 
     SceneDirector* sceneDirector = nullptr;
     Controller *controller = nullptr;

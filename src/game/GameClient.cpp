@@ -68,20 +68,32 @@ void GameClient::updateMusic() {
         if (!youDiedMusicPlaying){
 
             initYouDiedOrDisconnectedMusic();
-            gameMusic->play();
+            gameMusic->play(1);
             youDiedMusicPlaying = true;
             normalGameMusicPlaying = false;
         }
     }
 
     else if(gameWon){
-        initVictoryMusic();
-        gameMusic->play();
+        if (!gameWonMusicPlaying){
+            initVictoryMusic();
+            gameMusic->play(1);
+            youDiedMusicPlaying = false;
+            normalGameMusicPlaying = false;
+            gameWonMusicPlaying = true;
+            gameLostMusicPlaying = false;
+        }
     }
 
     else if(gameLost){
-        initLossingMusic();
-        gameMusic->play();
+        if (!gameLostMusicPlaying){
+            initLossingMusic();
+            gameMusic->play(1);
+            youDiedMusicPlaying = false;
+            normalGameMusicPlaying = false;
+            gameWonMusicPlaying = false;
+            gameLostMusicPlaying = true;
+        }
     }
 
     else if (gameStarted){
@@ -99,14 +111,14 @@ void GameClient::updateRendering() {
         sceneDirector->renderDisconectionScreen(renderer, &loadedTexturesMap);
     }
     else if (gameWon){
-        sceneDirector->renderVictoryScreen(renderer, &loadedTexturesMap);
-    }
-    else if (gameLost){
-        sceneDirector->renderLossingScreen(renderer, &loadedTexturesMap);
-    }
-    else if(endOfGame){
         for (int i = 0; i < END_SCREEN_FRAMES; i++){
-            render();
+            sceneDirector->renderVictoryScreen(renderer, &loadedTexturesMap);
+        }
+        end();
+    }
+    else if (gameLost) {
+        for (int i = 0; i < END_SCREEN_FRAMES; i++) {
+            sceneDirector->renderLossingScreen(renderer, &loadedTexturesMap);
         }
         end();
     }
