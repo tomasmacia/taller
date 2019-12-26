@@ -55,20 +55,20 @@ void LevelBuilder::prepareForNextLevel(){
 }
 
 void LevelBuilder::update() {
-    /*
+
     if ((currentCheckPointNumber + 1) != hordeCheckPoints.size()){
 
         if (_screen->currentX >= hordeCheckPoints.at(currentCheckPointNumber + 1) ){
             spawnHorde();
             currentCheckPointNumber++;
         }
-    }*/
+    }
 }
 
 void LevelBuilder::spawnHorde() {
     for (int i = 0; i < enemiesPerHorde; i++){
         _entityManager->addEnemy();
-        cout<<"Se spawnea un enemy"<<endl;
+        //cout<<"Se spawnea un enemy"<<endl;
     }
 }
 
@@ -82,11 +82,10 @@ void LevelBuilder::initialize() {
 
     initializeLevelDimentions();
     initializeCamera();
-    //initializeEnemySpawns();
+    initializeEnemySpawns();
     initializeWorld();
     initializePlayers();
-    //initializeFinalBoss();
-    //initializeEnemies();
+    initializeFinalBoss();
     initializeWeapons();
     initializeUtilities();
 }
@@ -103,7 +102,6 @@ void LevelBuilder::initializeNextLevel() {
     initializeWorld();
     resetPlayers();
     initializeFinalBoss();
-    //initializeEnemies();
     initializeWeapons();
     initializeUtilities();
 }
@@ -305,8 +303,9 @@ void LevelBuilder::resetPlayers() {
         y = 0;
         z = screenResolutionHeight*0.15;
 
-        player->resetAt(x,y,z);
-        //player->removeWeapon();
+        if (!player->dead()){
+            player->resetAt(x,y,z);
+        }
         i++;
     }
     LogManager::logDebug("[LEVEL]: Jugadores preparados para siguiente nivel: " + std::to_string(amountOfPlayers));
