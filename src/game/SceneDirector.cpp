@@ -33,7 +33,8 @@ void SceneDirector::initScoreScreen(const std::list<Character*>& players, const 
     int y = (config->screenResolution.height/2);
     for (auto a:players){
 
-        renderPuntaje(a->getScore(),config->screenResolution.width-50,y,scoreScreenContainer);
+        renderPuntaje(a->getAcumulatedScore(),config->screenResolution.width-50,y,scoreScreenContainer);
+        renderPuntaje(a->getScore(),config->screenResolution.width/2,y,scoreScreenContainer);
         CharacterName( y, a->getID(),scoreScreenContainer,loggedPlayersUserByID);
         y+=50;
     }

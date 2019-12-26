@@ -65,6 +65,8 @@ public:
 
     bool turnedToDead();
 
+    int getAcumulatedScore();
+
 private:
     int AMOUNT_OF_LIFES_CHARACTER = 3;
     int CHARACTER_LIFE_AMOUNT = 100;

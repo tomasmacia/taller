@@ -90,6 +90,12 @@ void GameClient::updateRendering() {
     if (disconnect && !endOfGame){
         sceneDirector->renderDisconectionScreen(renderer, &loadedTexturesMap);
     }
+    else if(endOfGame){
+        for (int i = 0; i < END_SCREEN_FRAMES; i++){
+            render();
+        }
+        end();
+    }
     else {
         render();
     }

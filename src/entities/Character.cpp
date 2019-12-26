@@ -32,7 +32,7 @@ list<Sendable *> Character::generateScoreAndLifeSendable() {
     sendables.push_back(lifecant);
     auto lifergrey =new Sendable(life->getAppearance()->GenerateRenderableToDisconnect(isDisconnected() || dead()),nullptr);
     sendables.push_back(lifergrey);
-    return scoreAppearance->numerRenderabls(score->getCurrent(),sendables);
+    return scoreAppearance->numerRenderabls(score->getAcumulated(),sendables);
 }
 
 void Character::notifySuccessfulAttack(int score) {
@@ -95,6 +95,7 @@ int Character::setAttackedWith(AttackCode attackCode) {
 
 void Character::resetAt(int x, int y, int z) {
     setPosition(x,y,z);
+    score->notifyOnNewLevel();
 }
 
 void Character::removeWeapon() {
@@ -150,4 +151,8 @@ bool Character::turnedToDead() {
 
 void Character::setAction(Action action) {
     inputPoller->set(action);
+}
+
+int Character::getAcumulatedScore() {
+    return score->getAcumulated();
 }
