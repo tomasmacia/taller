@@ -45,9 +45,29 @@ void SceneDirector::initDisconectionScreen() {
     disconectionScreen = initScreen(DISCONECTION_SCREEN_PATH)->_renderable;
 }
 
+void SceneDirector::initVictoryScreen() {
+    victoryScreen = initScreen(VICTORY_SCREEN_PATH)->_renderable;
+}
+
+void SceneDirector::initLossingScreen() {
+    lossingScreen = initScreen(LOSSING_SCREEN_PATH)->_renderable;
+}
+
 void SceneDirector::initYouDiedScreen() {
 
     youDiedScreen = initScreen(YOU_DIED_SCREEN_PATH)->_renderable;
+}
+
+void SceneDirector::renderVictoryScreen(SDL_Renderer *renderer, map<std::string, TextureWrapper *> *loadedTexturesMap) {
+    SDL_RenderClear(renderer);
+    victoryScreen->render(loadedTexturesMap);
+    SDL_RenderPresent(renderer);
+}
+
+void SceneDirector::renderLossingScreen(SDL_Renderer *renderer, map<std::string, TextureWrapper *> *loadedTexturesMap) {
+    SDL_RenderClear(renderer);
+    lossingScreen->render(loadedTexturesMap);
+    SDL_RenderPresent(renderer);
 }
 
 void SceneDirector::renderDisconectionScreen(SDL_Renderer* renderer, std::map<std::string, TextureWrapper*>* loadedTexturesMap) {

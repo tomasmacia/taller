@@ -31,6 +31,14 @@ public:
     void renderYouDiedScreen(SDL_Renderer* renderer, std::map<std::string, TextureWrapper*>* loadedTexturesMap);
 
 
+    void renderVictoryScreen(SDL_Renderer *pRenderer, map<std::string, TextureWrapper *> *pMap);
+
+    void renderLossingScreen(SDL_Renderer *pRenderer, map<std::string, TextureWrapper *> *pMap);
+
+    void initVictoryScreen();
+
+    void initLossingScreen();
+
 private:
     Sendable* initScreen(string path);
     void CharacterName(int y, int id, list<Sendable *> *scoreScreenContainer, std::map<int,User> loggedPlayersUserByID);
@@ -40,6 +48,8 @@ private:
     string END_OF_GAME_SCREEN_PATH = "resources/sprites/screens/complete.png";
     string SCORE_SCREEN_PATH = "resources/sprites/screens/mid.png";
     string DISCONECTION_SCREEN_PATH = "resources/sprites/screens/disconnection.png";
+    string VICTORY_SCREEN_PATH = "resources/sprites/screens/complete.png";
+    string LOSSING_SCREEN_PATH = "resources/sprites/screens/complete.png";
     string YOU_DIED_SCREEN_PATH = "NONE";
 
     Sendable* scoreScreen = nullptr;
@@ -52,6 +62,8 @@ private:
     list<Sendable*>* waitingScreenContainer = nullptr;
 
     Renderable* disconectionScreen = nullptr;
+    Renderable* victoryScreen = nullptr;
+    Renderable* lossingScreen = nullptr;
 
     Renderable* youDiedScreen = nullptr;
 

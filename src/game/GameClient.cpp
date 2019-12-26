@@ -46,6 +46,8 @@ void GameClient::start() {
 void GameClient::gameLoop() {
     initGameMusic();
     sceneDirector->initDisconectionScreen();
+    sceneDirector->initVictoryScreen();
+    sceneDirector->initLossingScreen();
     while (isOn()) {
         pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
         updateMusic();
@@ -72,8 +74,14 @@ void GameClient::updateMusic() {
         }
     }
 
-    else if(endOfGame){
-        pauseMusic();
+    else if(gameWon){
+        initVictoryMusic();
+        gameMusic->play();
+    }
+
+    else if(gameLost){
+        initLossingMusic();
+        gameMusic->play();
     }
 
     else if (gameStarted){
@@ -89,6 +97,12 @@ void GameClient::updateMusic() {
 void GameClient::updateRendering() {
     if (disconnect && !endOfGame){
         sceneDirector->renderDisconectionScreen(renderer, &loadedTexturesMap);
+    }
+    else if (gameWon){
+        sceneDirector->renderVictoryScreen(renderer, &loadedTexturesMap);
+    }
+    else if (gameLost){
+        sceneDirector->renderLossingScreen(renderer, &loadedTexturesMap);
     }
     else if(endOfGame){
         for (int i = 0; i < END_SCREEN_FRAMES; i++){
@@ -167,6 +181,8 @@ void GameClient::reciveRenderables(vector<string>* serializedPages){
 
 void GameClient::notifyEndOfGame() {
     endOfGame = true;
+    gameWon = endOfGame && !playerDied;
+    gameLost = !gameWon;
     LogManager::logInfo("[GAME]: Señal de fin de juego recibida desde el server");
 }
 
@@ -196,6 +212,14 @@ void GameClient::initGameMusic() {
 
 void GameClient::initYouDiedOrDisconnectedMusic() {
     gameMusic->load(YOU_DIED_OR_DISCONNECTED_MUSIC_PATH);
+}
+
+void GameClient::initVictoryMusic() {
+    gameMusic->load(VICTORY_MUSIC_PATH);
+}
+
+void GameClient::initLossingMusic() {
+    gameMusic->load(LOSSING_MUSIC_PATH);
 }
 
 //CLIENT RELATED
@@ -335,3 +359,4 @@ void GameClient::connected() {
     disconnect = false;
     LogManager::logInfo("[GAME]: Señal de conexion recibida desde el Client");
 }
+

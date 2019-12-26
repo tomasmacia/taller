@@ -115,6 +115,8 @@ private:
 
     string GAME_MUSIC_PATH = "resources/sfx/music/soundtrack.wav";
     string YOU_DIED_OR_DISCONNECTED_MUSIC_PATH = "resources/sfx/music/Curb_Your_Enthusiasm_theme_song.wav";
+    string VICTORY_MUSIC_PATH = "resources/sfx/music/we_are_the_champions.wav";
+    string LOSSING_MUSIC_PATH = "resources/sfx/music/dun_dun_dun.wav";
     int END_SCREEN_FRAMES = 100;
 
     SoundWrapper* gameMusic = nullptr;
@@ -126,6 +128,8 @@ private:
     bool endOfGame = false;
     bool loggedIn = false;
     bool disconnect = false;
+    bool gameWon = false;
+    bool gameLost = false;
 
     std:: mutex mu;
     std:: mutex controllerMutex;
@@ -137,6 +141,10 @@ private:
     std::list<Sendable*>* previousPackages = nullptr;
     std::map<std::string, TextureWrapper*> loadedTexturesMap;
     std::map<string, SoundWrapper *> loadedSoundsMap;
+
+    void initVictoryMusic();
+
+    void initLossingMusic();
 };
 
 #endif //GAME_GAMECLIENT_H_
