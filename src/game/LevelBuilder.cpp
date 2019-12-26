@@ -319,3 +319,7 @@ void LevelBuilder::resetCamera() {
 LevelBuilder::~LevelBuilder(){
     delete(_entityManager);
 }
+
+int LevelBuilder::getLevelOn() {
+    return currentLevel;
+}

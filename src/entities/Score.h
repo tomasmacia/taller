@@ -22,6 +22,10 @@ public:
     int boxBroken();
     int getCurrent();
 
+    void notifyOnNewLevel();
+
+    int getAcumulated();
+
 private:
     int BROKEN_BOX_SCORE = 200;
     int BROKEN_BARREL_SCORE = 300;
@@ -30,10 +34,11 @@ private:
     int PUNCH_TO_ENEMY = 100;
     int KICK_TO_ENEMY = 400;
     int JUMP_KICK_TO_ENEMY = 400;
-    int KNIFE_ATTACK_TO_ENEMY = 150;
+    int KNIFE_ATTACK_TO_ENEMY = 400;
     int TUBE_ATTACK_TO_ENEMY = 200;
 
     int current = 0;
+    int acumulated = 0;
 };
 
 

@@ -35,6 +35,8 @@ public:
 
     void update();
 
+    int getLevelOn();
+
 private:
     //INITIALIZING
     //===============================
