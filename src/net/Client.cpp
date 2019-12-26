@@ -81,16 +81,27 @@ void Client::client_noBlock() {
 void Client::readThread() {
 
     string incomingMessage;
+    double deltaTime;
+    lastServerPingTime = time(nullptr);
     while(isConnected()) {
         incomingMessage = receive();
         //cout<<"CLIENT-READ"<<endl;
-        if (incomingMessage == objectSerializer->getFailure()){ continue;}
-        if (incomingMessage == objectSerializer->getParsedPingMessage()){ continue;}
+
+        if (incomingMessage == objectSerializer->getFailure()){}
+        else if (incomingMessage == objectSerializer->getParsedPingMessage()){
+            lastServerPingTime = time(nullptr);
+        }
         else{
             incomingQueueMutex.lock();
             incomingMessagesQueue.push_back(incomingMessage);
             //cout<<"CLIENT-READ: "<<incomingMessage<<endl;
             incomingQueueMutex.unlock();
+        }
+
+        deltaTime = difftime(time(nullptr),lastServerPingTime);
+        cout<<"DELTA TIME: "<<deltaTime<<endl;
+        if (deltaTime > TIMEOUT){
+            serverAlive = false;
         }
     }
 }
@@ -274,7 +285,8 @@ void Client::setConnectionOff() {
 
 bool Client::connectionOff(){
 
-    if (!connectionOn){
+    if (!connectionOn || !serverAlive){
+        cout<<"serverAlive: "<<serverAlive<<" connectionOn: "<<connectionOn<<endl;
         return true;
     }
     else {

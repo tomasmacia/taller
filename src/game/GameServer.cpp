@@ -2,6 +2,7 @@
 #include "Controller.h"
 #include "LevelBuilder.h"
 
+#include <ctime>
 #include <iostream>
 
 bool GameServer::hasInstance = false;

@@ -74,6 +74,9 @@ private:
     int maxBytesBuffer;
     //char* buffer;
 
+    const double TIMEOUT = 1;
+    time_t lastServerPingTime;
+    bool serverAlive = true;
     bool connectionOn = false;
     bool connectionAttemptMade = false;
 
