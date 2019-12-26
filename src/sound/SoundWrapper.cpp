@@ -52,11 +52,13 @@ void SoundWrapper::play() {
     }
 
     else{
+        Mix_PlayChannel (-1, sound,0);
 
+        /*
         if ( Mix_PlayChannel (-1, sound,0) == -1){
 
             LogManager::logError("No se pudo reproducir el sonido ");
-        }
+        }*/
 
     }
 
@@ -80,5 +82,30 @@ bool SoundWrapper::playing() {
     else{
 
         return true;
+    }
+}
+
+void SoundWrapper::play(int cant) {
+    if (isMusic){
+
+        if (Mix_PlayMusic(music, cant) == -1){
+
+            LogManager::logError("No se pudo reproducir la musica");
+        }
+        else{
+            LogManager::logInfo("[GAME]: reproduciendo: " + path);
+        }
+
+    }
+
+    else{
+        Mix_PlayChannel (-1, sound,0);
+
+        /*
+        if ( Mix_PlayChannel (-1, sound,0) == -1){
+
+            LogManager::logError("No se pudo reproducir el sonido ");
+        }*/
+
     }
 }

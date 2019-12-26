@@ -327,6 +327,7 @@ Enemy *EntityManager::createEnemy() {
     int x = validPositionGenerator->getX();
     int y = validPositionGenerator->getY();
     int z = validPositionGenerator->getZ();
+    cout<<x - screen->currentX<<endl;
 
     int centerX = x + w/2;
     int centerY = y + h/2;
@@ -598,7 +599,7 @@ void EntityManager::eraseDeadEntities() {
             else{
                 if (e->isFinalBoss()){finalBoss = nullptr;} //mea culpa
                 delete(e);
-                cout<<"a dead entity has been correctly eliminated from the game"<<endl;
+                //cout<<"a dead entity has been correctly eliminated from the game"<<endl;
                 toUntrack.push_back(e);
             }
         }

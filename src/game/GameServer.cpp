@@ -2,6 +2,7 @@
 #include "Controller.h"
 #include "LevelBuilder.h"
 
+#include <ctime>
 #include <iostream>
 
 bool GameServer::hasInstance = false;
@@ -51,6 +52,12 @@ void GameServer::gameLoop(){
         LogManager::logInfo("[GAME]: Nivel terminado");
         LogManager::logInfo("=======================================");
     }
+    if (allDied()){
+        sceneDirector->initScoreScreen(entityManager->getPlayers(),loggedPlayersUserByID);
+        sceneDirector->sendScoreScreen(server);
+        usleep(WAIT_TIME);
+    }
+
     if (notAllPlayersDisconnected() ) { //end screen
         sendEndMessage();
         sceneDirector->initEndOfGameScreen();
@@ -156,6 +163,10 @@ void GameServer::recibeTestModeSignal() {
         }
     }
 
+}
+
+bool GameServer::allDied() {
+    return deadPlayers.size() == maxPlayers;
 }
 
 //SERVER RELATED

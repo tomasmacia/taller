@@ -8,7 +8,7 @@
 
 const int SIDE_CHANGE_DELAY = 60;
 const int PLAYER_DETECTION_DELAY = 30;
-const int PLAYER_DETECTION_RANGE = 1000;
+const int PLAYER_DETECTION_RANGE = 3000;
 
 
 class PatrolBehavior : public Will{

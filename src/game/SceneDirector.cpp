@@ -33,7 +33,8 @@ void SceneDirector::initScoreScreen(const std::list<Character*>& players, const 
     int y = (config->screenResolution.height/2);
     for (auto a:players){
 
-        renderPuntaje(a->getScore(),config->screenResolution.width-50,y,scoreScreenContainer);
+        renderPuntaje(a->getAcumulatedScore(),config->screenResolution.width-50,y,scoreScreenContainer);
+        renderPuntaje(a->getScore(),config->screenResolution.width/2,y,scoreScreenContainer);
         CharacterName( y, a->getID(),scoreScreenContainer,loggedPlayersUserByID);
         y+=50;
     }
@@ -44,9 +45,29 @@ void SceneDirector::initDisconectionScreen() {
     disconectionScreen = initScreen(DISCONECTION_SCREEN_PATH)->_renderable;
 }
 
+void SceneDirector::initVictoryScreen() {
+    victoryScreen = initScreen(VICTORY_SCREEN_PATH)->_renderable;
+}
+
+void SceneDirector::initLossingScreen() {
+    lossingScreen = initScreen(LOSSING_SCREEN_PATH)->_renderable;
+}
+
 void SceneDirector::initYouDiedScreen() {
 
     youDiedScreen = initScreen(YOU_DIED_SCREEN_PATH)->_renderable;
+}
+
+void SceneDirector::renderVictoryScreen(SDL_Renderer *renderer, map<std::string, TextureWrapper *> *loadedTexturesMap) {
+    SDL_RenderClear(renderer);
+    victoryScreen->render(loadedTexturesMap);
+    SDL_RenderPresent(renderer);
+}
+
+void SceneDirector::renderLossingScreen(SDL_Renderer *renderer, map<std::string, TextureWrapper *> *loadedTexturesMap) {
+    SDL_RenderClear(renderer);
+    lossingScreen->render(loadedTexturesMap);
+    SDL_RenderPresent(renderer);
 }
 
 void SceneDirector::renderDisconectionScreen(SDL_Renderer* renderer, std::map<std::string, TextureWrapper*>* loadedTexturesMap) {

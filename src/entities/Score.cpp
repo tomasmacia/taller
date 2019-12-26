@@ -6,8 +6,9 @@
 #include "Score.h"
 
 void Score::increaseBy(int amount) {
+    acumulated += amount;
     current += amount;
-    cout<<"score: "<<current<<endl;
+    //cout<<"score: "<<current<<endl;
 }
 
 int Score::boxAttackedWith(AttackCode attack) {
@@ -54,4 +55,12 @@ int Score::enemyAttackedWith(AttackCode attackCode) {
 
 int Score::getCurrent(){
     return current;
+}
+
+void Score::notifyOnNewLevel() {
+    current = 0;
+}
+
+int Score::getAcumulated() {
+    return acumulated;
 }

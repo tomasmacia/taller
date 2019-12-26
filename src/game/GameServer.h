@@ -157,6 +157,8 @@ private:
     void sendGameStartedMessage();
 
     bool thereIsAtLeastOnePlayerAliveAndConnected();
+
+    bool allDied();
 };
 
 #endif //GAME_GAMESERVER_H_
