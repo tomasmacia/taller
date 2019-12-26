@@ -49,7 +49,7 @@ private:
     string SCORE_SCREEN_PATH = "resources/sprites/screens/mid.png";
     string DISCONECTION_SCREEN_PATH = "resources/sprites/screens/disconnection.png";
     string VICTORY_SCREEN_PATH = "resources/sprites/screens/complete.png";
-    string LOSSING_SCREEN_PATH = "resources/sprites/screens/complete.png";
+    string LOSSING_SCREEN_PATH = "resources/sprites/screens/lose.png";
     string YOU_DIED_SCREEN_PATH = "NONE";
 
     Sendable* scoreScreen = nullptr;
