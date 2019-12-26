@@ -16,6 +16,8 @@ Character::Character(CollitionHandler* collitionHandler, Life *life, Damage *dam
     this->life->initializeWith(CHARACTER_LIFE_AMOUNT, AMOUNT_OF_LIFES_CHARACTER);
     this->id = id;
     this->scoreAppearance = scoreAppearance;
+
+    inputPoller = (InputPoller*) will;
 }
 
 list<Sendable *> Character::generateSendable() {
@@ -26,6 +28,8 @@ list<Sendable *> Character::generateScoreAndLifeSendable() {
     list<Sendable *> sendables;
     auto lifebar=new Sendable(life->getAppearance()->actuallyGenerateRenderable(),nullptr);
     sendables.push_back(lifebar);
+    auto lifecant=new Sendable(life->getAppearance()->GenerateRenderableToCantLife(),nullptr);
+    sendables.push_back(lifecant);
     auto lifergrey =new Sendable(life->getAppearance()->GenerateRenderableToDisconnect(isDisconnected() || dead()),nullptr);
     sendables.push_back(lifergrey);
     return scoreAppearance->numerRenderabls(score->getCurrent(),sendables);
@@ -44,7 +48,7 @@ bool Character::isDisconnected() {
 }
 
 void Character::setConnected(int newID) {
-    CharacterAppearance* characterAppearance = (CharacterAppearance*) this->appearance;
+    auto* characterAppearance = (CharacterAppearance*) this->appearance;
     auto* animatedEntityCollitionHandler = (AnimatedEntityCollitionHandler*) this->collitionHandler;
 
     state->setConnected();
@@ -133,11 +137,17 @@ void Character::removeTestMode() {
 }
 
 void Character::turnToDead() {
+    auto animatedCollitionHandler = (AnimatedEntityCollitionHandler*) collitionHandler;
+
     appearance->setTransparent();
-    collitionHandler->eraseCollitionBoxes();
+    animatedCollitionHandler->eraseCollitionBoxes();
     markedAsDead = true;
 }
 
 bool Character::turnedToDead() {
     return markedAsDead;
+}
+
+void Character::setAction(Action action) {
+    inputPoller->set(action);
 }

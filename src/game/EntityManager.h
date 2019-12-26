@@ -95,6 +95,8 @@ public:
 
     Enemy *createEnemy(int x, int y, int z);
 
+    void setInput(tuple<Action, int> input);
+
 private:
     //SORTING
     //===============================
@@ -138,6 +140,8 @@ private:
     Controller* controller = nullptr;
     Config* config = nullptr;
     Screen* screen = nullptr;
+
+    std::mutex mu;
 
     //Parametros de construccion de entidades
     float CHARACTER_WIDTH_SCALE = 0.3;

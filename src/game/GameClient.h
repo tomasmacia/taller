@@ -46,6 +46,8 @@ public:
     void processPlayerDeath(int id);
     void notifyGameStart();
     void directSendToServer(string basicString);
+    bool hasDeadPlayer();
+
     static bool isActive(){
         return hasInstance;
     }
@@ -61,6 +63,8 @@ public:
     void setPlayerColor(string color){
         this->color = color;
     }
+
+    void connected();
 
 private:
 
@@ -80,6 +84,8 @@ private:
     //===============================
     void gameLoop() override ;
     void pollAndSendInput();
+    void updateMusic();
+    void updateRendering();
     void renderAllPackages();
 
     //CLIENT RELATED

@@ -58,7 +58,7 @@ private:
 
     //ERROR
     //===============================
-    void error(const char* msg);
+    void error(basic_string<char, char_traits<char>, allocator<char>> msg);
 
     //INIT
     //===============================
@@ -74,7 +74,7 @@ private:
     int maxBytesBuffer;
     //char* buffer;
 
-    bool connectionOn = true;
+    bool connectionOn = false;
     bool connectionAttemptMade = false;
 
     MessageParser messageParser;
@@ -89,6 +89,8 @@ private:
     void processPlayerDeath();
 
     void processGameStart();
+
+    void setDisconnected();
 };
 
 #endif //GAME_CLIENT_H

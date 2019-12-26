@@ -40,6 +40,7 @@
             <knifehit>resources/sfx/players/knifehit.wav</knifehit>
             <pipehit>resources/sfx/players/pipehit.wav</pipehit>
             <jump>resources/sfx/players/landing.wav</jump>
+            <heehee>resources/sfx/players/heehee.wav</heehee>
         </player>
         <utility>
             <barrelbreak>resources/sfx/utilities/barrelbreak.wav</barrelbreak>
@@ -116,7 +117,7 @@
             </level3>
         </levels>
         <characters>
-            <amount>1</amount>
+            <amount>4</amount>
             <character1>
                 <name>Cody Blue</name>
                 <standSprite>resources/sprites/players/blue/stand.png</standSprite>
@@ -136,6 +137,63 @@
                 <pipewalk>resources/sprites/players/blue/pipewalk.png</pipewalk>
                 <disconnected>resources/sprites/players/gray/stand.png</disconnected>
             </character1>
+            <character2>
+                <name>Cody Red</name>
+                <standSprite>resources/sprites/players/red/stand.png</standSprite>
+                <walk>resources/sprites/players/red/walk.png</walk>
+                <punch>resources/sprites/players/red/punch.png</punch>
+                <jump>resources/sprites/players/red/jump.png</jump>
+                <crouch>resources/sprites/players/red/crouch.png</crouch>
+                <jumpkick>resources/sprites/players/red/jumpkick.png</jumpkick>
+                <kick>resources/sprites/players/red/kick.png</kick>
+                <death>resources/sprites/players/red/death.png</death>
+                <attacked>resources/sprites/players/red/gethit.png</attacked>
+                <knifehit>resources/sprites/players/red/knifehit.png</knifehit>
+                <knifestand>resources/sprites/players/red/knifestand.png</knifestand>
+                <knifewalk>resources/sprites/players/red/knifewalk.png</knifewalk>
+                <pipehit>resources/sprites/players/red/pipehit.png</pipehit>
+                <pipestand>resources/sprites/players/red/pipestand.png</pipestand>
+                <pipewalk>resources/sprites/players/red/pipewalk.png</pipewalk>
+                <disconnected>resources/sprites/players/gray/stand.png</disconnected>
+            </character2>
+            <character3>
+                <name>Cody Green</name>
+                <standSprite>resources/sprites/players/green/stand.png</standSprite>
+                <walk>resources/sprites/players/green/walk.png</walk>
+                <punch>resources/sprites/players/green/punch.png</punch>
+                <jump>resources/sprites/players/green/jump.png</jump>
+                <crouch>resources/sprites/players/green/crouch.png</crouch>
+                <jumpkick>resources/sprites/players/green/jumpkick.png</jumpkick>
+                <kick>resources/sprites/players/green/kick.png</kick>
+                <death>resources/sprites/players/green/death.png</death>
+                <attacked>resources/sprites/players/green/gethit.png</attacked>
+                <knifehit>resources/sprites/players/green/knifehit.png</knifehit>
+                <knifestand>resources/sprites/players/green/knifestand.png</knifestand>
+                <knifewalk>resources/sprites/players/green/knifewalk.png</knifewalk>
+                <pipehit>resources/sprites/players/green/pipehit.png</pipehit>
+                <pipestand>resources/sprites/players/green/pipestand.png</pipestand>
+                <pipewalk>resources/sprites/players/green/pipewalk.png</pipewalk>
+                <disconnected>resources/sprites/players/gray/stand.png</disconnected>
+            </character3>
+            <character4>
+                <name>Cody Yellow</name>
+                <standSprite>resources/sprites/players/yellow/stand.png</standSprite>
+                <walk>resources/sprites/players/yellow/walk.png</walk>
+                <punch>resources/sprites/players/yellow/punch.png</punch>
+                <jump>resources/sprites/players/yellow/jump.png</jump>
+                <crouch>resources/sprites/players/yellow/crouch.png</crouch>
+                <jumpkick>resources/sprites/players/yellow/jumpkick.png</jumpkick>
+                <kick>resources/sprites/players/yellow/kick.png</kick>
+                <death>resources/sprites/players/yellow/death.png</death>
+                <attacked>resources/sprites/players/yellow/gethit.png</attacked>
+                <knifehit>resources/sprites/players/yellow/knifehit.png</knifehit>
+                <knifestand>resources/sprites/players/yellow/knifestand.png</knifestand>
+                <knifewalk>resources/sprites/players/yellow/knifewalk.png</knifewalk>
+                <pipehit>resources/sprites/players/yellow/pipehit.png</pipehit>
+                <pipestand>resources/sprites/players/yellow/pipestand.png</pipestand>
+                <pipewalk>resources/sprites/players/yellow/pipewalk.png</pipewalk>
+                <disconnected>resources/sprites/players/gray/stand.png</disconnected>
+            </character4>
         </characters>
         <boss>
             <walk>resources/sprites/enemies/boss/walk.png</walk>

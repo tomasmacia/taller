@@ -35,6 +35,7 @@ void StateDrivenAppearance::loadNextImage(){
     _imageCounter++;
 
     if (_imageCounter == (_imageAmount * DELAY)){
+        //_state->printState(_state->current());
         _state->setFinished();
         _imageCounter = 0;
     }

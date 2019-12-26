@@ -21,7 +21,6 @@ public:
     bool onScreen();
 
     void setTransparent();
-
     bool isTransparent();
 
 protected:

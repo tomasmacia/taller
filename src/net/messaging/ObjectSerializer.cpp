@@ -97,7 +97,7 @@ bool ObjectSerializer::validSerializedObjectMessage(vector<string>* currentParse
 }
 
 bool ObjectSerializer::validSerializedSetOfObjectsMessage(vector<string>* serializedObjects){
-    return !serializedObjects->empty() && serializedObjects->at(0) == to_string(SET_OF_SENDABLES);
+    return serializedObjects->size() > 1 && serializedObjects->at(0) == START_SYMBOL && serializedObjects->at(1) == to_string(SET_OF_SENDABLES);
 }
 
 bool ObjectSerializer::validLoginFromClientMessage(vector<string>* currentParsedMessage) {
@@ -189,7 +189,7 @@ void ObjectSerializer::reconstructSendables(vector<string>* serializedPackages, 
 
     MessageParser parser = MessageParser();
 
-    for (int i = 1; i < serializedPackages->size(); i++){                            // i empieza en 1 porque el 0 contiene el header
+    for (int i = 2; i < serializedPackages->size(); i++){                            // i empieza en 2 porque el 0 y 1 contiene el header
         parser.parse(serializedPackages->at(i),SEPARATOR.c_str()[0]);
         if (validSerializedObjectMessage(parser.getCurrent())){
             reconstructedPackages->push_back(reconstructSendable(parser.getCurrent()));
@@ -232,7 +232,11 @@ string ObjectSerializer::serializeCredentials(string user, string pass){
 }
 
 string ObjectSerializer::getPingMessage(){
-    return PING_CODE + END_OF_SERIALIZATION_SYMBOL;
+    return START_SYMBOL + PING_CODE + END_OF_SERIALIZATION_SYMBOL;
+}
+
+string ObjectSerializer::getParsedPingMessage(){
+    return START_SYMBOL + PING_CODE;
 }
 
 string ObjectSerializer::serializeInput(Action action, int id){
@@ -318,7 +322,7 @@ std::string ObjectSerializer::serializeObjects(std::list<Sendable*>* sendables){
         serializedPackages += serializeObject(sendable) + OBJECT_SEPARATOR_SYMBOL;
         i++;
     }
-    return addPadding(to_string(SET_OF_SENDABLES) + OBJECT_SEPARATOR_SYMBOL + serializedPackages + END_OF_SERIALIZATION_SYMBOL);
+    return addPadding(START_SYMBOL + OBJECT_SEPARATOR_SYMBOL + to_string(SET_OF_SENDABLES) + OBJECT_SEPARATOR_SYMBOL + serializedPackages + END_OF_SERIALIZATION_SYMBOL);
 }
 
 string ObjectSerializer::addPadding(string message){

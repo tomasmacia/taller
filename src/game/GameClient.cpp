@@ -48,37 +48,8 @@ void GameClient::gameLoop() {
     sceneDirector->initDisconectionScreen();
     while (isOn()) {
         pollAndSendInput(); //aca se podria cortar el game loop si se lee un ESC o QUIT
-
-        if ((disconnect || playerDied) && !endOfGame){
-//            if (!youDiedMusicPlaying){
-//
-//                initYouDiedOrDisconnectedMusic();
-//                gameMusic->play();
-//                youDiedMusicPlaying = true;
-//                normalGameMusicPlaying = false;
-//            }
-        }
-
-        else if(endOfGame){
-            pauseMusic();
-        }
-
-        else if (gameStarted){
-            if (!normalGameMusicPlaying){
-
-                gameMusic->play();
-                normalGameMusicPlaying = true;
-                youDiedMusicPlaying = false;
-            }
-        }
-
-        //if (disconnect && !endOfGame){
-        if (false){
-            sceneDirector->renderDisconectionScreen(renderer, &loadedTexturesMap);
-        }
-        else {
-            render();
-        }
+        updateMusic();
+        updateRendering();
     }
 }
 
@@ -88,6 +59,40 @@ void GameClient::pollAndSendInput() {
         client->setToSend(input);
     }
         //cout<<"CLIENT-FROM MODEL: "<<serializedInput<<endl;
+}
+
+void GameClient::updateMusic() {
+    if ((disconnect || playerDied) && !endOfGame){
+        if (!youDiedMusicPlaying){
+
+            initYouDiedOrDisconnectedMusic();
+            gameMusic->play();
+            youDiedMusicPlaying = true;
+            normalGameMusicPlaying = false;
+        }
+    }
+
+    else if(endOfGame){
+        pauseMusic();
+    }
+
+    else if (gameStarted){
+        if (!normalGameMusicPlaying){
+
+            gameMusic->play();
+            normalGameMusicPlaying = true;
+            youDiedMusicPlaying = false;
+        }
+    }
+}
+
+void GameClient::updateRendering() {
+    if (disconnect && !endOfGame){
+        sceneDirector->renderDisconectionScreen(renderer, &loadedTexturesMap);
+    }
+    else {
+        render();
+    }
 }
 
 void GameClient::render() {
@@ -103,6 +108,9 @@ void GameClient::renderAllPackages(){
         controllerMutex.lock();
 
         if (controller->hasNewPackages()){
+            if (!previousPackages->empty()){
+                int x = 0;
+            }
             erasePreviousPackages();
             previousPackages->splice(previousPackages->end(),*controller->getPackages()); //se transfieren los punteros trackeados en Controller vaciando la lista de Controller
         }
@@ -138,12 +146,12 @@ void GameClient::notifyAboutClientConectionToServerAttemptDone(){
 }
 
 void GameClient::end() {
-    on = false;
+    Game::end();
     client->notifyGameStoppedRunning();
-    LogManager::logDebug("[GAME]: señal de fin de programa emitida");
 }
 
 void GameClient::reciveRenderables(vector<string>* serializedPages){
+
     if (controller != nullptr){
         controllerMutex.lock();
         controller->reciveRenderables(serializedPages);
@@ -153,20 +161,27 @@ void GameClient::reciveRenderables(vector<string>* serializedPages){
 
 void GameClient::notifyEndOfGame() {
     endOfGame = true;
+    LogManager::logInfo("[GAME]: Señal de fin de juego recibida desde el server");
 }
 
 void GameClient::processPlayerDeath(int id) {
     if (id == playerId){
         playerDied = true;
+        LogManager::logInfo("[GAME]: Señal de jugador muerto recibida desde el server");
     }
 }
 
 void GameClient::notifyGameStart() {
     gameStarted = true;
+    LogManager::logInfo("[GAME]: Señal de principio de juego recibida desde el server");
+}
+
+bool GameClient::hasDeadPlayer(){
+    return playerDied;
 }
 
 //SOUND
-//===============================
+//=========================================================================================
 
 void GameClient::initGameMusic() {
     gameMusic = new SoundWrapper(true);
@@ -231,6 +246,7 @@ void GameClient::init() {
 
 void GameClient::disconnected(){
     disconnect = true;
+    LogManager::logInfo("[GAME]: Señal de desconexion recibida de Client");
 }
 
 void GameClient::initSDL() {
@@ -248,7 +264,7 @@ void GameClient::initSDL() {
     }
 
     if (this->window == nullptr || this->renderer == nullptr) {
-        this->on = false;
+        end();
         LogManager::logError("SDL no pudo inicializarse");
     }
 }
@@ -280,7 +296,7 @@ void GameClient::destroy() {
     delete (gameMusic);
     clearMaps();
     baseClassFreeMemory();
-    LogManager::logDebug("Memoria de Game Client liberada");
+    LogManager::logDebug("[GAME]: Memoria de Game Client liberada");
 }
 
 void GameClient::clearMaps(){
@@ -297,13 +313,19 @@ void GameClient::clearMaps(){
 }
 
 void GameClient::erasePreviousPackages() {
-
-    for (auto package : *previousPackages){
-        delete(package);
+    int x = 0;
+    for (Sendable* package : *previousPackages){
+        delete package;
+        x++;
     }
     previousPackages->clear();
 }
 
 void GameClient::directSendToServer(string message) {
     client->setToSend(message);
+}
+
+void GameClient::connected() {
+    disconnect = false;
+    LogManager::logInfo("[GAME]: Señal de conexion recibida desde el Client");
 }

@@ -1,8 +1,10 @@
 #ifndef GAME_STATE_H
 #define GAME_STATE_H
 
-#include "../../enumerates/Action.h"
+#include <stack>
+
 #include "Will.h"
+#include "../../enumerates/Action.h"
 #include "../../enumerates/AttackCode.h"
 
 class State {
@@ -45,12 +47,20 @@ public:
     void printState(Action action);
     void equipWeapon(AttackCode weaponID);
     void dropWeapon();
+    bool dropingWeapon();
+    void endDropingWeapon();
     AttackCode getWeapon();
     bool isHitting();
     void setHitting();
     void endHittingFlag();
     bool justPickedWeapon();
     void endPickingFlag();
+    void checkMovementPairs(Action action);
+    AttackCode getPrevWeapon();
+    void checkAndUpdateIfHeeHee();
+    void endHeeHee();
+
+    bool isHeeHee();
 
 private:
     Will* _will = nullptr;
@@ -67,8 +77,18 @@ private:
 
     bool justHitted = false;
     bool justPicked = false;
+    bool dropingWeaponFlag = false;
+    AttackCode prevWeapon = NO_WEAPON;
+
+    bool heeHee = false;
+    bool doneHeeheeRecently = false;
 
     bool disconnected = false;
+
+    std::stack<Action> upMovements;
+    std::stack<Action> downMovements;
+    std::stack<Action> leftMovements;
+    std::stack<Action> rigthMovements;
 };
 
 

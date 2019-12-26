@@ -21,6 +21,7 @@ public:
     void setState(State *state);
 
     void update() override ;
+    void eraseCollitionBoxes() override ;
 
     void reflectAllAttackCollitionBox();
     list<PhysicalEntity*>* getAllPunchableWithinPunchingRange();
@@ -34,6 +35,10 @@ public:
     bool playerFliped();
     bool attackChanged();
     void adaptPunchingBox();
+
+    void setBlockingCollitionBoxAt(Point *pPoint);
+
+    void setAllCollitionBoxesKeepingRelativeDistancesTo(Point *pos);
 
 private:
     State* _state = nullptr;

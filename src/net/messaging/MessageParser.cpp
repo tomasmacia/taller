@@ -2,6 +2,7 @@
 // Created by axel on 1/11/19.
 //
 
+#include <utility>
 #include <vector>
 #include <string>
 #include <cstring>
@@ -10,6 +11,7 @@
 
 #include "../../enumerates/MessageId.h"
 #include "MessageParser.h"
+#include "../../logger/LogManager.h"
 
 using namespace std;
 
@@ -21,20 +23,68 @@ vector<string>* MessageParser::parse(string rawMessage, char separatorCharacter)
     return lastParsedMessage;
 }
 
-string MessageParser::extractMeaningfulMessageFromStream(char *buffer, int bufferLength, char endSerializationChar, char padding){
+string MessageParser::cleanRawMessageFromBuffer(char *buffer, int bufferLength) {
 
     string extractedMessage = "";
     int i = 0;
+    while ( i < bufferLength){
+
+        if (buffer[i] != 0){
+            extractedMessage += buffer[i];
+        }
+        i++;
+    }
+    return extractedMessage;
+}
+
+string MessageParser::extractMeaningfulMessageFromStream(char *buffer, int bufferLength, string failureMessage,
+                                                         char startSerializationSymbol, char endSerializationChar, char padding){
+
+    string extractedMessage = "";
+    string parsed;
+    bool hasStartSymbol = false;
+    bool hasEndSymbol = false;
+
+    int startPos = 0;
+    for (int i = 0; i < bufferLength; i++){
+        if (buffer[i] == startSerializationSymbol){
+            hasStartSymbol = true;
+            break;
+        }
+        else{
+            startPos++;
+        }
+    }
+
+    int count = 0;
+    int i = startPos;
     while (buffer[i] != endSerializationChar){
+
         if (buffer[i] != padding){
             extractedMessage += buffer[i];
+            count++;
         }
         if (i == bufferLength){
             break;
         }
         i++;
     }
-    return extractedMessage;
+
+    if (buffer[i] == endSerializationChar){
+        hasEndSymbol = true;
+    }
+
+    if (hasStartSymbol && hasEndSymbol){
+        parsed = extractedMessage;
+    }
+    else{
+        string corrupt = buffer;
+        LogManager::logDebug("[PARSER]: mensaje corrupto recibido de long: " + to_string(count) + "| content: " + corrupt);
+        parsed = std::move(failureMessage);
+        cout<<"buffer: "<<buffer<<endl;
+        cout<<endl;
+    }
+    return parsed;
 }
 
 void MessageParser::clear(){
@@ -55,7 +105,7 @@ MessageId MessageParser::getHeader(){
 vector<string>* MessageParser::split(const string& s, const char& c)
 {
     string buff{""};
-    vector<string>* v = new vector<string>();
+    vector<string>* v = lastParsedMessage;
 
     for(auto n:s)
     {

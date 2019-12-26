@@ -2,7 +2,6 @@
 // Created by axelmpm on 2/12/19.
 //
 
-#include <utility>
 #include "WeaponAppearance.h"
 
 WeaponAppearance::WeaponAppearance(int w, int h, ScreenPosition *screenPosition, State *state, WeaponConfig config) :

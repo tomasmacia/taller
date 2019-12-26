@@ -14,6 +14,8 @@ SoundWrapper::SoundWrapper(bool isMusic) {
 
 void SoundWrapper::load(const std::string& path){
 
+    this->path = path;
+
     if (isMusic){
         music = Mix_LoadMUS(path.c_str());
 
@@ -44,7 +46,7 @@ void SoundWrapper::play() {
             LogManager::logError("No se pudo reproducir la musica");
         }
         else{
-            LogManager::logInfo("[GAME]: Musica On");
+            LogManager::logInfo("[GAME]: reproduciendo: " + path);
         }
 
     }

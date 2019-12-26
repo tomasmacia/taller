@@ -4,6 +4,7 @@
 
 #include "LifeAppearance.h"
 #include <iostream>
+#include "../../../game/GameServer.h"
 
 LifeAppearance::LifeAppearance(ScreenPosition *screenPosition) : Appearance(screenPosition) {
 
@@ -25,6 +26,21 @@ Renderable *LifeAppearance::actuallyGenerateRenderable() {
 
     Renderable* c = new Renderable(base, src1, dst1, false);
     return c; 
+}
+
+
+Renderable *LifeAppearance::GenerateRenderableToCantLife() {
+    ImageSize imageSize1;
+
+    imageSize1 = ImageUtils::getImageSize(_lifes);
+    int imageWidth1 = imageSize1.width;
+    int imageHeight1 = imageSize1.height;
+
+    Rect src1 = {0,0,imageWidth1,imageHeight1};
+    Rect dst1 = {XPosition,YPosition - 20,imageWidth1,imageHeight1};
+
+    Renderable* c = new Renderable(_lifes, src1, dst1, false);
+    return c;
 }
 
 Renderable *LifeAppearance::GenerateRenderableToDisconnect(bool disconnectOrDead) {
@@ -154,4 +170,20 @@ void LifeAppearance::pickColor(int a){
     lifecompletegrey = "resources/sprites/score/disconnect/100v2.png";
     loadNextImage();
 
+}
+
+void LifeAppearance::setLifes(int lifes) {
+
+    if (lifes == 0){
+        _lifes = GameServer::getInstance().getConfig()->score.zero;
+    }
+    if (lifes== 1){
+        _lifes = GameServer::getInstance().getConfig()->score.one;
+    }
+    if (lifes == 2){
+        _lifes = GameServer::getInstance().getConfig()->score.two;
+    }
+    if (lifes == 3){
+        _lifes = GameServer::getInstance().getConfig()->score.three;
+    }
 }

@@ -2,7 +2,6 @@
 #include "EntityManager.h"
 #include "GameServer.h"
 
-#include "../entities/components/InputPoller.h"
 #include "../entities/components/IA.h"
 #include "../entities/components/NullWill.h"
 
@@ -42,7 +41,11 @@ void EntityManager::initializeCollitionManager(){
 void EntityManager::update() {//se updatean todas seguro porque updateo las listas que formaban una particion de las entities
 
     for(auto* e : backLayerBackgrounds) e->update();
-    for(auto* e : physicalEntities) e->update();
+    mu.lock();
+    for(auto* e : players) e->update();
+    mu.unlock();
+    for(auto* e : enemies) e->update();
+    for(auto* e : unanimatedEntities) e->update();
     for(auto* e : frontLayerBackgrounds) e->update();
     for(auto* e : specialEntities) e->update();
 
@@ -76,9 +79,11 @@ std::list<Sendable*>* EntityManager::generateSendables() {
         packagesToClients->splice(packagesToClients->end(),e->generateSendable());
     }
 
+    mu.lock();
     for(auto* e : players){
         packagesToClients->splice(packagesToClients->end(),e->generateScoreAndLifeSendable());
     }
+    mu.unlock();
 
     return packagesToClients;
 }
@@ -93,25 +98,31 @@ void EntityManager::prepareForNextLevel(){
     backLayerBackgrounds.clear();
     frontLayerBackgrounds.clear();
 
+    mu.lock();
     for (Character* e : players){
         physicalEntities.push_back(e);
     }
+    mu.unlock();
 }
 
 void EntityManager::reconectPlayerByID(int id, int newID) {
+    mu.lock();
     for (auto player : players){
         if (player->getID() == id){
             player->setConnected(newID);
         }
     }
+    mu.unlock();
 }
 
 void EntityManager::disconectPlayerByID(int id){
+    mu.lock();
     for (auto player : players){
         if (player->getID() == id){
             player->setDisconnected();
         }
     }
+    mu.unlock();
 }
 
 void EntityManager::setLevelParameters(int levelWidth, int levelHeight, int levelDepth) {
@@ -220,7 +231,7 @@ Character *EntityManager::createCharacter(int x, int y, int z, int id) {
     int centerZ = z + DEFAULT_COLLITION_BOX_DEPTH/2;
 
     auto* idComponent = new ID(id);
-    auto* will = new InputPoller(controller, idComponent);
+    auto* will = new InputPoller();
     auto* state = new State(will);
 
     int punchRange = (float)w * 0.5;
@@ -558,10 +569,12 @@ Background* EntityManager::createOverlay(const string& spritePath, float paralla
 //DESTROY
 //=========================================================================================
 void EntityManager::destroyAllEntities() { //se destruyen todas seguro porque borro las listas que formaban una particion de las entities
+    mu.lock();
     for(auto* e : physicalEntities) {
         delete e;
         e = nullptr;
     }
+    mu.unlock();
     for(auto* e : specialEntities){
         delete e;
         e = nullptr;
@@ -598,7 +611,9 @@ void EntityManager::eraseDeadEntities() {
 void EntityManager::untrackDead(PhysicalEntity *entity) {
 
     nonLevelPersistentEntities.remove((Entity*) entity);
+    mu.lock();
     players.remove((Character*) entity);
+    mu.unlock();
     enemies.remove((Enemy*) entity);
     unanimatedEntities.remove((UnanimatedEntity*) entity);
     specialEntities.remove((Entity*) entity);
@@ -607,9 +622,11 @@ void EntityManager::untrackDead(PhysicalEntity *entity) {
 
 void EntityManager::destroyNonLevelPersistentEntities() {
 
+    mu.lock();
     for (auto player : players){
         player->dropWeapon();
     }
+    mu.unlock();
 
     for(auto* e : nonLevelPersistentEntities){
         delete e;
@@ -625,7 +642,9 @@ EntityManager::~EntityManager() {
     unanimatedEntities.clear();
     specialEntities.clear();
     nonLevelPersistentEntities.clear();
+    mu.lock();
     players.clear();
+    mu.unlock();
     backLayerBackgrounds.clear();
     frontLayerBackgrounds.clear();
 
@@ -730,14 +749,33 @@ Enemy *EntityManager::createEnemy(int x, int y, int z) {
 
 void EntityManager::setTestMode() {
 
+    mu.lock();
     for (auto player : players){
         player->setTestMode();
     }
+    mu.unlock();
 }
 
 void EntityManager::removeTestMode() {
 
+    mu.lock();
     for (auto player : players){
         player->removeTestMode();
     }
+    mu.unlock();
+}
+
+void EntityManager::setInput(tuple<Action, int> input) {
+
+    auto action = std::get<0>(input);
+    auto id = std::get<1>(input);
+
+    mu.lock();
+    for (auto player : players){
+        if (player->getID() == id){
+            player->setAction(action);
+            break;
+        }
+    }
+    mu.unlock();
 }

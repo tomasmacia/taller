@@ -1,6 +1,101 @@
-1) Que no haya bugs en el input
+ver perdida de memoria
 
-2) Arreglar lo del titulo que indica quien es quien y su color
-(andaba bien pero se rompia el logeo)
+mejorar IA queda pegando a la nada si te moves un poquito para abajo o arriba
 
-3) al final el delete en el logger se elimina porque sino da seg fault al querer logear los destructores de los objetos al final en el main
+mejorar IA queda pegando a la nada si te pones atras de el
+
+si pongo 2 clientes pc, 2 clientes latpop y server laptop, cuando desconecto cable laptop, se desconectan primero los clientes pc al instante, un rato desp el server y un buen rato desp los clientes laptop (NO BLOQUEANTE)
+
+===============================================================
+
+(SOLVED)(ESTABA COMENTADO EL CODIGO CORRESPONDIENTE)
+al terminar el programa, se queda la pantalla freezeada y no aparece ni musica meme ni la pantalla de fin (salvo que ganes
+
+(SOLVED)(ERA QUE BORRABA LOS COLLITON BOX PERO NO NULLEABA EL POINTER)
+murio uno y se salieron los dos por seg fault en el server
+
+(SOLVED)(EL PROBLEMA ERA QUE FALTABA CORTAR EL JUEGO DEL LADO CLIENTE Y SERVER AL FALLAR LA CONEXION Y NO SOLO LOGEAR ADEMAS FALTABA CHECKEAR POR EAGAIN)
+[SERVER]: ERROR reading (tira a lo loco)
+
+(SOLVED) (ERA EL 8 Y ESTABA MAL MAPEADO)
+a veces un numero del score esta amarillo
+
+(SOLVED) (ERA LA CONFIG QUE ESTABA MAL A VECES POR TENER DISTINTAS CANTIDADES DE PATHS)
+a veces en el cliente que esta en la misma pc que el server le aparecen mal muchos sprites (estan como mal mapeados) pero en el cliente en la otra pc que no es server le aparecen bien
+
+(SOVED)(HABIA QUE AGREGAR EL PATH EN EL RUN Y PONER UN ESPACION EN UN STRING)
+20-12-2019 17:23:32 [INFO] : [XML]: configs/2p.xmlis the path to the config file.
+20-12-2019 17:23:32 [INFO] : [XML]:  is the path to the credentials file.
+
+(SOLVED?)(NO PASO MAS)(PARECE QUE ERA UN PROBLEMA EN QUE AL RETORNAR NEGATIVO EL RECV POR EL EAGAIN EL bytesRead ERA NEG Y NO SALIDA DEL WHILE)
+aparece a veces una pantalla amarilla en vez de waiting (eran config para 4p)
+a veces se me pone la pantalla toda negra en el lciente miesntras esta ne wiating for teammates
+
+(SOLVED?)(NO PASO MAS)(PARECE QUE ERA UN PROBLEMA EN QUE AL RETORNAR NEGATIVO EL RECV POR EL EAGAIN EL bytesRead ERA NEG Y NO SALIDA DEL WHILE)
+un config de sp (y tamb para 4p) no me recibe el input (ni nada a partir del login) el server
+
+(SOLVED?)(NO PASO MAS)(PARECE QUE ERA UN PROBLEMA EN QUE AL RETORNAR NEGATIVO EL RECV POR EL EAGAIN EL bytesRead ERA NEG Y NO SALIDA DEL WHILE)
+a veces tira el esperando server y entra el client en el server pero el client no se entera
+
+(NO PASO MAS)(ADEMAS EL TEMA DEL MAL MAPEO DE SPRITES DE ARREGLO ASI QUE QUIZAS NO VUELVA A PASAR)
+a veces con laptop server y client y pc client aparecen seg faults (a la vez teniendo mal los spirtes)
+
+(HECHO)
+el logger diec "Musica On" y esto es demasiado vago. Mejorar
+
+(HECHO)
+agregar cantidad de vidas
+
+(SOLVED parcialmente)(ERA QUE LE ESTABA LLEGANDO UN PATH VACIO PRODUCTO, no se como, DEL ERROR EN EL INPUT DE SIEMPRE)
+[ERROR] : No se pudo reproducir el sonido  (tira a lo loco)
+
+(SOLVED)(PARECE QUE TENIA QUE VER CON MENSAJES CORRUPTOS Y ESTOS CON COMO SE IMPLEMNTABA EL WHILE DE SEND Y RECV)
+a veces la musica en un cliente no se escucha (paso en el cliente no server)
+
+(SOLVED)(PARECE QUE TENIA QUE VER CON MENSAJES CORRUPTOS Y ESTOS CON COMO SE IMPLEMNTABA EL WHILE DE SEND Y RECV)
+murieron los dos y el server cerro pero la imagne de los clients quedo congelada pero se podia cerrar con la curcecita
+
+(SOLVED)(PARECE QUE TENIA QUE VER CON MENSAJES CORRUPTOS Y ESTOS CON COMO SE IMPLEMNTABA EL WHILE DE SEND Y RECV)
+con dos clientes uno desconectado y los dos en pc con laptop server, cuando el no desconectado muere, el server no cierra, el juego no termina y el desconectado no puede reentrar y la pantalla del muerto queda fija pero la puedo cerrar con crucecita y el server aun asi no cierr
+
+(SOLVED)(PARECE QUE TENIA QUE VER CON MENSAJES CORRUPTOS Y ESTOS CON COMO SE IMPLEMNTABA EL WHILE DE SEND Y RECV)
+teniendo laptop server y dos clientes en pc, uno de los clientes se desconecta de pc y se reconecta en laptop y desp muere. Aparece un error de que no se pudo cargar una imagen y desp aparece la pantalla de desconexion al morir y el jugador que estaba conectado y no muerteo en pc queda sin que se pueda mover aun recibiendo el server su input y cuando toco la crucesita del ciente muerto se vuelve a poder mover el clietne no muerto
+
+(SOLVED)(ERA QUE EN UN THREAD BORRABA LOS INPUTS Y EN OTRO LOS METIA EN CONTROLLER Y POR ESO ERA A VECES SI Y A VECES NO)
+anda mal el input (NO ES DE RED)(NOSE)
+
+(SOLVED)(HABIA QUE PONER QUE TAMB ACTUE LA GRAVEDAD EN CASO DE END_JUMP. PORQUE HAY VECES QUE LA ANIMACION ES COMO QUE TERMINABA ANTES)
+salta y queda visualmente arriba
+
+(SOLVED)(HABIA QUE PONER QUE TAMB ACTUE LA GRAVEDAD EN CASO DE END_JUMP)
+el ruido de caida de salto suena con delay
+
+(SOLVED)(HABIA QUE PONER QUE TAMB ACTUE LA GRAVEDAD EN CASO DE END_JUMP)
+Si camino y saltas, al terminar el salto el movimiento no sigue(no se mueve) hasta que termina el sonido.A veces cody se queda caminando(sin moverse) a una altura ligeramente mayor hasta que termine el sonido y luego sigue bien
+
+(NO ES UN PROBLEMA PERO ES PREOCUPANTE)(A TENER EN CUENTA)(LIFE SE OCUPA A TIEMPO DE LAS VIDAS MULTIPLES)
+cuando la vida del atacado esta vacia el atacante le borra sus collition box y comienza a morir (no esta bueno si el atacado es un cody que tiene varias vidas)
+
+(SOLVED)(ERA QUE FALTABA AVISAR EN LOS CASOS DE PATADA QUE SE TERMINE EL ESTADO DE HITTING EN STATE)
+a veces pego al aire y suena golpe
+
+(SOLVED)(COSTO PERO ERA PONER PARA QUE RECORDARA EL ESTADO DEL ARMA ANTERIOR EN SONIDO Y APPEARANCE)
+en el tercer golpe el arma se rompe pero parce que se rompio en la segunda por como esta lo del sprite
+
+(SOLVED)(ERA QUE HABIA QUE PONER COMO BLOQUEANTE AL END_JUMP)
+al terminar de saltar elige un movimiento pero es bloqueante
+
+(HECHO)
+mejorar parser para que filtre el principio
+
+(SOLVED)(AL CARGAR EL NUEVO LEVEL SE PONIAN TODAS LAS HITTING BOX EN EL CENTRO DEL PJ)
+se rompe la hitting box
+
+(SOLVED?)(NO PASO MAS)(DESPUES DE CAMBIAR LA FORMA EN QUE SE ACUMULABA EN EL BUFFER DE RECV DE SERVER Y CLIENT NO PASO MAS)
+arreglar el "esperando server" en cris y fran
+
+(SOLVED?)(EMPARCHADO)(LE PUSE UN PREVTOJUMPY Y EN FUNCION DE ESO CORRIGE EL BUG CON UN PARCHE Y YA NO QUEDA VOLANDO PERO SIGUE TERMINANDO ANTES LA ANIMACION MUY DE VEZ EN CUANDO)
+hay veces que la animacion del salto termina antes de tiempo
+
+(SOLVED?)(NO PASA SIMEPRE Y EN LAS ULTIMAS PRUEBAS NO PASO Y CUANDO PASABA PARECIA TENER QUE VER MAS CON LA CANT DE JUGADORES MAS QUE CON CARGA EN EL MODELO)
+a veces al principio de un nivel anda como lento y desp mejorar

@@ -39,9 +39,15 @@ void Physics::update() {
     int newY = (int)((float)prevY + _velocityY);
     int newZ = (int)((float)prevZ + _velocityZ);
 
+
+
     Action current = _state->current();
-    if (_state->isAMovement(current) || current == JUMP || current == JUMP_KICK){
+    if (_state->isAMovement(current) || current == JUMP || current == JUMP_KICK || current == END_JUMP || stuckInTheAir){
         _position->tryToMoveTo(newX, newY, newZ);
+
+        if (stuckInTheAir){
+            stuckInTheAir = false;
+        }
     }
 }
 
@@ -81,6 +87,7 @@ void Physics::handleCurrentState(){
             break;
         case JUMP:
             if (!alreadyJumping){
+                prevYToJump = _position->getY();
                 alreadyJumping = true;
                 jump();
             }
@@ -93,8 +100,17 @@ void Physics::handleCurrentState(){
             break;
         case JUMP_KICK:
             if (!alreadyJumping){
+                prevYToJump = _position->getY();
                 alreadyJumping = true;
                 jumpKick();
+            }
+            break;
+        case END_JUMP:
+            if (_position->getY() == prevYToJump){
+                none();
+            }
+            else{
+                stuckInTheAir = true;
             }
             break;
         case CROUCH:

@@ -3,6 +3,7 @@
 //
 
 #include "PhysicalEntity.h"
+#include "../components/collition/AnimatedEntityCollitionHandler.h"
 
 
 PhysicalEntity::PhysicalEntity(CollitionHandler* collitionHandler, Life *life, Damage *damage, Score* score, Position *position,
@@ -55,12 +56,16 @@ int PhysicalEntity::getY() {
 
 int PhysicalEntity::getZ() {
     return position->getZ();
-    }
+}
 
 void PhysicalEntity::setPosition(int x, int y, int z){
-        position->setPosition(x + w/2,y + h/2 ,z + d/2);
-    collitionHandler->setAllCollitionBoxCenterAt(x + w / 2, y + h / 2, z + d / 2);
-    }
+    auto animatedCollitionHandler = (AnimatedEntityCollitionHandler*) collitionHandler;
+
+    auto pos = new Point(x + w / 2, y + h / 2, z + d / 2);
+    position->setPosition(x + w/2,y + h/2 ,z + d/2);
+    animatedCollitionHandler->setAllCollitionBoxesKeepingRelativeDistancesTo(pos);
+    delete(pos);
+}
 
 
 bool PhysicalEntity::lifeEmpty() {
@@ -85,8 +90,8 @@ PhysicalEntity::~PhysicalEntity() {
 void PhysicalEntity::stopBeingAttacked() {
 
     if (lifeEmpty()){
-        state->setDying();
-        collitionHandler->eraseCollitionBoxes();
+        state->setDying();                          //TODO PELIGROSISIMO! si la vida no maneja a tiempo el reponerse, si el entity tiene mas de una vida esto rompe todo
+        collitionHandler->eraseCollitionBoxes();    //TODO PELIGROSISIMO! si la vida no maneja a tiempo el reponerse, si el entity tiene mas de una vida esto rompe todo
     }
     else{
         state->endBeingAttacked();

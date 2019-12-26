@@ -68,7 +68,7 @@ void LevelBuilder::update() {
 void LevelBuilder::spawnHorde() {
     for (int i = 0; i < enemiesPerHorde; i++){
         _entityManager->addEnemy();
-        cout<<"Se spawnea un enemy"<<endl;
+        //cout<<"Se spawnea un enemy"<<endl;
     }
 }
 
@@ -86,7 +86,6 @@ void LevelBuilder::initialize() {
     initializeWorld();
     initializePlayers();
     initializeFinalBoss();
-    //initializeEnemies();
     initializeWeapons();
     initializeUtilities();
 }
@@ -103,7 +102,6 @@ void LevelBuilder::initializeNextLevel() {
     initializeWorld();
     resetPlayers();
     initializeFinalBoss();
-    //initializeEnemies();
     initializeWeapons();
     initializeUtilities();
 }
@@ -267,7 +265,7 @@ void LevelBuilder::initializeWeapons() {
     for (int i = 0; i < _config->gameplay.weapons.knife.amount;i++) {
         _entityManager->addKnife();
     }
-    LogManager::logDebug("[LEVEL]: Armas inicializadas: " + std::to_string(_config->gameplay.weapons.knife.amount));
+    LogManager::logDebug("[LEVEL]: cuchillos inicializadas: " + std::to_string(_config->gameplay.weapons.knife.amount));
 
     for (int i = 0; i < _config->gameplay.weapons.tube.amount;i++) {
         _entityManager->addTube();
@@ -305,8 +303,9 @@ void LevelBuilder::resetPlayers() {
         y = 0;
         z = screenResolutionHeight*0.15;
 
-        player->resetAt(x,y,z);
-        //player->removeWeapon();
+        if (!player->dead()){
+            player->resetAt(x,y,z);
+        }
         i++;
     }
     LogManager::logDebug("[LEVEL]: Jugadores preparados para siguiente nivel: " + std::to_string(amountOfPlayers));

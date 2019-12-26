@@ -32,40 +32,40 @@ void GameServer::start() {
 void GameServer::gameLoop(){
 
     sendGameStartedMessage();
-    while (isOn() && levelBuilder->hasNextLevel() && thereIsAtLeastOnePlayerAliveAndConnected()) {
+    while (isOn() && levelBuilder->hasNextLevel() && thereIsAtLeastOnePlayerAliveAndConnected()) { //levels loop
 
         levelBuilder->loadNext();
         LogManager::logInfo("=======================================");
         LogManager::logInfo("[GAME]: se inicia game loop de este nivel");
 
-        while (isOn() && !levelBuilder->levelFinished() && thereIsAtLeastOnePlayerAliveAndConnected()) {
+        while (isOn() && !levelBuilder->levelFinished() && thereIsAtLeastOnePlayerAliveAndConnected()) { //game loop
             update();
             sendUpdate();
             usleep(SLEEP_TIME);
         }
-         if (thereIsAtLeastOnePlayerAliveAndConnected()) {
+        if (thereIsAtLeastOnePlayerAliveAndConnected()) { //score screen
             sceneDirector->initScoreScreen(entityManager->getPlayers(),loggedPlayersUserByID);
             sceneDirector->sendScoreScreen(server);
              usleep(WAIT_TIME);
         }
-
         LogManager::logInfo("[GAME]: Nivel terminado");
         LogManager::logInfo("=======================================");
     }
-    if (notAllPlayersDisconnected() ) {
+    if (notAllPlayersDisconnected() ) { //end screen
         sendEndMessage();
         sceneDirector->initEndOfGameScreen();
-        sceneDirector->sendEndOfGameScreen(server);
-        usleep(WAIT_TIME);
-    } 
-    on = false;
+
+        for (int i = 0; i < END_SCREEN_SEND_AMOUNT; i++){ //esto es porque la ser de lo ultimo que manda el server hay que mandarlo varias veces para que llegue
+            sceneDirector->sendEndOfGameScreen(server);
+        }
+    }
+    end();
     server->stopListening();
 }
 
 void GameServer::update() {
     entityManager->update();
     levelBuilder->update();
-    controller->clearAllInputs();
 }
 
 void GameServer::sendUpdate() {
@@ -87,6 +87,7 @@ void GameServer::sendUpdate() {
 void GameServer::handleLogin(const std::string& user, const std::string& pass, int userId){
 
     string toSendMessage;
+    //usleep(2000000);
 
     if (credentialsAreValid(user,pass)){
         if (userAlreadyLoggedIn(user)){
@@ -124,7 +125,7 @@ void GameServer::reemplazePreviousIDWith(int oldID, int newID) {
 }
 
 void GameServer::reciveNewInput(tuple<Action,int> input){
-    return controller->setInput(input);
+    return entityManager->setInput(input);
 }
 
 bool GameServer::isActive(){
@@ -141,16 +142,20 @@ bool GameServer::thereIsAtLeastOnePlayerAliveAndConnected() {
 
 void GameServer::recibeTestModeSignal() {
 
-    inTestMode = !inTestMode;
+    if (entityManager != nullptr){
 
-    if (inTestMode){
-        entityManager->setTestMode();
-        LogManager::logInfo("[GAME]: modo test activado");
+        inTestMode = !inTestMode;
+
+        if (inTestMode){
+            entityManager->setTestMode();
+            LogManager::logInfo("[GAME]: modo test activado");
+        }
+        else{
+            entityManager->removeTestMode();
+            LogManager::logInfo("[GAME]: modo test desactivado");
+        }
     }
-    else{
-        entityManager->removeTestMode();
-        LogManager::logInfo("[GAME]: modo test desactivado");
-    }
+
 }
 
 //SERVER RELATED
@@ -185,10 +190,10 @@ void GameServer::connectionLostWith(int id){
 
     bool logged = loggedPlayersUserByID.count(id);
     bool dead = deadPlayers.count(id);
+    string name = "UNKNOWN";
 
     if (logged){
-
-        string name = loggedPlayersUserByID.at(id).name;
+        name = loggedPlayersUserByID.at(id).name;
         disconectedPlayers.insert({name,id});
 
         if (!dead){
@@ -198,6 +203,7 @@ void GameServer::connectionLostWith(int id){
     if (entityManager != nullptr){
         entityManager->disconectPlayerByID(id);
     }
+    LogManager::logInfo("[GAME]: se proceso al jugador desconectado: " + to_string(id) + " | " + name);
 }
 
 //CONTROLLER RELATED
@@ -211,6 +217,7 @@ void GameServer::notifyPlayerDied(int id) {
     conectedAndPlayingPlayersAmount --;
     controller->sendPlayerDiedMessage(server,id);
     deadPlayers.insert({id,loggedPlayersUserByID.at(id).name});
+    LogManager::logInfo("[GAME]: se proceso al jugador muerto: " + to_string(id) + " | " + loggedPlayersUserByID.at(id).name);
 }
 
 void GameServer::sendGameStartedMessage() {
@@ -261,8 +268,9 @@ string GameServer::processConectionAndEmitSuccesMessage(const string& name, cons
     loggedPlayersUserByID.insert({ id, user });
     loggedPlayersIDbyUser.insert({user.name,id});
     addNewIDToGame(id);
-    server->client_noBlock(id);
+    //server->client_noBlock(id);
 
+    LogManager::logInfo("[GAME]: se proceso al jugador conectado: " + to_string(id) + " | " + user.name);
     return controller->getSuccesfullLoginMessage(user.color, id);
 }
 
@@ -293,9 +301,10 @@ void GameServer::processReconectionAndEmitSuccesMessage(const string& name, int 
         conectedAndPlayingPlayersAmount++;
     }
 
-    server->client_noBlock(newID);
+    //server->client_noBlock(newID);
     server->setToSendToSpecific(controller->getSuccesfullLoginMessage(user.color,newID),newID);
     server->setToSendToSpecific(controller->getGameStartedMessage(),newID);
+    LogManager::logInfo("[GAME]: se proceso al jugador reconectado: " + to_string(newID) + " | " + user.name);
 }
 
 string GameServer::getNewColor() {

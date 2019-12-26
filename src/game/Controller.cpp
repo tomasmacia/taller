@@ -8,6 +8,7 @@
 #include <utility>
 
 
+
 #include "Controller.h"
 #include "../net/messaging/IDManager.h"
 #include "../net/Server.h"
@@ -15,29 +16,11 @@
 
 #include <iostream>
 
-//THREADS
-//=========================================================================================
-void Controller::lisentToInputForClosing(){
-    while(game->isOn()){
-        checkIfCloseRelatedInputWasPulsed();
-    }
-}
-
 //PROCESSING
 //=========================================================================================
 
-void Controller::checkIfCloseRelatedInputWasPulsed(){
-    Action action;
-    while (SDL_PollEvent(&sdlEvent)) {
-        action = MapUtils::getOrDefault(actions, sdlEvent.key.keysym.scancode, NONE);
-        if (sdlEvent.type == SDL_QUIT){
-            game->end();
-        }
-    }
-}
-
-
 list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
+    auto gameClient = (GameClient*) game;
     Action action;
     int playerId = game->getPlayerId(); //cada pc tiene uno asignado al principio y es unico
     std::string serializedInput;
@@ -47,67 +30,111 @@ list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
 
         action = MapUtils::getOrDefault(actions, sdlEvent.key.keysym.scancode, NONE);
 
-        if (sdlEvent.type == SDL_QUIT){
+        //checkMovementPairs(action,sdlEvent);
+
+        if (sdlEvent.type == SDL_QUIT) {
             game->end();
-            
-        }
-
-        if (action == TEST && (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)){
-
-            cout<<"mande test"<<endl;
-            auto gameClient = (GameClient*) game;
-
-            serializedInput = objectSerializer->serializeInput(action,playerId);
-            gameClient->directSendToServer(serializedInput);
 
         }
-        else{
 
-            if( (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)){
+        if (sdlEvent.key.keysym.sym == SDLK_m && (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)) {
+            game->pauseResumeMusic();
+        }
 
-                if (action != NONE ) {
-                    serializedInput = objectSerializer->serializeInput(action,playerId);
-                    serializedInputs.push_back(serializedInput);
-                }
+        if (!gameClient->hasDeadPlayer()) {
+
+            if (action == TEST && (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)) {
+
+                serializedInput = objectSerializer->serializeInput(action, playerId);
+                gameClient->directSendToServer(serializedInput);
+
             }
+            else {
 
-            if ((sdlEvent.type == SDL_KEYUP && sdlEvent.key.repeat == 0 )){
+                if ((sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)) {
 
-                if (sdlEvent.key.keysym.sym == SDLK_m){
-                    game->pauseResumeMusic();
-                }
-
-                if (action == UP || action == DOWN || action == LEFT || action == RIGHT ||
-                    action == NONE){//no bloqueante
-                    switch (action) {
-                        case UP:
-                            action = END_UP;
-                            break;
-                        case DOWN:
-                            action = END_DOWN;
-                            break;
-                        case LEFT:
-                            action = END_LEFT;
-                            break;
-                        case RIGHT:
-                            action = END_RIGHT;
-                            break;
-                        default:
-                            break;
+                    if (action != NONE) {
+                        serializedInput = objectSerializer->serializeInput(action, playerId);
+                        serializedInputs.push_back(serializedInput);
                     }
-                    serializedInput = objectSerializer->serializeInput(action,playerId);
-                    serializedInputs.push_back(serializedInput);
+                }
+
+                if ((sdlEvent.type == SDL_KEYUP && sdlEvent.key.repeat == 0)) {
+
+                    if (action == UP || action == DOWN || action == LEFT || action == RIGHT ||
+                        action == NONE) {//no bloqueante
+                        switch (action) {
+                            case UP:
+                                action = END_UP;
+                                break;
+                            case DOWN:
+                                action = END_DOWN;
+                                break;
+                            case LEFT:
+                                action = END_LEFT;
+                                break;
+                            case RIGHT:
+                                action = END_RIGHT;
+                                break;
+                            default:
+                                break;
+                        }
+                        serializedInput = objectSerializer->serializeInput(action, playerId);
+                        serializedInputs.push_back(serializedInput);
+                    }
                 }
             }
         }
-
     }
     return serializedInputs;
 }
 
+void Controller::checkMovementPairs(Action action, SDL_Event event) {
 
-void Controller::clearAllInputs(){
-    currentInput->clear();
+    if (event.type == SDL_KEYDOWN && event.key.repeat == 0){
+
+        switch (action){
+            case UP:
+                upMovements.push(action);
+                break;
+            case DOWN:
+                downMovements.push(action);
+                break;
+            case LEFT:
+                leftMovements.push(action);
+                break;
+            case RIGHT:
+                rigthMovements.push(action);
+                break;
+        }
+    }
+    if (event.type == SDL_KEYUP && event.key.repeat == 0) {
+
+        switch (action) {
+            case UP:
+                upMovements.pop();
+                break;
+            case DOWN:
+                downMovements.pop();
+                break;
+            case LEFT:
+                leftMovements.pop();
+                break;
+            case RIGHT:
+                rigthMovements.pop();
+                break;
+        }
+    }
+
+    if ((action == UP || action == DOWN || action == LEFT || action == RIGHT) && event.key.repeat == 0){
+
+        cout<<"balance UP: "<<upMovements.size()<<endl;
+        cout<<"balance DOWN: "<<downMovements.size()<<endl;
+        cout<<"balance LEFT: "<<leftMovements.size()<<endl;
+        cout<<"balance RIGHT: "<<rigthMovements.size()<<endl;
+        cout<<"============="<<endl;
+        cout<<endl;
+    }
 }
 
 void Controller::reciveRenderables(vector<string>* serializedPagackes){
@@ -154,7 +181,6 @@ std::string Controller::getAlreadyLoggedInMessage() {
 Controller::Controller(Game* game) {
     this->game = game;
     this->objectSerializer = new ObjectSerializer(game->getConfig());
-    currentInput = new std::list<std::tuple<Action,int>>();
     currentPackagesToSend = new std::list<Sendable*>();
     init();
     bind();
@@ -313,14 +339,6 @@ Controller::~Controller() {
     cleanUpRenderables();
     delete  currentPackagesToSend;
     currentPackagesToSend = nullptr;
-
-    currentInput->clear();
-    delete  currentInput;
-    currentInput = nullptr;
-}
-
-void Controller::untrackLastSendables() {
-    currentPackagesToSend->clear();
 }
 
 bool Controller::hasNewPackages() {

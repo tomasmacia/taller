@@ -11,7 +11,7 @@ using namespace tinyxml2;
 
 
 Config* XMLParser::parse(string pathToConfig) {
-    LogManager::logInfo("[XML]: " + pathToConfig + "is the path to the config file.");
+    LogManager::logInfo("[XML]: " + pathToConfig + " is the path to the config file.");
     XMLDocument doc;
     loadFile(&doc, pathToConfig, DEFAULT_CONFIG_PATH, "config");
 
@@ -192,6 +192,7 @@ Sounds XMLParser::getSounds(XMLElement *config) {
     playerSound.knifeHit = getSafeValueFromElement(soundsElement, {"player", "knifehit"}, charArrayToString, section);
     playerSound.pipeHit = getSafeValueFromElement(soundsElement, {"player", "pipehit"}, charArrayToString, section);
     playerSound.jump = getSafeValueFromElement(soundsElement, {"player", "jump"}, charArrayToString, section);
+    playerSound.heehee = getSafeValueFromElement(soundsElement, {"player", "heehee"}, charArrayToString, section);
 
     UtilitySound utilitySound;
     utilitySound.barrelBreak = getSafeValueFromElement(soundsElement, {"utility", "barrelbreak"}, charArrayToString, section);

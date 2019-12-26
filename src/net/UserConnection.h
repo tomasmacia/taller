@@ -24,6 +24,7 @@ public:
     void shutdown();
     bool hasPassedLogin();
     void directSend(string message);
+    void setConnectionOff();
 
     //GETTERS
     //===============================
@@ -47,6 +48,7 @@ private:
     //===============================
     void processLoginFromTheClient();
     void processInput();
+    void processTestMode();
 
     //DISCONECTION RELATED
     //===============================
@@ -72,10 +74,6 @@ private:
 
     list<string> toSendMessagesQueue;
     list<string> incomingMessagesQueue;
-
-    void setConnectionOff();
-
-    void processTestMode();
 };
 
 

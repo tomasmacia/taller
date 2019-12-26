@@ -3,6 +3,7 @@
 //
 
 #include "Soundable.h"
+#include "../../logger/LogManager.h"
 
 Soundable::Soundable(string soundPath, bool isMusic) {
 
@@ -23,22 +24,26 @@ void Soundable::play(std::map<string, SoundWrapper *> *loadedSoundsMap) {
 
     SoundWrapper* soundAsociatedToSpritePath = nullptr;
 
-    //sintaxis estandar para chequear si la key esta en el diccionario
-    if (loadedSoundsMap != nullptr) {
-        if (loadedSoundsMap->find(_soundPath) != loadedSoundsMap->end()){ //si esta en diccionario
+    if (!_soundPath.empty()){
+        //sintaxis estandar para chequear si la key esta en el diccionario
+        if (loadedSoundsMap != nullptr) {
+            if (loadedSoundsMap->find(_soundPath) != loadedSoundsMap->end()){ //si esta en diccionario
 
-            soundAsociatedToSpritePath = loadedSoundsMap->find(_soundPath)->second;
+                soundAsociatedToSpritePath = loadedSoundsMap->find(_soundPath)->second;
+            }
+            else{//si no fue cargado nunca el sprite
+
+                soundAsociatedToSpritePath = new SoundWrapper(_isMusic);
+                soundAsociatedToSpritePath->load(_soundPath);
+                loadedSoundsMap->insert({_soundPath, soundAsociatedToSpritePath });
+            }
         }
-        else{//si no fue cargado nunca el sprite
 
-            soundAsociatedToSpritePath = new SoundWrapper(_isMusic);
-            soundAsociatedToSpritePath->load(_soundPath);
-            loadedSoundsMap->insert({_soundPath, soundAsociatedToSpritePath });
+        if (soundAsociatedToSpritePath != nullptr) {
+            soundAsociatedToSpritePath->play();
         }
     }
-
-    if (soundAsociatedToSpritePath != nullptr) {
-        soundAsociatedToSpritePath->play();
+    else{
+        LogManager::logError("[GAME]: Se recibio un soundable con un path vacio");
     }
-
 }

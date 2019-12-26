@@ -33,7 +33,7 @@ public:
     void removeConnection(int id);
     void stopListening();
     int close();
-    void client_noBlock(int a);
+    void client_noBlock(int socket);
 
     
     //ACTUAL DATA TRANSFER
@@ -82,7 +82,11 @@ private:
     int socketFD;
     std::vector<std::thread> connectionThreads;
     std::map<int,UserConnection*> connections;
+    std::map<int,int> socketIDMap;
 
+    void beginDisconectionWith(int id);
+
+    void printMovement(char buff[2500]);
 };
 
 

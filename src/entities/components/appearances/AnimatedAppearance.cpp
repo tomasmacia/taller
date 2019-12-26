@@ -12,7 +12,10 @@ AnimatedAppearance::AnimatedAppearance(ScreenPosition* screenPosition, State* st
 
 void AnimatedAppearance::handleCurrentState(){
 
-    if (_state->current() != previous) {
+    if (_state->current() != previous || weaponWasBeingDroped) {
+        if (weaponWasBeingDroped){
+            weaponWasBeingDroped = false;
+        }
         previous = _state->current();
         switch (_state->current()) {
             case END_JUMP:
@@ -47,58 +50,66 @@ void AnimatedAppearance::handleCurrentState(){
                 break;
         }
         if (_state->current() == PUNCH) {
-            switch (_state->getWeapon()) {
-                case NO_WEAPON:
-                    currentSprite = entityConfig.punch;
-                    _imageAmount = PUNCH_IMAGE_AMOUNT;
-                    break;
-                case KNIFE:
-                    currentSprite = entityConfig.knifeHit;
-                    _imageAmount = KNIFE_ATTACK_IMAGE_AMOUNT;
-                    break;
-                case TUBE:
-                    currentSprite = entityConfig.pipeHit;
-                    _imageAmount = TUBE_ATTACK_IMAGE_AMOUNT;
-                    break;
-                default:
-                    break;
+            auto currentWeapon = _state->getWeapon();
+            auto prevWeapon = _state->getPrevWeapon();
+            bool isDroping = _state->dropingWeapon();
+
+            if (currentWeapon == NO_WEAPON && !isDroping){
+                currentSprite = entityConfig.punch;
+                _imageAmount = PUNCH_IMAGE_AMOUNT;
+            }
+            else if(currentWeapon == KNIFE || (isDroping && prevWeapon == KNIFE)){
+                currentSprite = entityConfig.knifeHit;
+                _imageAmount = KNIFE_ATTACK_IMAGE_AMOUNT;
+            }
+            else if(currentWeapon == TUBE || (isDroping && prevWeapon == TUBE)){
+                currentSprite = entityConfig.pipeHit;
+                _imageAmount = TUBE_ATTACK_IMAGE_AMOUNT;
             }
         }
         if (_state->currentIsNotBlockingAction()) {
             if (_state->hasMovement()) {
-                switch (_state->getWeapon()) {
-                    case NO_WEAPON:
-                        currentSprite = entityConfig.walk;
-                        _imageAmount = WALK_IMAGE_AMOUNT;
-                        break;
-                    case KNIFE:
-                        currentSprite = entityConfig.knifeWalk;
-                        _imageAmount = KNIFE_WALK_IMAGE_AMOUNT;
-                        break;
-                    case TUBE:
-                        currentSprite = entityConfig.pipeWalk;
-                        _imageAmount = TUBE_WALK_IMAGE_AMOUNT;
-                        break;
-                    default:
-                        break;
+                auto currentWeapon = _state->getWeapon();
+                auto prevWeapon = _state->getPrevWeapon();
+                bool isDroping = _state->dropingWeapon();
+
+                if (currentWeapon == NO_WEAPON && !isDroping){
+                    currentSprite = entityConfig.walk;
+                    _imageAmount = WALK_IMAGE_AMOUNT;
+                }
+                else if(currentWeapon == KNIFE || (isDroping && prevWeapon == KNIFE)){
+                    currentSprite = entityConfig.knifeWalk;
+                    _imageAmount = KNIFE_WALK_IMAGE_AMOUNT;
+                }
+                else if(currentWeapon == TUBE || (isDroping && prevWeapon == TUBE)){
+                    currentSprite = entityConfig.pipeWalk;
+                    _imageAmount = TUBE_WALK_IMAGE_AMOUNT;
+                }
+                if (isDroping){
+                    weaponWasBeingDroped = true;
+                    _state->endDropingWeapon();
                 }
             }
             else {
-                switch (_state->getWeapon()) {
-                    case NO_WEAPON:
-                        currentSprite = entityConfig.stand;
-                        _imageAmount = STAND_IMAGE_AMOUNT;
-                        break;
-                    case KNIFE:
-                        currentSprite = entityConfig.knifeStand;
-                        _imageAmount = STAND_IMAGE_AMOUNT;
-                        break;
-                    case TUBE:
-                        currentSprite = entityConfig.pipeStand;
-                        _imageAmount = STAND_IMAGE_AMOUNT;
-                        break;
-                    default:
-                        break;
+                auto currentWeapon = _state->getWeapon();
+                auto prevWeapon = _state->getPrevWeapon();
+                bool isDroping = _state->dropingWeapon();
+
+                if (currentWeapon == NO_WEAPON && !isDroping){
+                    currentSprite = entityConfig.stand;
+                    _imageAmount = STAND_IMAGE_AMOUNT;
+                }
+                else if(currentWeapon == KNIFE || (isDroping && prevWeapon == KNIFE)){
+                    currentSprite = entityConfig.knifeStand;
+                    _imageAmount = STAND_IMAGE_AMOUNT;
+                }
+                else if(currentWeapon == TUBE || (isDroping && prevWeapon == TUBE)){
+                    currentSprite = entityConfig.pipeStand;
+                    _imageAmount = STAND_IMAGE_AMOUNT;
+                }
+                if (isDroping){
+                    weaponWasBeingDroped = true;
+                    _state->endDropingWeapon();
                 }
             }
         }

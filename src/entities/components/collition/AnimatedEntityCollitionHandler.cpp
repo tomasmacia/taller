@@ -165,12 +165,15 @@ void AnimatedEntityCollitionHandler::setConnected() {
 
 void AnimatedEntityCollitionHandler::update() {
 
-    if (playerFliped()){
-        reflectAllAttackCollitionBox();
-    }
-    
-    if (attackChanged()){
-        adaptPunchingBox();
+    if (!_collitionBoxes->empty()){
+
+        if (playerFliped()){
+            reflectAllAttackCollitionBox();
+        }
+
+        if (attackChanged()){
+            adaptPunchingBox();
+        }
     }
 }
 
@@ -217,4 +220,25 @@ void AnimatedEntityCollitionHandler::adaptPunchingBox() {
         default:
             break;
     }
+}
+
+void AnimatedEntityCollitionHandler::eraseCollitionBoxes() {
+    CollitionHandler::eraseCollitionBoxes();
+    _blockingCollitionBox = nullptr;
+    _punchBox = nullptr;
+    _kickBox = nullptr;
+    _pickBox = nullptr;
+}
+
+void AnimatedEntityCollitionHandler::setBlockingCollitionBoxAt(Point *pPoint) {
+    _blockingCollitionBox->setAt(pPoint->x,pPoint->y,pPoint->z);
+}
+
+void AnimatedEntityCollitionHandler::setAllCollitionBoxesKeepingRelativeDistancesTo(Point *pos) {
+    auto delta = pos->minus(_blockingCollitionBox->getCenter());
+
+    _punchBox->moveBy(delta);
+    _kickBox->moveBy(delta);
+    _pickBox->moveBy(delta);
+    _blockingCollitionBox->moveBy(delta);
 }
