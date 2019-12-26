@@ -247,7 +247,7 @@ int Server::shutdown() {
 
 int Server::close() {
     int n = ::close(socketFD);
-    cout<<"CLOSE: "<<n<<endl;
+    //cout<<"CLOSE: "<<n<<endl;
     return n;
 }
 

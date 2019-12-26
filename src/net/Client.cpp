@@ -99,7 +99,7 @@ void Client::readThread() {
         }
 
         deltaTime = difftime(time(nullptr),lastServerPingTime);
-        cout<<"DELTA TIME: "<<deltaTime<<endl;
+        //cout<<"DELTA TIME: "<<deltaTime<<endl;
         if (deltaTime > TIMEOUT){
             serverAlive = false;
         }
@@ -286,7 +286,7 @@ void Client::setConnectionOff() {
 bool Client::connectionOff(){
 
     if (!connectionOn || !serverAlive){
-        cout<<"serverAlive: "<<serverAlive<<" connectionOn: "<<connectionOn<<endl;
+        //cout<<"serverAlive: "<<serverAlive<<" connectionOn: "<<connectionOn<<endl;
         return true;
     }
     else {

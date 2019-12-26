@@ -1,5 +1,3 @@
-si pongo 2 clientes pc, 2 clientes latpop y server laptop, cuando desconecto cable laptop, se desconectan primero los clientes pc al instante, un rato desp el server y un buen rato desp los clientes laptop (NO BLOQUEANTE)
-
 ===============================================================
 
 (SOLVED)(ESTABA COMENTADO EL CODIGO CORRESPONDIENTE)
@@ -103,3 +101,5 @@ mejorar IA queda pegando a la nada si te moves un poquito para abajo o arriba
 (DEJADO ASI)
 mejorar IA queda pegando a la nada si te pones atras de el
 
+(SOLVED)(METIMOS PARA QUE HAGA UN TIMEOUT CON EL PING QUE LE LLEGA DEL SERVER)
+si pongo 2 clientes pc, 2 clientes latpop y server laptop, cuando desconecto cable laptop, se desconectan primero los clientes pc al instante, un rato desp el server y un buen rato desp los clientes laptop (NO BLOQUEANTE)
