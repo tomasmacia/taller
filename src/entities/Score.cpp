@@ -7,7 +7,7 @@
 
 void Score::increaseBy(int amount) {
     current += amount;
-    cout<<"score: "<<current<<endl;
+    //cout<<"score: "<<current<<endl;
 }
 
 int Score::boxAttackedWith(AttackCode attack) {

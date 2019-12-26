@@ -52,11 +52,13 @@ void SoundWrapper::play() {
     }
 
     else{
+        Mix_PlayChannel (-1, sound,0);
 
+        /*
         if ( Mix_PlayChannel (-1, sound,0) == -1){
 
             LogManager::logError("No se pudo reproducir el sonido ");
-        }
+        }*/
 
     }
 

@@ -68,7 +68,7 @@ void LevelBuilder::update() {
 void LevelBuilder::spawnHorde() {
     for (int i = 0; i < enemiesPerHorde; i++){
         _entityManager->addEnemy();
-        //cout<<"Se spawnea un enemy"<<endl;
+        cout<<"Se spawnea un enemy"<<endl;
     }
 }
 
@@ -165,7 +165,7 @@ void LevelBuilder::initializeLevelDimentions(){
 
 void LevelBuilder::initializeEnemySpawns() {
 
-
+    hordeCheckPoints.clear();
     if (_config->gameplay.npcs.size() < HORDE_AMOUNT){
         enemiesPerHorde = 1;
         HORDE_AMOUNT = enemiesPerHorde;
