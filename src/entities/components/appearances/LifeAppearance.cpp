@@ -4,6 +4,7 @@
 
 #include "LifeAppearance.h"
 #include <iostream>
+#include "../../../game/GameServer.h"
 
 LifeAppearance::LifeAppearance(ScreenPosition *screenPosition) : Appearance(screenPosition) {
 
@@ -172,16 +173,17 @@ void LifeAppearance::pickColor(int a){
 }
 
 void LifeAppearance::setLifes(int lifes) {
+
     if (lifes == 0){
-        _lifes="resources/sprites/score/zero.png";
+        _lifes = GameServer::getInstance().getConfig()->score.zero;
     }
     if (lifes== 1){
-        _lifes ="resources/sprites/score/one.png";
+        _lifes = GameServer::getInstance().getConfig()->score.one;
     }
     if (lifes == 2){
-        _lifes ="resources/sprites/score/two.png";
+        _lifes = GameServer::getInstance().getConfig()->score.two;
     }
     if (lifes == 3){
-        _lifes ="resources/sprites/score/three.png";
+        _lifes = GameServer::getInstance().getConfig()->score.three;
     }
 }
