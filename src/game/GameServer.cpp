@@ -315,6 +315,9 @@ void GameServer::processReconectionAndEmitSuccesMessage(const string& name, int 
     //server->client_noBlock(newID);
     server->setToSendToSpecific(controller->getSuccesfullLoginMessage(user.color,newID),newID);
     server->setToSendToSpecific(controller->getGameStartedMessage(),newID);
+    if (dead) {
+        controller->sendPlayerDiedMessage(server,newID);
+    }
     LogManager::logInfo("[GAME]: se proceso al jugador reconectado: " + to_string(newID) + " | " + user.name);
 }
 
