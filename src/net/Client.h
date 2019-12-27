@@ -10,8 +10,8 @@
 #include <thread>
 #include <condition_variable>
 #include <mutex>
-#include "../game/MessageParser.h"
-#include "../game/ObjectSerializer.h"
+#include "messaging/MessageParser.h"
+#include "messaging/ObjectSerializer.h"
 #include "../game/GameClient.h"
 
 class GameClient;
@@ -22,11 +22,12 @@ public:
 
     //API
     //===============================
-    void setToSend(std::string message);
+    void setToSend(const std::string& message);
     bool start();
     void sendCredentials(string user, string pass);
     bool hasAchievedConnectionAttempt();
     void notifyGameStoppedRunning();
+    void client_noBlock();
 
 private:
     //THREADS
@@ -38,7 +39,7 @@ private:
 
     //ACTUAL DATA TRANSFER
     //===============================
-    int send(std::string msg);
+    int send(const std::string& msg);
     string receive();
 
     //DISPATCHING OF INCOMMING MESSAGES
@@ -57,7 +58,7 @@ private:
 
     //ERROR
     //===============================
-    void error(const char* msg);
+    void error(basic_string<char, char_traits<char>, allocator<char>> msg);
 
     //INIT
     //===============================
@@ -69,19 +70,30 @@ private:
     std::mutex connectionMutex;
     std::mutex sendQueueMutex;
     std::mutex incomingQueueMutex;
-    int socketFD;
+    int socketFD{};
     int maxBytesBuffer;
     //char* buffer;
 
-    bool connectionOn = true;
+    const double TIMEOUT = 1;
+    time_t lastServerPingTime;
+    bool serverAlive = true;
+    bool connectionOn = false;
     bool connectionAttemptMade = false;
 
     MessageParser messageParser;
-    ObjectSerializer objectSerializer;
+    ObjectSerializer *objectSerializer = nullptr;
     GameClient* gameClient = nullptr;
 
     list<string> toSendMessagesQueue;
     list<string> incomingMessagesQueue;
+
+    void processEndOfGame();
+
+    void processPlayerDeath();
+
+    void processGameStart();
+
+    void setDisconnected();
 };
 
 #endif //GAME_CLIENT_H

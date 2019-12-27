@@ -5,6 +5,7 @@
 #ifndef GAME_SERVER_H
 #define GAME_SERVER_H
 
+#include <fcntl.h>
 #include <vector>
 #include <string>
 #include <list>
@@ -12,8 +13,8 @@
 #include <thread>
 #include <mutex>
 #include "../game/GameServer.h"
-#include "../game/MessageParser.h"
-#include "../game/ObjectSerializer.h"
+#include "messaging/MessageParser.h"
+#include "messaging/ObjectSerializer.h"
 
 class GameServer;
 class UserConnection;
@@ -32,7 +33,9 @@ public:
     void removeConnection(int id);
     void stopListening();
     int close();
+    void client_noBlock(int socket);
 
+    
     //ACTUAL DATA TRANSFER
     //===============================
     int send(std::string, int someSocketFD);
@@ -41,6 +44,7 @@ public:
     //THREADS
     //===============================
     void listenThread();
+    
 
 private:
     //INIT
@@ -63,6 +67,7 @@ private:
     //ATRIBUTE
     //===============================
     bool serverOn;
+   
 
     int maxBytesBuffer;
     int maxConnections;
@@ -71,13 +76,17 @@ private:
 
     GameServer* gameServer = nullptr;
     MessageParser messageParser;
-    ObjectSerializer objectSerializer;
+    ObjectSerializer *objectSerializer = nullptr;
 
     int nextConectionIDtoAssign = 0;
     int socketFD;
     std::vector<std::thread> connectionThreads;
     std::map<int,UserConnection*> connections;
+    std::map<int,int> socketIDMap;
 
+    void beginDisconectionWith(int id);
+
+    void printMovement(char buff[2500]);
 };
 
 

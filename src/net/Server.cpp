@@ -1,15 +1,16 @@
 /* The port number is passed as an argument */
-#include "Server.h"
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
+#include <cerrno>
 #include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <CLIArgumentParser.h>
+#include "../CLIAparser/CLIArgumentParser.h"
+#include "Server.h"
 #include "UserConnection.h"
 
-#define MAX_BYTES_BUFFER 1500
+#define MAX_BYTES_BUFFER 2500
 
 #if __APPLE__
 #define MSG_NOSIGNAL 0x2000 /* don't raise SIGPIPE */
@@ -42,6 +43,7 @@ void Server::setToBroadcast(string message) {
 
 void Server::stopListening(){
     shutdown();
+    LogManager::logInfo("[SERVER]: Se hace el shutdown del socket");
 }
 
 //ACTUAL DATA TRANSFER
@@ -51,51 +53,61 @@ int Server::send(string msg, int someSocketFD) {
 
     char buff[MAX_BYTES_BUFFER]{0};
     strncpy(buff, msg.c_str(), sizeof(buff));
-    buff[sizeof(buff) - 1] = 0;
 
-    int bytesSent = 0;
+    int n = 0;
 
-    while (bytesSent < MAX_BYTES_BUFFER - 1) {
-        int n = ::send(someSocketFD, buff, MAX_BYTES_BUFFER - 1, MSG_NOSIGNAL);
-        if (n < 0) {
-            error("ERROR sending");
+    while (n != MAX_BYTES_BUFFER) {
+        n = ::send(someSocketFD, buff, MAX_BYTES_BUFFER, MSG_NOSIGNAL);
+        //cout << "SERVER-SEND: " << buff << endl;
+        if (n <= 0){
+            if (errno != EAGAIN){
+                error("error sending | errno: " + to_string(errno));
+                beginDisconectionWith(socketIDMap.at(someSocketFD));
+            }
             return n;
         }
-        if (n == 0) {
-            return n;
-        }
-
-        bytesSent += n;
     }
-
-    return bytesSent;
+    return n;
 }
 
 string Server::receive(int someSocketFD) {
-    // TODO REVISAR. Hay que fijarse que someSocketFD este en la lista de conexiones?
-
 
     char buff[MAX_BYTES_BUFFER]{0};
-    //size_t size = MAX_BYTES_BUFFER;
-
+    int n = 0;
     int bytesRead = 0;
+    string rawMessage = "";
 
-    while (bytesRead < MAX_BYTES_BUFFER - 1) {
-        int n = recv(someSocketFD, buff, MAX_BYTES_BUFFER - 1, 0);
-        if (n < 0) {
-            error("ERROR reading");
-            return objectSerializer.getFailure();
-        }
-        if (n == 0) {
-            return objectSerializer.getFailure();
-        }
+    char end = objectSerializer->getEndOfSerializationSymbol();
+    char padding = objectSerializer->getPaddingSymbol();
+    char start = objectSerializer->getStartSerializationSymbol();
+    string failureMessage = objectSerializer->getFailure();
 
+    while (bytesRead < MAX_BYTES_BUFFER) {
+        n = recv(someSocketFD, buff, MAX_BYTES_BUFFER, 0);
+        rawMessage += messageParser.cleanRawMessageFromBuffer(buff, MAX_BYTES_BUFFER);
+        if (n <= 0){
+            if (errno != EAGAIN){
+                error("error reading | errno: " + to_string(errno));
+                beginDisconectionWith(socketIDMap.at(someSocketFD));
+                return objectSerializer->getFailure();
+            }
+            else{
+                if (bytesRead > 0){
+                    continue;
+                }
+                else{
+                    return objectSerializer->getFailure();
+                }
+            }
+        }
+        else{
+            //cout << "SERVER-READ BUFFER: " << n << " " << buff << endl;
+        }
         bytesRead += n;
     }
-
-    char end = objectSerializer.getEndOfSerializationSymbol();
-    char padding = objectSerializer.getPaddingSymbol();
-    std::string parsed = messageParser.extractMeaningfulMessageFromStream(buff,MAX_BYTES_BUFFER, end,padding);
+    //cout << "SERVER-READ COMPLETO: " << rawMessage << endl;
+    std::string parsed = messageParser.extractMeaningfulMessageFromStream(const_cast<char *>(rawMessage.c_str()), MAX_BYTES_BUFFER, failureMessage, start, end, padding);
+    //cout << "SERVER-READ PARSED: " << parsed << endl;
     return parsed;
 }
 
@@ -109,16 +121,14 @@ void Server::listenThread(){
         cout << "================================================================"<<endl;
         cout<<endl;
         int newConnectionSocketFD = accept();
-        auto newUserConnection = addNewConnection(newConnectionSocketFD);
-        if (newUserConnection != nullptr) {
-
-            connectionThreads.push_back(std::thread(&UserConnection::start,newUserConnection));
+        if (newConnectionSocketFD >= 0){
+            auto newUserConnection = addNewConnection(newConnectionSocketFD);
+            connectionThreads.emplace_back(&UserConnection::start,newUserConnection);
             cout << "LISTEN THREAD: connection stablished with ID: " << newUserConnection->getId()<< endl;
             cout << "================================================================"<<endl;
             cout<<endl;
         }
     }
-
 
     UserConnection* userConnection;
     for (auto c: connections){
@@ -138,6 +148,7 @@ Server::Server(GameServer* gameServer) {
     this->maxConnections = gameServer->getMaxPlayers();
     maxBytesBuffer = MAX_BYTES_BUFFER;
     this->gameServer = gameServer;
+    this->objectSerializer = new ObjectSerializer(gameServer->getConfig());
 }
 
 void Server::init(){
@@ -193,7 +204,9 @@ int Server::accept() {                  //INSTANCIA Y AGREGA CONECCION AL MAP
 
 UserConnection* Server::addNewConnection(int newSocketFD){
     auto userConnection = new UserConnection(newSocketFD, nextConectionIDtoAssign, this,gameServer);
+    client_noBlock(newSocketFD);
     this->connections.insert({ nextConectionIDtoAssign, userConnection });
+    this->socketIDMap.insert({ newSocketFD, nextConectionIDtoAssign });
     nextConectionIDtoAssign++; //esto asegura que la ID sea unica
 
     return userConnection;
@@ -208,11 +221,21 @@ void Server::error(string msg) {   //Cierra el server y en el destructor se cier
 //DISCONECTION RELATED
 //=========================================================================================
 
-void Server::removeConnection(int id){
-    delete connections.at(id);
-    connections.erase(id);
-    gameServer->connectionLostWith(id);
-    cout<<"CHECKING THREAD: borre la userConnection: "<<id<<endl;
+void Server::removeConnection(int ID){
+
+    int toRemoveSocket = -1;
+    for( auto const& [socket, id] : socketIDMap) {
+        if (id == ID){
+            toRemoveSocket = socket;
+            break;
+        }
+    }
+
+    delete connections.at(ID);
+    connections.erase(ID);
+    socketIDMap.erase(toRemoveSocket);
+    gameServer->connectionLostWith(ID);
+    cout<<"CHECKING THREAD: borre la userConnection: "<<ID<<endl;
     cout << "CHECKING THREAD: tengo "<< connections.size()<<" conexiones"<<endl;
     cout << "================================================================"<<endl;
     cout<<endl;
@@ -223,13 +246,58 @@ int Server::shutdown() {
 }
 
 int Server::close() {
-    return ::close(socketFD);
+    int n = ::close(socketFD);
+    //cout<<"CLOSE: "<<n<<endl;
+    return n;
+}
+
+
+
+void Server::client_noBlock(int socket) {
+    struct timeval tv ;
+    tv.tv_usec =10000;
+    tv.tv_sec = 0;
+
+    fcntl(socket,F_SETFL,O_NONBLOCK);
+
+    setsockopt(socket,SOL_SOCKET,SO_SNDTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
+    setsockopt(socket,SOL_SOCKET,SO_RCVTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
+/*
+    struct timeval tv ;
+    tv.tv_usec =10000;
+    tv.tv_sec = 0;
+
+    std::map<int, UserConnection*>::iterator it = connections.find(a);
+    if (it != connections.end()) {
+        if (fcntl(it->second->getSock(),F_SETFL,O_NONBLOCK)<0){
+            perror("no puedo desbloquear socket");
+        }
+        setsockopt(it->second->getSock(),SOL_SOCKET,SO_SNDTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
+        setsockopt(it->second->getSock(),SOL_SOCKET,SO_RCVTIMEO,(struct timeval *)&tv,sizeof(struct timeval));
+    }*/
+}
+
+void Server::beginDisconectionWith(int id) {
+    connections.at(id)->setConnectionOff();
 }
 
 //DESTROY
 //=========================================================================================
 Server::~Server() {
-    for(std::map<int, UserConnection*>::iterator itr = connections.begin(); itr != connections.end(); itr++) {
+    for (std::map<int, UserConnection *>::iterator itr = connections.begin(); itr != connections.end(); itr++) {
         delete itr->second;
+    }
+}
+
+void Server::printMovement(char *buff) {
+
+    string msg = buff;
+    if (!msg.empty() && msg != "=###&"){
+        cout<<msg<<endl;
+    }
+    MessageParser parser;
+    parser.parse(msg,objectSerializer->getSeparatorCharacter());
+    if (objectSerializer->validSerializedInputMessage(parser.getCurrent())){
+        cout<<msg<<endl;
     }
 }

@@ -8,8 +8,8 @@
 #include "Server.h"
 #include <mutex>
 #include <thread>
-#include "../game/MessageParser.h"
-#include "../game/ObjectSerializer.h"
+#include "messaging/MessageParser.h"
+#include "messaging/ObjectSerializer.h"
 
 // UserConnection at Server level
 class UserConnection {
@@ -24,13 +24,17 @@ public:
     void shutdown();
     bool hasPassedLogin();
     void directSend(string message);
+    void setConnectionOff();
 
     //GETTERS
     //===============================
     int getId(){
         return  userId;
     }
-
+    
+    int getSock(){
+        return socketFD;
+    }
 private:
 
     //THREADS
@@ -44,6 +48,7 @@ private:
     //===============================
     void processLoginFromTheClient();
     void processInput();
+    void processTestMode();
 
     //DISCONECTION RELATED
     //===============================
@@ -58,20 +63,17 @@ private:
     std::mutex sendQueueMutex;
     std::mutex incomingQueueMutex;
     std::mutex isConnectedMutex;
-    int socketFD;
+    
     int userId;
+    int socketFD;
 
     Server *server = nullptr;
     GameServer* gameServer = nullptr;
     MessageParser messageParser;
-    ObjectSerializer objectSerializer;
+    ObjectSerializer *objectSerializer = nullptr;
 
     list<string> toSendMessagesQueue;
     list<string> incomingMessagesQueue;
-
-    void setConnectionOff();
-    int packageCount;
-    int packageSent;
 };
 
 

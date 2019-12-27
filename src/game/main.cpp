@@ -1,11 +1,11 @@
 #include <algorithm>
-#include "../utils/TimeUtils.h"
-#include "../parser/CLIArgumentParser.h"
-#include "../LogLib/LogManager.h"
+#include "../time/TimeUtils.h"
+#include "../CLIAparser/CLIArgumentParser.h"
+#include "../logger/LogManager.h"
 #include "LoggerMenu.h"
 #include "GameServer.h"
 #include "GameClient.h"
-#include "Mode.h"
+#include "../enumerates/Mode.h"
 
 using namespace std;
 

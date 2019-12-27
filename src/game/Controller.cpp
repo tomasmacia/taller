@@ -7,34 +7,20 @@
 #include <tuple>
 #include <utility>
 
+
+
 #include "Controller.h"
-#include "IDPlayer.h"
+#include "../net/messaging/IDManager.h"
+#include "../net/Server.h"
+#include "../utils/MapUtils.h"
 
 #include <iostream>
-
-//THREADS
-//=========================================================================================
-void Controller::lisentToInputForClosing(){
-    while(game->isOn()){
-        checkIfCloseRelatedInputWasPulsed();
-    }
-}
 
 //PROCESSING
 //=========================================================================================
 
-void Controller::checkIfCloseRelatedInputWasPulsed(){
-    Action action;
-    while (SDL_PollEvent(&sdlEvent)) {
-        action = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
-        if (sdlEvent.type == SDL_QUIT){
-            game->end();
-        }
-    }
-}
-
-
-std::list<std::string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
+list<string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFORMANCE
+    auto gameClient = (GameClient*) game;
     Action action;
     int playerId = game->getPlayerId(); //cada pc tiene uno asignado al principio y es unico
     std::string serializedInput;
@@ -42,90 +28,151 @@ std::list<std::string> Controller::pollAndProcessInput() {//TODO HEAVY IN PERFOR
 
     while (SDL_PollEvent(&sdlEvent)) {
 
-        action = getWithDefault(actions, sdlEvent.key.keysym.scancode, NONE);
+        action = MapUtils::getOrDefault(actions, sdlEvent.key.keysym.scancode, NONE);
 
-        if (sdlEvent.type == SDL_QUIT){
+        //checkMovementPairs(action,sdlEvent);
+
+        if (sdlEvent.type == SDL_QUIT) {
             game->end();
+
         }
 
-        if( (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)){
+        if (sdlEvent.key.keysym.sym == SDLK_m && (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)) {
+            game->pauseResumeMusic();
+        }
 
-            if (action != NONE) {
-                serializedInput = objectSerializer.serializeInput(action,playerId);
-                serializedInputs.push_back(serializedInput);
+        if (!gameClient->hasDeadPlayer()) {
+
+            if (action == TEST && (sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)) {
+
+                serializedInput = objectSerializer->serializeInput(action, playerId);
+                gameClient->directSendToServer(serializedInput);
+
             }
-        }
+            else {
 
-        if ((sdlEvent.type == SDL_KEYUP && sdlEvent.key.repeat == 0 )){
+                if ((sdlEvent.type == SDL_KEYDOWN && sdlEvent.key.repeat == 0)) {
 
-            if (action == UP || action == DOWN || action == LEFT || action == RIGHT ||
-                action == NONE){//no bloqueante
-                switch (action) {
-                    case UP:
-                        action = END_UP;
-                        break;
-                    case DOWN:
-                        action = END_DOWN;
-                        break;
-                    case LEFT:
-                        action = END_LEFT;
-                        break;
-                    case RIGHT:
-                        action = END_RIGHT;
-                        break;
+                    if (action != NONE) {
+                        serializedInput = objectSerializer->serializeInput(action, playerId);
+                        serializedInputs.push_back(serializedInput);
+                    }
                 }
-                serializedInput = objectSerializer.serializeInput(action,playerId);
-                serializedInputs.push_back(serializedInput);
+
+                if ((sdlEvent.type == SDL_KEYUP && sdlEvent.key.repeat == 0)) {
+
+                    if (action == UP || action == DOWN || action == LEFT || action == RIGHT ||
+                        action == NONE) {//no bloqueante
+                        switch (action) {
+                            case UP:
+                                action = END_UP;
+                                break;
+                            case DOWN:
+                                action = END_DOWN;
+                                break;
+                            case LEFT:
+                                action = END_LEFT;
+                                break;
+                            case RIGHT:
+                                action = END_RIGHT;
+                                break;
+                            default:
+                                break;
+                        }
+                        serializedInput = objectSerializer->serializeInput(action, playerId);
+                        serializedInputs.push_back(serializedInput);
+                    }
+                }
             }
         }
     }
     return serializedInputs;
 }
 
-template <typename K, typename V>
-V Controller::getWithDefault(const std::map<K,V> &map, const K &key, const V &defaultValue) {
-    V value;
-    auto pos = map.find(key);
-    if (pos != map.end()) {
-        value = pos->second;
-    } else {
-        value = defaultValue;
+void Controller::checkMovementPairs(Action action, SDL_Event event) {
+
+    if (event.type == SDL_KEYDOWN && event.key.repeat == 0){
+
+        switch (action){
+            case UP:
+                upMovements.push(action);
+                break;
+            case DOWN:
+                downMovements.push(action);
+                break;
+            case LEFT:
+                leftMovements.push(action);
+                break;
+            case RIGHT:
+                rigthMovements.push(action);
+                break;
+        }
+    }
+    if (event.type == SDL_KEYUP && event.key.repeat == 0) {
+
+        switch (action) {
+            case UP:
+                upMovements.pop();
+                break;
+            case DOWN:
+                downMovements.pop();
+                break;
+            case LEFT:
+                leftMovements.pop();
+                break;
+            case RIGHT:
+                rigthMovements.pop();
+                break;
+        }
     }
 
-    return value;
-}
+    if ((action == UP || action == DOWN || action == LEFT || action == RIGHT) && event.key.repeat == 0){
 
-void Controller::clearAllInputs(){
-    currentInput->clear();
+        cout<<"balance UP: "<<upMovements.size()<<endl;
+        cout<<"balance DOWN: "<<downMovements.size()<<endl;
+        cout<<"balance LEFT: "<<leftMovements.size()<<endl;
+        cout<<"balance RIGHT: "<<rigthMovements.size()<<endl;
+        cout<<"============="<<endl;
+        cout<<endl;
+    }
 }
 
 void Controller::reciveRenderables(vector<string>* serializedPagackes){
-    cleanUpRenderables();
-    objectSerializer.reconstructRenderables(serializedPagackes,currentPackagesToRender);
+    //cout<<"DISPATCH"<<endl;
+    objectSerializer->reconstructSendables(serializedPagackes, currentPackagesToSend);
+
+    /*
+    int i = 0;
+    for (auto sendable : *currentPackagesToSend){
+        if (sendable->hasSoundable()){
+            cout<<"Se recibio para emitir: "<<sendable->_soundable->getPath()<<" ,cant total recibidos: "<<currentPackagesToSend->size()<<" | i = "<<i<<endl;
+        }
+        i++;
+    }*/
 }
 
 //DATA TRANSFER INTERFACE
 //=========================================================================================
 
-void Controller::sendUpdate(std::list<ToClientPack*>* toClientsPackages, Server* server) {
-    string serializedPackages = objectSerializer.serializeObjects(toClientsPackages); //TODO HEAVY IN PERFORMANCE
+void Controller::sendUpdate(std::list<Sendable*>* toClientsPackages, Server* server) {
+    string serializedPackages = objectSerializer->serializeObjects(toClientsPackages); //TODO HEAVY IN PERFORMANCE
     server->setToBroadcast(serializedPackages);
 }
 
-std::string Controller::getSuccesfullLoginMessage(int userId){
-    return objectSerializer.getSuccesfullLoginMessage(userId);
+std::string Controller::getSuccesfullLoginMessage(string color, int userId){
+    return objectSerializer->getSuccesfullLoginMessage(color, userId);
 }
 
 std::string Controller::getInvalidCredentialMessage() {
-    return objectSerializer.getInvalidCredentialMessage();
+    return objectSerializer->getInvalidCredentialMessage();
 }
 
 std::string Controller::getServerFullMessage(){
-    return objectSerializer.getServerFullMessage();
+    return objectSerializer->getServerFullMessage();
 }
 
 std::string Controller::getAlreadyLoggedInMessage() {
-    return objectSerializer.getAlreadyLoggedInMessage();
+    return objectSerializer->getAlreadyLoggedInMessage();
 }
 
 //INIT & CONSTRUCTOR
@@ -133,8 +180,8 @@ std::string Controller::getAlreadyLoggedInMessage() {
 
 Controller::Controller(Game* game) {
     this->game = game;
-    currentInput = new std::list<std::tuple<Action,int>>();
-    currentPackagesToRender = new std::list<ToClientPack*>();
+    this->objectSerializer = new ObjectSerializer(game->getConfig());
+    currentPackagesToSend = new std::list<Sendable*>();
     init();
     bind();
 }
@@ -273,26 +320,43 @@ void Controller::bind() {
     actions.insert(std::make_pair(scancodes.at(bindings.CROUCH), CROUCH));
     actions.insert(std::make_pair(scancodes.at(bindings.KICK), KICK));
 
+    actions.insert(std::make_pair(scancodes.at(bindings.TEST), TEST));
     actions.insert(std::make_pair(SDL_SCANCODE_ESCAPE, QUIT));
 }
 
 //DESTROY
 //=========================================================================================
 void Controller::cleanUpRenderables() {
-    for (auto package: *currentPackagesToRender){
+    for (auto package: *currentPackagesToSend){
         delete package;
     }
-    currentPackagesToRender->clear();
+    currentPackagesToSend->clear();
 }
 
 Controller::~Controller() {
     game = nullptr;
 
     cleanUpRenderables();
-    delete  currentPackagesToRender;
-    currentPackagesToRender = nullptr;
+    delete  currentPackagesToSend;
+    currentPackagesToSend = nullptr;
+}
 
-    currentInput->clear();
-    delete  currentInput;
-    currentInput = nullptr;
+bool Controller::hasNewPackages() {
+    return !currentPackagesToSend->empty();
+}
+
+void Controller::sendEndMessage(Server* server) {
+    server->setToBroadcast(objectSerializer->getEndOfGameMessage());
+}
+
+void Controller::sendPlayerDiedMessage(Server* server, int id) {
+    server->setToBroadcast(objectSerializer->getPlayerDiedMessage(id));
+}
+
+void Controller::sendGameStartedMessage(Server *server) {
+    server->setToBroadcast(objectSerializer->getGameStartedMessage());
+}
+
+string Controller::getGameStartedMessage() {
+    return objectSerializer->getGameStartedMessage();
 }

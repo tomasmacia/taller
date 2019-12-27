@@ -5,13 +5,28 @@
 #include <condition_variable>
 #include <mutex>
 
-#include "Manager.h"
-#include "LevelBuilder.h"
-#include "Game.h"
-#include "ToClientPack.h"
-#include "Action.h"
+#include <iostream>
+#include <unistd.h>
+#include <utility>
 
-class Server;
+#include "Game.h"
+#include "EntityManager.h"
+#include "LevelBuilder.h"
+#include "Controller.h"
+
+#include "../enumerates/Action.h"
+#include "../logger/Logger.h"
+#include "../logger/LogManager.h"
+#include "../CLIAparser/CLIArgumentParser.h"
+
+#include "../XMLparser/xmlparser.h"
+
+#include "../net/Server.h"
+#include "../net/messaging/IDManager.h"
+#include "../net/messaging/Renderable.h"
+#include "../image/ImageUtils.h"
+#include "../net/messaging/User.h"
+#include "../enumerates/Color.h"
 
 class GameServer : public  Game{
 public:
@@ -33,17 +48,13 @@ public:
 
     //API
     //===============================
-    void endLevel();
-    std::string validateLogin(std::string user, std::string pass, int userId);
+    void handleLogin(const string& user, const std::string& pass, int userId);
     void addNewIDToGame(int id);
     void reemplazePreviousIDWith(int oldID, int newID);
     void reciveNewInput(tuple<Action,int> input);
-    int getCurrentLevelWidth();
     static bool isActive();
-    bool playersCanMove();
     void connectionLostWith(int id);
     bool isIDLogged(int ID);
-    void sendWaitingScreen();
 
     //GETTERS
     //===============================
@@ -51,12 +62,13 @@ public:
         return maxPlayers;
     }
 
-    Manager* getManager() {
-        return manager;
+    EntityManager* getManager() {
+        return entityManager;
     }
-    Server* getServer() {
-        return server;
-    }
+
+    void notifyPlayerDied(int id);
+
+    void recibeTestModeSignal();
 
 private:
     GameServer() {
@@ -82,9 +94,7 @@ private:
 
     //INIT
     //===============================
-    void initWaitingScreen();
-    void initECSManager();
-    void initLevelBuilder();
+    EntityManager* initLevelBuilder();
     void loadValidCredenctials();   //<user,pass>
     void initGameModel();
     void init() override ;
@@ -99,43 +109,56 @@ private:
     //CONTROLLER RELATED
     //===============================
     void initController() override ;
-    void closeController();
 
     //LOGIN RELATED
     //===============================
     bool serverFull();
-    bool credentialsAreValid(string user, string pass);
-    bool userAlreadyLoggedIn(string user);
-    bool userIsDisconnected(string user);
-    bool validUser(string user);
-    bool validPass(string user, string pass);
-    bool userInLoggedPlayers(string user);
-    bool IDInDisconnectedPlayers(string user);
-    string processConectionAndEmitSuccesMessage(string user, string pass, int id);
-    string processReconectionAndEmitSuccesMessage(string user, int newId);
+    bool credentialsAreValid(const string& user, const string& pass);
+    bool userAlreadyLoggedIn(const string& user);
+    bool userIsDisconnected(const string& user);
+    bool validUser(const string& user);
+    bool validPass(const string& user, const string& pass);
+    bool userInLoggedPlayers(const string& user);
+    bool IDInDisconnectedPlayers(const string& user);
+    string processConectionAndEmitSuccesMessage(const string& user, const string& pass, int id);
+    void processReconectionAndEmitSuccesMessage(const string& user, int newId);
+    string getNewColor();
 
     //ATRIBUTES
     //===============================
     int SLEEP_TIME = 13000;
+    int WAIT_TIME = 4000000;
+    int END_SCREEN_SEND_AMOUNT = 10;
+    Color currentColor = BLUE;
+
+    bool inTestMode = false;
 
     static bool hasInstance;
 
     std::thread listenConnectionsThread;
 
-    std::map<std::string,std::string> validCredentials;             //<user,pass>
-    std::map<std::string,std::string> loggedPlayersPassByUser;      //<user,pass>
-    std::map<std::string,int> loggedPlayersIDbyUser;                //<user,id>
-    std::map<int,std::string> loggedPlayersUserByID;                //<id,user>
-    std::map<std::string,int> disconectedPlayers;                   //<user,id>
+    int conectedAndPlayingPlayersAmount;
 
-    int maxPlayers;
+    std::map<std::string,std::string> validCredentials;             //<name,pass>
+    std::map<std::string,std::string> loggedPlayersPassByUser;      //<name,pass>
+    std::map<std::string,int> loggedPlayersIDbyUser;                //<name,ID>
+    std::map<int,User> loggedPlayersUserByID;                       //<ID,user>
+    std::map<std::string,int> disconectedPlayers;                   //<name,ID>
+    std::map<int,std::string> deadPlayers;                          //<ID,name>
 
-    ToClientPack* waitingScreenRenderable = nullptr;
-    list<ToClientPack*>* waitingScreenContainer = nullptr;
+    int maxPlayers{};
 
     Server* server = nullptr;
+    EntityManager* entityManager = nullptr;
     LevelBuilder* levelBuilder = nullptr;
-    Manager* manager = nullptr;
+
+    void sendEndMessage();
+
+    void sendGameStartedMessage();
+
+    bool thereIsAtLeastOnePlayerAliveAndConnected();
+
+    bool allDied();
 };
 
 #endif //GAME_GAMESERVER_H_
